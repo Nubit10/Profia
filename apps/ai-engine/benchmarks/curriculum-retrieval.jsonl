@@ -1,0 +1,36 @@
+{"query": "contar de dos en dos y de cinco en cinco para resolver sumas y restas", "area": "MATEMATICAS", "grade": "G1", "expected": ["MEN-DBA-MAT-V2-G1-02"]}
+{"query": "unidades, decenas y valor posicional de los números", "area": "MATEMATICAS", "grade": "G1", "expected": ["MEN-DBA-MAT-V2-G1-03"]}
+{"query": "medir con la cuarta, el pie o un lápiz como unidad", "area": "MATEMATICAS", "grade": "G1", "expected": ["MEN-DBA-MAT-V2-G1-05"]}
+{"query": "el signo igual no es solo dar un resultado", "area": "MATEMATICAS", "grade": "G1", "expected": ["MEN-DBA-MAT-V2-G1-09"]}
+{"query": "hacer pictogramas y tablas de conteo con datos del salón", "area": "MATEMATICAS", "grade": "G1", "expected": ["MEN-DBA-MAT-V2-G1-10"]}
+{"query": "área y perímetro de cuadrados y rectángulos", "area": "MATEMATICAS", "grade": "G3", "expected": ["MEN-DBA-MAT-V2-G3-04"]}
+{"query": "leer gráficos de barras y tablas de frecuencia", "area": "MATEMATICAS", "grade": "G3", "expected": ["MEN-DBA-MAT-V2-G3-10"]}
+{"query": "qué tan probable es que algo pase en juegos de azar", "area": "MATEMATICAS", "grade": "G3", "expected": ["MEN-DBA-MAT-V2-G3-11"]}
+{"query": "comparar y ordenar fracciones", "area": "MATEMATICAS", "grade": "G5", "expected": ["MEN-DBA-MAT-V2-G5-03"]}
+{"query": "promedio y mediana de un conjunto de datos", "area": "MATEMATICAS", "grade": "G5", "expected": ["MEN-DBA-MAT-V2-G5-11"]}
+{"query": "ubicar objetos y describir recorridos en un mapa o cuadrícula", "area": "MATEMATICAS", "grade": "G5", "expected": ["MEN-DBA-MAT-V2-G5-07"]}
+{"query": "dibujar planos y mapas a escala", "area": "MATEMATICAS", "grade": "G7", "expected": ["MEN-DBA-MAT-V2-G7-04"]}
+{"query": "resolver ecuaciones de primer grado", "area": "MATEMATICAS", "grade": "G7", "expected": ["MEN-DBA-MAT-V2-G7-07"]}
+{"query": "diagramas de árbol para contar resultados posibles", "area": "MATEMATICAS", "grade": "G7", "expected": ["MEN-DBA-MAT-V2-G7-09"]}
+{"query": "teorema de Pitágoras para calcular distancias", "area": "MATEMATICAS", "grade": "G9", "expected": ["MEN-DBA-MAT-V2-G9-05"]}
+{"query": "volumen del cilindro, el cono y la esfera", "area": "MATEMATICAS", "grade": "G9", "expected": ["MEN-DBA-MAT-V2-G9-04"]}
+{"query": "combinaciones y permutaciones con y sin reemplazo", "area": "MATEMATICAS", "grade": "G9", "expected": ["MEN-DBA-MAT-V2-G9-11"]}
+{"query": "pendiente de la recta tangente y razón de cambio", "area": "MATEMATICAS", "grade": "G11", "expected": ["MEN-DBA-MAT-V2-G11-05", "MEN-DBA-MAT-V2-G11-03"]}
+{"query": "probabilidad condicional y eventos independientes", "area": "MATEMATICAS", "grade": "G11", "expected": ["MEN-DBA-MAT-V2-G11-10"]}
+{"query": "correlación entre dos variables con diagrama de dispersión", "area": "MATEMATICAS", "grade": "G11", "expected": ["MEN-DBA-MAT-V2-G11-09"]}
+{"query": "coordenadas polares", "area": "MATEMATICAS", "expected": ["MEN-DBA-MAT-V2-G11-06"]}
+{"query": "media, mediana y moda con datos agrupados en intervalos", "area": "MATEMATICAS", "expected": ["MEN-DBA-MAT-V2-G8-11"]}
+{"query": "personajes, lugares y acciones de un cuento", "area": "LENGUAJE", "grade": "G2", "expected": ["MEN-DBA-LEN-V2-G2-03"]}
+{"query": "para qué sirven las señales de tránsito y los símbolos del barrio", "area": "LENGUAJE", "grade": "G2", "expected": ["MEN-DBA-LEN-V2-G2-02"]}
+{"query": "escribir poemas usando metáforas y comparaciones", "area": "LENGUAJE", "grade": "G4", "expected": ["MEN-DBA-LEN-V2-G4-04"]}
+{"query": "hacer mapas conceptuales y resúmenes de lo que lee", "area": "LENGUAJE", "grade": "G4", "expected": ["MEN-DBA-LEN-V2-G4-06"]}
+{"query": "debates en clase respetando turnos de habla", "area": "LENGUAJE", "grade": "G4", "expected": ["MEN-DBA-LEN-V2-G4-07"]}
+{"query": "mitos, leyendas y coplas de la región", "area": "LENGUAJE", "grade": "G6", "expected": ["MEN-DBA-LEN-V2-G6-05", "MEN-DBA-LEN-V2-G6-04"]}
+{"query": "exposiciones orales adaptadas al público", "area": "LENGUAJE", "grade": "G6", "expected": ["MEN-DBA-LEN-V2-G6-07"]}
+{"query": "rima, ritmo y figuras retóricas en la poesía", "area": "LENGUAJE", "grade": "G8", "expected": ["MEN-DBA-LEN-V2-G8-04"]}
+{"query": "inferir lo que el texto dice entre líneas", "area": "LENGUAJE", "grade": "G8", "expected": ["MEN-DBA-LEN-V2-G8-06"]}
+{"query": "postura crítica frente a la publicidad y las noticias", "area": "LENGUAJE", "grade": "G10", "expected": ["MEN-DBA-LEN-V2-G10-01"]}
+{"query": "corrientes literarias de una época y sus autores", "area": "LENGUAJE", "grade": "G10", "expected": ["MEN-DBA-LEN-V2-G10-03"]}
+{"query": "hacer un video o un corto con guion", "area": "LENGUAJE", "grade": "G10", "expected": ["MEN-DBA-LEN-V2-G10-02"]}
+{"query": "lavarse las manos y cuidar la salud", "area": "TRANSICION", "grade": "TRANSICION", "expected": ["MEN-DBA-TRA-V1-02"]}
+{"query": "juegos de rimas y sonidos de las palabras", "area": "TRANSICION", "grade": "TRANSICION", "expected": ["MEN-DBA-TRA-V1-08"]}

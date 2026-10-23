@@ -1,0 +1,8 @@
+# Contexto de la imagen del AI Engine (se construye desde la raíz). Solo entra lo que copia el Dockerfile.
+**
+!apps/ai-engine/pyproject.toml
+!apps/ai-engine/uv.lock
+!apps/ai-engine/app/**
+!apps/ai-engine/prompts/**
+!apps/web/curriculum/men/**
+**/__pycache__

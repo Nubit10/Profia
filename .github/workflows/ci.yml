@@ -1,0 +1,103 @@
+# CI del monorepo: web (SPEC-0001, CA-0001-08) y AI Engine (SPEC-0005, CA-0005-06).
+# Falla si falla cualquier paso.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ai-engine:
+    name: AI Engine · ruff, pytest (proveedor de prueba)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: apps/ai-engine
+    env:
+      AI_ENGINE_TOKEN: ci-token-ci-token-ci-token-0000
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run pytest -q
+      - name: Benchmark con el proveedor de prueba (sin descargar modelos)
+        run: uv run python -m app.cli benchmark --mock
+
+  web:
+    name: Web · lint, typecheck, tests, build, E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: profe
+          POSTGRES_PASSWORD: profe
+          POSTGRES_DB: profe
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U profe" --health-interval 5s --health-timeout 5s --health-retries 10
+
+    env:
+      CI: true
+      DATABASE_URL: postgresql://profe:profe@localhost:5432/profe
+      TEST_DATABASE_URL: postgresql://profe:profe@localhost:5432/profe_test
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      # Los E2E levantan el AI Engine con el proveedor de prueba.
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Generar AUTH_SECRET efímero
+        run: echo "AUTH_SECRET=$(openssl rand -base64 32)" >> "$GITHUB_ENV"
+
+      - name: Crear base de tests
+        run: psql "$DATABASE_URL" -c "CREATE DATABASE profe_test"
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Formato
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Tests unit + integration
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Instalar navegador de Playwright
+        run: npx playwright install --with-deps chromium
+        working-directory: apps/web
+
+      - name: Tests E2E
+        run: npm run test:e2e
+
+      - name: Reporte de Playwright
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: apps/web/playwright-report
+          retention-days: 7

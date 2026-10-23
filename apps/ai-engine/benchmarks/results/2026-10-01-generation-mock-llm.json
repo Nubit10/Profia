@@ -1,0 +1,103 @@
+{
+  "date": "2026-10-01T20:19:30+00:00",
+  "chain": "mock",
+  "model": "mock-llm",
+  "promptVersion": "objective_suggestions.v1",
+  "cases": 8,
+  "validRate": 1.0,
+  "firstAttemptRate": 1.0,
+  "latencyMs": {
+    "p50": 1,
+    "max": 2
+  },
+  "rows": [
+    {
+      "topic": "Área y perímetro de figuras planas",
+      "valid": true,
+      "attempts": 1,
+      "model": "mock-llm",
+      "suggestions": [
+        "Explica con ejemplos propios un aspecto clave de Área y perímetro de figuras planas (sugerencia 1).",
+        "Explica con ejemplos propios un aspecto clave de Área y perímetro de figuras planas (sugerencia 2).",
+        "Explica con ejemplos propios un aspecto clave de Área y perímetro de figuras planas (sugerencia 3)."
+      ]
+    },
+    {
+      "topic": "Números enteros en la recta numérica",
+      "valid": true,
+      "attempts": 1,
+      "model": "mock-llm",
+      "suggestions": [
+        "Explica con ejemplos propios un aspecto clave de Números enteros en la recta numérica (sugerencia 1).",
+        "Explica con ejemplos propios un aspecto clave de Números enteros en la recta numérica (sugerencia 2).",
+        "Explica con ejemplos propios un aspecto clave de Números enteros en la recta numérica (sugerencia 3)."
+      ]
+    },
+    {
+      "topic": "Teorema de Pitágoras",
+      "valid": true,
+      "attempts": 1,
+      "model": "mock-llm",
+      "suggestions": [
+        "Explica con ejemplos propios un aspecto clave de Teorema de Pitágoras (sugerencia 1).",
+        "Explica con ejemplos propios un aspecto clave de Teorema de Pitágoras (sugerencia 2).",
+        "Explica con ejemplos propios un aspecto clave de Teorema de Pitágoras (sugerencia 3)."
+      ]
+    },
+    {
+      "topic": "La derivada como razón de cambio",
+      "valid": true,
+      "attempts": 1,
+      "model": "mock-llm",
+      "suggestions": [
+        "Explica con ejemplos propios un aspecto clave de La derivada como razón de cambio (sugerencia 1).",
+        "Explica con ejemplos propios un aspecto clave de La derivada como razón de cambio (sugerencia 2).",
+        "Explica con ejemplos propios un aspecto clave de La derivada como razón de cambio (sugerencia 3)."
+      ]
+    },
+    {
+      "topic": "Personajes y lugares de los cuentos",
+      "valid": true,
+      "attempts": 1,
+      "model": "mock-llm",
+      "suggestions": [
+        "Explica con ejemplos propios un aspecto clave de Personajes y lugares de los cuentos (sugerencia 1).",
+        "Explica con ejemplos propios un aspecto clave de Personajes y lugares de los cuentos (sugerencia 2).",
+        "Explica con ejemplos propios un aspecto clave de Personajes y lugares de los cuentos (sugerencia 3)."
+      ]
+    },
+    {
+      "topic": "El texto argumentativo",
+      "valid": true,
+      "attempts": 1,
+      "model": "mock-llm",
+      "suggestions": [
+        "Explica con ejemplos propios un aspecto clave de El texto argumentativo (sugerencia 1).",
+        "Explica con ejemplos propios un aspecto clave de El texto argumentativo (sugerencia 2).",
+        "Explica con ejemplos propios un aspecto clave de El texto argumentativo (sugerencia 3)."
+      ]
+    },
+    {
+      "topic": "Literatura del Romanticismo",
+      "valid": true,
+      "attempts": 1,
+      "model": "mock-llm",
+      "suggestions": [
+        "Explica con ejemplos propios un aspecto clave de Literatura del Romanticismo (sugerencia 1).",
+        "Explica con ejemplos propios un aspecto clave de Literatura del Romanticismo (sugerencia 2).",
+        "Explica con ejemplos propios un aspecto clave de Literatura del Romanticismo (sugerencia 3)."
+      ]
+    },
+    {
+      "topic": "Juego y expresión con el cuerpo",
+      "valid": true,
+      "attempts": 1,
+      "model": "mock-llm",
+      "suggestions": [
+        "Explica con ejemplos propios un aspecto clave de Juego y expresión con el cuerpo (sugerencia 1).",
+        "Explica con ejemplos propios un aspecto clave de Juego y expresión con el cuerpo (sugerencia 2).",
+        "Explica con ejemplos propios un aspecto clave de Juego y expresión con el cuerpo (sugerencia 3)."
+      ]
+    }
+  ]
+}

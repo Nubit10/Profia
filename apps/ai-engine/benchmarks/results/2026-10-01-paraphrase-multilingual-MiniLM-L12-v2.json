@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-01T18:20:17+00:00",
+  "provider": "local",
+  "denseModel": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "rerank": false,
+  "catalogVersion": "26cbfab8372fa007",
+  "cases": 36,
+  "recall@5": 1.0,
+  "recall@1": 0.889,
+  "latencyMs": {
+    "p50": 72,
+    "max": 102
+  },
+  "misses": []
+}

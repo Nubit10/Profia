@@ -1,0 +1,56 @@
+{
+  "dba-matematicas-v2": {
+    "draft": "draft/mat.json",
+    "fixes": "tools/fixes/dba-matematicas-v2.json",
+    "source": {
+      "key": "MEN-DBA-MAT-V2",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Derechos Básicos de Aprendizaje: Matemáticas",
+      "documentType": "DBA",
+      "area": "MATEMATICAS",
+      "version": "V.2",
+      "year": 2016,
+      "isbn": "978-958-691-925-8",
+      "url": "https://www.colombiaaprende.edu.co/sites/default/files/files_public/2026-06/dba_matematicas-min.pdf",
+      "landingUrl": "https://colombiaaprende.edu.co/recurso-coleccion/derechos-basicos-de-aprendizaje-matematicas",
+      "sha256": "72f23359840f31d59b15057b8022a7872ef0b1cd9b50e3aa98d70a29b30d56ca",
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Los ejemplos, tablas y figuras se consultan en el documento original, en la página indicada."
+    }
+  },
+  "dba-lenguaje-v2": {
+    "draft": "draft/len.json",
+    "fixes": null,
+    "source": {
+      "key": "MEN-DBA-LEN-V2",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Derechos Básicos de Aprendizaje: Lenguaje",
+      "documentType": "DBA",
+      "area": "LENGUAJE",
+      "version": "V.2",
+      "year": 2016,
+      "isbn": "978-958-691-924-1",
+      "url": "https://www.colombiaaprende.edu.co/sites/default/files/files_public/2026-05/dba_lenguaje-min.pdf",
+      "landingUrl": "https://colombiaaprende.edu.co/recurso-coleccion/derechos-basicos-de-aprendizaje-dba-lenguaje",
+      "sha256": "9918e0e7f44121d32efb652204e7a5f59a9d4b4abf86e47aec09bacf66946f44",
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Los ejemplos, tablas y figuras se consultan en el documento original, en la página indicada."
+    }
+  },
+  "dba-transicion-v1": {
+    "draft": "draft/tra.json",
+    "fixes": "tools/fixes/dba-transicion-v1.json",
+    "source": {
+      "key": "MEN-DBA-TRA-V1",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Derechos Básicos de Aprendizaje: Transición",
+      "documentType": "DBA",
+      "area": "TRANSICION",
+      "version": "V.1",
+      "year": 2016,
+      "isbn": "978-958-691-926-5",
+      "url": "https://www.colombiaaprende.edu.co/sites/default/files/files_public/2026-06/dba_transicion-min_0.pdf",
+      "landingUrl": "https://colombiaaprende.edu.co/recurso-coleccion/derechos-basicos-de-aprendizaje-transicion",
+      "sha256": "869680c63b6e2c65f3971496a9a19c85b24072079d0a89afbfa762adf1e3704d",
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Los DBA de Transición no se dividen por áreas: aplican a cualquier curso de Transición. Los ejemplos se consultan en el documento original."
+    }
+  }
+}

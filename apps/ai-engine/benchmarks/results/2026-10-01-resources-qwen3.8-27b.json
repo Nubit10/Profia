@@ -1,0 +1,1009 @@
+{
+  "date": "2026-10-01T23:55:48+00:00",
+  "chain": "groq+groq+ollama",
+  "model": "qwen/qwen3.8-27b",
+  "promptVersions": [
+    "quiz.v1",
+    "workshop.v1"
+  ],
+  "cases": 10,
+  "validRate": 0.9,
+  "firstAttemptRate": 0.8,
+  "latencyMs": {
+    "p50": 8181,
+    "max": 184550
+  },
+  "tokens": {
+    "p50": 2141,
+    "max": 6782
+  },
+  "pauseS": 20.0,
+  "rows": [
+    {
+      "case": "QUIZ 3° Área y perímetro de figuras planas",
+      "valid": true,
+      "attempts": 1,
+      "tokens": 2320,
+      "model": "qwen/qwen3.8-27b",
+      "output": {
+        "title": "Quiz: Área y perímetro de figuras planas",
+        "instructions": "Lee con atención cada pregunta y selecciona la respuesta correcta. Tienes 30 minutos para completar el quiz.",
+        "questions": [
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "¿Qué es el perímetro de una figura plana?",
+            "options": [
+              "La medida del espacio interior de la figura.",
+              "La suma de las longitudes de todos sus lados.",
+              "El número de vértices que tiene la figura.",
+              "La distancia entre dos puntos opuestos."
+            ],
+            "answer": "La suma de las longitudes de todos sus lados.",
+            "explanation": "El perímetro se define como la longitud total del contorno de una figura, obtenida al sumar la medida de cada uno de sus lados.",
+            "cognitiveLevel": "REMEMBER",
+            "dbaCodes": [
+              "MEN-DBA-MAT-V2-G3-06"
+            ]
+          },
+          {
+            "type": "TRUE_FALSE",
+            "stem": "El perímetro de un cuadrado se calcula sumando cuatro veces la medida de uno de sus lados.",
+            "options": [
+              "Verdadero",
+              "Falso"
+            ],
+            "answer": "Verdadero",
+            "explanation": "Como un cuadrado tiene cuatro lados iguales, su perímetro es el resultado de multiplicar la medida de un lado por cuatro (o sumarlo cuatro veces).",
+            "cognitiveLevel": "REMEMBER",
+            "dbaCodes": [
+              "MEN-DBA-MAT-V2-G3-06"
+            ]
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "Si un rectángulo tiene una base de 5 cm y una altura de 3 cm, ¿cuál es la relación entre sus lados?",
+            "options": [
+              "Todos sus lados miden lo mismo.",
+              "Tiene dos pares de lados opuestos que miden igual.",
+              "Sus lados miden 5 cm, 3 cm, 5 cm y 3 cm respectivamente.",
+              "Solo dos de sus lados miden 5 cm y los otros dos no tienen medida."
+            ],
+            "answer": "Tiene dos pares de lados opuestos que miden igual.",
+            "explanation": "Una propiedad fundamental del rectángulo es que los lados opuestos son congruentes (tienen la misma medida), por lo que hay dos lados de 5 cm y dos de 3 cm.",
+            "cognitiveLevel": "UNDERSTAND",
+            "dbaCodes": [
+              "MEN-DBA-MAT-V2-G3-06"
+            ]
+          },
+          {
+            "type": "TRUE_FALSE",
+            "stem": "Dos figuras pueden tener el mismo perímetro pero formas diferentes.",
+            "options": [
+              "Verdadero",
+              "Falso"
+            ],
+            "answer": "Verdadero",
+            "explanation": "Es posible que figuras distintas (como un cuadrado y un rectángulo no cuadrado) compartan la misma suma de lados (perímetro) sin ser idénticas.",
+            "cognitiveLevel": "UNDERSTAND",
+            "dbaCodes": [
+              "MEN-DBA-MAT-V2-G3-06"
+            ]
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "Un estudiante quiere calcular el perímetro de un triángulo cuyos lados miden 4 cm, 5 cm y 6 cm. ¿Cuál operación debe realizar?",
+            "options": [
+              "4 × 5 × 6",
+              "4 + 5 + 6",
+              "4 + 5 - 6",
+              "6 - 5 + 4"
+            ],
+            "answer": "4 + 5 + 6",
+            "explanation": "Para encontrar el perímetro de cualquier figura plana, se deben sumar las medidas de todos sus lados.",
+            "cognitiveLevel": "APPLY",
+            "dbaCodes": [
+              "MEN-DBA-MAT-V2-G3-06"
+            ]
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "Laura tiene una cuerda de 20 cm y quiere formar un cuadrado con ella. ¿Cuánto debe medir cada lado del cuadrado?",
+            "options": [
+              "5 cm",
+              "10 cm",
+              "4 cm",
+              "20 cm"
+            ],
+            "answer": "5 cm",
+            "explanation": "El perímetro total es 20 cm. Como el cuadrado tiene 4 lados iguales, se divide el perímetro entre 4 (20 ÷ 4 = 5) para obtener la medida de cada lado.",
+            "cognitiveLevel": "APPLY",
+            "dbaCodes": [
+              "MEN-DBA-MAT-V2-G3-06"
+            ]
+          }
+        ]
+      },
+      "latencyMs": 24007
+    },
+    {
+      "case": "QUIZ 6° Números enteros en la recta numérica",
+      "valid": true,
+      "attempts": 1,
+      "tokens": 2322,
+      "model": "openai/gpt-oss-120b",
+      "output": {
+        "title": "Quiz de Números enteros en la recta numérica",
+        "instructions": "Selecciona la respuesta correcta o escribe la respuesta solicitada según el tipo de pregunta.",
+        "questions": [
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "En la recta numérica, ¿cuál de los siguientes números está más a la izquierda?",
+            "options": [
+              "-5",
+              "-2",
+              "0",
+              "3"
+            ],
+            "answer": "-5",
+            "explanation": "En la recta numérica los valores menores están a la izquierda; -5 es menor que -2, 0 y 3.",
+            "cognitiveLevel": "REMEMBER",
+            "dbaCodes": [
+              "MEN-DBA-MAT-V2-G6-01"
+            ]
+          },
+          {
+            "type": "TRUE_FALSE",
+            "stem": "En la recta numérica, -3 está a la derecha de -7.",
+            "options": [
+              "Verdadero",
+              "Falso"
+            ],
+            "answer": "Verdadero",
+            "explanation": "-3 es mayor que -7, por lo tanto está a la derecha.",
+            "cognitiveLevel": "REMEMBER",
+            "dbaCodes": [
+              "MEN-DBA-MAT-V2-G6-01"
+            ]
+          },
+          {
+            "type": "SHORT_ANSWER",
+            "stem": "Escribe el número entero que se encuentra exactamente en el punto medio entre -4 y 2 en la recta numérica.",
+            "options": [],
+            "answer": "-1",
+            "explanation": "El punto medio se calcula (‑4+2)/2 = -1.",
+            "cognitiveLevel": "UNDERSTAND",
+            "dbaCodes": [
+              "MEN-DBA-MAT-V2-G6-01"
+            ]
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "Si avanzas 7 unidades hacia la derecha partiendo del punto -2 en la recta numérica, ¿en qué número terminas?",
+            "options": [
+              "5",
+              "4",
+              "3",
+              "6"
+            ],
+            "answer": "5",
+            "explanation": "-2 + 7 = 5, por lo que el punto final es 5.",
+            "cognitiveLevel": "UNDERSTAND",
+            "dbaCodes": [
+              "MEN-DBA-MAT-V2-G6-01"
+            ]
+          },
+          {
+            "type": "TRUE_FALSE",
+            "stem": "Restar un número negativo es equivalente a sumar su valor absoluto.",
+            "options": [
+              "Verdadero",
+              "Falso"
+            ],
+            "answer": "Verdadero",
+            "explanation": "Restar -a equivale a sumar a.",
+            "cognitiveLevel": "UNDERSTAND",
+            "dbaCodes": [
+              "MEN-DBA-MAT-V2-G6-02"
+            ]
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "En un problema, María debe pagar una deuda de $12 y recibe $5 de su abuela. ¿Cuál es el saldo neto que debe aún?",
+            "options": [
+              "-7",
+              "-17",
+              "7",
+              "17"
+            ],
+            "answer": "-7",
+            "explanation": "Deuda (+12) menos lo recibido (5) da 12‑5=7; como sigue adeudando, se representa como -7.",
+            "cognitiveLevel": "APPLY",
+            "dbaCodes": [
+              "MEN-DBA-MAT-V2-G6-01"
+            ]
+          },
+          {
+            "type": "SHORT_ANSWER",
+            "stem": "Representa en la recta numérica el número -3 usando una coordenada (escribe la coordenada).",
+            "options": [],
+            "answer": "-3",
+            "explanation": "En la recta numérica la posición de -3 corresponde a la coordenada -3.",
+            "cognitiveLevel": "APPLY",
+            "dbaCodes": [
+              "MEN-DBA-MAT-V2-G6-01"
+            ]
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "¿Cuál es el resultado de (-4) + (+9) en la recta numérica?",
+            "options": [
+              "5",
+              "-13",
+              "13",
+              "-5"
+            ],
+            "answer": "5",
+            "explanation": "Sumar un número positivo a un negativo equivale a mover 9 unidades a la derecha desde -4, llegando a 5.",
+            "cognitiveLevel": "APPLY",
+            "dbaCodes": [
+              "MEN-DBA-MAT-V2-G6-02"
+            ]
+          },
+          {
+            "type": "TRUE_FALSE",
+            "stem": "En la recta numérica, el número -8 es mayor que el número -3.",
+            "options": [
+              "Verdadero",
+              "Falso"
+            ],
+            "answer": "Falso",
+            "explanation": "Los números más cercanos a cero son mayores; -3 > -8, por lo tanto la afirmación es falsa.",
+            "cognitiveLevel": "ANALYZE",
+            "dbaCodes": [
+              "MEN-DBA-MAT-V2-G6-01"
+            ]
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "Al comparar los números -2, 0 y 4, ¿cuál es la secuencia correcta de menor a mayor?",
+            "options": [
+              "-2, 0, 4",
+              "0, -2, 4",
+              "-2, 4, 0",
+              "4, 0, -2"
+            ],
+            "answer": "-2, 0, 4",
+            "explanation": "Ordenando de menor a mayor: -2 < 0 < 4.",
+            "cognitiveLevel": "ANALYZE",
+            "dbaCodes": [
+              "MEN-DBA-MAT-V2-G6-01"
+            ]
+          }
+        ]
+      },
+      "latencyMs": 24123
+    },
+    {
+      "case": "QUIZ 9° Teorema de Pitágoras",
+      "valid": true,
+      "attempts": 1,
+      "tokens": 1935,
+      "model": "openai/gpt-oss-120b",
+      "output": {
+        "title": "Quiz Teorema de Pitágoras - 9°",
+        "instructions": "Resuelve cada pregunta según lo solicitado. Cada respuesta correcta vale 1 punto.",
+        "questions": [
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "En un triángulo rectángulo, si los catetos miden 6 m y 8 m, ¿cuál es la longitud de la hipotenusa?",
+            "options": [
+              "10 m",
+              "14 m",
+              "12 m",
+              "9 m"
+            ],
+            "answer": "10 m",
+            "explanation": "Según el teorema, hipotenusa = √(6²+8²)=√(36+64)=√100=10 m.",
+            "cognitiveLevel": "UNDERSTAND",
+            "dbaCodes": []
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "Si en un triángulo rectángulo la hipotenusa mide 13 cm y un cateto mide 5 cm, ¿cuánto mide el otro cateto?",
+            "options": [
+              "12 cm",
+              "8 cm",
+              "10 cm",
+              "9 cm"
+            ],
+            "answer": "12 cm",
+            "explanation": "Otro cateto = √(13²‑5²)=√(169‑25)=√144=12 cm.",
+            "cognitiveLevel": "UNDERSTAND",
+            "dbaCodes": []
+          },
+          {
+            "type": "SHORT_ANSWER",
+            "stem": "Calcula la longitud de la hipotenusa de un triángulo rectángulo cuyos catetos miden 9 m y 12 m.",
+            "options": [],
+            "answer": "15",
+            "explanation": "Hipotenusa = √(9²+12²)=√(81+144)=√225=15 m.",
+            "cognitiveLevel": "APPLY",
+            "dbaCodes": []
+          },
+          {
+            "type": "SHORT_ANSWER",
+            "stem": "En un triángulo rectángulo, si la hipotenusa mide 25 cm y un cateto mide 7 cm, ¿cuál es la longitud del otro cateto?",
+            "options": [],
+            "answer": "24",
+            "explanation": "Otro cateto = √(25²‑7²)=√(625‑49)=√576=24 cm.",
+            "cognitiveLevel": "APPLY",
+            "dbaCodes": []
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "Un estudiante mide la sombra de una escalera que forma un ángulo recto con el suelo. Si la sombra mide 4 m y la escalera mide 5 m, ¿qué distancia hay entre la base de la escalera y la pared?",
+            "options": [
+              "3 m",
+              "4 m",
+              "5 m",
+              "6 m"
+            ],
+            "answer": "3 m",
+            "explanation": "Aplicando Pitágoras: base = √(5²‑4²)=√(25‑16)=√9=3 m.",
+            "cognitiveLevel": "APPLY",
+            "dbaCodes": []
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "En un triángulo rectángulo, los lados son proporcionales a 3, 4 y 5. Si el lado más corto mide 9 cm, ¿cuál es la longitud de la hipotenusa?",
+            "options": [
+              "15 cm",
+              "12 cm",
+              "20 cm",
+              "18 cm"
+            ],
+            "answer": "15 cm",
+            "explanation": "Factor de escala = 9/3=3; hipotenusa = 5×3=15 cm.",
+            "cognitiveLevel": "APPLY",
+            "dbaCodes": []
+          },
+          {
+            "type": "SHORT_ANSWER",
+            "stem": "Determina si el triángulo con lados 8 cm, 15 cm y 17 cm es rectángulo. Justifica con el teorema de Pitágoras.",
+            "options": [],
+            "answer": "Sí, porque 8²+15²=17² (64+225=289).",
+            "explanation": "La suma de los cuadrados de los dos menores lados coincide con el cuadrado del mayor, cumpliendo Pitágoras.",
+            "cognitiveLevel": "ANALYZE",
+            "dbaCodes": []
+          },
+          {
+            "type": "SHORT_ANSWER",
+            "stem": "Un terreno tiene forma de triángulo rectángulo con catetos de 30 m y 40 m. ¿Cuál es la longitud de la diagonal que une los extremos de la hipotenusa con el punto medio del cateto de 30 m? (Da el valor exacto sin simplificar.)",
+            "options": [],
+            "answer": "√(30²+20²)=√(900+400)=√1300",
+            "explanation": "El segmento forma un triángulo rectángulo con catetos 30 m y la mitad del otro cateto (20 m).",
+            "cognitiveLevel": "ANALYZE",
+            "dbaCodes": []
+          }
+        ]
+      },
+      "latencyMs": 23834
+    },
+    {
+      "case": "QUIZ 5° La fábula y su moraleja",
+      "valid": true,
+      "attempts": 1,
+      "tokens": 1805,
+      "model": "openai/gpt-oss-120b",
+      "output": {
+        "title": "La fábula y su moraleja - Quiz 5°",
+        "instructions": "Selecciona la respuesta correcta para cada pregunta.",
+        "questions": [
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "¿Cuál es la característica principal de una fábula?",
+            "options": [
+              "Narrar hechos históricos",
+              "Utilizar personajes animales con cualidades humanas",
+              "Describir paisajes naturales",
+              "Presentar diálogos extensos"
+            ],
+            "answer": "Utilizar personajes animales con cualidades humanas",
+            "explanation": "En la fábula los personajes suelen ser animales que representan conductas humanas.",
+            "cognitiveLevel": "REMEMBER",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G5-03"
+            ]
+          },
+          {
+            "type": "TRUE_FALSE",
+            "stem": "En una fábula la moraleja siempre se expresa al final del relato.",
+            "options": [
+              "Verdadero",
+              "Falso"
+            ],
+            "answer": "Verdadero",
+            "explanation": "La moraleja suele aparecer al cierre para resumir la enseñanza.",
+            "cognitiveLevel": "REMEMBER",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G5-06"
+            ]
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "En la fábula «El león y el ratón», ¿qué enseñanza se puede extraer?",
+            "options": [
+              "La fuerza siempre vence al ingenio",
+              "Ayudar al prójimo puede ser útil aunque sea pequeño",
+              "Los animales salvajes son peligrosos",
+              "La rapidez es la mejor estrategia"
+            ],
+            "answer": "Ayudar al prójimo puede ser útil aunque sea pequeño",
+            "explanation": "La historia muestra que un pequeño ratón ayuda al gran león, resaltando la solidaridad.",
+            "cognitiveLevel": "UNDERSTAND",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G5-03"
+            ]
+          },
+          {
+            "type": "TRUE_FALSE",
+            "stem": "En una fábula, el narrador y el autor siempre son la misma persona.",
+            "options": [
+              "Verdadero",
+              "Falso"
+            ],
+            "answer": "Falso",
+            "explanation": "El narrador es la voz que cuenta la historia; el autor es quien la escribe, pueden ser diferentes.",
+            "cognitiveLevel": "UNDERSTAND",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G5-06"
+            ]
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "Al leer la fábula «La zorra y las uvas», ¿cómo analizarías la intención del autor?",
+            "options": [
+              "Criticar la pereza humana",
+              "Mostrar que la apariencia es engañosa",
+              "Reflejar la frustración ante lo inalcanzable",
+              "Enseñar la importancia de la amistad"
+            ],
+            "answer": "Reflejar la frustración ante lo inalcanzable",
+            "explanation": "La zorra dice que las uvas están verdes para justificar su fracaso, indicando frustración.",
+            "cognitiveLevel": "ANALYZE",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G5-06"
+            ]
+          }
+        ]
+      },
+      "latencyMs": 2063
+    },
+    {
+      "case": "QUIZ 10° El texto argumentativo",
+      "valid": true,
+      "attempts": 2,
+      "tokens": 6782,
+      "model": "openai/gpt-oss-120b",
+      "output": {
+        "title": "Quiz sobre el texto argumentativo",
+        "instructions": "Selecciona la respuesta correcta o escribe la respuesta breve según se indique.",
+        "questions": [
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "¿Cuál es la función principal de la tesis en un texto argumentativo?",
+            "options": [
+              "Presentar la conclusión del autor",
+              "Introducir los argumentos secundarios",
+              "Desarrollar ejemplos ilustrativos",
+              "Plantear la idea central que se defenderá"
+            ],
+            "answer": "Plantear la idea central que se defenderá",
+            "explanation": "La tesis es la idea central que el autor busca convencer al lector de aceptar.",
+            "cognitiveLevel": "UNDERSTAND",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G10-04"
+            ]
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "En un texto argumentativo, ¿qué elemento suele aparecer después de los argumentos?",
+            "options": [
+              "La introducción",
+              "La tesis",
+              "La conclusión",
+              "El título"
+            ],
+            "answer": "La conclusión",
+            "explanation": "Después de presentar los argumentos, el autor suele cerrar con la conclusión que resume la posición.",
+            "cognitiveLevel": "UNDERSTAND",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G10-04"
+            ]
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "¿Cuál de los siguientes enunciados es un argumento válido para apoyar una tesis sobre la importancia de la lectura?",
+            "options": [
+              "\"Leer es divertido\"",
+              "\"Los libros aumentan el vocabulario y la comprensión lectora\"",
+              "\"A mí me gusta leer antes de dormir\"",
+              "\"Los estudiantes pasan mucho tiempo en redes sociales\""
+            ],
+            "answer": "\"Los libros aumentan el vocabulario y la comprensión lectora\"",
+            "explanation": "Un argumento debe aportar evidencia o razonamiento que respalde la tesis.",
+            "cognitiveLevel": "UNDERSTAND",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G10-04"
+            ]
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "Identifica la conclusión en el siguiente fragmento: \"Por lo tanto, es necesario que las escuelas incluyan más actividades artísticas en su currículo para mejorar la creatividad de los estudiantes.\"",
+            "options": [
+              "\"Es necesario que las escuelas incluyan más actividades artísticas\"",
+              "\"Las escuelas deben mejorar la creatividad\"",
+              "\"Se debe incluir más arte en el currículo\"",
+              "\"Los estudiantes son creativos\""
+            ],
+            "answer": "\"Se debe incluir más arte en el currículo\"",
+            "explanation": "La conclusión resume la posición del autor y se introduce con \"por lo tanto\".",
+            "cognitiveLevel": "UNDERSTAND",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G10-04"
+            ]
+          },
+          {
+            "type": "SHORT_ANSWER",
+            "stem": "Analiza cómo la falta de evidencia concreta debilita un argumento en un texto argumentativo.",
+            "options": [],
+            "answer": "Al no presentar datos o ejemplos verificables, el argumento pierde credibilidad y el lector no puede validar la tesis.",
+            "explanation": "Sin evidencia, el razonamiento resulta poco convincente.",
+            "cognitiveLevel": "ANALYZE",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G10-04"
+            ]
+          },
+          {
+            "type": "SHORT_ANSWER",
+            "stem": "Compara la estructura de un texto argumentativo con la de un texto narrativo.",
+            "options": [],
+            "answer": "El texto argumentativo sigue la secuencia tesis‑argumentos‑conclusión, mientras que el narrativo se organiza en introducción‑desarrollo‑clímax‑desenlace.",
+            "explanation": "Ambos tienen estructuras distintas que responden a propósitos diferentes.",
+            "cognitiveLevel": "ANALYZE",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G10-04"
+            ]
+          },
+          {
+            "type": "SHORT_ANSWER",
+            "stem": "Evalúa la efectividad de usar ejemplos personales como único argumento en un ensayo persuasivo.",
+            "options": [],
+            "answer": "Los ejemplos personales pueden ser persuasivos, pero si son el único argumento carecen de generalidad y pueden no convencer a lectores que buscan evidencia objetiva.",
+            "explanation": "Un argumento sólido combina evidencia personal y datos externos.",
+            "cognitiveLevel": "ANALYZE",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G10-04"
+            ]
+          },
+          {
+            "type": "SHORT_ANSWER",
+            "stem": "Analiza por qué es importante que la conclusión recapitule los argumentos principales.",
+            "options": [],
+            "answer": "Recapitular refuerza la lógica del razonamiento y ayuda al lector a recordar los puntos clave antes de aceptar la tesis.",
+            "explanation": "La recapitulación consolida la persuasión del texto.",
+            "cognitiveLevel": "ANALYZE",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G10-04"
+            ]
+          },
+          {
+            "type": "SHORT_ANSWER",
+            "stem": "Evalúa la pertinencia de incluir contraargumentos en un texto argumentativo.",
+            "options": [],
+            "answer": "Incluir contraargumentos muestra rigor y permite refutar objeciones, fortaleciendo la credibilidad del autor.",
+            "explanation": "Los contraargumentos anticipan dudas y demuestran dominio del tema.",
+            "cognitiveLevel": "EVALUATE",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G10-04"
+            ]
+          },
+          {
+            "type": "SHORT_ANSWER",
+            "stem": "Evalúa la calidad de un argumento que se basa únicamente en una autoridad sin explicar su razonamiento.",
+            "options": [],
+            "answer": "Depender solo de la autoridad sin explicar el razonamiento es un recurso débil, ya que el lector no ve la lógica subyacente.",
+            "explanation": "La autoridad sola no basta; se necesita justificación.",
+            "cognitiveLevel": "EVALUATE",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G10-04"
+            ]
+          },
+          {
+            "type": "SHORT_ANSWER",
+            "stem": "Evalúa cómo la claridad del lenguaje influye en la persuasión de un texto argumentativo.",
+            "options": [],
+            "answer": "Un lenguaje claro facilita la comprensión y permite que el lector siga el razonamiento, aumentando la persuasión.",
+            "explanation": "La claridad evita malentendidos y refuerza la fuerza del argumento.",
+            "cognitiveLevel": "EVALUATE",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G10-04"
+            ]
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "¿Cuál de los siguientes criterios es esencial para evaluar la solidez de un argumento?",
+            "options": [
+              "Uso de palabras emotivas",
+              "Longitud del texto",
+              "Presencia de evidencia verificable",
+              "Número de citas bibliográficas"
+            ],
+            "answer": "Presencia de evidencia verificable",
+            "explanation": "Un argumento sólido se sustenta en evidencia que puede comprobarse.",
+            "cognitiveLevel": "ANALYZE",
+            "dbaCodes": [
+              "MEN-DBA-LEN-V2-G10-04"
+            ]
+          }
+        ]
+      },
+      "latencyMs": 8181
+    },
+    {
+      "case": "QUIZ 3° La convivencia en la familia",
+      "valid": true,
+      "attempts": 1,
+      "tokens": 1510,
+      "model": "qwen/qwen3.8-27b",
+      "output": {
+        "title": "Quiz: La convivencia en la familia",
+        "instructions": "Lee con atención cada pregunta y selecciona la opción correcta. Tienes 20 minutos para completar el quiz.",
+        "questions": [
+          {
+            "type": "TRUE_FALSE",
+            "stem": "La familia es el primer lugar donde aprendemos a convivir y a tratar a los demás con respeto.",
+            "options": [
+              "Verdadero",
+              "Falso"
+            ],
+            "answer": "Verdadero",
+            "explanation": "La familia es el núcleo básico de la sociedad y el entorno inicial donde se adquieren los valores de convivencia.",
+            "cognitiveLevel": "REMEMBER",
+            "dbaCodes": []
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "¿Cuál de las siguientes acciones ayuda a mantener la paz y el respeto dentro de la casa?",
+            "options": [
+              "Gritar cuando uno está enojado",
+              "Escuchar con atención lo que dicen los hermanos o padres",
+              "Romper las cosas para llamar la atención",
+              "Ignorar a los familiares cuando hablan"
+            ],
+            "answer": "Escuchar con atención lo que dicen los hermanos o padres",
+            "explanation": "Escuchar activamente es una habilidad fundamental para resolver conflictos y fortalecer los vínculos familiares.",
+            "cognitiveLevel": "REMEMBER",
+            "dbaCodes": []
+          },
+          {
+            "type": "TRUE_FALSE",
+            "stem": "En la familia, solo los padres tienen la responsabilidad de cuidar el ambiente de convivencia; a los niños no les toca hacer nada.",
+            "options": [
+              "Verdadero",
+              "Falso"
+            ],
+            "answer": "Falso",
+            "explanation": "La convivencia es responsabilidad de todos los miembros de la familia, incluyendo a los niños que deben aportar con sus actitudes y acciones.",
+            "cognitiveLevel": "UNDERSTAND",
+            "dbaCodes": []
+          },
+          {
+            "type": "MULTIPLE_CHOICE",
+            "stem": "Si tu hermano te molesta y sientes rabia, ¿cuál es la mejor forma de reaccionar para no dañar la convivencia?",
+            "options": [
+              "Golpearlo para que aprenda",
+              "Decirle con calma que no te gusta que te trate así y pedir ayuda a un adulto",
+              "Quedarte callado y hacerle daño a sus cosas",
+              "Salir de la casa y no volver hasta que se disculpe"
+            ],
+            "answer": "Decirle con calma que no te gusta que te trate así y pedir ayuda a un adulto",
+            "explanation": "Comunicar los sentimientos de forma asertiva y buscar mediación adulta son estrategias adecuadas para resolver conflictos familiares.",
+            "cognitiveLevel": "UNDERSTAND",
+            "dbaCodes": []
+          }
+        ]
+      },
+      "latencyMs": 1799
+    },
+    {
+      "case": "WORKSHOP 6° Números enteros en la recta numérica",
+      "valid": false,
+      "attempts": 0,
+      "errors": [
+        "groq: 429; groq: 400; ollama: ReadTimeout"
+      ],
+      "latencyMs": 184550
+    },
+    {
+      "case": "WORKSHOP 2° Sumas con reagrupación",
+      "valid": true,
+      "attempts": 1,
+      "tokens": 2781,
+      "model": "qwen/qwen3.8-27b",
+      "output": {
+        "title": "Taller: Sumas con reagrupación usando material concreto",
+        "purpose": "El estudiante comprenderá el concepto de reagrupación en las sumas y aplicará estrategias con material concreto para resolver problemas de suma de números de dos cifras.",
+        "studentInstructions": "Participa activamente en cada momento del taller. Usa el material concreto (base 10 o tapas) para representar las cantidades. Sigue las instrucciones paso a paso y registra tus resultados en tu cuaderno.",
+        "materials": [
+          "Material concreto base 10 (varillas de 10 unidades y unidades sueltas) o tapas de botella y palitos.",
+          "Cuaderno de matemáticas.",
+          "Lápiz y colores.",
+          "Tarjetas con números de dos cifras (preparadas por el docente)."
+        ],
+        "moments": [
+          {
+            "name": "Vivencia",
+            "activities": [
+              {
+                "title": "Conteo de objetos en el aula",
+                "instructions": "Observa los objetos que hay en tu mesa (libros, lápices, tapas). Cuenta cuántos hay de cada tipo. Si tienes más de 10 de un objeto, agrúpalos de 10 en 10 usando un elástico o una cuerda. Dibuja en tu cuaderno cómo agrupaste los objetos y escribe el total de cada grupo.",
+                "durationMinutes": 15,
+                "expectedOutcome": "El estudiante agrupa objetos de 10 en 10 y representa visualmente la cantidad total, identificando decenas y unidades.",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G2-03"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Fundamentación",
+            "activities": [
+              {
+                "title": "Construcción de sumas con base 10",
+                "instructions": "Toma 3 varillas de 10 y 7 unidades sueltas (37). Luego toma 2 varillas de 10 y 5 unidades sueltas (25). Coloca las varillas juntas y las unidades juntas. Si tienes 10 unidades sueltas, cámbialas por una varilla de 10. Cuenta cuántas varillas y cuántas unidades sueltas tienes ahora. Escribe la suma en tu cuaderno: 37 + 25 = ...",
+                "durationMinutes": 20,
+                "expectedOutcome": "El estudiante realiza la reagrupación de 10 unidades a 1 decena usando material concreto y escribe la suma resultante.",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G2-02",
+                  "MEN-DBA-MAT-V2-G2-03"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Ejercitación",
+            "activities": [
+              {
+                "title": "Resolución de sumas guiadas",
+                "instructions": "Resuelve las siguientes sumas usando tu material concreto: 24 + 18, 36 + 27 y 45 + 19. Para cada una, mueve las varillas y unidades. Cuando tengas 10 unidades, cámbialas por una varilla. Escribe el resultado final y explica oralmente a tu compañero cómo hiciste el cambio de unidades a decenas.",
+                "durationMinutes": 20,
+                "expectedOutcome": "El estudiante resuelve tres sumas con reagrupación y verbaliza el proceso de cambio de unidades a decenas.",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G2-02"
+                ]
+              },
+              {
+                "title": "Representación pictórica de la suma",
+                "instructions": "Elige una de las sumas que resolviste en la actividad anterior. Dibuja en tu cuaderno las varillas y las unidades antes de reagrupar y después de reagrupar. Usa colores diferentes para las decenas y las unidades. Escribe debajo del dibujo el número total que representa cada parte.",
+                "durationMinutes": 15,
+                "expectedOutcome": "El estudiante produce una representación pictórica clara que muestra el proceso de reagrupación antes y después del cambio.",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G2-02",
+                  "MEN-DBA-MAT-V2-G2-03"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Aplicación",
+            "activities": [
+              {
+                "title": "Problema de la tienda escolar",
+                "instructions": "Imagina que en la tienda escolar tienes 28 lápices y compras 15 más. Usa tu material concreto para representar los lápices iniciales y los nuevos. Agrupa las unidades que sumen 10. Calcula cuántos lápices tienes en total. Escribe el problema, la operación y la respuesta completa en tu cuaderno.",
+                "durationMinutes": 10,
+                "expectedOutcome": "El estudiante aplica la estrategia de reagrupación para resolver un problema contextualizado de suma.",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G2-02"
+                ]
+              },
+              {
+                "title": "Verificación y explicación",
+                "instructions": "Revisa tu solución del problema de la tienda escolar. Compara tu resultado con el de un compañero. Si son diferentes, usen el material concreto para verificar quién tiene la razón. Escriban juntos una frase que explique por qué el resultado es correcto, mencionando cuántas decenas y unidades tienen al final.",
+                "durationMinutes": 10,
+                "expectedOutcome": "El estudiante evalúa su propio trabajo y el de un compañero, justificando el resultado mediante la relación entre decenas y unidades.",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G2-02",
+                  "MEN-DBA-MAT-V2-G2-03"
+                ]
+              }
+            ]
+          }
+        ],
+        "teacherGuidance": [
+          "Vigila que los estudiantes realicen el cambio de 10 unidades por 1 decena de forma consciente, no automática, preguntándoles '¿Qué haces cuando tienes 10 unidades sueltas?'.",
+          "Acompaña a los estudiantes que confundan decenas y unidades en la escritura del resultado, reforzando la posición de los números.",
+          "Fomenta la explicación oral del proceso, ya que verbalizar la estrategia ayuda a consolidar la comprensión del sistema de numeración decimal.",
+          "Cierra la clase pidiendo a dos o tres estudiantes que muestren su representación pictórica y expliquen cómo llegaron al resultado final."
+        ]
+      },
+      "latencyMs": 3821
+    },
+    {
+      "case": "WORKSHOP 8° La noticia",
+      "valid": true,
+      "attempts": 1,
+      "tokens": 1820,
+      "model": "openai/gpt-oss-120b",
+      "output": {
+        "title": "Taller: La noticia",
+        "purpose": "El estudiante producirá una noticia sobre un hecho de su comunidad, aplicando la estructura periodística y considerando contexto y audiencia.",
+        "studentInstructions": "Participa activamente en cada momento, sigue las instrucciones y colabora con tus compañeros para construir una noticia completa.",
+        "materials": [
+          "Hojas cuadriculadas",
+          "Lápices y borradores",
+          "Acceso a internet o biblioteca para investigación",
+          "Ejemplos de noticias locales"
+        ],
+        "moments": [
+          {
+            "name": "Planteamiento del problema",
+            "activities": [
+              {
+                "title": "Identifica el hecho noticioso",
+                "instructions": "Observa la lista de acontecimientos recientes en tu comunidad. Elige uno que consideres relevante para una noticia. Anota por qué es importante y a quién afecta.",
+                "durationMinutes": 20,
+                "expectedOutcome": "Selección del hecho noticioso y justificación escrita.",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-07"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Investigación",
+            "activities": [
+              {
+                "title": "Recopila información",
+                "instructions": "Investiga fuentes como entrevistas, redes sociales y documentos locales. Registra datos, fechas y testimonios relevantes al hecho elegido.",
+                "durationMinutes": 20,
+                "expectedOutcome": "Ficha de información con datos verificables.",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-07"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Propuesta de solución",
+            "activities": [
+              {
+                "title": "Estructura la noticia",
+                "instructions": "Organiza la información en los componentes de una noticia: titular, lead, cuerpo y cierre. Redacta un borrador siguiendo esa estructura.",
+                "durationMinutes": 20,
+                "expectedOutcome": "Borrador estructurado de la noticia.",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-07"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Socialización",
+            "activities": [
+              {
+                "title": "Revisión y mejora",
+                "instructions": "En parejas, revisa el borrador de tu compañero. Sugiere mejoras en claridad, orden y estilo. Aplica las sugerencias a tu texto.",
+                "durationMinutes": 30,
+                "expectedOutcome": "Versión revisada y mejorada de la noticia.",
+                "cognitiveLevel": "CREATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-07"
+                ]
+              },
+              {
+                "title": "Presentación final",
+                "instructions": "Presenta tu noticia final al grupo, leyendo el titular y el lead en voz alta. Explica brevemente el contexto y la importancia del hecho.",
+                "durationMinutes": 30,
+                "expectedOutcome": "Noticia final presentada oralmente y texto impreso listo para publicación.",
+                "cognitiveLevel": "CREATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-07"
+                ]
+              }
+            ]
+          }
+        ],
+        "teacherGuidance": [
+          "Acompaña la selección del hecho noticioso asegurándote de que sea actual y verificable.",
+          "Guía a los estudiantes en la búsqueda de fuentes confiables y verifica la pertinencia de los datos recopilados.",
+          "Revisa que la estructura de la noticia siga el formato periodístico y corrige errores de organización.",
+          "Fomenta la retroalimentación constructiva durante la revisión por pares, enfocándote en claridad y precisión."
+        ]
+      },
+      "latencyMs": 2274
+    },
+    {
+      "case": "WORKSHOP Transición Los sonidos de mi entorno",
+      "valid": true,
+      "attempts": 1,
+      "tokens": 2141,
+      "model": "qwen/qwen3.8-27b",
+      "output": {
+        "title": "Taller: Los sonidos de mi entorno",
+        "purpose": "Reconocer los sonidos presentes en la familia y la comunidad, valorando la importancia de cada persona y participando respetuosamente en la construcción de acuerdos sobre el uso del espacio sonoro.",
+        "studentInstructions": "Escucha atentamente los sonidos que te propongo, identifica de dónde provienen y comparte con tus compañeros cómo los percibes. Sigue las instrucciones de cada momento para crear nuestro mapa sonoro y nuestros acuerdos de convivencia.",
+        "materials": [
+          "Tarjetas con dibujos de objetos sonoros (perro, coche, lluvia, teléfono, familia hablando)",
+          "Papelógrafo o cartulina grande",
+          "Crayones o marcadores de colores",
+          "Pegante"
+        ],
+        "moments": [
+          {
+            "name": "Exploración",
+            "activities": [
+              {
+                "title": "Sonidos de mi casa y mi barrio",
+                "instructions": "1. Observa las tarjetas con dibujos que te muestro. 2. Di en voz alta qué sonido hace cada objeto o situación (por ejemplo: 'El perro ladra', 'La lluvia cae'). 3. Selecciona la tarjeta que represente un sonido que escuchas todos los días en tu casa o en tu barrio. 4. Pega esa tarjeta en la parte inferior de tu hoja de trabajo.",
+                "durationMinutes": 15,
+                "expectedOutcome": "El estudiante identifica y nombra al menos dos sonidos característicos de su entorno familiar y comunitario.",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-TRA-V1-04"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Práctica",
+            "activities": [
+              {
+                "title": "¿Por qué son importantes estos sonidos?",
+                "instructions": "1. Mira la tarjeta que pegaste en el momento anterior. 2. Piensa en quién hace ese sonido o qué significa para tu familia (por ejemplo: 'El teléfono suena para que hable con mi abuela'). 3. Dibuja en el espacio en blanco de tu hoja una escena simple donde aparezca ese sonido y las personas involucradas. 4. Explica a tu compañero de al lado, en una oración corta, por qué ese sonido es parte de tu vida diaria.",
+                "durationMinutes": 15,
+                "expectedOutcome": "El estudiante explica brevemente la relevancia de un sonido específico dentro de su contexto familiar o comunitario, reconociendo la presencia de otros.",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-TRA-V1-04"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Aplicación",
+            "activities": [
+              {
+                "title": "Nuestros acuerdos de escucha",
+                "instructions": "1. En círculo, escucha a tus compañeros decir qué sonidos les gustan y cuáles les molestan. 2. Propón una regla simple para nuestro salón, por ejemplo: 'Escucho cuando otro habla' o 'Hablo en voz baja para no molestar'. 3. Dibuja un símbolo que represente esa regla en el papelógrafo central. 4. Firma con tu dedo (usando tinta o pegando una huella) al lado de tu dibujo para aceptar el acuerdo.",
+                "durationMinutes": 15,
+                "expectedOutcome": "El estudiante participa activamente en la definición de un acuerdo de convivencia relacionado con el respeto por los sonidos y la escucha mutua.",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-TRA-V1-05"
+                ]
+              }
+            ]
+          }
+        ],
+        "teacherGuidance": [
+          "En la exploración, valida todas las respuestas; si un niño menciona un sonido poco común, pregúntale de dónde lo conoce para conectar con su territorio.",
+          "En la práctica, ayuda a los estudiantes que tengan dificultades para verbalizar la importancia del sonido, guiándolos con preguntas como: '¿A quién te recuerda ese sonido?'",
+          "En la aplicación, facilita la participación de los niños más tímidos, asegurándote de que todos tengan la oportunidad de proponer o firmar el acuerdo.",
+          "Vigila que los acuerdos propuestos sean claros y realizables para niños de transición, evitando normas abstractas.",
+          "Cierra la sesión reforzando la idea de que respetar los sonidos de los demás es una forma de cuidar a nuestra comunidad."
+        ]
+      },
+      "latencyMs": 3053
+    }
+  ]
+}

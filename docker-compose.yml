@@ -1,0 +1,46 @@
+# Entorno local de desarrollo. PostgreSQL (SPEC-0001); Qdrant y AI Engine (SPEC-0005).
+# Servicios de fases futuras (redis, workers) se agregan aquí cuando su spec lo requiera.
+services:
+  postgres:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-profe}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-profe}
+      POSTGRES_DB: ${POSTGRES_DB:-profe}
+    ports:
+      - "${POSTGRES_PORT:-5434}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  qdrant:
+    image: qdrant/qdrant:v1.19.1
+    restart: unless-stopped
+    ports:
+      - "${QDRANT_PORT:-6333}:6333"
+    volumes:
+      - qdrant-data:/qdrant/storage
+
+  # Opcional en desarrollo: también se puede correr con `uv run` (ver apps/ai-engine/README.md).
+  ai-engine:
+    build:
+      context: .
+      dockerfile: apps/ai-engine/Dockerfile
+    profiles: ["ai"]
+    restart: unless-stopped
+    depends_on: [qdrant]
+    env_file: ./apps/ai-engine/.env
+    environment:
+      QDRANT_URL: http://qdrant:6333
+    ports:
+      - "${AI_ENGINE_PORT:-8100}:8100"
+
+volumes:
+  postgres-data:
+  qdrant-data:

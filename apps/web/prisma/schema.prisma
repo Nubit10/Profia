@@ -1,0 +1,717 @@
+// Schema de la base transaccional del producto.
+// Tenancy (ADR-0004): toda tabla de datos de un espacio lleva `institutionId` indexado, y las relaciones
+// entre tablas de tenant usan FK compuestas (id, institutionId) para que la base impida mezclar espacios.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/db/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Identidad (SPEC-0001)
+// ---------------------------------------------------------------------------
+
+model User {
+  id                  String        @id @default(cuid())
+  name                String
+  /// Normalizado (minúsculas, sin espacios). SPEC-0001 RN-07.
+  email               String        @unique
+  /// Hash argon2id. Nunca se expone fuera de modules/auth. SPEC-0001 RN-04.
+  passwordHash        String
+  /// Cuándo cerró el tutorial de primer uso (SPEC-0012 decisión 9); null = aún no lo ha visto.
+  tutorialDismissedAt DateTime?
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  sessions            UserSession[]
+  memberships         Membership[]
+  independentSpace    Institution?  @relation("IndependentSpace")
+
+  @@map("users")
+}
+
+/// Sesión revocable referenciada por el `sid` del JWT. SPEC-0001 RN-08.
+model UserSession {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@map("user_sessions")
+}
+
+// ---------------------------------------------------------------------------
+// Espacios de trabajo (SPEC-0002)
+// ---------------------------------------------------------------------------
+
+enum InstitutionType {
+  INDEPENDENT
+  SCHOOL
+}
+
+enum Sector {
+  OFICIAL
+  PRIVADO
+}
+
+enum SchoolCalendar {
+  A
+  B
+}
+
+enum Role {
+  ADMIN
+  TEACHER
+}
+
+enum MembershipStatus {
+  ACTIVE
+  INACTIVE
+}
+
+/// Espacio de trabajo: un colegio o el espacio de un docente independiente.
+model Institution {
+  id                 String                    @id @default(cuid())
+  type               InstitutionType
+  name               String
+  /// Datos institucionales: solo para colegios (SPEC-0002 §5).
+  sector             Sector?
+  daneCode           String?
+  nit                String?
+  department         String?
+  municipality       String?
+  calendar           SchoolCalendar?
+  /// Dueño del espacio independiente; único por usuario (SPEC-0002 RN-03).
+  independentOwnerId String?                   @unique
+  independentOwner   User?                     @relation("IndependentSpace", fields: [independentOwnerId], references: [id])
+  createdAt          DateTime                  @default(now())
+  updatedAt          DateTime                  @updatedAt
+  campuses           Campus[]
+  memberships        Membership[]
+  invitations        Invitation[]
+  auditLogs          AuditLog[]
+  subjects           Subject[]
+  courses            Course[]
+  coursePeriods      CoursePeriod[]
+  units              Unit[]
+  topics             Topic[]
+  objectives         Objective[]
+  objectiveLinks     ObjectiveCurriculumLink[]
+  generationLogs     GenerationLog[]
+  generationItems    GenerationSuggestion[]
+  resources          Resource[]
+  resourceTopics     ResourceTopic[]
+  resourceVersions   ResourceVersion[]
+  itemFeedback       ResourceItemFeedback[]
+  itemRegenerations  ItemRegeneration[]
+  teacherPreferences TeacherPreference[]
+  documentFormats    DocumentFormat[]
+  logo               InstitutionLogo?
+
+  @@map("institutions")
+}
+
+/// Sede. Los espacios independientes tienen una sede interna que no se muestra.
+model Campus {
+  id             String      @id @default(cuid())
+  institutionId  String
+  institution    Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  name           String
+  /// Nombre en minúsculas y sin acentos, para la unicidad (RN-11).
+  normalizedName String
+  archivedAt     DateTime?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  courses        Course[]
+
+  @@unique([id, institutionId])
+  @@unique([institutionId, normalizedName])
+  @@map("campuses")
+}
+
+model Membership {
+  id            String              @id @default(cuid())
+  institutionId String
+  institution   Institution         @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roles         Role[]
+  status        MembershipStatus    @default(ACTIVE)
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+  invitations   Invitation[]
+  courses       Course[]
+  resources     Resource[]
+  preferences   TeacherPreference[]
+  formats       DocumentFormat[]
+
+  @@unique([institutionId, userId])
+  @@unique([id, institutionId])
+  @@index([userId])
+  @@map("memberships")
+}
+
+model Invitation {
+  id                    String      @id @default(cuid())
+  institutionId         String
+  institution           Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  /// Correo normalizado del invitado.
+  email                 String
+  roles                 Role[]
+  /// SHA-256 del token; el token nunca se guarda (RN-05).
+  tokenHash             String      @unique
+  invitedByMembershipId String
+  invitedBy             Membership  @relation(fields: [invitedByMembershipId, institutionId], references: [id, institutionId])
+  expiresAt             DateTime
+  acceptedAt            DateTime?
+  acceptedByUserId      String?
+  revokedAt             DateTime?
+  createdAt             DateTime    @default(now())
+
+  @@index([institutionId, email])
+  @@map("invitations")
+}
+
+/// Registro de solo inserción (RN-10). Sin tokens, contraseñas ni contenido de formularios.
+model AuditLog {
+  id            String       @id @default(cuid())
+  institutionId String?
+  institution   Institution? @relation(fields: [institutionId], references: [id], onDelete: SetNull)
+  actorUserId   String?
+  action        String
+  entityType    String
+  entityId      String?
+  metadata      Json?
+  createdAt     DateTime     @default(now())
+
+  @@index([institutionId, createdAt])
+  @@map("audit_logs")
+}
+
+// ---------------------------------------------------------------------------
+// Mis cursos (SPEC-0003)
+// ---------------------------------------------------------------------------
+
+enum Grade {
+  JARDIN
+  TRANSICION
+  G1
+  G2
+  G3
+  G4
+  G5
+  G6
+  G7
+  G8
+  G9
+  G10
+  G11
+}
+
+model Subject {
+  id               String          @id @default(cuid())
+  institutionId    String
+  institution      Institution     @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  name             String
+  normalizedName   String
+  /// Precargada desde la Ley 115 (SPEC-0003 RN-01).
+  isPreloaded      Boolean         @default(false)
+  /// Área curricular oficial a la que se vincula (SPEC-0004). Las precargadas se vinculan solas.
+  curriculumAreaId String?
+  curriculumArea   CurriculumArea? @relation(fields: [curriculumAreaId], references: [id])
+  archivedAt       DateTime?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  courses          Course[]
+
+  @@unique([id, institutionId])
+  @@unique([institutionId, normalizedName])
+  @@map("subjects")
+}
+
+model Course {
+  id            String      @id @default(cuid())
+  institutionId String
+  institution   Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  /// Profesor dueño del curso.
+  membershipId  String
+  membership    Membership  @relation(fields: [membershipId, institutionId], references: [id, institutionId])
+  subjectId     String
+  subject       Subject     @relation(fields: [subjectId, institutionId], references: [id, institutionId])
+  campusId      String
+  campus        Campus      @relation(fields: [campusId, institutionId], references: [id, institutionId])
+  grade         Grade
+  /// Grupo, por ejemplo "601" o "B". Cadena vacía si no aplica.
+  groupName     String      @default("")
+  academicYear  String
+  archivedAt    DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  periods   CoursePeriod[]
+  units     Unit[]
+  resources Resource[]
+
+  @@unique([id, institutionId])
+  @@unique([membershipId, subjectId, grade, groupName, academicYear])
+  @@index([institutionId, membershipId])
+  @@map("courses")
+}
+
+// ---------------------------------------------------------------------------
+// Catálogo curricular oficial (SPEC-0004, ADR-0005). Global: sin institutionId.
+// ---------------------------------------------------------------------------
+
+enum CurriculumDocumentType {
+  DBA
+  STANDARD
+}
+
+enum CurriculumSourceStatus {
+  PUBLISHED
+  SUPERSEDED
+}
+
+enum CurriculumReviewStatus {
+  PENDING
+  APPROVED
+}
+
+/// Área curricular oficial. El id es una clave estable (p. ej. "MATEMATICAS").
+model CurriculumArea {
+  id        String             @id
+  name      String
+  sortOrder Int
+  sources   CurriculumSource[]
+  items     CurriculumItem[]
+  subjects  Subject[]
+
+  @@map("curriculum_areas")
+}
+
+/// Un documento oficial en una versión concreta (p. ej. DBA Matemáticas V.2).
+model CurriculumSource {
+  id           String                 @id @default(cuid())
+  /// Clave única de la fuente y versión, p. ej. "MEN-DBA-MAT-V2".
+  key          String                 @unique
+  /// Agrupa las versiones de un mismo documento, p. ej. "MEN-DBA-MAT".
+  documentKey  String
+  issuer       String
+  title        String
+  documentType CurriculumDocumentType
+  areaId       String
+  area         CurriculumArea         @relation(fields: [areaId], references: [id])
+  version      String
+  year         Int
+  isbn         String?
+  url          String
+  landingUrl   String?
+  sha256       String
+  usageNote    String
+  status       CurriculumSourceStatus @default(PUBLISHED)
+  reviewStatus CurriculumReviewStatus @default(PENDING)
+  reviewedBy   String?
+  reviewedAt   DateTime?
+  /// Hash del archivo importado: reimportar sin cambios no escribe nada (RN-03).
+  contentHash  String
+  importedAt   DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+  items        CurriculumItem[]
+
+  @@index([documentKey])
+  @@map("curriculum_sources")
+}
+
+/// DBA o estándar, con texto copiado tal cual de la fuente (RN-05).
+model CurriculumItem {
+  id        String                 @id @default(cuid())
+  sourceId  String
+  source    CurriculumSource       @relation(fields: [sourceId], references: [id])
+  /// Código estable, p. ej. "MEN-DBA-MAT-V2-G6-03".
+  code      String                 @unique
+  type      CurriculumDocumentType
+  areaId    String
+  area      CurriculumArea         @relation(fields: [areaId], references: [id])
+  /// Grado del DBA; los estándares usan gradeFrom/gradeTo (RN-06).
+  grade     Grade?
+  gradeFrom Grade?
+  gradeTo   Grade?
+  number    Int
+  component String?
+  statement String
+  evidences String[]
+  page      Int
+
+  objectiveLinks ObjectiveCurriculumLink[]
+
+  @@index([areaId, grade])
+  @@index([grade])
+  @@map("curriculum_items")
+}
+
+// ---------------------------------------------------------------------------
+// Planeación del curso (SPEC-0006). Todo cuelga del curso y de su espacio (FK compuestas).
+// ---------------------------------------------------------------------------
+
+/// Periodo de un curso, definido por su profesor (RN-01).
+model CoursePeriod {
+  id            String      @id @default(cuid())
+  institutionId String
+  institution   Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  courseId      String
+  course        Course      @relation(fields: [courseId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  number        Int
+  name          String
+  startDate     DateTime?   @db.Date
+  endDate       DateTime?   @db.Date
+
+  @@unique([courseId, number])
+  @@map("course_periods")
+}
+
+model Unit {
+  id            String      @id @default(cuid())
+  institutionId String
+  institution   Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  courseId      String
+  course        Course      @relation(fields: [courseId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  /// Número de periodo del curso; null = "sin periodo" (RN-03 se valida en el servicio).
+  periodNumber  Int?
+  title         String
+  description   String?
+  position      Int
+  archivedAt    DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  topics        Topic[]
+
+  @@unique([id, institutionId])
+  @@index([courseId, position])
+  @@map("units")
+}
+
+model Topic {
+  id              String      @id @default(cuid())
+  institutionId   String
+  institution     Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  unitId          String
+  unit            Unit        @relation(fields: [unitId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  title           String
+  description     String?
+  plannedSessions Int?
+  position        Int
+  archivedAt      DateTime?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  objectives      Objective[]
+  resources       Resource[]
+  resourceTopics  ResourceTopic[]
+
+  @@unique([id, institutionId])
+  @@index([unitId, position])
+  @@map("topics")
+}
+
+model Objective {
+  id            String                    @id @default(cuid())
+  institutionId String
+  institution   Institution               @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  topicId       String
+  topic         Topic                     @relation(fields: [topicId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  statement     String
+  position      Int
+  archivedAt    DateTime?
+  createdAt     DateTime                  @default(now())
+  updatedAt     DateTime                  @updatedAt
+  links         ObjectiveCurriculumLink[]
+
+  @@unique([id, institutionId])
+  @@index([topicId, position])
+  @@map("objectives")
+}
+
+/// Vínculo de un objetivo con un ítem exacto del catálogo oficial (RN-05, RN-06).
+model ObjectiveCurriculumLink {
+  id               String         @id @default(cuid())
+  institutionId    String
+  institution      Institution    @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  objectiveId      String
+  objective        Objective      @relation(fields: [objectiveId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  curriculumItemId String
+  curriculumItem   CurriculumItem @relation(fields: [curriculumItemId], references: [id])
+  /// Índices (desde 0) de las evidencias elegidas del DBA; vacío = el DBA completo.
+  evidenceIndexes  Int[]
+
+  @@unique([objectiveId, curriculumItemId])
+  @@index([institutionId, curriculumItemId])
+  @@map("objective_curriculum_links")
+}
+
+// ---------------------------------------------------------------------------
+// Generación con IA (SPEC-0007): trazabilidad y feedback del docente (RN-05, RN-06).
+// ---------------------------------------------------------------------------
+
+enum GenerationStatus {
+  OK
+  INVALID
+  UNAVAILABLE
+}
+
+enum SuggestionDecision {
+  PENDING
+  ACCEPTED
+  EDITED
+  DISCARDED
+}
+
+enum SuggestionRating {
+  UP
+  DOWN
+}
+
+model GenerationLog {
+  id            String                 @id @default(cuid())
+  institutionId String
+  institution   Institution            @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  /// Docente que la pidió (membresía). Sin datos personales en esta tabla.
+  membershipId  String
+  task          String
+  /// Entidad sobre la que se generó (p. ej. el tema).
+  entityType    String
+  entityId      String
+  status        GenerationStatus
+  provider      String?
+  model         String?
+  promptVersion String?
+  attempts      Int                    @default(0)
+  latencyMs     Int?
+  /// Tokens de entrada + salida (SPEC-0008), para vigilar el cupo del proveedor.
+  tokens        Int?
+  createdAt     DateTime               @default(now())
+  suggestions   GenerationSuggestion[]
+
+  @@unique([id, institutionId])
+  @@index([institutionId, membershipId, createdAt])
+  @@map("generation_logs")
+}
+
+model GenerationSuggestion {
+  id             String             @id @default(cuid())
+  institutionId  String
+  institution    Institution        @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  generationId   String
+  generation     GenerationLog      @relation(fields: [generationId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  position       Int
+  statement      String
+  dbaCodes       String[]
+  decision       SuggestionDecision @default(PENDING)
+  /// Texto final si el docente la editó antes de aceptarla.
+  finalStatement String?
+  objectiveId    String?
+  rating         SuggestionRating?
+  comment        String?
+  decidedAt      DateTime?
+
+  @@index([generationId])
+  @@map("generation_suggestions")
+}
+
+// ---------------------------------------------------------------------------
+// Recursos: talleres y quices (SPEC-0008, ADR-0008).
+// ---------------------------------------------------------------------------
+
+enum ResourceType {
+  WORKSHOP
+  QUIZ
+  EXAM
+}
+
+enum ResourceStatus {
+  GENERATING
+  FAILED
+  DRAFT
+  READY
+  ARCHIVED
+}
+
+enum ResourceVersionSource {
+  AI
+  TEACHER
+}
+
+model Resource {
+  id             String                 @id @default(cuid())
+  institutionId  String
+  institution    Institution            @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  /// Docente dueño (el dueño del curso).
+  membershipId   String
+  membership     Membership             @relation(fields: [membershipId, institutionId], references: [id, institutionId])
+  courseId       String
+  course         Course                 @relation(fields: [courseId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  /// Tema principal. Un examen cubre varios temas: todos están en `topics` (SPEC-0011 T2).
+  topicId        String
+  topic          Topic                  @relation(fields: [topicId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  topics         ResourceTopic[]
+  type           ResourceType
+  status         ResourceStatus         @default(GENERATING)
+  title          String
+  /// Blueprint con el que se generó (SPEC-0008 §5).
+  blueprint      Json
+  /// Copia del contexto pedagógico usado (RN-09): asignatura, grado, tema, objetivos, DBA.
+  context        Json
+  /// Copia del formato del docente usado (SPEC-0010 RN-05); null = estructura estándar.
+  formatSnapshot Json?
+  /// Motivo cuando status = FAILED: unavailable · invalid · interrupted.
+  failureReason  String?
+  generationId   String?
+  currentVersion Int                    @default(0)
+  /// Evaluación general del docente (CA-0008-08).
+  rating         Int?
+  ratingComment  String?
+  ratedAt        DateTime?
+  /// Escala de notas de la clave del examen (SPEC-0011 RN-14); null = la predeterminada.
+  gradingScale   Json?
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+  versions       ResourceVersion[]
+  itemFeedback   ResourceItemFeedback[]
+  regenerations  ItemRegeneration[]
+
+  @@unique([id, institutionId])
+  @@index([institutionId, courseId, createdAt])
+  @@index([membershipId, createdAt])
+  @@map("resources")
+}
+
+/// Temas que cubre un recurso (SPEC-0011 T2). Talleres y quices tienen uno; un examen, hasta 12.
+model ResourceTopic {
+  resourceId    String
+  topicId       String
+  institutionId String
+  institution   Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  resource      Resource    @relation(fields: [resourceId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  topic         Topic       @relation(fields: [topicId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  position      Int
+
+  @@id([resourceId, topicId])
+  @@index([institutionId, topicId])
+  @@map("resource_topics")
+}
+
+/// Cada guardado es una versión nueva; la 1 es la generada por la IA (RN-08).
+model ResourceVersion {
+  id            String                @id @default(cuid())
+  institutionId String
+  institution   Institution           @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  resourceId    String
+  resource      Resource              @relation(fields: [resourceId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  number        Int
+  source        ResourceVersionSource
+  content       Json
+  createdAt     DateTime              @default(now())
+
+  @@unique([resourceId, number])
+  @@map("resource_versions")
+}
+
+/// 👍/👎 y "qué mejorar" por pregunta o actividad (CA-0008-08). `itemKey` es el id estable del ítem.
+model ResourceItemFeedback {
+  id            String           @id @default(cuid())
+  institutionId String
+  institution   Institution      @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  resourceId    String
+  resource      Resource         @relation(fields: [resourceId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  itemKey       String
+  rating        SuggestionRating
+  comment       String?
+  updatedAt     DateTime         @updatedAt
+
+  @@unique([resourceId, itemKey])
+  @@map("resource_item_feedback")
+}
+
+/// Regenerar una pregunta o actividad con la indicación del docente (CA-0008-07).
+model ItemRegeneration {
+  id            String             @id @default(cuid())
+  institutionId String
+  institution   Institution        @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  resourceId    String
+  resource      Resource           @relation(fields: [resourceId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  itemKey       String
+  instruction   String
+  generationId  String?
+  /// Ítem propuesto (null si la IA no respondió).
+  proposal      Json?
+  decision      SuggestionDecision @default(PENDING)
+  createdAt     DateTime           @default(now())
+  decidedAt     DateTime?
+
+  @@index([resourceId, createdAt])
+  @@map("item_regenerations")
+}
+
+/// Indicación de mejora que el docente guarda para sus siguientes generaciones (RN-07).
+/// `courseId` null = todos sus cursos. Los cursos se archivan, no se borran.
+model TeacherPreference {
+  id            String      @id @default(cuid())
+  institutionId String
+  institution   Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  membershipId  String
+  membership    Membership  @relation(fields: [membershipId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  courseId      String?
+  text          String
+  active        Boolean     @default(true)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([institutionId, membershipId, active])
+  @@map("teacher_preferences")
+}
+
+// ---------------------------------------------------------------------------
+// Formatos propios y logo (SPEC-0010, ADR-0010).
+// ---------------------------------------------------------------------------
+
+enum FormatScope {
+  TEACHER
+  INSTITUTION
+}
+
+/// Estructura confirmada de un formato de taller. El archivo original no se guarda (RN-03).
+model DocumentFormat {
+  id            String      @id @default(cuid())
+  institutionId String
+  institution   Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  scope         FormatScope
+  /// Dueño si scope = TEACHER; administrador que lo subió si scope = INSTITUTION.
+  membershipId  String
+  membership    Membership  @relation(fields: [membershipId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  name          String
+  structure     Json
+  isDefault     Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([id, institutionId])
+  @@index([institutionId, scope])
+  @@map("document_formats")
+}
+
+/// Logo o escudo de la institución para el encabezado de los documentos (ADR-0010).
+model InstitutionLogo {
+  institutionId String      @id
+  institution   Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  mimeType      String
+  data          Bytes
+  width         Int
+  height        Int
+  updatedAt     DateTime    @updatedAt
+
+  @@map("institution_logos")
+}

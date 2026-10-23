@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-01T18:32:21+00:00",
+  "provider": "local",
+  "denseModel": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+  "rerank": false,
+  "catalogVersion": "26cbfab8372fa007",
+  "cases": 36,
+  "recall@5": 1.0,
+  "recall@1": 0.917,
+  "latencyMs": {
+    "p50": 225,
+    "max": 2104
+  },
+  "misses": []
+}

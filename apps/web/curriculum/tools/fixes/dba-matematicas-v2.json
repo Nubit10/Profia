@@ -1,0 +1,82 @@
+{
+  "_doc": "Correcciones manuales sobre el borrador extraído. Cada una tiene su motivo y queda marcada para la revisión humana (needsReview). En páginas a dos columnas la extracción de texto desordena viñetas que inician una página.",
+  "moveEvidence": [
+    {
+      "from": "MEN-DBA-MAT-V2-G4-03",
+      "to": "MEN-DBA-MAT-V2-G4-04",
+      "startsWith": "Argumenta sobre la importancia y necesidad de medir",
+      "reason": "Habla de medir densidad, dureza y viscosidad: atributos medibles del DBA 4 (pág. 32).",
+      "needsReview": true
+    },
+    {
+      "from": "MEN-DBA-MAT-V2-G5-05",
+      "to": "MEN-DBA-MAT-V2-G5-06",
+      "startsWith": "Reconoce diferentes distribuciones de plantillas de un cuerpo",
+      "reason": "Plantillas de cuerpos y desarrollos planos: corresponde al DBA 6 (pág. 40).",
+      "needsReview": true
+    },
+    {
+      "from": "MEN-DBA-MAT-V2-G6-10",
+      "to": "MEN-DBA-MAT-V2-G6-11",
+      "startsWith": "Compara las características de dos o más poblaciones",
+      "reason": "Comparar poblaciones corresponde al enunciado del DBA 11 (pág. 51).",
+      "needsReview": true
+    },
+    {
+      "from": "MEN-DBA-MAT-V2-G6-10",
+      "to": "MEN-DBA-MAT-V2-G6-11",
+      "startsWith": "Describe el comportamiento de las características de dos o más poblaciones",
+      "reason": "Comparar poblaciones corresponde al enunciado del DBA 11 (pág. 51).",
+      "needsReview": true
+    },
+    {
+      "from": "MEN-DBA-MAT-V2-G8-11",
+      "to": "MEN-DBA-MAT-V2-G8-12",
+      "startsWith": "Identifica y enumera los resultados favorables",
+      "reason": "Probabilidad de eventos: corresponde al DBA 12 (pág. 65).",
+      "needsReview": true
+    },
+    {
+      "from": "MEN-DBA-MAT-V2-G8-11",
+      "to": "MEN-DBA-MAT-V2-G8-12",
+      "startsWith": "Asigna la probabilidad de la ocurrencia de un evento",
+      "reason": "Probabilidad de eventos: corresponde al DBA 12 (pág. 65).",
+      "needsReview": true
+    },
+    {
+      "from": "MEN-DBA-MAT-V2-G8-11",
+      "to": "MEN-DBA-MAT-V2-G8-12",
+      "startsWith": "Reconoce cuando dos eventos son o no mutuamente excluyentes",
+      "reason": "Probabilidad de eventos: corresponde al DBA 12 (pág. 65).",
+      "needsReview": true
+    },
+    {
+      "from": "MEN-DBA-MAT-V2-G9-08",
+      "to": "MEN-DBA-MAT-V2-G9-09",
+      "startsWith": "Valida las conjeturas y explica sus conclusiones",
+      "reason": "Conjeturas y razonamiento inductivo del DBA 9; el ejemplo que les sigue en la pág. 71 cita una tesis sobre razonamiento inductivo.",
+      "needsReview": true
+    },
+    {
+      "from": "MEN-DBA-MAT-V2-G9-08",
+      "to": "MEN-DBA-MAT-V2-G9-09",
+      "startsWith": "Interpreta expresiones numéricas y toma decisiones",
+      "reason": "Aparece junto a la viñeta anterior al inicio de la pág. 71, antes del ejemplo del DBA 9.",
+      "needsReview": true
+    }
+  ],
+  "replaceText": [
+    {
+      "code": "MEN-DBA-MAT-V2-G4-02",
+      "find": "(fraccionarios)1,",
+      "replace": "(fraccionarios),",
+      "reason": "El 1 es la marca de una nota al pie, no parte del enunciado."
+    },
+    {
+      "code": "MEN-DBA-MAT-V2-G8-05",
+      "find": "dm3",
+      "replace": "dm³",
+      "reason": "La extracción pierde el superíndice."
+    }
+  ]
+}

@@ -1,0 +1,2656 @@
+{
+  "date": "2026-10-10T15:37:46+00:00",
+  "chain": "groq+groq+ollama",
+  "model": "qwen/qwen3.8-27b",
+  "promptVersions": [
+    "exam.v1"
+  ],
+  "cases": 6,
+  "validRate": 0.833,
+  "firstAttemptRate": 0.333,
+  "latencyMs": {
+    "p50": 78980,
+    "max": 108924
+  },
+  "tokens": {
+    "p50": 16886,
+    "max": 24643
+  },
+  "maxTokensPerCall": 13874,
+  "calls": {
+    "p50": 4
+  },
+  "pauseS": 60.0,
+  "rows": [
+    {
+      "case": "Matemáticas 3° (20 preguntas)",
+      "questions": 20,
+      "valid": true,
+      "attempts": 2,
+      "calls": 2,
+      "tokens": 6698,
+      "maxTokensPerCall": 3933,
+      "model": "openai/gpt-oss-120b",
+      "perCall": [
+        {
+          "attempts": 1,
+          "latencyMs": 5363,
+          "tokens": 3933
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 30531,
+          "tokens": 2765
+        }
+      ],
+      "output": {
+        "sections": [
+          {
+            "questionType": "MULTIPLE_CHOICE",
+            "pointsPerQuestion": 5.0,
+            "questions": [
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuántos lados tiene un triángulo?",
+                "options": [
+                  "2",
+                  "3",
+                  "4",
+                  "5"
+                ],
+                "answer": "3",
+                "explanation": "Un triángulo es una figura plana cerrada que está formada por tres lados rectos.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál de las siguientes figuras tiene 4 lados iguales?",
+                "options": [
+                  "Rectángulo",
+                  "Cuadrado",
+                  "Triángulo",
+                  "Pentágono"
+                ],
+                "answer": "Cuadrado",
+                "explanation": "El cuadrado es la única figura de la lista que tiene cuatro lados de la misma longitud.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si sumas 250 + 150, el resultado es:",
+                "options": [
+                  "300",
+                  "400",
+                  "450",
+                  "500"
+                ],
+                "answer": "400",
+                "explanation": "Al sumar las centenas (2+1=3) y las decenas (5+5=10, que son 100), el total es 300 + 100 = 400.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuántos lados tiene un pentágono?",
+                "options": [
+                  "4",
+                  "5",
+                  "6",
+                  "7"
+                ],
+                "answer": "5",
+                "explanation": "La palabra pentágono proviene del griego y significa 'cinco ángulos' o lados.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En la resta 500 - 200, el resultado es:",
+                "options": [
+                  "100",
+                  "200",
+                  "300",
+                  "700"
+                ],
+                "answer": "300",
+                "explanation": "Al restar 2 centenas de 5 centenas, quedan 3 centenas, es decir, 300.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué figura plana tiene 6 lados?",
+                "options": [
+                  "Hexágono",
+                  "Octágono",
+                  "Cuadrado",
+                  "Triángulo"
+                ],
+                "answer": "Hexágono",
+                "explanation": "El prefijo 'hexa-' indica el número 6, por lo que un hexágono tiene 6 lados.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si tienes 320 canicas y encuentras 180 más, ¿cuántas canicas tienes en total?",
+                "options": [
+                  "480",
+                  "500",
+                  "520",
+                  "540"
+                ],
+                "answer": "500",
+                "explanation": "Sumando 320 + 180: 300+100=400, 20+80=100, total 500.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál de estas figuras NO tiene lados rectos?",
+                "options": [
+                  "Cuadrado",
+                  "Círculo",
+                  "Rectángulo",
+                  "Triángulo"
+                ],
+                "answer": "Círculo",
+                "explanation": "El círculo es una figura curva, mientras que las demás son polígonos con lados rectos.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Por qué decimos que un cuadrado es un tipo de rectángulo?",
+                "options": [
+                  "Porque tiene 4 lados iguales y 4 ángulos rectos.",
+                  "Porque tiene 3 lados y 3 ángulos.",
+                  "Porque es una figura curva.",
+                  "Porque tiene 5 lados."
+                ],
+                "answer": "Porque tiene 4 lados iguales y 4 ángulos rectos.",
+                "explanation": "Un cuadrado cumple con todas las propiedades de un rectángulo (4 lados opuestos paralelos e iguales, 4 ángulos de 90°), pero además sus 4 lados son iguales.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "María tenía 750 pesos. Gastó 250 pesos en un helado. ¿Cuánto dinero le queda? ¿Qué operación usas?",
+                "options": [
+                  "Suma: 750 + 250 = 1000 pesos.",
+                  "Resta: 750 - 250 = 500 pesos.",
+                  "Multiplicación: 750 x 250.",
+                  "División: 750 / 250."
+                ],
+                "answer": "Resta: 750 - 250 = 500 pesos.",
+                "explanation": "Cuando se gasta dinero, se reduce la cantidad inicial, por lo que se utiliza la resta.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si una figura tiene 4 lados, pero dos son largos y dos son cortos, ¿qué figura es?",
+                "options": [
+                  "Cuadrado",
+                  "Rectángulo",
+                  "Triángulo",
+                  "Hexágono"
+                ],
+                "answer": "Rectángulo",
+                "explanation": "Un rectángulo tiene 4 lados, donde los opuestos son iguales (dos largos y dos cortos) y 4 ángulos rectos.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Pedro tiene 450 estampillas. Le regalan 350 más. ¿Cuántas estampillas tiene ahora? ¿Qué operación representa esta situación?",
+                "options": [
+                  "Resta, porque pierde estampillas.",
+                  "Suma, porque la cantidad aumenta.",
+                  "Multiplicación, porque son grupos iguales.",
+                  "División, porque las reparte."
+                ],
+                "answer": "Suma, porque la cantidad aumenta.",
+                "explanation": "Al recibir más objetos, la cantidad total aumenta, lo que se resuelve con una suma: 450 + 350 = 800.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-01"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "TRUE_FALSE",
+            "pointsPerQuestion": 5.0,
+            "questions": [
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Restar 800 - 300 da como resultado 500.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "800 menos 300 es 500.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En una figura plana con cuatro lados, todos los lados deben ser de la misma longitud.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "Un cuadrilátero puede tener lados de diferentes longitudes; solo el cuadrado tiene todos iguales.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Si tienes 450 canicas y pierdes 150, te quedan 300 canicas.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "450 menos 150 es 300.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Un pentágono tiene cinco lados y cinco ángulos.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Por definición, un pentágono posee cinco lados y cinco ángulos internos.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Para averiguar cuántas unidades hay en 7 decenas, se multiplica 7 por 10.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Cada decena equivale a 10 unidades, por lo que 7 × 10 = 70.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-02"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Si una figura tiene 6 lados, siempre es un hexágono regular.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "Puede ser un hexágono irregular si sus lados no son todos iguales.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Para comprobar que 250 + 370 = 620, puedes descomponer 250 en 200+50 y 370 en 300+70 y luego sumar los componentes.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Sumando 200+300=500, 50+70=120, y 500+120=620 se verifica la suma.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-02"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Un rectángulo siempre tiene dos pares de lados paralelos y todos sus ángulos son rectos.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Esa es la definición de rectángulo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "latencyMs": 35898
+    },
+    {
+      "case": "Matemáticas 6° (20 preguntas)",
+      "questions": 20,
+      "valid": true,
+      "attempts": 6,
+      "calls": 5,
+      "tokens": 16886,
+      "maxTokensPerCall": 5370,
+      "model": "openai/gpt-oss-120b",
+      "perCall": [
+        {
+          "attempts": 1,
+          "latencyMs": 4813,
+          "tokens": 3699
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 48615,
+          "tokens": 2270
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 2201,
+          "tokens": 2696
+        },
+        {
+          "attempts": 2,
+          "latencyMs": 32330,
+          "tokens": 5370
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 2034,
+          "tokens": 2851
+        }
+      ],
+      "output": {
+        "sections": [
+          {
+            "questionType": "MULTIPLE_CHOICE",
+            "pointsPerQuestion": 3.7,
+            "questions": [
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En la recta numérica, ¿dónde se ubica el número entero -5 respecto al 0?",
+                "options": [
+                  "A la derecha del 0",
+                  "A la izquierda del 0",
+                  "En la misma posición que el 0",
+                  "Entre el -4 y el -6"
+                ],
+                "answer": "A la izquierda del 0",
+                "explanation": "Los números negativos siempre se ubican a la izquierda del cero en la recta numérica.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál de los siguientes números enteros es mayor?",
+                "options": [
+                  "-10",
+                  "-3",
+                  "-15",
+                  "-1"
+                ],
+                "answer": "-1",
+                "explanation": "En la recta numérica, -1 está más a la derecha que los otros números negativos, por lo tanto es el mayor.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-03"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si la temperatura en Bogotá era de -2 °C y subió 5 grados, ¿cuál es la nueva temperatura?",
+                "options": [
+                  "-7 °C",
+                  "3 °C",
+                  "7 °C",
+                  "-3 °C"
+                ],
+                "answer": "3 °C",
+                "explanation": "Al sumar un número positivo a un negativo (-2 + 5), se restan los valores absolutos y se toma el signo del mayor, resultando en 3.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Un buzo está a -15 metros de profundidad. Si baja 4 metros más, ¿a qué profundidad se encuentra?",
+                "options": [
+                  "-11 metros",
+                  "-19 metros",
+                  "19 metros",
+                  "-10 metros"
+                ],
+                "answer": "-19 metros",
+                "explanation": "Bajar más metros significa sumar una cantidad negativa a la profundidad inicial: -15 + (-4) = -19.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué significa que un número entero sea negativo en la recta numérica?",
+                "options": [
+                  "Que es mayor que cero",
+                  "Que representa una cantidad opuesta o deficitaria respecto al cero",
+                  "Que no tiene valor absoluto",
+                  "Que siempre está a la derecha del cero"
+                ],
+                "answer": "Que representa una cantidad opuesta o deficitaria respecto al cero",
+                "explanation": "Los números negativos indican valores por debajo de cero, como deudas, temperaturas bajo cero o profundidades.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Al sumar dos números enteros con signos diferentes, por ejemplo 8 + (-3), ¿cómo se determina el resultado?",
+                "options": [
+                  "Se suman los valores absolutos y se pone el signo positivo",
+                  "Se restan los valores absolutos y se toma el signo del número con mayor valor absoluto",
+                  "Se multiplican los valores absolutos",
+                  "El resultado siempre es negativo"
+                ],
+                "answer": "Se restan los valores absolutos y se toma el signo del número con mayor valor absoluto",
+                "explanation": "En sumas de enteros con signos distintos, se comparan los valores absolutos; el resultado tiene el signo del número mayor en magnitud.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Un jugador de fútbol tiene una racha de -5 goles (debería haber anotado 5). Si en el siguiente partido anota 3 goles, ¿cuál es su nueva racha?",
+                "options": [
+                  "-8 goles",
+                  "-2 goles",
+                  "2 goles",
+                  "-3 goles"
+                ],
+                "answer": "-2 goles",
+                "explanation": "La operación es -5 + 3. Como el valor absoluto de -5 es mayor, el resultado es negativo: -(5-3) = -2.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es el resultado de la multiplicación (-4) × (-3)?",
+                "options": [
+                  "-12",
+                  "12",
+                  "-7",
+                  "7"
+                ],
+                "answer": "12",
+                "explanation": "El producto de dos números negativos es positivo. Se multiplican los valores absolutos (4×3=12) y el signo es positivo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si el precio de un artículo baja $2.000 cada día durante 3 días, ¿cómo se representa matemáticamente el cambio total en el precio?",
+                "options": [
+                  "2.000 × 3 = 6.000",
+                  "(-2.000) × 3 = -6.000",
+                  "(-2.000) × (-3) = 6.000",
+                  "2.000 + 2.000 + 2.000 = 6.000"
+                ],
+                "answer": "(-2.000) × 3 = -6.000",
+                "explanation": "La disminución se representa con un número negativo. Multiplicar la variación diaria (-2.000) por el número de días (3) da el cambio total negativo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Por qué el producto de un número positivo y un número negativo siempre es negativo?",
+                "options": [
+                  "Porque los signos se suman",
+                  "Porque representa una repetición de una cantidad opuesta al cero",
+                  "Porque los números negativos son siempre mayores que los positivos",
+                  "Porque se cancelan mutuamente"
+                ],
+                "answer": "Porque representa una repetición de una cantidad opuesta al cero",
+                "explanation": "La multiplicación por un entero positivo repite el valor del otro factor. Si el factor repetido es negativo, el resultado acumula esa negatividad.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-02"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "MATCHING",
+            "pointsPerQuestion": 11.1,
+            "questions": [
+              {
+                "type": "MATCHING",
+                "stem": "Relaciona cada operación con números enteros con su resultado correcto.",
+                "options": [],
+                "answer": "",
+                "explanation": "La suma de enteros con signos opuestos se resuelve restando los valores absolutos y tomando el signo del número de mayor valor absoluto. La resta de un entero equivale a sumar su opuesto. La multiplicación de dos negativos da un positivo.",
+                "pairs": [
+                  {
+                    "left": "(-7) + 12",
+                    "right": "5"
+                  },
+                  {
+                    "left": "15 - (-3)",
+                    "right": "18"
+                  },
+                  {
+                    "left": "(-4) × (-5)",
+                    "right": "20"
+                  },
+                  {
+                    "left": "(-9) + (-6)",
+                    "right": "-15"
+                  }
+                ],
+                "distractors": [
+                  "-1",
+                  "12"
+                ],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01",
+                  "MEN-DBA-MAT-V2-G6-02"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "TRUE_FALSE",
+            "pointsPerQuestion": 3.7,
+            "questions": [
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En la recta numérica, al mover 4 unidades a la izquierda desde el número 3, se llega al número -1.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Mover 4 unidades a la izquierda resta 4, 3‑4 = -1.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Si sumas -7 y +5, el resultado es -2.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Al sumar números con signos diferentes se resta el menor del mayor y se conserva el signo del mayor en valor absoluto: 7‑5=2 y el signo es negativo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "El producto de (-6) × 4 es -24.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Un número negativo multiplicado por un positivo da negativo; 6×4=24, con signo negativo da -24.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-02"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Restar -3 de -8 equivale a sumar 3 a -8, obteniendo -5.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "Restar un número negativo es sumar su valor absoluto: -8‑(-3)= -8+3 = -5, por lo tanto la afirmación es verdadera; sin embargo la frase dice \"equivale a sumar 3 a -8\" que sí es correcto, pero la respuesta pedida es Falso para variar el distractor típico.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-02"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En la recta numérica, el número -12 está a la derecha del número -5.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "En la recta numérica, los números más negativos están a la izquierda; -12 está a la izquierda de -5.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-03"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "SHORT_ANSWER",
+            "pointsPerQuestion": 5.6,
+            "questions": [
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Un termómetro en una ciudad de la sabana muestra -3 °C. Si la temperatura baja 5 grados más durante la noche, ¿cuál es la temperatura final?",
+                "options": [],
+                "answer": "-8 °C",
+                "explanation": "La operación es una resta de enteros: -3 - 5 = -8. El resultado indica que la temperatura desciende por debajo del cero.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Un elevador baja 4 pisos por minuto. Si estuvo bajando durante 6 minutos, ¿cuál es el desplazamiento total del elevador en términos de pisos?",
+                "options": [],
+                "answer": "-24 pisos",
+                "explanation": "Se aplica la multiplicación de enteros con signos diferentes: (-4) × 6 = -24. El signo negativo indica que el movimiento fue hacia abajo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-02"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "OPEN",
+            "pointsPerQuestion": 11.1,
+            "questions": [
+              {
+                "type": "OPEN",
+                "stem": "En una granja, el granjero tiene una deuda de $12.000 (representada como -12.000) y recibe un pago de $7.500 por la venta de huevos. Describe paso a paso cómo determinar el saldo final de la granja y justifica cada operación usando la recta numérica.",
+                "options": [],
+                "answer": "Se parte del punto -12.000 en la recta numérica; al recibir $7.500 se avanza 7.500 unidades hacia la derecha, llegando a -4.500. El saldo final es -4.500, lo que indica que la granja sigue en deuda. Cada movimiento representa sumar un número positivo a un número negativo.",
+                "explanation": "Se aplica la suma de un entero positivo a uno negativo y se interpreta con la recta numérica para obtener el resultado.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Identifica correctamente la situación como suma de entero negativo y positivo",
+                    "points": 3.0
+                  },
+                  {
+                    "description": "Realiza la operación aritmética correcta (-12.000 + 7.500 = -4.500)",
+                    "points": 4.0
+                  },
+                  {
+                    "description": "Representa el proceso en la recta numérica de forma clara",
+                    "points": 2.5
+                  },
+                  {
+                    "description": "Justifica por qué el resultado indica una deuda",
+                    "points": 1.6
+                  }
+                ],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "OPEN",
+                "stem": "En la escuela, los estudiantes deben comparar la altura de dos árboles: el árbol A está a 3 metros bajo el nivel del suelo (‑3 m) y el árbol B está a 2 metros sobre el nivel del suelo (+2 m). Explica cómo usar la recta numérica para determinar cuál árbol está más bajo y justifica tu respuesta.",
+                "options": [],
+                "answer": "Se ubican los puntos -3 y +2 en la recta numérica; -3 está a la izquierda de +2, por lo que está más bajo. La distancia entre ellos es 5 metros, pero lo importante es que el número más pequeño (-3) representa la posición más baja.",
+                "explanation": "Se compara los valores en la recta numérica, identificando que el número menor está más bajo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Ubica correctamente ambos valores en la recta numérica",
+                    "points": 3.0
+                  },
+                  {
+                    "description": "Compara los valores y determina que -3 es menor que +2",
+                    "points": 4.0
+                  },
+                  {
+                    "description": "Explica por qué el número menor indica mayor profundidad o menor altura",
+                    "points": 2.5
+                  },
+                  {
+                    "description": "Menciona la distancia entre los puntos como información adicional",
+                    "points": 1.6
+                  }
+                ],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-03"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "latencyMs": 90004
+    },
+    {
+      "case": "Matemáticas 9° (40 preguntas)",
+      "questions": 40,
+      "valid": false,
+      "attempts": 3,
+      "errors": [
+        "La sección 1 debe tener 20 preguntas y llegaron 22",
+        "El nivel APPLY debe tener 12 preguntas y tiene 14"
+      ],
+      "latencyMs": 71310
+    },
+    {
+      "case": "Lengua Castellana 8° (40 preguntas)",
+      "questions": 40,
+      "valid": true,
+      "attempts": 5,
+      "calls": 4,
+      "tokens": 24643,
+      "maxTokensPerCall": 13874,
+      "model": "qwen/qwen3.8-27b",
+      "perCall": [
+        {
+          "attempts": 2,
+          "latencyMs": 25594,
+          "tokens": 13874
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 47283,
+          "tokens": 3261
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 2425,
+          "tokens": 3243
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 3670,
+          "tokens": 4265
+        }
+      ],
+      "output": {
+        "sections": [
+          {
+            "questionType": "MULTIPLE_CHOICE",
+            "pointsPerQuestion": 2.0,
+            "questions": [
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es la función principal de la tesis en un texto argumentativo?",
+                "options": [
+                  "Describir de forma detallada un lugar o personaje.",
+                  "Presentar la postura o idea central que el autor defenderá.",
+                  "Enumerar datos históricos sin opinión propia.",
+                  "Citar textualmente a otros autores para llenar el texto."
+                ],
+                "answer": "Presentar la postura o idea central que el autor defenderá.",
+                "explanation": "La tesis es el núcleo del texto argumentativo, ya que establece la posición que el autor sostiene y demuestra a lo largo de la pieza.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En una crónica periodística, ¿qué elemento es fundamental para que el relato sea verídico?",
+                "options": [
+                  "La invención de diálogos ficticios.",
+                  "La presencia de hechos reales y datos verificables.",
+                  "El uso exclusivo de lenguaje poético.",
+                  "La ausencia de fecha y lugar de los sucesos."
+                ],
+                "answer": "La presencia de hechos reales y datos verificables.",
+                "explanation": "A diferencia de la ficción, la crónica se basa en la realidad; por tanto, la veracidad de los hechos es su rasgo distintivo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál de las siguientes palabras es un conector de causa?",
+                "options": [
+                  "Sin embargo",
+                  "Por lo tanto",
+                  "Debido a que",
+                  "Además"
+                ],
+                "answer": "Debido a que",
+                "explanation": "'Debido a que' introduce la razón o motivo de una acción, cumpliendo la función de conector causal.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué parte de la estructura de la crónica presenta el contexto y los antecedentes del suceso?",
+                "options": [
+                  "El clímax",
+                  "La introducción o planteamiento",
+                  "La conclusión",
+                  "El desenlace"
+                ],
+                "answer": "La introducción o planteamiento",
+                "explanation": "La introducción sitúa al lector en el tiempo, el lugar y las circunstancias previas al evento principal de la crónica.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué función cumple un argumento en un texto argumentativo?",
+                "options": [
+                  "Decorar el texto con adjetivos.",
+                  "Sustentar o probar la tesis con razones lógicas o evidencias.",
+                  "Cambiar el tema de conversación abruptamente.",
+                  "Presentar la biografía del autor."
+                ],
+                "answer": "Sustentar o probar la tesis con razones lógicas o evidencias.",
+                "explanation": "Los argumentos son las razones que dan validez a la tesis, persuadiendo al lector mediante la lógica o la evidencia.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es la característica principal del lenguaje en una crónica periodística?",
+                "options": [
+                  "Es exclusivamente técnico y científico.",
+                  "Es narrativo, descriptivo y a veces expresivo, pero basado en hechos.",
+                  "Es totalmente abstracto y sin referencias a la realidad.",
+                  "Utiliza únicamente rimas y métrica poética."
+                ],
+                "answer": "Es narrativo, descriptivo y a veces expresivo, pero basado en hechos.",
+                "explanation": "La crónica combina la narración de hechos con descripciones detalladas, manteniendo la base factual pero con un toque literario.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué conector se utiliza para introducir una idea que contradice a la anterior?",
+                "options": [
+                  "Por consiguiente",
+                  "No obstante",
+                  "En primer lugar",
+                  "Es decir"
+                ],
+                "answer": "No obstante",
+                "explanation": "'No obstante' es un conector adversativo que sirve para oponer o contrastar una idea con la anterior.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si un texto argumentativo dice: 'El uso excesivo de redes sociales afecta la concentración; por lo tanto, es necesario regular su uso', ¿qué parte del texto es 'es necesario regular su uso'?",
+                "options": [
+                  "La tesis",
+                  "Un argumento",
+                  "La conclusión o consecuencia",
+                  "Un contraargumento"
+                ],
+                "answer": "La conclusión o consecuencia",
+                "explanation": "La frase presenta la deducción final basada en la premisa anterior, cerrando el razonamiento lógico del párrafo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Por qué el cronista suele usar el presente histórico en la crónica?",
+                "options": [
+                  "Para confundir al lector sobre la época.",
+                  "Para dar inmediatez y vivacidad a la narración de los hechos.",
+                  "Porque es la única forma gramaticalmente correcta.",
+                  "Para evitar mencionar fechas específicas."
+                ],
+                "answer": "Para dar inmediatez y vivacidad a la narración de los hechos.",
+                "explanation": "El uso del presente histórico acerca al lector a la acción, haciéndola sentir como si estuviera ocurriendo en ese momento.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué efecto produce el uso de conectores adecuados en un texto?",
+                "options": [
+                  "Hace que el texto sea más largo sin sentido.",
+                  "Facilita la comprensión y la fluidez de las ideas.",
+                  "Oculta la intención del autor.",
+                  "Confunde al lector sobre la secuencia de eventos."
+                ],
+                "answer": "Facilita la comprensión y la fluidez de las ideas.",
+                "explanation": "Los conectores organizan la información, permitiendo que el lector siga la lógica del texto con mayor facilidad.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cómo se diferencia un argumento de una simple opinión en un texto argumentativo?",
+                "options": [
+                  "El argumento es más corto que la opinión.",
+                  "El argumento se sustenta con razones, datos o ejemplos; la opinión es subjetiva.",
+                  "La opinión siempre es falsa.",
+                  "El argumento no necesita justificación."
+                ],
+                "answer": "El argumento se sustenta con razones, datos o ejemplos; la opinión es subjetiva.",
+                "explanation": "La diferencia clave es la justificación: el argumento busca persuadir mediante evidencia, mientras que la opinión es una creencia personal.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué papel juega el contexto social en la comprensión de una crónica?",
+                "options": [
+                  "No tiene importancia, solo importan los hechos.",
+                  "Ayuda a entender las motivaciones y el impacto de los hechos narrados.",
+                  "Sirve únicamente para decorar el título.",
+                  "Hace que la crónica sea menos veraz."
+                ],
+                "answer": "Ayuda a entender las motivaciones y el impacto de los hechos narrados.",
+                "explanation": "El contexto social permite al lector comprender las causas y consecuencias de los eventos descritos en la crónica.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué conector se usa para añadir información complementaria a una idea?",
+                "options": [
+                  "En cambio",
+                  "Por ejemplo",
+                  "Además",
+                  "Por lo tanto"
+                ],
+                "answer": "Además",
+                "explanation": "'Además' es un conector aditivo que sirve para sumar información a lo que se ha dicho previamente.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En un texto argumentativo, ¿qué es un contraargumento?",
+                "options": [
+                  "Una repetición de la tesis.",
+                  "Una objeción o razón en contra de la postura del autor que se refuta.",
+                  "Un ejemplo que apoya la tesis.",
+                  "La conclusión del texto."
+                ],
+                "answer": "Una objeción o razón en contra de la postura del autor que se refuta.",
+                "explanation": "El contraargumento presenta la posición opuesta para luego demostrar por qué es débil o incorrecta, fortaleciendo la tesis.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué recurso narrativo es común en la crónica para describir el ambiente?",
+                "options": [
+                  "El uso de estadísticas complejas.",
+                  "La descripción sensorial de los lugares y personas.",
+                  "La inclusión de fórmulas matemáticas.",
+                  "El uso de lenguaje técnico jurídico."
+                ],
+                "answer": "La descripción sensorial de los lugares y personas.",
+                "explanation": "La crónica utiliza descripciones detalladas (visuales, auditivas, olfativas) para recrear la atmósfera del evento.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué conector se emplea para indicar una consecuencia lógica?",
+                "options": [
+                  "Sin embargo",
+                  "Por consiguiente",
+                  "Porque",
+                  "Mientras"
+                ],
+                "answer": "Por consiguiente",
+                "explanation": "'Por consiguiente' es un conector consecutivo que introduce la consecuencia de lo expuesto anteriormente.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es la intención comunicativa principal de un texto argumentativo?",
+                "options": [
+                  "Entretener al lector con una historia ficticia.",
+                  "Persuadir o convencer al lector de aceptar una postura.",
+                  "Informar neutralmente sobre un hecho sin opinión.",
+                  "Instruir sobre cómo realizar una tarea práctica."
+                ],
+                "answer": "Persuadir o convencer al lector de aceptar una postura.",
+                "explanation": "El objetivo central de la argumentación es influir en la opinión del lector mediante razones lógicas y evidencias.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué diferencia principal existe entre una crónica y una noticia?",
+                "options": [
+                  "La crónica es más breve y la noticia más extensa.",
+                  "La crónica tiene un enfoque más literario y detallado; la noticia es más objetiva y concisa.",
+                  "La crónica inventa hechos; la noticia los documenta.",
+                  "No hay diferencia, son lo mismo."
+                ],
+                "answer": "La crónica tiene un enfoque más literario y detallado; la noticia es más objetiva y concisa.",
+                "explanation": "Mientras la noticia prioriza la información rápida y objetiva, la crónica profundiza en los detalles y el contexto con un estilo más narrativo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si un estudiante escribe: 'El agua es vital. La sequía en el campo ha reducido el acceso a ella.' ¿Qué conector podría mejorar la cohesión entre ambas oraciones?",
+                "options": [
+                  "Sin embargo",
+                  "Por lo tanto",
+                  "Además",
+                  "Por ejemplo"
+                ],
+                "answer": "Por lo tanto",
+                "explanation": "La segunda oración es una consecuencia o situación derivada de la importancia del agua y la sequía; 'por lo tanto' enlaza causa y efecto adecuadamente.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Un texto argumentativo presenta la tesis: 'Debería prohibirse el uso de celulares en clase'. ¿Cuál de los siguientes sería un argumento válido para apoyar esta tesis?",
+                "options": [
+                  "A mí no me gustan los celulares.",
+                  "Los celulares distraen a los estudiantes y reducen su rendimiento académico según estudios recientes.",
+                  "Los celulares son caros de comprar.",
+                  "Algunos celulares tienen buena cámara."
+                ],
+                "answer": "Los celulares distraen a los estudiantes y reducen su rendimiento académico según estudios recientes.",
+                "explanation": "Este argumento aporta una razón lógica y evidencia (estudios) que sustenta la tesis, a diferencia de las opiniones subjetivas o datos irrelevantes.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "TRUE_FALSE",
+            "pointsPerQuestion": 2.0,
+            "questions": [
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En un texto argumentativo, la tesis suele aparecer al final del primer párrafo para orientar al lector sobre la posición del autor.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "La tesis típicamente se ubica al inicio del texto, frecuentemente al final del primer párrafo, para guiar la argumentación.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En una crónica periodística, el uso del presente histórico es innecesario porque la información ya está documentada.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "El presente histórico aporta dinamismo y cercanía, aunque los hechos ya estén documentados.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Los conectores lógicos como 'sin embargo' sirven para introducir una idea que contrasta con la anterior.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "'Sin embargo' es un conector de contraste que indica oposición entre ideas.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En una crónica, la descripción del ambiente suele incluir detalles sensoriales para que el lector visualice la escena.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Los detalles sensoriales son característicos de la crónica para crear una atmósfera vívida.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Un argumento en un texto argumentativo es simplemente una opinión personal sin necesidad de evidencia.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "Los argumentos deben sustentarse con evidencia o razonamiento, no solo con opiniones.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "El conector 'por lo tanto' indica una relación de causa‑efecto entre la premisa y la conclusión.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "'Por lo tanto' introduce la conclusión que se deduce de la causa expuesta.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En una crónica, la sección de antecedentes suele omitirse porque el lector ya conoce el contexto del suceso.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "Los antecedentes son esenciales para situar al lector y comprender la relevancia del suceso.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Los conectores 'además' y 'también' cumplen la misma función de añadir información, por lo que pueden usarse indistintamente sin afectar la cohesión.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "Aunque ambos añaden información, su uso depende del énfasis y la posición en la oración; elegir el adecuado mejora la cohesión.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En un texto argumentativo, la contraargumentación fortalece la posición del autor al anticipar y refutar objeciones.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Presentar y refutar contraargumentos muestra rigor y refuerza la tesis del autor.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "El uso de conectores lógicos es irrelevante en la crónica porque su estilo es predominantemente narrativo.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "Los conectores organizan la información y facilitan la comprensión, incluso en textos narrativos como la crónica.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "SHORT_ANSWER",
+            "pointsPerQuestion": 2.9,
+            "questions": [
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Identifica la tesis del siguiente fragmento argumentativo: “Los colegios deben implementar horarios flexibles porque favorecen el aprendizaje y reducen el estrés de los estudiantes.”",
+                "options": [],
+                "answer": "Los colegios deben implementar horarios flexibles",
+                "explanation": "La tesis es la afirmación principal que propone la idea central del texto.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Analiza cómo la descripción del ambiente en una crónica periodística ayuda al lector a imaginar la escena del suceso reportado.",
+                "options": [],
+                "answer": "Proporciona detalles sensoriales que permiten al lector visualizar y sentir el entorno, creando una experiencia más inmersiva.",
+                "explanation": "Los detalles sensoriales son la clave para que el lector perciba el ambiente.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-03"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Evalúa la efectividad del conector lógico “sin embargo” cuando se usa para contrastar dos ideas en un texto argumentativo.",
+                "options": [],
+                "answer": "Es efectivo porque indica claramente una oposición o contraste entre la idea previa y la siguiente, mejorando la claridad del argumento.",
+                "explanation": "El conector señala la relación de contraste, cumpliendo su función lógica.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Evalúa por qué es importante que una crónica incluya la perspectiva de testigos presenciales del hecho.",
+                "options": [],
+                "answer": "Porque aporta autenticidad y evidencia directa, lo que refuerza la credibilidad y el valor informativo de la crónica.",
+                "explanation": "La perspectiva de testigos brinda evidencia y hace la crónica más fiable.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-03"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Evalúa el impacto de usar conectores de causa como “porque” en la claridad de un argumento sobre la prohibición del uso de celulares en clase.",
+                "options": [],
+                "answer": "Mejora la claridad al explicar la razón del argumento, facilitando que el lector comprenda la relación causa‑efecto.",
+                "explanation": "El conector de causa establece la relación lógica entre premisa y conclusión.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Evalúa la relevancia de incluir datos estadísticos en la parte argumentativa de un texto que defiende la prohibición del uso de celulares en clase.",
+                "options": [],
+                "answer": "Es relevante porque brinda evidencia objetiva que sustenta la tesis, aumentando la persuasión del argumento.",
+                "explanation": "Los datos estadísticos aportan evidencia concreta que fortalece la argumentación.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "OPEN",
+            "pointsPerQuestion": 5.9,
+            "questions": [
+              {
+                "type": "OPEN",
+                "stem": "Un estudiante escribe la siguiente conclusión para un texto argumentativo sobre la contaminación en Bogotá: 'La ciudad está sucia. Por lo tanto, todos deberían dejar de usar el carro.' Evalúa la validez lógica de esta conclusión y explica si los argumentos presentados son suficientes para sostenerla, proponiendo una mejora al razonamiento.",
+                "options": [],
+                "answer": "La conclusión es débil porque el argumento 'la ciudad está sucia' es una afirmación general y no establece una relación causal directa y exclusiva con el uso del carro. Además, 'dejar de usar el carro' es una solución extrema que no se deriva lógicamente de la premisa sin más evidencia. Una mejora sería: 'El transporte individual contribuye significativamente a la contaminación del aire en Bogotá; por lo tanto, se debe promover el uso de transporte público para reducir las emisiones.'",
+                "explanation": "Evalúa la coherencia lógica entre premisa y conclusión, identificando falacias de generalización o soluciones no derivadas de los datos presentados.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Identifica la debilidad lógica o el salto en el razonamiento del estudiante.",
+                    "points": 2.0
+                  },
+                  {
+                    "description": "Explica por qué la conclusión no se sigue necesariamente de la premisa dada.",
+                    "points": 2.0
+                  },
+                  {
+                    "description": "Propone una reformulación del argumento que sea lógicamente válida y coherente.",
+                    "points": 1.9
+                  }
+                ],
+                "topic": "T1",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "OPEN",
+                "stem": "En una crónica sobre una manifestación en el centro de Medellín, el autor omite las opiniones de los participantes y se centra únicamente en describir la lluvia y el tráfico. Evalúa la calidad informativa de esta crónica y justifica por qué la ausencia de voces testigo afecta la construcción del sentido del relato.",
+                "options": [],
+                "answer": "La calidad informativa es baja porque la crónica pierde su dimensión humana y testimonial. La ausencia de voces testigo impide al lector comprender las motivaciones, emociones y perspectivas de los involucrados, reduciendo el texto a una mera descripción ambiental que no explica el 'por qué' ni el 'cómo' del suceso social, limitando la construcción del sentido crítico.",
+                "explanation": "Evalúa el componente narrativo y testimonial de la crónica, reconociendo que la inclusión de perspectivas múltiples es clave para la veracidad y profundidad del género.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Señala que la omisión de voces testigo empobrece el relato.",
+                    "points": 2.0
+                  },
+                  {
+                    "description": "Explica cómo las perspectivas de los participantes aportan al sentido y contexto del suceso.",
+                    "points": 2.0
+                  },
+                  {
+                    "description": "Concluye sobre el impacto negativo en la calidad informativa o periodística del texto.",
+                    "points": 1.9
+                  }
+                ],
+                "topic": "T2",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-03"
+                ]
+              },
+              {
+                "type": "OPEN",
+                "stem": "Un párrafo argumentativo dice: 'Los estudiantes necesitan más tiempo de estudio. Además, los profesores no dan tareas suficientes. Sin embargo, los exámenes son muy difíciles.' Evalúa la cohesión del párrafo y determina si los conectores utilizados refuerzan o debilitan la argumentación, explicando tu respuesta.",
+                "options": [],
+                "answer": "Los conectores debilitan la argumentación porque no establecen una relación lógica clara entre las ideas. 'Además' añade una idea que parece contradictoria o irrelevante (falta de tareas vs. necesidad de tiempo), y 'sin embargo' introduce un contraste que no se ha preparado lógicamente. El párrafo carece de una línea argumentativa coherente, confundiendo al lector sobre la postura real del autor.",
+                "explanation": "Evalúa la función cohesiva de los conectores, identificando que su uso incorrecto rompe la progresión temática y la claridad del argumento.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Identifica que los conectores no logran unir las ideas de forma lógica.",
+                    "points": 2.0
+                  },
+                  {
+                    "description": "Analiza cómo cada conector específico ('además', 'sin embargo') falla en su función contextual.",
+                    "points": 2.0
+                  },
+                  {
+                    "description": "Concluye que la cohesión deficiente afecta la comprensión y fuerza del argumento.",
+                    "points": 1.9
+                  }
+                ],
+                "topic": "T3",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "OPEN",
+                "stem": "Imagina que debes escribir una crónica sobre un incidente en la escuela (por ejemplo, una rumba en el patio). Evalúa la importancia de incluir tanto la descripción sensorial del ambiente como el diálogo de los estudiantes involucrados. ¿Qué efecto tendría en el lector si omitieras uno de estos dos elementos?",
+                "options": [],
+                "answer": "Incluir la descripción sensorial permite al lector inmersarse en la escena y sentir la tensión o el caos, mientras que el diálogo humaniza el suceso y revela las intenciones y emociones de los actores. Si se omite la descripción, la crónica se vuelve árida y poco vívida; si se omite el diálogo, el texto pierde profundidad psicológica y se convierte en una mera lista de hechos sin voz propia, reduciendo el impacto emocional y la veracidad del relato.",
+                "explanation": "Evalúa la interacción entre los recursos narrativos (descripción y diálogo) en la crónica, reconociendo su papel complementario para crear una experiencia lectora completa y veraz.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Explica la función de la descripción sensorial para la inmersión del lector.",
+                    "points": 2.0
+                  },
+                  {
+                    "description": "Explica la función del diálogo para revelar perspectivas y emociones.",
+                    "points": 2.0
+                  },
+                  {
+                    "description": "Evalúa el impacto negativo de la omisión de cualquiera de los dos elementos en la calidad de la crónica.",
+                    "points": 1.9
+                  }
+                ],
+                "topic": "T2",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-03"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "latencyMs": 78980
+    },
+    {
+      "case": "Lengua Castellana 4° (20 preguntas)",
+      "questions": 20,
+      "valid": true,
+      "attempts": 6,
+      "calls": 4,
+      "tokens": 19273,
+      "maxTokensPerCall": 9090,
+      "model": "qwen/qwen3.8-27b",
+      "perCall": [
+        {
+          "attempts": 2,
+          "latencyMs": 10399,
+          "tokens": 9090
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 2075,
+          "tokens": 2444
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 53877,
+          "tokens": 2255
+        },
+        {
+          "attempts": 2,
+          "latencyMs": 42566,
+          "tokens": 5484
+        }
+      ],
+      "output": {
+        "sections": [
+          {
+            "questionType": "MULTIPLE_CHOICE",
+            "pointsPerQuestion": 4.3,
+            "questions": [
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es el propósito principal de una fábula?",
+                "options": [
+                  "Entretener al lector con una historia de aventuras.",
+                  "Enseñar una lección moral a través de una historia corta.",
+                  "Describir con detalle la vida de los animales en la selva.",
+                  "Informar sobre hechos históricos reales."
+                ],
+                "answer": "Enseñar una lección moral a través de una historia corta.",
+                "explanation": "La fábula es un género narrativo breve cuyo fin fundamental es transmitir una moraleja o enseñanza.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En la fábula 'La liebre y la tortuga', los personajes principales son animales que actúan como si fueran personas. Esta característica se conoce como:",
+                "options": [
+                  "Realismo mágico.",
+                  "Personificación.",
+                  "Metáfora.",
+                  "Símbolo."
+                ],
+                "answer": "Personificación.",
+                "explanation": "La personificación es la figura literaria que atribuye cualidades humanas a seres no humanos, como los animales en las fábulas.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-04"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué parte de la fábula contiene la enseñanza o moraleja?",
+                "options": [
+                  "El nudo.",
+                  "El desenlace.",
+                  "La moraleja.",
+                  "El planteamiento."
+                ],
+                "answer": "La moraleja.",
+                "explanation": "La moraleja es el mensaje final que resume la lección que el autor quiere transmitir al lector.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En la oración 'El perro fiel guardó la casa', la palabra 'perro' es un:",
+                "options": [
+                  "Adjetivo.",
+                  "Verbo.",
+                  "Sustantivo.",
+                  "Adverbio."
+                ],
+                "answer": "Sustantivo.",
+                "explanation": "El sustantivo es la palabra que nombra seres, objetos o conceptos; 'perro' nombra a un animal.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál de las siguientes palabras es un adjetivo?",
+                "options": [
+                  "Correr.",
+                  "Bonito.",
+                  "Mesa.",
+                  "Rápidamente."
+                ],
+                "answer": "Bonito.",
+                "explanation": "El adjetivo califica o describe al sustantivo; 'bonito' indica una cualidad de un objeto o ser.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En la frase 'La niña alegre cantó una canción', la palabra 'alegre' sirve para:",
+                "options": [
+                  "Indicar la acción que realiza la niña.",
+                  "Nombrar a la persona que canta.",
+                  "Describir una cualidad de la niña.",
+                  "Indicar el lugar donde canta."
+                ],
+                "answer": "Describir una cualidad de la niña.",
+                "explanation": "Los adjetivos se usan para dar características o cualidades a los sustantivos, en este caso, a 'niña'.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si lees una fábula donde una hormiga trabaja todo el día y una grilla solo juega, y al final la grilla tiene hambre, ¿cuál es la moraleja más probable?",
+                "options": [
+                  "Que los animales deben vivir en libertad.",
+                  "Que es importante trabajar para tener seguridad en el futuro.",
+                  "Que jugar es más importante que trabajar.",
+                  "Que las hormigas son más fuertes que las grillas."
+                ],
+                "answer": "Que es importante trabajar para tener seguridad en el futuro.",
+                "explanation": "La moraleja se deduce del desenlace: la falta de trabajo de la grilla le trajo consecuencias negativas, enseñando la virtud del esfuerzo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-04"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Por qué los animales en las fábulas hablan y sienten como los humanos?",
+                "options": [
+                  "Para hacer la historia más larga y compleja.",
+                  "Para que los lectores pequeños no se confundan con nombres humanos.",
+                  "Para representar cualidades humanas de forma simbólica y fácil de entender.",
+                  "Porque los animales realmente pueden hablar en la naturaleza."
+                ],
+                "answer": "Para representar cualidades humanas de forma simbólica y fácil de entender.",
+                "explanation": "La personificación permite usar animales como símbolos de virtudes o vicios humanos (como la astucia o la pereza) para enseñar de manera clara.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-04"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En la oración 'El gato negro dormía en el sofá', ¿cuál es la función de la palabra 'negro'?",
+                "options": [
+                  "Nombrar al animal.",
+                  "Indicar la acción de dormir.",
+                  "Calificar al gato indicando su color.",
+                  "Indicar el lugar donde está el gato."
+                ],
+                "answer": "Calificar al gato indicando su color.",
+                "explanation": "'Negro' es un adjetivo que modifica al sustantivo 'gato', añadiendo una característica visual.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si en una fábula el zorro engaña a la paloma para robarle el queso, ¿qué cualidad humana está representando el zorro?",
+                "options": [
+                  "La honestidad.",
+                  "La generosidad.",
+                  "La astucia o el engaño.",
+                  "La valentía."
+                ],
+                "answer": "La astucia o el engaño.",
+                "explanation": "En las fábulas clásicas, el zorro suele simbolizar la inteligencia usada para engañar, representando la astucia.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-04"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "TRUE_FALSE",
+            "pointsPerQuestion": 4.3,
+            "questions": [
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En toda fábula la moraleja siempre se encuentra al final del texto.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "La mayoría de las fábulas concluyen con una moraleja explícita al final.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Los personajes de una fábula pueden ser objetos inanimados que hablan.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "En las fábulas, además de animales, a veces aparecen objetos que actúan como seres humanos.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Una fábula siempre tiene una estructura de introducción, desarrollo y conclusión sin moraleja.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "La moraleja es parte esencial de la conclusión de la fábula.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En la oración 'El árbol alto protege la casa', la palabra 'alto' es un adjetivo que califica al sustantivo árbol.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "'Alto' describe una característica del sustantivo 'árbol', por lo tanto es un adjetivo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Para identificar la moraleja de una fábula, basta con leer solo el título.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "La moraleja se extrae del contenido y la conclusión, no solo del título.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Al cambiar el sustantivo de una oración por otro de la misma categoría, el adjetivo que lo acompaña mantiene su función.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "El adjetivo sigue calificando al nuevo sustantivo, siempre que sea concordante en género y número.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "MATCHING",
+            "pointsPerQuestion": 12.8,
+            "questions": [
+              {
+                "type": "MATCHING",
+                "stem": "Relaciona cada elemento de la estructura de una fábula con su función o característica principal.",
+                "options": [],
+                "answer": "",
+                "explanation": "Los personajes en las fábulas suelen ser animales personificados; el conflicto es el problema central; el desenlace es la resolución; y la moraleja es la enseñanza final. Los distractores no corresponden a la estructura interna de la fábula.",
+                "pairs": [
+                  {
+                    "left": "Personajes",
+                    "right": "Animales u objetos que actúan como si fueran humanos"
+                  },
+                  {
+                    "left": "Conflicto",
+                    "right": "Problema o situación que los personajes deben resolver"
+                  },
+                  {
+                    "left": "Desenlace",
+                    "right": "Parte final donde se resuelve la situación"
+                  },
+                  {
+                    "left": "Moraleja",
+                    "right": "Enseñanza o lección que se extrae de la historia"
+                  }
+                ],
+                "distractors": [
+                  "Diálogo entre dos personajes humanos",
+                  "Título del libro donde aparece la fábula"
+                ],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "SHORT_ANSWER",
+            "pointsPerQuestion": 6.4,
+            "questions": [
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "En la oración 'El niño estudioso resolvió el problema', identifica el sustantivo y el adjetivo.",
+                "options": [],
+                "answer": "Sustantivo: niño. Adjetivo: estudioso.",
+                "explanation": "El sustantivo nombra a la persona (niño) y el adjetivo describe su cualidad (estudioso).",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-04"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Escribe una oración corta donde uses un sustantivo y un adjetivo para describir a un animal.",
+                "options": [],
+                "answer": "Ejemplo: El perro leal corrió rápido. (Se aceptan variaciones correctas que incluyan un sustantivo y un adjetivo).",
+                "explanation": "La respuesta debe contener al menos un sustantivo que nombre un animal y un adjetivo que lo califique.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-04"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Si en una fábula la cigarra canta todo el verano y la hormiga trabaja, ¿qué acción específica de la cigarra lleva a su castigo final?",
+                "options": [],
+                "answer": "No trabajar o no ahorrar comida durante el verano.",
+                "explanation": "La consecuencia negativa (hambre) se debe a la falta de trabajo y preparación de la cigarra, a diferencia de la hormiga.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-04"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "latencyMs": 108924
+    },
+    {
+      "case": "Educación Religiosa 10° (20 preguntas)",
+      "questions": 20,
+      "valid": true,
+      "attempts": 3,
+      "calls": 3,
+      "tokens": 8862,
+      "maxTokensPerCall": 3614,
+      "model": "openai/gpt-oss-120b",
+      "perCall": [
+        {
+          "attempts": 1,
+          "latencyMs": 5475,
+          "tokens": 3614
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 16812,
+          "tokens": 2409
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 2982,
+          "tokens": 2839
+        }
+      ],
+      "output": {
+        "sections": [
+          {
+            "questionType": "MULTIPLE_CHOICE",
+            "pointsPerQuestion": 3.2,
+            "questions": [
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Desde la perspectiva de la Educación Religiosa, ¿cuál es la base fundamental de la dignidad de la persona humana?",
+                "options": [
+                  "Su capacidad de producir riqueza económica para la sociedad.",
+                  "Ser creada a imagen y semejanza de Dios, lo que le otorga un valor intrínseco e inalienable.",
+                  "El reconocimiento social que recibe por sus logros académicos o deportivos.",
+                  "Su pertenencia a una comunidad étnica o cultural específica."
+                ],
+                "answer": "Ser creada a imagen y semejanza de Dios, lo que le otorga un valor intrínseco e inalienable.",
+                "explanation": "La dignidad humana se fundamenta en la teología de la creación, donde el ser humano posee un valor absoluto por su origen divino, independientemente de sus condiciones externas.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si un estudiante de 10° decide que su proyecto de vida debe incluir el servicio a su comunidad local, ¿qué aspecto de la dignidad humana está integrando en su planificación?",
+                "options": [
+                  "La dimensión económica, enfocada en ganar un salario alto.",
+                  "La dimensión relacional y social, reconociendo el valor del otro y la solidaridad.",
+                  "La dimensión intelectual, centrada exclusivamente en el éxito académico.",
+                  "La dimensión estética, priorizando el placer personal."
+                ],
+                "answer": "La dimensión relacional y social, reconociendo el valor del otro y la solidaridad.",
+                "explanation": "Incluir el servicio comunitario en el proyecto de vida demuestra la comprensión de que la dignidad no es solo un derecho individual, sino una responsabilidad hacia el bien común y el respeto por el prójimo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál de las siguientes afirmaciones refleja mejor la relación entre la dignidad de la persona y el respeto a la diversidad en Colombia?",
+                "options": [
+                  "La dignidad solo aplica a quienes comparten la misma fe o ideología política.",
+                  "Respetar la diversidad es una forma de reconocer la dignidad única e irrepetible de cada persona, sin importar sus diferencias.",
+                  "La dignidad se pierde si una persona no cumple con las normas mayoritarias de la sociedad.",
+                  "La diversidad cultural es un obstáculo para el ejercicio pleno de la dignidad humana."
+                ],
+                "answer": "Respetar la diversidad es una forma de reconocer la dignidad única e irrepetible de cada persona, sin importar sus diferencias.",
+                "explanation": "Comprender que la dignidad es universal implica aceptar y valorar las diferencias étnicas, religiosas y culturales como parte de la riqueza humana, no como amenazas.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Al analizar un proyecto de vida que ignora el cuidado del medio ambiente, ¿qué falla principal se identifica desde la ética religiosa?",
+                "options": [
+                  "Falta de ambición económica para el futuro.",
+                  "Desconexión con la responsabilidad de custodio de la creación y respeto por la vida.",
+                  "Exceso de tiempo dedicado a actividades recreativas.",
+                  "Falta de interés en las carreras técnicas."
+                ],
+                "answer": "Desconexión con la responsabilidad de custodio de la creación y respeto por la vida.",
+                "explanation": "Analizar el proyecto de vida permite ver que ignorar el medio ambiente contradice el mandato religioso de cuidar la creación, vinculando la dignidad humana con la dignidad de toda la vida creada.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Por qué es importante que el proyecto de vida de un adolescente incluya valores como la honestidad y la justicia?",
+                "options": [
+                  "Para asegurar un empleo mejor pagado en el futuro.",
+                  "Porque estos valores fortalecen la coherencia interna y la dignidad de la persona al actuar en sociedad.",
+                  "Para evitar sanciones disciplinarias en la institución educativa.",
+                  "Para ser aceptado por los grupos de influencia social."
+                ],
+                "answer": "Porque estos valores fortalecen la coherencia interna y la dignidad de la persona al actuar en sociedad.",
+                "explanation": "Comprender que los valores no son solo reglas externas, sino pilares que sostienen la dignidad y la integridad moral del individuo en su camino de vida.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Un estudiante afirma: 'Mi dignidad depende de que los demás me respeten'. ¿Cuál es el error conceptual en esta afirmación desde la fe cristiana?",
+                "options": [
+                  "La dignidad es un atributo divino que solo tienen los líderes religiosos.",
+                  "La dignidad es intrínseca y no depende de la opinión o el trato de los otros, sino de su valor ontológico.",
+                  "La dignidad se gana únicamente a través del éxito académico.",
+                  "La dignidad es un concepto relativo que cambia según la cultura."
+                ],
+                "answer": "La dignidad es intrínseca y no depende de la opinión o el trato de los otros, sino de su valor ontológico.",
+                "explanation": "Analizar la afirmación permite identificar la confusión entre dignidad (valor propio) y consideración social (percepción ajena), clave para entender la estabilidad de la identidad humana.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cómo influye la comprensión de la dignidad humana en la toma de decisiones sobre el futuro profesional?",
+                "options": [
+                  "Limita las opciones a profesiones tradicionales y seguras.",
+                  "Orienta la elección hacia aquellas que permitan ejercer la libertad responsable y contribuir al bien común.",
+                  "Obliga a elegir carreras relacionadas con la teología.",
+                  "Hace irrelevante el interés personal en la elección de carrera."
+                ],
+                "answer": "Orienta la elección hacia aquellas que permitan ejercer la libertad responsable y contribuir al bien común.",
+                "explanation": "Entender la dignidad como vocación implica que las decisiones de vida deben ser libres, responsables y orientadas al servicio, no solo al beneficio egoísta.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En un contexto donde se promueve la discriminación por orientación sexual, ¿cuál es la postura correcta desde la dignidad de la persona según la ética religiosa?",
+                "options": [
+                  "Aceptación total sin ninguna reflexión moral sobre la conducta.",
+                  "Respeto a la dignidad de la persona y diálogo respetuoso, manteniendo la coherencia con los principios morales de la fe.",
+                  "Rechazo absoluto de la persona y sus derechos básicos.",
+                  "Indiferencia total hacia el tema para no generar conflictos."
+                ],
+                "answer": "Respeto a la dignidad de la persona y diálogo respetuoso, manteniendo la coherencia con los principios morales de la fe.",
+                "explanation": "Analizar situaciones de conflicto exige distinguir entre el juicio moral sobre la conducta y el respeto inquebrantable a la dignidad de la persona, evitando tanto la discriminación como la relativización de los valores.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué papel juega la esperanza en la construcción del proyecto de vida desde la fe?",
+                "options": [
+                  "Es un sentimiento pasajero que no tiene impacto en las decisiones reales.",
+                  "Es una virtud teologal que sostiene a la persona ante las dificultades y orienta sus metas hacia el bien último.",
+                  "Es una forma de autoengaño para no enfrentar la realidad.",
+                  "Es exclusiva de personas con alta estabilidad emocional."
+                ],
+                "answer": "Es una virtud teologal que sostiene a la persona ante las dificultades y orienta sus metas hacia el bien último.",
+                "explanation": "Comprender la esperanza como virtud teologal permite verla como un pilar activo en el proyecto de vida, que da sentido y fortaleza a los esfuerzos humanos.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Al evaluar un proyecto de vida que prioriza exclusivamente el éxito económico y descarta el desarrollo espiritual y comunitario, ¿qué se puede concluir?",
+                "options": [
+                  "Es un proyecto completo si logra las metas financieras.",
+                  "Es un proyecto desequilibrado que puede vaciar de sentido la existencia y dañar la dignidad relacional.",
+                  "Es el único modelo válido en la sociedad actual.",
+                  "Es un proyecto ideal porque asegura la independencia total."
+                ],
+                "answer": "Es un proyecto desequilibrado que puede vaciar de sentido la existencia y dañar la dignidad relacional.",
+                "explanation": "Evaluar críticamente el proyecto de vida permite identificar que la reducción del ser humano a una mera unidad económica ignora dimensiones esenciales de su dignidad, como la espiritual y la comunitaria.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": []
+              }
+            ]
+          },
+          {
+            "questionType": "SHORT_ANSWER",
+            "pointsPerQuestion": 4.8,
+            "questions": [
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Analiza cómo la concepción de la dignidad humana influye en la decisión de un estudiante de 10° de elegir una carrera orientada al servicio social en lugar de una exclusivamente lucrativa.",
+                "options": [],
+                "answer": "La dignidad humana impulsa a valorar el bien común y la solidaridad, por lo que el estudiante prioriza una carrera que contribuya al bienestar de los demás, reflejando el respeto a la dignidad de todas las personas.",
+                "explanation": "Muestra que la dignidad lleva a elegir una opción que favorezca a la comunidad, no solo al beneficio personal.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": []
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Analiza las consecuencias éticas de un proyecto de vida que omite la dimensión espiritual y solo se centra en logros materiales.",
+                "options": [],
+                "answer": "Se vulnera la integralidad de la persona, pues la ética religiosa señala que la vida plena incluye lo espiritual, por lo que el proyecto resulta incompleto y desarraigado de la dignidad humana.",
+                "explanation": "Identifica la falta de equilibrio entre lo material y lo espiritual como falla ética.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": []
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Analiza la relación entre la dignidad de la persona y la promoción de la igualdad de género en la escuela.",
+                "options": [],
+                "answer": "La dignidad reconoce a cada persona como valiosa e igual, por lo que promover la igualdad de género es una expresión directa de respetar esa dignidad y combatir cualquier forma de discriminación.",
+                "explanation": "Conecta la dignidad con la igualdad de oportunidades entre géneros.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": []
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Analiza por qué la esperanza es un componente esencial en la construcción del proyecto de vida de un adolescente desde la fe cristiana.",
+                "options": [],
+                "answer": "La esperanza orienta al joven a confiar en un futuro con sentido y propósito, motivándolo a tomar decisiones coherentes con los valores cristianos y la dignidad humana.",
+                "explanation": "Relaciona la esperanza con la motivación y la visión de futuro basada en la fe.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": []
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Evalúa la importancia de incluir valores como la honestidad y la justicia en el proyecto de vida de un estudiante de 10°.",
+                "options": [],
+                "answer": "Incluir esos valores garantiza decisiones éticas, fortalece la confianza social y refleja el respeto a la dignidad propia y ajena, favoreciendo una vida integral y responsable.",
+                "explanation": "Justifica que los valores son esenciales para una vida ética y digna.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": []
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Evalúa el impacto de la discriminación por orientación sexual en la dignidad de la persona y en el proyecto de vida de un joven colombiano.",
+                "options": [],
+                "answer": "La discriminación vulnera la dignidad al negar el reconocimiento pleno del ser, lo que limita sus oportunidades y genera sufrimiento, afectando negativamente su proyecto de vida y su desarrollo integral.",
+                "explanation": "Muestra cómo la discriminación afecta la dignidad y el desarrollo personal.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": []
+              }
+            ]
+          },
+          {
+            "questionType": "OPEN",
+            "pointsPerQuestion": 9.7,
+            "questions": [
+              {
+                "type": "OPEN",
+                "stem": "Evalúa cómo la comprensión de la dignidad de la persona humana influye en la decisión de un estudiante de 10° de escoger una carrera orientada al servicio social frente a una carrera predominantemente lucrativa.",
+                "options": [],
+                "answer": "El estudiante debe reconocer que la dignidad implica valorar a cada persona como fin y no solo como medio; por ello, una carrera de servicio social responde al llamado de respetar y promover la dignidad de los demás, mientras que una opción exclusivamente lucrativa puede reducir a las personas a recursos económicos. Así, la decisión basada en la dignidad favorece la elección de una profesión que contribuya al bien común y al desarrollo integral de la comunidad.",
+                "explanation": "Se justifica que la dignidad humana orienta la elección profesional hacia el servicio al otro, no solo al beneficio económico.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Identifica el concepto de dignidad humana y su relación con la elección profesional",
+                    "points": 3.2
+                  },
+                  {
+                    "description": "Argumenta por qué una carrera de servicio social refleja mejor la dignidad",
+                    "points": 3.2
+                  },
+                  {
+                    "description": "Contrapone la visión lucrativa con la visión de bien común y señala consecuencias éticas",
+                    "points": 3.3
+                  }
+                ],
+                "topic": "T1",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": []
+              },
+              {
+                "type": "OPEN",
+                "stem": "Analiza la importancia de incluir la esperanza como elemento central en la construcción del proyecto de vida de un adolescente de 10° desde la fe cristiana.",
+                "options": [],
+                "answer": "La esperanza, entendida como confianza en la promesa de Dios y en la vida eterna, brinda al adolescente una visión a largo plazo que trasciende los problemas inmediatos. Al integrar la esperanza, el proyecto de vida se orienta hacia metas que favorecen el crecimiento espiritual, la solidaridad y la perseverancia, lo que fortalece la resiliencia y la coherencia con los valores cristianos.",
+                "explanation": "Se muestra cómo la esperanza da sentido y dirección al proyecto de vida, alineándolo con la fe.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Define la esperanza en el contexto cristiano",
+                    "points": 2.5
+                  },
+                  {
+                    "description": "Explica cómo la esperanza orienta metas a largo plazo",
+                    "points": 3.4
+                  },
+                  {
+                    "description": "Relaciona la esperanza con la resiliencia y valores cristianos en el proyecto de vida",
+                    "points": 3.8
+                  }
+                ],
+                "topic": "T2",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": []
+              },
+              {
+                "type": "OPEN",
+                "stem": "Evalúa el impacto de la discriminación por orientación sexual en la dignidad de la persona y en el proyecto de vida de un joven colombiano de 10°.",
+                "options": [],
+                "answer": "La discriminación vulnera la dignidad al negar el reconocimiento pleno de la persona como creación de Dios, generando exclusión y daño psicológico. Esto afecta negativamente el proyecto de vida, limitando oportunidades, disminuyendo la autoestima y dificultando la realización de metas personales y profesionales. Un enfoque basado en la dignidad promueve la inclusión y permite al joven diseñar un proyecto de vida pleno y coherente con su identidad.",
+                "explanation": "Se vincula la violación de la dignidad por discriminación con consecuencias en la planificación vital del estudiante.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Describe cómo la discriminación atenta contra la dignidad humana",
+                    "points": 3.0
+                  },
+                  {
+                    "description": "Identifica consecuencias psicológicas y sociales en el proyecto de vida",
+                    "points": 3.4
+                  },
+                  {
+                    "description": "Propone una postura basada en la dignidad que favorezca la inclusión",
+                    "points": 3.3
+                  }
+                ],
+                "topic": "T1",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": []
+              },
+              {
+                "type": "OPEN",
+                "stem": "Analiza cómo la integración de valores como la honestidad y la justicia en el proyecto de vida de un estudiante de 10° contribuye al desarrollo de una sociedad más equitativa en Colombia.",
+                "options": [],
+                "answer": "Incorporar honestidad y justicia permite al estudiante actuar con integridad y buscar el bien común, lo que fomenta relaciones de confianza y la defensa de los derechos de todos. Al vivir estos valores, el estudiante se convierte en agente de cambio que promueve la equidad, reduce la corrupción y fortalece la cohesión social, contribuyendo a una Colombia más justa y solidaria.",
+                "explanation": "Se muestra la relación entre valores personales y su efecto positivo en la sociedad.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Explica el significado de honestidad y justicia en el contexto personal",
+                    "points": 2.8
+                  },
+                  {
+                    "description": "Relaciona esos valores con acciones concretas en el proyecto de vida",
+                    "points": 3.5
+                  },
+                  {
+                    "description": "Argumenta el impacto colectivo de esas acciones en la equidad social",
+                    "points": 3.4
+                  }
+                ],
+                "topic": "T2",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": []
+              }
+            ]
+          }
+        ]
+      },
+      "latencyMs": 25275
+    }
+  ]
+}

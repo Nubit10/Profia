@@ -1,0 +1,103 @@
+{
+  "date": "2026-10-01T21:14:49+00:00",
+  "chain": "groq+groq+ollama",
+  "model": "qwen/qwen3.8-27b",
+  "promptVersion": "objective_suggestions.v1",
+  "cases": 8,
+  "validRate": 1.0,
+  "firstAttemptRate": 1.0,
+  "latencyMs": {
+    "p50": 10191,
+    "max": 21162
+  },
+  "rows": [
+    {
+      "topic": "Área y perímetro de figuras planas",
+      "valid": true,
+      "attempts": 1,
+      "model": "qwen/qwen3.8-27b",
+      "suggestions": [
+        "Calcula el perímetro y el área de rectángulos y cuadrados utilizando unidades de medida estándar y no estándar.",
+        "Explica cómo figuras con igual perímetro pueden presentar áreas diferentes mediante la construcción de cuadriláteros.",
+        "Resuelve problemas de la vida cotidiana que requieren calcular el área o el perímetro de figuras planas."
+      ]
+    },
+    {
+      "topic": "Números enteros en la recta numérica",
+      "valid": true,
+      "attempts": 1,
+      "model": "qwen/qwen3.8-27b",
+      "suggestions": [
+        "Representa la posición de números enteros positivos y negativos en la recta numérica utilizando diferentes estrategias de visualización.",
+        "Compara el valor de dos o más números enteros determinando su orden relativo a partir de su ubicación en la recta numérica.",
+        "Resuelve problemas de contexto cotidiano que implican la interpretación de cantidades negativas y su representación gráfica en la recta numérica."
+      ]
+    },
+    {
+      "topic": "Teorema de Pitágoras",
+      "valid": true,
+      "attempts": 1,
+      "model": "qwen/qwen3.8-27b",
+      "suggestions": [
+        "Resuelve problemas de cálculo de longitudes desconocidas en triángulos rectángulos aplicando el Teorema de Pitágoras.",
+        "Justifica estrategias de medición de distancias inaccesibles utilizando las propiedades geométricas del Teorema de Pitágoras.",
+        "Formula y valida conjeturas sobre las relaciones métricas en figuras geométricas utilizando procesos inductivos y el Teorema de Pitágoras."
+      ]
+    },
+    {
+      "topic": "La derivada como razón de cambio",
+      "valid": true,
+      "attempts": 1,
+      "model": "openai/gpt-oss-120b",
+      "suggestions": [
+        "Calcula la derivada de funciones polinómicas y exponenciales y la interpreta como razón de cambio en contextos físicos.",
+        "Aplica la derivada para determinar la velocidad y la aceleración de un objeto a partir de su posición respecto al tiempo, justificando la pertinencia de las unidades utilizadas.",
+        "Compara la pendiente de la tangente a una curva con la razón de cambio promedio y argumenta la precisión de la estimación en problemas de movimiento."
+      ]
+    },
+    {
+      "topic": "Personajes y lugares de los cuentos",
+      "valid": true,
+      "attempts": 1,
+      "model": "qwen/qwen3.8-27b",
+      "suggestions": [
+        "Identifica los personajes, espacios y acciones principales en los cuentos leídos.",
+        "Relaciona los personajes, tiempos y espacios para dar sentido a la historia narrada.",
+        "Reconstruye las acciones y los lugares donde se desarrolla la narración del cuento."
+      ]
+    },
+    {
+      "topic": "El texto argumentativo",
+      "valid": true,
+      "attempts": 1,
+      "model": "qwen/qwen3.8-27b",
+      "suggestions": [
+        "Diferencia las características formales de un texto argumentativo de otros géneros discursivos mediante el análisis de su estructura interna.",
+        "Elabora un esquema de planificación para organizar jerárquicamente la tesis y los argumentos de una producción textual argumentativa.",
+        "Selecciona información relevante de medios de comunicación para respaldar la tesis en la construcción de un texto argumentativo escolar."
+      ]
+    },
+    {
+      "topic": "Literatura del Romanticismo",
+      "valid": true,
+      "attempts": 1,
+      "model": "qwen/qwen3.8-27b",
+      "suggestions": [
+        "Identifica las características temáticas y estilísticas de las obras literarias del Romanticismo, reconociendo a sus principales exponentes.",
+        "Argumenta su posición crítica frente a los textos románticos, evaluando las estrategias discursivas y los referentes ideológicos presentes.",
+        "Formula puntos de encuentro entre la literatura romántica y las artes plásticas de la época, determinando las relaciones de sentido entre ambas expresiones."
+      ]
+    },
+    {
+      "topic": "Juego y expresión con el cuerpo",
+      "valid": true,
+      "attempts": 1,
+      "model": "qwen/qwen3.8-27b",
+      "suggestions": [
+        "Expresa emociones y sensaciones a través de movimientos corporales espontáneos durante juegos y rondas.",
+        "Representa su cuerpo y el de sus compañeros mediante dibujos, esculturas o danzas sencillas.",
+        "Reconoce y establece relaciones espaciales como arriba, abajo, cerca y lejos al realizar juegos motores en grupo."
+      ]
+    }
+  ]
+}

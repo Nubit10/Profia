@@ -1,0 +1,3476 @@
+{
+  "date": "2026-10-10T15:53:03+00:00",
+  "chain": "groq+groq+ollama",
+  "model": "qwen/qwen3.8-27b",
+  "promptVersions": [
+    "exam.v1"
+  ],
+  "cases": 6,
+  "validRate": 1.0,
+  "firstAttemptRate": 0.167,
+  "latencyMs": {
+    "p50": 80216,
+    "max": 145170
+  },
+  "tokens": {
+    "p50": 21446,
+    "max": 29225
+  },
+  "maxTokensPerCall": 18601,
+  "calls": {
+    "p50": 4
+  },
+  "pauseS": 60.0,
+  "rows": [
+    {
+      "case": "Matemáticas 3° (20 preguntas)",
+      "questions": 20,
+      "valid": true,
+      "attempts": 4,
+      "calls": 2,
+      "tokens": 21446,
+      "maxTokensPerCall": 18601,
+      "model": "openai/gpt-oss-120b",
+      "perCall": [
+        {
+          "attempts": 3,
+          "latencyMs": 32102,
+          "tokens": 18601
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 11805,
+          "tokens": 2845
+        }
+      ],
+      "output": {
+        "sections": [
+          {
+            "questionType": "MULTIPLE_CHOICE",
+            "pointsPerQuestion": 5.0,
+            "questions": [
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es el resultado de la suma 345 + 210?",
+                "options": [
+                  "555",
+                  "545",
+                  "565",
+                  "455"
+                ],
+                "answer": "555",
+                "explanation": "Al sumar las unidades (5+0), las decenas (4+1) y las centenas (3+2), el resultado es 555. El distractor 545 es un error común al no llevar correctamente o al sumar mal las decenas.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En la resta 800 - 350, ¿cuántas decenas hay que prestar de las centenas para poder restar las decenas?",
+                "options": [
+                  "0",
+                  "1",
+                  "5",
+                  "10"
+                ],
+                "answer": "1",
+                "explanation": "Como no se pueden restar 5 decenas de 0 decenas, se presta 1 centena (que equivale a 10 decenas). Por lo tanto, se presta 1 centena.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuántos lados tiene un triángulo?",
+                "options": [
+                  "2",
+                  "3",
+                  "4",
+                  "5"
+                ],
+                "answer": "3",
+                "explanation": "Un triángulo es una figura plana que tiene exactamente tres lados y tres vértices.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál de estas figuras es un cuadrado?",
+                "options": [
+                  "Una figura con 4 lados iguales y 4 ángulos rectos",
+                  "Una figura con 4 lados iguales pero ángulos que no son rectos",
+                  "Una figura con 4 lados de diferente longitud",
+                  "Una figura con 3 lados iguales"
+                ],
+                "answer": "Una figura con 4 lados iguales y 4 ángulos rectos",
+                "explanation": "La definición de un cuadrado es una figura de cuatro lados iguales y cuatro ángulos rectos. El rombo tiene lados iguales pero no ángulos rectos.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si tienes 456 caramelos y regalas 120, ¿cuántos te quedan?",
+                "options": [
+                  "336",
+                  "326",
+                  "576",
+                  "316"
+                ],
+                "answer": "336",
+                "explanation": "Al restar 120 de 456 (456 - 120 = 336), se obtiene el número de caramelos restantes.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuántos vértices tiene un pentágono?",
+                "options": [
+                  "4",
+                  "5",
+                  "6",
+                  "3"
+                ],
+                "answer": "5",
+                "explanation": "Un pentágono tiene cinco lados y, por lo tanto, cinco vértices (esquinas).",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es el resultado de 780 - 245?",
+                "options": [
+                  "535",
+                  "545",
+                  "435",
+                  "525"
+                ],
+                "answer": "535",
+                "explanation": "Al realizar la resta: 780 - 245. Unidades: 0-5 (con préstamo) da 5, decenas: 7-4=3, centenas: 7-2=5. El resultado es 535.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué figura plana tiene 6 lados?",
+                "options": [
+                  "Pentágono",
+                  "Hexágono",
+                  "Cuadrado",
+                  "Triángulo"
+                ],
+                "answer": "Hexágono",
+                "explanation": "El prefijo 'hexa' significa seis. Por lo tanto, un hexágono tiene 6 lados.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Para resolver 350 + 250, una estrategia es sumar primero las centenas y luego las decenas. ¿Cuántas centenas hay en total?",
+                "options": [
+                  "5",
+                  "6",
+                  "7",
+                  "4"
+                ],
+                "answer": "6",
+                "explanation": "350 tiene 3 centenas y 250 tiene 2 centenas. 3 + 2 = 5 centenas. Al sumar las decenas (50+50=100) se genera 1 centena adicional, totalizando 6.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Por qué un rombo no es un cuadrado aunque tenga 4 lados iguales?",
+                "options": [
+                  "Porque tiene más lados que un cuadrado",
+                  "Porque sus ángulos no son rectos",
+                  "Porque sus lados son de diferente longitud",
+                  "Porque es una figura tridimensional"
+                ],
+                "answer": "Porque sus ángulos no son rectos",
+                "explanation": "El cuadrado tiene cuatro ángulos rectos (90°), mientras que el rombo tiene ángulos agudos y obtusos, aunque sus lados sean iguales.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En la suma 425 + 375, ¿cuántas decenas se forman al sumar las decenas y las unidades?",
+                "options": [
+                  "1",
+                  "2",
+                  "3",
+                  "4"
+                ],
+                "answer": "2",
+                "explanation": "Unidades: 5+5=10 (1 decena). Decenas: 2+7+1 (llevada)=10 (1 decena más, que se convierte en centena). En total se forman 2 decenas.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál de las siguientes afirmaciones describe mejor la diferencia entre un triángulo y un cuadrado?",
+                "options": [
+                  "El triángulo tiene 3 lados y el cuadrado tiene 4",
+                  "El triángulo tiene 4 lados y el cuadrado tiene 3",
+                  "Ambos tienen la misma cantidad de lados",
+                  "El triángulo tiene 5 lados y el cuadrado tiene 4"
+                ],
+                "answer": "El triángulo tiene 3 lados y el cuadrado tiene 4",
+                "explanation": "Esta opción identifica correctamente la cantidad de lados de cada figura, que es la característica principal para diferenciarlas.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "TRUE_FALSE",
+            "pointsPerQuestion": 5.0,
+            "questions": [
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En la suma 467 + 238, el resultado es 705.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "467 + 238 = 705 es incorrecto; la suma correcta es 705? Wait 467+238=705, actually correct. Oops need correct answer. Change:",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Para restar 900‑473, se debe prestar una decena de la centena.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Al restar 900‑473, la cifra de las decenas (0) necesita prestar 1 de la centena para poder restar 7.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Un rectángulo siempre tiene cuatro lados iguales.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "En un rectángulo solo los lados opuestos son iguales; los cuatro lados iguales corresponde a un cuadrado.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Un hexágono regular tiene todos sus lados y ángulos iguales.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Por definición, un hexágono regular posee seis lados y seis ángulos congruentes.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Si tienes 620 unidades y le sumas 180, puedes agrupar primero las centenas y después las decenas para obtener 800.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "620+180 = 800; sumar 600+100=700 y 20+80=100, luego 700+100=800 es una estrategia válida.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-02"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Para determinar cuántos lados tiene una figura, basta contar sus vértices.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "En figuras planas, el número de lados coincide con el número de vértices.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Restar 500‑275 sin prestar es posible porque la cifra de las decenas es mayor que la de las unidades a restar.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "Al restar 500‑275, se necesita prestar porque la cifra de las unidades (0) es menor que 5.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Un pentágono regular tiene cinco lados y cinco ángulos iguales.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "La definición de pentágono regular incluye cinco lados y cinco ángulos congruentes.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G3-06"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "latencyMs": 43910
+    },
+    {
+      "case": "Matemáticas 6° (20 preguntas)",
+      "questions": 20,
+      "valid": true,
+      "attempts": 5,
+      "calls": 5,
+      "tokens": 14394,
+      "maxTokensPerCall": 3754,
+      "model": "openai/gpt-oss-120b",
+      "perCall": [
+        {
+          "attempts": 1,
+          "latencyMs": 4581,
+          "tokens": 3754
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 28093,
+          "tokens": 2484
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 7399,
+          "tokens": 2885
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 15358,
+          "tokens": 2471
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 8230,
+          "tokens": 2800
+        }
+      ],
+      "output": {
+        "sections": [
+          {
+            "questionType": "MULTIPLE_CHOICE",
+            "pointsPerQuestion": 3.7,
+            "questions": [
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En la recta numérica, ¿dónde se ubica el número entero -5 respecto al número 0?",
+                "options": [
+                  "A la derecha del 0",
+                  "A la izquierda del 0",
+                  "Exactamente sobre el 0",
+                  "A 5 unidades a la derecha del 0"
+                ],
+                "answer": "A la izquierda del 0",
+                "explanation": "Los números negativos siempre se ubican a la izquierda del cero en la recta numérica.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál de los siguientes números enteros es mayor?",
+                "options": [
+                  "-12",
+                  "-8",
+                  "-15",
+                  "-3"
+                ],
+                "answer": "-3",
+                "explanation": "En la recta numérica, el número que está más a la derecha es el mayor. -3 está a la derecha de -8, -12 y -15.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-03"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si una temperatura baja de 4°C a -2°C, ¿cuál es la variación de la temperatura?",
+                "options": [
+                  "6°C",
+                  "-6°C",
+                  "2°C",
+                  "-2°C"
+                ],
+                "answer": "-6°C",
+                "explanation": "La variación se calcula restando la temperatura inicial de la final: -2 - 4 = -6. El signo negativo indica que la temperatura disminuyó.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es el resultado de la operación (-7) + 5?",
+                "options": [
+                  "-2",
+                  "2",
+                  "-12",
+                  "12"
+                ],
+                "answer": "-2",
+                "explanation": "Al sumar números de distinto signo, se restan sus valores absolutos (7-5=2) y se toma el signo del número con mayor valor absoluto (negativo).",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Un jugador de fútbol americano está en el yard 10. Si su equipo pierde 15 yardas, ¿en qué yard queda?",
+                "options": [
+                  "Yard 25",
+                  "Yard -5",
+                  "Yard 5",
+                  "Yard -25"
+                ],
+                "answer": "Yard -5",
+                "explanation": "Se parte de 10 y se restan 15 yardas: 10 - 15 = -5. Esto representa estar 5 yardas antes de la línea de inicio.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es el resultado de multiplicar dos números enteros negativos, por ejemplo (-3) × (-4)?",
+                "options": [
+                  "-12",
+                  "12",
+                  "-7",
+                  "7"
+                ],
+                "answer": "12",
+                "explanation": "El producto de dos números con el mismo signo es positivo. 3 × 4 = 12.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si un submarino desciende 10 metros y luego desciende 5 metros más, ¿cuál es su posición final respecto a la superficie?",
+                "options": [
+                  "-5 metros",
+                  "-15 metros",
+                  "15 metros",
+                  "-10 metros"
+                ],
+                "answer": "-15 metros",
+                "explanation": "El descenso se representa con números negativos. La suma de (-10) + (-5) es -15.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué propiedad matemática se aplica al realizar la operación (-2) × 5 = 5 × (-2)?",
+                "options": [
+                  "Propiedad conmutativa",
+                  "Propiedad asociativa",
+                  "Propiedad distributiva",
+                  "Propiedad identidad"
+                ],
+                "answer": "Propiedad conmutativa",
+                "explanation": "La propiedad conmutativa establece que el orden de los factores no altera el producto.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En la recta numérica, ¿cuál es el opuesto del número 8?",
+                "options": [
+                  "8",
+                  "-8",
+                  "0",
+                  "1/8"
+                ],
+                "answer": "-8",
+                "explanation": "El opuesto de un número es el que se encuentra a la misma distancia del cero pero en el lado contrario. El opuesto de 8 es -8.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Un banco muestra un saldo de -50.000 pesos. Si el estudiante deposita 20.000 pesos, ¿cuál es el nuevo saldo?",
+                "options": [
+                  "-30.000 pesos",
+                  "-70.000 pesos",
+                  "30.000 pesos",
+                  "-20.000 pesos"
+                ],
+                "answer": "-30.000 pesos",
+                "explanation": "Se suma el depósito al saldo inicial: -50.000 + 20.000 = -30.000. El saldo sigue siendo negativo, pero la deuda disminuye.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "MATCHING",
+            "pointsPerQuestion": 11.1,
+            "questions": [
+              {
+                "type": "MATCHING",
+                "stem": "Relaciona cada situación de la vida cotidiana con el resultado correcto de la operación de suma o resta de enteros que la representa.",
+                "options": [],
+                "answer": "",
+                "explanation": "Cada pareja corresponde a la resolución correcta de la operación: la deuda inicial más la nueva deuda suma los negativos; el depósito positivo reduce la deuda negativa; el saldo positivo menos el retiro positivo da el nuevo saldo; y la ganancia inicial más la pérdida negativa da el resultado final.",
+                "pairs": [
+                  {
+                    "left": "Tienes una deuda de $50.000 y le debes $20.000 más a tu amigo.",
+                    "right": "(-50.000) + (-20.000) = -70.000"
+                  },
+                  {
+                    "left": "Tu saldo es de -$30.000 y depositas $10.000.",
+                    "right": "(-30.000) + 10.000 = -20.000"
+                  },
+                  {
+                    "left": "Tenías $100.000 y gastas $40.000.",
+                    "right": "100.000 - 40.000 = 60.000"
+                  },
+                  {
+                    "left": "Ganaste $15.000 en el juego y luego perdiste $25.000.",
+                    "right": "15.000 + (-25.000) = -10.000"
+                  }
+                ],
+                "distractors": [
+                  "(-50.000) + 20.000 = -30.000",
+                  "100.000 + 40.000 = 140.000"
+                ],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "TRUE_FALSE",
+            "pointsPerQuestion": 3.7,
+            "questions": [
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Al multiplicar dos números enteros con signos diferentes, el resultado siempre es un número negativo.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "La regla de los signos establece que el producto de dos enteros de distinto signo es negativo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-02"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En la recta numérica, el número -10 se encuentra a la derecha del número -3.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "En la recta numérica, los números más pequeños (o más negativos) se ubican a la izquierda; -10 es menor que -3.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01",
+                  "MEN-DBA-MAT-V2-G6-03"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "El resultado de la operación (-15) - (-5) es igual a -20.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "Restar un número negativo equivale a sumar su opuesto: (-15) + 5 = -10, no -20.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Si un submarino está a -50 metros de profundidad y asciende 20 metros, su nueva posición es -30 metros.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Asciende significa sumar una cantidad positiva a la posición negativa: -50 + 20 = -30.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "El producto de (-4) × (-6) es igual a -24.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "Al multiplicar dos negativos, el resultado es positivo; el cálculo correcto es 4 × 6 = 24.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-02"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "SHORT_ANSWER",
+            "pointsPerQuestion": 5.6,
+            "questions": [
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Un ascensor en un edificio se encuentra en el piso -2 (sótano 2). Si sube 7 pisos y luego baja 3 pisos, ¿en qué piso queda finalmente?",
+                "options": [],
+                "answer": "Piso 2",
+                "explanation": "La operación es -2 + 7 - 3 = 2. El ascensor termina en el segundo piso sobre el nivel de la calle.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "El resultado de la operación (-8) × (-3) es un número positivo. ¿Cuál es el valor exacto de este producto?",
+                "options": [],
+                "answer": "24",
+                "explanation": "Al multiplicar dos números negativos, el resultado es positivo. 8 × 3 = 24, por lo tanto (-8) × (-3) = 24.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-02"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "OPEN",
+            "pointsPerQuestion": 11.1,
+            "questions": [
+              {
+                "type": "OPEN",
+                "stem": "Utilizando la recta numérica, explica paso a paso cómo determinar la diferencia entre los números -8 y 3 y representa gráficamente en la recta la solución.",
+                "options": [],
+                "answer": "Primero se ubica -8 y 3 en la recta numérica. Se cuenta desde -8 hacia la derecha hasta llegar a 3, lo que implica mover 11 unidades. Por lo tanto, la diferencia es 11. En la recta se dibuja una flecha que parte de -8 y termina en 3, marcando 11 unidades entre ambos puntos.",
+                "explanation": "Se analiza la posición relativa de los números en la recta y se cuenta la distancia entre ellos, lo que corresponde al cálculo de la diferencia.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Ubica correctamente -8 y 3 en la recta numérica",
+                    "points": 3.7
+                  },
+                  {
+                    "description": "Cuenta correctamente la distancia entre los dos puntos",
+                    "points": 3.7
+                  },
+                  {
+                    "description": "Explica claramente el proceso y da el resultado numérico",
+                    "points": 3.7
+                  }
+                ],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01"
+                ]
+              },
+              {
+                "type": "OPEN",
+                "stem": "Resuelve y justifica el siguiente problema: En una partida de fútbol, el marcador muestra -2 goles a favor del equipo local (es decir, lleva 2 goles en contra). Si el equipo anota 5 goles más, ¿cuál es el nuevo marcador y cómo se representa en la recta numérica?",
+                "options": [],
+                "answer": "Al anotar 5 goles, se suma 5 al -2: -2 + 5 = 3. El nuevo marcador es +3 goles a favor. En la recta numérica, se parte del punto -2 y se avanza 5 unidades hacia la derecha, llegando al punto 3.",
+                "explanation": "Se analiza la operación de suma de un entero negativo con un positivo y se interpreta el resultado en contexto, representándolo en la recta.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Realiza correctamente la operación -2 + 5",
+                    "points": 4.0
+                  },
+                  {
+                    "description": "Interpreta el resultado en el contexto del marcador",
+                    "points": 3.6
+                  },
+                  {
+                    "description": "Representa gráficamente el movimiento en la recta numérica",
+                    "points": 3.5
+                  }
+                ],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G6-01",
+                  "MEN-DBA-MAT-V2-G6-03"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "latencyMs": 63666
+    },
+    {
+      "case": "Matemáticas 9° (40 preguntas)",
+      "questions": 40,
+      "valid": true,
+      "attempts": 6,
+      "calls": 5,
+      "tokens": 24351,
+      "maxTokensPerCall": 6765,
+      "model": "openai/gpt-oss-120b",
+      "perCall": [
+        {
+          "attempts": 1,
+          "latencyMs": 9439,
+          "tokens": 5994
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 59444,
+          "tokens": 3248
+        },
+        {
+          "attempts": 2,
+          "latencyMs": 3660,
+          "tokens": 6765
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 18992,
+          "tokens": 3993
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 24656,
+          "tokens": 4351
+        }
+      ],
+      "output": {
+        "sections": [
+          {
+            "questionType": "MULTIPLE_CHOICE",
+            "pointsPerQuestion": 1.8,
+            "questions": [
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es la pendiente de la función lineal representada por la ecuación $y = -3x + 5$?",
+                "options": [
+                  "5",
+                  "-3",
+                  "3",
+                  "-5"
+                ],
+                "answer": "-3",
+                "explanation": "En la forma pendiente-ordenada al origen $y = mx + b$, la pendiente $m$ es el coeficiente de $x$. En este caso, $m = -3$.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si una función lineal tiene una pendiente positiva, su gráfica en el plano cartesiano:",
+                "options": [
+                  "Es una línea horizontal.",
+                  "Baja de izquierda a derecha.",
+                  "Sube de izquierda a derecha.",
+                  "Es una línea vertical."
+                ],
+                "answer": "Sube de izquierda a derecha.",
+                "explanation": "Una pendiente positiva indica que a medida que aumenta el valor de $x$, el valor de $y$ también aumenta, lo que se visualiza como una ascensión de izquierda a derecha.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué representa la ordenada al origen ($b$) en la ecuación $y = 2x + 7$?",
+                "options": [
+                  "El punto donde la recta corta al eje $x$.",
+                  "La pendiente de la recta.",
+                  "El punto donde la recta corta al eje $y$.",
+                  "La distancia total de la recta."
+                ],
+                "answer": "El punto donde la recta corta al eje $y$.",
+                "explanation": "La ordenada al origen es el valor de $y$ cuando $x=0$, que corresponde al punto de intersección con el eje vertical ($y$).",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Dos rectas son paralelas si y solo si:",
+                "options": [
+                  "Tienen la misma ordenada al origen.",
+                  "Tienen la misma pendiente.",
+                  "Sus pendientes son opuestas.",
+                  "Se intersectan en un punto."
+                ],
+                "answer": "Tienen la misma pendiente.",
+                "explanation": "Para que dos rectas sean paralelas, deben tener la misma inclinación, es decir, la misma pendiente, pero diferentes ordenadas al origen.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es el valor de $y$ en la función $y = 4x - 2$ cuando $x = 3$?",
+                "options": [
+                  "10",
+                  "8",
+                  "12",
+                  "14"
+                ],
+                "answer": "10",
+                "explanation": "Sustituyendo $x=3$ en la ecuación: $y = 4(3) - 2 = 12 - 2 = 10$.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Un taxi cobra $10.000 por el banderazo y $2.000 por cada kilómetro recorrido. ¿Cuál es la función lineal que representa el costo total ($C$) en función de los kilómetros ($k$)?",
+                "options": [
+                  "$C = 2000k + 10000$",
+                  "$C = 10000k + 2000$",
+                  "$C = 12000k$",
+                  "$C = 2000k - 10000$"
+                ],
+                "answer": "$C = 2000k + 10000$",
+                "explanation": "El costo fijo (banderazo) es la ordenada al origen ($10.000$) y el costo variable por kilómetro es la pendiente ($2.000$).",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es la solución del sistema de ecuaciones $y = x + 1$ y $y = 2x - 1$?",
+                "options": [
+                  "$(0, 1)$",
+                  "$(2, 3)$",
+                  "$(1, 2)$",
+                  "$(-1, 0)$"
+                ],
+                "answer": "$(2, 3)$",
+                "explanation": "Igualando las expresiones: $x + 1 = 2x - 1 \\Rightarrow 2 = x$. Sustituyendo $x=2$ en la primera ecuación: $y = 2 + 1 = 3$. La solución es $(2, 3)$.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si un sistema de ecuaciones lineales 2x2 no tiene solución, sus gráficas son:",
+                "options": [
+                  "Rectas coincidentes.",
+                  "Rectas perpendiculares.",
+                  "Rectas paralelas.",
+                  "Rectas que se cruzan en el origen."
+                ],
+                "answer": "Rectas paralelas.",
+                "explanation": "Un sistema sin solución implica que las rectas no se intersectan nunca, lo cual ocurre cuando son paralelas (misma pendiente, distinta ordenada al origen).",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Resuelve el sistema: $x + y = 10$ y $x - y = 4$. ¿Cuál es el valor de $x$?",
+                "options": [
+                  "3",
+                  "7",
+                  "14",
+                  "6"
+                ],
+                "answer": "7",
+                "explanation": "Sumando ambas ecuaciones: $(x+y) + (x-y) = 10 + 4 \\Rightarrow 2x = 14 \\Rightarrow x = 7$.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En el sistema $2x + 3y = 12$ y $x = 3$, ¿cuál es el valor de $y$?",
+                "options": [
+                  "1",
+                  "2",
+                  "3",
+                  "4"
+                ],
+                "answer": "2",
+                "explanation": "Sustituyendo $x=3$ en la primera ecuación: $2(3) + 3y = 12 \\Rightarrow 6 + 3y = 12 \\Rightarrow 3y = 6 \\Rightarrow y = 2$.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es la hipotenusa de un triángulo rectángulo cuyos catetos miden 3 cm y 4 cm?",
+                "options": [
+                  "5 cm",
+                  "7 cm",
+                  "12 cm",
+                  "25 cm"
+                ],
+                "answer": "5 cm",
+                "explanation": "Aplicando Pitágoras: $h^2 = 3^2 + 4^2 = 9 + 16 = 25$, entonces $h = \\sqrt{25} = 5$ cm.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Según el teorema de Pitágoras, en un triángulo rectángulo se cumple que:",
+                "options": [
+                  "La suma de los catetos es igual a la hipotenusa.",
+                  "El cuadrado de la hipotenusa es igual a la suma de los cuadrados de los catetos.",
+                  "El producto de los catetos es igual al cuadrado de la hipotenusa.",
+                  "La hipotenusa es siempre el doble de la suma de los catetos."
+                ],
+                "answer": "El cuadrado de la hipotenusa es igual a la suma de los cuadrados de los catetos.",
+                "explanation": "La fórmula fundamental es $c^2 = a^2 + b^2$, donde $c$ es la hipotenusa y $a, b$ son los catetos.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Una escalera de 5 m de longitud está apoyada en una pared, con su base a 3 m de la pared. ¿A qué altura toca la pared?",
+                "options": [
+                  "2 m",
+                  "4 m",
+                  "8 m",
+                  "3 m"
+                ],
+                "answer": "4 m",
+                "explanation": "La escalera es la hipotenusa ($5$). La base es un cateto ($3$). La altura es el otro cateto: $h^2 + 3^2 = 5^2 \\Rightarrow h^2 + 9 = 25 \\Rightarrow h^2 = 16 \\Rightarrow h = 4$.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si los lados de un triángulo miden 6 cm, 8 cm y 10 cm, ¿es un triángulo rectángulo?",
+                "options": [
+                  "Sí, porque $6^2 + 8^2 = 10^2$.",
+                  "No, porque $6 + 8 \\neq 10$.",
+                  "Sí, porque $6 + 8 + 10 = 24$.",
+                  "No, porque $10^2 \\neq 6^2 + 8^2$."
+                ],
+                "answer": "Sí, porque $6^2 + 8^2 = 10^2$.",
+                "explanation": "Verificando Pitágoras: $36 + 64 = 100$, que es igual a $10^2$. Por lo tanto, es un triángulo rectángulo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es la probabilidad de sacar un número par al lanzar un dado común de 6 caras una vez?",
+                "options": [
+                  "$1/6$",
+                  "$1/3$",
+                  "$1/2$",
+                  "$2/3$"
+                ],
+                "answer": "$1/2$",
+                "explanation": "Los números pares en un dado son 2, 4 y 6 (3 casos favorables). El total de casos es 6. La probabilidad es $3/6 = 1/2$.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T4",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En una bolsa hay 3 bolas rojas y 2 bolas azules. ¿Cuál es la probabilidad de sacar una bola azul al azar?",
+                "options": [
+                  "$3/5$",
+                  "$2/5$",
+                  "$1/5$",
+                  "$2/3$"
+                ],
+                "answer": "$2/5$",
+                "explanation": "Hay 2 bolas azules (favorables) y 5 bolas en total. La probabilidad es $2/5$.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T4",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "La probabilidad de un evento seguro es:",
+                "options": [
+                  "0",
+                  "1/2",
+                  "1",
+                  "2"
+                ],
+                "answer": "1",
+                "explanation": "Un evento seguro es aquel que siempre ocurre, por lo que su probabilidad es máxima, es decir, 1 (o 100%).",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T4",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si la probabilidad de que llueva mañana es 0.3, ¿cuál es la probabilidad de que NO llueva?",
+                "options": [
+                  "0.3",
+                  "0.7",
+                  "1.3",
+                  "0.1"
+                ],
+                "answer": "0.7",
+                "explanation": "La probabilidad del evento complementario (no llover) es $1 - P(lluvia) = 1 - 0.3 = 0.7$.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T4",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué representa la pendiente en una gráfica de distancia contra tiempo?",
+                "options": [
+                  "La distancia total recorrida.",
+                  "La velocidad del objeto.",
+                  "El tiempo transcurrido.",
+                  "La aceleración del objeto."
+                ],
+                "answer": "La velocidad del objeto.",
+                "explanation": "En una gráfica de posición (distancia) vs. tiempo, la pendiente (cambio en $y$ / cambio en $x$) representa la velocidad.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si dos variables $x$ y $y$ se relacionan mediante la ecuación $3x + 4y = 12$, ¿cuál es la pendiente de la recta?",
+                "options": [
+                  "$3/4$",
+                  "$-3/4$",
+                  "$4/3$",
+                  "$-4/3$"
+                ],
+                "answer": "$-3/4$",
+                "explanation": "Despejando $y$: $4y = -3x + 12 \\Rightarrow y = -3/4 x + 3$. La pendiente es el coeficiente de $x$, que es $-3/4$.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "TRUE_FALSE",
+            "pointsPerQuestion": 1.8,
+            "questions": [
+              {
+                "type": "TRUE_FALSE",
+                "stem": "La gráfica de la función lineal $y = 2x + 3$ es una recta que corta al eje $y$ en el punto $(0, 3)$.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "En la forma pendiente-ordenada al origen ($y = mx + b$), el valor $b$ representa la intersección con el eje $y$. Por lo tanto, la recta corta el eje vertical en $y=3$.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "El sistema de ecuaciones $x + y = 5$ y $x + y = 7$ tiene una única solución.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "Al restar las ecuaciones se obtiene $0 = -2$, lo cual es una contradicción. Esto indica que las rectas son paralelas y el sistema no tiene solución.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En un triángulo rectángulo con catetos de 5 cm y 12 cm, la longitud de la hipotenusa es 13 cm.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Aplicando el teorema de Pitágoras: $c^2 = 5^2 + 12^2 = 25 + 144 = 169$. La raíz cuadrada de 169 es 13.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Si se lanza una moneda al aire, la probabilidad de obtener cara es 0.5.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Una moneda ideal tiene dos resultados equiprobables (cara y sello). La probabilidad es el número de casos favorables (1) dividido por el total de casos posibles (2), es decir, 1/2 o 0.5.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T4",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "MATCHING",
+            "pointsPerQuestion": 5.3,
+            "questions": [
+              {
+                "type": "MATCHING",
+                "stem": "Relaciona cada función lineal con la descripción de su gráfica en el plano cartesiano.",
+                "options": [],
+                "answer": "",
+                "explanation": "Cada pareja muestra la correspondencia entre la forma algebraica de la función lineal y la característica de su gráfica (pendiente y ordenada al origen).",
+                "pairs": [
+                  {
+                    "left": "y = 2x + 3",
+                    "right": "Recta que corta al eje y en (0,3) y tiene pendiente 2"
+                  },
+                  {
+                    "left": "y = -x + 1",
+                    "right": "Recta que corta al eje y en (0,1) y tiene pendiente -1"
+                  },
+                  {
+                    "left": "y = 0.5x - 4",
+                    "right": "Recta que corta al eje y en (0,-4) y tiene pendiente 0.5"
+                  },
+                  {
+                    "left": "y = 3x",
+                    "right": "Recta que pasa por el origen y tiene pendiente 3"
+                  }
+                ],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              },
+              {
+                "type": "MATCHING",
+                "stem": "Empareja cada sistema de ecuaciones 2x2 con la descripción de su tipo de solución.",
+                "options": [],
+                "answer": "",
+                "explanation": "Las descripciones indican si el sistema tiene solución única, infinitas soluciones o ninguna solución, según la posición relativa de sus rectas.",
+                "pairs": [
+                  {
+                    "left": "\\begin{cases} x + y = 7 \\\\ 2x - y = 3 \\end{cases}",
+                    "right": "Solución única"
+                  },
+                  {
+                    "left": "\\begin{cases} 3x + 2y = 6 \\\\ 6x + 4y = 12 \\end{cases}",
+                    "right": "Infinitas soluciones (rectas coincidentes)"
+                  },
+                  {
+                    "left": "\\begin{cases} x - y = 2 \\\\ x - y = 5 \\end{cases}",
+                    "right": "Sin solución (rectas paralelas)"
+                  },
+                  {
+                    "left": "\\begin{cases} 2x + 4y = 8 \\\\ x + 2y = 4 \\end{cases}",
+                    "right": "Solución única (rectas intersectan)"
+                  }
+                ],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "SHORT_ANSWER",
+            "pointsPerQuestion": 2.6,
+            "questions": [
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Dada la función lineal $y= -2x+4$, ¿cuál es el valor de $x$ cuando $y=0$?",
+                "options": [],
+                "answer": "2",
+                "explanation": "Al hacer $0=-2x+4$, se despeja $x=2$.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Si la recta pasa por los puntos $(1,3)$ y $(4,9)$, ¿cuál es su pendiente?",
+                "options": [],
+                "answer": "2",
+                "explanation": "Pendiente = (9‑3)/(4‑1)=6/3=2.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Resuelve el sistema: $2x+ y =7$ y $x- y =1$. ¿Cuál es el valor de $x$?",
+                "options": [],
+                "answer": "2",
+                "explanation": "Sumando ambas ecuaciones se elimina $y$, obteniendo $3x=9$, luego $x=3$; pero sustituyendo en la segunda da $x=2$. Re‑verificar: al sustituir $x=2$, $y=3$ satisface ambas ecuaciones, por lo que $x=2$.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "En el mismo sistema anterior, ¿cuál es el valor de $y$?",
+                "options": [],
+                "answer": "3",
+                "explanation": "Con $x=2$, sustituyendo en $2x+y=7$ da $4+y=7$, luego $y=3$.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Un triángulo rectángulo tiene catetos de 7 cm y 24 cm. ¿Cuál es la longitud de la hipotenusa?",
+                "options": [],
+                "answer": "25",
+                "explanation": "Aplicando Pitágoras: $h=\\sqrt{7^2+24^2}=\\sqrt{49+576}=\\sqrt{625}=25$.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-03"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Si en un triángulo rectángulo los lados miden 9 cm, 12 cm y 15 cm, ¿qué puedes concluir sobre el ángulo entre los lados de 9 cm y 12 cm?",
+                "options": [],
+                "answer": "Es un ángulo recto",
+                "explanation": "$9^2+12^2=81+144=225=15^2$, cumple el teorema de Pitágoras, por lo tanto el ángulo es recto.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-03"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "En una bolsa hay 4 canicas rojas y 6 verdes. Si se extrae una canica al azar, ¿cuál es la probabilidad de que sea verde? Expresa la respuesta como fracción simplificada.",
+                "options": [],
+                "answer": "3/5",
+                "explanation": "Probabilidad = 6/(4+6)=6/10=3/5.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T4",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Si lanzas dos dados, ¿cuál es la probabilidad de obtener una suma de 7?",
+                "options": [],
+                "answer": "1/6",
+                "explanation": "Hay 6 combinaciones favorables de 36 posibles, por lo que 6/36=1/6.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T4",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Evalúa la razonabilidad de usar la función $y=5x+2$ para modelar el costo de un servicio que tiene un costo fijo de $2.000$ y $5.000$ por unidad consumida. ¿Es adecuada? Justifica en una frase.",
+                "options": [],
+                "answer": "Sí, porque la forma $y=mx+b$ representa costo fijo más costo variable por unidad.",
+                "explanation": "La ecuación coincide con costo fijo $b=2$ y costo variable $m=5$ por unidad.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Evalúa si el método de sustitución es apropiado para resolver el sistema $x^2 + y = 5$ y $y = 2x + 1$. Justifica brevemente.",
+                "options": [],
+                "answer": "No, porque el primer ecuación no es lineal y la sustitución produciría una ecuación cuadrática compleja.",
+                "explanation": "El método de sustitución se usa típicamente para sistemas lineales; aquí una ecuación es cuadrática.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "OPEN",
+            "pointsPerQuestion": 5.3,
+            "questions": [
+              {
+                "type": "OPEN",
+                "stem": "Un estudiante quiere modelar el costo total (C) de un servicio de internet que tiene una cuota fija de $2.000 y un costo variable de $5.000 por cada gigabyte (GB) consumido. Evalúa si la función lineal $C = 5x + 2$ (donde $x$ es la cantidad de GB) es adecuada para representar esta situación y justifica tu respuesta en una frase.",
+                "options": [],
+                "answer": "Sí, es adecuada porque la forma $C = 5x + 2$ refleja correctamente la cuota fija (intercepto) y el costo por GB (pendiente).",
+                "explanation": "La ecuación lineal incluye el término constante que representa la cuota fija y la pendiente que representa el costo por unidad.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Identifica correctamente la interpretación de la pendiente y el intercepto.",
+                    "points": 2.6
+                  },
+                  {
+                    "description": "Justifica brevemente por qué la función modela la situación.",
+                    "points": 2.7
+                  }
+                ],
+                "topic": "T1",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-01"
+                ]
+              },
+              {
+                "type": "OPEN",
+                "stem": "Dado el sistema de ecuaciones $\\begin{cases} 3x + 2y = 12 \\\\ x - y = 1 \\end{cases}$, evalúa si el método de sustitución es apropiado para resolverlo y describe brevemente los pasos que seguirías.",
+                "options": [],
+                "answer": "Sí, es apropiado; se despeja $x$ de la segunda ecuación ($x = y + 1$) y se sustituye en la primera para hallar $y$, luego se sustituye $y$ para obtener $x$.",
+                "explanation": "El método de sustitución funciona porque una ecuación ya está despejada para una variable.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Justifica la idoneidad del método de sustitución.",
+                    "points": 2.6
+                  },
+                  {
+                    "description": "Describe correctamente los pasos del procedimiento.",
+                    "points": 2.7
+                  }
+                ],
+                "topic": "T2",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-02"
+                ]
+              },
+              {
+                "type": "OPEN",
+                "stem": "En la construcción de una rampa para una silla de ruedas, se necesita que la distancia horizontal sea de 4 m y la altura vertical de 1 m. Evalúa si el uso del teorema de Pitágoras es pertinente para determinar la longitud mínima de la rampa y explica tu razonamiento.",
+                "options": [],
+                "answer": "Sí, es pertinente porque la rampa forma un triángulo rectángulo y la hipotenusa (longitud de la rampa) se calcula con $\\sqrt{4^2 + 1^2}=\\sqrt{17}\\approx4.12\\,\\text{m}$.",
+                "explanation": "El teorema de Pitágoras permite hallar la hipotenusa cuando se conocen los catetos.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Reconoce la situación como un triángulo rectángulo.",
+                    "points": 2.6
+                  },
+                  {
+                    "description": "Aplica correctamente el teorema y brinda la longitud resultante.",
+                    "points": 2.7
+                  }
+                ],
+                "topic": "T3",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-03"
+                ]
+              },
+              {
+                "type": "OPEN",
+                "stem": "En una bolsa hay 3 canicas rojas, 2 azules y 5 verdes. Se extraen dos canicas sin reposición. Evalúa la razonabilidad de afirmar que la probabilidad de que ambas sean verdes es $\\frac{1}{6}$ y justifica tu respuesta.",
+                "options": [],
+                "answer": "No es razonable; la probabilidad correcta es $(5/10)\\times(4/9)=20/90=2/9\\approx0.222$, no $1/6$.",
+                "explanation": "Se calcula multiplicando la probabilidad de la primera extracción verde por la de la segunda después de haber retirado una verde.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Identifica el error en la afirmación dada.",
+                    "points": 2.6
+                  },
+                  {
+                    "description": "Calcula y presenta la probabilidad correcta con razonamiento.",
+                    "points": 2.7
+                  }
+                ],
+                "topic": "T4",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-MAT-V2-G9-04"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "latencyMs": 116196
+    },
+    {
+      "case": "Lengua Castellana 8° (40 preguntas)",
+      "questions": 40,
+      "valid": true,
+      "attempts": 6,
+      "calls": 4,
+      "tokens": 29225,
+      "maxTokensPerCall": 17051,
+      "model": "openai/gpt-oss-120b",
+      "perCall": [
+        {
+          "attempts": 1,
+          "latencyMs": 7164,
+          "tokens": 4826
+        },
+        {
+          "attempts": 3,
+          "latencyMs": 91082,
+          "tokens": 17051
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 22180,
+          "tokens": 3421
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 24736,
+          "tokens": 3927
+        }
+      ],
+      "output": {
+        "sections": [
+          {
+            "questionType": "MULTIPLE_CHOICE",
+            "pointsPerQuestion": 2.0,
+            "questions": [
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es la característica principal de un texto argumentativo?",
+                "options": [
+                  "Presenta una narración de hechos sin opinión del autor",
+                  "Expone una tesis y la sustenta con argumentos",
+                  "Describe detalladamente un proceso paso a paso",
+                  "Cuenta una historia con personajes y trama"
+                ],
+                "answer": "Expone una tesis y la sustenta con argumentos",
+                "explanation": "Un texto argumentativo siempre incluye una tesis y argumentos que la respaldan.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En una crónica periodística, ¿qué elemento indica la secuencia temporal de los hechos?",
+                "options": [
+                  "El título",
+                  "Los conectores lógicos",
+                  "Los párrafos descriptivos",
+                  "La cronología de los eventos"
+                ],
+                "answer": "La cronología de los eventos",
+                "explanation": "La crónica ordena los hechos según su ocurrencia temporal.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál de los siguientes conectores indica causa?",
+                "options": [
+                  "sin embargo",
+                  "por lo tanto",
+                  "aunque",
+                  "además"
+                ],
+                "answer": "por lo tanto",
+                "explanation": "\"Por lo tanto\" introduce una consecuencia, señalando causa‑efecto.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué función cumple la tesis en un texto argumentativo?",
+                "options": [
+                  "Introducir al autor",
+                  "Resumir la conclusión final",
+                  "Presentar la idea principal que se defenderá",
+                  "Describir el contexto histórico"
+                ],
+                "answer": "Presentar la idea principal que se defenderá",
+                "explanation": "La tesis es la idea central que el autor busca convencer al lector.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En una crónica, ¿qué se entiende por \"lead\"?",
+                "options": [
+                  "El último párrafo",
+                  "El párrafo que resume lo más importante",
+                  "Una cita textual del entrevistado",
+                  "El título de la crónica"
+                ],
+                "answer": "El párrafo que resume lo más importante",
+                "explanation": "El \"lead\" es el párrafo inicial que contiene la información esencial.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál de los siguientes es un conector de contraste?",
+                "options": [
+                  "porque",
+                  "sin embargo",
+                  "por eso",
+                  "luego"
+                ],
+                "answer": "sin embargo",
+                "explanation": "\"Sin embargo\" introduce una idea opuesta o contrastante.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Identifica la tesis del siguiente fragmento: \"Los colegios deben incorporar más actividades deportivas porque mejoran la salud y el rendimiento académico de los estudiantes.\"",
+                "options": [
+                  "Los colegios deben incorporar más actividades deportivas",
+                  "Mejoran la salud y el rendimiento académico",
+                  "Los estudiantes necesitan más tiempo libre",
+                  "La educación física es una materia obligatoria"
+                ],
+                "answer": "Los colegios deben incorporar más actividades deportivas",
+                "explanation": "La frase expresa la idea principal que se defenderá con argumentos.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En una crónica, ¿qué papel cumple la descripción del escenario?",
+                "options": [
+                  "Introduce la opinión del autor",
+                  "Ordena cronológicamente los hechos",
+                  "Crea contexto y ambientación para el lector",
+                  "Concluye la narración"
+                ],
+                "answer": "Crea contexto y ambientación para el lector",
+                "explanation": "La descripción del escenario sitúa al lector en el lugar y tiempo de los hechos.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Selecciona el conector que mejor une las siguientes ideas: \"El equipo entrenó mucho. ___ ganó el campeonato.\"",
+                "options": [
+                  "aunque",
+                  "por lo tanto",
+                  "sin embargo",
+                  "mientras"
+                ],
+                "answer": "por lo tanto",
+                "explanation": "Indica consecuencia entre el entrenamiento y la victoria.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es la diferencia principal entre un texto argumentativo y una crónica?",
+                "options": [
+                  "La crónica siempre usa primera persona; el argumentativo no",
+                  "El argumentativo busca convencer, la crónica relata hechos reales",
+                  "La crónica incluye conectores lógicos y el argumentativo no",
+                  "El argumentativo tiene título y la crónica no"
+                ],
+                "answer": "El argumentativo busca convencer, la crónica relata hechos reales",
+                "explanation": "El objetivo del argumentativo es persuadir, mientras la crónica narra acontecimientos.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En el siguiente párrafo, ¿qué conector indica adición? \"La lluvia cayó fuerte, ___ el viento aumentó.\"",
+                "options": [
+                  "pero",
+                  "aunque",
+                  "y",
+                  "sin embargo"
+                ],
+                "answer": "y",
+                "explanation": "\"Y\" añade información a la idea previa.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué elemento estructural suele aparecer al final de una crónica?",
+                "options": [
+                  "El lead",
+                  "La conclusión o cierre reflexivo",
+                  "El título",
+                  "Los datos estadísticos"
+                ],
+                "answer": "La conclusión o cierre reflexivo",
+                "explanation": "Al cerrar la crónica se suele incluir una reflexión o cierre que resume la importancia del hecho.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En un texto argumentativo, ¿cuál es la función de los contraargumentos?",
+                "options": [
+                  "Desacreditar al autor",
+                  "Mostrar que se ha considerado la posición opuesta",
+                  "Reforzar la tesis sin necesidad de evidencia",
+                  "Eliminar dudas del lector"
+                ],
+                "answer": "Mostrar que se ha considerado la posición opuesta",
+                "explanation": "Los contraargumentos demuestran que el autor ha analizado puntos de vista diferentes.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Selecciona el conector que expresa condición: \"___ estudies, aprobarás el examen.\"",
+                "options": [
+                  "Si",
+                  "porque",
+                  "aunque",
+                  "cuando"
+                ],
+                "answer": "Si",
+                "explanation": "\"Si\" introduce una condición necesaria para que ocurra algo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál de los siguientes enunciados es un argumento a favor de la tesis \"Los colegios deben ofrecer clases de música\"?",
+                "options": [
+                  "La música es entretenida",
+                  "Los estudiantes disfrutan cantar",
+                  "La música mejora la concentración y habilidades cognitivas",
+                  "Los maestros de música son pocos"
+                ],
+                "answer": "La música mejora la concentración y habilidades cognitivas",
+                "explanation": "Es un argumento que sustenta la necesidad de la clase de música con un beneficio concreto.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En una crónica, ¿por qué es importante incluir citas de testigos?",
+                "options": [
+                  "Para dar mayor credibilidad y perspectiva personal",
+                  "Para alargar el texto",
+                  "Para cumplir con normas de estilo",
+                  "Para evitar usar conectores"
+                ],
+                "answer": "Para dar mayor credibilidad y perspectiva personal",
+                "explanation": "Las citas aportan autenticidad y diferentes puntos de vista al relato.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Analiza el siguiente fragmento y determina cuál es el conector que mejor mejora la cohesión: \"El huracán causó inundaciones. ___, muchas familias perdieron sus hogares.\"",
+                "options": [
+                  "Sin embargo",
+                  "Por consiguiente",
+                  "En cambio",
+                  "A pesar de eso"
+                ],
+                "answer": "Por consiguiente",
+                "explanation": "\"Por consiguiente\" indica consecuencia lógica entre los hechos.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En un texto argumentativo, ¿qué señal indica que se está presentando un contraargumento?",
+                "options": [
+                  "Uso de conectores como \"sin embargo\" o \"no obstante\"",
+                  "Uso de conectores de causa como \"porque\"",
+                  "Uso de conectores de tiempo como \"luego\"",
+                  "Uso de conectores de adición como \"además\""
+                ],
+                "answer": "Uso de conectores como \"sin embargo\" o \"no obstante\"",
+                "explanation": "Estos conectores introducen ideas opuestas a la tesis principal.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál de los siguientes enunciados corresponde a una conclusión típica en una crónica?",
+                "options": [
+                  "\"En conclusión, el evento mostró la unión de la comunidad\"",
+                  "\"El autor cree que...\"",
+                  "\"Según datos estadísticos...\"",
+                  "\"A continuación, se describen...\""
+                ],
+                "answer": "\"En conclusión, el evento mostró la unión de la comunidad\"",
+                "explanation": "Una conclusión resume y reflexiona sobre lo narrado.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En un texto argumentativo, ¿qué tipo de evidencia fortalece más una afirmación?",
+                "options": [
+                  "Una opinión personal",
+                  "Una anécdota sin datos",
+                  "Una estadística oficial",
+                  "Una frase de un amigo"
+                ],
+                "answer": "Una estadística oficial",
+                "explanation": "Las estadísticas oficiales aportan respaldo objetivo y verificable.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "TRUE_FALSE",
+            "pointsPerQuestion": 2.0,
+            "questions": [
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En un texto argumentativo, la tesis puede ser refutada completamente por los contraargumentos sin que el autor defienda su postura inicial.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "El contraargumento se presenta para ser refutado o matizado, con el fin de fortalecer la tesis principal del autor, no para eliminarla por completo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "La crónica periodística se caracteriza por ser un texto puramente ficticio, donde el autor inventa los personajes y los eventos para entretener al lector.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "La crónica es un texto periodístico basado en hechos reales, aunque utiliza recursos literarios para narrarlos; no es ficción.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "El uso de conectores de oposición, como 'aunque' o 'sin embargo', permite mostrar la tensión entre dos ideas dentro de un párrafo argumentativo.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Estos conectores sirven para introducir una idea que contrasta o limita a la anterior, aportando cohesión y matices al argumento.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En la estructura de una crónica, el 'lead' o entradilla debe contener exclusivamente datos estadísticos fríos, sin descripciones sensoriales.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "El lead de una crónica suele ser narrativo y descriptivo, buscando captar la atención del lector con detalles sensoriales y situacionales, no solo datos fríos.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Un texto argumentativo es efectivo si presenta solo argumentos a favor de la tesis, omitiendo cualquier mención a opiniones contrarias.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "La inclusión y refutación de contraargumentos demuestra un análisis más profundo y fortalece la credibilidad de la tesis del autor.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Los conectores de conclusión, como 'en síntesis' o 'por lo tanto', se utilizan típicamente al inicio de un párrafo para introducir el tema principal.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "Estos conectores se emplean al final de un texto o párrafo para resumir las ideas expuestas o derivar una consecuencia lógica, no para introducir el tema.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En una crónica periodística, el narrador suele ser impersonal y distante, evitando cualquier intervención subjetiva o comentario personal sobre los hechos.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "A diferencia de la noticia dura, la crónica permite la presencia del narrador, quien puede incluir opiniones, valoraciones y una voz más cercana al lector.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "La tesis de un texto argumentativo debe ser una pregunta retórica que invite al lector a reflexionar, sin tomar una postura definida.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "La tesis es una afirmación clara y defendible sobre el tema; no es una pregunta, sino la postura que el autor sostiene y argumenta.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "El uso excesivo de conectores de adición, como 'además' o 'también', puede hacer que un texto argumentativo pierda fuerza al no jerarquizar las ideas.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Una variación adecuada de conectores (causa, consecuencia, contraste) permite jerarquizar los argumentos y evitar la monotonía, dando mayor peso a las ideas clave.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En una crónica, la descripción del escenario debe limitarse a datos objetivos y evitar cualquier recurso sensorial que ayude al lector a imaginar la escena.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "La descripción sensorial del escenario es esencial en la crónica para crear una atmósfera vívida y conectar emocionalmente al lector con los hechos.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "SHORT_ANSWER",
+            "pointsPerQuestion": 2.9,
+            "questions": [
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "En el siguiente fragmento, identifica la tesis del texto argumentativo: \"Los estudiantes de 8° deben dedicar al menos una hora diaria a la lectura porque mejora su comprensión y rendimiento académico\".",
+                "options": [],
+                "answer": "Los estudiantes de 8° deben dedicar al menos una hora diaria a la lectura porque mejora su comprensión y rendimiento académico",
+                "explanation": "La oración expresa la postura principal que el autor quiere defender, por lo tanto es la tesis.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Analiza la crónica siguiente y señala cuál es el elemento que cumple la función de \"lead\": \"A las 6:30 a.m., la comunidad de Villa del Río despertó con el estruendo de una explosión que dejó a varios residentes sin hogar.\"",
+                "options": [],
+                "answer": "A las 6:30 a.m., la comunidad de Villa del Río despertó con el estruendo de una explosión que dejó a varios residentes sin hogar.",
+                "explanation": "El lead es la primera oración que resume el hecho principal y capta la atención del lector.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Evalúa la efectividad del siguiente conector en un párrafo argumentativo: \"Sin embargo, los datos muestran que la propuesta es viable\".",
+                "options": [],
+                "answer": "El conector 'Sin embargo' introduce una oposición que fortalece la argumentación al contrastar la propuesta con datos que la respaldan.",
+                "explanation": "Se reconoce que el conector marca contraste y aporta cohesión al argumento.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Evalúa por qué es importante incluir citas de testigos en una crónica periodística.",
+                "options": [],
+                "answer": "Las citas aportan credibilidad, dan voz a los involucrados y enriquecen la descripción del hecho con perspectivas reales.",
+                "explanation": "Se valora la función de las citas como evidencia y elemento de cercanía al lector.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Evalúa el impacto de usar excesivamente conectores de adición como 'además' en un texto argumentativo.",
+                "options": [],
+                "answer": "El uso excesivo de 'además' puede saturar el texto, disminuir la jerarquía de ideas y debilitar la fuerza persuasiva del argumento.",
+                "explanation": "Se reconoce que la sobrecarga de conectores de adición afecta la claridad y persuasión.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T3",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Evalúa si la siguiente afirmación es válida en un texto argumentativo: \"Un argumento sólido siempre necesita datos estadísticos para ser convincente\".",
+                "options": [],
+                "answer": "No es válida; un argumento sólido puede sustentarse también en razonamiento lógico, ejemplos, testimonios o experiencias, no exclusivamente en datos estadísticos.",
+                "explanation": "Se juzga la afirmación considerando la variedad de tipos de evidencia aceptables.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "OPEN",
+            "pointsPerQuestion": 5.9,
+            "questions": [
+              {
+                "type": "OPEN",
+                "stem": "Evalúa la pertinencia de incluir una descripción sensorial del escenario en la introducción de una crónica periodística sobre un evento deportivo en tu ciudad. Argumenta si mejora o dificulta la comprensión del lector y justifica tu posición con ejemplos concretos.",
+                "options": [],
+                "answer": "Una respuesta adecuada debe indicar que la descripción sensorial en la introducción de la crónica ayuda a situar al lector, generar interés y crear una atmósfera que facilita la comprensión del contexto del evento. Debe argumentar que, al describir sonidos, olores o visuales del estadio, se capta la atención y se conecta emocionalmente al lector, aunque se debe equilibrar para no sobrecargar de detalles. Se pueden citar ejemplos como la crónica de una final de fútbol donde se menciona el rugido de la multitud y el aroma a comida típica, mostrando cómo esos detalles enriquecen la narrativa.",
+                "explanation": "La respuesta muestra análisis crítico sobre el efecto de la descripción sensorial y justifica con ejemplos, cumpliendo el nivel de evaluación.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Argumenta claramente si la descripción sensorial mejora o dificulta la comprensión",
+                    "points": 2.0
+                  },
+                  {
+                    "description": "Justifica la posición con ejemplos concretos de crónicas deportivas",
+                    "points": 2.0
+                  },
+                  {
+                    "description": "Menciona el equilibrio necesario entre detalle sensorial y claridad informativa",
+                    "points": 1.9
+                  }
+                ],
+                "topic": "T2",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "OPEN",
+                "stem": "Evalúa la efectividad de usar el conector lógico 'sin embargo' al inicio de un párrafo que presenta contraargumentos en un texto argumentativo sobre la obligatoriedad de clases de música en la escuela.",
+                "options": [],
+                "answer": "Una respuesta correcta señalará que 'sin embargo' es eficaz porque marca claramente la oposición entre la tesis y el contraargumento, facilitando la cohesión y la claridad del razonamiento. Debe indicar que su uso adecuado ayuda al lector a reconocer el giro argumentativo, pero advertir que su abuso o uso fuera de contexto puede generar confusión o debilitar la fuerza del argumento.",
+                "explanation": "Se reconoce la función del conector para introducir oposición y se evalúa su uso apropiado.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Identifica la función del conector 'sin embargo' en la oposición",
+                    "points": 2.0
+                  },
+                  {
+                    "description": "Explica por qué mejora la claridad del argumento al presentar contraargumentos",
+                    "points": 2.0
+                  },
+                  {
+                    "description": "Advierte sobre posibles efectos negativos de su uso inadecuado",
+                    "points": 1.9
+                  }
+                ],
+                "topic": "T3",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-03"
+                ]
+              },
+              {
+                "type": "OPEN",
+                "stem": "Evalúa la importancia de identificar la tesis y los argumentos principales en un texto argumentativo sobre la implementación de actividades deportivas en los colegios, y describe cómo esta identificación puede influir en la elaboración de una respuesta escrita.",
+                "options": [],
+                "answer": "Una respuesta adecuada debe explicar que reconocer la tesis y los argumentos permite al estudiante estructurar su respuesta de forma lógica, enfocarse en los puntos clave y contraargumentar de manera pertinente. Debe mencionar que al identificar la tesis se define el objetivo del texto, y al reconocer los argumentos se pueden seleccionar evidencias y ejemplos para apoyar o refutar, lo que mejora la coherencia y la pertinencia de la respuesta escrita.",
+                "explanation": "Se valora la capacidad de analizar la utilidad de la identificación de la tesis y argumentos para la producción escrita.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Explica la función de la tesis y los argumentos en la comprensión del texto",
+                    "points": 2.0
+                  },
+                  {
+                    "description": "Describe cómo esa identificación orienta la organización de la respuesta escrita",
+                    "points": 2.0
+                  },
+                  {
+                    "description": "Menciona ejemplos de uso de evidencias o contraargumentos basados en la identificación previa",
+                    "points": 1.9
+                  }
+                ],
+                "topic": "T1",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-01"
+                ]
+              },
+              {
+                "type": "OPEN",
+                "stem": "Evalúa el impacto de incluir citas textuales de testigos en una crónica periodística sobre una manifestación estudiantil en tu municipio. Analiza cómo estas citas pueden afectar la credibilidad y la emotividad del relato.",
+                "options": [],
+                "answer": "Una respuesta correcta indicará que las citas de testigos aportan credibilidad al ofrecer voces directas que corroboran los hechos y añaden perspectiva personal. Además, generan emotividad al transmitir experiencias y sentimientos, lo que enriquece la narrativa. Se debe señalar que, si las citas son seleccionadas cuidadosamente y contextualizadas, fortalecen la confianza del lector; sin embargo, citas fuera de contexto o sin verificación pueden comprometer la objetividad.",
+                "explanation": "Se valora el análisis del efecto de las citas en credibilidad y emotividad, demostrando juicio crítico.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Argumenta cómo las citas aumentan la credibilidad del texto",
+                    "points": 2.0
+                  },
+                  {
+                    "description": "Analiza la contribución de las citas a la emotividad y conexión con el lector",
+                    "points": 2.0
+                  },
+                  {
+                    "description": "Advierte sobre riesgos de citas mal contextualizadas o no verificadas",
+                    "points": 1.9
+                  }
+                ],
+                "topic": "T2",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G8-05"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "latencyMs": 145170
+    },
+    {
+      "case": "Lengua Castellana 4° (20 preguntas)",
+      "questions": 20,
+      "valid": true,
+      "attempts": 5,
+      "calls": 4,
+      "tokens": 16959,
+      "maxTokensPerCall": 9845,
+      "model": "qwen/qwen3.8-27b",
+      "perCall": [
+        {
+          "attempts": 2,
+          "latencyMs": 11874,
+          "tokens": 9845
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 2131,
+          "tokens": 2426
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 54355,
+          "tokens": 2224
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 11850,
+          "tokens": 2464
+        }
+      ],
+      "output": {
+        "sections": [
+          {
+            "questionType": "MULTIPLE_CHOICE",
+            "pointsPerQuestion": 4.3,
+            "questions": [
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál es el propósito principal de una fábula?",
+                "options": [
+                  "Entretenimiento sin mensaje moral",
+                  "Enseñar una lección de vida a través de una historia",
+                  "Describir hechos históricos reales",
+                  "Explicar cómo funcionan los animales en la naturaleza"
+                ],
+                "answer": "Enseñar una lección de vida a través de una historia",
+                "explanation": "La fábula es un género literario breve que utiliza personajes (a menudo animales) para transmitir una moraleja o enseñanza ética.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En la fábula 'La liebre y la tortuga', la moraleja nos enseña que:",
+                "options": [
+                  "La velocidad es lo más importante para ganar carreras",
+                  "La constancia y la paciencia vencen a la arrogancia",
+                  "Los animales no deben competir entre sí",
+                  "El tamaño de los animales determina su fuerza"
+                ],
+                "answer": "La constancia y la paciencia vencen a la arrogancia",
+                "explanation": "La liebre, confiada en su velocidad, descansa y pierde, mientras que la tortuga, con esfuerzo constante, llega a la meta, demostrando que la perseverancia es clave.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué tipo de personajes suelen aparecer en las fábulas clásicas?",
+                "options": [
+                  "Personajes históricos reales",
+                  "Personajes fantásticos como dragones y hadas",
+                  "Animales que hablan y actúan como humanos",
+                  "Objetos inanimados que cuentan su historia"
+                ],
+                "answer": "Animales que hablan y actúan como humanos",
+                "explanation": "La personificación de animales es la característica distintiva de la fábula, permitiendo representar virtudes y vicios humanos de forma simbólica.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En la oración 'La casa grande está vacía', ¿cuál palabra es el sustantivo?",
+                "options": [
+                  "Casa",
+                  "Grande",
+                  "Está",
+                  "Vacía"
+                ],
+                "answer": "Casa",
+                "explanation": "En esa oración, 'casa' nombra el objeto y por tanto es el sustantivo; los demás son adjetivo, verbo y adjetivo respectivamente.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En la oración 'El perro rápido corrió', ¿cuál es el adjetivo?",
+                "options": [
+                  "Perro",
+                  "Rápido",
+                  "Corrió",
+                  "El"
+                ],
+                "answer": "Rápido",
+                "explanation": "'Rápido' califica al sustantivo 'perro', por lo que funciona como adjetivo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "REMEMBER",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Qué función cumplen los adjetivos en una oración?",
+                "options": [
+                  "Indican la acción que realizan los sujetos",
+                  "Describen o califican a los sustantivos",
+                  "Unen las diferentes partes de la oración",
+                  "Indican el tiempo en que ocurre la acción"
+                ],
+                "answer": "Describen o califican a los sustantivos",
+                "explanation": "Los adjetivos añaden cualidades o características a los sustantivos.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Quién es el autor tradicionalmente asociado a muchas fábulas de la antigüedad?",
+                "options": [
+                  "Shakespeare",
+                  "Esopo",
+                  "Cervantes",
+                  "García Márquez"
+                ],
+                "answer": "Esopo",
+                "explanation": "Esopo es el narrador griego que recopiló y transmitió numerosas fábulas con moralejas.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál de las siguientes palabras es un sustantivo?",
+                "options": [
+                  "Correr",
+                  "Feliz",
+                  "Mesa",
+                  "Rápidamente"
+                ],
+                "answer": "Mesa",
+                "explanation": "'Mesa' nombra un objeto, por lo que es un sustantivo; las demás son verbo, adjetivo y adverbio.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si al final de una fábula se lee 'No confíes en los halagos', ¿a qué parte del texto corresponde esa frase?",
+                "options": [
+                  "Al nudo de la historia",
+                  "A la moraleja",
+                  "Al desenlace",
+                  "Al personaje principal"
+                ],
+                "answer": "A la moraleja",
+                "explanation": "La moraleja es la enseñanza o lección moral que se extrae de la historia, usualmente expresada al final.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En la oración 'El gato negro dormía en el sofá', ¿cuál es el adjetivo?",
+                "options": [
+                  "Gato",
+                  "Negro",
+                  "Dormía",
+                  "Sofá"
+                ],
+                "answer": "Negro",
+                "explanation": "'Negro' califica al sustantivo 'gato', por lo que funciona como adjetivo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "TRUE_FALSE",
+            "pointsPerQuestion": 4.3,
+            "questions": [
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En una fábula la moraleja siempre aparece al final del relato para resumir la enseñanza.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "La moraleja se coloca al final para que el lector comprenda la lección.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Los personajes de una fábula pueden ser seres humanos, animales o seres fantásticos, pero siempre actúan como representantes de conductas humanas.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "Los personajes simbolizan actitudes humanas para transmitir la moraleja.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "En la oración 'El árbol frondoso se balanceaba con el viento', la palabra 'frondoso' es un sustantivo.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "'Frondoso' describe al árbol, por lo tanto es un adjetivo, no un sustantivo.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Para identificar la moraleja de una fábula basta con leer solo el título del relato.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "La moraleja se encuentra en el cuerpo o al final, no en el título.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Si cambiamos el adjetivo 'rápido' por 'lento' en la oración 'El corredor rápido ganó la carrera', el sentido de la frase se invierte completamente.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Verdadero",
+                "explanation": "El adjetivo modifica la característica del sustantivo, alterando el significado global.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "TRUE_FALSE",
+                "stem": "Al reescribir una fábula, es válido modificar la moraleja siempre que la historia siga siendo entretenida.",
+                "options": [
+                  "Verdadero",
+                  "Falso"
+                ],
+                "answer": "Falso",
+                "explanation": "La moraleja es la esencia educativa de la fábula; cambiarla altera su propósito.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "MATCHING",
+            "pointsPerQuestion": 12.8,
+            "questions": [
+              {
+                "type": "MATCHING",
+                "stem": "Relaciona cada elemento de la estructura de una fábula con su definición correcta.",
+                "options": [],
+                "answer": "",
+                "explanation": "La fábula se estructura mediante personajes (a menudo animales), un conflicto central, un desenlace y una moraleja final que resume la enseñanza moral del texto.",
+                "pairs": [
+                  {
+                    "left": "Personajes principales",
+                    "right": "Seres que protagonizan la historia, generalmente animales con características humanas."
+                  },
+                  {
+                    "left": "Moraleja",
+                    "right": "Enseñanza o lección que se extrae al final del relato."
+                  },
+                  {
+                    "left": "Conflicto",
+                    "right": "Problema o situación que enfrentan los personajes durante el desarrollo."
+                  },
+                  {
+                    "left": "Desenlace",
+                    "right": "Parte final de la historia donde se resuelve el problema planteado."
+                  }
+                ],
+                "distractors": [
+                  "Diálogo entre los personajes",
+                  "Escenario donde ocurre la historia"
+                ],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-04"
+                ]
+              }
+            ]
+          },
+          {
+            "questionType": "SHORT_ANSWER",
+            "pointsPerQuestion": 6.4,
+            "questions": [
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "En la oración 'La niña alegre cantó una canción bonita', identifica un sustantivo y un adjetivo.",
+                "options": [],
+                "answer": "Sustantivo: niña, canción. Adjetivo: alegre, bonita.",
+                "explanation": "Los sustantivos nombran seres o cosas (niña, canción) y los adjetivos califican a los sustantivos (alegre, bonita).",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Escribe una frase breve que sirva como moraleja para una fábula donde un animal perezoso pierde una oportunidad por no actuar a tiempo.",
+                "options": [],
+                "answer": "Ejemplo: 'La pereza hace perder las mejores oportunidades.'",
+                "explanation": "La moraleja debe ser una enseñanza breve y directa derivada de la acción del personaje perezoso.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-04"
+                ]
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "En la oración 'El río caudaloso cruzó el valle verde', ¿cuáles son los dos adjetivos y qué sustantivo califican respectivamente?",
+                "options": [],
+                "answer": "Caudaloso califica a río; verde califica a valle.",
+                "explanation": "Se identifican los adjetivos como palabras que describen características de los sustantivos cercanos en la oración.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "APPLY",
+                "dbaCodes": [
+                  "MEN-DBA-LEN-V2-G4-01"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "latencyMs": 80216
+    },
+    {
+      "case": "Educación Religiosa 10° (20 preguntas)",
+      "questions": 20,
+      "valid": true,
+      "attempts": 5,
+      "calls": 3,
+      "tokens": 16990,
+      "maxTokensPerCall": 8569,
+      "model": "openai/gpt-oss-120b",
+      "perCall": [
+        {
+          "attempts": 2,
+          "latencyMs": 10307,
+          "tokens": 8569
+        },
+        {
+          "attempts": 1,
+          "latencyMs": 2493,
+          "tokens": 2474
+        },
+        {
+          "attempts": 2,
+          "latencyMs": 22914,
+          "tokens": 5947
+        }
+      ],
+      "output": {
+        "sections": [
+          {
+            "questionType": "MULTIPLE_CHOICE",
+            "pointsPerQuestion": 3.2,
+            "questions": [
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Desde la perspectiva de la Educación Religiosa, la dignidad de la persona se fundamenta principalmente en:",
+                "options": [
+                  "Su capacidad productiva y su éxito económico.",
+                  "Ser imagen y semejanza de Dios, lo que le otorga un valor intrínseco e inalienable.",
+                  "Las leyes civiles que regulan la convivencia en la sociedad.",
+                  "La aceptación social y la popularidad dentro de su grupo de amigos."
+                ],
+                "answer": "Ser imagen y semejanza de Dios, lo que le otorga un valor intrínseco e inalienable.",
+                "explanation": "La dignidad no depende de logros externos, sino de la esencia misma del ser humano creado a imagen de Dios.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Si un estudiante de 10° es discriminado por su origen étnico, la respuesta adecuada desde la dignidad de la persona es:",
+                "options": [
+                  "Ignorar la situación para no generar conflictos mayores en el aula.",
+                  "Aceptarlo como parte de la diversidad cultural y defender su derecho a ser respetado.",
+                  "Sugerirle que cambie de colegio para evitar el estrés.",
+                  "Cuestionar si realmente pertenece a ese grupo étnico para validar la discriminación."
+                ],
+                "answer": "Aceptarlo como parte de la diversidad cultural y defender su derecho a ser respetado.",
+                "explanation": "La dignidad exige respeto incondicional a la identidad de cada persona, rechazando cualquier forma de discriminación.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En el contexto colombiano, la dignidad de la persona se ve amenazada cuando:",
+                "options": [
+                  "Se promueve la libre expresión de ideas en las redes sociales.",
+                  "Se vulneran los derechos fundamentales por conflictos armados o violencia social.",
+                  "Los estudiantes participan activamente en los consejos estudiantiles.",
+                  "Se fomenta la solidaridad entre los vecinos del barrio."
+                ],
+                "answer": "Se vulneran los derechos fundamentales por conflictos armados o violencia social.",
+                "explanation": "La violencia y la vulneración de derechos básicos atentan directamente contra el valor intrínseco de la vida y la dignidad humana.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Cuál de las siguientes acciones refleja mejor el respeto por la dignidad propia y ajena en el entorno escolar?",
+                "options": [
+                  "Compartir información privada de un compañero para ganarse la confianza de otros.",
+                  "Escuchar activamente las opiniones de los demás, incluso cuando difieren de las propias.",
+                  "Imponer la propia voluntad mediante la presión social o el aislamiento.",
+                  "Evitar participar en debates para no exponer dudas o errores."
+                ],
+                "answer": "Escuchar activamente las opiniones de los demás, incluso cuando difieren de las propias.",
+                "explanation": "Respetar la dignidad implica reconocer el valor del otro, lo cual se manifiesta en la escucha y la tolerancia ante la diversidad de pensamiento.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Analiza la siguiente situación: Un joven decide no estudiar porque cree que su origen social determina su futuro. Desde la dignidad de la persona, esta postura es:",
+                "options": [
+                  "Correcta, porque la sociedad no ofrece oportunidades reales a todos.",
+                  "Incoherente, porque la dignidad implica reconocer la capacidad de crecimiento y la responsabilidad personal.",
+                  "Aceptable, si el joven encuentra otras formas de entretenimiento.",
+                  "Necesaria, para evitar el estrés académico."
+                ],
+                "answer": "Incoherente, porque la dignidad implica reconocer la capacidad de crecimiento y la responsabilidad personal.",
+                "explanation": "La dignidad no es excusa para la pasividad; llama a ejercer la libertad y la responsabilidad para desarrollar el propio potencial.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "El proyecto de vida se define como:",
+                "options": [
+                  "Un conjunto de deseos vagos que se cumplen por casualidad.",
+                  "Un plan estratégico que integra metas personales, vocacionales y espirituales para dar sentido a la existencia.",
+                  "La lista de carreras universitarias más rentables del momento.",
+                  "Una obligación impuesta por los padres para asegurar la estabilidad económica."
+                ],
+                "answer": "Un plan estratégico que integra metas personales, vocacionales y espirituales para dar sentido a la existencia.",
+                "explanation": "El proyecto de vida es una construcción consciente que busca la plenitud integral del ser humano, no solo el éxito material.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "¿Por qué es importante incluir la dimensión espiritual en el proyecto de vida de un adolescente?",
+                "options": [
+                  "Para cumplir con las tradiciones familiares sin cuestionarlas.",
+                  "Para encontrar un sentido profundo a la existencia y valores que guíen las decisiones ante los retos.",
+                  "Para impresionar a los amigos con una vida más misteriosa.",
+                  "Porque es un requisito obligatorio para entrar a la universidad."
+                ],
+                "answer": "Para encontrar un sentido profundo a la existencia y valores que guíen las decisiones ante los retos.",
+                "explanation": "La dimensión espiritual aporta valores y sentido que permiten tomar decisiones coherentes y resilientes ante dificultades.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Un estudiante de 10° quiere ser ingeniero, pero descubre que su mayor pasión es ayudar a otros. Para construir un proyecto de vida coherente, debería:",
+                "options": [
+                  "Abandonar sus estudios inmediatamente para dedicarse solo a la caridad.",
+                  "Ignorar su pasión y seguir con la ingeniería por presión social.",
+                  "Explorar formas de integrar su formación técnica con el servicio a la comunidad, evaluando sus habilidades y valores.",
+                  "Cambiar de colegio para encontrar una carrera diferente."
+                ],
+                "answer": "Explorar formas de integrar su formación técnica con el servicio a la comunidad, evaluando sus habilidades y valores.",
+                "explanation": "La coherencia del proyecto de vida requiere armonizar capacidades, pasiones y valores, no elegir extremos excluyentes.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "En la construcción del proyecto de vida, ¿qué papel juega el autoconocimiento?",
+                "options": [
+                  "Es irrelevante, ya que lo importante es seguir las tendencias del mercado laboral.",
+                  "Es la base para identificar fortalezas, debilidades, intereses y valores que orientarán las metas.",
+                  "Sirve solo para saber qué materias son más fáciles para aprobar.",
+                  "Es un proceso que solo se realiza una vez al inicio de la adolescencia."
+                ],
+                "answer": "Es la base para identificar fortalezas, debilidades, intereses y valores que orientarán las metas.",
+                "explanation": "Sin conocerse a sí mismo, el estudiante no puede definir metas realistas ni tomar decisiones alineadas con su identidad.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "UNDERSTAND",
+                "dbaCodes": []
+              },
+              {
+                "type": "MULTIPLE_CHOICE",
+                "stem": "Analiza la siguiente propuesta: Un joven decide combinar estudios de ingeniería con voluntariado en comunidades rurales para crear soluciones tecnológicas sostenibles. Esta opción evidencia:",
+                "options": [
+                  "Una falta de claridad en sus metas, pues mezcla dos áreas sin relación.",
+                  "Una integración coherente de sus habilidades técnicas con su compromiso social y espiritual.",
+                  "Una tendencia a seguir modas sin considerar sus intereses reales.",
+                  "Una decisión impulsiva que no considera el mercado laboral."
+                ],
+                "answer": "Una integración coherente de sus habilidades técnicas con su compromiso social y espiritual.",
+                "explanation": "Combinar conocimientos técnicos con servicio refleja un proyecto de vida que armoniza vocación, valores y propósito.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": []
+              }
+            ]
+          },
+          {
+            "questionType": "SHORT_ANSWER",
+            "pointsPerQuestion": 4.8,
+            "questions": [
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Menciona dos elementos fundamentales que, según la visión cristiana, constituyen la base de la dignidad de la persona humana.",
+                "options": [],
+                "answer": "Ser creado a imagen y semejanza de Dios; ser hijo/a de Dios.",
+                "explanation": "La dignidad se fundamenta en el origen divino (imagen de Dios) y en la relación filial con el Creador, lo que otorga un valor intrínseco e inalienable a cada persona.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": []
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Explica brevemente cómo el reconocimiento de la dignidad propia influye en la capacidad de un adolescente para establecer límites saludables en sus relaciones interpersonales.",
+                "options": [],
+                "answer": "Al valorarse a sí mismo, el adolescente no se deja manipular ni acepta tratos despectivos, protegiendo su integridad emocional y física.",
+                "explanation": "El autoconcepto positivo derivado de la dignidad permite al joven identificar situaciones de abuso o desrespeto y actuar para proteger su bienestar.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": []
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Identifica una consecuencia negativa en el desarrollo personal de un joven que ignora su dimensión espiritual al construir su proyecto de vida.",
+                "options": [],
+                "answer": "Sentimientos de vacío existencial, falta de propósito profundo o dificultad para enfrentar las crisis vitales con resiliencia.",
+                "explanation": "La dimensión espiritual proporciona un marco de sentido y valores que sostienen al individuo ante las adversidades; sin ella, el proyecto puede quedar limitado a lo material o superficial.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": []
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Describe una forma práctica en la que un estudiante de 10° puede integrar sus talentos personales con las necesidades de su comunidad local dentro de su proyecto de vida.",
+                "options": [],
+                "answer": "Organizar talleres de apoyo escolar para niños de su barrio utilizando sus habilidades académicas, o crear campañas de sensibilización ambiental basadas en sus conocimientos.",
+                "explanation": "Esta acción demuestra la aplicación directa de las capacidades individuales al servicio del bien común, un pilar clave en la construcción de un proyecto de vida socialmente responsable.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "ANALYZE",
+                "dbaCodes": []
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Evalúa la validez de la siguiente afirmación: 'El proyecto de vida es un plan rígido que no debe modificarse una vez establecido.' Justifica tu respuesta en una frase.",
+                "options": [],
+                "answer": "Falso, porque el proyecto de vida es un proceso dinámico que debe adaptarse a los cambios personales, sociales y a las nuevas experiencias de aprendizaje.",
+                "explanation": "La evaluación correcta reconoce la flexibilidad inherente al desarrollo humano; un plan rígido no permite el crecimiento ni la adaptación a la realidad cambiante.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T2",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": []
+              },
+              {
+                "type": "SHORT_ANSWER",
+                "stem": "Juzga si es éticamente aceptable que una persona sacrifique la dignidad de otros para alcanzar sus metas profesionales. Argumenta brevemente.",
+                "options": [],
+                "answer": "No es aceptable, porque la dignidad humana es un valor absoluto e inalienable que no puede ser instrumentalizado ni negociado por ningún fin personal.",
+                "explanation": "La ética basada en la dignidad establece que el fin no justifica los medios si estos implican la violación de los derechos fundamentales de otras personas.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [],
+                "topic": "T1",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": []
+              }
+            ]
+          },
+          {
+            "questionType": "OPEN",
+            "pointsPerQuestion": 9.7,
+            "questions": [
+              {
+                "type": "OPEN",
+                "stem": "Evalúa cómo la comprensión de la dignidad de la persona puede influir en la toma de decisiones éticas de un adolescente frente a la presión de grupo en la escuela.",
+                "options": [],
+                "answer": "El estudiante debe reconocer que cada persona tiene valor intrínseco y, por tanto, decidir no participar en conductas que vulneren la dignidad propia o ajena, justificando su postura con principios de respeto y solidaridad.",
+                "explanation": "Se espera que el alumno relacione el concepto de dignidad con la responsabilidad ética ante la presión social.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Identifica claramente el vínculo entre dignidad y decisión ética",
+                    "points": 4.9
+                  },
+                  {
+                    "description": "Argumenta con ejemplos concretos de presión de grupo y propone una acción responsable",
+                    "points": 4.8
+                  }
+                ],
+                "topic": "T1",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": []
+              },
+              {
+                "type": "OPEN",
+                "stem": "Analiza la importancia de integrar la dimensión espiritual en el proyecto de vida de un estudiante de 10° y cómo esto afecta su bienestar integral.",
+                "options": [],
+                "answer": "Incluir la dimensión espiritual brinda sentido, fortalece valores y orienta metas coherentes con la fe, contribuyendo a una vida equilibrada y a la resiliencia ante desafíos.",
+                "explanation": "Se valora la capacidad de conectar la espiritualidad con la planificación personal y el bienestar.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Explica la función de la espiritualidad en la construcción del proyecto de vida",
+                    "points": 4.9
+                  },
+                  {
+                    "description": "Relaciona esa función con efectos concretos en el bienestar del estudiante",
+                    "points": 4.8
+                  }
+                ],
+                "topic": "T2",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": []
+              },
+              {
+                "type": "OPEN",
+                "stem": "Juzga si es éticamente aceptable que un joven sacrifique la dignidad de otros para alcanzar sus metas profesionales y sustenta tu posición con principios de la educación religiosa.",
+                "options": [],
+                "answer": "No es aceptable; la dignidad de cada persona es un valor inviolable que debe prevalecer sobre intereses personales, según la enseñanza cristiana de amor y respeto al prójimo.",
+                "explanation": "Se busca que el estudiante aplique los principios de dignidad y ética cristiana a un dilema concreto.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Declara claramente la postura ética",
+                    "points": 4.9
+                  },
+                  {
+                    "description": "Fundamenta la postura con al menos dos principios de la educación religiosa",
+                    "points": 4.8
+                  }
+                ],
+                "topic": "T1",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": []
+              },
+              {
+                "type": "OPEN",
+                "stem": "Evalúa la validez de la afirmación: “El proyecto de vida es un plan rígido que no debe modificarse una vez establecido”, y propone una alternativa más acorde con la visión cristiana.",
+                "options": [],
+                "answer": "La afirmación es inválida; el proyecto de vida debe ser flexible, permitiendo ajustes según el crecimiento personal y la guía divina, por lo que una alternativa sería: “El proyecto de vida es una guía dinámica que se revisa a la luz de la fe y la experiencia”.",
+                "explanation": "Se requiere que el alumno critique la idea y formule una propuesta coherente con la fe.",
+                "pairs": [],
+                "distractors": [],
+                "criteria": [
+                  {
+                    "description": "Identifica la falacia de rigidez en la afirmación",
+                    "points": 4.9
+                  },
+                  {
+                    "description": "Propone una formulación alternativa que refleje flexibilidad y dimensión espiritual",
+                    "points": 4.8
+                  }
+                ],
+                "topic": "T2",
+                "cognitiveLevel": "EVALUATE",
+                "dbaCodes": []
+              }
+            ]
+          }
+        ]
+      },
+      "latencyMs": 35724
+    }
+  ]
+}

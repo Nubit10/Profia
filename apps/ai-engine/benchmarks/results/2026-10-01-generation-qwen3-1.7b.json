@@ -1,0 +1,94 @@
+{
+  "date": "2026-10-01T20:42:29+00:00",
+  "chain": "ollama",
+  "model": "qwen3:1.7b",
+  "promptVersion": "objective_suggestions.v1",
+  "cases": 8,
+  "validRate": 0.625,
+  "firstAttemptRate": 0.625,
+  "latencyMs": {
+    "p50": 174760,
+    "max": 234566
+  },
+  "rows": [
+    {
+      "topic": "Área y perímetro de figuras planas",
+      "valid": true,
+      "attempts": 1,
+      "model": "qwen3:1.7b",
+      "suggestions": [
+        "Identifica y compara el área y el perímetro de figuras planas mediante su representación numérica.",
+        "Resuelve problemas aditivos y multiplicativos relacionados con el área y el perímetro de figuras planas.",
+        "Representa y justifica cómo el área y el perímetro de figuras con igual perímetro pueden tener diferentes medidas."
+      ]
+    },
+    {
+      "topic": "Números enteros en la recta numérica",
+      "valid": false,
+      "attempts": 0,
+      "errors": [
+        "ollama: ReadTimeout"
+      ]
+    },
+    {
+      "topic": "Teorema de Pitágoras",
+      "valid": true,
+      "attempts": 1,
+      "model": "qwen3:1.7b",
+      "suggestions": [
+        "Identifica la relación entre el Teorema de Pitágoras y las propiedades de los números reales en situaciones prácticas.",
+        "Resuelve problemas geométricos usando el Teorema de Pitágoras y compara resultados con expresiones algebraicas.",
+        "Analiza la formación de secuencias numéricas y aplica el Teorema de Pitágoras para determinar el término general."
+      ]
+    },
+    {
+      "topic": "La derivada como razón de cambio",
+      "valid": true,
+      "attempts": 1,
+      "model": "qwen3:1.7b",
+      "suggestions": [
+        "Identifica la derivada como razón de cambio de una función y aplica sus propiedades en situaciones de variación.",
+        "Resuelve problemas de razón de cambio usando derivadas de funciones básicas en contextos matemáticos y no matemáticos.",
+        "Modela situaciones reales con funciones y utiliza derivadas para analizar la variación en contextos intraescolares y extraescolares."
+      ]
+    },
+    {
+      "topic": "Personajes y lugares de los cuentos",
+      "valid": true,
+      "attempts": 1,
+      "model": "qwen3:1.7b",
+      "suggestions": [
+        "Identifica las características de los medios de comunicación masiva a los que tiene acceso.",
+        "Compara las funciones de las señales y símbolos que aparecen en su entorno.",
+        "Reconoce los elementos constitutivos de textos literarios como personajes, espacios y acciones."
+      ]
+    },
+    {
+      "topic": "El texto argumentativo",
+      "valid": false,
+      "attempts": 3,
+      "errors": [
+        "Objetivo 1: repite un objetivo que ya existe"
+      ]
+    },
+    {
+      "topic": "Literatura del Romanticismo",
+      "valid": true,
+      "attempts": 1,
+      "model": "qwen3:1.7b",
+      "suggestions": [
+        "Identifica los principales exponentes y textos de la literatura del Romanticismo, analizando su influencia en la sociedad.",
+        "Produce textos orales como ponencias o entrevistas, articulando elementos verbales y no verbales para desarrollar un tema o historia.",
+        "Compara los tipos de texto literarios y sus características estilísticas, aplicando una actitud crítica a sus análisis."
+      ]
+    },
+    {
+      "topic": "Juego y expresión con el cuerpo",
+      "valid": false,
+      "attempts": 0,
+      "errors": [
+        "ollama: ReadTimeout"
+      ]
+    }
+  ]
+}

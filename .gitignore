@@ -1,0 +1,13 @@
+node_modules/
+.env*
+!.env.example
+*.log
+.DS_Store
+coverage/
+test-results/
+playwright-report/
+.venv/
+__pycache__/
+
+# Copia de trabajo del Space de Hugging Face (scripts/publish-ai-engine-hf.ps1)
+.deploy/

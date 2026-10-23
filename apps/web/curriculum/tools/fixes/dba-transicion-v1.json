@@ -1,0 +1,39 @@
+{
+  "_doc": "Propósito de desarrollo de cada DBA de Transición, según la página de resumen del documento (págs. 8-9).",
+  "components": [
+    {
+      "codes": [
+        "MEN-DBA-TRA-V1-01",
+        "MEN-DBA-TRA-V1-02",
+        "MEN-DBA-TRA-V1-03",
+        "MEN-DBA-TRA-V1-04",
+        "MEN-DBA-TRA-V1-05",
+        "MEN-DBA-TRA-V1-06"
+      ],
+      "component": "Propósito 1: Las niñas y los niños construyen su identidad en relación con los otros"
+    },
+    {
+      "codes": ["MEN-DBA-TRA-V1-07", "MEN-DBA-TRA-V1-08", "MEN-DBA-TRA-V1-09", "MEN-DBA-TRA-V1-10"],
+      "component": "Propósito 2: Las niñas y los niños son comunicadores activos de sus ideas, sentimientos y emociones"
+    },
+    {
+      "codes": [
+        "MEN-DBA-TRA-V1-11",
+        "MEN-DBA-TRA-V1-12",
+        "MEN-DBA-TRA-V1-13",
+        "MEN-DBA-TRA-V1-14",
+        "MEN-DBA-TRA-V1-15",
+        "MEN-DBA-TRA-V1-16"
+      ],
+      "component": "Propósito 3: Las niñas y los niños disfrutan aprender; exploran y se relacionan con el mundo para comprenderlo y construirlo"
+    }
+  ],
+  "replaceText": [
+    {
+      "code": "MEN-DBA-TRA-V1-16",
+      "find": "colección,al",
+      "replace": "colección, al",
+      "reason": "Falta el espacio tras la coma en la extracción."
+    }
+  ]
+}

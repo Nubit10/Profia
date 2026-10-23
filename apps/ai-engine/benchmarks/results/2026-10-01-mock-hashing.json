@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-01T18:17:50+00:00",
+  "provider": "mock",
+  "denseModel": "mock-hashing",
+  "rerank": false,
+  "catalogVersion": "26cbfab8372fa007",
+  "cases": 36,
+  "recall@5": 0.972,
+  "recall@1": 0.833,
+  "latencyMs": {
+    "p50": 14,
+    "max": 24
+  },
+  "misses": [
+    {
+      "query": "qué tan probable es que algo pase en juegos de azar",
+      "expected": [
+        "MEN-DBA-MAT-V2-G3-11"
+      ],
+      "got": [
+        "MEN-DBA-MAT-V2-G3-06",
+        "MEN-DBA-MAT-V2-G3-01",
+        "MEN-DBA-MAT-V2-G3-07",
+        "MEN-DBA-MAT-V2-G3-08",
+        "MEN-DBA-MAT-V2-G3-02"
+      ]
+    }
+  ]
+}

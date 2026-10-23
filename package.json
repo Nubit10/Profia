@@ -1,0 +1,32 @@
+{
+  "name": "profe",
+  "private": true,
+  "description": "Plataforma educativa con IA — monorepo (ver docs/adr/0003)",
+  "workspaces": [
+    "apps/web",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n web,ai -c blue,magenta \"npm:dev:web\" \"npm:dev:ai\"",
+    "dev:web": "npm run dev -w @profe/web",
+    "dev:ai": "cd apps/ai-engine && python -m uv run uvicorn app.main:app --port 8100",
+    "build": "npm run build -w @profe/web",
+    "lint": "npm run lint -w @profe/web",
+    "typecheck": "npm run typecheck -w @profe/web",
+    "test": "npm run test -w @profe/web",
+    "test:e2e": "npm run test:e2e -w @profe/web",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "db:up": "docker compose up -d postgres",
+    "db:migrate": "npm run db:migrate -w @profe/web",
+    "db:seed": "npm run db:seed -w @profe/web"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5",
+    "prettier": "3.9.9",
+    "prettier-plugin-tailwindcss": "0.8.1"
+  }
+}
