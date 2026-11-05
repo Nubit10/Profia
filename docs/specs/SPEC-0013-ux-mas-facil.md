@@ -1,13 +1,13 @@
 # SPEC-0013 — Profe más fácil: menos pasos, hecho para el celular e instalable
 
-| Campo                    | Valor                                                                                                                                                   |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Estado                   | En revisión                                                                                                                                             |
-| Fase del roadmap         | Transversal · UX (continúa SPEC-0012; no la reemplaza)                                                                                                  |
-| Módulo(s) responsable(s) | `apps/web/app` (vistas), `apps/web/components`; `modules/auth` (sesión tras el registro); `modules/documents` (descarga en paquete); `modules/planning` |
-| Agentes                  | product, frontend, backend, auth-security, documents, qa, reviewer                                                                                      |
-| ADR relacionados         | **ADR-0012 (propuesto): app instalable** (ver §9). Se apoya en ADR-0008 (generación en segundo plano) y ADR-0009 (documentos)                           |
-| Autor / Fecha            | product / 2026-11-05                                                                                                                                    |
+| Campo                    | Valor                                                                                                                                                                                                                                              |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Estado                   | En revisión                                                                                                                                                                                                                                        |
+| Fase del roadmap         | Transversal · UX (continúa SPEC-0012; no la reemplaza)                                                                                                                                                                                             |
+| Módulo(s) responsable(s) | `apps/web/app` (vistas), `apps/web/components`; `modules/auth` (sesión tras el registro); `modules/documents` (descarga en paquete y archivos sin conexión); `modules/planning`; **`modules/notifications` (nuevo: notificaciones del navegador)** |
+| Agentes                  | product, architect, frontend, backend, database, auth-security, privacy, documents, qa, reviewer                                                                                                                                                   |
+| ADR relacionados         | **ADR-0012 (propuesto): app instalable, notificaciones del navegador y recursos sin conexión** (ver §9). Se apoya en ADR-0008 (generación en segundo plano) y ADR-0009 (documentos)                                                                |
+| Autor / Fecha            | product / 2026-11-05                                                                                                                                                                                                                               |
 
 ## 1. Objetivo
 
@@ -22,6 +22,11 @@ Además, Profe tiene que funcionar **perfecto en el celular** y **poder instalar
 de inicio como una app, igual que Terram (otro producto del mismo equipo): una sola barra de
 acciones abajo, formularios que suben desde abajo, el botón Atrás del teléfono cierra lo que se
 abrió, botones del tamaño del dedo y un ícono propio que abre Profe a pantalla completa.
+
+Dos cosas le dan mucho valor al sistema: **Profe avisa con una notificación del navegador** cuando un
+recurso termina, como lo hace Claude cuando una respuesta está lista y el usuario está en otra
+pestaña o con la app cerrada; y **sin conexión el docente tiene todos sus recursos generados listos
+para descargar** en Word y PDF (en el salón sin wifi, en el bus, en la sede rural).
 
 ## 2. Evidencia: recorrido del 2026-11-05
 
@@ -73,6 +78,12 @@ táctil). Capturas en `docs/design/capturas/spec-0013/` (01–08 escritorio, 09�
 - **App instalable** (F-16): manifiesto, íconos (192, 512 y "maskable", ícono de Apple), color de
   la barra del sistema, service worker mínimo, página "Sin conexión" y la opción "Instalar Profe"
   en el menú (en iPhone, con la explicación de "Compartir → Agregar a pantalla de inicio").
+- **Notificaciones del navegador** (F-07, decisión 3): "Tu quiz está listo" o "No pudimos crear tu
+  taller" llega al celular o al computador aunque Profe esté en otra pestaña o cerrado, con Web
+  Push estándar como Terram. El permiso se pide en el momento justo, no al entrar.
+- **Recursos sin conexión** (decisión 9): Profe guarda en el dispositivo los Word y PDF de todos los
+  recursos generados del docente y los mantiene al día; sin señal, una pantalla "Sin conexión"
+  los lista por curso y los descarga.
 - **Regla de hidratación** (F-11) como criterio permanente.
 
 **No incluye (explícitamente):**
@@ -80,9 +91,9 @@ táctil). Capturas en `docs/design/capturas/spec-0013/` (01–08 escritorio, 09�
 - Cambiar el sistema de diseño, la paleta o el menú lateral de SPEC-0012.
 - Cambios en el AI Engine, sus contratos o los prompts. El progreso de la generación se muestra con
   el estado que ya existe en PostgreSQL (ADR-0008), no por etapas del modelo.
-- Notificaciones por correo o push del sistema operativo (Terram las tiene; aquí no hacen falta
-  todavía).
-- Usar Profe sin conexión: sin señal solo se muestra "Sin conexión" (RN-13, decisión 9).
+- Notificaciones por correo o WhatsApp.
+- Crear, editar o regenerar sin conexión: sin señal solo se **consultan y descargan** los recursos
+  ya guardados en el dispositivo (RN-13, RN-14). Generar con IA siempre necesita red.
 - App nativa en tiendas (AGENTS.md: "No construir app móvil nativa").
 - Nuevos tipos de recurso (planes de aula) ni formatos propios para quiz y examen.
 - Recorrido guiado con el usuario real (sigue pendiente desde SPEC-0012; ver §12).
@@ -121,9 +132,9 @@ táctil). Capturas en `docs/design/capturas/spec-0013/` (01–08 escritorio, 09�
 - **RN-07 — El borrador se avisa antes, no después.** Si el recurso está en Borrador, el diálogo de
   descarga lo dice y ofrece "Marcar como listo y descargar" o "Descargar con marca de borrador".
   Marcar como listo sigue siendo una acción explícita del docente (teacher-in-control).
-- **RN-08 — Avisos de generación propios.** El aviso de "listo" o "falló" solo se muestra al
-  docente que pidió el recurso y en el espacio donde lo pidió. Se obtiene consultando el estado en
-  el servidor; no hay canal nuevo (ver §9).
+- **RN-08 — Avisos de generación propios.** El aviso de "listo" o "falló" solo le llega al docente
+  que pidió el recurso. Dentro de Profe se obtiene consultando el estado en el servidor. Fuera de
+  Profe llega como notificación del navegador (RN-15).
 - **RN-09 — Sin errores de hidratación.** Ningún texto que dependa de la zona horaria, el idioma o la
   hora actual se formatea distinto en servidor y navegador. Las fechas visibles usan `lib/dates.ts`.
 - **RN-10 — Lo que ya cumple SPEC-0012 se mantiene.** Un botón primario por pantalla, glosario sin
@@ -154,10 +165,48 @@ táctil). Capturas en `docs/design/capturas/spec-0013/` (01–08 escritorio, 09�
     Profe ya está instalado (`display-mode: standalone`) ni en navegadores que no pueden instalarla.
   - Abierta como app, ninguna pantalla depende de los botones del navegador: siempre hay una forma
     visible de volver.
-- **RN-13 — El service worker no guarda datos del docente.** Como en CliqCut, `public/sw.js` es
-  mínimo y no guarda en caché páginas, acciones ni descargas: todo va a la red. Lo único que guarda
-  es la página estática "Sin conexión" (sin datos de nadie), para que sin señal una navegación
-  muestre "Sin conexión" con "Reintentar" y no la pantalla de error del navegador.
+- **RN-13 — Qué guarda el service worker.** Las páginas del área de trabajo y las acciones siempre
+  van a la red (nunca se sirve una página vieja con datos viejos). El service worker guarda solo:
+  los archivos estáticos con huella de Next, los íconos, la pantalla "Sin conexión" (estática, se
+  llena en el navegador) y los documentos de la biblioteca sin conexión (RN-14). Sin señal, toda
+  navegación abre "Sin conexión" en lugar de la pantalla de error del navegador.
+- **RN-14 — Todos los recursos generados, disponibles sin conexión.**
+  - Qué se guarda: por cada recurso del docente en el espacio activo que no esté archivado ni en
+    generación, la **última versión guardada**: hoja del estudiante y clave (guía del docente en
+    talleres; también la hoja de respuestas en exámenes), en **PDF y Word**, versión A. Las
+    versiones B–D quedan guardadas cuando el docente las descarga alguna vez con señal.
+  - Cómo se mantiene al día: con Profe abierto y con señal, una sincronización en segundo plano
+    compara la lista del servidor (recurso, versión, documentos) con lo guardado y baja lo que falta
+    o cambió, de a un archivo, sin bloquear la pantalla; borra lo archivado o eliminado. No baja
+    nada con el "ahorro de datos" del navegador activo (`saveData`) salvo que el docente lo pida.
+  - Se pide almacenamiento persistente (`navigator.storage.persist()`) y se muestra el espacio
+    usado. Si el dispositivo se queda sin espacio, se avisa y se guardan primero los recursos más
+    recientes.
+  - Cada recurso muestra "Disponible sin conexión" (o "Guardando…") y "Mis recursos" muestra el
+    progreso ("Guardados 12 de 30").
+  - Sin señal, la pantalla "Sin conexión" lista los recursos guardados por curso, con su fecha de
+    actualización, y descarga cada documento desde el dispositivo. Avisa que lo mostrado puede no
+    ser la última versión si no se ha sincronizado desde hace más de 24 h.
+  - **Se activa por dispositivo.** En la app instalada viene encendido (el docente puede apagarlo);
+    en el navegador Profe pregunta una vez "¿Guardar tus recursos en este dispositivo para usarlos
+    sin conexión?" (los computadores del colegio suelen ser compartidos).
+  - Cerrar sesión borra del dispositivo todo lo guardado de esa cuenta. Si el docente pierde acceso
+    a un espacio, la siguiente sincronización borra lo de ese espacio.
+- **RN-15 — Notificaciones del navegador, como Claude.**
+  - Cuándo: un recurso (taller, quiz o examen) termina de generarse o falla. Solo le llegan al
+    docente que lo pidió, en sus dispositivos con el permiso dado.
+  - Si Profe está abierto y a la vista, basta el aviso dentro de la app (no se duplica). Si está en
+    otra pestaña, minimizado o cerrado, llega la notificación del sistema. Tocarla abre el recurso.
+  - Contenido corto: "Tu quiz «La recta numérica» está listo para revisar" o "No pudimos crear tu
+    taller «…». Toca para reintentar". Nada más del recurso ni de nadie.
+  - El permiso se pide en contexto, no al entrar: la primera vez que el docente toca "Generar", una
+    tarjeta pregunta "¿Te avisamos cuando esté listo?" con "Avisarme" (abre el permiso del navegador)
+    y "Ahora no" (no vuelve a preguntar en 7 días). Si el permiso está bloqueado, explica cómo
+    activarlo. En iPhone solo funciona con Profe instalado (iOS 16.4+), y la tarjeta lo explica.
+  - En "Ajustes → Notificaciones" el docente ve si este dispositivo tiene avisos y los apaga o
+    enciende. Un dispositivo compartido avisa solo a la última cuenta que entró en él.
+  - Sin las claves del canal configuradas, Profe no ofrece las notificaciones y todo lo demás
+    funciona igual.
 
 ## 6. Entradas
 
@@ -170,6 +219,12 @@ version }` validado con Zod en el servidor. Mínimo 1 documento.
   haya alguno).
 - Instalación: el evento `beforeinstallprompt` del navegador (donde existe) y el modo de pantalla
   (`display-mode`). Nada de esto se envía al servidor.
+- Notificaciones: suscripción Web Push del navegador `{ endpoint, keys: { p256dh, auth } }` y un id
+  de instalación aleatorio guardado en el dispositivo; validados con Zod (endpoint HTTPS, largos
+  acotados).
+- Sin conexión: `GET` de la lista de recursos para sincronizar del espacio activo → `[{ resourceId,
+courseId, courseTitle, title, type, version, updatedAt, files: [{ doc, format, variant, filename,
+url }] }]`, filtrada por `ctx.institutionId` y el docente.
 
 ## 7. Salidas
 
@@ -178,6 +233,10 @@ version }` validado con Zod en el servidor. Mínimo 1 documento.
 - Versión nueva del recurso por cada "Listo" (o agrupada, RN-05).
 - Auditoría: `resource.exported` por cada documento del paquete, como hoy.
 - `/manifest.webmanifest`, íconos de la app, `/sw.js` y la página "Sin conexión".
+- Tabla `PushSubscription` (usuario, id de instalación, endpoint único, claves, fecha) y notificación
+  enviada al terminar o fallar una generación.
+- En el dispositivo: los documentos en Cache Storage y su índice (recurso, versión, archivos, fecha)
+  en IndexedDB, separados por cuenta y espacio.
 
 ## 8. Errores y casos límite
 
@@ -194,7 +253,15 @@ version }` validado con Zod en el servidor. Mínimo 1 documento.
 | Navegador que no permite instalar (p. ej. Firefox de escritorio) | No aparece "Instalar Profe"; Profe funciona igual en la pestaña                                                                                                                         |
 | Profe instalado en iPhone y el docente descarga un Word o PDF    | Se abre la vista previa del sistema con "Compartir" para guardarlo o abrirlo en Word; el docente vuelve a Profe sin perder la página (validación manual en un iPhone real, decisión 10) |
 | Se publica una versión nueva de Profe                            | El service worker nuevo toma el control en la siguiente navegación; nunca sirve archivos de una versión vieja con HTML nuevo                                                            |
-| El docente cierra sesión en la app instalada                     | Vuelve al login; como el service worker no guarda datos del docente, no queda nada que borrar                                                                                           |
+| El docente cierra sesión                                         | Se borran del dispositivo los documentos guardados y la suscripción a notificaciones de esa cuenta, y vuelve al login                                                                   |
+| La sesión vence mientras el docente está sin señal               | Los documentos guardados siguen disponibles en "Sin conexión" hasta que vuelva la señal; al volver se pide iniciar sesión y, si no lo hace otra cuenta, se conservan                    |
+| Otra cuenta inicia sesión en el mismo dispositivo                | Se borran los documentos guardados de la cuenta anterior antes de sincronizar los de la nueva                                                                                           |
+| El dispositivo se queda sin espacio                              | Se avisa con el espacio usado; se guardan primero los recursos más recientes y el resto se marca "No guardado"                                                                          |
+| El docente edita un recurso                                      | La siguiente sincronización reemplaza sus archivos por los de la versión nueva                                                                                                          |
+| El docente pierde acceso a un espacio o se archiva un recurso    | La siguiente sincronización borra esos documentos del dispositivo                                                                                                                       |
+| El permiso de notificaciones está bloqueado                      | La tarjeta explica cómo activarlo en el navegador; el aviso dentro de Profe sigue funcionando                                                                                           |
+| La suscripción venció (el servicio responde 404/410)             | Se borra del servidor; el docente puede volver a activar los avisos                                                                                                                     |
+| Un recurso termina en otro espacio del docente                   | La notificación abre el recurso; si el espacio activo es otro, Profe pide cambiar de espacio con un botón                                                                               |
 
 ## 9. Seguridad y privacidad
 
@@ -209,10 +276,28 @@ version }` validado con Zod en el servidor. Mínimo 1 documento.
   búsqueda curricular de hoy. El texto pasa por `redactContactData`.
 - Al estar en Vercel con `maxDuration = 300`, un paquete con 4 versiones × 2 documentos debe
   generarse en menos de 30 s (ver CA-0013-14).
-- **App instalable (ADR-0012, propuesto):** el service worker es una pieza nueva del navegador,
-  así que se documenta en un ADR aunque no agrega dependencias (manifiesto nativo de Next y un
-  `public/sw.js` escrito a mano, como Terram). El ADR fija: qué se guarda en caché (RN-13), alcance
-  `/`, cómo se actualiza al desplegar y que no se guardan datos de docentes ni de recursos.
+- **ADR-0012 (propuesto): app instalable, notificaciones y recursos sin conexión.** Fija el service
+  worker (`public/sw.js` escrito a mano, como Terram y CliqCut), qué guarda (RN-13), cómo se
+  actualiza al desplegar, el canal de notificaciones y el almacenamiento en el dispositivo. Agrega
+  una dependencia: **`web-push`** (la misma de Terram, ADR-0024), para firmar con VAPID; las claves
+  `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` y `VAPID_SUBJECT` van en variables de entorno
+  (nunca en el repositorio) y se documentan en `.env.example` y en `docs/deploy/README.md`.
+- **Notificaciones:** se guarda una suscripción por instalación (tabla `PushSubscription`, sin datos
+  de tenant: es del usuario), registrarla la pasa a quien tiene la sesión y solo su dueño la quita.
+  Las suscripciones 404/410 se borran. Los registros nunca guardan el endpoint ni el contenido. El
+  contenido lleva solo el tipo y el título del recurso, que escribe el docente; nunca datos de
+  estudiantes. El service worker solo abre rutas del mismo sitio.
+- **Recursos sin conexión:** los documentos tienen el nombre del docente, la institución y el logo,
+  pero no datos de estudiantes (SPEC-0008/0009). Aun así: se activan por dispositivo (RN-14), se
+  separan por cuenta y espacio, y se borran al cerrar sesión o al entrar otra cuenta. La lista para
+  sincronizar y cada descarga pasan por `requireTenant()` y `exportResource` (mismos permisos y
+  test de acceso cruzado). Las descargas para guardar sin conexión no se registran como
+  `resource.exported` (no son una descarga del docente): se registra un evento
+  `resource.cached_offline` por sincronización, con el número de archivos, para no inflar las
+  métricas. Las descargas desde el dispositivo sin señal no se pueden auditar.
+- **Costo en el servidor:** la sincronización baja de a un archivo y como máximo 30 archivos por
+  minuto por docente (límite en el servidor); la primera vez, con muchos recursos, se completa en
+  varias visitas. Cada documento ya cumple el límite de `maxDuration`.
 - El manifiesto y el service worker son públicos y no contienen datos de nadie.
 
 ## 10. Criterios de aceptación
@@ -322,11 +407,52 @@ Los clics se cuentan como en CA-0012-07: solo clics del usuario, sin contar escr
   iPhone ve la explicación de "Agregar a pantalla de inicio". Con `display-mode: standalone` la
   opción no aparece.
 - **CA-0013-30:** Dado Profe abierto con el service worker activo, cuando se corta la red y el
-  docente navega, entonces ve "Sin conexión" con "Reintentar"; y la caché del navegador no contiene
-  ninguna respuesta de `/courses`, `/resources`, `/dashboard` ni de descargas (RN-13).
+  docente navega a cualquier página, entonces ve la pantalla "Sin conexión" (no el error del
+  navegador); y la caché no contiene ninguna página de `/courses`, `/resources` ni `/dashboard`
+  (RN-13).
 - **CA-0013-31:** Dado Profe abierto como app (`display-mode: standalone`), cuando el docente
   recorre Inicio → curso → recurso → Inicio, entonces lo logra sin los botones del navegador y el
   contenido no queda debajo de la barra de estado ni de la barra de gestos (áreas seguras).
+
+**Notificaciones del navegador**
+
+- **CA-0013-32:** Dado un docente que toca "Generar" por primera vez, cuando aparece la tarjeta
+  "¿Te avisamos cuando esté listo?" y toca "Avisarme", entonces se abre el permiso del navegador y,
+  al aceptarlo, queda una suscripción de su dispositivo en el servidor. Profe nunca pide el permiso
+  al cargar una página.
+- **CA-0013-33:** Dado un docente con avisos activos y Profe en otra pestaña o cerrado, cuando su
+  quiz termina de generarse, entonces recibe una notificación "Tu quiz «La recta numérica» está
+  listo para revisar" (probado con un servicio push de prueba que recibe lo enviado), y tocarla abre
+  el recurso. Si falla, la notificación dice que no se pudo crear.
+- **CA-0013-34:** Dado Profe abierto y a la vista, cuando el recurso termina, entonces el docente ve
+  solo el aviso dentro de la app, no una notificación del sistema repetida.
+- **CA-0013-35:** Dado un recurso de otro docente del mismo colegio, cuando termina, entonces a
+  este docente no le llega ninguna notificación (test de acceso cruzado).
+- **CA-0013-36:** Dada una suscripción que el servicio push responde con 410, cuando se intenta
+  enviar, entonces se borra del servidor y no se reintenta. Sin las claves VAPID configuradas, Profe
+  no muestra la tarjeta ni la opción en Ajustes, y generar funciona igual.
+
+**Recursos sin conexión**
+
+- **CA-0013-37:** Dado un docente con 3 recursos (un taller, un quiz y un examen) y el guardado sin
+  conexión activo, cuando abre Profe con señal, entonces en menos de 60 s cada recurso muestra
+  "Disponible sin conexión" y el dispositivo tiene sus documentos de la última versión: hoja y
+  clave (y hoja de respuestas del examen) en PDF y Word.
+- **CA-0013-38:** Dado ese docente sin red, cuando abre Profe (pestaña o app instalada), entonces
+  ve "Sin conexión" con los 3 recursos agrupados por curso, y al tocar "Clave en Word" del quiz
+  recibe el archivo con el mismo nombre que en línea (SPEC-0009), sin ninguna petición a la red.
+- **CA-0013-39:** Dado un recurso editado (versión 3), cuando vuelve la señal, entonces la
+  sincronización reemplaza sus archivos por los de la versión 3; y un recurso archivado desaparece
+  del dispositivo.
+- **CA-0013-40:** Dado un docente que cierra sesión, cuando otra cuenta entra en el mismo
+  dispositivo, entonces no puede ver ni descargar ningún documento de la primera cuenta, ni con
+  señal ni sin ella.
+- **CA-0013-41:** Dado Profe en el navegador (no instalado), cuando el docente entra por primera vez
+  con recursos, entonces Profe pregunta una vez si guarda sus recursos en este dispositivo y no
+  guarda nada hasta que acepta. En la app instalada viene encendido y se puede apagar.
+- **CA-0013-42:** Dada la lista para sincronizar, cuando la pide un docente, entonces solo trae sus
+  recursos del espacio activo (test de acceso cruzado), y las descargas para guardar no suman
+  `resource.exported`.
 
 ## 11. Tareas
 
@@ -347,7 +473,10 @@ Los clics se cuentan como en CA-0012-07: solo clics del usuario, sin contar escr
 - [ ] T15 — Pasar los formularios y menús a esas piezas; controles de 44 px; encabezado del curso y pestañas; `loading.tsx` con esqueletos (RN-11, CA-22 a 27) — frontend
 - [ ] T16 — Manifiesto, íconos desde el logo, `themeColor`, `public/sw.js`, página "Sin conexión" y "Instalar Profe" (RN-12/13, CA-28 a 31) — frontend + devops
 - [ ] T17 — Proyecto de Playwright "iPhone 13" que corre los E2E de esta spec en el celular, con la revisión de `data-floating` y de controles de 44 px — qa
-- [ ] T18 — Revisión contra la spec y DoD — reviewer
+- [ ] T18 — Notificaciones: `modules/notifications` (tabla `PushSubscription`, registrar y quitar dispositivo, envío con `web-push` al terminar o fallar una generación desde el trabajo en segundo plano), tarjeta de permiso y Ajustes → Notificaciones (RN-15, CA-32 a 36) — backend + frontend + database
+- [ ] T19 — Recursos sin conexión: lista para sincronizar, sincronización en el navegador (Cache Storage + IndexedDB), pantalla "Sin conexión", estados "Disponible sin conexión", borrado al cerrar sesión (RN-13/14, CA-37 a 42) — documents + frontend + privacy
+- [ ] T20 — Revisión de seguridad y privacidad de T18 y T19 — auth-security + privacy
+- [ ] T21 — Revisión contra la spec y DoD — reviewer
 
 ## 12. Decisiones (resueltas por el usuario el 2026-11-05)
 
@@ -359,8 +488,9 @@ CliqCut-Web (`Nubit10/CliqCut-Web`: `public/manifest*.webmanifest`, `public/sw.j
    como hoy.
 2. **Versiones al editar:** "Listo" guarda; los cambios del mismo docente en el mismo recurso en
    menos de 60 s se agrupan en una versión (RN-05).
-3. **Avisos de generación:** solo dentro de Profe (aviso y contador en el menú, RN-08). Sin
-   notificaciones del navegador en esta spec.
+3. **Avisos de generación:** dentro de Profe (aviso y contador en el menú, RN-08) **y como
+   notificación del navegador, como lo hace Claude** (RN-15): llega aunque Profe esté en otra
+   pestaña o cerrado; el permiso se pide al primer "Generar". Web Push estándar como Terram.
 4. **"Primeros pasos":** cuatro pasos, y el cuarto es la primera descarga (RN-02).
 5. **DBA sugeridos:** hasta 3 marcados por defecto, que el docente confirma (RN-04).
 6. **Recorrido con docentes:** después de implementar, como validación con 2–3 docentes; las
@@ -369,8 +499,9 @@ CliqCut-Web (`Nubit10/CliqCut-Web`: `public/manifest*.webmanifest`, `public/sw.j
    abre el panel de quien trabaja: `/owner/dashboard`).
 8. **Ícono:** el logo actual de Profe sobre un cuadro con el degradado de marca, 512 px y "any
    maskable", el mismo para Apple (CliqCut usa su `logo-tile.png` de 512 px así) (RN-12).
-9. **Sin conexión:** nada del docente se guarda en el teléfono; el service worker es mínimo como el
-   de CliqCut y solo agrega la página estática "Sin conexión" (RN-13).
+9. **Sin conexión:** **todos los recursos generados quedan disponibles para descargar sin
+   conexión**, en PDF y Word, de su última versión (RN-14). Se activa por dispositivo (encendido en
+   la app instalada) y se borra al cerrar sesión. Crear y editar siguen necesitando red.
 10. **iPhone:** en iPhone o iPad, "Instalar Profe" muestra el texto de CliqCut adaptado: "Abre Profe
     en Safari, toca Compartir y elige Agregar a pantalla de inicio. Luego entra desde ese ícono".
     Las pruebas automáticas corren en Android/Chrome y en un iPhone emulado; queda una **validación
