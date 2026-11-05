@@ -218,3 +218,48 @@ test("CA-0013-06: si la búsqueda de DBA falla, el diálogo de objetivo funciona
   await page.getByRole("button", { name: "Crear objetivo" }).click();
   await expect(page.getByRole("dialog")).toHaveCount(0);
 });
+
+test("CA-0013-07/08: planeación compacta, con las acciones en un menú y periodos vacíos en una línea", async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+  await openObjectiveDialog(page);
+  await page
+    .getByRole("textbox", { name: "Objetivo de aprendizaje" })
+    .fill("Compara números enteros usando la recta numérica");
+  await page.getByRole("button", { name: "Crear objetivo" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+
+  // CA-0013-07: con 1 unidad, 1 tema y 1 objetivo, 4 controles de acción o menos a la vista.
+  const main = page.getByRole("main");
+  const actionControls = main.locator(
+    'button[aria-label^="Opciones de"]:visible, a:visible:text-matches("Crear examen", "i"), button[aria-label^="Editar "]:visible, button[aria-label^="Subir "]:visible, button[aria-label^="Bajar "]:visible, button[aria-label^="Archivar "]:visible',
+  );
+  expect(await actionControls.count()).toBeLessThanOrEqual(4);
+
+  // Cada acción sigue disponible desde "⋯", con el teclado.
+  const unitMenu = page.getByRole("button", { name: "Opciones de unidad «Números enteros»" });
+  await unitMenu.focus();
+  await page.keyboard.press("Enter");
+  for (const name of [
+    "Crear examen de esta unidad",
+    "Editar unidad «Números enteros»",
+    "Subir unidad «Números enteros»",
+    "Bajar unidad «Números enteros»",
+    "Archivar unidad «Números enteros»",
+  ]) {
+    await expect(page.getByRole("menuitem", { name })).toBeVisible();
+  }
+  await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: "Opciones de tema «La recta numérica»" }).click();
+  await page.getByRole("menuitem", { name: "Editar tema «La recta numérica»" }).click();
+  await expect(page.getByLabel("Título del tema")).toHaveValue("La recta numérica");
+  await page.keyboard.press("Escape");
+
+  // CA-0013-08: un periodo vacío ocupa una sola línea con "Agregar unidad".
+  const period2 = page.getByRole("region", { name: /Periodo 2/ });
+  const box = await period2.boundingBox();
+  expect(box!.height).toBeLessThanOrEqual(64);
+  await period2.getByRole("button", { name: /Agregar unidad/ }).click();
+  await expect(page.getByLabel("Periodo", { exact: true })).toContainText("Periodo 2");
+});

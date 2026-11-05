@@ -73,8 +73,11 @@ test("CA-0006-06/02: reordenar unidades y redefinir periodos", async ({ page }) 
     await page.getByRole("button", { name: "Crear unidad" }).click();
     await expect(page.getByRole("dialog")).toHaveCount(0);
   }
-  await page.getByRole("button", { name: "Subir unidad «Cuento»" }).click();
   const units = page.getByRole("list", { name: "Unidades de Periodo 1" }).locator(":scope > li");
+  await expect(units).toHaveCount(2);
+  // SPEC-0013: las acciones viven en el menú "⋯" de la unidad.
+  await page.getByRole("button", { name: "Opciones de unidad «Cuento»" }).click();
+  await page.getByRole("menuitem", { name: "Subir unidad «Cuento»" }).click();
   await expect(units.first()).toContainText("Cuento");
   await page.reload();
   await expect(units.first()).toContainText("Cuento");

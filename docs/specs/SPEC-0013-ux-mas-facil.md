@@ -460,7 +460,7 @@ Los clics se cuentan como en CA-0012-07: solo clics del usuario, sin contar escr
 - [x] T2 — "Primeros pasos" en el Inicio, cálculo en servidor (RN-02, CA-02/03) — backend + frontend
 - [x] T3 — Primer tema desde "Primeros pasos" al asistente (CA-04) — frontend
 - [x] T4 — DBA sugeridos en el diálogo de objetivo (RN-04, CA-05/06) — backend (planning + curriculum) + frontend
-- [ ] T5 — Planeación compacta: menú "⋯" y periodos vacíos plegados (CA-07/08) — frontend
+- [x] T5 — Planeación compacta: menú "⋯" y periodos vacíos plegados (CA-07/08) — frontend
 - [x] T6 — Asistente: autoselección y ajustes con "Más opciones" + resumen en el mismo paso (RN-03, CA-09/10) — frontend
 - [ ] T7 — Avisos de generación y contador en el menú (RN-08, CA-11/12) — backend + frontend
 - [ ] T8 — "Listo" guarda el ítem; agrupación de versiones (RN-05, CA-13) — backend (resources) + frontend

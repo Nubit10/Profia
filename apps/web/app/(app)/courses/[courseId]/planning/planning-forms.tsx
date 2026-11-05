@@ -62,12 +62,15 @@ export function UnitForm({
   courseId,
   periods,
   initial,
+  defaultPeriod,
   onSubmit,
   onDone,
 }: {
   courseId: string;
   periods: PlanningPeriod[];
   initial?: { title: string; description: string | null; periodNumber: number | null };
+  /** Periodo preseleccionado al crear desde "Agregar unidad" de un periodo (SPEC-0013). */
+  defaultPeriod?: number | null;
   onSubmit: Submit<UnitInput>;
   onDone: () => void;
 }) {
@@ -77,7 +80,11 @@ export function UnitForm({
       courseId,
       title: initial?.title ?? "",
       description: initial?.description ?? "",
-      periodNumber: initial ? initial.periodNumber : (periods[0]?.number ?? null),
+      periodNumber: initial
+        ? initial.periodNumber
+        : defaultPeriod !== undefined
+          ? defaultPeriod
+          : (periods[0]?.number ?? null),
     },
   });
   const { errors, isSubmitting } = form.formState;
