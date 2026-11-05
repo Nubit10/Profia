@@ -30,6 +30,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { ActionResult } from "@/lib/action-result";
+import type { CurriculumSearchResult } from "@/modules/curriculum/client";
 import { cn } from "@/lib/utils";
 import type {
   CoursePeriodsInput,
@@ -59,6 +60,8 @@ export type PlanningActions = {
   move: A<{ kind: PlanningKind; id: string; direction: "up" | "down" }>;
   archive: A<{ kind: PlanningKind; id: string; archived: boolean }>;
   suggestions: SuggestActions;
+  /** SPEC-0013 RN-04: búsqueda curricular para sugerir DBA al escribir un objetivo. */
+  searchCurriculum: A<{ courseId: string; query: string }, CurriculumSearchResult>;
   copy: A<
     { fromCourseId: string; toCourseId: string },
     { units: number; topics: number; objectives: number }
@@ -550,6 +553,14 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
               topicId={dialog.topicId}
               references={planning.references.filter((r) => r.type === "DBA")}
               hasArea={planning.hasArea}
+              suggestDba={async (query) => {
+                const result = await actions.searchCurriculum({
+                  courseId: planning.course.id,
+                  query,
+                });
+                if (!result.ok || result.data?.status !== "ok") return null;
+                return result.data.references.filter((r) => r.type === "DBA").map((r) => r.code);
+              }}
               initial={
                 dialog.objective && {
                   statement: dialog.objective.statement,

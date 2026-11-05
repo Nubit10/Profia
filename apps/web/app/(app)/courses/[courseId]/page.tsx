@@ -144,6 +144,7 @@ export default async function CoursePage({
             move: planning.moveItemAction,
             archive: planning.setItemArchivedAction,
             copy: planning.copyPlanningAction,
+            searchCurriculum: searchCurriculumAction,
             suggestions: {
               suggest: generation.suggestObjectivesAction,
               accept: generation.acceptSuggestionAction,

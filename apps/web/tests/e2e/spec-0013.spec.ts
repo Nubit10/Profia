@@ -143,3 +143,78 @@ test("CA-0013-09/10: con un curso y un tema, Inicio → Generar quiz en 3 clics 
   await page.getByRole("link", { name: "Cambiar" }).click();
   await expect(page.getByRole("heading", { name: "¿Sobre qué tema?" })).toBeVisible();
 });
+
+/** Curso con una unidad y un tema en la planeación; deja abierto el diálogo "Agregar objetivo". */
+async function openObjectiveDialog(page: Page) {
+  await signUpIndependentTeacher(page);
+  await createCourseFromFirstSteps(page);
+  await page.getByRole("link", { name: "Mis cursos" }).click();
+  await page
+    .getByRole("link", { name: /Matemáticas · 6° · 601/ })
+    .first()
+    .click();
+  await page.getByRole("button", { name: "Nueva unidad" }).click();
+  await page.getByLabel("Título de la unidad").fill("Números enteros");
+  await page.getByRole("button", { name: "Crear unidad" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await page.getByRole("button", { name: "Agregar tema" }).click();
+  await page.getByLabel("Título del tema").fill("La recta numérica");
+  await page.getByRole("button", { name: "Crear tema" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await page.getByRole("button", { name: "Agregar objetivo" }).click();
+}
+
+test("CA-0013-05: al escribir el objetivo, Profe marca DBA sugeridos y se crea en 1 clic", async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+  await openObjectiveDialog(page);
+  await page
+    .getByRole("textbox", { name: "Objetivo de aprendizaje" })
+    .fill("Compara números enteros usando la recta numérica");
+  const suggested = page
+    .getByRole("list", { name: "DBA del curso" })
+    .locator(":scope > li", { hasText: "Sugerido" });
+  await expect(suggested.first()).toBeVisible({ timeout: 3_000 });
+  const count = await suggested.count();
+  expect(count).toBeGreaterThan(0);
+  expect(count).toBeLessThanOrEqual(3);
+  await expect(suggested.first().getByRole("checkbox").first()).toBeChecked();
+  await expect(page.getByText(/Profe marcó \d DBA sugeridos?/)).toBeVisible();
+
+  // El docente quita uno: no vuelve a marcarse solo al seguir escribiendo.
+  await suggested.first().getByRole("checkbox").first().click();
+  await page.getByRole("textbox", { name: "Objetivo de aprendizaje" }).press("End");
+  await page.getByRole("textbox", { name: "Objetivo de aprendizaje" }).pressSequentially(".");
+  await page.waitForTimeout(1_500);
+  await expect(suggested.first().getByRole("checkbox").first()).not.toBeChecked();
+
+  const counter = clickCounter();
+  await counter.click(page.getByRole("button", { name: "Crear objetivo" }));
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  expect(counter.count).toBe(1);
+  await expect(page.getByText("Compara números enteros usando la recta numérica")).toBeVisible();
+});
+
+test("CA-0013-06: si la búsqueda de DBA falla, el diálogo de objetivo funciona como antes", async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+  await openObjectiveDialog(page);
+  // Toda acción del servidor que se llame desde aquí falla, como si el AI Engine no respondiera.
+  await page.route("**/courses/**", (route) =>
+    route.request().method() === "POST" && route.request().headers()["next-action"]
+      ? route.fulfill({ status: 500, body: "" })
+      : route.continue(),
+  );
+  await page
+    .getByRole("textbox", { name: "Objetivo de aprendizaje" })
+    .fill("Compara números enteros usando la recta numérica");
+  await page.waitForTimeout(1_500);
+  await expect(page.getByText("Sugerido")).toHaveCount(0);
+  await expect(page.getByRole("dialog").getByRole("alert")).toHaveCount(0);
+  await page.unroute("**/courses/**");
+  await page.getByRole("list", { name: "DBA del curso" }).getByRole("checkbox").first().click();
+  await page.getByRole("button", { name: "Crear objetivo" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+});

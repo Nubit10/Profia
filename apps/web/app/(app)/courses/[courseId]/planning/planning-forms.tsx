@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Controller,
   useFieldArray,
@@ -200,20 +200,28 @@ function DbaPicker({
   references,
   value,
   onChange,
+  suggested = [],
 }: {
   references: CurriculumReference[];
   value: CurriculumLinkInput[];
   onChange: (links: CurriculumLinkInput[]) => void;
+  /** SPEC-0013 RN-04: DBA sugeridos por Profe; van primero y con la marca "Sugerido". */
+  suggested?: string[];
 }) {
   const [filter, setFilter] = useState("");
   const visible = useMemo(() => {
     const q = normalizeName(filter);
-    return q
+    const matching = q
       ? references.filter((r) =>
           [r.statement, ...r.evidences].some((t) => normalizeName(t).includes(q)),
         )
       : references;
-  }, [filter, references]);
+    const rank = (code: string) => {
+      const i = suggested.indexOf(code);
+      return i === -1 ? suggested.length : i;
+    };
+    return [...matching].sort((a, b) => rank(a.code) - rank(b.code));
+  }, [filter, references, suggested]);
   const selected = new Map(value.map((l) => [l.code, l.evidenceIndexes ?? []]));
 
   const toggleDba = (code: string, checked: boolean) =>
@@ -259,6 +267,11 @@ function DbaPicker({
                   className="mt-0.5"
                 />
                 <label id={`${id}-label`} htmlFor={id} className="text-sm leading-snug">
+                  {suggested.includes(ref.code) && (
+                    <Badge variant="brand" className="mr-1.5">
+                      Sugerido
+                    </Badge>
+                  )}
                   <span className="font-medium">DBA {ref.number}.</span> {ref.statement}
                 </label>
               </div>
@@ -297,6 +310,10 @@ function DbaPicker({
   );
 }
 
+const MIN_SUGGEST_LENGTH = 15;
+const MAX_SUGGESTED_DBA = 3;
+const SUGGEST_DEBOUNCE_MS = 600;
+
 export function ObjectiveForm({
   topicId,
   references,
@@ -304,6 +321,7 @@ export function ObjectiveForm({
   initial,
   onSubmit,
   onDone,
+  suggestDba,
 }: {
   topicId: string;
   references: CurriculumReference[];
@@ -311,6 +329,8 @@ export function ObjectiveForm({
   initial?: { statement: string; links: CurriculumLinkInput[] };
   onSubmit: Submit<ObjectiveInput>;
   onDone: () => void;
+  /** SPEC-0013 RN-04: códigos de DBA relacionados con el texto (`null` si la búsqueda falló). */
+  suggestDba?: (statement: string) => Promise<string[] | null>;
 }) {
   const form = useForm<ObjectiveInput>({
     resolver: zodResolver(objectiveSchema),
@@ -318,6 +338,48 @@ export function ObjectiveForm({
   });
   const { errors, isSubmitting } = form.formState;
   const links = useWatch({ control: form.control, name: "links" }) ?? [];
+  const statement = useWatch({ control: form.control, name: "statement" }) ?? "";
+  const [suggested, setSuggested] = useState<string[]>([]);
+  const [searching, setSearching] = useState(false);
+  const suggestedRef = useRef<string[]>([]);
+  const dismissed = useRef(new Set<string>());
+
+  // RN-04: al escribir un objetivo nuevo, Profe marca hasta 3 DBA del curso. Quedan a la vista con
+  // "Sugerido" y el docente los quita si no aplican; uno quitado no vuelve a marcarse solo.
+  useEffect(() => {
+    if (initial || !suggestDba || references.length === 0) return;
+    const text = statement.trim();
+    if (text.length < MIN_SUGGEST_LENGTH) return;
+    let cancelled = false;
+    const timer = setTimeout(async () => {
+      setSearching(true);
+      const codes = await suggestDba(text).catch(() => null);
+      if (cancelled) return;
+      setSearching(false);
+      if (!codes) return;
+      const known = new Set(references.map((r) => r.code));
+      const next = codes.filter((c) => known.has(c)).slice(0, MAX_SUGGESTED_DBA);
+      const previous = suggestedRef.current;
+      const current = form.getValues("links") ?? [];
+      // Se reemplazan las sugerencias anteriores que el docente no tocó (sin evidencias).
+      const kept = current.filter(
+        (l) =>
+          !previous.includes(l.code) || next.includes(l.code) || (l.evidenceIndexes ?? []).length,
+      );
+      const added = next
+        .filter((c) => !dismissed.current.has(c) && !kept.some((l) => l.code === c))
+        .map((code) => ({ code, evidenceIndexes: [] }));
+      form.setValue("links", [...kept, ...added], { shouldDirty: true });
+      suggestedRef.current = next;
+      setSuggested(next);
+    }, SUGGEST_DEBOUNCE_MS);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [statement, initial, suggestDba, references, form]);
+
+  const markedSuggestions = suggested.filter((c) => links.some((l) => l.code === c)).length;
   const submit = form.handleSubmit(async (values) => {
     if (applyResult(form, await onSubmit(values))) onDone();
   });
@@ -355,11 +417,24 @@ export function ObjectiveForm({
                 <DbaPicker
                   references={references}
                   value={field.value ?? []}
-                  onChange={field.onChange}
+                  suggested={suggested}
+                  onChange={(next) => {
+                    for (const code of suggested) {
+                      if (!next.some((l) => l.code === code)) dismissed.current.add(code);
+                    }
+                    field.onChange(next);
+                  }}
                 />
               )}
             />
           )}
+          <p aria-live="polite" className="text-sm text-muted-foreground">
+            {searching
+              ? "Buscando DBA relacionados…"
+              : markedSuggestions > 0
+                ? `Profe marcó ${markedSuggestions} ${markedSuggestions === 1 ? "DBA sugerido" : "DBA sugeridos"}. Revísalos antes de crear el objetivo.`
+                : ""}
+          </p>
           <FieldError errors={[errors.links as { message?: string } | undefined]} />
         </Field>
         <FieldError errors={[errors.root]} />
