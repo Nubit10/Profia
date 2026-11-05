@@ -108,11 +108,21 @@ type Props = {
   content: WorkshopContent;
   onChange: (content: WorkshopContent) => void;
   dirty: boolean;
+  /** SPEC-0013 RN-05: "Listo" en un ítem guarda el recurso. */
+  onItemDone: () => void;
   savedKeys: Set<string>;
   actions: FeedbackActions;
 };
 
-export function WorkshopEditor({ resource, content, onChange, dirty, savedKeys, actions }: Props) {
+export function WorkshopEditor({
+  resource,
+  content,
+  onChange,
+  dirty,
+  savedKeys,
+  actions,
+  onItemDone,
+}: Props) {
   const [editing, setEditing] = useState<string | null>(null);
   const dba = new Map(resource.context.dba.map((d) => [d.code, d.number]));
   const total = content.moments
@@ -215,7 +225,10 @@ export function WorkshopEditor({ resource, content, onChange, dirty, savedKeys, 
                         size="sm"
                         variant="outline"
                         className="w-fit"
-                        onClick={() => setEditing(null)}
+                        onClick={() => {
+                          setEditing(null);
+                          onItemDone();
+                        }}
                       >
                         Listo
                       </Button>

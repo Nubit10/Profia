@@ -91,7 +91,9 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
   const initial = resource.data!;
   const [content, setContent] = useState(initial.content);
   const [saving, setSaving] = useState(false);
-  const dirty = JSON.stringify(content) !== JSON.stringify(initial.content);
+  // Contenido y versión del último guardado: "Listo" guarda seguido, sin esperar al refresco.
+  const [saved, setSaved] = useState({ content: initial.content, version: resource.version });
+  const dirty = JSON.stringify(content) !== JSON.stringify(saved.content);
   const savedKeys = useMemo(
     () =>
       new Set<string>(
@@ -112,10 +114,11 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
   }, [dirty]);
 
   const save = async () => {
+    if (!dirty || saving) return;
     setSaving(true);
     const result = await actions.save({
       resourceId: resource.id,
-      version: resource.version,
+      version: saved.version,
       content,
     });
     setSaving(false);
@@ -123,6 +126,7 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
       sileo.error({ title: "No pudimos guardar", description: result.error });
       return;
     }
+    setSaved({ content, version: result.data!.version });
     sileo.success({ title: "Cambios guardados", description: `Versión ${result.data!.version}` });
     router.refresh();
   };
@@ -135,6 +139,7 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
           content={content as QuizContent}
           onChange={setContent}
           dirty={dirty}
+          onItemDone={() => void save()}
           savedKeys={savedKeys}
           actions={actions}
         />
@@ -144,6 +149,7 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
           content={content as ExamContent}
           onChange={setContent}
           dirty={dirty}
+          onItemDone={() => void save()}
           savedKeys={savedKeys}
           actions={actions}
         />
@@ -153,23 +159,31 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
           content={content as WorkshopContent}
           onChange={setContent}
           dirty={dirty}
+          onItemDone={() => void save()}
           savedKeys={savedKeys}
           actions={actions}
         />
       )}
-      <div className="sticky bottom-0 z-10 -mx-4 flex flex-wrap items-center gap-3 border-t border-border bg-card/95 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-2xl sm:border sm:shadow-soft">
-        <Button type="button" disabled={!dirty || saving} onClick={save}>
-          {saving ? "Guardando…" : "Guardar cambios"}
-        </Button>
-        {dirty && (
-          <>
-            <Button type="button" variant="ghost" onClick={() => setContent(initial.content)}>
-              Descartar cambios
-            </Button>
-            <span className="text-sm text-muted-foreground">Tienes cambios sin guardar.</span>
-          </>
-        )}
-      </div>
+      {/* SPEC-0013 RN-05: los ítems se guardan con "Listo"; la barra solo aparece para lo demás
+          (título, instrucciones, orden) mientras haya algo sin guardar. */}
+      {(dirty || saving) && (
+        <div
+          data-floating="save-bar"
+          className="sticky bottom-0 z-10 -mx-4 flex flex-wrap items-center gap-3 border-t border-border bg-card/95 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-2xl sm:border sm:shadow-soft"
+        >
+          <Button type="button" disabled={!dirty || saving} onClick={save}>
+            {saving ? "Guardando…" : "Guardar cambios"}
+          </Button>
+          {dirty && (
+            <>
+              <Button type="button" variant="ghost" onClick={() => setContent(saved.content)}>
+                Descartar cambios
+              </Button>
+              <span className="text-sm text-muted-foreground">Tienes cambios sin guardar.</span>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }

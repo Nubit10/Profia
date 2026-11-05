@@ -300,6 +300,47 @@ describe("talleres y quices con IA (SPEC-0008)", () => {
     expect((await getResource(ctx, id)).failureReason).toBe("interrupted");
   });
 
+  it("CA-0013-13: los cambios del docente en menos de 60 s van en la misma versión", async () => {
+    const { ctx, topic } = await teacherWithTopic();
+    const run = deps(engine({ "/v1/generation/quiz": ok(quizBody(4)) }) as unknown as typeof fetch);
+    const { id } = await createResource(ctx, quizBlueprint(topic.id), run);
+    await run.done();
+    const original = (await getResource(ctx, id)).data!.content as QuizContent;
+    const withStem = (stem: string): QuizContent => ({
+      ...original,
+      questions: original.questions.map((q, i) => (i === 0 ? { ...q, stem } : q)),
+    });
+
+    // La versión generada (1) nunca se reemplaza: el primer cambio crea la 2.
+    expect(await saveResourceContent(ctx, id, 1, withStem("Primer cambio"))).toEqual({
+      version: 2,
+    });
+    // Otro "Listo" enseguida se agrega a la versión 2.
+    expect(await saveResourceContent(ctx, id, 2, withStem("Segundo cambio"))).toEqual({
+      version: 2,
+    });
+    const versions = () =>
+      db.resourceVersion.findMany({ where: { resourceId: id }, orderBy: { number: "asc" } });
+    expect((await versions()).map((v) => v.number)).toEqual([1, 2]);
+    expect(((await getResource(ctx, id)).data!.content as QuizContent).questions[0]!.stem).toBe(
+      "Segundo cambio",
+    );
+
+    // Pasado el minuto, el siguiente cambio es una versión nueva.
+    await db.resourceVersion.updateMany({
+      where: { resourceId: id, number: 2 },
+      data: { createdAt: new Date(Date.now() - 61_000) },
+    });
+    expect(await saveResourceContent(ctx, id, 2, withStem("Tercer cambio"))).toEqual({
+      version: 3,
+    });
+    expect((await versions()).map((v) => [v.number, v.source])).toEqual([
+      [1, "AI"],
+      [2, "TEACHER"],
+      [3, "TEACHER"],
+    ]);
+  });
+
   it("CA-0008-06: editar crea una versión nueva y conserva la original", async () => {
     const { ctx, topic } = await teacherWithTopic();
     const run = deps(engine({ "/v1/generation/quiz": ok(quizBody(4)) }) as unknown as typeof fetch);

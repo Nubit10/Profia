@@ -976,6 +976,49 @@ async function saveVersion(
   return number;
 }
 
+/** SPEC-0013 RN-05: los cambios guardados en menos de este tiempo van en la misma versión. */
+export const VERSION_GROUP_MS = 60_000;
+
+/**
+ * SPEC-0013 RN-05: "Listo" guarda cada cambio; si la versión actual la creó el docente hace menos de
+ * un minuto, el cambio se agrega a ella en lugar de crear otra. La versión generada (1) y las que
+ * vienen de la IA nunca se reemplazan. Devuelve `null` cuando hay que crear una versión nueva.
+ */
+async function replaceRecentVersion(
+  tx: Prisma.TransactionClient,
+  resource: { id: string; currentVersion: number; context: Prisma.JsonValue },
+  data: ResourceContent,
+): Promise<number | null> {
+  if (resource.currentVersion <= 1) return null;
+  const latest = await tx.resourceVersion.findUnique({
+    where: { resourceId_number: { resourceId: resource.id, number: resource.currentVersion } },
+    select: { id: true, source: true, createdAt: true },
+  });
+  if (
+    !latest ||
+    latest.source !== "TEACHER" ||
+    Date.now() - latest.createdAt.getTime() > VERSION_GROUP_MS
+  ) {
+    return null;
+  }
+  const allowed = new Set((resource.context as unknown as Snapshot).dba.map((d) => d.code));
+  const clean = sanitizeContent(data, allowed);
+  const keys = itemKeys(clean);
+  if (new Set(keys).size !== keys.length) throw invalid("Hay ítems con el mismo identificador");
+  // Bloquea la fila del recurso y confirma que nadie guardó otra versión mientras tanto.
+  const { count } = await tx.resource.updateMany({
+    where: { id: resource.id, currentVersion: resource.currentVersion },
+    data: { title: clean.content.title },
+  });
+  if (count === 0)
+    throw conflict("El recurso cambió en otra pestaña. Recarga para ver la última versión.");
+  await tx.resourceVersion.update({
+    where: { id: latest.id },
+    data: { content: clean.content as Prisma.InputJsonValue },
+  });
+  return resource.currentVersion;
+}
+
 /** CA-0008-06: cada guardado es una versión nueva; la generada (1) se conserva. */
 export async function saveResourceContent(
   ctx: TenantContext,
@@ -1003,7 +1046,9 @@ export async function saveResourceContent(
       : { type: resource.type, content: result.data }
   ) as ResourceContent;
   return db.$transaction(async (tx) => {
-    const number = await saveVersion(tx, ctx, resource, parsed);
+    const number =
+      (await replaceRecentVersion(tx, resource, parsed)) ??
+      (await saveVersion(tx, ctx, resource, parsed));
     await recordAudit(tx, {
       action: "resource.edited",
       institutionId: ctx.institutionId,

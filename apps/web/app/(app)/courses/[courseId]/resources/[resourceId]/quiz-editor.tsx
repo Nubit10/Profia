@@ -205,12 +205,22 @@ type Props = {
   content: QuizContent;
   onChange: (content: QuizContent) => void;
   dirty: boolean;
+  /** SPEC-0013 RN-05: "Listo" en un ítem guarda el recurso. */
+  onItemDone: () => void;
   /** Ítems ya guardados: solo esos se pueden regenerar o calificar. */
   savedKeys: Set<string>;
   actions: FeedbackActions;
 };
 
-export function QuizEditor({ resource, content, onChange, dirty, savedKeys, actions }: Props) {
+export function QuizEditor({
+  resource,
+  content,
+  onChange,
+  dirty,
+  savedKeys,
+  actions,
+  onItemDone,
+}: Props) {
   const [editing, setEditing] = useState<string | null>(null);
   const dba = new Map(resource.context.dba.map((d) => [d.code, d.number]));
   const questions = content.questions;
@@ -295,7 +305,10 @@ export function QuizEditor({ resource, content, onChange, dirty, savedKeys, acti
                     size="sm"
                     variant="outline"
                     className="w-fit"
-                    onClick={() => setEditing(null)}
+                    onClick={() => {
+                      setEditing(null);
+                      onItemDone();
+                    }}
                   >
                     Listo
                   </Button>

@@ -463,7 +463,7 @@ Los clics se cuentan como en CA-0012-07: solo clics del usuario, sin contar escr
 - [x] T5 — Planeación compacta: menú "⋯" y periodos vacíos plegados (CA-07/08) — frontend
 - [x] T6 — Asistente: autoselección y ajustes con "Más opciones" + resumen en el mismo paso (RN-03, CA-09/10) — frontend
 - [x] T7 — Avisos de generación y contador en el menú (RN-08, CA-11/12) — backend + frontend
-- [ ] T8 — "Listo" guarda el ítem; agrupación de versiones (RN-05, CA-13) — backend (resources) + frontend
+- [x] T8 — "Listo" guarda el ítem; agrupación de versiones (RN-05, CA-13) — backend (resources) + frontend
 - [ ] T9 — Diálogo de descarga y paquete `.zip` (RN-06/07, CA-14/15/16) — documents + frontend
 - [ ] T10 — Vista compacta y barra fija en móvil (CA-17/18) — frontend
 - [ ] T11 — Tests: un E2E por CA con su ID, conteo de clics, axe y 360 px; acceso cruzado (CA-12/16); correr la suite también contra `next dev` (CA-19) — qa

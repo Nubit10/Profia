@@ -327,3 +327,31 @@ test("CA-0013-11/12: el aviso de 'listo' llega en cualquier página y el menú c
   await page.waitForTimeout(6_000);
   await expect(page.getByText("Tu quiz está listo")).toHaveCount(0);
 });
+
+/** Docente con un quiz generado; deja la página del quiz abierta con sus preguntas. */
+async function generatedQuiz(page: Page) {
+  const user = await signUpIndependentTeacher(page);
+  await createCourseFromFirstSteps(page);
+  await page.goto("/create?type=QUIZ");
+  await page.getByLabel(/tema vas a trabajar/).fill("La recta numérica");
+  await page.getByRole("button", { name: "Usar este tema" }).click();
+  await page.getByRole("button", { name: "Generar quiz" }).click();
+  const questions = page.getByRole("list", { name: "Preguntas" }).locator(":scope > li");
+  await expect(questions.first()).toBeVisible({ timeout: 30_000 });
+  return { user, questions };
+}
+
+test("CA-0013-13: 'Listo' guarda el cambio de una pregunta en 2 clics", async ({ page }) => {
+  test.setTimeout(120_000);
+  const { questions } = await generatedQuiz(page);
+  const counter = clickCounter();
+  await counter.click(questions.nth(0).getByRole("button", { name: "Editar" }));
+  await questions.nth(0).getByLabel("Enunciado").fill("¿Qué número está más a la izquierda?");
+  await counter.click(questions.nth(0).getByRole("button", { name: "Listo" }));
+  await expect(page.getByText(/Versión 2/).first()).toBeVisible();
+  expect(counter.count).toBe(2);
+  // No queda nada por guardar.
+  await expect(page.getByRole("button", { name: "Guardar cambios" })).toHaveCount(0);
+  await page.reload();
+  await expect(questions.nth(0)).toContainText("¿Qué número está más a la izquierda?");
+});

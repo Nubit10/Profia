@@ -58,8 +58,8 @@ test("CA-0008-01/06/07/08/09: generar un quiz, editarlo, regenerar una pregunta 
     .nth(0)
     .getByLabel("Enunciado")
     .fill("¿Qué número está más a la izquierda en la recta?");
+  // SPEC-0013 RN-05: "Listo" ya guarda el cambio.
   await questions.nth(0).getByRole("button", { name: "Listo" }).click();
-  await page.getByRole("button", { name: "Guardar cambios" }).click();
   await expect(page.getByText(/Versión 2/).first()).toBeVisible();
   await expect(questions.nth(0)).toContainText("¿Qué número está más a la izquierda en la recta?");
 
