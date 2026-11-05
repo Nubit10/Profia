@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import type { ActionResult } from "@/lib/action-result";
+import { formatDayMonth } from "@/lib/dates";
 import { ROLES, ROLE_LABELS, type Role } from "@/lib/permissions";
 import { invitationSchema, type InvitationInput } from "@/modules/institutions/client";
 
@@ -37,9 +38,6 @@ type Props = {
   ) => Promise<ActionResult<{ token: string; expiresAt: string }>>;
   revokeInvitation: (input: { invitationId: string }) => Promise<ActionResult>;
 };
-
-const formatDate = (iso: string) =>
-  new Date(iso).toLocaleDateString("es-CO", { day: "numeric", month: "long" });
 
 export function InvitationsSection({
   ttlDays,
@@ -193,7 +191,7 @@ export function InvitationsSection({
                     <span className="truncate text-sm">{invitation.email}</span>
                     <span className="text-xs text-muted-foreground">
                       {invitation.roles.map((r) => ROLE_LABELS[r]).join(" · ")} · vence el{" "}
-                      {formatDate(invitation.expiresAt)}
+                      {formatDayMonth(invitation.expiresAt)}
                     </span>
                   </span>
                   <Button

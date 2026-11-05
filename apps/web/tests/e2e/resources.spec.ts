@@ -33,7 +33,8 @@ async function topicWithObjective(page: Page, group: string) {
   await expect(page.getByRole("dialog")).toHaveCount(0);
 
   await page.getByRole("link", { name: "Crear taller o quiz" }).click();
-  await expect(page.getByRole("heading", { name: "Crear taller o quiz con IA" })).toBeVisible();
+  // Asistente (SPEC-0012): el curso y el tema ya vienen elegidos; falta el tipo.
+  await expect(page.getByRole("heading", { name: "¿Qué quieres crear?" })).toBeVisible();
 }
 
 test("CA-0008-01/06/07/08/09: generar un quiz, editarlo, regenerar una pregunta y evaluarlo", async ({

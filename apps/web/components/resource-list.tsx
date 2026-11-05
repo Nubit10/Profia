@@ -5,6 +5,7 @@ import {
   HiOutlinePencilSquare,
 } from "react-icons/hi2";
 import { Badge } from "@/components/ui/badge";
+import { formatDateTime } from "@/lib/dates";
 import { cn } from "@/lib/utils";
 import {
   RESOURCE_TYPE_LABELS,
@@ -12,14 +13,6 @@ import {
   type ResourceStatus,
   type ResourceSummary,
 } from "@/modules/resources/client";
-
-const dateFormat = new Intl.DateTimeFormat("es-CO", {
-  day: "numeric",
-  month: "short",
-  hour: "numeric",
-  minute: "2-digit",
-  timeZone: "America/Bogota",
-});
 
 const STATUS_VARIANT: Record<ResourceStatus, "success" | "brand" | "info" | "warning" | "outline"> =
   {
@@ -79,9 +72,7 @@ export function ResourceList({
                   <Badge variant="outline">{RESOURCE_TYPE_LABELS[r.type]}</Badge>
                   <StatusBadge status={r.status} />
                 </span>
-                <span className="text-xs text-muted-foreground">
-                  {dateFormat.format(r.updatedAt)}
-                </span>
+                <span className="text-xs text-muted-foreground">{formatDateTime(r.updatedAt)}</span>
               </span>
               <span className="sm:hidden">
                 <StatusBadge status={r.status} />
