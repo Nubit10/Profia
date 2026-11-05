@@ -1,6 +1,8 @@
 import type { Locator, Page } from "@playwright/test";
+import { readFileSync } from "node:fs";
+import JSZip from "jszip";
 import { Pool } from "pg";
-import { expect, test } from "./fixtures";
+import { expect, newDeviceContext, test } from "./fixtures";
 import { PASSWORD, choose, download, signUpIndependentTeacher, uniqueEmail } from "./helpers";
 
 // SPEC-0013: Profe más fácil, hecho para el celular e instalable.
@@ -354,4 +356,64 @@ test("CA-0013-13: 'Listo' guarda el cambio de una pregunta en 2 clics", async ({
   await expect(page.getByRole("button", { name: "Guardar cambios" })).toHaveCount(0);
   await page.reload();
   await expect(questions.nth(0)).toContainText("¿Qué número está más a la izquierda?");
+});
+
+test("CA-0013-14: hoja y clave en PDF con 2 versiones bajan en un .zip en 3 clics", async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+  await generatedQuiz(page);
+  await page.getByRole("button", { name: "Marcar como listo" }).click();
+  await expect(page.getByText("Listo", { exact: true })).toBeVisible();
+
+  const counter = clickCounter();
+  const started = Date.now();
+  await counter.click(page.getByRole("button", { name: "Descargar", exact: true }));
+  const dialog = page.getByRole("dialog", { name: "Descargar" });
+  // Por defecto: PDF, hoja del estudiante y clave.
+  await expect(dialog.getByRole("radio", { name: /PDF/ })).toHaveAttribute("aria-checked", "true");
+  await counter.click(dialog.getByRole("radio", { name: "2 versiones" }));
+  const [file] = await Promise.all([
+    page.waitForEvent("download"),
+    counter.click(dialog.getByRole("button", { name: "Descargar 4 archivos (.zip)" })),
+  ]);
+  expect(counter.count).toBeLessThanOrEqual(3);
+  expect(file.suggestedFilename()).toBe("Quiz - La recta numérica - 6°601.zip");
+  const zip = await JSZip.loadAsync(readFileSync((await file.path())!));
+  expect(Object.keys(zip.files).sort()).toEqual([
+    "Clave - Quiz - La recta numérica - 6°601 - Versión B.pdf",
+    "Clave - Quiz - La recta numérica - 6°601.pdf",
+    "Quiz - La recta numérica - 6°601 - Versión B.pdf",
+    "Quiz - La recta numérica - 6°601.pdf",
+  ]);
+  expect(Date.now() - started).toBeLessThan(30_000);
+});
+
+test("CA-0013-15/16: el borrador se avisa antes de descargar y el paquete ajeno responde 404", async ({
+  page,
+  browser,
+}) => {
+  test.setTimeout(120_000);
+  await generatedQuiz(page);
+  await page.getByRole("button", { name: "Descargar", exact: true }).click();
+  const dialog = page.getByRole("dialog", { name: "Descargar" });
+  await expect(dialog.getByRole("note")).toContainText("BORRADOR");
+  await expect(
+    dialog.getByRole("button", { name: "Descargar con marca de borrador" }),
+  ).toBeVisible();
+  const [file] = await Promise.all([
+    page.waitForEvent("download"),
+    dialog.getByRole("button", { name: "Marcar como listo y descargar" }).click(),
+  ]);
+  expect(file.suggestedFilename()).toMatch(/\.zip$/);
+  await expect(page.getByText("Listo", { exact: true })).toBeVisible();
+
+  // CA-0013-16: otro docente no puede bajar el paquete por URL.
+  const url = `${new URL(page.url()).pathname}/export/bundle?docs=student,key&format=pdf&variants=2`;
+  const other = await newDeviceContext(browser);
+  const otherPage = await other.newPage();
+  await signUpIndependentTeacher(otherPage, "Luis Mora");
+  const response = await otherPage.request.get(url);
+  expect(response.status()).toBe(404);
+  await other.close();
 });

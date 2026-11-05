@@ -317,6 +317,23 @@ export function ResourceView({
               type={resource.type}
               version={resource.version}
               answerSheet={resource.data?.type === "EXAM" && hasAnswerSheet(resource.data.content)}
+              draft={resource.status === "DRAFT"}
+              markReady={async () => {
+                const result = await actions.setStatus({
+                  resourceId: resource.id,
+                  status: "READY",
+                });
+                if (!result.ok) {
+                  sileo.error({
+                    title: "No pudimos marcarlo como listo",
+                    description: result.error,
+                  });
+                  return false;
+                }
+                sileo.success({ title: "Recurso listo" });
+                router.refresh();
+                return true;
+              }}
             />
             <DropdownMenu>
               <DropdownMenuTrigger

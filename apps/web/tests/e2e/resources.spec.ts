@@ -92,7 +92,6 @@ test("CA-0008-01/06/07/08/09: generar un quiz, editarlo, regenerar una pregunta 
   await expect(page.getByText("Listo", { exact: true })).toBeVisible();
 
   // CA-0009-10 (SPEC-0009): descargar la versión B de la hoja y su clave.
-  await choose(page, "Versiones para evitar la copia", "2");
   const sheet = await download(page, "Hoja del estudiante (versión B) en PDF");
   expect(sheet.suggestedFilename()).toBe("Quiz - La recta numérica - 6°6C - Versión B.pdf");
   const key = await download(page, "Clave (versión B) en Word");

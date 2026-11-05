@@ -563,7 +563,7 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
       ))}
 
       <Dialog open={dialog !== null} onOpenChange={(open) => !open && close()}>
-        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-xl">
+        <DialogContent className="sm:max-w-xl">
           {dialog && (
             <DialogHeader>
               <DialogTitle>{DIALOG_TITLES[dialog.type][0]}</DialogTitle>

@@ -79,13 +79,26 @@ export async function confirmAndGenerate(page: Page, type: "taller" | "quiz") {
   await page.getByRole("button", { name: `Generar ${type}` }).click();
 }
 
-/** Abre el menú "Descargar" y descarga el documento con ese nombre (SPEC-0012). */
+/**
+ * Descarga un documento suelto por su nombre, p. ej. "Clave (versión B) en Word" (SPEC-0013 RN-06:
+ * diálogo "Descargar" → "Descargar un archivo suelto"). Elige antes cuántas versiones mostrar.
+ */
 export async function download(page: Page, name: string) {
-  await page.getByRole("button", { name: "Descargar" }).click();
+  await page.getByRole("button", { name: "Descargar", exact: true }).click();
+  const dialog = page.getByRole("dialog", { name: "Descargar" });
+  const variant = /\(versión ([A-D])\)/.exec(name)?.[1];
+  if (variant) {
+    const n = "ABCD".indexOf(variant) + 1;
+    await dialog.getByRole("radio", { name: n === 1 ? "1 versión" : `${n} versiones` }).click();
+  }
+  const singles = dialog.getByRole("button", { name: "Descargar un archivo suelto" });
+  if ((await singles.getAttribute("aria-expanded")) !== "true") await singles.click();
   const [file] = await Promise.all([
     page.waitForEvent("download"),
-    page.getByRole("menuitem", { name }).click(),
+    dialog.getByRole("link", { name, exact: true }).click(),
   ]);
+  await page.keyboard.press("Escape");
+  await expect(dialog).toHaveCount(0);
   return file;
 }
 

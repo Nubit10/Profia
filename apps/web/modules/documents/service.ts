@@ -1,4 +1,5 @@
 import "server-only";
+import JSZip from "jszip";
 import { recordAuditSafely } from "@/modules/audit";
 import { getMyCourse } from "@/modules/courses";
 import { getLogo } from "@/modules/formats";
@@ -18,7 +19,7 @@ import { safeFilename } from "./filename";
 import type { DocFormat, DocModel } from "./model";
 import { renderDocx } from "./render-docx";
 import { renderPdf } from "./render-pdf";
-import type { Variant } from "./shuffle";
+import { VARIANTS, type Variant } from "./shuffle";
 
 export type ExportRequest = {
   doc: DocKind;
@@ -154,6 +155,59 @@ export async function exportResource(
       request.format,
     ),
     contentType: CONTENT_TYPES[request.format],
+    body,
+  };
+}
+
+export type BundleRequest = {
+  docs: DocKind[];
+  format: DocFormat;
+  /** Cuántas versiones A–D (1 = solo A). El taller siempre tiene una. */
+  variants: number;
+  version?: number;
+};
+
+/** "Clave - Quiz - La recta numérica - 6°6C - Versión B.pdf" → "Quiz - La recta numérica - 6°6C". */
+function bundleBase(filename: string) {
+  return filename
+    .replace(/\.(pdf|docx)$/, "")
+    .replace(/^(Clave|Guía del docente|Hoja de respuestas) - /, "")
+    .replace(/ - Versión [A-D]$/, "");
+}
+
+/**
+ * SPEC-0013 RN-06: varios documentos (hoja y clave, y sus versiones) en un solo `.zip`, con los
+ * mismos nombres de SPEC-0009. Cada documento pasa por `exportResource` (permisos, tenant y
+ * auditoría). Si uno falla, falla todo: nunca se entrega un paquete incompleto.
+ */
+export async function exportBundle(
+  ctx: TenantContext,
+  resourceId: string,
+  request: BundleRequest,
+): Promise<ExportedFile> {
+  const variants = VARIANTS.slice(0, Math.min(Math.max(request.variants, 1), VARIANTS.length));
+  const files: ExportedFile[] = [];
+  for (const doc of [...new Set(request.docs)]) {
+    // La hoja de respuestas es la misma para todas las versiones (RN-15 de SPEC-0011).
+    for (const variant of doc === "answers" ? (["A"] as const) : variants) {
+      const file = await exportResource(ctx, resourceId, {
+        doc,
+        format: request.format,
+        version: request.version,
+        variant,
+      });
+      // El taller no tiene versiones: la B, C y D darían el mismo archivo.
+      if (!files.some((f) => f.filename === file.filename)) files.push(file);
+    }
+  }
+  if (files.length === 1) return files[0]!;
+  const zip = new JSZip();
+  for (const file of files) zip.file(file.filename, file.body);
+  const body = await zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" });
+  const student = files.find((f) => !/^(Clave|Guía del docente|Hoja de respuestas) - /.test(f.filename));
+  return {
+    filename: `${bundleBase((student ?? files[0]!).filename)}.zip`,
+    contentType: "application/zip",
     body,
   };
 }
