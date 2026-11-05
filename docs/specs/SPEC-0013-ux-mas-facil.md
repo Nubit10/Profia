@@ -2,7 +2,7 @@
 
 | Campo                    | Valor                                                                                                                                                   |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Estado                   | Borrador                                                                                                                                                |
+| Estado                   | En revisión                                                                                                                                             |
 | Fase del roadmap         | Transversal · UX (continúa SPEC-0012; no la reemplaza)                                                                                                  |
 | Módulo(s) responsable(s) | `apps/web/app` (vistas), `apps/web/components`; `modules/auth` (sesión tras el registro); `modules/documents` (descarga en paquete); `modules/planning` |
 | Agentes                  | product, frontend, backend, auth-security, documents, qa, reviewer                                                                                      |
@@ -82,7 +82,7 @@ táctil). Capturas en `docs/design/capturas/spec-0013/` (01–08 escritorio, 09�
   el estado que ya existe en PostgreSQL (ADR-0008), no por etapas del modelo.
 - Notificaciones por correo o push del sistema operativo (Terram las tiene; aquí no hacen falta
   todavía).
-- Usar Profe sin conexión: sin señal solo se muestra "Sin conexión" (ver RN-13 y pregunta abierta 9).
+- Usar Profe sin conexión: sin señal solo se muestra "Sin conexión" (RN-13, decisión 9).
 - App nativa en tiendas (AGENTS.md: "No construir app móvil nativa").
 - Nuevos tipos de recurso (planes de aula) ni formatos propios para quiz y examen.
 - Recorrido guiado con el usuario real (sigue pendiente desde SPEC-0012; ver §12).
@@ -113,7 +113,7 @@ táctil). Capturas en `docs/design/capturas/spec-0013/` (01–08 escritorio, 09�
   Nunca se guarda un objetivo con DBA que el docente no vio.
 - **RN-05 — Una versión por cambio confirmado.** "Listo" en un ítem guarda una versión nueva del
   recurso (SPEC-0008 RN de versiones). Varios "Listo" seguidos en menos de 60 s del mismo docente
-  sobre el mismo recurso se agrupan en una sola versión (ver pregunta abierta 2).
+  sobre el mismo recurso se agrupan en una sola versión (decisión 2).
 - **RN-06 — Descarga en un archivo.** Si el docente pide más de un documento (hoja + clave, o varias
   versiones), recibe un solo `.zip` con los archivos y los mismos nombres de SPEC-0009. Un solo
   documento se descarga suelto, como hoy. El diálogo recuerda formato y opciones por docente en el
@@ -140,19 +140,24 @@ táctil). Capturas en `docs/design/capturas/spec-0013/` (01–08 escritorio, 09�
   - El contenido respeta `env(safe-area-inset-*)`; las rejillas declaran `grid-cols-1` de base y
     las filas de pestañas o chips se desplazan con flechas o arrastre y muestran que hay más.
   - Cada ruta que carga datos tiene `loading.tsx` con un esqueleto.
-- **RN-12 — Profe se instala como app (patrón de Terram, ADR-0012).**
-  - `app/manifest.ts` declara nombre "Profe", `display: standalone`, `start_url: /dashboard`,
-    `lang: es-CO`, colores desde los tokens de marca e íconos 192, 512 y 512 "maskable"; además
-    ícono de Apple y `themeColor` en el viewport.
+- **RN-12 — Profe se instala como app (patrón de CliqCut-Web y Terram, ADR-0012).**
+  - `app/manifest.ts` declara nombre "Profe", `display: standalone`, `scope: /`,
+    `start_url: /dashboard` (como CliqCut abre el panel de quien trabaja; sin sesión, `proxy.ts`
+    lleva al login y vuelve), `lang: es-CO`, colores desde los tokens de marca e íconos 192 y 512
+    "any maskable". El layout raíz declara `appleWebApp` (`capable`, título "Profe"), el ícono de
+    Apple y `themeColor` en el viewport.
+  - El ícono es el logo actual de Profe (el birrete) sobre un cuadro con el degradado de marca, en
+    PNG de 512 px con el logo dentro de la zona segura de "maskable" (como el `logo-tile.png` de
+    CliqCut), y una versión de 192 px.
   - La opción "Instalar Profe" del menú usa el aviso del navegador donde existe (Chrome, Edge,
     Android) y en iPhone o iPad explica "Compartir → Agregar a pantalla de inicio". No aparece si
     Profe ya está instalado (`display-mode: standalone`) ni en navegadores que no pueden instalarla.
   - Abierta como app, ninguna pantalla depende de los botones del navegador: siempre hay una forma
     visible de volver.
-- **RN-13 — El service worker no guarda datos del docente.** Solo guarda en caché los archivos
-  estáticos con huella de Next (`/_next/static`), los íconos y la página "Sin conexión". Las páginas
-  del área de trabajo, las acciones y las descargas siempre van a la red. Sin conexión, una
-  navegación muestra "Sin conexión" con "Reintentar", no la pantalla de error del navegador.
+- **RN-13 — El service worker no guarda datos del docente.** Como en CliqCut, `public/sw.js` es
+  mínimo y no guarda en caché páginas, acciones ni descargas: todo va a la red. Lo único que guarda
+  es la página estática "Sin conexión" (sin datos de nadie), para que sin señal una navegación
+  muestre "Sin conexión" con "Reintentar" y no la pantalla de error del navegador.
 
 ## 6. Entradas
 
@@ -176,20 +181,20 @@ version }` validado con Zod en el servidor. Mínimo 1 documento.
 
 ## 8. Errores y casos límite
 
-| Caso                                                             | Comportamiento esperado                                                                                                                                                              |
-| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| El registro funciona pero iniciar sesión falla                   | Login de hoy con el correo ya escrito y el aviso "Tu cuenta quedó creada; ingresa."                                                                                                  |
-| La búsqueda de DBA no responde                                   | El diálogo de objetivo funciona como hoy, sin sugeridos y sin error visible                                                                                                          |
-| El docente quita todos los DBA sugeridos                         | Se guarda igual que hoy (el objetivo puede no tener DBA)                                                                                                                             |
-| Falla un documento dentro del paquete                            | No se entrega un zip incompleto: mensaje "No pudimos preparar la descarga" y se puede reintentar                                                                                     |
-| El docente cierra la pestaña mientras el recurso se genera       | Al volver a cualquier página ve el aviso del resultado una sola vez                                                                                                                  |
-| Dos pestañas abiertas                                            | El aviso puede salir en ambas; no se duplica la acción                                                                                                                               |
-| "Listo" sin cambios                                              | No crea versión                                                                                                                                                                      |
-| Recurso archivado                                                | Sin diálogo de descarga (igual que hoy)                                                                                                                                              |
-| Navegador que no permite instalar (p. ej. Firefox de escritorio) | No aparece "Instalar Profe"; Profe funciona igual en la pestaña                                                                                                                      |
-| Profe instalado en iPhone y el docente descarga un Word o PDF    | Se abre la vista previa del sistema con "Compartir" para guardarlo o abrirlo en Word; el docente vuelve a Profe sin perder la página (probar en un iPhone real, pregunta abierta 10) |
-| Se publica una versión nueva de Profe                            | El service worker nuevo toma el control en la siguiente navegación; nunca sirve archivos de una versión vieja con HTML nuevo                                                         |
-| El docente cierra sesión en la app instalada                     | Vuelve al login; como el service worker no guarda datos del docente, no queda nada que borrar                                                                                        |
+| Caso                                                             | Comportamiento esperado                                                                                                                                                                 |
+| ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| El registro funciona pero iniciar sesión falla                   | Login de hoy con el correo ya escrito y el aviso "Tu cuenta quedó creada; ingresa."                                                                                                     |
+| La búsqueda de DBA no responde                                   | El diálogo de objetivo funciona como hoy, sin sugeridos y sin error visible                                                                                                             |
+| El docente quita todos los DBA sugeridos                         | Se guarda igual que hoy (el objetivo puede no tener DBA)                                                                                                                                |
+| Falla un documento dentro del paquete                            | No se entrega un zip incompleto: mensaje "No pudimos preparar la descarga" y se puede reintentar                                                                                        |
+| El docente cierra la pestaña mientras el recurso se genera       | Al volver a cualquier página ve el aviso del resultado una sola vez                                                                                                                     |
+| Dos pestañas abiertas                                            | El aviso puede salir en ambas; no se duplica la acción                                                                                                                                  |
+| "Listo" sin cambios                                              | No crea versión                                                                                                                                                                         |
+| Recurso archivado                                                | Sin diálogo de descarga (igual que hoy)                                                                                                                                                 |
+| Navegador que no permite instalar (p. ej. Firefox de escritorio) | No aparece "Instalar Profe"; Profe funciona igual en la pestaña                                                                                                                         |
+| Profe instalado en iPhone y el docente descarga un Word o PDF    | Se abre la vista previa del sistema con "Compartir" para guardarlo o abrirlo en Word; el docente vuelve a Profe sin perder la página (validación manual en un iPhone real, decisión 10) |
+| Se publica una versión nueva de Profe                            | El service worker nuevo toma el control en la siguiente navegación; nunca sirve archivos de una versión vieja con HTML nuevo                                                            |
+| El docente cierra sesión en la app instalada                     | Vuelve al login; como el service worker no guarda datos del docente, no queda nada que borrar                                                                                           |
 
 ## 9. Seguridad y privacidad
 
@@ -344,30 +349,34 @@ Los clics se cuentan como en CA-0012-07: solo clics del usuario, sin contar escr
 - [ ] T17 — Proyecto de Playwright "iPhone 13" que corre los E2E de esta spec en el celular, con la revisión de `data-floating` y de controles de 44 px — qa
 - [ ] T18 — Revisión contra la spec y DoD — reviewer
 
-## 12. Preguntas abiertas
+## 12. Decisiones (resueltas por el usuario el 2026-11-05)
 
-1. **Descarga múltiple:** ¿un `.zip` (recomendado: un solo archivo, funciona en todos los
-   navegadores) o un PDF/Word único con hoja y clave una tras otra (más fácil de imprimir, pero
-   mezcla clave y hoja en el mismo archivo)?
-2. **Versiones al editar:** con "Listo" guardando cada cambio, ¿agrupamos los cambios hechos en menos
-   de 60 s en una sola versión (recomendado, evita decenas de versiones), o una versión por cada
-   "Listo"?
-3. **Avisos de generación:** ¿basta con el aviso dentro de Profe (recomendado para esta spec), o
-   quieres también la notificación del navegador cuando el docente está en otra pestaña (requiere
-   pedir permiso al docente)?
-4. **"Primeros pasos":** ¿cuenta "primera descarga" como el cuarto paso (recomendado: es el momento
-   en que el docente obtiene valor) o termina en "primer recurso"?
-5. **DBA sugeridos:** ¿máximo 3 marcados por defecto (recomendado) o solo el mejor?
-6. **Recorrido con docentes:** SPEC-0012 dejó pendiente el recorrido guiado con un usuario real. ¿Lo
-   hacemos antes de implementar (para confirmar estas fricciones con 2–3 docentes) o después, como
-   validación?
-7. **Al abrir la app instalada,** ¿empieza en el Inicio (`/dashboard`, recomendado) o en "Mis
-   recursos"?
-8. **Ícono de la app:** ¿usamos el logo actual de Profe (el birrete sobre el degradado,
-   recomendado) o tienes un ícono propio?
-9. **Sin conexión:** ¿basta con la página "Sin conexión" (recomendado: no guarda datos en el
-   teléfono), o quieres poder ver sin señal los últimos recursos abiertos? Eso guardaría contenido
-   del docente en el celular y pide decidir cuándo se borra.
-10. **iPhone:** las descargas dentro de una app instalada en iPhone se comportan distinto que en
-    Safari. ¿Tienes un iPhone para probarlo antes de cerrar la spec? Si no, lo probamos en Android y
-    dejamos el iPhone como validación pendiente.
+Las preguntas 1 a 6 se resolvieron con la recomendación de product. Las 7 a 10 siguen lo que hace
+CliqCut-Web (`Nubit10/CliqCut-Web`: `public/manifest*.webmanifest`, `public/sw.js`, `app/layout.tsx`,
+`components/pushnotification/PushNotificationInit.tsx`).
+
+1. **Descarga múltiple:** un solo `.zip` con los documentos (RN-06). Un documento suelto se baja
+   como hoy.
+2. **Versiones al editar:** "Listo" guarda; los cambios del mismo docente en el mismo recurso en
+   menos de 60 s se agrupan en una versión (RN-05).
+3. **Avisos de generación:** solo dentro de Profe (aviso y contador en el menú, RN-08). Sin
+   notificaciones del navegador en esta spec.
+4. **"Primeros pasos":** cuatro pasos, y el cuarto es la primera descarga (RN-02).
+5. **DBA sugeridos:** hasta 3 marcados por defecto, que el docente confirma (RN-04).
+6. **Recorrido con docentes:** después de implementar, como validación con 2–3 docentes; las
+   fricciones de §2 ya tienen evidencia medida. Si el recorrido cambia algo, va en una spec nueva.
+7. **Al abrir la app instalada:** `start_url: /dashboard`, el Inicio del área de trabajo (CliqCut
+   abre el panel de quien trabaja: `/owner/dashboard`).
+8. **Ícono:** el logo actual de Profe sobre un cuadro con el degradado de marca, 512 px y "any
+   maskable", el mismo para Apple (CliqCut usa su `logo-tile.png` de 512 px así) (RN-12).
+9. **Sin conexión:** nada del docente se guarda en el teléfono; el service worker es mínimo como el
+   de CliqCut y solo agrega la página estática "Sin conexión" (RN-13).
+10. **iPhone:** en iPhone o iPad, "Instalar Profe" muestra el texto de CliqCut adaptado: "Abre Profe
+    en Safari, toca Compartir y elige Agregar a pantalla de inicio. Luego entra desde ese ícono".
+    Las pruebas automáticas corren en Android/Chrome y en un iPhone emulado; queda una **validación
+    manual en un iPhone real** (descargas dentro de la app instalada) antes de marcar la spec como
+    Implementada.
+
+Nota: CliqCut bloquea la invitación del navegador a instalar en sus páginas públicas porque quien las
+visita es el cliente final (`SuppressInstallPrompt`). En Profe quien visita la landing es un docente
+que puede querer instalarla, así que no se bloquea en ninguna página.
