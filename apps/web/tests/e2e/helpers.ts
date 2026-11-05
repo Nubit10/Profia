@@ -20,10 +20,16 @@ export async function fillRegistration(page: Page, user: { name: string; email: 
   await page.getByRole("button", { name: "Crear cuenta" }).click();
 }
 
+/**
+ * Crea la cuenta y deja el navegador sin sesión en el login, para los tests que prueban el login.
+ * Desde SPEC-0013 (RN-01) crear la cuenta ya inicia la sesión: se borra la cookie a propósito.
+ */
 export async function register(page: Page, user: { name: string; email: string }) {
   await page.goto("/register");
   await fillRegistration(page, user);
-  await expect(page).toHaveURL(/\/login$/);
+  await expect(page).toHaveURL(/\/onboarding$/, { timeout: 15_000 });
+  await page.context().clearCookies();
+  await page.goto("/login");
 }
 
 export async function login(page: Page, email: string, password = PASSWORD) {
@@ -32,12 +38,12 @@ export async function login(page: Page, email: string, password = PASSWORD) {
   await page.getByRole("button", { name: "Ingresar" }).click();
 }
 
-/** Registro + login + espacio independiente: deja al docente en "Mis cursos". */
+/** Registro (que ya inicia sesión, SPEC-0013) + espacio independiente: deja al docente en el Inicio. */
 export async function signUpIndependentTeacher(page: Page, name = "Ana Pérez") {
   const user = { name, email: uniqueEmail() };
-  await register(page, user);
-  await login(page, user.email);
-  // Con todos los E2E en paralelo en un equipo sin GPU, el login puede tardar más de 5 s.
+  await page.goto("/register");
+  await fillRegistration(page, user);
+  // Con todos los E2E en paralelo en un equipo sin GPU, el registro puede tardar más de 5 s.
   await expect(page).toHaveURL(/\/onboarding$/, { timeout: 15_000 });
   await page.getByRole("button", { name: "Empezar por mi cuenta" }).click();
   await expect(page).toHaveURL(/\/dashboard$/);
@@ -48,8 +54,8 @@ export async function signUpIndependentTeacher(page: Page, name = "Ana Pérez") 
 /** Registro + login + colegio privado: deja al administrador (sin rol docente) en el Inicio. */
 export async function signUpSchoolAdmin(page: Page, name = "Rectora Gómez") {
   const user = { name, email: uniqueEmail("rectora") };
-  await register(page, user);
-  await login(page, user.email);
+  await page.goto("/register");
+  await fillRegistration(page, user);
   await expect(page).toHaveURL(/\/onboarding$/, { timeout: 15_000 });
   await page.getByRole("button", { name: "Registrar mi colegio" }).click();
   await page.getByLabel("Nombre del colegio").fill("Colegio Los Andes de Prueba");
@@ -67,9 +73,9 @@ export async function logout(page: Page) {
   await page.getByRole("dialog").getByRole("button", { name: "Salir" }).click();
 }
 
-/** En el asistente de creación: de los ajustes a la confirmación y a generar (SPEC-0012). */
+/** En el asistente de creación: generar desde los ajustes (SPEC-0012, SPEC-0013). */
 export async function confirmAndGenerate(page: Page, type: "taller" | "quiz") {
-  await page.getByRole("button", { name: "Continuar" }).click();
+  // SPEC-0013 CA-0013-10: se genera desde los ajustes, sin paso de confirmar.
   await page.getByRole("button", { name: `Generar ${type}` }).click();
 }
 

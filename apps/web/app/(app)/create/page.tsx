@@ -33,8 +33,9 @@ const timeFormat = new Intl.DateTimeFormat("es-CO", {
 });
 
 /**
- * Asistente de creación (SPEC-0012): qué crear → curso y tema → ajustes → confirmar. El paso sale
- * de la URL, así que volver atrás o recargar no pierde el avance (RN-04).
+ * Asistente de creación (SPEC-0012): qué crear → curso y tema → ajustes (SPEC-0013: taller y quiz
+ * se generan desde los ajustes; el examen conserva su paso de confirmar). El paso sale de la URL,
+ * así que volver atrás o recargar no pierde el avance (RN-04).
  */
 export default async function CreatePage({ searchParams }: PageProps<"/create">) {
   const ctx = await requireTenant();
@@ -60,8 +61,14 @@ export default async function CreatePage({ searchParams }: PageProps<"/create">)
       u.topics.map((t) => t.id),
     ),
   );
+  // SPEC-0013 RN-03: con un solo tema en el curso no hay nada que elegir, salvo que el docente
+  // haya pedido cambiarlo (`elegir`).
+  const onlyTopic =
+    (kind === "WORKSHOP" || kind === "QUIZ") && topicIds.size === 1 && params.elegir === undefined
+      ? [...topicIds][0]!
+      : null;
   const topicId =
-    typeof params.topicId === "string" && topicIds.has(params.topicId) ? params.topicId : null;
+    typeof params.topicId === "string" && topicIds.has(params.topicId) ? params.topicId : onlyTopic;
 
   const ignoreForeign = (error: unknown) => {
     if (

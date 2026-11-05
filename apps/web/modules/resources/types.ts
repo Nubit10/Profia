@@ -138,8 +138,25 @@ export type NextStep =
     }
   | { kind: "OPEN_LAST"; resource: ResourceListItem };
 
+/**
+ * SPEC-0013 RN-02: los cuatro primeros pasos (curso → tema → primer recurso → primera descarga).
+ * `null` cuando ya los completó todos. Cada paso pendiente trae a dónde lleva.
+ */
+export type FirstStepKey = "COURSE" | "TOPIC" | "RESOURCE" | "DOWNLOAD";
+export type FirstSteps = {
+  done: Record<FirstStepKey, boolean>;
+  current: FirstStepKey;
+  /** Curso para escribir el primer tema; tema para el primer recurso; recurso para descargar. */
+  courseId: string | null;
+  courseTitle: string | null;
+  topicId: string | null;
+  topicTitle: string | null;
+  resource: ResourceListItem | null;
+};
+
 export type TeacherHome = {
   nextStep: NextStep;
+  firstSteps: FirstSteps | null;
   courses: {
     id: string;
     title: string;

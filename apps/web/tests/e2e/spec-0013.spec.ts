@@ -1,0 +1,145 @@
+import type { Locator, Page } from "@playwright/test";
+import { expect, test } from "./fixtures";
+import { PASSWORD, choose, download, signUpIndependentTeacher, uniqueEmail } from "./helpers";
+
+// SPEC-0013: Profe más fácil, hecho para el celular e instalable.
+
+/** Cuenta solo los clics del usuario (sin contar escribir), como CA-0012-07. */
+function clickCounter() {
+  let clicks = 0;
+  return {
+    click: async (locator: Locator) => {
+      clicks += 1;
+      await locator.click();
+    },
+    get count() {
+      return clicks;
+    },
+  };
+}
+
+/**
+ * Controles de formulario que el docente ve en `main form`. Los checkbox y selects de Base UI
+ * llevan un `input` oculto de 1×1 px: se cuenta el control que se toca, no ese.
+ */
+async function visibleControls(page: Page) {
+  return page.evaluate(() => {
+    const form = document.querySelector("main form");
+    if (!form) return 0;
+    return [
+      ...form.querySelectorAll(
+        "input:not([type=hidden]), textarea, select, [role=checkbox], [role=combobox]",
+      ),
+    ].filter((el) => {
+      const box = el.getBoundingClientRect();
+      return box.width > 4 && box.height > 4 && !el.closest("details:not([open])");
+    }).length;
+  });
+}
+
+async function fillRegistrationFields(page: Page, name: string, email: string) {
+  await page.getByLabel("Nombre").fill(name);
+  await page.getByLabel("Correo").fill(email);
+  await page.getByLabel("Contraseña", { exact: true }).fill(PASSWORD);
+  await page.getByLabel("Confirmar contraseña").fill(PASSWORD);
+}
+
+test("CA-0013-01: crear la cuenta inicia la sesión y llega al Inicio en 2 clics", async ({
+  page,
+}) => {
+  const counter = clickCounter();
+  await page.goto("/register");
+  await fillRegistrationFields(page, "Ana Pérez", uniqueEmail());
+  await counter.click(page.getByRole("button", { name: "Crear cuenta" }));
+  await expect(page).toHaveURL(/\/onboarding$/, { timeout: 15_000 });
+  await counter.click(page.getByRole("button", { name: "Empezar por mi cuenta" }));
+  await expect(page).toHaveURL(/\/dashboard$/);
+  await expect(page.getByRole("heading", { name: "Hola, Ana Pérez" })).toBeVisible();
+  expect(counter.count).toBeLessThanOrEqual(2);
+});
+
+/** Curso de Matemáticas 6° con el grupo dado, creado desde "Primeros pasos". */
+async function createCourseFromFirstSteps(page: Page, group = "601") {
+  await page
+    .getByTestId("first-steps")
+    .getByRole("button", { name: "Crear mi primer curso" })
+    .click();
+  await choose(page, "Asignatura", "Matemáticas");
+  await choose(page, "Grado", "6°");
+  await page.getByLabel("Grupo").fill(group);
+  await page.getByRole("button", { name: "Crear curso" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+}
+
+test("CA-0013-02/03/04: Primeros pasos guía de la cuenta nueva a la primera descarga", async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+  await signUpIndependentTeacher(page);
+
+  // CA-0013-02: un solo bloque con 4 pasos y su progreso; sin tutorial ni otro siguiente paso.
+  const steps = page.getByTestId("first-steps");
+  await expect(steps).toBeVisible();
+  await expect(steps.getByRole("list", { name: "Pasos" }).locator(":scope > li")).toHaveCount(4);
+  await expect(steps).toContainText("0 de 4 listos");
+  await expect(page.getByTestId("next-step")).toHaveCount(0);
+  await expect(page.getByRole("region", { name: "Te damos la bienvenida a Profe" })).toHaveCount(0);
+  await expect(page.locator("main .bg-brand-gradient:is(a, button):visible")).toHaveCount(1);
+
+  await createCourseFromFirstSteps(page);
+  await expect(steps).toContainText("1 de 4 listos");
+
+  // CA-0013-04: el primer tema se escribe dentro del asistente; 3 clics hasta generar.
+  const counter = clickCounter();
+  await counter.click(steps.getByRole("link", { name: "Escribir mi primer tema" }));
+  await page.getByLabel(/tema vas a trabajar/).fill("La recta numérica");
+  await counter.click(page.getByRole("button", { name: "Usar este tema" }));
+  await counter.click(page.getByRole("button", { name: "Generar taller" }));
+  await expect(page).toHaveURL(/\/resources\/[a-z0-9]+$/);
+  expect(counter.count).toBeLessThanOrEqual(3);
+  await expect(page.getByRole("heading", { name: "1. Inicio" })).toBeVisible({ timeout: 30_000 });
+
+  await page.getByRole("link", { name: "Inicio" }).click();
+  await expect(steps).toContainText("3 de 4 listos");
+  await steps.getByRole("link", { name: "Abrir mi taller" }).click();
+  await download(page, "Guía del estudiante en PDF");
+
+  // CA-0013-03: completados los 4 pasos, queda "Siguiente paso".
+  await page.getByRole("link", { name: "Inicio" }).click();
+  await expect(page.getByTestId("next-step")).toContainText("Sigue donde quedaste");
+  await expect(steps).toHaveCount(0);
+});
+
+test("CA-0013-09/10: con un curso y un tema, Inicio → Generar quiz en 3 clics y ajustes cortos", async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+  await signUpIndependentTeacher(page);
+  await createCourseFromFirstSteps(page);
+  await page.goto("/create?type=QUIZ");
+  await page.getByLabel(/tema vas a trabajar/).fill("La recta numérica");
+  await page.getByRole("button", { name: "Usar este tema" }).click();
+  await expect(page.getByRole("button", { name: "Generar quiz" })).toBeVisible();
+
+  await page.goto("/dashboard");
+  const counter = clickCounter();
+  await counter.click(page.getByRole("link", { name: /Crear quiz/ }));
+  // RN-03: el curso y el tema ya están elegidos y se ven, con "Cambiar".
+  await expect(page.getByText("Tema: La recta numérica")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Cambiar" })).toBeVisible();
+
+  // CA-0013-10: 6 controles o menos a la vista; el resto en "Más opciones".
+  expect(await visibleControls(page)).toBeLessThanOrEqual(6);
+  await expect(page.getByLabel("Número de preguntas")).toBeVisible();
+  await expect(page.getByLabel("Duración (minutos)")).toBeVisible();
+  await expect(page.getByText("Más opciones")).toBeVisible();
+
+  await counter.click(page.getByRole("button", { name: "Generar quiz" }));
+  await expect(page).toHaveURL(/\/resources\/[a-z0-9]+$/);
+  expect(counter.count).toBeLessThanOrEqual(3);
+
+  // "Cambiar" deja elegir otro tema aunque el curso tenga uno solo.
+  await page.goto("/create?type=QUIZ");
+  await page.getByRole("link", { name: "Cambiar" }).click();
+  await expect(page.getByRole("heading", { name: "¿Sobre qué tema?" })).toBeVisible();
+});

@@ -96,3 +96,20 @@ export async function recordAuditSafely(event: AuditEvent): Promise<void> {
     logger.warn("audit.record_failed", { action: event.action, error });
   }
 }
+
+/** SPEC-0013 RN-02: si la persona ya hizo algo en el espacio (p. ej. su primera descarga). */
+export async function hasRecordedAction(event: {
+  action: AuditAction;
+  institutionId: string;
+  actorUserId: string;
+}): Promise<boolean> {
+  const found = await db.auditLog.findFirst({
+    where: {
+      action: event.action,
+      institutionId: event.institutionId,
+      actorUserId: event.actorUserId,
+    },
+    select: { id: true },
+  });
+  return found !== null;
+}

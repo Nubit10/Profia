@@ -12,7 +12,6 @@ import {
   HiOutlinePlus,
   HiOutlineSparkles,
 } from "react-icons/hi2";
-import { TutorialCard } from "@/components/app-shell/tutorial";
 import { EmptyState } from "@/components/empty-state";
 import { ResourceList, StatusBadge } from "@/components/resource-list";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -23,6 +22,7 @@ import type { CourseInput } from "@/modules/courses/client";
 import { RESOURCE_TYPE_LABELS, type NextStep, type TeacherHome } from "@/modules/resources/client";
 import type { Option } from "../courses/course-form";
 import { CourseDialog } from "../courses/courses-view";
+import { FirstStepsCard } from "./first-steps";
 
 type Props = {
   userName: string;
@@ -96,6 +96,8 @@ export function TeacherHomeView(props: Props) {
   const [tutorial, setTutorial] = useState(props.showTutorial);
   const [, startTransition] = useTransition();
   const step = nextStepView(home.nextStep);
+  // SPEC-0013 RN-02: mientras falten primeros pasos (y no los haya ocultado), un solo bloque guía.
+  const firstSteps = tutorial ? home.firstSteps : null;
 
   const dismissTutorial = () => {
     setTutorial(false);
@@ -112,44 +114,55 @@ export function TeacherHomeView(props: Props) {
         <p className="text-muted-foreground">¿Qué vas a preparar hoy?</p>
       </header>
 
-      {tutorial && <TutorialCard onDismiss={dismissTutorial} />}
-
-      <div className="grid gap-4 lg:grid-cols-3">
-        <section
-          aria-labelledby="next-step-title"
-          className="relative overflow-hidden rounded-3xl border border-brand-border bg-card p-6 shadow-soft sm:p-8 lg:col-span-2"
-          data-testid="next-step"
-        >
-          <div aria-hidden className="absolute inset-0 bg-hero opacity-80" />
-          <div className="relative flex flex-col gap-3">
-            <p className="flex items-center gap-1.5 text-sm font-bold text-brand-strong">
-              <HiOutlineSparkles aria-hidden />
-              Siguiente paso
-            </p>
-            <h2 id="next-step-title" className="text-xl font-extrabold sm:text-2xl">
-              {step.title}
-            </h2>
-            <p className="max-w-xl text-muted-foreground">{step.text}</p>
-            {home.nextStep.kind === "OPEN_LAST" && (
-              <div>
-                <StatusBadge status={home.nextStep.resource.status} />
-              </div>
-            )}
-            <div className="mt-2 flex flex-wrap items-center gap-3">
-              {step.href ? (
-                <Link href={step.href} className={buttonVariants({ variant: "brand", size: "xl" })}>
-                  {step.cta}
-                  <HiOutlineArrowRight aria-hidden />
-                </Link>
-              ) : (
-                <Button variant="brand" size="xl" onClick={() => setCreatingCourse(true)}>
-                  {step.cta}
-                  <HiOutlineArrowRight aria-hidden />
-                </Button>
-              )}
-            </div>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {firstSteps ? (
+          <div className="lg:col-span-2">
+            <FirstStepsCard
+              steps={firstSteps}
+              onCreateCourse={() => setCreatingCourse(true)}
+              onDismiss={dismissTutorial}
+            />
           </div>
-        </section>
+        ) : (
+          <section
+            aria-labelledby="next-step-title"
+            className="relative overflow-hidden rounded-3xl border border-brand-border bg-card p-6 shadow-soft sm:p-8 lg:col-span-2"
+            data-testid="next-step"
+          >
+            <div aria-hidden className="absolute inset-0 bg-hero opacity-80" />
+            <div className="relative flex flex-col gap-3">
+              <p className="flex items-center gap-1.5 text-sm font-bold text-brand-strong">
+                <HiOutlineSparkles aria-hidden />
+                Siguiente paso
+              </p>
+              <h2 id="next-step-title" className="text-xl font-extrabold sm:text-2xl">
+                {step.title}
+              </h2>
+              <p className="max-w-xl text-muted-foreground">{step.text}</p>
+              {home.nextStep.kind === "OPEN_LAST" && (
+                <div>
+                  <StatusBadge status={home.nextStep.resource.status} />
+                </div>
+              )}
+              <div className="mt-2 flex flex-wrap items-center gap-3">
+                {step.href ? (
+                  <Link
+                    href={step.href}
+                    className={buttonVariants({ variant: "brand", size: "xl" })}
+                  >
+                    {step.cta}
+                    <HiOutlineArrowRight aria-hidden />
+                  </Link>
+                ) : (
+                  <Button variant="brand" size="xl" onClick={() => setCreatingCourse(true)}>
+                    {step.cta}
+                    <HiOutlineArrowRight aria-hidden />
+                  </Button>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
 
         <section
           aria-labelledby="quick-title"
@@ -256,9 +269,11 @@ export function TeacherHomeView(props: Props) {
               title="Aquí verás tus talleres y quices"
               description="Lo que crees con IA queda guardado y lo puedes editar y descargar cuando quieras."
               action={
-                <Link href="/create?type=QUIZ" className={buttonVariants({ variant: "outline" })}>
-                  Crear un quiz
-                </Link>
+                firstSteps ? undefined : (
+                  <Link href="/create?type=QUIZ" className={buttonVariants({ variant: "outline" })}>
+                    Crear un quiz
+                  </Link>
+                )
               }
             />
           ) : (

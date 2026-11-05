@@ -32,7 +32,7 @@ async function courseWithTopic(page: Page) {
   await page.goto("/create?type=WORKSHOP");
   await page.getByLabel(/tema vas a trabajar/).fill("La recta numérica");
   await page.getByRole("button", { name: "Usar este tema" }).click();
-  await expect(page.getByRole("button", { name: "Continuar" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Generar taller" })).toBeVisible();
 }
 
 /** Inserta recursos del docente directamente en la base de tests. */
@@ -155,10 +155,11 @@ test("CA-0012-03/04/05/07/26: el Inicio guía al docente y crea su primer taller
   test.setTimeout(120_000);
   await signUpIndependentTeacher(page);
 
-  // CA-0012-26: la bienvenida aparece la primera vez y no vuelve sola al cerrarla.
-  const welcome = page.getByRole("region", { name: "Te damos la bienvenida a Profe" });
+  // CA-0012-26: la bienvenida aparece la primera vez y no vuelve sola al cerrarla. Desde SPEC-0013
+  // la bienvenida es el bloque "Primeros pasos" (RN-02).
+  const welcome = page.getByRole("region", { name: "Primeros pasos" });
   await expect(welcome).toBeVisible();
-  await welcome.getByRole("button", { name: "Cerrar el tutorial" }).click();
+  await welcome.getByRole("button", { name: "Ocultar primeros pasos" }).click();
   await expect(welcome).toHaveCount(0);
   await page.reload();
   await expect(page.getByRole("heading", { name: /^Hola,/ })).toBeVisible();
@@ -177,7 +178,7 @@ test("CA-0012-03/04/05/07/26: el Inicio guía al docente y crea su primer taller
   await page.goto("/create?type=WORKSHOP");
   await page.getByLabel(/tema vas a trabajar/).fill("La recta numérica");
   await page.getByRole("button", { name: "Usar este tema" }).click();
-  await expect(page.getByRole("button", { name: "Continuar" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Generar taller" })).toBeVisible();
 
   // CA-0012-04: con curso y tema, el siguiente paso es el primer taller con ese tema elegido.
   await page.goto("/dashboard");
@@ -190,9 +191,8 @@ test("CA-0012-03/04/05/07/26: el Inicio guía al docente y crea su primer taller
     clicks += 1;
     await locator.click();
   };
+  // SPEC-0013: con un solo tema el asistente ya lo elige y se genera desde los ajustes.
   await click(page.getByRole("link", { name: "Crear taller" }).first());
-  await click(page.getByRole("link", { name: /La recta numérica/ }));
-  await click(page.getByRole("button", { name: "Continuar" }));
   await click(page.getByRole("button", { name: "Generar taller" }));
   await expect(page).toHaveURL(/\/resources\/[a-z0-9]+$/);
   expect(clicks).toBeLessThanOrEqual(4);
@@ -256,10 +256,8 @@ test("CA-0012-06/08/12/22: menú Crear, asistente sin pérdida de datos y estado
   await page.getByRole("link", { name: /Qué crear/ }).click();
   await page.getByRole("link", { name: /^Taller/ }).click();
   await expect(page.getByLabel("Número de actividades")).toHaveValue("6");
-  await page.getByRole("button", { name: "Continuar" }).click();
-  await expect(page).toHaveURL(/step=confirmar/);
-  await page.reload();
-  await expect(page.getByText("6 actividades · ")).toBeVisible();
+  // SPEC-0013: el resumen y "Generar" están en el mismo paso de ajustes.
+  await expect(page.getByText("6 actividades", { exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Generar taller" })).toBeVisible();
 });
 

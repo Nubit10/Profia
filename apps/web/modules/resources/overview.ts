@@ -1,12 +1,20 @@
 import "server-only";
 import { db } from "@/lib/db";
+import { hasRecordedAction } from "@/modules/audit";
 import { listMyCourses } from "@/modules/courses";
 import { courseTitle } from "@/modules/courses/client";
 import { listTopicOutline } from "@/modules/planning";
 import { requireRole, type TenantContext } from "@/modules/tenancy";
 import type { ResourceType } from "./schemas";
 import { DAILY_LIMIT, quotaFor, recoverStale, summary } from "./service";
-import type { NextStep, QuotaStatus, ResourceListItem, TeacherHome } from "./types";
+import type {
+  FirstStepKey,
+  FirstSteps,
+  NextStep,
+  QuotaStatus,
+  ResourceListItem,
+  TeacherHome,
+} from "./types";
 
 // Vistas de lectura para el Inicio, el menú y "Mis recursos" (SPEC-0012 RN-02, RN-12, RN-13).
 // Todo filtra por el espacio activo y por el docente; nada se calcula en el cliente.
@@ -128,8 +136,36 @@ export async function getTeacherHome(ctx: TenantContext): Promise<TeacherHome> {
     nextStep = { kind: "OPEN_LAST", resource: recent[0]! };
   }
 
+  const downloaded =
+    recent.length > 0 &&
+    (await hasRecordedAction({
+      action: "resource.exported",
+      institutionId: ctx.institutionId,
+      actorUserId: ctx.userId,
+    }));
+  const done: Record<FirstStepKey, boolean> = {
+    COURSE: courses.length > 0,
+    TOPIC: firstTopic !== null,
+    RESOURCE: recent.length > 0,
+    DOWNLOAD: downloaded,
+  };
+  const current = (["COURSE", "TOPIC", "RESOURCE", "DOWNLOAD"] as const).find((k) => !done[k]);
+  const firstCourse = firstTopic ? courses.find((c) => c.id === firstTopic.courseId) : courses[0];
+  const firstSteps: FirstSteps | null = current
+    ? {
+        done,
+        current,
+        courseId: firstCourse?.id ?? null,
+        courseTitle: firstCourse ? courseTitle(firstCourse) : null,
+        topicId: firstTopic?.topicId ?? null,
+        topicTitle: firstTopic?.topicTitle ?? null,
+        resource: recent[0] ?? null,
+      }
+    : null;
+
   return {
     nextStep,
+    firstSteps,
     courses: courses
       .filter((c) => active.has(c.id))
       .map((c) => ({
