@@ -27,7 +27,8 @@ import {
   setResourceStatus,
   updatePreference,
 } from "./service";
-import type { RegenerateResult, ResourceStatus } from "./types";
+import { watchGenerations } from "./overview";
+import type { GenerationWatch, RegenerateResult, ResourceStatus } from "./types";
 
 const id = z.string().min(1);
 
@@ -48,6 +49,18 @@ export async function resourceStatusAction(
 ): Promise<ActionResult<{ status: ResourceStatus }>> {
   return runAction("resource_status", z.object({ resourceId: id }), input, async ({ resourceId }) =>
     getResourceStatus(await requireTenant(), resourceId),
+  );
+}
+
+/** SPEC-0013 RN-08: lo consulta el shell cada pocos segundos mientras haya generaciones. */
+export async function watchGenerationsAction(
+  input: unknown,
+): Promise<ActionResult<GenerationWatch>> {
+  return runAction(
+    "watch_generations",
+    z.object({ ids: z.array(id).max(20) }),
+    input,
+    async ({ ids }) => watchGenerations(await requireTenant(), ids),
   );
 }
 

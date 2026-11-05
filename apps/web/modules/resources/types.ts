@@ -167,3 +167,18 @@ export type TeacherHome = {
   }[];
   recent: ResourceListItem[];
 };
+
+/** SPEC-0013 RN-08: lo que el shell vigila para avisar cuando una generación termina. */
+export type WatchedResource = {
+  id: string;
+  type: ResourceType;
+  title: string;
+  courseId: string;
+  status: ResourceStatus;
+};
+export type GenerationWatch = {
+  /** Recursos del docente que se están generando ahora, en el espacio activo. */
+  generating: WatchedResource[];
+  /** De los recursos pedidos, los que ya terminaron (listos para revisar o fallidos). */
+  finished: WatchedResource[];
+};

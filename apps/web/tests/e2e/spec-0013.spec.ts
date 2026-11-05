@@ -1,8 +1,40 @@
 import type { Locator, Page } from "@playwright/test";
+import { Pool } from "pg";
 import { expect, test } from "./fixtures";
 import { PASSWORD, choose, download, signUpIndependentTeacher, uniqueEmail } from "./helpers";
 
 // SPEC-0013: Profe más fácil, hecho para el celular e instalable.
+
+let pool: Pool | null = null;
+const db = () => (pool ??= new Pool({ connectionString: process.env.TEST_DATABASE_URL }));
+test.afterAll(async () => {
+  await pool?.end();
+  pool = null;
+});
+
+/** Recurso del docente insertado tal como lo deja la generación en curso (ADR-0008). */
+async function insertGenerating(email: string) {
+  const { rows } = await db().query<Record<string, string>>(
+    `SELECT m."institutionId", m.id AS "membershipId", c.id AS "courseId", t.id AS "topicId"
+       FROM users u
+       JOIN memberships m ON m."userId" = u.id
+       JOIN courses c ON c."membershipId" = m.id
+       JOIN units un ON un."courseId" = c.id
+       JOIN topics t ON t."unitId" = un.id
+      WHERE u.email = $1 LIMIT 1`,
+    [email.toLowerCase()],
+  );
+  const ref = rows[0]!;
+  const id = `gen${Date.now()}${Math.random().toString(36).slice(2, 8)}`;
+  await db().query(
+    `INSERT INTO resources (id, "institutionId", "membershipId", "courseId", "topicId", type,
+       status, title, blueprint, context, "updatedAt")
+     VALUES ($1, $2, $3, $4, $5, 'QUIZ', 'GENERATING', 'Quiz: La recta numérica', '{}',
+       '{"topic":{"id":"x","title":"La recta numérica","description":null},"dba":[]}', now())`,
+    [id, ref.institutionId, ref.membershipId, ref.courseId, ref.topicId],
+  );
+  return { id, courseId: ref.courseId! };
+}
 
 /** Cuenta solo los clics del usuario (sin contar escribir), como CA-0012-07. */
 function clickCounter() {
@@ -262,4 +294,36 @@ test("CA-0013-07/08: planeación compacta, con las acciones en un menú y period
   expect(box!.height).toBeLessThanOrEqual(64);
   await period2.getByRole("button", { name: /Agregar unidad/ }).click();
   await expect(page.getByLabel("Periodo", { exact: true })).toContainText("Periodo 2");
+});
+
+test("CA-0013-11/12: el aviso de 'listo' llega en cualquier página y el menú cuenta lo que se genera", async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+  const user = await signUpIndependentTeacher(page);
+  await createCourseFromFirstSteps(page);
+  await page.goto("/create?type=QUIZ");
+  await page.getByLabel(/tema vas a trabajar/).fill("La recta numérica");
+  await page.getByRole("button", { name: "Usar este tema" }).click();
+  await expect(page.getByRole("button", { name: "Generar quiz" })).toBeVisible();
+
+  const resource = await insertGenerating(user.email);
+  await page.goto("/courses");
+  // CA-0013-12: "1 generándose" junto a "Mis recursos".
+  await expect(page.getByRole("link", { name: /Mis recursos/ })).toContainText("1 generándose");
+
+  // CA-0013-11: termina mientras el docente está en otra página → aviso con "Abrir", en < 10 s.
+  await db().query(`UPDATE resources SET status = 'DRAFT', "generationId" = 'log' WHERE id = $1`, [
+    resource.id,
+  ]);
+  const toast = page.getByText("Tu quiz está listo");
+  await expect(toast).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByRole("link", { name: /Mis recursos/ })).not.toContainText("generándose");
+  await page.getByRole("button", { name: "Abrir" }).click();
+  await expect(page).toHaveURL(new RegExp(`/resources/${resource.id}$`));
+
+  // Una sola vez: al volver a otra página no se repite.
+  await page.goto("/courses");
+  await page.waitForTimeout(6_000);
+  await expect(page.getByText("Tu quiz está listo")).toHaveCount(0);
 });

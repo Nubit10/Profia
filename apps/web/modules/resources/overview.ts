@@ -8,6 +8,7 @@ import { requireRole, type TenantContext } from "@/modules/tenancy";
 import type { ResourceType } from "./schemas";
 import { DAILY_LIMIT, quotaFor, recoverStale, summary } from "./service";
 import type {
+  GenerationWatch,
   FirstStepKey,
   FirstSteps,
   NextStep,
@@ -177,5 +178,31 @@ export async function getTeacherHome(ctx: TenantContext): Promise<TeacherHome> {
         topicCount: topicCount.get(c.id) ?? 0,
       })),
     recent,
+  };
+}
+
+/**
+ * SPEC-0013 RN-08: generaciones en curso del docente y el resultado de las que el navegador vigila.
+ * Solo recursos propios del espacio activo (un id ajeno simplemente no aparece).
+ */
+export async function watchGenerations(
+  ctx: TenantContext,
+  watchedIds: string[] = [],
+): Promise<GenerationWatch> {
+  requireRole(ctx, "TEACHER");
+  await recoverStale(ctx);
+  const rows = await db.resource.findMany({
+    where: {
+      institutionId: ctx.institutionId,
+      membershipId: ctx.membershipId,
+      OR: [{ status: "GENERATING" }, { id: { in: watchedIds } }],
+    },
+    orderBy: { createdAt: "asc" },
+    select: { id: true, type: true, title: true, courseId: true, status: true },
+  });
+  const items = rows;
+  return {
+    generating: items.filter((r) => r.status === "GENERATING"),
+    finished: items.filter((r) => r.status !== "GENERATING" && watchedIds.includes(r.id)),
   };
 }

@@ -29,6 +29,6 @@ export {
   type Scheduler,
 } from "./service";
 export { promptQualityMetrics } from "./metrics";
-export { getQuotaStatus, getTeacherHome, listMyResources } from "./overview";
+export { getQuotaStatus, getTeacherHome, listMyResources, watchGenerations } from "./overview";
 export * from "./actions";
 export type * from "./types";

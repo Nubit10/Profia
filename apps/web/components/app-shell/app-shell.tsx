@@ -22,6 +22,7 @@ import type { ActionResult } from "@/lib/action-result";
 import { useBodyScrollLock } from "@/lib/scroll-lock";
 import { cn } from "@/lib/utils";
 import { CreateMenu } from "./create-menu";
+import { WATCH_STORAGE_PREFIX, useGenerationWatcher, type WatchAction } from "./generation-watcher";
 import {
   IdentityCard,
   SpaceLogo,
@@ -47,6 +48,8 @@ type Props = {
   activeSpaceId: string;
   logoutAction: () => Promise<ActionResult>;
   switchSpaceAction: (input: { institutionId: string }) => Promise<ActionResult>;
+  /** SPEC-0013 RN-08: generaciones en curso del docente (vacío para quien no es docente). */
+  generation: { initial: string[]; storageKey: string; action: WatchAction };
   children: ReactNode;
 };
 
@@ -62,6 +65,10 @@ export function AppShell(props: Props) {
   const drawer = useRef<HTMLDivElement>(null);
   const sections = getNavSections(access);
   const line = quota ? quotaLine(quota) : null;
+  const generating = useGenerationWatcher(props.generation);
+  // CA-0013-12: "Mis recursos" dice cuántos se están generando.
+  const badges: Record<string, string> =
+    generating > 0 ? { "/resources": `${generating} generándose` } : {};
 
   useBodyScrollLock(sidebarOpen);
 
@@ -89,6 +96,9 @@ export function AppShell(props: Props) {
       try {
         for (const key of Object.keys(sessionStorage)) {
           if (key.startsWith(DRAFT_STORAGE_PREFIX)) sessionStorage.removeItem(key);
+        }
+        for (const key of Object.keys(localStorage)) {
+          if (key.startsWith(WATCH_STORAGE_PREFIX)) localStorage.removeItem(key);
         }
       } catch {
         // Sin acceso al almacenamiento no hay borradores que limpiar.
@@ -151,6 +161,16 @@ export function AppShell(props: Props) {
                         )}
                       />
                       <span className="min-w-0 flex-1 truncate">{item.label}</span>
+                      {badges[item.href] && (
+                        <span
+                          className={cn(
+                            "shrink-0 rounded-full px-2 py-0.5 text-[11px] font-bold",
+                            active ? "bg-white/20 text-white" : "bg-info-soft text-info",
+                          )}
+                        >
+                          {badges[item.href]}
+                        </span>
+                      )}
                     </Link>
                   </li>
                 );
