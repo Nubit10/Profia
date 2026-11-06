@@ -16,7 +16,7 @@ Plataforma de gestión y producción pedagógica asistida por IA para docentes e
 - SPEC-0010 implementada: el docente sube su formato de taller en Word (y el colegio, uno institucional); Profe detecta encabezado y secciones, el docente los revisa y los talleres se generan y descargan con esa estructura. Logo de la institución en todos los documentos (ADR-0010).
 - SPEC-0012 implementada: rediseño visual y de UX con un sistema de diseño propio (`docs/design/sistema-de-diseno.md`); menú lateral al estilo CliqCut y Duali; Inicio con "Siguiente paso"; asistente `/create`; "Mis cursos" y "Mis recursos". Capturas en `docs/design/capturas/spec-0012/`. Queda pendiente el recorrido guiado con el usuario.
 - Despliegue del MVP: guía en [docs/deploy/README.md](docs/deploy/README.md) sin costo (Vercel Hobby + Supabase Free + AI Engine en un Space de Hugging Face, publicado con `scripts/publish-ai-engine-hf.ps1`; ADR-0011 propuesto). El área de trabajo declara `maxDuration = 300`; ninguna generación puede pasar de ahí.
-- SPEC-0013 en implementación (pendiente `/review`): Profe más fácil (cuenta con sesión, "Primeros pasos", asistente más corto, DBA sugeridos, descarga en un .zip), hecho para el celular (Atrás cierra capas, hojas inferiores, 44 px), instalable, con avisos del navegador (módulo `notifications`, Web Push) y recursos sin conexión (ADR-0012).
+- SPEC-0013 implementada: Profe más fácil (cuenta con sesión, "Primeros pasos", asistente más corto, DBA sugeridos, descarga en un .zip), hecho para el celular (Atrás cierra capas, hojas inferiores, 44 px), instalable, con avisos del navegador (módulo `notifications`, Web Push) y recursos sin conexión (ADR-0012). Queda la validación manual en un iPhone real y el recorrido con docentes.
 - Siguiente: planes de aula (Fase 6), preguntas tipo Saber/ICFES para exámenes, o formatos propios para quices y exámenes.
 - Índice de specs y su estado: [docs/specs/README.md](docs/specs/README.md)
 - Decisiones de arquitectura: [docs/adr/README.md](docs/adr/README.md)
@@ -34,7 +34,7 @@ Plataforma de gestión y producción pedagógica asistida por IA para docentes e
 ```
 app/         rutas: (public) landing · (auth) login/register · (app) área autenticada · api/
 components/  UI compartida; components/ui = shadcn/ui (generado, no editar a mano sin motivo)
-modules/     auth · audit · tenancy · institutions · courses · curriculum · planning · generation · resources · formats · documents. API pública: index.ts (servidor) y client.ts
+modules/     auth · audit · tenancy · institutions · courses · curriculum · planning · generation · resources · formats · documents · notifications. API pública: index.ts (servidor) y client.ts
              (navegador). Mapa de dependencias: docs/architecture/modules.md
 lib/         db (Prisma), env, errors, actions (runAction), permissions, text, observability, rate-limit
 prisma/      schema y migraciones

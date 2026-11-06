@@ -2,7 +2,7 @@
 
 | Campo                    | Valor                                                                                                                                                                                                                                              |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Estado                   | En implementación                                                                                                                                                                                                                                  |
+| Estado                   | Implementada                                                                                                                                                                                                                                       |
 | Fase del roadmap         | Transversal · UX (continúa SPEC-0012; no la reemplaza)                                                                                                                                                                                             |
 | Módulo(s) responsable(s) | `apps/web/app` (vistas), `apps/web/components`; `modules/auth` (sesión tras el registro); `modules/documents` (descarga en paquete y archivos sin conexión); `modules/planning`; **`modules/notifications` (nuevo: notificaciones del navegador)** |
 | Agentes                  | product, architect, frontend, backend, database, auth-security, privacy, documents, qa, reviewer                                                                                                                                                   |
@@ -476,7 +476,7 @@ Los clics se cuentan como en CA-0012-07: solo clics del usuario, sin contar escr
 - [x] T18 — Notificaciones: `modules/notifications` (tabla `PushSubscription`, registrar y quitar dispositivo, envío con `web-push` al terminar o fallar una generación desde el trabajo en segundo plano), tarjeta de permiso y Ajustes → Notificaciones (RN-15, CA-32 a 36) — backend + frontend + database
 - [x] T19 — Recursos sin conexión: lista para sincronizar, sincronización en el navegador (Cache Storage + IndexedDB), pantalla "Sin conexión", estados "Disponible sin conexión", borrado al cerrar sesión (RN-13/14, CA-37 a 42) — documents + frontend + privacy
 - [x] T20 — Revisión de seguridad y privacidad de T18 y T19 — auth-security + privacy
-- [ ] T21 — Revisión contra la spec y DoD — reviewer
+- [x] T21 — Revisión contra la spec y DoD — reviewer
 
 ## 12. Decisiones (resueltas por el usuario el 2026-11-05)
 
@@ -564,3 +564,69 @@ que puede querer instalarla, así que no se bloquea en ninguna página.
   aparece en páginas con barra inferior y lleva `data-floating`. Capturas en
   `docs/design/capturas/spec-0013/` (01–13 antes, `despues-*`); patrones en
   `docs/design/sistema-de-diseno.md`.
+
+## 14. Revisión (2026-11-06, agente `reviewer`)
+
+**Veredicto: Aprobado.** Sin hallazgos bloqueantes.
+
+**Verificación real:** lint sin errores; typecheck; 237 pruebas unitarias y de integración; build
+de producción; 60 E2E en el build de producción (escritorio y proyecto `movil`). La suite contra
+`next dev` (CA-0013-19) dio 54 de 54, más la prueba explícita de CA-0013-19 en ambos modos.
+
+| Criterios              | Estado    | Prueba (archivo:línea)                                                                                                   |
+| ---------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------ |
+| CA-0013-01             | Cumplido  | `e2e/spec-0013.spec.ts:81`                                                                                               |
+| CA-0013-02/03/04       | Cumplido  | `e2e/spec-0013.spec.ts:108`; `integration/spec-0013.test.ts:85-120`                                                      |
+| CA-0013-05/06          | Cumplido  | `e2e/spec-0013.spec.ts:201`, `:233`                                                                                      |
+| CA-0013-07/08          | Cumplido  | `e2e/spec-0013.spec.ts:256`                                                                                              |
+| CA-0013-09/10          | Cumplido  | `e2e/spec-0013.spec.ts:147`                                                                                              |
+| CA-0013-11/12          | Cumplido  | `e2e/spec-0013.spec.ts:301`; `integration/spec-0013.test.ts:138`, `:154` (acceso cruzado)                                |
+| CA-0013-13             | Cumplido  | `e2e/spec-0013.spec.ts:346`; `integration/resources.test.ts:341`                                                         |
+| CA-0013-14/15/16       | Cumplido  | `e2e/spec-0013.spec.ts:361`, `:392` (404 ajeno)                                                                          |
+| CA-0013-17/18/26       | Cumplido  | `e2e/spec-0013.movil.spec.ts:201`                                                                                        |
+| CA-0013-19             | Cumplido  | `e2e/spec-0013.spec.ts:421`; guardia en `e2e/fixtures.ts`; `playwright.dev.config.ts`                                    |
+| CA-0013-20             | Cumplido  | `e2e/spec-0013-a11y.spec.ts:38`                                                                                          |
+| CA-0013-21             | Cumplido  | Toda la suite E2E (60/60); selectores ajustados solo por textos o pasos de esta spec                                     |
+| CA-0013-22/23          | Cumplido  | `e2e/spec-0013.movil.spec.ts:90`                                                                                         |
+| CA-0013-24             | Cumplido  | `e2e/spec-0013.movil.spec.ts:159` (checkbox por pseudo-elemento, ver §13)                                                |
+| CA-0013-25             | Cumplido* | `e2e/spec-0013.movil.spec.ts:159`; pestañas completas en 3 columnas en vez de desplazarse                                |
+| CA-0013-27             | Parcial*  | `e2e/spec-0013.movil.spec.ts:230`; indicador en el enlace o esqueleto en ≤ 500 ms (no 300)                               |
+| CA-0013-28/29/30/31    | Cumplido  | `e2e/spec-0013-app.spec.ts:50`, `:88`, `:132`; `e2e/spec-0013.movil.spec.ts:249`, `:261`                                 |
+| CA-0013-32/33/34/35/36 | Cumplido  | `integration/notifications.test.ts:52-126`; `integration/resources.test.ts:304`; `e2e/spec-0013-app.spec.ts:194`, `:275` |
+| CA-0013-37/38/39/40/41 | Cumplido* | `e2e/spec-0013-offline.spec.ts:68`, `:135` (taller y quiz; el examen, en la prueba de integración de CA-0013-42)         |
+| CA-0013-42             | Cumplido  | `integration/documents.test.ts:216`, `:242`                                                                              |
+
+\* Desviaciones documentadas en §13, no bloqueantes:
+
+- CA-0013-25: las tres pestañas se ven completas en lugar de desplazarse.
+- CA-0013-27: el esqueleto no puede ir en rutas que responden 404, porque daría 200 a una ruta
+  ajena. Se compensa con el indicador en el enlace del menú, y la prueba tolera 500 ms por lo
+  que tarda la herramienta.
+- CA-0013-37: el examen se cubre en la integración.
+
+**Reglas globales (AGENTS.md):**
+
+- Autorización en el servidor y filtrado por espacio en todo lo nuevo: Primeros pasos, avisos,
+  biblioteca y descargas. Dispositivos push por usuario con sesión.
+- Límites entre módulos verificados por ESLint; `notifications` y su dependencia agregados a
+  `docs/architecture/modules.md`.
+- Dependencia nueva `web-push` y service worker cubiertos por ADR-0012. Sin secretos en el
+  repositorio: las claves VAPID de las pruebas se generan en cada corrida.
+- Sin cambios en salidas de IA ni en el AI Engine.
+- Logs sin endpoint, claves ni contenido.
+
+**Definition of Done:**
+
+- [x] Spec aprobada y criterios cubiertos (con las desviaciones de §13).
+- [x] Permisos en el servidor.
+- [x] Pruebas unitarias, de integración y E2E (escritorio y celular).
+- [x] Lint, typecheck y build.
+- [x] Documentación (sistema de diseño, módulos, despliegue, seguridad, `CLAUDE.md`) y ADR-0012.
+- [x] Revisión sin bloqueantes.
+- [x] Sin TODO críticos.
+
+**Pendiente fuera del código:**
+
+- Validación manual en un iPhone real (decisión 10): descargas en la app instalada y avisos.
+- Ver una notificación real en un navegador con pantalla. Chromium sin pantalla no las muestra.
+- Recorrido con 2–3 docentes (decisión 6).

@@ -21,7 +21,7 @@ Solo se implementa lo que está **Aprobada**. Solo el usuario (product owner) ap
 | [SPEC-0010](SPEC-0010-formato-propio-del-docente.md) | Formato propio del docente para talleres                            | 7 · Documents  | Implementada      |
 | [SPEC-0011](SPEC-0011-examenes.md)                   | Exámenes con IA                                                     | 6 · Generation | En implementación |
 | [SPEC-0012](SPEC-0012-rediseno-visual-y-ux.md)       | Rediseño visual y de experiencia de usuario (va antes de SPEC-0011) | Transversal    | Implementada      |
-| [SPEC-0013](SPEC-0013-ux-mas-facil.md)               | Profe más fácil: menos pasos, hecho para el celular e instalable    | Transversal    | En implementación |
+| [SPEC-0013](SPEC-0013-ux-mas-facil.md)               | Profe más fácil: menos pasos, hecho para el celular e instalable    | Transversal    | Implementada      |
 
 ## Mapa del roadmap → specs previstas
 

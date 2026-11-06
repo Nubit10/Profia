@@ -210,6 +210,8 @@ test("CA-0013-05: al escribir el objetivo, Profe marca DBA sugeridos y se crea e
     .getByRole("list", { name: "DBA del curso" })
     .locator(":scope > li", { hasText: "Sugerido" });
   await expect(suggested.first()).toBeVisible({ timeout: 3_000 });
+  // El criterio: para este objetivo de Matemáticas 6°, el DBA 1 queda sugerido y marcado.
+  await expect(suggested.filter({ hasText: "DBA 1." })).toHaveCount(1);
   const count = await suggested.count();
   expect(count).toBeGreaterThan(0);
   expect(count).toBeLessThanOrEqual(3);
@@ -416,4 +418,35 @@ test("CA-0013-15/16: el borrador se avisa antes de descargar y el paquete ajeno 
   const response = await otherPage.request.get(url);
   expect(response.status()).toBe(404);
   await other.close();
+});
+
+test("CA-0013-19: Inicio, Mis recursos, asistente, recurso y planeación se hidratan sin diferencias", async ({
+  page,
+}) => {
+  test.setTimeout(180_000);
+  // La guardia automática de fixtures.ts también lo verifica en cada prueba; aquí queda explícito,
+  // con recursos y fechas en pantalla (lo que causó la "página de error" de F-11).
+  const errors: string[] = [];
+  const hydration = /Hydration failed|hydration mismatch|Minified React error #(418|423|425)/i;
+  page.on("console", (m) => {
+    if (m.type() === "error" && hydration.test(m.text())) errors.push(m.text().slice(0, 200));
+  });
+  page.on("pageerror", (e) => {
+    if (hydration.test(e.message)) errors.push(e.message.slice(0, 200));
+  });
+  const { questions } = await generatedQuiz(page);
+  await expect(questions.first()).toBeVisible();
+  const resourceUrl = page.url();
+  for (const path of ["/dashboard", "/resources", "/create?type=QUIZ", resourceUrl, "/courses"]) {
+    await page.goto(path);
+    await expect(page.locator("main")).toBeVisible();
+    await page.waitForLoadState("networkidle");
+  }
+  await page
+    .getByRole("link", { name: /Matemáticas · 6° · 601/ })
+    .first()
+    .click();
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await page.waitForLoadState("networkidle");
+  expect(errors).toEqual([]);
 });
