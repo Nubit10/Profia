@@ -12,7 +12,7 @@ describe("menú lateral por rol (CA-0012-20)", () => {
     expect(titles({ isTeacher: true, isSchoolAdmin: false })).toEqual([
       ["Principal", ["Inicio", "Mis cursos"]],
       ["Mi trabajo", ["Mis recursos", "Formatos"]],
-      ["Ajustes", ["Asignaturas"]],
+      ["Ajustes", ["Asignaturas", "Notificaciones"]],
     ]);
   });
 
@@ -20,7 +20,7 @@ describe("menú lateral por rol (CA-0012-20)", () => {
     expect(titles({ isTeacher: true, isSchoolAdmin: true })).toEqual([
       ["Principal", ["Inicio", "Mis cursos"]],
       ["Mi trabajo", ["Mis recursos", "Formatos"]],
-      ["Ajustes", ["Asignaturas"]],
+      ["Ajustes", ["Asignaturas", "Notificaciones"]],
       ["Colegio", ["Datos y sedes", "Profesores"]],
     ]);
   });

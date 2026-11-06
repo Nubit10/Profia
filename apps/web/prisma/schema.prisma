@@ -16,21 +16,40 @@ datasource db {
 // ---------------------------------------------------------------------------
 
 model User {
-  id                  String        @id @default(cuid())
+  id                  String             @id @default(cuid())
   name                String
   /// Normalizado (minúsculas, sin espacios). SPEC-0001 RN-07.
-  email               String        @unique
+  email               String             @unique
   /// Hash argon2id. Nunca se expone fuera de modules/auth. SPEC-0001 RN-04.
   passwordHash        String
   /// Cuándo cerró el tutorial de primer uso (SPEC-0012 decisión 9); null = aún no lo ha visto.
   tutorialDismissedAt DateTime?
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @updatedAt
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
   sessions            UserSession[]
   memberships         Membership[]
-  independentSpace    Institution?  @relation("IndependentSpace")
+  independentSpace    Institution?       @relation("IndependentSpace")
+  pushSubscriptions   PushSubscription[]
 
   @@map("users")
+}
+
+/// SPEC-0013 RN-15 y ADR-0012: un dispositivo (instalación del navegador) que recibe avisos.
+/// Es del usuario, no de un espacio: registrarlo lo pasa a quien tiene la sesión.
+model PushSubscription {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// Id aleatorio que guarda el navegador; uno por instalación.
+  installationId String   @unique
+  endpoint       String   @unique
+  p256dh         String
+  auth           String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([userId])
+  @@map("push_subscriptions")
 }
 
 /// Sesión revocable referenciada por el `sid` del JWT. SPEC-0001 RN-08.
@@ -397,18 +416,18 @@ model Unit {
 }
 
 model Topic {
-  id              String      @id @default(cuid())
+  id              String          @id @default(cuid())
   institutionId   String
-  institution     Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  institution     Institution     @relation(fields: [institutionId], references: [id], onDelete: Cascade)
   unitId          String
-  unit            Unit        @relation(fields: [unitId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  unit            Unit            @relation(fields: [unitId, institutionId], references: [id, institutionId], onDelete: Cascade)
   title           String
   description     String?
   plannedSessions Int?
   position        Int
   archivedAt      DateTime?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
   objectives      Objective[]
   resources       Resource[]
   resourceTopics  ResourceTopic[]

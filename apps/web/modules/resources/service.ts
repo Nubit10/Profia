@@ -7,6 +7,7 @@ import { getLimiter } from "@/lib/rate-limit";
 import { redactContactData } from "@/lib/text";
 import { recordAudit } from "@/modules/audit";
 import { getMyCourse } from "@/modules/courses";
+import { notifyGenerationFinished, type GenerationFinished } from "@/modules/notifications";
 import {
   defaultFormatId,
   getFormatSnapshot,
@@ -94,7 +95,12 @@ const MAX_PREFERENCES = 5;
 const MAX_PREFERENCES_CHARS = 500;
 
 export type Scheduler = (task: () => Promise<void>) => void;
-export type GenerationDeps = { fetcher?: typeof fetch; schedule?: Scheduler };
+export type GenerationDeps = {
+  fetcher?: typeof fetch;
+  schedule?: Scheduler;
+  /** SPEC-0013 RN-15: aviso del navegador al terminar. En tests se inyecta otro. */
+  notify?: (event: GenerationFinished) => Promise<void>;
+};
 
 /** ADR-0008: la generación corre después de responder. En tests se inyecta otro planificador. */
 const runAfterResponse: Scheduler = (task) => after(task);
@@ -421,6 +427,8 @@ type Job = {
   resourceId: string;
   institutionId: string;
   membershipId: string;
+  /** Quien pidió el recurso: solo a esa persona le llega el aviso (RN-08, RN-15). */
+  userId: string;
   blueprint: Blueprint;
   snapshot: Snapshot;
   preferences: string[];
@@ -632,6 +640,37 @@ export async function runGeneration(job: Job, fetcher: typeof fetch = fetch): Pr
   }
 }
 
+/**
+ * SPEC-0013 RN-15: avisa con una notificación del navegador cómo terminó la generación (lista para
+ * revisar o fallida). Si se interrumpió o se archivó mientras tanto, no avisa. Nunca lanza.
+ */
+async function announce(job: Job, notify: (event: GenerationFinished) => Promise<void>) {
+  try {
+    const resource = await db.resource.findFirst({
+      where: { id: job.resourceId, institutionId: job.institutionId },
+      select: { status: true, failureReason: true, title: true, courseId: true, type: true },
+    });
+    if (!resource) return;
+    const outcome =
+      resource.status === "DRAFT"
+        ? "READY"
+        : resource.status === "FAILED" && resource.failureReason !== "interrupted"
+          ? "FAILED"
+          : null;
+    if (!outcome) return;
+    await notify({
+      userId: job.userId,
+      resourceId: job.resourceId,
+      courseId: resource.courseId,
+      typeLabel: RESOURCE_TYPE_LABELS[resource.type].toLowerCase(),
+      name: resource.title.replace(/^[^:]{1,20}:\s*/, ""),
+      outcome,
+    });
+  } catch (error) {
+    logger.warn("resource.announce_failed", { resourceId: job.resourceId, error });
+  }
+}
+
 async function enqueue(
   ctx: TenantContext,
   blueprint: Blueprint,
@@ -718,13 +757,17 @@ async function enqueue(
     resourceId: resource.id,
     institutionId: ctx.institutionId,
     membershipId: ctx.membershipId,
+    userId: ctx.userId,
     blueprint,
     snapshot,
     preferences,
     format,
     title,
   };
-  (deps.schedule ?? runAfterResponse)(() => runGeneration(job, deps.fetcher));
+  (deps.schedule ?? runAfterResponse)(async () => {
+    await runGeneration(job, deps.fetcher);
+    await announce(job, deps.notify ?? notifyGenerationFinished);
+  });
   return resource;
 }
 

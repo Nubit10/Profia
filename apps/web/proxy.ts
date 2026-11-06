@@ -22,6 +22,7 @@ export const config = {
     "/subjects/:path*",
     "/school/:path*",
     "/courses/:path*",
+    "/notifications/:path*",
     "/onboarding",
   ],
 };

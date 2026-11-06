@@ -22,6 +22,7 @@ import type { ActionResult } from "@/lib/action-result";
 import { useBodyScrollLock } from "@/lib/scroll-lock";
 import { useBackToClose } from "@/lib/use-back-to-close";
 import { cn } from "@/lib/utils";
+import { disablePush } from "@/components/notifications/push-device";
 import { CreateMenu } from "./create-menu";
 import { InstallApp } from "./install-app";
 import { LinkPending } from "./link-pending";
@@ -53,6 +54,8 @@ type Props = {
   switchSpaceAction: (input: { institutionId: string }) => Promise<ActionResult>;
   /** SPEC-0013 RN-08: generaciones en curso del docente (vacío para quien no es docente). */
   generation: { initial: string[]; storageKey: string; action: WatchAction };
+  /** SPEC-0013 RN-15: al cerrar sesión, este dispositivo deja de recibir avisos de la cuenta. */
+  removePushDevice: (input: { installationId: string }) => Promise<ActionResult>;
   children: ReactNode;
 };
 
@@ -97,6 +100,10 @@ export function AppShell(props: Props) {
 
   const logout = () =>
     startLogout(async () => {
+      // Antes de cerrar la sesión: quitar el dispositivo la necesita.
+      if ("serviceWorker" in navigator) {
+        await disablePush({ remove: props.removePushDevice }).catch(() => undefined);
+      }
       await props.logoutAction();
       try {
         for (const key of Object.keys(sessionStorage)) {

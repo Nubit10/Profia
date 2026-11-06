@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { createCourse, listSubjects } from "@/modules/courses";
 import { importCurriculumJson } from "@/modules/curriculum";
 import { createIndependentSpace } from "@/modules/institutions";
+import type { GenerationFinished } from "@/modules/notifications";
 import { createObjective, createTopic, createUnit, getCoursePlanning } from "@/modules/planning";
 import {
   DAILY_LIMIT,
@@ -298,6 +299,43 @@ describe("talleres y quices con IA (SPEC-0008)", () => {
     const [listed] = await listCourseResources(ctx, course.id);
     expect(listed).toMatchObject({ id, status: "FAILED" });
     expect((await getResource(ctx, id)).failureReason).toBe("interrupted");
+  });
+
+  it("CA-0013-33: al terminar, avisa al docente que lo pidió (listo o fallido)", async () => {
+    const { ctx, user, topic, course } = await teacherWithTopic();
+    const events: GenerationFinished[] = [];
+    const notify = async (event: GenerationFinished) => {
+      events.push(event);
+    };
+
+    const ready = {
+      ...deps(engine({ "/v1/generation/quiz": ok(quizBody(4)) }) as unknown as typeof fetch),
+      notify,
+    };
+    const created = await createResource(ctx, quizBlueprint(topic.id), ready);
+    await ready.done();
+    expect(events).toEqual([
+      {
+        userId: user.id,
+        resourceId: created.id,
+        courseId: course.id,
+        typeLabel: "quiz",
+        name: "Quiz de enteros", // el título que puso la IA, sin prefijo
+        outcome: "READY",
+      },
+    ]);
+
+    const failing = {
+      ...deps(
+        engine({
+          "/v1/generation/quiz": () => new Response("{}", { status: 502 }),
+        }) as unknown as typeof fetch,
+      ),
+      notify,
+    };
+    const failed = await createResource(ctx, quizBlueprint(topic.id), failing);
+    await failing.done();
+    expect(events[1]).toMatchObject({ resourceId: failed.id, outcome: "FAILED" });
   });
 
   it("CA-0013-13: los cambios del docente en menos de 60 s van en la misma versión", async () => {

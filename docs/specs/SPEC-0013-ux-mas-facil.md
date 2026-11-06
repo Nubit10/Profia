@@ -473,7 +473,7 @@ Los clics se cuentan como en CA-0012-07: solo clics del usuario, sin contar escr
 - [x] T15 — Pasar los formularios y menús a esas piezas; controles de 44 px; encabezado del curso y pestañas; `loading.tsx` con esqueletos (RN-11, CA-22 a 27) — frontend
 - [x] T16 — Manifiesto, íconos desde el logo, `themeColor`, `public/sw.js`, página "Sin conexión" y "Instalar Profe" (RN-12/13, CA-28 a 31) — frontend + devops
 - [x] T17 — Proyecto de Playwright "iPhone 13" que corre los E2E de esta spec en el celular, con la revisión de `data-floating` y de controles de 44 px — qa
-- [ ] T18 — Notificaciones: `modules/notifications` (tabla `PushSubscription`, registrar y quitar dispositivo, envío con `web-push` al terminar o fallar una generación desde el trabajo en segundo plano), tarjeta de permiso y Ajustes → Notificaciones (RN-15, CA-32 a 36) — backend + frontend + database
+- [x] T18 — Notificaciones: `modules/notifications` (tabla `PushSubscription`, registrar y quitar dispositivo, envío con `web-push` al terminar o fallar una generación desde el trabajo en segundo plano), tarjeta de permiso y Ajustes → Notificaciones (RN-15, CA-32 a 36) — backend + frontend + database
 - [ ] T19 — Recursos sin conexión: lista para sincronizar, sincronización en el navegador (Cache Storage + IndexedDB), pantalla "Sin conexión", estados "Disponible sin conexión", borrado al cerrar sesión (RN-13/14, CA-37 a 42) — documents + frontend + privacy
 - [ ] T20 — Revisión de seguridad y privacidad de T18 y T19 — auth-security + privacy
 - [ ] T21 — Revisión contra la spec y DoD — reviewer
@@ -538,3 +538,12 @@ que puede querer instalarla, así que no se bloquea en ninguna página.
   colores del manifiesto y del `themeColor` salen de `lib/brand-colors.ts` (el navegador no lee
   variables CSS); una prueba unitaria verifica que coincidan con los tokens. Con
   `viewport-fit=cover`, el encabezado y el cajón del celular respetan las áreas seguras.
+- **Parte 4 (T18), notificaciones del navegador:** módulo `notifications` (tabla
+  `push_subscriptions` con CHECK de HTTPS y largos), envío con `web-push` desde el final de la
+  generación (`GenerationDeps.notify`, nunca rompe la generación) y `public/sw.js` que no muestra la
+  notificación si hay una ventana de Profe a la vista. La tarjeta "¿Te avisamos…?" aparece en la
+  página del recurso mientras se genera (justo después de "Generar"); Ajustes → Notificaciones
+  (`/notifications`) activa o desactiva este dispositivo, y cerrar sesión lo desactiva. Las claves
+  VAPID de las pruebas E2E se generan en cada corrida. Chromium sin pantalla no muestra
+  notificaciones del sistema: CA-0013-33/34 entregan el aviso al service worker por CDP y registran
+  qué pidió mostrar.

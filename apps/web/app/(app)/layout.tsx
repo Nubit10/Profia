@@ -3,6 +3,7 @@ import type { QuotaView } from "@/components/app-shell/identity-card";
 import { logger } from "@/lib/observability/logger";
 import { logoutAction } from "@/modules/auth";
 import { getLogoInfo } from "@/modules/formats";
+import { removePushDeviceAction } from "@/modules/notifications";
 import { getQuotaStatus, watchGenerations, watchGenerationsAction } from "@/modules/resources";
 import {
   isSchoolAdmin,
@@ -90,6 +91,7 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
       activeSpaceId={ctx.institutionId}
       logoutAction={logoutAction}
       switchSpaceAction={switchSpaceAction}
+      removePushDevice={removePushDeviceAction}
       generation={{
         initial: generating,
         storageKey: `profe:watch:${ctx.membershipId}`,

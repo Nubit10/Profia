@@ -83,3 +83,53 @@ self.addEventListener("fetch", (event) => {
     );
   }
 });
+
+// --- Notificaciones del navegador (SPEC-0013 RN-15) ----------------------------------------------
+
+self.addEventListener("push", (event) => {
+  let data = {};
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch {
+    data = {};
+  }
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((windows) => {
+      // Profe está abierto y a la vista: el docente ya ve el aviso dentro de la app (como Claude).
+      if (windows.some((w) => w.visibilityState === "visible")) return undefined;
+      return self.registration.showNotification(
+        typeof data.title === "string" && data.title ? data.title : "Profe",
+        {
+          body: typeof data.body === "string" ? data.body : "Tienes una novedad en Profe.",
+          tag: typeof data.tag === "string" ? data.tag : undefined,
+          icon: "/icons/icon-192.png",
+          badge: "/icons/icon-192.png",
+          lang: "es-CO",
+          data: { url: typeof data.url === "string" ? data.url : "/dashboard" },
+        },
+      );
+    }),
+  );
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  // Solo rutas de este mismo sitio: un aviso nunca abre otra página.
+  let target = new URL("/dashboard", self.location.origin);
+  try {
+    const url = new URL(
+      event.notification.data && event.notification.data.url,
+      self.location.origin,
+    );
+    if (url.origin === self.location.origin) target = url;
+  } catch {
+    // URL inválida: se abre el Inicio.
+  }
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((windows) => {
+      const open = windows.find((w) => new URL(w.url).origin === self.location.origin);
+      if (open) return open.navigate(target.href).then((w) => (w || open).focus());
+      return self.clients.openWindow(target.href);
+    }),
+  );
+});
