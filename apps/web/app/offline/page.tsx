@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { ProfeLogo } from "@/components/brand/profe-logo";
+import { OfflineLibrary } from "./offline-library";
 import { RetryButton } from "./retry-button";
 
 export const metadata: Metadata = { title: "Sin conexión", robots: { index: false } };
 // SPEC-0013 RN-13: página estática; el service worker la guarda y la muestra sin señal. No lleva
-// datos de nadie.
+// datos de nadie: la lista de recursos guardados se arma en el navegador (RN-14).
 export const dynamic = "force-static";
 
 export default function OfflinePage() {
@@ -19,6 +20,7 @@ export default function OfflinePage() {
         </p>
       </div>
       <RetryButton />
+      <OfflineLibrary />
     </main>
   );
 }

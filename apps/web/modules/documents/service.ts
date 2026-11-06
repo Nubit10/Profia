@@ -26,6 +26,8 @@ export type ExportRequest = {
   format: DocFormat;
   version?: number;
   variant: Variant;
+  /** SPEC-0013 RN-14: guardar sin conexión no es una descarga del docente; no se audita así. */
+  offline?: boolean;
 };
 
 export type ExportedFile = { filename: string; contentType: string; body: Buffer };
@@ -130,14 +132,16 @@ export async function exportResource(
 
   const body = request.format === "pdf" ? await renderPdf(model) : await renderDocx(model);
 
-  await recordAuditSafely({
-    action: "resource.exported",
-    institutionId: ctx.institutionId,
-    actorUserId: ctx.userId,
-    entityType: "resource",
-    entityId: resource.id,
-    metadata: { version: resource.version, doc: request.doc, format: request.format, variant },
-  });
+  if (!request.offline) {
+    await recordAuditSafely({
+      action: "resource.exported",
+      institutionId: ctx.institutionId,
+      actorUserId: ctx.userId,
+      entityType: "resource",
+      entityId: resource.id,
+      metadata: { version: resource.version, doc: request.doc, format: request.format, variant },
+    });
+  }
 
   const keyLabel = resource.type === "WORKSHOP" ? "Guía del docente" : "Clave";
   return {

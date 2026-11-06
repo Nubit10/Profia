@@ -23,6 +23,8 @@ import { useBodyScrollLock } from "@/lib/scroll-lock";
 import { useBackToClose } from "@/lib/use-back-to-close";
 import { cn } from "@/lib/utils";
 import { disablePush } from "@/components/notifications/push-device";
+import { wipeOffline } from "@/components/offline/offline-store";
+import { useOfflineSync, type OfflineActions } from "@/components/offline/offline-sync";
 import { CreateMenu } from "./create-menu";
 import { InstallApp } from "./install-app";
 import { LinkPending } from "./link-pending";
@@ -41,6 +43,12 @@ import { useShellStore } from "./use-shell-store";
 
 export { type SpaceOption } from "./identity-card";
 
+/** Quien no es docente no tiene biblioteca sin conexión: la sincronización no hace nada. */
+const NO_OFFLINE: OfflineActions = {
+  library: async () => ({ ok: false, error: "" }),
+  recordSync: async () => ({ ok: true }),
+};
+
 /** Borradores del asistente de creación: se borran al cerrar sesión (SPEC-0012 §9). */
 export const DRAFT_STORAGE_PREFIX = "profe:create:";
 
@@ -56,6 +64,8 @@ type Props = {
   generation: { initial: string[]; storageKey: string; action: WatchAction };
   /** SPEC-0013 RN-15: al cerrar sesión, este dispositivo deja de recibir avisos de la cuenta. */
   removePushDevice: (input: { installationId: string }) => Promise<ActionResult>;
+  /** SPEC-0013 RN-14: biblioteca sin conexión del docente (`null` para quien no es docente). */
+  offline: { userId: string; spaceIds: string[]; actions: OfflineActions } | null;
   children: ReactNode;
 };
 
@@ -72,6 +82,7 @@ export function AppShell(props: Props) {
   const sections = getNavSections(access);
   const line = quota ? quotaLine(quota) : null;
   const generating = useGenerationWatcher(props.generation);
+  useOfflineSync(props.offline ?? { userId: "", spaceIds: [], actions: NO_OFFLINE });
   // CA-0013-12: "Mis recursos" dice cuántos se están generando.
   const badges: Record<string, string> =
     generating > 0 ? { "/resources": `${generating} generándose` } : {};
@@ -104,6 +115,8 @@ export function AppShell(props: Props) {
       if ("serviceWorker" in navigator) {
         await disablePush({ remove: props.removePushDevice }).catch(() => undefined);
       }
+      // RN-14: lo guardado sin conexión es de esta cuenta; no se queda en el dispositivo.
+      await wipeOffline().catch(() => undefined);
       await props.logoutAction();
       try {
         for (const key of Object.keys(sessionStorage)) {

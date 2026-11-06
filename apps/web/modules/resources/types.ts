@@ -121,6 +121,8 @@ export type QuotaStatus = { used: number; limit: number; freesAt: Date | null };
 /** Recurso en "Mis recursos" y en el Inicio, con su curso (SPEC-0012 RN-13). */
 export type ResourceListItem = ResourceSummary & {
   courseId: string;
+  /** Última versión guardada (SPEC-0013 RN-14: qué guardar sin conexión). */
+  version: number;
   courseTitle: string;
   subjectId: string;
 };

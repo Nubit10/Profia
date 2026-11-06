@@ -5,7 +5,7 @@
  *   «Sin conexión». Sin red, una navegación muestra esa página en vez del error del navegador.
  * - Cada caché lleva la versión en el nombre; al activarse una versión nueva se borran las viejas.
  */
-const VERSION = "v1";
+const VERSION = "v2";
 const SHELL_CACHE = `profe-shell-${VERSION}`;
 const STATIC_CACHE = `profe-static-${VERSION}`;
 const OFFLINE_URL = "/offline";
@@ -17,13 +17,21 @@ const SHELL = [
 ];
 const OWN = [SHELL_CACHE, STATIC_CACHE];
 
+/**
+ * Guarda la página «Sin conexión» y los archivos estáticos que usa: sin señal, además de mostrarse,
+ * tiene que poder listar y entregar los recursos guardados (SPEC-0013 RN-14).
+ */
+async function cacheShell() {
+  const shell = await caches.open(SHELL_CACHE);
+  await shell.addAll(SHELL);
+  const page = await shell.match(OFFLINE_URL);
+  const html = page ? await page.text() : "";
+  const assets = [...new Set(html.match(/\/_next\/static\/[^"'\s)]+/g) ?? [])];
+  if (assets.length > 0) await (await caches.open(STATIC_CACHE)).addAll(assets);
+}
+
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches
-      .open(SHELL_CACHE)
-      .then((cache) => cache.addAll(SHELL))
-      .then(() => self.skipWaiting()),
-  );
+  event.waitUntil(cacheShell().then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", (event) => {

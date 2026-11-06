@@ -10,3 +10,10 @@ export {
   type ExportedFile,
 } from "./service";
 export { VARIANTS, type Variant } from "./shuffle";
+export {
+  listOfflineLibrary,
+  recordOfflineSync,
+  type OfflineEntry,
+  type OfflineFile,
+} from "./offline";
+export { offlineLibraryAction, recordOfflineSyncAction } from "./actions";

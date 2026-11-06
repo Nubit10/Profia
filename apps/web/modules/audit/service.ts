@@ -54,6 +54,7 @@ export type AuditAction =
   | "resource.duplicated"
   | "resource.item_regenerated"
   | "resource.exported"
+  | "resource.cached_offline"
   | "resource.grading_scale_updated"
   | "format.created"
   | "format.updated"

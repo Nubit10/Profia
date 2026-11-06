@@ -41,11 +41,12 @@ const listSelect = {
   createdAt: true,
   updatedAt: true,
   courseId: true,
+  currentVersion: true,
 } as const;
 
 async function withCourses(
   ctx: TenantContext,
-  rows: (Parameters<typeof summary>[0] & { courseId: string })[],
+  rows: (Parameters<typeof summary>[0] & { courseId: string; currentVersion: number })[],
 ): Promise<ResourceListItem[]> {
   const courses = new Map(
     (await listMyCourses(ctx, { includeArchived: true })).map((c) => [c.id, c]),
@@ -55,6 +56,7 @@ async function withCourses(
     return {
       ...summary(row),
       courseId: row.courseId,
+      version: row.currentVersion,
       courseTitle: course ? courseTitle(course) : "",
       subjectId: course?.subjectId ?? "",
     };

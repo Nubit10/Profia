@@ -3,6 +3,7 @@ import type { QuotaView } from "@/components/app-shell/identity-card";
 import { logger } from "@/lib/observability/logger";
 import { logoutAction } from "@/modules/auth";
 import { getLogoInfo } from "@/modules/formats";
+import { offlineLibraryAction, recordOfflineSyncAction } from "@/modules/documents";
 import { removePushDeviceAction } from "@/modules/notifications";
 import { getQuotaStatus, watchGenerations, watchGenerationsAction } from "@/modules/resources";
 import {
@@ -92,6 +93,15 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
       logoutAction={logoutAction}
       switchSpaceAction={switchSpaceAction}
       removePushDevice={removePushDeviceAction}
+      offline={
+        ctx.roles.includes("TEACHER")
+          ? {
+              userId: ctx.userId,
+              spaceIds: ctx.spaces.map((s) => s.institutionId),
+              actions: { library: offlineLibraryAction, recordSync: recordOfflineSyncAction },
+            }
+          : null
+      }
       generation={{
         initial: generating,
         storageKey: `profe:watch:${ctx.membershipId}`,

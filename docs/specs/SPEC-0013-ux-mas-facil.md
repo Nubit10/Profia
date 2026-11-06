@@ -474,8 +474,8 @@ Los clics se cuentan como en CA-0012-07: solo clics del usuario, sin contar escr
 - [x] T16 — Manifiesto, íconos desde el logo, `themeColor`, `public/sw.js`, página "Sin conexión" y "Instalar Profe" (RN-12/13, CA-28 a 31) — frontend + devops
 - [x] T17 — Proyecto de Playwright "iPhone 13" que corre los E2E de esta spec en el celular, con la revisión de `data-floating` y de controles de 44 px — qa
 - [x] T18 — Notificaciones: `modules/notifications` (tabla `PushSubscription`, registrar y quitar dispositivo, envío con `web-push` al terminar o fallar una generación desde el trabajo en segundo plano), tarjeta de permiso y Ajustes → Notificaciones (RN-15, CA-32 a 36) — backend + frontend + database
-- [ ] T19 — Recursos sin conexión: lista para sincronizar, sincronización en el navegador (Cache Storage + IndexedDB), pantalla "Sin conexión", estados "Disponible sin conexión", borrado al cerrar sesión (RN-13/14, CA-37 a 42) — documents + frontend + privacy
-- [ ] T20 — Revisión de seguridad y privacidad de T18 y T19 — auth-security + privacy
+- [x] T19 — Recursos sin conexión: lista para sincronizar, sincronización en el navegador (Cache Storage + IndexedDB), pantalla "Sin conexión", estados "Disponible sin conexión", borrado al cerrar sesión (RN-13/14, CA-37 a 42) — documents + frontend + privacy
+- [x] T20 — Revisión de seguridad y privacidad de T18 y T19 — auth-security + privacy
 - [ ] T21 — Revisión contra la spec y DoD — reviewer
 
 ## 12. Decisiones (resueltas por el usuario el 2026-11-05)
@@ -547,3 +547,12 @@ que puede querer instalarla, así que no se bloquea en ninguna página.
   VAPID de las pruebas E2E se generan en cada corrida. Chromium sin pantalla no muestra
   notificaciones del sistema: CA-0013-33/34 entregan el aviso al service worker por CDP y registran
   qué pidió mostrar.
+- **Parte 5 (T19, T20), recursos sin conexión:** lista para guardar en `modules/documents/offline.ts`;
+  los archivos se bajan por la ruta de descarga con `purpose=offline` (sin `resource.exported`,
+  máximo 30 por minuto) y se guardan en Cache Storage, con el índice en IndexedDB
+  (`components/offline/`). La sincronización corre en la página: al entrar, cada 5 minutos, al
+  volver la señal y cuando un recurso se guarda, se marca como listo o se archiva. "Sin conexión"
+  (`/offline`) lista lo guardado por curso y lo descarga sin red; el service worker guarda su
+  JavaScript al instalarse. Revisión de seguridad y privacidad en
+  `docs/security/spec-0013-dispositivo.md`. Las pruebas E2E de CA-0013-37/38 usan un taller y un
+  quiz; la hoja de respuestas del examen la cubre la prueba de integración de CA-0013-42.

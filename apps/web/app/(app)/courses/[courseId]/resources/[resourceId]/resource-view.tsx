@@ -14,6 +14,7 @@ import {
   HiOutlineSparkles,
 } from "react-icons/hi2";
 import { sileo } from "sileo";
+import { requestOfflineSync } from "@/components/offline/offline-sync";
 import { StatusBadge } from "@/components/resource-list";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -129,6 +130,7 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
       return;
     }
     setSaved({ content, version: result.data!.version });
+    requestOfflineSync();
     sileo.success({ title: "Cambios guardados", description: `Versión ${result.data!.version}` });
     router.refresh();
   };
@@ -267,6 +269,12 @@ export function ResourceView({
 }) {
   const router = useRouter();
   const { run, isPending } = useRun();
+  // SPEC-0013 RN-14: listo, archivado o restaurado cambia lo que se guarda sin conexión.
+  const setStatus: ResourceActions["setStatus"] = async (input) => {
+    const result = await actions.setStatus(input);
+    if (result.ok) requestOfflineSync();
+    return result;
+  };
   useGenerationPolling(resource.id, resource.status === "GENERATING", actions.status);
   const hasContent = !!resource.data;
   const label = RESOURCE_TYPE_LABELS[resource.type].toLowerCase();
@@ -310,7 +318,7 @@ export function ResourceView({
                 disabled={isPending}
                 onClick={() =>
                   run(
-                    () => actions.setStatus({ resourceId: resource.id, status: "READY" }),
+                    () => setStatus({ resourceId: resource.id, status: "READY" }),
                     "Recurso listo",
                   )
                 }
@@ -324,9 +332,7 @@ export function ResourceView({
                 size="lg"
                 variant="outline"
                 disabled={isPending}
-                onClick={() =>
-                  run(() => actions.setStatus({ resourceId: resource.id, status: "DRAFT" }))
-                }
+                onClick={() => run(() => setStatus({ resourceId: resource.id, status: "DRAFT" }))}
               >
                 Volver a borrador
               </Button>
@@ -339,7 +345,7 @@ export function ResourceView({
               answerSheet={resource.data?.type === "EXAM" && hasAnswerSheet(resource.data.content)}
               draft={resource.status === "DRAFT"}
               markReady={async () => {
-                const result = await actions.setStatus({
+                const result = await setStatus({
                   resourceId: resource.id,
                   status: "READY",
                 });
@@ -371,7 +377,7 @@ export function ResourceView({
                   disabled={isPending}
                   onClick={() =>
                     run(
-                      () => actions.setStatus({ resourceId: resource.id, status: "ARCHIVED" }),
+                      () => setStatus({ resourceId: resource.id, status: "ARCHIVED" }),
                       "Recurso archivado",
                     )
                   }
@@ -426,9 +432,7 @@ export function ResourceView({
               variant="ghost"
               size="lg"
               disabled={isPending}
-              onClick={() =>
-                run(() => actions.setStatus({ resourceId: resource.id, status: "ARCHIVED" }))
-              }
+              onClick={() => run(() => setStatus({ resourceId: resource.id, status: "ARCHIVED" }))}
             >
               Archivar
             </Button>
@@ -446,7 +450,7 @@ export function ResourceView({
             disabled={isPending}
             onClick={() =>
               run(
-                () => actions.setStatus({ resourceId: resource.id, status: "RESTORE" }),
+                () => setStatus({ resourceId: resource.id, status: "RESTORE" }),
                 "Recurso restaurado",
               )
             }

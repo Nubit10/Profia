@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { HiOutlineFolderOpen, HiOutlinePlus } from "react-icons/hi2";
 import { EmptyState } from "@/components/empty-state";
+import { OfflinePanel } from "@/components/offline/offline-panel";
 import { PageHeader } from "@/components/page-header";
 import { ResourceList } from "@/components/resource-list";
 import { buttonVariants } from "@/components/ui/button";
@@ -77,6 +78,9 @@ export default async function MyResourcesPage({ searchParams }: PageProps<"/reso
           </Link>
         }
       />
+
+      {/* SPEC-0013 RN-14: guardar los recursos en este dispositivo para usarlos sin conexión. */}
+      <OfflinePanel hasResources={resources.length > 0 || filtered} />
 
       <div className="flex flex-col gap-3">
         <nav aria-label="Filtrar por tipo" className="flex flex-wrap gap-2">

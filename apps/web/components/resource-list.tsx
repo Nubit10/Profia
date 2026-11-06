@@ -5,6 +5,7 @@ import {
   HiOutlinePencilSquare,
 } from "react-icons/hi2";
 import { Badge } from "@/components/ui/badge";
+import { OfflineBadge } from "@/components/offline/offline-panel";
 import { formatDateTime } from "@/lib/dates";
 import { cn } from "@/lib/utils";
 import {
@@ -27,7 +28,7 @@ export function StatusBadge({ status }: { status: ResourceStatus }) {
   return <Badge variant={STATUS_VARIANT[status]}>{STATUS_LABELS[status]}</Badge>;
 }
 
-type Item = ResourceSummary & { courseId: string; courseTitle?: string };
+type Item = ResourceSummary & { courseId: string; courseTitle?: string; version?: number };
 
 /** Lista de talleres y quices con tipo, estado y fecha (SPEC-0012). */
 export function ResourceList({
@@ -66,6 +67,12 @@ export function ResourceList({
                 <span className="truncate text-sm text-muted-foreground">
                   {showCourse && r.courseTitle ? `${r.courseTitle} · ` : ""}Tema: {r.topicTitle}
                 </span>
+                {/* SPEC-0013 RN-14: si está guardado en este dispositivo para usarlo sin conexión. */}
+                {r.version !== undefined && (
+                  <span className="flex">
+                    <OfflineBadge resourceId={r.id} version={r.version} />
+                  </span>
+                )}
               </span>
               <span className="hidden flex-col items-end gap-1 sm:flex">
                 <span className="flex items-center gap-1.5">

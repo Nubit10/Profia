@@ -13,6 +13,7 @@ import {
   HiOutlineSparkles,
 } from "react-icons/hi2";
 import { EmptyState } from "@/components/empty-state";
+import { OfflinePanel } from "@/components/offline/offline-panel";
 import { ResourceList, StatusBadge } from "@/components/resource-list";
 import { Button, buttonVariants } from "@/components/ui/button";
 import type { ActionResult } from "@/lib/action-result";
@@ -277,7 +278,10 @@ export function TeacherHomeView(props: Props) {
               }
             />
           ) : (
-            <ResourceList resources={home.recent} label="Recursos recientes" showCourse />
+            <>
+              <OfflinePanel hasResources />
+              <ResourceList resources={home.recent} label="Recursos recientes" showCourse />
+            </>
           )}
         </section>
       )}
