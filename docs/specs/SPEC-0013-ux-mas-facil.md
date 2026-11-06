@@ -466,8 +466,8 @@ Los clics se cuentan como en CA-0012-07: solo clics del usuario, sin contar escr
 - [x] T8 — "Listo" guarda el ítem; agrupación de versiones (RN-05, CA-13) — backend (resources) + frontend
 - [x] T9 — Diálogo de descarga y paquete `.zip` (RN-06/07, CA-14/15/16) — documents + frontend
 - [x] T10 — Vista compacta y barra fija en móvil (CA-17/18) — frontend
-- [ ] T11 — Tests: un E2E por CA con su ID, conteo de clics, axe y 360 px; acceso cruzado (CA-12/16); correr la suite también contra `next dev` (CA-19) — qa
-- [ ] T12 — Capturas antes/después en `docs/design/capturas/spec-0013/` y actualizar `docs/design/sistema-de-diseno.md` — frontend
+- [x] T11 — Tests: un E2E por CA con su ID, conteo de clics, axe y 360 px; acceso cruzado (CA-12/16); correr la suite también contra `next dev` (CA-19) — qa
+- [x] T12 — Capturas antes/después en `docs/design/capturas/spec-0013/` y actualizar `docs/design/sistema-de-diseno.md` — frontend
 - [x] T13 — ADR-0012 "App instalable": caché, alcance, actualización al desplegar, sin datos del docente — architect
 - [x] T14 — Piezas de celular en `components/ui`: hoja inferior/ventana según tamaño, `useBackToClose`, barra inferior, cajón y desplazador de pestañas (patrón de Terram) — frontend
 - [x] T15 — Pasar los formularios y menús a esas piezas; controles de 44 px; encabezado del curso y pestañas; `loading.tsx` con esqueletos (RN-11, CA-22 a 27) — frontend
@@ -556,3 +556,11 @@ que puede querer instalarla, así que no se bloquea en ninguna página.
   JavaScript al instalarse. Revisión de seguridad y privacidad en
   `docs/security/spec-0013-dispositivo.md`. Las pruebas E2E de CA-0013-37/38 usan un taller y un
   quiz; la hoja de respuestas del examen la cubre la prueba de integración de CA-0013-42.
+- **Cierre (T11, T12):** CA-0013-20 en `tests/e2e/spec-0013-a11y.spec.ts` (axe, un botón principal,
+  glosario y 360 px); deja las capturas "después" con `CAPTURAS=1`. CA-0013-19 con
+  `npm run test:e2e:dev` (`playwright.dev.config.ts`): la suite en `next dev` sin errores de
+  hidratación, salvo las pruebas que dependen del service worker, que solo se registra en
+  producción. Hallazgo: a 360 px el botón flotante "Crear" tapaba "Descargar" en el recurso; ya no
+  aparece en páginas con barra inferior y lleva `data-floating`. Capturas en
+  `docs/design/capturas/spec-0013/` (01–13 antes, `despues-*`); patrones en
+  `docs/design/sistema-de-diseno.md`.

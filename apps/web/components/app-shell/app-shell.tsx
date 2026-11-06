@@ -43,6 +43,9 @@ import { useShellStore } from "./use-shell-store";
 
 export { type SpaceOption } from "./identity-card";
 
+/** Páginas con su propia barra de acciones abajo en el celular (SPEC-0013 CA-0013-18). */
+const OWN_BOTTOM_BAR = /^\/courses\/[^/]+\/resources\/[^/]+$/;
+
 /** Quien no es docente no tiene biblioteca sin conexión: la sincronización no hace nada. */
 const NO_OFFLINE: OfflineActions = {
   library: async () => ({ ok: false, error: "" }),
@@ -318,9 +321,13 @@ export function AppShell(props: Props) {
         </main>
       </div>
 
-      {/* Celular: "Crear" siempre a mano, flotando abajo a la derecha. */}
-      {access.isTeacher && !sidebarOpen && (
-        <div className="fixed right-4 bottom-4 z-30 lg:hidden">
+      {/* Celular: "Crear" siempre a mano, flotando abajo a la derecha. SPEC-0013 RN-11: nada más
+          flota abajo, así que no aparece donde la página ya tiene su barra inferior (el recurso). */}
+      {access.isTeacher && !sidebarOpen && !OWN_BOTTOM_BAR.test(pathname) && (
+        <div
+          data-floating="create"
+          className="fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-30 lg:hidden"
+        >
           <CreateMenu floating />
         </div>
       )}

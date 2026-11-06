@@ -4,6 +4,7 @@
 /build
 /coverage
 /test-results/
+/test-results-dev/
 /playwright-report/
 /playwright/.cache/
 *.tsbuildinfo

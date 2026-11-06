@@ -34,14 +34,17 @@ Radios: `rounded-xl` en campos y botones, `rounded-2xl` en tarjetas y `rounded-3
 
 ## Componentes
 
-| Componente                                                   | Dónde                          | Regla                                                         |
-| ------------------------------------------------------------ | ------------------------------ | ------------------------------------------------------------- |
-| `Button` (`brand`, `default`, `outline`, `ghost`, `inverse`) | `components/ui/button.tsx`     | `brand` una vez por pantalla. `inverse` sobre fondos de marca |
-| `Badge` (`brand`, `success`, `warning`, `info`)              | `components/ui/badge.tsx`      | Estado de un recurso con `StatusBadge`                        |
-| `PageHeader`                                                 | `components/page-header.tsx`   | Línea superior, título, descripción y acciones                |
-| `EmptyState`                                                 | `components/empty-state.tsx`   | Siempre una explicación de una línea y una acción concreta    |
-| `ResourceList`                                               | `components/resource-list.tsx` | Talleres y quices con tipo, estado y fecha                    |
-| Menú lateral                                                 | `components/app-shell/`        | Ver abajo                                                     |
+| Componente                                                   | Dónde                          | Regla                                                           |
+| ------------------------------------------------------------ | ------------------------------ | --------------------------------------------------------------- |
+| `Button` (`brand`, `default`, `outline`, `ghost`, `inverse`) | `components/ui/button.tsx`     | `brand` una vez por pantalla. `inverse` sobre fondos de marca   |
+| `Badge` (`brand`, `success`, `warning`, `info`)              | `components/ui/badge.tsx`      | Estado de un recurso con `StatusBadge`                          |
+| `PageHeader`                                                 | `components/page-header.tsx`   | Línea superior, título, descripción y acciones                  |
+| `EmptyState`                                                 | `components/empty-state.tsx`   | Siempre una explicación de una línea y una acción concreta      |
+| `ResourceList`                                               | `components/resource-list.tsx` | Talleres y quices con tipo, estado y fecha                      |
+| Menú lateral                                                 | `components/app-shell/`        | Ver abajo                                                       |
+| `PageSkeleton`                                               | `components/page-skeleton.tsx` | Pantalla de carga de una ruta; nunca en rutas que responden 404 |
+| `OfflinePanel`, `OfflineBadge`                               | `components/offline/`          | Pregunta, progreso y marca "Disponible sin conexión"            |
+| `NotifyCard`                                                 | `components/notifications/`    | Pide el permiso de avisos solo después de "Generar"             |
 
 ## Menú lateral (patrón CliqCut/Duali)
 
@@ -50,12 +53,32 @@ Radios: `rounded-xl` en campos y botones, `rounded-2xl` en tarjetas y `rounded-3
 - Secciones con título pequeño en mayúsculas, definidas en `nav-items.ts` según el rol: PRINCIPAL, MI TRABAJO, AJUSTES y COLEGIO.
 - Ítem activo: fondo sólido de marca, texto blanco, barra corta a la izquierda y `aria-current="page"`.
 - Pie: "Ver tutorial" y "Cerrar sesión" (con confirmación).
-- En el celular: barra superior con logo, espacio y pastilla de cupo, y un cajón lateral. Se cierra con Escape, con el fondo o al navegar, y bloquea el scroll con un contador compartido (`lib/scroll-lock.ts`).
+- En el celular: barra superior con logo, espacio y pastilla de cupo, y un cajón lateral. Se cierra con Escape, con el fondo, con el botón Atrás o al navegar (no al tocar un enlace, para que se vea que carga), y bloquea el scroll con un contador compartido (`lib/scroll-lock.ts`).
+- "Mis recursos" muestra "N generándose" mientras la IA trabaja, y cada enlace muestra un indicador al tocarlo si la pantalla aún no carga (`useLinkStatus`).
+- Pie: "Instalar Profe" cuando el navegador lo permite (en iPhone explica "Agregar a pantalla de inicio").
+
+## Celular (SPEC-0013, patrón de Terram)
+
+Referencia: 390 × 844, táctil. Las pruebas corren en el proyecto `movil` de Playwright.
+
+- **Una sola barra abajo.** Las acciones de la pantalla van en una barra fija inferior (la del recurso: "Marcar como listo", "Descargar", "⋯"). Nada más flota abajo: el botón flotante "Crear" no aparece donde la página tiene su barra. Todo lo que flota lleva `data-floating` y una prueba verifica que no se tapen.
+- **Formularios como hoja inferior.** `Dialog` sube desde abajo en pantallas pequeñas (centrado desde `sm`), con el botón principal a la vista y sin pasar del alto de la pantalla.
+- **Atrás cierra lo abierto.** Diálogos, menús "⋯" y el cajón agregan una entrada al historial (`lib/use-back-to-close.ts`). Si una capa se cierra porque se navega, llama `navigatingFromLayer()` antes de `router.push`.
+- **Tamaño del dedo.** Controles de 44 × 44 px o más en el celular (`max-sm:min-h-11`). Los checkbox amplían su zona con un pseudo-elemento. Los enlaces que cubren una tarjeta usan `after:absolute after:inset-0`.
+- **Áreas seguras.** Con `viewport-fit=cover`, encabezado, cajón, hojas y barra inferior usan `env(safe-area-inset-*)`.
+- **Rejillas y filas.** Las rejillas declaran `grid-cols-1` de base; en filas que se parten, el bloque de texto lleva `basis-*` para que los botones bajen a su línea (encabezado del curso). Las pestañas del curso se ven completas en tres columnas.
+- **Vista compacta.** En el editor del recurso, `data-compact` oculta lo marcado con `data-detail` (opciones, justificación, etiquetas y acciones).
+
+## App instalable y sin conexión (SPEC-0013, ADR-0012)
+
+- Manifiesto en `app/manifest.ts`; íconos en `public/icons/`, generados desde el logo con `node scripts/generate-app-icons.mjs`; colores en `lib/brand-colors.ts` (una prueba los compara con los tokens).
+- "Sin conexión" (`/offline`) es estática: con señal no muestra datos; sin señal lista lo guardado en el dispositivo.
+- Los avisos del navegador piden el permiso solo después de "Generar" o desde Ajustes → Notificaciones, y no se repiten si Profe está a la vista.
 
 ## Estados
 
 - **Vacío:** `EmptyState`.
-- **Cargando:** el asistente y el Inicio llegan del servidor ya armados. Mientras la IA genera, se muestra una tarjeta con mensajes de lo que está pasando y una barra indeterminada.
+- **Cargando:** Inicio, "Mis recursos", Formatos, Asignaturas y el asistente tienen esqueleto (`loading.tsx` con `PageSkeleton`). Las rutas que pueden responder 404 (curso, recurso, colegio) no lo llevan: con él Next respondería 200 a una ruta ajena. Mientras la IA genera, se muestra una tarjeta con mensajes de lo que está pasando y una barra indeterminada.
 - **Error:** el título dice qué no se pudo hacer, la frase siguiente explica por qué en lenguaje simple y luego vienen las acciones ("Reintentar", "Volver al curso").
 - **Éxito:** un toast de Sileo con un título corto.
 - **Movimiento:** con `prefers-reduced-motion: reduce` se desactivan animaciones y transiciones (CA-0012-19).
@@ -76,4 +99,4 @@ Prohibidos en textos visibles: blueprint, tenant, prompt, token, schema, RAG.
 
 ## Accesibilidad
 
-WCAG 2.1 AA, verificado con axe-core en los E2E (CA-0012-13). Se pueden usar todas las pantallas con teclado, hay un enlace "Saltar al contenido" y los íconos decorativos llevan `aria-hidden`. Los campos y botones miden al menos 40 px de alto. Desde 360 px de ancho no hay scroll horizontal.
+WCAG 2.1 AA, verificado con axe-core en los E2E (CA-0012-13). Se pueden usar todas las pantallas con teclado, hay un enlace "Saltar al contenido" y los íconos decorativos llevan `aria-hidden`. Los campos y botones miden al menos 40 px de alto (44 px en el celular, SPEC-0013). Desde 360 px de ancho no hay scroll horizontal. Ninguna pantalla puede tener diferencias de hidratación: la guardia de `tests/e2e/fixtures.ts` las detecta y `npm run test:e2e:dev` corre la suite en modo desarrollo (CA-0013-19). Las fechas visibles usan `lib/dates.ts`.
