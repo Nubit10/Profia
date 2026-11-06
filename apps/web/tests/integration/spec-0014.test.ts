@@ -24,8 +24,17 @@ import {
   createTopic,
   createUnit,
   getCoursePlanning,
+  listCoursePlans,
+  setItemArchived,
 } from "@/modules/planning";
-import { DAILY_LIMIT, createResourceQuick, getQuotaStatus } from "@/modules/resources";
+import {
+  DAILY_LIMIT,
+  createResourceQuick,
+  getQuotaStatus,
+  groupByPlan,
+  listCourseResources,
+  listMyResources,
+} from "@/modules/resources";
 import type { TenantContext } from "@/modules/tenancy";
 import { createUser, ctxFor, resetDatabase, validSchool } from "../support/factories";
 
@@ -765,5 +774,86 @@ describe("recurso con un toque (SPEC-0014 T6)", () => {
       ),
     ).rejects.toMatchObject(notFound);
     expect(await db.resource.count()).toBe(0);
+  });
+});
+
+describe("recursos por periodo y tema (SPEC-0014 T8)", () => {
+  const noRun = { schedule: () => undefined };
+
+  it("CA-0014-16/17: ubicados por la planeación actual; otro docente no ve planes ni recursos ajenos", async () => {
+    const admin = await createUser("Rector");
+    const { institutionId } = await registerSchool(admin, { ...validSchool, alsoTeaches: true });
+    const ctx = await ctxFor(admin, institutionId);
+    const { course, unit, topics } = await unitWithTopics(ctx, ["La recta numérica", "Opuestos"]);
+    const subject = (await listSubjects(ctx)).find((s) => s.name === "Matemáticas")!;
+    const second = await createCourse(ctx, {
+      subjectId: subject.id,
+      grade: "G7",
+      groupName: "701",
+      academicYear: "2026",
+    });
+    await getCoursePlanning(ctx, second.id);
+    const unit2 = await createUnit(ctx, {
+      courseId: second.id,
+      periodNumber: 2,
+      title: "Geometría",
+      description: null,
+    });
+    const angles = await createTopic(ctx, {
+      unitId: unit2.id,
+      title: "Ángulos",
+      description: null,
+      plannedSessions: null,
+    });
+
+    // Como si ya hubieran terminado (máximo 3 generándose a la vez).
+    const make = async (input: Parameters<typeof createResourceQuick>[1]) => {
+      const created = await createResourceQuick(ctx, input, noRun);
+      await db.resource.updateMany({ where: { id: created.id }, data: { status: "DRAFT" } });
+      return created;
+    };
+    const quiz = await make({ type: "QUIZ", topicId: topics[0]!.id });
+    const exam = await make({ type: "EXAM", scope: { kind: "UNIT", unitId: unit.id } });
+    const other = await make({ type: "WORKSHOP", topicId: angles.id });
+    const old = await make({ type: "QUIZ", topicId: topics[1]!.id });
+    await setItemArchived(ctx, "topic", topics[1]!.id, true);
+
+    // El examen trae todos sus temas; el resto, su tema.
+    const listed = await listCourseResources(ctx, course.id);
+    expect(listed.find((r) => r.id === exam.id)!.topicIds).toEqual(topics.map((t) => t.id));
+    expect(listed.find((r) => r.id === quiz.id)!.topicIds).toEqual([topics[0]!.id]);
+
+    const [plan] = await listCoursePlans(ctx, [course.id]);
+    const groups = groupByPlan(plan!, listed);
+    const p1 = groups.periods.find((p) => p.number === 1)!;
+    expect(p1.units[0]!.topics[0]!.resources.map((r) => r.id)).toEqual([quiz.id]);
+    // CA-0014-16: el examen en "Exámenes" de su unidad; el del tema archivado, en "Temas archivados".
+    expect(p1.units[0]!.exams.map((r) => r.id)).toEqual([exam.id]);
+    expect(p1.archived.flatMap((a) => a.resources.map((r) => r.id))).toEqual([old.id]);
+
+    // CA-0014-17: "Mis recursos" tiene los dos cursos, cada uno con su planeación.
+    const mine = await listMyResources(ctx);
+    expect(new Set(mine.map((r) => r.courseId))).toEqual(new Set([course.id, second.id]));
+    const plans = await listCoursePlans(ctx, [second.id, course.id]);
+    expect(plans.map((p) => p.courseId)).toEqual([second.id, course.id]);
+    const secondGroups = groupByPlan(
+      plans[0]!,
+      mine.filter((r) => r.courseId === second.id),
+    );
+    expect(secondGroups.periods.map((p) => p.name)).toEqual(["Periodo 2"]);
+    expect(secondGroups.periods[0]!.units[0]!.topics[0]!.resources.map((r) => r.id)).toEqual([
+      other.id,
+    ]);
+
+    // Acceso cruzado: otra docente del mismo colegio no ve planes ni recursos ajenos.
+    const teacher2 = await createUser("Otra");
+    const { token } = await createInvitation(ctx, { email: teacher2.email, roles: ["TEACHER"] });
+    await acceptInvitation(teacher2, token);
+    const otherCtx = await ctxFor(teacher2, institutionId);
+    expect(await listCoursePlans(otherCtx, [course.id, second.id])).toEqual([]);
+    expect(await listMyResources(otherCtx)).toEqual([]);
+    await expect(listCourseResources(otherCtx, course.id)).rejects.toMatchObject({
+      code: "NOT_FOUND",
+    });
   });
 });

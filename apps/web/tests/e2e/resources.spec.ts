@@ -103,7 +103,8 @@ test("CA-0008-01/06/07/08/09: generar un quiz, editarlo, regenerar una pregunta 
   expect(key.suggestedFilename()).toBe("Clave - Quiz - La recta numérica - 6°6C - Versión B.docx");
 
   await page.getByRole("link", { name: "Recursos del curso" }).click();
-  const library = page.getByRole("list", { name: "Recursos del curso" });
+  // SPEC-0014: la biblioteca se agrupa por tema.
+  const library = page.getByRole("list", { name: "Recursos de La recta numérica" });
   await expect(library).toContainText("Quiz: La recta numérica");
   await expect(library).toContainText("Listo");
 

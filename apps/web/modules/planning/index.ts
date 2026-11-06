@@ -28,6 +28,6 @@ export {
   type AcceptProposalResult,
 } from "./proposal";
 export { splitDbaByPeriod } from "./distribution";
-export { createQuickTopic, listTopicOutline } from "./outline";
+export { createQuickTopic, listCoursePlans, listTopicOutline } from "./outline";
 export * from "./actions";
 export type * from "./types";

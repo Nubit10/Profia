@@ -89,7 +89,7 @@ test("CA-0013-37/38/39/41: se guardan al aceptar, se descargan sin red y se mant
 
   // CA-0013-37: al aceptar, en menos de 60 s cada recurso queda "Disponible sin conexión".
   await panel.getByRole("button", { name: "Guardar en este dispositivo" }).click();
-  const list = page.getByRole("list", { name: "Mis recursos" });
+  const list = page.getByRole("list", { name: "Recursos recientes" });
   await expect(list.getByTestId("offline-ready")).toHaveCount(2, { timeout: 60_000 });
   await expect(page.getByTestId("offline-panel")).toContainText("guardados 2 de 2");
   await page.reload();
@@ -154,7 +154,7 @@ test("CA-0013-40/41: cerrar sesión borra lo guardado y otra cuenta no ve nada; 
   await page.goto("/resources");
   await expect(page.getByTestId("offline-panel")).not.toContainText("¿Guardar tus recursos");
   await expect(
-    page.getByRole("list", { name: "Mis recursos" }).getByTestId("offline-ready"),
+    page.getByRole("list", { name: "Recursos recientes" }).getByTestId("offline-ready"),
   ).toHaveCount(1, { timeout: 60_000 });
   expect((await savedOnDevice(page)).caches).toHaveLength(1);
 

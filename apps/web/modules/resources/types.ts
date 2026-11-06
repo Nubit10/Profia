@@ -19,6 +19,8 @@ export type ResourceSummary = {
   status: ResourceStatus;
   title: string;
   topicTitle: string;
+  /** Tema principal primero; un examen trae todos sus temas (SPEC-0014 RN-09). */
+  topicIds: string[];
   createdAt: Date;
   updatedAt: Date;
 };

@@ -6,7 +6,7 @@ import { requireRole, type TenantContext } from "@/modules/tenancy";
 import { ownedCourse } from "./access";
 import { ensureDefaultPeriods } from "./periods";
 import type { quickTopicSchema } from "./schemas";
-import type { TopicOutline } from "./types";
+import type { CoursePlan, TopicOutline } from "./types";
 
 /**
  * Temas activos de los cursos activos del docente, agrupados por curso y unidad (SPEC-0012: paso
@@ -53,6 +53,60 @@ export async function listTopicOutline(ctx: TenantContext): Promise<TopicOutline
     byCourse.set(unit.courseId, course);
   }
   return [...byCourse.values()];
+}
+
+/**
+ * Periodos, unidades y temas (también archivados) de los cursos del docente, en el orden de la
+ * planeación (SPEC-0014 RN-09). Un curso ajeno o de otro espacio no aparece. Solo lectura.
+ */
+export async function listCoursePlans(
+  ctx: TenantContext,
+  courseIds: readonly string[],
+): Promise<CoursePlan[]> {
+  requireRole(ctx, "TEACHER");
+  if (courseIds.length === 0) return [];
+  const courses = await db.course.findMany({
+    where: {
+      id: { in: [...courseIds] },
+      institutionId: ctx.institutionId,
+      membershipId: ctx.membershipId,
+    },
+    select: {
+      id: true,
+      periods: { orderBy: { number: "asc" }, select: { number: true, name: true } },
+      units: {
+        orderBy: { position: "asc" },
+        select: {
+          id: true,
+          title: true,
+          periodNumber: true,
+          archivedAt: true,
+          topics: {
+            orderBy: { position: "asc" },
+            select: { id: true, title: true, archivedAt: true },
+          },
+        },
+      },
+    },
+  });
+  const byId = new Map(courses.map((c) => [c.id, c]));
+  return courseIds.flatMap((id) => {
+    const c = byId.get(id);
+    if (!c) return [];
+    return [
+      {
+        courseId: c.id,
+        periods: c.periods,
+        units: c.units.map((u) => ({
+          id: u.id,
+          title: u.title,
+          periodNumber: u.periodNumber,
+          archived: !!u.archivedAt,
+          topics: u.topics.map((t) => ({ id: t.id, title: t.title, archived: !!t.archivedAt })),
+        })),
+      },
+    ];
+  });
 }
 
 const QUICK_UNIT_TITLE = "Unidad 1";

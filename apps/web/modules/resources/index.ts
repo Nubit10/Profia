@@ -28,6 +28,7 @@ export {
   type GenerationDeps,
   type Scheduler,
 } from "./service";
+export { groupByPlan } from "./grouping";
 export { promptQualityMetrics } from "./metrics";
 export { createResourceQuick, type QuickResourceInput } from "./quick";
 export { getQuotaStatus, getTeacherHome, listMyResources, watchGenerations } from "./overview";

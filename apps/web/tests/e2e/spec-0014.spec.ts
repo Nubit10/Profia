@@ -356,3 +356,116 @@ test("CA-0014-22 (parte 3): la ficha de DBA es accesible y cabe en 360 px", asyn
   );
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test("CA-0014-14/15/16: 'Recursos del curso' agrupa Periodo · Unidad · Tema y ofrece crear en los temas vacíos", async ({
+  page,
+}) => {
+  await signUpIndependentTeacher(page);
+  await openNewCourse(page);
+  const unit = await plannedPeriod(page);
+  const unitTitle = (await unit.locator("[data-slot=card-title]").textContent())!;
+  const [first, second] = await unit.getByRole("heading", { level: 3 }).allTextContents();
+  const courseUrl = page.url();
+
+  // Un quiz en el primer tema y el examen de la unidad, con un toque desde la planeación.
+  await page.getByRole("button", { name: `Crear quiz de «${first}»` }).click();
+  await expect(page).toHaveURL(/\/resources\//);
+  await page.goto(courseUrl);
+  await unit.getByRole("button", { name: /^Opciones de unidad/ }).click();
+  await page.getByRole("menuitem", { name: "Crear examen de esta unidad" }).click();
+  await expect(page).toHaveURL(/\/resources\//);
+
+  await page.goto(`${courseUrl.split("?")[0]}?tab=recursos`);
+  const firstGroup = page.getByRole("region", { name: `Periodo 1 · ${unitTitle} · ${first}` });
+  await expect(firstGroup.getByRole("link")).toHaveCount(1);
+  await expect(firstGroup).toContainText("Quiz");
+  // CA-0014-16: el examen va en "Exámenes" de su unidad.
+  await expect(
+    page.getByRole("region", { name: `Periodo 1 · ${unitTitle} · Exámenes` }).getByRole("link"),
+  ).toHaveCount(1);
+  // CA-0014-14: los encabezados siguen el orden de la planeación.
+  const names = await page
+    .getByRole("region", { name: /^Periodo 1 · / })
+    .evaluateAll((els) => els.map((e) => e.getAttribute("aria-label")));
+  expect(names.slice(0, 3)).toEqual([
+    `Periodo 1 · ${unitTitle} · ${first}`,
+    `Periodo 1 · ${unitTitle} · ${second}`,
+    expect.stringContaining(`Periodo 1 · ${unitTitle} · `),
+  ]);
+
+  // CA-0014-15: un tema sin recursos ofrece crearlos con un toque.
+  const secondGroup = page.getByRole("region", { name: `Periodo 1 · ${unitTitle} · ${second}` });
+  await expect(secondGroup).toContainText("Este tema aún no tiene recursos.");
+  await secondGroup.getByRole("button", { name: `Crear taller de «${second}»` }).click();
+  await expect(page).toHaveURL(/\/resources\//);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(second!);
+});
+
+test("CA-0014-17/18: 'Mis recursos' muestra los recientes y cada curso por periodo y tema, con periodos plegables", async ({
+  page,
+}) => {
+  await signUpIndependentTeacher(page);
+  await openNewCourse(page);
+  const unit = await plannedPeriod(page);
+  const unitTitle = (await unit.locator("[data-slot=card-title]").textContent())!;
+  const [first] = await unit.getByRole("heading", { level: 3 }).allTextContents();
+  await page.getByRole("button", { name: `Crear quiz de «${first}»` }).click();
+  await expect(page).toHaveURL(/\/resources\//);
+  await expect(page.getByRole("list", { name: "Preguntas" })).toBeVisible({ timeout: 30_000 });
+
+  await page.goto("/resources");
+  await expect(page.getByRole("heading", { name: "Recientes" })).toBeVisible();
+  await expect(
+    page.getByRole("list", { name: "Recursos recientes" }).getByRole("link"),
+  ).toHaveCount(1);
+  const course = page.getByRole("region", { name: "Matemáticas · 6° · 601" });
+  const topic = course.getByRole("region", { name: `Periodo 1 · ${unitTitle} · ${first}` });
+  await expect(topic.getByRole("link")).toHaveCount(1);
+
+  // CA-0014-18: el periodo se pliega y se vuelve a abrir.
+  const summary = course.locator("summary", { hasText: "Periodo 1" });
+  await summary.click();
+  await expect(topic).toBeHidden();
+  await summary.click();
+  await expect(topic).toBeVisible();
+
+  // Los filtros de SPEC-0012 siguen: sin talleres, no queda nada.
+  await page
+    .getByRole("navigation", { name: "Filtrar por tipo" })
+    .getByRole("link", { name: "Talleres" })
+    .click();
+  await expect(page.getByText("No hay recursos con estos filtros")).toBeVisible();
+  await page
+    .getByRole("navigation", { name: "Filtrar por tipo" })
+    .getByRole("link", { name: "Quices" })
+    .click();
+  await expect(
+    page.getByRole("region", { name: `Periodo 1 · ${unitTitle} · ${first}` }),
+  ).toBeVisible();
+});
+
+test("CA-0014-22 (parte 4): los recursos agrupados son accesibles y caben en 360 px", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 360, height: 780 });
+  await signUpIndependentTeacher(page);
+  await openNewCourse(page);
+  const unit = await plannedPeriod(page);
+  const [first] = await unit.getByRole("heading", { level: 3 }).allTextContents();
+  await page.getByRole("button", { name: `Crear quiz de «${first}»` }).click();
+  await expect(page).toHaveURL(/\/resources\//);
+  const courseUrl = page.url().split("/resources/")[0]!;
+  for (const url of [`${courseUrl}?tab=recursos`, "/resources"]) {
+    await page.goto(url);
+    await expect(page.getByRole("region", { name: new RegExp(`· ${first}$`) })).toBeVisible();
+    const axe = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+      .analyze();
+    expect(axe.violations.map((v) => v.id)).toEqual([]);
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+  }
+});

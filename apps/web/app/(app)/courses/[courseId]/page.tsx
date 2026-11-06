@@ -39,12 +39,14 @@ async function load(courseId: string, includeArchived: boolean) {
   const ctx = await requireTenant();
   try {
     // getCoursePlanning valida que el curso sea del docente y trae también sus referentes.
-    const [data, copyTargets, resources] = await Promise.all([
+    const [data, copyTargets, resources, plans] = await Promise.all([
       planning.getCoursePlanning(ctx, courseId, { includeArchived }),
       planning.listCopyTargets(ctx, courseId),
       listCourseResources(ctx, courseId, { includeArchived }),
+      planning.listCoursePlans(ctx, [courseId]),
     ]);
-    return { data, copyTargets, resources };
+    const plan = plans[0] ?? { courseId, periods: [], units: [] };
+    return { data, copyTargets, resources, plan };
   } catch (error) {
     // CA-0004-07 / CA-0006-08: curso de otro docente o de otro espacio → 404.
     if (error instanceof DomainError && ["NOT_FOUND", "FORBIDDEN"].includes(error.code)) notFound();
@@ -60,7 +62,7 @@ export default async function CoursePage({
   const { tab, archivados } = await searchParams;
   const active: Tab = TABS.find((t) => t.id === tab)?.id ?? "planeacion";
   const includeArchived = archivados === "1";
-  const { data, copyTargets, resources } = await load(courseId, includeArchived);
+  const { data, copyTargets, resources, plan } = await load(courseId, includeArchived);
   const { course, areaName } = data;
 
   const tint = subjectTint(course.subjectId);
@@ -170,8 +172,10 @@ export default async function CoursePage({
       ) : active === "recursos" ? (
         <ResourcesLibrary
           courseId={course.id}
+          plan={plan}
           resources={resources}
           includeArchived={includeArchived}
+          quickCreate={quickCreateResourceAction}
         />
       ) : !data.hasArea ? (
         <LinkSubjectArea

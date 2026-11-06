@@ -42,6 +42,8 @@ const listSelect = {
   updatedAt: true,
   courseId: true,
   currentVersion: true,
+  topicId: true,
+  topics: { select: { topicId: true, position: true } },
 } as const;
 
 async function withCourses(

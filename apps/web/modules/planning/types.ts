@@ -80,3 +80,19 @@ export type TopicOutline = {
     topics: { id: string; title: string; objectiveCount: number }[];
   }[];
 };
+
+/**
+ * Planeación de un curso para ubicar sus recursos (SPEC-0014 RN-09): periodos y unidades en su
+ * orden, con los temas archivados marcados (sus recursos van en "Temas archivados").
+ */
+export type CoursePlan = {
+  courseId: string;
+  periods: { number: number; name: string }[];
+  units: {
+    id: string;
+    title: string;
+    periodNumber: number | null;
+    archived: boolean;
+    topics: { id: string; title: string; archived: boolean }[];
+  }[];
+};

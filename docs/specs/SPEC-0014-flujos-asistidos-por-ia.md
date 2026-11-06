@@ -311,7 +311,7 @@ Los clics se cuentan como en SPEC-0012/0013 (solo clics, sin escribir).
 - [x] T5 — Objetivos en bloque por unidad o periodo (RN-06, CA-08/09) — backend + frontend
 - [x] T6 — Recurso con un toque desde el tema, la unidad y el periodo (RN-07, CA-10/11) — backend + frontend
 - [x] T7 — Ficha de DBA (`DbaChip` con enunciado, evidencias y fuente) en todas las pantallas, y DBA del tema (CA-12/13) — curriculum + frontend
-- [ ] T8 — Vista agrupada Periodo → Unidad → Tema en "Recursos del curso" y "Mis recursos" (RN-09, CA-14 a CA-18) — backend (resources) + frontend
+- [x] T8 — Vista agrupada Periodo → Unidad → Tema en "Recursos del curso" y "Mis recursos" (RN-09, CA-14 a CA-18) — backend (resources) + frontend
 - [ ] T9 — Límite de propuestas (RN-08, CA-21) — backend
 - [ ] T10 — Pruebas: un test por CA con su ID; acceso cruzado (CA-17/20); axe, 360 px e hidratación (CA-22) — qa
 - [ ] T11 — Capturas antes/después y sistema de diseño — frontend
@@ -334,7 +334,7 @@ Los clics se cuentan como en SPEC-0012/0013 (solo clics, sin escribir).
 
 ## 13. Estado de la implementación y cómo continuar
 
-Actualizado el 2026-11-06, al cerrar la parte 3 (rama `claude/jolly-dirac-fz2ibq`, PR
+Actualizado el 2026-11-06, al cerrar la parte 4 (rama `claude/jolly-dirac-fz2ibq`, PR
 Nubit10/Profia#1).
 
 **Parte 1, hecha (T1–T4):** propuesta de planeación con IA.
@@ -392,13 +392,31 @@ Nubit10/Profia#1).
 - Pruebas e2e: CA-0014-12/13, CA-0014-10/12 (ficha desde una pregunta del quiz) y CA-0014-22
   (parte 3, axe y 360 px con la ficha abierta).
 
-**Siguiente:**
+**Parte 4, hecha (T8):** recursos por periodo y tema.
 
-- Parte 4: T8, recursos agrupados Periodo → Unidad → Tema en "Recursos del curso"
-  (`app/(app)/courses/[courseId]/resources-library.tsx`, que todavía dice "Crear taller o quiz") y
-  en "Mis recursos".
-- Cierre: T9 a T12 (límites, axe a 360 px de las pantallas nuevas, capturas en
-  `docs/design/capturas/spec-0014/`, `/review`, estado → Implementada).
+- `modules/planning/outline.ts` (`listCoursePlans`): periodos, unidades y temas de los cursos del
+  docente, también los archivados, en el orden de la planeación. Un curso ajeno no aparece.
+- `ResourceSummary.topicIds`: el tema principal y, en un examen, todos sus temas.
+- `modules/resources/grouping.ts` (`groupByPlan`, función pura, también en `client.ts`):
+  - cada recurso va en el tema donde está hoy (si se movió, se muestra en el lugar nuevo);
+  - el examen va en "Exámenes" de su unidad, en "Exámenes del periodo" o en "Exámenes del año";
+  - lo de temas o unidades archivados va en "Temas archivados" de su periodo;
+  - con `includeEmpty` salen también los temas sin recursos.
+- `components/plan-resources.tsx`: un bloque plegable (`<details>`) por periodo, con un
+  encabezado "Periodo · Unidad · Tema" por tema.
+- "Recursos del curso" (`resources-library.tsx`): los temas sin recursos ofrecen "Crear taller" y
+  "Crear quiz" con un toque (`topic-quick-create.tsx`). Sin temas, lleva a la planeación.
+- "Mis recursos": arriba los 5 más recientes y debajo cada curso agrupado. Los filtros por tipo y
+  por curso siguen igual.
+- Pruebas:
+  - `tests/unit/resources-grouping.test.ts` (5);
+  - integración CA-0014-16/17, con acceso cruzado;
+  - e2e CA-0014-14/15/16, CA-0014-17/18 y CA-0014-22 (parte 4).
+  - Se ajustaron 3 e2e anteriores que buscaban la lista plana.
+
+**Siguiente: cierre (T9 a T12).** Límites, axe a 360 px de las pantallas nuevas (ya cubierto por
+las pruebas CA-0014-22 de cada parte), capturas en `docs/design/capturas/spec-0014/`, `/review` y
+estado → Implementada.
 
 **Para retomar en una sesión nueva:**
 

@@ -832,12 +832,21 @@ export const summary = (r: {
   context: Prisma.JsonValue;
   createdAt: Date;
   updatedAt: Date;
+  topicId: string;
+  topics?: { topicId: string; position: number }[];
 }): ResourceSummary => ({
   id: r.id,
   type: r.type,
   status: r.status,
   title: r.title,
   topicTitle: (r.context as unknown as Snapshot).topic.title,
+  // SPEC-0014 RN-09: el tema principal y, en un examen, todos los que cubre (para ubicarlo).
+  topicIds: [
+    ...new Set([
+      r.topicId,
+      ...[...(r.topics ?? [])].sort((a, b) => a.position - b.position).map((t) => t.topicId),
+    ]),
+  ],
   createdAt: r.createdAt,
   updatedAt: r.updatedAt,
 });
@@ -866,6 +875,8 @@ export async function listCourseResources(
       context: true,
       createdAt: true,
       updatedAt: true,
+      topicId: true,
+      topics: { select: { topicId: true, position: true } },
     },
   });
   return rows.map(summary);
