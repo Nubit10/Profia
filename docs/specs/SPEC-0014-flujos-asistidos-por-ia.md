@@ -331,3 +331,69 @@ Los clics se cuentan como en SPEC-0012/0013 (solo clics, sin escribir).
    plegables (CA-0014-17/18).
 7. **Asignaturas sin DBA en el catálogo:** no se ofrece la propuesta y se explica por qué. Los
    Estándares Básicos de Competencias quedan para cuando estén en el catálogo.
+
+## 13. Estado de la implementación y cómo continuar
+
+Actualizado el 2026-11-06, al cerrar la parte 1 (commit `44cf294`, rama `claude/jolly-dirac-fz2ibq`,
+PR Nubit10/Profia#1).
+
+**Parte 1, hecha (T1–T4):** propuesta de planeación con IA.
+
+- ADR-0013 y contrato `docs/ai/contracts/generation-planning.v1.md`.
+- AI Engine: `app/generation/planning.py`, `prompts/planning.v1.md`, endpoint
+  `POST /v1/generation/planning`, tarea `"planeacion"` en `providers/mock_llm.py` (inventa un
+  código a propósito) y `tests/test_planning.py`.
+- Web:
+  - `modules/planning/distribution.ts` (reparto de DBA) y `proposal.ts` (`acceptPlanningProposal`);
+  - `modules/generation/planning.ts` (`proposePlanning`, límites de 20 al día y 5 por minuto);
+  - `Topic.dbaCodes` y `GenerationLog.discardedCodes`, con sus migraciones;
+  - UI en `app/(app)/courses/[courseId]/planning/proposal-panel.tsx` y `planning-view.tsx`.
+- Pruebas: `tests/integration/spec-0014.test.ts`, `tests/e2e/spec-0014.spec.ts` y
+  `tests/unit/planning-distribution.test.ts`.
+
+**Siguiente: parte 2 (T5 y T6), objetivos en bloque y recurso con un toque.**
+
+- T5 (RN-06, CA-08/09):
+  - "Proponer objetivos" en el menú de la unidad y en el periodo propone 2–3 objetivos por tema,
+    usando los DBA del tema (`Topic.dbaCodes` o los de sus objetivos);
+  - una revisión con "Aceptar todos" y edición en el sitio;
+  - nunca más de 5 objetivos por tema;
+  - tarea de log `objectives_batch`.
+  - Se puede reutilizar el endpoint de objetivos (una llamada por tema) o hacer uno por lotes. Si
+    cambia el contrato, va en un ADR o en una versión nueva del contrato.
+- T6 (RN-07, CA-10/11):
+  - "Crear taller" y "Crear quiz" en cada tema generan directo con `defaultsForGrade`, el formato
+    predeterminado y todos los objetivos;
+  - "Ajustar antes" abre `/create` con el curso y el tema;
+  - "Crear examen" con un toque en la unidad y el periodo;
+  - aviso de cupo antes de generar.
+
+**Después:**
+
+- Parte 3: T7, ficha `DbaChip` en todas las pantallas y DBA del tema.
+- Parte 4: T8, recursos agrupados Periodo → Unidad → Tema en el curso y en "Mis recursos".
+- Cierre: T9 a T12 (límites, pruebas transversales CA-17/20/22, capturas en
+  `docs/design/capturas/spec-0014/`, `/review`, estado → Implementada).
+
+**Para retomar en una sesión nueva:**
+
+1. Arrancar la base de datos: `service postgresql start`. En local: `docker compose up -d postgres`.
+2. Revisar el repositorio: `git status` y `git log -1`, en la rama de arriba.
+3. Leer esta spec (§5, §10, §11 y esta sección) y ADR-0013.
+4. Para la parte 2, leer:
+   - `modules/generation/service.ts` (sugerir objetivos, el patrón a seguir);
+   - `modules/resources` (`defaultsForGrade`, generación con `after()`);
+   - `app/(app)/create`.
+5. Verificar con estos comandos:
+   - `npm run lint` y `npm run typecheck`;
+   - `LANG=C.UTF-8 npm test`;
+   - `cd apps/web && LANG=C.UTF-8 npx playwright test --trace off`;
+   - en `apps/ai-engine`: `uv run pytest` y `uv run ruff check .`.
+6. Entregar por partes: commit, push a la rama y reporte en español al terminar cada parte.
+
+**Pendiente del usuario (no es código):**
+
+- Despliegue: elegir la base de datos (Supabase Free ya tiene 2 proyectos; hay que pausar uno,
+  pasar a Pro u otro proveedor) y si se despliega desde `main` (fusionando el PR) o desde la rama.
+- Claves VAPID en Vercel.
+- Validación en un iPhone real y recorrido con docentes (SPEC-0013).
