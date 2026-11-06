@@ -25,7 +25,16 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [["list"], ["html", { open: "never" }]] : "list",
   use: { baseURL, trace: "retain-on-failure", locale: "es-CO" },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    { name: "chromium", use: { ...devices["Desktop Chrome"] }, testIgnore: /\.movil\.spec\.ts$/ },
+    // SPEC-0013 RN-11: las pantallas en un celular (390 × 844, táctil). Chromium: es el que está
+    // instalado; el tamaño, el tacto y el agente de usuario son los del iPhone 13.
+    {
+      name: "movil",
+      testMatch: /\.movil\.spec\.ts$/,
+      use: { ...devices["iPhone 13"], defaultBrowserType: "chromium" },
+    },
+  ],
   webServer: [
     {
       // AI Engine con el proveedor de prueba y Qdrant en memoria: sin modelos ni Docker (SPEC-0005).

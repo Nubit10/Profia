@@ -229,3 +229,12 @@
 :root [data-sileo-title] {
   text-transform: none;
 }
+
+/* SPEC-0013 CA-0013-17: en la vista compacta del recurso solo quedan enunciados y títulos. */
+[data-compact] [data-detail] {
+  display: none;
+}
+[data-compact] ol > li {
+  gap: 0.25rem;
+  padding-block: 0.5rem;
+}

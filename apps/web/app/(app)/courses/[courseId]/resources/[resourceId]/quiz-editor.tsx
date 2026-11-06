@@ -34,7 +34,7 @@ export function QuestionView({ q, dba }: { q: QuizQuestion; dba: Map<string, num
     <div className="flex flex-col gap-2">
       <p className="text-sm whitespace-pre-line">{q.stem}</p>
       {q.type !== "SHORT_ANSWER" ? (
-        <ul className="flex flex-col gap-1 text-sm">
+        <ul className="flex flex-col gap-1 text-sm" data-detail>
           {q.options.map((o) => (
             <li key={o} className="flex items-center gap-2">
               {o === q.answer ? (
@@ -47,16 +47,16 @@ export function QuestionView({ q, dba }: { q: QuizQuestion; dba: Map<string, num
           ))}
         </ul>
       ) : (
-        <p className="text-sm">
+        <p className="text-sm" data-detail>
           <span className="text-muted-foreground">Respuesta esperada:</span> {q.answer}
         </p>
       )}
       {q.explanation && (
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground" data-detail>
           <span className="font-medium">Justificación:</span> {q.explanation}
         </p>
       )}
-      <div className="flex flex-wrap gap-1">
+      <div className="flex flex-wrap gap-1" data-detail>
         <Badge variant="outline">{QUESTION_TYPE_LABELS[q.type]}</Badge>
         <Badge variant="outline">{LEVEL_LABELS[q.cognitiveLevel]}</Badge>
         {q.dbaCodes.map((c) => (
@@ -259,7 +259,7 @@ export function QuizEditor({
             <li key={q.id} className="flex flex-col gap-3 rounded-lg border p-4">
               <div className="flex items-center justify-between gap-2">
                 <h3 className="text-sm font-medium">{label}</h3>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1" data-detail>
                   <Button
                     type="button"
                     size="icon-sm"
@@ -316,7 +316,7 @@ export function QuizEditor({
               ) : (
                 <QuestionView q={q} dba={dba} />
               )}
-              <div className="flex flex-wrap items-start justify-between gap-2">
+              <div className="flex flex-wrap items-start justify-between gap-2" data-detail>
                 <div className="flex flex-wrap gap-1">
                   {editing !== q.id && (
                     <Button

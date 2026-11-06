@@ -18,6 +18,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { navigatingFromLayer } from "@/lib/use-back-to-close";
 import { cn } from "@/lib/utils";
 
 type Option = {
@@ -91,6 +92,7 @@ export function CreateMenu({ onNavigate, className, floating = false }: Props) {
               onClick={() => {
                 if (!href) return;
                 onNavigate?.();
+                navigatingFromLayer();
                 router.push(href);
               }}
               className="items-start gap-3 py-2"

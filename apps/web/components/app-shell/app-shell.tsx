@@ -20,8 +20,10 @@ import {
 } from "@/components/ui/dialog";
 import type { ActionResult } from "@/lib/action-result";
 import { useBodyScrollLock } from "@/lib/scroll-lock";
+import { useBackToClose } from "@/lib/use-back-to-close";
 import { cn } from "@/lib/utils";
 import { CreateMenu } from "./create-menu";
+import { LinkPending } from "./link-pending";
 import { WATCH_STORAGE_PREFIX, useGenerationWatcher, type WatchAction } from "./generation-watcher";
 import {
   IdentityCard,
@@ -71,6 +73,8 @@ export function AppShell(props: Props) {
     generating > 0 ? { "/resources": `${generating} generándose` } : {};
 
   useBodyScrollLock(sidebarOpen);
+  // SPEC-0013 RN-11: Atrás cierra el cajón del menú en el celular.
+  useBackToClose(sidebarOpen, closeSidebar);
 
   // El cajón se cierra al navegar.
   useEffect(() => closeSidebar(), [pathname, closeSidebar]);
@@ -136,9 +140,9 @@ export function AppShell(props: Props) {
                 const Icon = item.icon;
                 return (
                   <li key={item.href}>
+                    {/* El cajón se cierra al cambiar de página, no al tocar: así se ve que carga. */}
                     <Link
                       href={item.href}
-                      onClick={closeSidebar}
                       aria-current={active ? "page" : undefined}
                       className={cn(
                         "group relative flex min-h-10 items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition",
@@ -171,6 +175,7 @@ export function AppShell(props: Props) {
                           {badges[item.href]}
                         </span>
                       )}
+                      <LinkPending />
                     </Link>
                   </li>
                 );
@@ -241,7 +246,7 @@ export function AppShell(props: Props) {
           onClick={toggleSidebar}
           aria-label="Abrir menú"
           aria-expanded={sidebarOpen}
-          className="shrink-0 rounded-xl p-2 text-foreground hover:bg-muted"
+          className="flex size-11 shrink-0 items-center justify-center rounded-xl text-foreground hover:bg-muted"
         >
           <HiOutlineBars3 className="size-6" aria-hidden />
         </button>

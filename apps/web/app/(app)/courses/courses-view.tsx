@@ -209,7 +209,7 @@ export function CoursesView(props: Props) {
                       <DropdownMenu>
                         <DropdownMenuTrigger
                           aria-label={`Opciones de ${courseTitle(course)}`}
-                          className="relative z-10 rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
+                          className="relative z-10 flex size-11 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
                         >
                           <HiOutlineEllipsisVertical className="size-5" aria-hidden />
                         </DropdownMenuTrigger>

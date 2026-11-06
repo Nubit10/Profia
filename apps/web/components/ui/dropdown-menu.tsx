@@ -3,10 +3,28 @@
 import * as React from "react";
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
 import { cn } from "cn";
+import { useBackToClose } from "@/lib/use-back-to-close";
 import { HiCheck as CheckIcon, HiChevronRight as ChevronRightIcon } from "react-icons/hi2";
 
-function DropdownMenu({ ...props }: MenuPrimitive.Root.Props) {
-  return <MenuPrimitive.Root data-slot="dropdown-menu" {...props} />;
+// SPEC-0013 RN-11: el botón Atrás del teléfono cierra el menú abierto.
+function DropdownMenu({
+  open: openProp,
+  defaultOpen = false,
+  onOpenChange,
+  ...props
+}: MenuPrimitive.Root.Props) {
+  const [inner, setInner] = React.useState(defaultOpen);
+  const open = openProp ?? inner;
+  const change: NonNullable<MenuPrimitive.Root.Props["onOpenChange"]> = (next, details) => {
+    if (openProp === undefined) setInner(next);
+    onOpenChange?.(next, details);
+  };
+  useBackToClose(open, () =>
+    change(false, undefined as unknown as MenuPrimitive.Root.ChangeEventDetails),
+  );
+  return (
+    <MenuPrimitive.Root data-slot="dropdown-menu" open={open} onOpenChange={change} {...props} />
+  );
 }
 
 function DropdownMenuPortal({ ...props }: MenuPrimitive.Portal.Props) {

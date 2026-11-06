@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import {
   HiOutlineArchiveBox,
+  HiOutlineBars3BottomLeft,
   HiOutlineArrowPath,
   HiOutlineCheckCircle,
   HiOutlineDocumentDuplicate,
@@ -91,6 +92,7 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
   const initial = resource.data!;
   const [content, setContent] = useState(initial.content);
   const [saving, setSaving] = useState(false);
+  const [compact, setCompact] = useState(false);
   // Contenido y versión del último guardado: "Listo" guarda seguido, sin esperar al refresco.
   const [saved, setSaved] = useState({ content: initial.content, version: resource.version });
   const dirty = JSON.stringify(content) !== JSON.stringify(saved.content);
@@ -132,7 +134,20 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6" data-compact={compact || undefined}>
+      {/* SPEC-0013 CA-0013-17: vista compacta, solo enunciados y títulos, para recorrer rápido. */}
+      <div className="flex justify-end">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          aria-pressed={compact}
+          onClick={() => setCompact(!compact)}
+        >
+          <HiOutlineBars3BottomLeft aria-hidden />
+          {compact ? "Vista completa" : "Vista compacta"}
+        </Button>
+      </div>
       {initial.type === "QUIZ" ? (
         <QuizEditor
           resource={resource}
@@ -169,7 +184,7 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
       {(dirty || saving) && (
         <div
           data-floating="save-bar"
-          className="sticky bottom-0 z-10 -mx-4 flex flex-wrap items-center gap-3 border-t border-border bg-card/95 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-2xl sm:border sm:shadow-soft"
+          className="sticky bottom-0 z-10 -mx-4 flex flex-wrap items-center gap-3 border-t border-border bg-card/95 px-4 py-3 backdrop-blur max-md:bottom-[calc(4rem+env(safe-area-inset-bottom))] sm:mx-0 sm:rounded-2xl sm:border sm:shadow-soft"
         >
           <Button type="button" disabled={!dirty || saving} onClick={save}>
             {saving ? "Guardando…" : "Guardar cambios"}
@@ -280,7 +295,12 @@ export function ResourceView({
         </div>
 
         {hasContent && (resource.status === "DRAFT" || resource.status === "READY") && (
-          <div className="flex flex-wrap items-center gap-2">
+          // SPEC-0013 CA-0013-18: en el celular las acciones van en una barra fija abajo, al
+          // alcance del pulgar; en pantallas grandes siguen en el encabezado.
+          <div
+            data-floating="bottom-bar"
+            className="flex flex-wrap items-center gap-2 max-md:fixed max-md:inset-x-0 max-md:bottom-0 max-md:z-30 max-md:flex-nowrap max-md:border-t max-md:border-border max-md:bg-card/95 max-md:px-3 max-md:pt-2 max-md:pb-[calc(0.5rem+env(safe-area-inset-bottom))] max-md:shadow-lift max-md:backdrop-blur max-md:*:shrink-0"
+          >
             {resource.status === "DRAFT" ? (
               <Button
                 type="button"
@@ -460,6 +480,8 @@ export function ResourceView({
             initialComment={resource.ratingComment}
             actions={actions}
           />
+          {/* Espacio para que la barra fija del celular no tape el final de la página. */}
+          <div aria-hidden className="h-16 md:hidden" />
         </>
       )}
     </div>

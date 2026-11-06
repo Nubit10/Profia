@@ -225,7 +225,7 @@ export function CreateWizard(props: Props) {
               {target ? (
                 <Link
                   href={target}
-                  className="flex items-center gap-2 rounded-full pr-2 hover:bg-muted"
+                  className="flex items-center gap-2 rounded-full pr-2 hover:bg-muted max-sm:min-h-11"
                 >
                   {content}
                 </Link>

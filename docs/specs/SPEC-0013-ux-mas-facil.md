@@ -465,14 +465,14 @@ Los clics se cuentan como en CA-0012-07: solo clics del usuario, sin contar escr
 - [x] T7 — Avisos de generación y contador en el menú (RN-08, CA-11/12) — backend + frontend
 - [x] T8 — "Listo" guarda el ítem; agrupación de versiones (RN-05, CA-13) — backend (resources) + frontend
 - [x] T9 — Diálogo de descarga y paquete `.zip` (RN-06/07, CA-14/15/16) — documents + frontend
-- [ ] T10 — Vista compacta y barra fija en móvil (CA-17/18) — frontend
+- [x] T10 — Vista compacta y barra fija en móvil (CA-17/18) — frontend
 - [ ] T11 — Tests: un E2E por CA con su ID, conteo de clics, axe y 360 px; acceso cruzado (CA-12/16); correr la suite también contra `next dev` (CA-19) — qa
 - [ ] T12 — Capturas antes/después en `docs/design/capturas/spec-0013/` y actualizar `docs/design/sistema-de-diseno.md` — frontend
-- [ ] T13 — ADR-0012 "App instalable": caché, alcance, actualización al desplegar, sin datos del docente — architect
-- [ ] T14 — Piezas de celular en `components/ui`: hoja inferior/ventana según tamaño, `useBackToClose`, barra inferior, cajón y desplazador de pestañas (patrón de Terram) — frontend
-- [ ] T15 — Pasar los formularios y menús a esas piezas; controles de 44 px; encabezado del curso y pestañas; `loading.tsx` con esqueletos (RN-11, CA-22 a 27) — frontend
+- [x] T13 — ADR-0012 "App instalable": caché, alcance, actualización al desplegar, sin datos del docente — architect
+- [x] T14 — Piezas de celular en `components/ui`: hoja inferior/ventana según tamaño, `useBackToClose`, barra inferior, cajón y desplazador de pestañas (patrón de Terram) — frontend
+- [x] T15 — Pasar los formularios y menús a esas piezas; controles de 44 px; encabezado del curso y pestañas; `loading.tsx` con esqueletos (RN-11, CA-22 a 27) — frontend
 - [ ] T16 — Manifiesto, íconos desde el logo, `themeColor`, `public/sw.js`, página "Sin conexión" y "Instalar Profe" (RN-12/13, CA-28 a 31) — frontend + devops
-- [ ] T17 — Proyecto de Playwright "iPhone 13" que corre los E2E de esta spec en el celular, con la revisión de `data-floating` y de controles de 44 px — qa
+- [x] T17 — Proyecto de Playwright "iPhone 13" que corre los E2E de esta spec en el celular, con la revisión de `data-floating` y de controles de 44 px — qa
 - [ ] T18 — Notificaciones: `modules/notifications` (tabla `PushSubscription`, registrar y quitar dispositivo, envío con `web-push` al terminar o fallar una generación desde el trabajo en segundo plano), tarjeta de permiso y Ajustes → Notificaciones (RN-15, CA-32 a 36) — backend + frontend + database
 - [ ] T19 — Recursos sin conexión: lista para sincronizar, sincronización en el navegador (Cache Storage + IndexedDB), pantalla "Sin conexión", estados "Disponible sin conexión", borrado al cerrar sesión (RN-13/14, CA-37 a 42) — documents + frontend + privacy
 - [ ] T20 — Revisión de seguridad y privacidad de T18 y T19 — auth-security + privacy
@@ -511,3 +511,24 @@ CliqCut-Web (`Nubit10/CliqCut-Web`: `public/manifest*.webmanifest`, `public/sw.j
 Nota: CliqCut bloquea la invitación del navegador a instalar en sus páginas públicas porque quien las
 visita es el cliente final (`SuppressInstallPrompt`). En Profe quien visita la landing es un docente
 que puede querer instalarla, así que no se bloquea en ninguna página.
+
+## 13. Notas de implementación
+
+- **Parte 1 (T1–T9) y parte 2 (T10, T14, T15, T17)** entregadas por separado, a pedido del usuario.
+- **CA-0013-25:** en el celular las tres pestañas del curso se ven completas en tres columnas, en vez
+  de una fila que se desplaza: no queda ninguna oculta.
+- **CA-0013-27 y `loading.tsx`:** con un `loading.tsx`, Next envía la página antes de saber si la ruta
+  existe y una ruta ajena responde 200 en lugar de 404 (rompía los tests de acceso cruzado de
+  SPEC-0002/0004/0012). Por eso los esqueletos solo están en Inicio, "Mis recursos", Formatos,
+  Asignaturas y el asistente, que no responden 404 ni tienen rutas hijas que lo hagan. Además, cada
+  enlace del menú muestra un indicador de carga al tocarlo (`useLinkStatus`), y el cajón del menú se
+  cierra al cambiar de página, no al tocar, para que ese indicador se vea.
+- **Controles de 44 px:** se aplican por tamaño de pantalla (`max-sm`), no por `pointer: coarse`, que
+  el navegador de las pruebas no reporta. Los checkbox amplían su zona táctil con un
+  pseudo-elemento y los enlaces que cubren su tarjeta (`after:inset-0`) se miden por la tarjeta.
+- **Atrás cierra capas** (`lib/use-back-to-close.ts`): diálogos, menús "⋯" y el cajón. Si una capa
+  se cierra porque se tocó un enlace o se navega (`navigatingFromLayer()`), no se retrocede.
+- **Vista compacta:** atributo `data-compact` en el editor y `data-detail` en lo que se oculta
+  (opciones, justificación, etiquetas y acciones), sin duplicar los editores.
+- Hallazgo de las pruebas: los diálogos más altos que la pantalla no se podían desplazar y sus
+  últimas opciones quedaban fuera de alcance (corregido en `components/ui/dialog.tsx`).

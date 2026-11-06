@@ -204,7 +204,9 @@ export async function exportBundle(
   const zip = new JSZip();
   for (const file of files) zip.file(file.filename, file.body);
   const body = await zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" });
-  const student = files.find((f) => !/^(Clave|Guía del docente|Hoja de respuestas) - /.test(f.filename));
+  const student = files.find(
+    (f) => !/^(Clave|Guía del docente|Hoja de respuestas) - /.test(f.filename),
+  );
   return {
     filename: `${bundleBase((student ?? files[0]!).filename)}.zip`,
     contentType: "application/zip",

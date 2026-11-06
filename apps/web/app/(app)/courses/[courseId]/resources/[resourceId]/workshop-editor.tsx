@@ -31,13 +31,15 @@ export function ActivityView({ a, dba }: { a: Activity; dba: Map<string, number>
         {a.title}{" "}
         <span className="font-normal text-muted-foreground">· {a.durationMinutes} min</span>
       </p>
-      <p className="text-sm whitespace-pre-line">{a.instructions}</p>
+      <p className="text-sm whitespace-pre-line" data-detail>
+        {a.instructions}
+      </p>
       {a.expectedOutcome && (
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground" data-detail>
           <span className="font-medium">Producto esperado:</span> {a.expectedOutcome}
         </p>
       )}
-      <div className="flex flex-wrap gap-1">
+      <div className="flex flex-wrap gap-1" data-detail>
         <Badge variant="outline">{LEVEL_LABELS[a.cognitiveLevel]}</Badge>
         {a.dbaCodes.map((c) => (
           <Badge key={c} variant="secondary">
@@ -199,6 +201,7 @@ export function WorkshopEditor({
                       size="icon-sm"
                       variant="ghost"
                       aria-label={`Eliminar ${label}`}
+                      data-detail
                       onClick={() =>
                         setActivities(
                           mi,
@@ -236,7 +239,7 @@ export function WorkshopEditor({
                   ) : (
                     <ActivityView a={a} dba={dba} />
                   )}
-                  <div className="flex flex-wrap items-start justify-between gap-2">
+                  <div className="flex flex-wrap items-start justify-between gap-2" data-detail>
                     <div className="flex flex-wrap gap-1">
                       {editing !== a.id && (
                         <Button

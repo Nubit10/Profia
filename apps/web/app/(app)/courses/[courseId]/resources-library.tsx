@@ -20,7 +20,7 @@ export function ResourcesLibrary({
       <div className="flex justify-end">
         <Link
           href={`/courses/${courseId}?tab=recursos${includeArchived ? "" : "&archivados=1"}`}
-          className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground"
+          className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground max-sm:min-h-11"
         >
           <HiOutlineArchiveBox aria-hidden />
           {includeArchived ? "Ocultar archivados" : "Ver archivados"}

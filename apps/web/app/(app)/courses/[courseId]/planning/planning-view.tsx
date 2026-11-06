@@ -309,7 +309,7 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
         )}
         <Link
           href={`/courses/${course.id}?tab=planeacion${includeArchived ? "" : "&archivados=1"}`}
-          className="ml-auto text-sm text-muted-foreground underline"
+          className="ml-auto flex items-center text-sm text-muted-foreground underline max-sm:min-h-11"
         >
           {includeArchived ? "Ocultar archivados" : "Ver archivados"}
         </Link>

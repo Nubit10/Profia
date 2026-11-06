@@ -28,7 +28,7 @@ function Chip({ href, active, children }: { href: string; active: boolean; child
       href={href}
       aria-current={active ? "true" : undefined}
       className={cn(
-        "rounded-full border px-3.5 py-1.5 text-sm font-semibold transition",
+        "flex items-center rounded-full border px-3.5 py-1.5 text-sm font-semibold transition max-sm:min-h-11",
         active
           ? "border-brand bg-brand text-white shadow-soft"
           : "border-border bg-card text-foreground hover:border-brand-border hover:bg-brand-softer",

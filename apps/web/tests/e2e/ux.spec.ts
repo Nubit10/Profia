@@ -161,6 +161,8 @@ test("CA-0012-03/04/05/07/26: el Inicio guía al docente y crea su primer taller
   await expect(welcome).toBeVisible();
   await welcome.getByRole("button", { name: "Ocultar primeros pasos" }).click();
   await expect(welcome).toHaveCount(0);
+  // Se recarga cuando el servidor ya guardó que lo ocultó.
+  await page.waitForLoadState("networkidle");
   await page.reload();
   await expect(page.getByRole("heading", { name: /^Hola,/ })).toBeVisible();
   await expect(welcome).toHaveCount(0);

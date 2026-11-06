@@ -26,7 +26,7 @@ export default async function ResourcePage({
       <div className="flex flex-col gap-2">
         <Link
           href={`/courses/${courseId}?tab=recursos`}
-          className="flex w-fit items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground"
+          className="flex w-fit items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground max-sm:min-h-11"
         >
           <HiOutlineArrowLeft aria-hidden />
           Recursos del curso
