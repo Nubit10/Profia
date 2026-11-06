@@ -5,6 +5,7 @@ import { runAction, type ActionResult } from "@/lib/actions";
 import { requireTenant } from "@/modules/tenancy";
 import {
   blueprintSchema,
+  quickResourceSchema,
   gradingScaleSchema,
   itemFeedbackSchema,
   preferenceSchema,
@@ -28,6 +29,7 @@ import {
   updatePreference,
 } from "./service";
 import { watchGenerations } from "./overview";
+import { createResourceQuick } from "./quick";
 import type { GenerationWatch, RegenerateResult, ResourceStatus } from "./types";
 
 const id = z.string().min(1);
@@ -35,6 +37,15 @@ const id = z.string().min(1);
 export async function createResourceAction(input: unknown): Promise<ActionResult<{ id: string }>> {
   return runAction("create_resource", blueprintSchema, input, async (blueprint) =>
     createResource(await requireTenant(), blueprint),
+  );
+}
+
+/** SPEC-0014 CA-0014-10/11: crear con un toque, sin pasar por el asistente. */
+export async function quickCreateResourceAction(
+  input: unknown,
+): Promise<ActionResult<{ id: string }>> {
+  return runAction("quick_create_resource", quickResourceSchema, input, async (data) =>
+    createResourceQuick(await requireTenant(), data),
   );
 }
 

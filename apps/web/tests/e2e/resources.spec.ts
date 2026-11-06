@@ -32,7 +32,12 @@ async function topicWithObjective(page: Page, group: string) {
   await page.getByRole("button", { name: "Crear objetivo" }).click();
   await expect(page.getByRole("dialog")).toHaveCount(0);
 
-  await page.getByRole("link", { name: "Crear taller o quiz" }).click();
+  // SPEC-0014: "Ajustar antes de crear" (menú del tema) abre el asistente; el toque crea directo.
+  await page
+    .getByRole("button", { name: /^Opciones de tema/ })
+    .first()
+    .click();
+  await page.getByRole("menuitem", { name: "Ajustar antes de crear" }).click();
   // Asistente (SPEC-0012): el curso y el tema ya vienen elegidos; falta el tipo.
   await expect(page.getByRole("heading", { name: "¿Qué quieres crear?" })).toBeVisible();
 }
@@ -104,7 +109,12 @@ test("CA-0008-01/06/07/08/09: generar un quiz, editarlo, regenerar una pregunta 
 
   // La preferencia aparece en el siguiente formulario y se puede quitar de esta generación.
   await page.getByRole("link", { name: "Planeación" }).click();
-  await page.getByRole("link", { name: "Crear taller o quiz" }).click();
+  // SPEC-0014: "Ajustar antes de crear" (menú del tema) abre el asistente; el toque crea directo.
+  await page
+    .getByRole("button", { name: /^Opciones de tema/ })
+    .first()
+    .click();
+  await page.getByRole("menuitem", { name: "Ajustar antes de crear" }).click();
   await page.getByRole("link", { name: /^Quiz/ }).click();
   await page.getByText("Más opciones").click();
   const prefs = page.getByRole("list", { name: "Preferencias guardadas" });

@@ -2,15 +2,17 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import type { IconType } from "react-icons";
 import {
+  HiOutlineAdjustmentsHorizontal,
   HiOutlineArchiveBox,
   HiOutlineArrowDown,
   HiOutlineArrowTopRightOnSquare,
   HiOutlineArrowUp,
   HiOutlineArrowUturnLeft,
   HiOutlineCalendarDays,
+  HiOutlineClipboardDocumentCheck,
   HiOutlineClipboardDocumentList,
   HiOutlineDocumentDuplicate,
   HiOutlineDocumentText,
@@ -20,6 +22,7 @@ import {
   HiOutlinePlus,
   HiOutlineSparkles,
 } from "react-icons/hi2";
+import { sileo } from "sileo";
 import { SelectField } from "@/components/forms/select-field";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -49,10 +52,13 @@ import type {
   PlanningObjective,
   PlanningTopic,
   PlanningUnit,
+  ProposeObjectivesInput,
   TopicInput,
   UnitInput,
 } from "@/modules/planning/client";
+import type { QuickResourceRequest } from "@/modules/resources/client";
 import { ObjectiveForm, PeriodsForm, TopicForm, UnitForm } from "./planning-forms";
+import { ObjectivesBatchPanel, type ObjectivesBatchActions } from "./objectives-batch-panel";
 import { ProposalPanel, type ProposalActions, type ProposalScope } from "./proposal-panel";
 import { SuggestPanel, type SuggestActions } from "./suggest-panel";
 import { useRun } from "./use-run";
@@ -72,6 +78,10 @@ export type PlanningActions = {
   suggestions: SuggestActions;
   /** SPEC-0014: proponer unidades y temas con IA y agregarlos. */
   proposal: ProposalActions;
+  /** SPEC-0014: objetivos en bloque para una unidad o un periodo. */
+  objectivesBatch: ObjectivesBatchActions;
+  /** SPEC-0014 RN-07: crear un recurso con un toque, con los valores recomendados. */
+  quickCreate: A<QuickResourceRequest, { id: string }>;
   /** SPEC-0013 RN-04: búsqueda curricular para sugerir DBA al escribir un objetivo. */
   searchCurriculum: A<{ courseId: string; query: string }, CurriculumSearchResult>;
   copy: A<
@@ -89,6 +99,7 @@ type DialogState =
   | { type: "suggest"; topicId: string; topicTitle: string }
   | { type: "proposalPick" }
   | { type: "proposal"; target: ProposalScope; label: string }
+  | { type: "objectivesBatch"; target: ProposeObjectivesInput; label: string }
   | null;
 
 type Props = {
@@ -110,6 +121,10 @@ const DIALOG_TITLES: Record<NonNullable<DialogState>["type"], [string, string]> 
   proposalPick: [
     "Proponer temas con IA",
     "Profe arma unidades y temas a partir de los DBA del grado. Tú revisas antes de agregar.",
+  ],
+  objectivesBatch: [
+    "Objetivos propuestos",
+    "Uno a tres por tema, con sus DBA. Edita o desmarca los que no quieras; nada se guarda hasta que aceptes.",
   ],
   proposal: [
     "Propuesta de temas",
@@ -304,6 +319,29 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
   const canPropose = planning.hasArea && coverage.total > 0;
   const proposeFor = (target: ProposalScope, label: string) =>
     setDialog({ type: "proposal", target, label });
+  const [quickPending, startQuick] = useTransition();
+  const [quickKey, setQuickKey] = useState<string | null>(null);
+  /** RN-07: genera con los valores recomendados y lleva a la página del recurso. */
+  const quick = (key: string, input: QuickResourceRequest, label: string) => {
+    setQuickKey(key);
+    startQuick(async () => {
+      const result = await actions.quickCreate(input);
+      if (!result.ok) {
+        setQuickKey(null);
+        // El cupo se revisa antes de llamar a la IA: el mensaje dice cuándo se puede (CA-0014-11).
+        sileo.error({ title: `No pudimos crear el ${label}`, description: result.error });
+        return;
+      }
+      sileo.success({
+        title: `${label.charAt(0).toUpperCase()}${label.slice(1)} en preparación`,
+        description: "Puedes salir de esta página: lo encontrarás en Mis recursos.",
+      });
+      router.push(`/courses/${course.id}/resources/${result.data!.id}`);
+    });
+  };
+  const busyWith = (key: string) => quickPending && quickKey === key;
+  const proposeObjectives = (target: ProposeObjectivesInput, label: string) =>
+    setDialog({ type: "objectivesBatch", target, label });
   const proposePeriod = (number: number, name: string) =>
     proposeFor({ scope: "PERIOD", courseId: course.id, periodNumber: number }, name);
 
@@ -472,13 +510,66 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                   {/* SPEC-0011 §7: un periodo sin temas activos no ofrece examen. */}
                   {group.period &&
                     group.units.some((u) => !u.archived && u.topics.some((t) => !t.archived)) && (
-                      <Link
-                        href={`/create?type=EXAM&courseId=${planning.course.id}&scope=PERIOD:${group.period.number}`}
-                        className={buttonVariants({ variant: "ghost", size: "sm" })}
-                      >
-                        <HiOutlineClipboardDocumentList aria-hidden />
-                        Crear examen del periodo
-                      </Link>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger
+                          aria-label={`Opciones de ${group.period.name}`}
+                          className={cn(
+                            buttonVariants({ variant: "ghost", size: "icon" }),
+                            "shrink-0",
+                          )}
+                        >
+                          <HiOutlineEllipsisHorizontal className="size-5" aria-hidden />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-64">
+                          {canPropose && (
+                            <DropdownMenuItem
+                              onClick={() =>
+                                proposeObjectives(
+                                  {
+                                    scope: "PERIOD",
+                                    courseId: course.id,
+                                    periodNumber: group.period!.number,
+                                  },
+                                  group.period!.name,
+                                )
+                              }
+                            >
+                              <HiOutlineSparkles aria-hidden />
+                              Proponer objetivos
+                            </DropdownMenuItem>
+                          )}
+                          <DropdownMenuItem
+                            disabled={quickPending}
+                            onClick={() =>
+                              quick(
+                                `period-${group.period!.number}`,
+                                {
+                                  type: "EXAM",
+                                  scope: {
+                                    kind: "PERIOD",
+                                    courseId: course.id,
+                                    periodNumber: group.period!.number,
+                                  },
+                                },
+                                "examen",
+                              )
+                            }
+                          >
+                            <HiOutlineClipboardDocumentList aria-hidden />
+                            Crear examen del periodo
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            render={
+                              <Link
+                                href={`/create?type=EXAM&courseId=${planning.course.id}&scope=PERIOD:${group.period.number}`}
+                              />
+                            }
+                          >
+                            <HiOutlineAdjustmentsHorizontal aria-hidden />
+                            Ajustar examen del periodo
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     )}
                 </div>
               </div>
@@ -524,10 +615,36 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                                       : []),
                                     ...(unit.topics.some((t) => !t.archived)
                                       ? [
+                                          ...(canPropose
+                                            ? [
+                                                {
+                                                  label: "Proponer objetivos",
+                                                  icon: HiOutlineSparkles,
+                                                  onClick: () =>
+                                                    proposeObjectives(
+                                                      { scope: "UNIT", unitId: unit.id },
+                                                      unit.title,
+                                                    ),
+                                                },
+                                              ]
+                                            : []),
                                           {
                                             label: "Crear examen de esta unidad",
-                                            href: `/create?type=EXAM&courseId=${planning.course.id}&scope=UNIT:${unit.id}`,
                                             icon: HiOutlineClipboardDocumentList,
+                                            onClick: () =>
+                                              quick(
+                                                `unit-${unit.id}`,
+                                                {
+                                                  type: "EXAM",
+                                                  scope: { kind: "UNIT", unitId: unit.id },
+                                                },
+                                                "examen",
+                                              ),
+                                          },
+                                          {
+                                            label: "Ajustar examen de esta unidad",
+                                            href: `/create?type=EXAM&courseId=${planning.course.id}&scope=UNIT:${unit.id}`,
+                                            icon: HiOutlineAdjustmentsHorizontal,
                                           },
                                         ]
                                       : []),
@@ -567,6 +684,13 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                                     setDialog({ type: "topic", unitId: unit.id, topic })
                                   }
                                   actions={actions}
+                                  extra={[
+                                    {
+                                      label: "Ajustar antes de crear",
+                                      href: `/create?courseId=${planning.course.id}&topicId=${topic.id}`,
+                                      icon: HiOutlineAdjustmentsHorizontal,
+                                    },
+                                  ]}
                                 />
                               </div>
                               <ol
@@ -615,18 +739,33 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                                   Sugerir objetivos con IA
                                 </Button>
                               )}
-                              {!topic.archived && (
-                                <Link
-                                  href={`/create?courseId=${planning.course.id}&topicId=${topic.id}`}
-                                  className={cn(
-                                    buttonVariants({ variant: "outline", size: "sm" }),
-                                    "mt-2 border-brand-border text-brand-strong hover:bg-brand-soft",
-                                  )}
-                                >
-                                  <HiOutlineDocumentText aria-hidden />
-                                  Crear taller o quiz
-                                </Link>
-                              )}
+                              {!topic.archived &&
+                                (
+                                  [
+                                    ["QUIZ", "quiz", "Crear quiz", HiOutlineClipboardDocumentCheck],
+                                    ["WORKSHOP", "taller", "Crear taller", HiOutlineDocumentText],
+                                  ] as const
+                                ).map(([type, noun, text, Icon]) => (
+                                  <Button
+                                    key={type}
+                                    variant="outline"
+                                    size="sm"
+                                    className="mt-2 border-brand-border text-brand-strong hover:bg-brand-soft"
+                                    disabled={quickPending}
+                                    aria-busy={busyWith(`${type}-${topic.id}`)}
+                                    onClick={() =>
+                                      quick(
+                                        `${type}-${topic.id}`,
+                                        { type, topicId: topic.id },
+                                        noun,
+                                      )
+                                    }
+                                  >
+                                    <Icon aria-hidden />
+                                    {busyWith(`${type}-${topic.id}`) ? "Creando…" : text}
+                                    <span className="sr-only"> de «{topic.title}»</span>
+                                  </Button>
+                                ))}
                             </li>
                           ))}
                         </ol>
@@ -652,13 +791,21 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
       ))}
 
       <Dialog open={dialog !== null} onOpenChange={(open) => !open && close()}>
-        <DialogContent className={dialog?.type === "proposal" ? "sm:max-w-2xl" : "sm:max-w-xl"}>
+        <DialogContent
+          className={
+            dialog?.type === "proposal" || dialog?.type === "objectivesBatch"
+              ? "sm:max-w-2xl"
+              : "sm:max-w-xl"
+          }
+        >
           {dialog && (
             <DialogHeader>
               <DialogTitle>
                 {dialog.type === "proposal"
                   ? `Propuesta de temas · ${dialog.label}`
-                  : DIALOG_TITLES[dialog.type][0]}
+                  : dialog.type === "objectivesBatch"
+                    ? `Objetivos propuestos · ${dialog.label}`
+                    : DIALOG_TITLES[dialog.type][0]}
               </DialogTitle>
               <DialogDescription>{DIALOG_TITLES[dialog.type][1]}</DialogDescription>
             </DialogHeader>
@@ -764,6 +911,14 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                 </span>
               </Button>
             </div>
+          )}
+          {dialog?.type === "objectivesBatch" && (
+            <ObjectivesBatchPanel
+              key={JSON.stringify(dialog.target)}
+              target={dialog.target}
+              actions={actions.objectivesBatch}
+              onDone={close}
+            />
           )}
           {dialog?.type === "proposal" && (
             <ProposalPanel

@@ -201,6 +201,40 @@ export const acceptProposalSchema = z.object({
     .max(30),
 });
 
+/** RN-06 (SPEC-0007): nunca más de 5 objetivos activos por tema. */
+export const MAX_OBJECTIVES_PER_TOPIC = 5;
+
+export const proposeObjectivesSchema = z.discriminatedUnion("scope", [
+  z.object({ scope: z.literal("UNIT"), unitId: z.string().min(1) }),
+  z.object({
+    scope: z.literal("PERIOD"),
+    courseId: z.string().min(1),
+    periodNumber: z.number().int().min(1).max(MAX_PERIODS),
+  }),
+]);
+
+/** Objetivos que el docente dejó marcados en la revisión en bloque (CA-0014-09). */
+export const acceptObjectivesSchema = z.object({
+  courseId: z.string().min(1),
+  objectives: z
+    .array(
+      z.object({
+        topicId: z.string().min(1),
+        statement: z
+          .string()
+          .trim()
+          .min(5, "Mínimo 5 caracteres")
+          .max(500, "Máximo 500 caracteres"),
+        dbaCodes: z.array(z.string().min(1).max(60)).max(10).default([]),
+      }),
+    )
+    .min(1, "Elige al menos un objetivo")
+    .max(60),
+});
+
+export type ProposeObjectivesInput = z.input<typeof proposeObjectivesSchema>;
+export type AcceptObjectivesInput = z.input<typeof acceptObjectivesSchema>;
+
 export type ProposePlanningInput = z.input<typeof proposePlanningSchema>;
 export type AcceptProposalInput = z.input<typeof acceptProposalSchema>;
 

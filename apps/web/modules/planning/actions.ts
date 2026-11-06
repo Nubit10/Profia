@@ -5,8 +5,13 @@ import { requireTenant } from "@/modules/tenancy";
 import { copyPlanning } from "./copy";
 import { createQuickTopic } from "./outline";
 import { setCoursePeriods } from "./periods";
-import { acceptPlanningProposal, type AcceptProposalResult } from "./proposal";
 import {
+  acceptObjectivesBatch,
+  acceptPlanningProposal,
+  type AcceptProposalResult,
+} from "./proposal";
+import {
+  acceptObjectivesSchema,
   acceptProposalSchema,
   archiveSchema,
   copySchema,
@@ -108,5 +113,14 @@ export async function acceptPlanningProposalAction(
 ): Promise<ActionResult<AcceptProposalResult>> {
   return runAction("accept_planning_proposal", acceptProposalSchema, input, async (data) =>
     acceptPlanningProposal(await requireTenant(), data),
+  );
+}
+
+/** SPEC-0014 CA-0014-08/09: agrega los objetivos marcados en la revisión en bloque. */
+export async function acceptObjectivesBatchAction(
+  input: unknown,
+): Promise<ActionResult<{ objectives: number }>> {
+  return runAction("accept_objectives_batch", acceptObjectivesSchema, input, async (data) =>
+    acceptObjectivesBatch(await requireTenant(), data),
   );
 }

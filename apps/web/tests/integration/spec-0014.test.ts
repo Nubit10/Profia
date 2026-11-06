@@ -7,6 +7,7 @@ import { createCourse, listSubjects } from "@/modules/courses";
 import { importCurriculumJson } from "@/modules/curriculum";
 import {
   PROPOSALS_PER_MINUTE,
+  proposeObjectivesBatch,
   proposePlanning,
   type EnginePlanningRequest,
 } from "@/modules/generation";
@@ -17,13 +18,14 @@ import {
   registerSchool,
 } from "@/modules/institutions";
 import {
+  acceptObjectivesBatch,
   acceptPlanningProposal,
   createObjective,
   createTopic,
   createUnit,
   getCoursePlanning,
 } from "@/modules/planning";
-import { getQuotaStatus } from "@/modules/resources";
+import { DAILY_LIMIT, createResourceQuick, getQuotaStatus } from "@/modules/resources";
 import type { TenantContext } from "@/modules/tenancy";
 import { createUser, ctxFor, resetDatabase, validSchool } from "../support/factories";
 
@@ -444,5 +446,324 @@ describe("proponer la planeación con IA (SPEC-0014)", () => {
       message: expect.stringMatching(/Puedes pedir otra desde las \d{1,2}:\d{2}/),
     });
     expect(await getQuotaStatus(ctx)).toEqual(quotaBefore);
+  });
+});
+
+// --- Parte 2: objetivos en bloque (T5) y recurso con un toque (T6) -----------------------------
+
+/** Motor de objetivos (contrato SPEC-0007): responde `count` objetivos con el primer DBA dado. */
+function objectivesEngine(opts: { failFirst?: boolean } = {}) {
+  let calls = 0;
+  return vi.fn(async (_url: RequestInfo | URL, init?: RequestInit) => {
+    calls += 1;
+    if (opts.failFirst && calls === 1) return new Response("{}", { status: 503 });
+    const body = JSON.parse(String(init?.body)) as {
+      topic: { title: string };
+      count: number;
+      dba: { code: string }[];
+    };
+    return Response.json({
+      suggestions: Array.from({ length: body.count }, (_, i) => ({
+        statement: `Explica ${body.topic.title.toLowerCase()} con ejemplos (${i + 1}).`,
+        dbaCodes: [body.dba[0]!.code, INVENTED],
+      })),
+      meta: {
+        provider: "groq",
+        model: "qwen/qwen3.8-27b",
+        promptVersion: "objective_suggestions.v1",
+        attempts: 1,
+        latencyMs: 500,
+      },
+    });
+  });
+}
+
+async function unitWithTopics(ctx: TenantContext, titles: string[], dbaCodes: string[] = []) {
+  const course = await mathCourse(ctx);
+  const unit = await createUnit(ctx, {
+    courseId: course.id,
+    periodNumber: 1,
+    title: "Números enteros",
+    description: null,
+  });
+  const topics = [];
+  for (const title of titles) {
+    topics.push(
+      await createTopic(ctx, { unitId: unit.id, title, description: null, plannedSessions: null }),
+    );
+  }
+  if (dbaCodes.length) {
+    await db.topic.updateMany({ where: { unitId: unit.id }, data: { dbaCodes } });
+  }
+  return { course, unit, topics };
+}
+
+describe("objetivos en bloque (SPEC-0014 T5)", () => {
+  it("CA-0014-08: 3 temas sin objetivos quedan con 3 objetivos cada uno, ligados a sus DBA", async () => {
+    const ctx = await teacher();
+    const { course, unit } = await unitWithTopics(
+      ctx,
+      ["La recta numérica", "Orden de enteros", "Suma de enteros"],
+      ["MEN-DBA-MAT-V2-G6-02"],
+    );
+    const fetcher = objectivesEngine();
+    const proposal = await proposeObjectivesBatch(ctx, { scope: "UNIT", unitId: unit.id }, fetcher);
+    expect(fetcher).toHaveBeenCalledTimes(3);
+    // RN-06: cada tema manda solo sus DBA, y el código inventado se descarta.
+    for (const call of fetcher.mock.calls) {
+      const body = JSON.parse(String((call as unknown as [URL, RequestInit])[1].body));
+      expect(body.dba.map((d: { code: string }) => d.code)).toEqual(["MEN-DBA-MAT-V2-G6-02"]);
+      expect(body.count).toBe(3);
+    }
+    if (proposal.status !== "ok") throw new Error(proposal.status);
+    expect(
+      proposal.topics.flatMap((t) => t.suggestions.flatMap((s) => s.dba.map((d) => d.number))),
+    ).toEqual(Array(9).fill(2));
+    const log = await db.generationLog.findUniqueOrThrow({ where: { id: proposal.generationId } });
+    expect(log).toMatchObject({
+      task: "objectives_batch",
+      status: "OK",
+      attempts: 3,
+      discardedCodes: 9,
+    });
+    expect(await db.objective.count({ where: { institutionId: ctx.institutionId } })).toBe(0);
+
+    await acceptObjectivesBatch(ctx, {
+      courseId: course.id,
+      objectives: proposal.topics.flatMap((t) =>
+        t.suggestions.map((s) => ({
+          topicId: t.topicId,
+          statement: s.statement,
+          dbaCodes: s.dba.map((d) => d.code),
+        })),
+      ),
+    });
+    const planning = await getCoursePlanning(ctx, course.id);
+    for (const topic of planning.units[0]!.topics) {
+      expect(topic.objectives).toHaveLength(3);
+      expect(topic.objectives.every((o) => o.links[0]?.number === 2)).toBe(true);
+    }
+  });
+
+  it("CA-0014-09: solo se guardan los marcados, con el texto editado, y ningún tema pasa de 5", async () => {
+    const ctx = await teacher();
+    const { course, unit, topics } = await unitWithTopics(ctx, [
+      "La recta numérica",
+      "Valor absoluto",
+    ]);
+    for (let i = 0; i < 2; i++) {
+      await createObjective(ctx, {
+        topicId: topics[0]!.id,
+        statement: `Objetivo previo ${i + 1}.`,
+        links: [],
+      });
+    }
+    for (let i = 0; i < 3; i++) {
+      await createObjective(ctx, {
+        topicId: topics[1]!.id,
+        statement: `Objetivo listo ${i + 1}.`,
+        links: [],
+      });
+    }
+    const fetcher = objectivesEngine();
+    const proposal = await proposeObjectivesBatch(ctx, { scope: "UNIT", unitId: unit.id }, fetcher);
+    if (proposal.status !== "ok") throw new Error(proposal.status);
+    // El tema con 3 objetivos no se toca; el de 2 recibe 1 (hasta llegar a 3).
+    expect(proposal.skipped).toBe(1);
+    expect(proposal.topics.map((t) => [t.title, t.existing, t.suggestions.length])).toEqual([
+      ["La recta numérica", 2, 1],
+    ]);
+
+    await acceptObjectivesBatch(ctx, {
+      courseId: course.id,
+      objectives: [
+        {
+          topicId: topics[0]!.id,
+          statement: "  Ubica enteros   en la recta. ",
+          dbaCodes: [INVENTED],
+        },
+      ],
+    });
+    const planning = await getCoursePlanning(ctx, course.id);
+    expect(planning.units[0]!.topics[0]!.objectives.map((o) => o.statement)).toEqual([
+      "Objetivo previo 1.",
+      "Objetivo previo 2.",
+      "Ubica enteros en la recta.",
+    ]);
+    expect(planning.units[0]!.topics[0]!.objectives[2]!.links).toEqual([]);
+
+    // 3 activos + 3 nuevos = 6: no se guarda ninguno.
+    await expect(
+      acceptObjectivesBatch(ctx, {
+        courseId: course.id,
+        objectives: [1, 2, 3].map((i) => ({
+          topicId: topics[1]!.id,
+          statement: `Otro objetivo ${i}.`,
+          dbaCodes: [],
+        })),
+      }),
+    ).rejects.toMatchObject({ code: "INVALID", message: expect.stringContaining("más de 5") });
+    expect(await db.objective.count({ where: { topicId: topics[1]!.id } })).toBe(3);
+  });
+
+  it("un tema que falla no tumba la propuesta; si fallan todos, degrada", async () => {
+    const ctx = await teacher();
+    const { unit } = await unitWithTopics(ctx, ["La recta numérica", "Orden de enteros"]);
+    const partial = await proposeObjectivesBatch(
+      ctx,
+      { scope: "UNIT", unitId: unit.id },
+      objectivesEngine({ failFirst: true }),
+    );
+    expect(partial).toMatchObject({ status: "ok", failed: 1 });
+    const down = vi.fn(async () => new Response("{}", { status: 503 }));
+    expect(await proposeObjectivesBatch(ctx, { scope: "UNIT", unitId: unit.id }, down)).toEqual({
+      status: "unavailable",
+    });
+  });
+
+  it("CA-0014-20: otro docente no propone ni acepta objetivos en temas ajenos", async () => {
+    const admin = await createUser("Rector");
+    const { institutionId } = await registerSchool(admin, { ...validSchool, alsoTeaches: true });
+    const adminCtx = await ctxFor(admin, institutionId);
+    const other = await createUser("Otra");
+    const { token } = await createInvitation(adminCtx, { email: other.email, roles: ["TEACHER"] });
+    await acceptInvitation(other, token);
+    const otherCtx = await ctxFor(other, institutionId);
+    const { course, unit, topics } = await unitWithTopics(adminCtx, ["La recta numérica"]);
+    const fetcher = objectivesEngine();
+    await expect(
+      proposeObjectivesBatch(otherCtx, { scope: "UNIT", unitId: unit.id }, fetcher),
+    ).rejects.toMatchObject({ code: "NOT_FOUND" });
+    await expect(
+      acceptObjectivesBatch(otherCtx, {
+        courseId: course.id,
+        objectives: [{ topicId: topics[0]!.id, statement: "Intruso escribe aquí.", dbaCodes: [] }],
+      }),
+    ).rejects.toMatchObject({ code: "NOT_FOUND" });
+    // Un tema ajeno desde un curso propio tampoco.
+    const own = await mathCourse(otherCtx);
+    await expect(
+      acceptObjectivesBatch(otherCtx, {
+        courseId: own.id,
+        objectives: [{ topicId: topics[0]!.id, statement: "Intruso escribe aquí.", dbaCodes: [] }],
+      }),
+    ).rejects.toMatchObject({ code: "NOT_FOUND" });
+    expect(fetcher).not.toHaveBeenCalled();
+    expect(await db.objective.count()).toBe(0);
+  });
+});
+
+describe("recurso con un toque (SPEC-0014 T6)", () => {
+  const noRun = { schedule: () => undefined };
+
+  it("CA-0014-10: el quiz se crea con los valores recomendados del grado y todos los objetivos", async () => {
+    const ctx = await teacher();
+    const { topics } = await unitWithTopics(ctx, ["La recta numérica"]);
+    for (let i = 0; i < 2; i++) {
+      await createObjective(ctx, {
+        topicId: topics[0]!.id,
+        statement: `Objetivo ${i + 1} del tema.`,
+        links: [],
+      });
+    }
+    const { id } = await createResourceQuick(ctx, { type: "QUIZ", topicId: topics[0]!.id }, noRun);
+    const resource = await db.resource.findUniqueOrThrow({ where: { id } });
+    expect(resource).toMatchObject({ status: "GENERATING", type: "QUIZ", topicId: topics[0]!.id });
+    expect(resource.blueprint).toMatchObject({
+      itemCount: 8,
+      durationMinutes: 50,
+      difficulty: "INTERMEDIATE",
+      questionTypes: ["MULTIPLE_CHOICE", "TRUE_FALSE", "SHORT_ANSWER"],
+    });
+    expect((resource.blueprint as { objectiveIds: string[] }).objectiveIds).toHaveLength(2);
+
+    const workshop = await createResourceQuick(
+      ctx,
+      { type: "WORKSHOP", topicId: topics[0]!.id },
+      noRun,
+    );
+    const saved = await db.resource.findUniqueOrThrow({ where: { id: workshop.id } });
+    expect(saved.blueprint).toMatchObject({ itemCount: 4, structure: "START_DEVELOPMENT_CLOSE" });
+  });
+
+  it("CA-0014-11: el examen de la unidad usa todos sus temas; sin cupo se avisa sin generar", async () => {
+    const ctx = await teacher();
+    const { course, unit, topics } = await unitWithTopics(ctx, [
+      "La recta numérica",
+      "Orden de enteros",
+    ]);
+    const { id } = await createResourceQuick(
+      ctx,
+      { type: "EXAM", scope: { kind: "UNIT", unitId: unit.id } },
+      noRun,
+    );
+    const exam = await db.resource.findUniqueOrThrow({
+      where: { id },
+      include: { topics: { orderBy: { position: "asc" } } },
+    });
+    expect(exam.title).toBe("Examen: Números enteros");
+    expect(exam.topics.map((t) => t.topicId)).toEqual(topics.map((t) => t.id));
+
+    // Con 1 de cupo, el examen (cuesta 2) se rechaza antes de llamar a la IA.
+    await db.resource.updateMany({ where: { id }, data: { status: "DRAFT" } });
+    for (let i = 0; i < DAILY_LIMIT - 3; i++) {
+      await db.resource.create({
+        data: {
+          institutionId: ctx.institutionId,
+          membershipId: ctx.membershipId,
+          courseId: course.id,
+          topicId: topics[0]!.id,
+          type: "QUIZ",
+          status: "DRAFT",
+          title: "Quiz",
+          blueprint: {},
+          context: { topic: { title: "x" } },
+          generationId: "log",
+        },
+      });
+    }
+    expect(await getQuotaStatus(ctx)).toMatchObject({ used: DAILY_LIMIT - 1 });
+    const before = await db.resource.count();
+    await expect(
+      createResourceQuick(
+        ctx,
+        { type: "EXAM", scope: { kind: "PERIOD", courseId: course.id, periodNumber: 1 } },
+        noRun,
+      ),
+    ).rejects.toMatchObject({
+      code: "RATE_LIMITED",
+      message: expect.stringContaining("te queda 1"),
+    });
+    expect(await db.resource.count()).toBe(before);
+  });
+
+  it("CA-0014-20: otro docente no crea con un toque sobre temas o unidades ajenos", async () => {
+    const admin = await createUser("Rector");
+    const { institutionId } = await registerSchool(admin, { ...validSchool, alsoTeaches: true });
+    const adminCtx = await ctxFor(admin, institutionId);
+    const other = await createUser("Otra");
+    const { token } = await createInvitation(adminCtx, { email: other.email, roles: ["TEACHER"] });
+    await acceptInvitation(other, token);
+    const otherCtx = await ctxFor(other, institutionId);
+    const { course, unit, topics } = await unitWithTopics(adminCtx, ["La recta numérica"]);
+    const notFound = { code: "NOT_FOUND" };
+    await expect(
+      createResourceQuick(otherCtx, { type: "QUIZ", topicId: topics[0]!.id }, noRun),
+    ).rejects.toMatchObject(notFound);
+    await expect(
+      createResourceQuick(
+        otherCtx,
+        { type: "EXAM", scope: { kind: "UNIT", unitId: unit.id } },
+        noRun,
+      ),
+    ).rejects.toMatchObject(notFound);
+    await expect(
+      createResourceQuick(
+        otherCtx,
+        { type: "EXAM", scope: { kind: "PERIOD", courseId: course.id, periodNumber: 1 } },
+        noRun,
+      ),
+    ).rejects.toMatchObject(notFound);
+    expect(await db.resource.count()).toBe(0);
   });
 });

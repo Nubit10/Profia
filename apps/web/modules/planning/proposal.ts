@@ -1,13 +1,17 @@
 import "server-only";
 import type { z } from "zod";
 import { db } from "@/lib/db";
-import { invalid } from "@/lib/errors";
+import { invalid, notFound } from "@/lib/errors";
 import { cleanText, normalizeName } from "@/lib/text";
 import { recordAudit } from "@/modules/audit";
 import { getCourseReferences } from "@/modules/curriculum";
 import { requireRole, type TenantContext } from "@/modules/tenancy";
 import { ownedCourse } from "./access";
-import type { acceptProposalSchema } from "./schemas";
+import {
+  MAX_OBJECTIVES_PER_TOPIC,
+  type acceptObjectivesSchema,
+  type acceptProposalSchema,
+} from "./schemas";
 
 type ProposalTopic = z.output<typeof acceptProposalSchema>["units"][number]["topics"][number];
 
@@ -156,5 +160,104 @@ export async function acceptPlanningProposal(
       metadata: { units: createdUnits, topics: createdTopics, skipped },
     });
     return { units: createdUnits, topics: createdTopics, skipped };
+  });
+}
+
+/**
+ * Agrega los objetivos que el docente dejó marcados en la revisión en bloque (SPEC-0014 RN-06).
+ * Todo o nada: si un tema pasaría de 5 objetivos, no se guarda ninguno y se explica cuál.
+ */
+export async function acceptObjectivesBatch(
+  ctx: TenantContext,
+  input: z.output<typeof acceptObjectivesSchema>,
+): Promise<{ objectives: number }> {
+  requireRole(ctx, "TEACHER");
+  const refs = await getCourseReferences(ctx, input.courseId); // NOT_FOUND si es ajeno
+  const allowed = new Set(refs.references.filter((r) => r.type === "DBA").map((r) => r.code));
+  const topicIds = [...new Set(input.objectives.map((o) => o.topicId))];
+
+  return db.$transaction(async (tx) => {
+    const course = await ownedCourse(tx, ctx, input.courseId);
+    const topics = await tx.topic.findMany({
+      where: {
+        id: { in: topicIds },
+        institutionId: ctx.institutionId,
+        archivedAt: null,
+        unit: { courseId: course.id, archivedAt: null },
+      },
+      select: {
+        id: true,
+        title: true,
+        objectives: { where: { archivedAt: null }, select: { position: true } },
+      },
+    });
+    if (topics.length !== topicIds.length) throw notFound();
+    const codes = [...new Set(input.objectives.flatMap((o) => o.dbaCodes))].filter((c) =>
+      allowed.has(c),
+    );
+    const items = await tx.curriculumItem.findMany({
+      where: { code: { in: codes } },
+      select: { id: true, code: true },
+    });
+    const itemByCode = new Map(items.map((i) => [i.code, i.id]));
+
+    for (const topic of topics) {
+      const adding = input.objectives.filter((o) => o.topicId === topic.id).length;
+      if (topic.objectives.length + adding > MAX_OBJECTIVES_PER_TOPIC) {
+        throw invalid(
+          `«${topic.title}» quedaría con más de ${MAX_OBJECTIVES_PER_TOPIC} objetivos. Desmarca alguno.`,
+          "objectives",
+        );
+      }
+    }
+    // La posición sigue al último objetivo del tema, incluidos los archivados.
+    const last = new Map(
+      await Promise.all(
+        topics.map(async (t) => {
+          const agg = await tx.objective.aggregate({
+            where: { topicId: t.id },
+            _max: { position: true },
+          });
+          return [t.id, agg._max.position ?? 0] as const;
+        }),
+      ),
+    );
+
+    let created = 0;
+    for (const objective of input.objectives) {
+      const position = last.get(objective.topicId)! + 1;
+      last.set(objective.topicId, position);
+      const links = [...new Set(objective.dbaCodes)]
+        .map((code) => itemByCode.get(code))
+        .filter((id): id is string => !!id)
+        .map((curriculumItemId) => ({ curriculumItemId, evidenceIndexes: [] }));
+      const row = await tx.objective.create({
+        data: {
+          institutionId: ctx.institutionId,
+          topicId: objective.topicId,
+          statement: cleanText(objective.statement),
+          position,
+          links: { create: links },
+        },
+        select: { id: true },
+      });
+      await recordAudit(tx, {
+        action: "objective.created",
+        institutionId: ctx.institutionId,
+        actorUserId: ctx.userId,
+        entityType: "objective",
+        entityId: row.id,
+      });
+      created += 1;
+    }
+    await recordAudit(tx, {
+      action: "planning.ai_objectives_accepted",
+      institutionId: ctx.institutionId,
+      actorUserId: ctx.userId,
+      entityType: "course",
+      entityId: course.id,
+      metadata: { objectives: created, topics: topics.length },
+    });
+    return { objectives: created };
   });
 }

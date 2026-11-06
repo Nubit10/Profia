@@ -45,6 +45,8 @@ export type AuditAction =
   | "ai.objectives_suggested"
   | "ai.planning_proposed"
   | "planning.ai_proposal_accepted"
+  | "planning.ai_objectives_accepted"
+  | "ai.objectives_batch_proposed"
   | "ai.suggestion_accepted"
   | "ai.suggestion_discarded"
   | "resource.generation_requested"

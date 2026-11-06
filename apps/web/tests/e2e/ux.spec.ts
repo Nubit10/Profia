@@ -84,7 +84,22 @@ async function insertResources(
 const FORBIDDEN = /\b(blueprint|tenant|prompt|token|schema|RAG)\b/i;
 
 /** Reglas comunes a cada pantalla principal (CA-0012-13/15/16). */
+/** Espera a que terminen las transiciones y animaciones finitas (no los indicadores de carga). */
+async function settleAnimations(page: Page) {
+  await page.evaluate(async () => {
+    const finite = document
+      .getAnimations()
+      .filter((a) => Number.isFinite(Number(a.effect?.getComputedTiming().endTime)));
+    await Promise.all(finite.map((a) => a.finished.catch(() => undefined)));
+  });
+}
+
 async function checkScreen(page: Page, name: string) {
+  // axe mide el color en el instante en que corre: sin transiciones mide el estado final, no un
+  // color intermedio (una pestaña que pasa a activa, un menú que aparece).
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => r(null))));
+  await settleAnimations(page);
   const axe = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
     .analyze();

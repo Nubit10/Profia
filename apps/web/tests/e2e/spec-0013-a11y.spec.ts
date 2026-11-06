@@ -10,7 +10,18 @@ import { choose, signUpIndependentTeacher } from "./helpers";
 const FORBIDDEN = /\b(blueprint|tenant|prompt|token|schema|RAG)\b/i;
 const SHOTS = process.env.CAPTURAS ? "../../docs/design/capturas/spec-0013/" : null;
 
+/** Espera a que terminen las transiciones y animaciones finitas (no los indicadores de carga). */
+async function settleAnimations(page: Page) {
+  await page.evaluate(async () => {
+    const finite = document
+      .getAnimations()
+      .filter((a) => Number.isFinite(Number(a.effect?.getComputedTiming().endTime)));
+    await Promise.all(finite.map((a) => a.finished.catch(() => undefined)));
+  });
+}
+
 async function checkScreen(page: Page, name: string) {
+  await settleAnimations(page);
   const axe = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
     .analyze();

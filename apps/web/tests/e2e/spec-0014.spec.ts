@@ -187,3 +187,103 @@ test("CA-0014-22 (parte 1): la revisión de la propuesta es accesible y cabe en 
   await expect(page.getByRole("heading", { name: "Periodo 1", exact: true })).toBeVisible();
   await expect(unitsOf(page, "Periodo 1")).toHaveCount(0);
 });
+
+/** Periodo 1 con 3 unidades de 3 temas, propuesto con IA ("Más temas") y agregado. */
+async function plannedPeriod(page: Page) {
+  await page.getByRole("button", { name: "Proponer temas con IA para Periodo 1" }).click();
+  const dialog = page.getByRole("dialog");
+  await dialog.getByRole("button", { name: "Más temas" }).click();
+  await expect(dialog.getByRole("textbox", { name: "Título de la unidad" })).toHaveCount(3);
+  await dialog.getByRole("button", { name: /Agregar a la planeación/ }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  const first = unitsOf(page, "Periodo 1").locator(":scope > li").first();
+  await expect(first.getByRole("heading", { level: 3 })).toHaveCount(3);
+  return first;
+}
+
+test("CA-0014-08: objetivos para los 3 temas de una unidad en 3 clics", async ({ page }) => {
+  await signUpIndependentTeacher(page);
+  await openNewCourse(page);
+  const unit = await plannedPeriod(page);
+  const user = clickCounter();
+
+  await user.click(unit.getByRole("button", { name: /^Opciones de unidad/ }));
+  await user.click(page.getByRole("menuitem", { name: "Proponer objetivos" }));
+  const dialog = page.getByRole("dialog");
+  await expect(dialog.getByRole("region", { name: /^Objetivos propuestos para/ })).toHaveCount(3);
+  await expect(dialog.getByText(/^DBA \d+$/).first()).toBeVisible();
+  await user.click(dialog.getByRole("button", { name: "Aceptar todos (9)" }));
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  expect(user.count).toBeLessThanOrEqual(3);
+
+  for (const topic of await unit.getByRole("list", { name: /^Objetivos de / }).all()) {
+    await expect(topic.locator(":scope > li")).toHaveCount(3);
+    await expect(topic.getByRole("list", { name: "DBA vinculados" })).toHaveCount(3);
+  }
+});
+
+test("CA-0014-09: desmarcar uno y editar otro guarda solo lo marcado, con el texto editado", async ({
+  page,
+}) => {
+  await signUpIndependentTeacher(page);
+  await openNewCourse(page);
+  const unit = await plannedPeriod(page);
+  await unit.getByRole("button", { name: /^Opciones de unidad/ }).click();
+  await page.getByRole("menuitem", { name: "Proponer objetivos" }).click();
+  const dialog = page.getByRole("dialog");
+  const texts = dialog.getByRole("textbox", { name: /^Objetivo \d de «/ });
+  await expect(texts).toHaveCount(9);
+  await texts.nth(0).fill("Ubica números enteros en la recta numérica con ejemplos del barrio.");
+  const second = await texts.nth(1).inputValue();
+  await dialog
+    .getByRole("checkbox", { name: /^Incluir el objetivo 2 de «/ })
+    .first()
+    .click();
+  await dialog.getByRole("button", { name: "Aceptar (8)" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect(
+    unit.getByText("Ubica números enteros en la recta numérica con ejemplos del barrio."),
+  ).toBeVisible();
+  await expect(unit.getByText(second, { exact: true })).toHaveCount(0);
+  await expect(
+    unit.getByRole("list", { name: /^Objetivos de / }).locator(":scope > li"),
+  ).toHaveCount(8);
+});
+
+test("CA-0014-10: 'Crear quiz' en un tema genera en 1 clic y llega al recurso; 'Ajustar antes' abre el asistente", async ({
+  page,
+}) => {
+  await signUpIndependentTeacher(page);
+  await openNewCourse(page);
+  const unit = await plannedPeriod(page);
+  const topic = await unit.getByRole("heading", { level: 3 }).first().textContent();
+
+  await page.getByRole("button", { name: `Opciones de tema «${topic}»` }).click();
+  await page.getByRole("menuitem", { name: "Ajustar antes de crear" }).click();
+  await expect(page).toHaveURL(/\/create\?courseId=.*&topicId=/);
+  await expect(page.getByRole("heading", { name: "¿Qué quieres crear?" })).toBeVisible();
+  await page.goBack();
+
+  await page.getByRole("button", { name: `Crear quiz de «${topic}»` }).click();
+  await expect(page).toHaveURL(/\/resources\//);
+  await expect(page.getByRole("list", { name: "Preguntas" })).toBeVisible({ timeout: 30_000 });
+  // 6° usa 8 preguntas por defecto (SPEC-0008).
+  await expect(page.getByRole("list", { name: "Preguntas" }).locator(":scope > li")).toHaveCount(8);
+});
+
+test("CA-0014-11: 'Crear examen de esta unidad' genera con todos sus temas en un toque", async ({
+  page,
+}) => {
+  await signUpIndependentTeacher(page);
+  await openNewCourse(page);
+  const unit = await plannedPeriod(page);
+  const title = (await unit.getByRole("heading", { level: 3 }).allTextContents()).sort();
+  const unitTitle = await unit.locator("[data-slot=card-title]").textContent();
+  await unit.getByRole("button", { name: /^Opciones de unidad/ }).click();
+  await page.getByRole("menuitem", { name: "Crear examen de esta unidad" }).click();
+  await expect(page).toHaveURL(/\/resources\//);
+  await expect(page.getByRole("heading", { name: `Examen: ${unitTitle}` })).toBeVisible({
+    timeout: 60_000,
+  });
+  for (const t of title) await expect(page.getByRole("main")).toContainText(t);
+});

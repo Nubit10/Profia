@@ -3,10 +3,15 @@
 import { z } from "zod";
 import { runAction, type ActionResult } from "@/lib/actions";
 import { requireTenant } from "@/modules/tenancy";
-import { proposePlanningSchema } from "@/modules/planning/client";
+import { proposeObjectivesSchema, proposePlanningSchema } from "@/modules/planning/client";
+import { proposeObjectivesBatch } from "./objectives-batch";
 import { proposePlanning } from "./planning";
 import { acceptSuggestion, discardSuggestion, rateSuggestion, suggestObjectives } from "./service";
-import type { ObjectiveSuggestionsResult, PlanningProposal } from "./types";
+import type {
+  ObjectiveSuggestionsResult,
+  ObjectivesBatchProposal,
+  PlanningProposal,
+} from "./types";
 
 const id = z.string().min(1);
 
@@ -64,5 +69,14 @@ export async function proposePlanningAction(
 ): Promise<ActionResult<PlanningProposal>> {
   return runAction("propose_planning", proposePlanningSchema, input, async (data) =>
     proposePlanning(await requireTenant(), data),
+  );
+}
+
+/** SPEC-0014 CA-0014-08: objetivos para todos los temas de una unidad o un periodo. */
+export async function proposeObjectivesBatchAction(
+  input: unknown,
+): Promise<ActionResult<ObjectivesBatchProposal>> {
+  return runAction("propose_objectives_batch", proposeObjectivesSchema, input, async (data) =>
+    proposeObjectivesBatch(await requireTenant(), data),
   );
 }

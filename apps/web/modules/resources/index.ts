@@ -29,6 +29,7 @@ export {
   type Scheduler,
 } from "./service";
 export { promptQualityMetrics } from "./metrics";
+export { createResourceQuick, type QuickResourceInput } from "./quick";
 export { getQuotaStatus, getTeacherHome, listMyResources, watchGenerations } from "./overview";
 export * from "./actions";
 export type * from "./types";

@@ -18,7 +18,7 @@ import { courseTitle } from "@/modules/courses/client";
 import { searchCurriculumAction } from "@/modules/curriculum";
 import * as generation from "@/modules/generation";
 import * as planning from "@/modules/planning";
-import { listCourseResources } from "@/modules/resources";
+import { listCourseResources, quickCreateResourceAction } from "@/modules/resources";
 import { requireTenant } from "@/modules/tenancy";
 import { LinkSubjectArea } from "./link-subject-area";
 import { PlanningView } from "./planning/planning-view";
@@ -150,6 +150,11 @@ export default async function CoursePage({
             archive: planning.setItemArchivedAction,
             copy: planning.copyPlanningAction,
             searchCurriculum: searchCurriculumAction,
+            objectivesBatch: {
+              propose: generation.proposeObjectivesBatchAction,
+              accept: planning.acceptObjectivesBatchAction,
+            },
+            quickCreate: quickCreateResourceAction,
             proposal: {
               propose: generation.proposePlanningAction,
               accept: planning.acceptPlanningProposalAction,

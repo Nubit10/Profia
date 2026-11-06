@@ -22,7 +22,11 @@ export {
   updateUnit,
 } from "./structure";
 export { copyPlanning } from "./copy";
-export { acceptPlanningProposal, type AcceptProposalResult } from "./proposal";
+export {
+  acceptObjectivesBatch,
+  acceptPlanningProposal,
+  type AcceptProposalResult,
+} from "./proposal";
 export { splitDbaByPeriod } from "./distribution";
 export { createQuickTopic, listTopicOutline } from "./outline";
 export * from "./actions";

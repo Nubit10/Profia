@@ -37,3 +37,27 @@ export type PlanningProposal =
     }
   | { status: "unavailable" }
   | { status: "invalid" };
+
+/** Objetivos propuestos en bloque para varios temas (SPEC-0014 RN-06). Nada está guardado. */
+export type ObjectivesBatchTopic = {
+  topicId: string;
+  title: string;
+  unitTitle: string;
+  /** Objetivos que el tema ya tiene: cuentan para el máximo de 5. */
+  existing: number;
+  suggestions: { key: string; statement: string; dba: SuggestedObjective["dba"] }[];
+};
+
+export type ObjectivesBatchProposal =
+  | {
+      status: "ok";
+      generationId: string;
+      courseId: string;
+      topics: ObjectivesBatchTopic[];
+      /** Temas que no recibieron propuesta (la IA falló para ellos). */
+      failed: number;
+      /** Temas que ya tenían 3 objetivos o más y no se tocaron. */
+      skipped: number;
+    }
+  | { status: "unavailable" }
+  | { status: "invalid" };

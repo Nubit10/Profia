@@ -35,7 +35,8 @@ export type ProposePlanningRequest =
   | { scope: "YEAR"; courseId: string; size: ProposalSize; avoid?: string[] }
   | { scope: "UNIT"; unitId: string; size: ProposalSize; avoid?: string[] };
 
-async function consumeLimits(ctx: TenantContext) {
+/** RN-08: propuestas de planeación y de objetivos comparten el límite. */
+export async function consumeProposalLimits(ctx: TenantContext) {
   // Primero el de un minuto: una ráfaga no debe gastar el cupo del día.
   const burst = await getLimiter("ai-planning-minute", PROPOSALS_PER_MINUTE, MINUTE).consume(
     ctx.membershipId,
@@ -95,7 +96,7 @@ export async function proposePlanning(
     throw invalid("Ese periodo no existe en el curso");
   }
 
-  await consumeLimits(ctx);
+  await consumeProposalLimits(ctx);
 
   const codes = dba.map((d) => d.code);
   const covered = coveredCodes(planning);
