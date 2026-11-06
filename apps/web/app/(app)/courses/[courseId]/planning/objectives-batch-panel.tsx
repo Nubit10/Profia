@@ -1,10 +1,10 @@
 "use client";
 
+import { DbaChip } from "@/components/curriculum/dba-chip";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { HiOutlineArrowPath, HiOutlineCheck } from "react-icons/hi2";
 import { sileo } from "sileo";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
@@ -210,9 +210,7 @@ export function ObjectivesBatchPanel({
                     {row.dba.length > 0 && (
                       <div className="flex flex-wrap gap-1">
                         {row.dba.map((d) => (
-                          <Badge key={d.code} variant="secondary" title={d.statement}>
-                            DBA {d.number}
-                          </Badge>
+                          <DbaChip key={d.code} code={d.code} number={d.number} />
                         ))}
                       </div>
                     )}

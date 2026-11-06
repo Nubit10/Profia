@@ -1,5 +1,6 @@
 "use client";
 
+import { DbaChips } from "@/components/curriculum/dba-chip";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Controller, useFieldArray, useForm, useWatch, type Resolver } from "react-hook-form";
@@ -586,10 +587,13 @@ export function ExamSettingsStep(props: Props) {
                             }
                             className="mt-0.5"
                           />
-                          <label id={`${id}-label`} htmlFor={id} className="text-sm leading-snug">
-                            {o.statement}
-                            <span className="text-muted-foreground"> · {o.topic}</span>
-                          </label>
+                          <div className="flex min-w-0 flex-col gap-1.5">
+                            <label id={`${id}-label`} htmlFor={id} className="text-sm leading-snug">
+                              {o.statement}
+                              <span className="text-muted-foreground"> · {o.topic}</span>
+                            </label>
+                            <DbaChips codes={o.dbaCodes} label="DBA del objetivo" />
+                          </div>
                         </li>
                       );
                     })}

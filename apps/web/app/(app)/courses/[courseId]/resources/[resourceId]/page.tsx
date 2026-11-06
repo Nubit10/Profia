@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { HiOutlineArrowLeft } from "react-icons/hi2";
+import { DbaCatalogProvider } from "@/components/curriculum/dba-chip";
 import { NotifyCard } from "@/components/notifications/notify-card";
 import { DomainError } from "@/lib/errors";
+import { getCourseReferences } from "@/modules/curriculum";
 import * as notifications from "@/modules/notifications";
 import * as resources from "@/modules/resources";
 import { requireTenant } from "@/modules/tenancy";
@@ -22,6 +24,10 @@ export default async function ResourcePage({
     throw error;
   });
   if (resource.courseId !== courseId) notFound();
+  // SPEC-0014 CA-0014-12: la ficha de cada DBA del recurso sale del catálogo vigente del curso.
+  const dbaRefs = await getCourseReferences(ctx, courseId)
+    .then((r) => r.references.filter((ref) => ref.type === "DBA"))
+    .catch(() => []);
 
   return (
     <div className="flex max-w-4xl flex-col gap-5">
@@ -46,22 +52,24 @@ export default async function ResourcePage({
           }}
         />
       )}
-      <ResourceView
-        resource={resource}
-        actions={{
-          status: resources.resourceStatusAction,
-          retry: resources.retryResourceAction,
-          save: resources.saveResourceContentAction,
-          setStatus: resources.setResourceStatusAction,
-          duplicate: resources.duplicateResourceAction,
-          gradingScale: resources.setGradingScaleAction,
-          rateItem: resources.rateItemAction,
-          rateResource: resources.rateResourceAction,
-          addPreference: resources.addPreferenceAction,
-          regenerate: resources.regenerateItemAction,
-          decide: resources.decideRegenerationAction,
-        }}
-      />
+      <DbaCatalogProvider references={dbaRefs}>
+        <ResourceView
+          resource={resource}
+          actions={{
+            status: resources.resourceStatusAction,
+            retry: resources.retryResourceAction,
+            save: resources.saveResourceContentAction,
+            setStatus: resources.setResourceStatusAction,
+            duplicate: resources.duplicateResourceAction,
+            gradingScale: resources.setGradingScaleAction,
+            rateItem: resources.rateItemAction,
+            rateResource: resources.rateResourceAction,
+            addPreference: resources.addPreferenceAction,
+            regenerate: resources.regenerateItemAction,
+            decide: resources.decideRegenerationAction,
+          }}
+        />
+      </DbaCatalogProvider>
     </div>
   );
 }

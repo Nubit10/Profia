@@ -250,7 +250,7 @@ test("CA-0014-09: desmarcar uno y editar otro guarda solo lo marcado, con el tex
   ).toHaveCount(8);
 });
 
-test("CA-0014-10: 'Crear quiz' en un tema genera en 1 clic y llega al recurso; 'Ajustar antes' abre el asistente", async ({
+test("CA-0014-10/12: 'Crear quiz' en un tema genera en 1 clic y llega al recurso; 'Ajustar antes' abre el asistente", async ({
   page,
 }) => {
   await signUpIndependentTeacher(page);
@@ -269,6 +269,17 @@ test("CA-0014-10: 'Crear quiz' en un tema genera en 1 clic y llega al recurso; '
   await expect(page.getByRole("list", { name: "Preguntas" })).toBeVisible({ timeout: 30_000 });
   // 6° usa 8 preguntas por defecto (SPEC-0008).
   await expect(page.getByRole("list", { name: "Preguntas" }).locator(":scope > li")).toHaveCount(8);
+
+  // CA-0014-12: la etiqueta de DBA de una pregunta abre su ficha sin salir del recurso.
+  await page
+    .getByRole("button", { name: /^DBA \d+: ver enunciado/ })
+    .first()
+    .click();
+  const sheet = page.getByRole("dialog");
+  await expect(sheet.getByRole("heading", { name: "Fuente" })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect(page).toHaveURL(/\/resources\//);
 });
 
 test("CA-0014-11: 'Crear examen de esta unidad' genera con todos sus temas en un toque", async ({
@@ -286,4 +297,62 @@ test("CA-0014-11: 'Crear examen de esta unidad' genera con todos sus temas en un
     timeout: 60_000,
   });
   for (const t of title) await expect(page.getByRole("main")).toContainText(t);
+});
+
+test("CA-0014-12/13: los DBA del tema se ven en la planeación y abren su ficha con clic o teclado", async ({
+  page,
+}) => {
+  await signUpIndependentTeacher(page);
+  await openNewCourse(page);
+  const unit = await plannedPeriod(page);
+  const topic = await unit.getByRole("heading", { level: 3 }).first().textContent();
+
+  // CA-0014-13: los DBA están en el tema, aunque todavía no tenga objetivos.
+  const chips = unit.getByRole("list", { name: `DBA de ${topic}` }).getByRole("button");
+  await expect(chips.first()).toBeVisible();
+  const name = (await chips.first().getAttribute("aria-label"))!;
+  const number = /^DBA (\d+)/.exec(name)![1];
+
+  // Clic: número, enunciado, evidencias y fuente (documento del MEN, versión y página).
+  await chips.first().click();
+  const sheet = page.getByRole("dialog");
+  await expect(sheet.getByRole("heading", { name: `DBA ${number}` })).toBeVisible();
+  await expect(sheet.getByRole("heading", { name: "Evidencias de aprendizaje" })).toBeVisible();
+  await expect(sheet.getByRole("heading", { name: "Fuente" })).toBeVisible();
+  await expect(sheet).toContainText(/pág\. \d+/);
+  await expect(sheet.getByRole("link", { name: /Abrir el documento del MEN/ })).toHaveAttribute(
+    "href",
+    /#page=\d+$/,
+  );
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+
+  // Teclado y Atrás: se abre con Enter y Atrás la cierra sin salir de la planeación.
+  await chips.first().focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await page.goBack();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Periodo 1", exact: true })).toBeVisible();
+});
+
+test("CA-0014-22 (parte 3): la ficha de DBA es accesible y cabe en 360 px", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 360, height: 780 });
+  await signUpIndependentTeacher(page);
+  await openNewCourse(page);
+  const unit = await plannedPeriod(page);
+  await unit
+    .getByRole("button", { name: /^DBA \d+: ver enunciado/ })
+    .first()
+    .click();
+  await expect(page.getByRole("dialog").getByRole("heading", { name: "Fuente" })).toBeVisible();
+  const axe = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+    .analyze();
+  expect(axe.violations.map((v) => v.id)).toEqual([]);
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(0);
 });

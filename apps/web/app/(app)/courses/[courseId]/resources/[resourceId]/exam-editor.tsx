@@ -29,6 +29,7 @@ import {
   type ExamSection,
   type ResourceDetail,
 } from "@/modules/resources/client";
+import { DbaChip } from "@/components/curriculum/dba-chip";
 import { ItemFeedback, RegenerateItem, type FeedbackActions } from "./item-tools";
 
 // Editor del examen (SPEC-0011): secciones en su orden, preguntas con puntos, emparejamiento y
@@ -110,9 +111,7 @@ export function ExamQuestionView({
         <Badge variant="outline">Tema: {topics.get(q.topicId) ?? "—"}</Badge>
         <Badge variant="outline">{LEVEL_LABELS[q.cognitiveLevel]}</Badge>
         {q.dbaCodes.map((c) => (
-          <Badge key={c} variant="secondary">
-            DBA {dba.get(c) ?? c}
-          </Badge>
+          <DbaChip key={c} code={c} number={dba.get(c)} />
         ))}
       </div>
     </div>

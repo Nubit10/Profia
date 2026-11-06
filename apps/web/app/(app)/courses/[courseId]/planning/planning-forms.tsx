@@ -1,5 +1,6 @@
 "use client";
 
+import { DbaChip } from "@/components/curriculum/dba-chip";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -273,14 +274,16 @@ function DbaPicker({
                   onCheckedChange={(c) => toggleDba(ref.code, c)}
                   className="mt-0.5"
                 />
-                <label id={`${id}-label`} htmlFor={id} className="text-sm leading-snug">
-                  {suggested.includes(ref.code) && (
-                    <Badge variant="brand" className="mr-1.5">
-                      Sugerido
-                    </Badge>
-                  )}
-                  <span className="font-medium">DBA {ref.number}.</span> {ref.statement}
-                </label>
+                <div className="flex min-w-0 flex-col items-start gap-1">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <DbaChip dba={ref} />
+                    {suggested.includes(ref.code) && <Badge variant="brand">Sugerido</Badge>}
+                  </div>
+                  <label id={`${id}-label`} htmlFor={id} className="text-sm leading-snug">
+                    <span className="sr-only">DBA {ref.number}. </span>
+                    {ref.statement}
+                  </label>
+                </div>
               </div>
               {isOn && (
                 <fieldset className="mt-2 ml-6 flex flex-col gap-1.5">

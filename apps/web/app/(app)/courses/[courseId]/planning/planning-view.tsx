@@ -8,7 +8,6 @@ import {
   HiOutlineAdjustmentsHorizontal,
   HiOutlineArchiveBox,
   HiOutlineArrowDown,
-  HiOutlineArrowTopRightOnSquare,
   HiOutlineArrowUp,
   HiOutlineArrowUturnLeft,
   HiOutlineCalendarDays,
@@ -23,8 +22,8 @@ import {
   HiOutlineSparkles,
 } from "react-icons/hi2";
 import { sileo } from "sileo";
+import { DbaCatalogProvider, DbaChip, DbaChips } from "@/components/curriculum/dba-chip";
 import { SelectField } from "@/components/forms/select-field";
-import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -263,44 +262,30 @@ function ObjectiveItem({
           </p>
         )
       ) : (
-        <ul className="flex flex-col gap-1.5" aria-label="DBA vinculados">
+        <ul className="flex flex-wrap gap-1.5" aria-label="DBA vinculados">
           {objective.links.map((link) => (
-            <li key={link.code} className="rounded-md bg-muted/60 p-2 text-xs">
-              <details>
-                <summary className="cursor-pointer">
-                  <span className="font-medium">DBA {link.number}</span>
-                  {link.evidences.length > 0 && ` · ${link.evidences.length} evidencia(s)`}
-                  {link.superseded && (
-                    <Badge variant="outline" className="ml-2">
-                      versión anterior del MEN
-                    </Badge>
-                  )}
-                </summary>
-                <p className="mt-1.5">{link.statement}</p>
-                {link.evidences.length > 0 && (
-                  <ul className="mt-1 ml-4 list-disc">
-                    {link.evidences.map((e) => (
-                      <li key={e}>{e}</li>
-                    ))}
-                  </ul>
-                )}
-                <a
-                  href={`${link.citation.url}#page=${link.citation.page}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-1 inline-flex items-center gap-1 text-muted-foreground underline"
-                >
-                  {link.citation.title}, {link.citation.version} ({link.citation.year}) · pág.{" "}
-                  {link.citation.page}
-                  <HiOutlineArrowTopRightOnSquare className="size-3" aria-hidden />
-                </a>
-              </details>
+            <li key={link.code}>
+              <DbaChip dba={link}>
+                DBA {link.number}
+                {link.evidences.length > 0 && ` · ${link.evidences.length} evidencia(s)`}
+                {link.superseded && " · versión anterior"}
+              </DbaChip>
             </li>
           ))}
         </ul>
       )}
     </li>
   );
+}
+
+/** DBA del tema: los que trajo la propuesta y los de sus objetivos vigentes, sin repetir. */
+function topicDbaCodes(topic: PlanningTopic): string[] {
+  const codes = new Set(topic.dbaCodes);
+  for (const o of topic.objectives) {
+    if (o.archived) continue;
+    for (const l of o.links) codes.add(l.code);
+  }
+  return [...codes];
 }
 
 export function PlanningView({ planning, includeArchived, copyTargets, actions }: Props) {
@@ -355,620 +340,639 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
   ].filter((g) => g.period || g.units.length > 0);
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-center gap-2">
-        <Button onClick={() => setDialog({ type: "unit" })}>
-          <HiOutlinePlus aria-hidden />
-          Nueva unidad
-        </Button>
-        {canPropose && (
-          <Button variant="outline" onClick={() => setDialog({ type: "proposalPick" })}>
-            <HiOutlineSparkles aria-hidden />
-            Proponer temas con IA
+    <DbaCatalogProvider references={planning.references}>
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-wrap items-center gap-2">
+          <Button onClick={() => setDialog({ type: "unit" })}>
+            <HiOutlinePlus aria-hidden />
+            Nueva unidad
           </Button>
-        )}
-        <Button variant="outline" onClick={() => setDialog({ type: "periods" })}>
-          <HiOutlineCalendarDays aria-hidden />
-          Periodos
-        </Button>
-        {copyTargets.length > 0 && units.length > 0 && (
-          <Button variant="outline" onClick={() => setDialog({ type: "copy" })}>
-            <HiOutlineDocumentDuplicate aria-hidden />
-            Copiar a otro curso
-          </Button>
-        )}
-        <Link
-          href={`/courses/${course.id}?tab=planeacion${includeArchived ? "" : "&archivados=1"}`}
-          className="ml-auto flex items-center text-sm text-muted-foreground underline max-sm:min-h-11"
-        >
-          {includeArchived ? "Ocultar archivados" : "Ver archivados"}
-        </Link>
-      </div>
-
-      {planning.hasArea && coverage.total > 0 && (
-        <Card size="sm">
-          <CardHeader>
-            <CardTitle>
-              Cobertura de DBA: {coverage.covered.length} de {coverage.total}
-            </CardTitle>
-            <CardDescription>DBA del grado que ya están en un tema o un objetivo.</CardDescription>
-          </CardHeader>
-          {coverage.pending.length > 0 && (
-            <CardContent>
-              <details>
-                <summary className="cursor-pointer text-sm">
-                  Ver DBA pendientes ({coverage.pending.length})
-                </summary>
-                <ul className="mt-2 flex flex-col gap-1 text-sm" aria-label="DBA pendientes">
-                  {coverage.pending.map((p) => (
-                    <li key={p.code}>
-                      <span className="font-medium">DBA {p.number}.</span> {p.statement}
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            </CardContent>
+          {canPropose && (
+            <Button variant="outline" onClick={() => setDialog({ type: "proposalPick" })}>
+              <HiOutlineSparkles aria-hidden />
+              Proponer temas con IA
+            </Button>
           )}
-        </Card>
-      )}
+          <Button variant="outline" onClick={() => setDialog({ type: "periods" })}>
+            <HiOutlineCalendarDays aria-hidden />
+            Periodos
+          </Button>
+          {copyTargets.length > 0 && units.length > 0 && (
+            <Button variant="outline" onClick={() => setDialog({ type: "copy" })}>
+              <HiOutlineDocumentDuplicate aria-hidden />
+              Copiar a otro curso
+            </Button>
+          )}
+          <Link
+            href={`/courses/${course.id}?tab=planeacion${includeArchived ? "" : "&archivados=1"}`}
+            className="ml-auto flex items-center text-sm text-muted-foreground underline max-sm:min-h-11"
+          >
+            {includeArchived ? "Ocultar archivados" : "Ver archivados"}
+          </Link>
+        </div>
 
-      {units.length === 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Empieza tu planeación</CardTitle>
-            <CardDescription>
-              {canPropose
-                ? "Profe puede proponerte las unidades y los temas de todo el año a partir de los DBA del grado. Tú revisas y decides qué agregar."
-                : "Crea unidades por periodo, agrega temas y redacta objetivos. Con esa estructura Profe podrá ayudarte a generar materiales."}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {canPropose ? (
-              <Button
-                variant="outline"
-                onClick={() => proposeFor({ scope: "YEAR", courseId: course.id }, "Todo el año")}
-              >
-                <HiOutlineSparkles aria-hidden />
-                Proponer el año con IA
-              </Button>
-            ) : (
-              <p className="text-sm text-muted-foreground">
-                Esta asignatura no tiene DBA en el catálogo, así que Profe no puede proponer temas.
-                Agrégalos a mano.
-              </p>
+        {planning.hasArea && coverage.total > 0 && (
+          <Card size="sm">
+            <CardHeader>
+              <CardTitle>
+                Cobertura de DBA: {coverage.covered.length} de {coverage.total}
+              </CardTitle>
+              <CardDescription>
+                DBA del grado que ya están en un tema o un objetivo.
+              </CardDescription>
+            </CardHeader>
+            {coverage.pending.length > 0 && (
+              <CardContent>
+                <details>
+                  <summary className="cursor-pointer text-sm">
+                    Ver DBA pendientes ({coverage.pending.length})
+                  </summary>
+                  <ul className="mt-2 flex flex-col gap-1 text-sm" aria-label="DBA pendientes">
+                    {coverage.pending.map((p) => (
+                      <li key={p.code}>
+                        <DbaChip code={p.code} number={p.number} /> {p.statement}
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </CardContent>
             )}
-          </CardContent>
-        </Card>
-      )}
+          </Card>
+        )}
 
-      {groups.map((group) => (
-        <section
-          key={group.key}
-          className="flex flex-col gap-3"
-          aria-labelledby={`${group.key}-title`}
-        >
-          {group.units.length === 0 ? (
-            // SPEC-0013 CA-0013-08: un periodo vacío ocupa una sola línea.
-            <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-dashed border-border px-4 py-1.5">
-              <h2
-                id={`${group.key}-title`}
-                className="flex items-baseline gap-2 text-base font-semibold"
-              >
-                {group.period ? group.period.name : "Sin periodo"}
-              </h2>
-              <span className="mr-auto text-sm text-muted-foreground">Sin unidades</span>
-              {canPropose && group.period && (
+        {units.length === 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Empieza tu planeación</CardTitle>
+              <CardDescription>
+                {canPropose
+                  ? "Profe puede proponerte las unidades y los temas de todo el año a partir de los DBA del grado. Tú revisas y decides qué agregar."
+                  : "Crea unidades por periodo, agrega temas y redacta objetivos. Con esa estructura Profe podrá ayudarte a generar materiales."}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {canPropose ? (
                 <Button
-                  variant="ghost"
-                  onClick={() => proposePeriod(group.period!.number, group.period!.name)}
+                  variant="outline"
+                  onClick={() => proposeFor({ scope: "YEAR", courseId: course.id }, "Todo el año")}
                 >
                   <HiOutlineSparkles aria-hidden />
-                  Proponer temas con IA
-                  <span className="sr-only"> para {group.period.name}</span>
+                  Proponer el año con IA
                 </Button>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  Esta asignatura no tiene DBA en el catálogo, así que Profe no puede proponer
+                  temas. Agrégalos a mano.
+                </p>
               )}
-              <Button
-                variant="ghost"
-                onClick={() =>
-                  setDialog({ type: "unit", periodNumber: group.period?.number ?? null })
-                }
-              >
-                <HiOutlinePlus aria-hidden />
-                Agregar unidad
-                <span className="sr-only">
-                  {" "}
-                  en {group.period ? group.period.name : "sin periodo"}
-                </span>
-              </Button>
-            </div>
-          ) : (
-            <>
-              <div className="flex flex-wrap items-center justify-between gap-2">
+            </CardContent>
+          </Card>
+        )}
+
+        {groups.map((group) => (
+          <section
+            key={group.key}
+            className="flex flex-col gap-3"
+            aria-labelledby={`${group.key}-title`}
+          >
+            {group.units.length === 0 ? (
+              // SPEC-0013 CA-0013-08: un periodo vacío ocupa una sola línea.
+              <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-dashed border-border px-4 py-1.5">
                 <h2
                   id={`${group.key}-title`}
-                  className="flex items-baseline gap-2 text-lg font-semibold"
+                  className="flex items-baseline gap-2 text-base font-semibold"
                 >
                   {group.period ? group.period.name : "Sin periodo"}
-                  {group.period?.startDate && (
-                    <span className="text-sm font-normal text-muted-foreground">
-                      {group.period.startDate} – {group.period.endDate ?? "…"}
-                    </span>
-                  )}
                 </h2>
-                <div className="flex flex-wrap items-center gap-1">
-                  {canPropose && group.period && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => proposePeriod(group.period!.number, group.period!.name)}
-                    >
-                      <HiOutlineSparkles aria-hidden />
-                      Proponer temas con IA
-                      <span className="sr-only"> para {group.period.name}</span>
-                    </Button>
-                  )}
-                  {/* SPEC-0011 §7: un periodo sin temas activos no ofrece examen. */}
-                  {group.period &&
-                    group.units.some((u) => !u.archived && u.topics.some((t) => !t.archived)) && (
-                      <DropdownMenu>
-                        <DropdownMenuTrigger
-                          aria-label={`Opciones de ${group.period.name}`}
-                          className={cn(
-                            buttonVariants({ variant: "ghost", size: "icon" }),
-                            "shrink-0",
-                          )}
-                        >
-                          <HiOutlineEllipsisHorizontal className="size-5" aria-hidden />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-64">
-                          {canPropose && (
+                <span className="mr-auto text-sm text-muted-foreground">Sin unidades</span>
+                {canPropose && group.period && (
+                  <Button
+                    variant="ghost"
+                    onClick={() => proposePeriod(group.period!.number, group.period!.name)}
+                  >
+                    <HiOutlineSparkles aria-hidden />
+                    Proponer temas con IA
+                    <span className="sr-only"> para {group.period.name}</span>
+                  </Button>
+                )}
+                <Button
+                  variant="ghost"
+                  onClick={() =>
+                    setDialog({ type: "unit", periodNumber: group.period?.number ?? null })
+                  }
+                >
+                  <HiOutlinePlus aria-hidden />
+                  Agregar unidad
+                  <span className="sr-only">
+                    {" "}
+                    en {group.period ? group.period.name : "sin periodo"}
+                  </span>
+                </Button>
+              </div>
+            ) : (
+              <>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h2
+                    id={`${group.key}-title`}
+                    className="flex items-baseline gap-2 text-lg font-semibold"
+                  >
+                    {group.period ? group.period.name : "Sin periodo"}
+                    {group.period?.startDate && (
+                      <span className="text-sm font-normal text-muted-foreground">
+                        {group.period.startDate} – {group.period.endDate ?? "…"}
+                      </span>
+                    )}
+                  </h2>
+                  <div className="flex flex-wrap items-center gap-1">
+                    {canPropose && group.period && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => proposePeriod(group.period!.number, group.period!.name)}
+                      >
+                        <HiOutlineSparkles aria-hidden />
+                        Proponer temas con IA
+                        <span className="sr-only"> para {group.period.name}</span>
+                      </Button>
+                    )}
+                    {/* SPEC-0011 §7: un periodo sin temas activos no ofrece examen. */}
+                    {group.period &&
+                      group.units.some((u) => !u.archived && u.topics.some((t) => !t.archived)) && (
+                        <DropdownMenu>
+                          <DropdownMenuTrigger
+                            aria-label={`Opciones de ${group.period.name}`}
+                            className={cn(
+                              buttonVariants({ variant: "ghost", size: "icon" }),
+                              "shrink-0",
+                            )}
+                          >
+                            <HiOutlineEllipsisHorizontal className="size-5" aria-hidden />
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-64">
+                            {canPropose && (
+                              <DropdownMenuItem
+                                onClick={() =>
+                                  proposeObjectives(
+                                    {
+                                      scope: "PERIOD",
+                                      courseId: course.id,
+                                      periodNumber: group.period!.number,
+                                    },
+                                    group.period!.name,
+                                  )
+                                }
+                              >
+                                <HiOutlineSparkles aria-hidden />
+                                Proponer objetivos
+                              </DropdownMenuItem>
+                            )}
                             <DropdownMenuItem
+                              disabled={quickPending}
                               onClick={() =>
-                                proposeObjectives(
+                                quick(
+                                  `period-${group.period!.number}`,
                                   {
-                                    scope: "PERIOD",
-                                    courseId: course.id,
-                                    periodNumber: group.period!.number,
+                                    type: "EXAM",
+                                    scope: {
+                                      kind: "PERIOD",
+                                      courseId: course.id,
+                                      periodNumber: group.period!.number,
+                                    },
                                   },
-                                  group.period!.name,
+                                  "examen",
                                 )
                               }
                             >
-                              <HiOutlineSparkles aria-hidden />
-                              Proponer objetivos
+                              <HiOutlineClipboardDocumentList aria-hidden />
+                              Crear examen del periodo
                             </DropdownMenuItem>
-                          )}
-                          <DropdownMenuItem
-                            disabled={quickPending}
-                            onClick={() =>
-                              quick(
-                                `period-${group.period!.number}`,
-                                {
-                                  type: "EXAM",
-                                  scope: {
-                                    kind: "PERIOD",
-                                    courseId: course.id,
-                                    periodNumber: group.period!.number,
-                                  },
-                                },
-                                "examen",
-                              )
-                            }
-                          >
-                            <HiOutlineClipboardDocumentList aria-hidden />
-                            Crear examen del periodo
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            render={
-                              <Link
-                                href={`/create?type=EXAM&courseId=${planning.course.id}&scope=PERIOD:${group.period.number}`}
-                              />
-                            }
-                          >
-                            <HiOutlineAdjustmentsHorizontal aria-hidden />
-                            Ajustar examen del periodo
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    )}
-                </div>
-              </div>
-
-              <ol
-                className="flex flex-col gap-3"
-                aria-label={`Unidades de ${group.period?.name ?? "sin periodo"}`}
-              >
-                {group.units.map((unit) => (
-                  <li key={unit.id}>
-                    <Card className={unit.archived ? "opacity-60" : undefined}>
-                      <CardHeader>
-                        <div className="flex items-start justify-between gap-2">
-                          <div>
-                            <CardTitle>{unit.title}</CardTitle>
-                            {unit.description && (
-                              <CardDescription>{unit.description}</CardDescription>
-                            )}
-                          </div>
-                          <ItemActions
-                            kind="unit"
-                            id={unit.id}
-                            archived={unit.archived}
-                            label={`unidad «${unit.title}»`}
-                            onEdit={() => setDialog({ type: "unit", unit })}
-                            actions={actions}
-                            extra={
-                              unit.archived
-                                ? undefined
-                                : [
-                                    ...(canPropose && unit.periodNumber !== null
-                                      ? [
-                                          {
-                                            label: "Proponer temas",
-                                            icon: HiOutlineSparkles,
-                                            onClick: () =>
-                                              proposeFor(
-                                                { scope: "UNIT", unitId: unit.id },
-                                                unit.title,
-                                              ),
-                                          },
-                                        ]
-                                      : []),
-                                    ...(unit.topics.some((t) => !t.archived)
-                                      ? [
-                                          ...(canPropose
-                                            ? [
-                                                {
-                                                  label: "Proponer objetivos",
-                                                  icon: HiOutlineSparkles,
-                                                  onClick: () =>
-                                                    proposeObjectives(
-                                                      { scope: "UNIT", unitId: unit.id },
-                                                      unit.title,
-                                                    ),
-                                                },
-                                              ]
-                                            : []),
-                                          {
-                                            label: "Crear examen de esta unidad",
-                                            icon: HiOutlineClipboardDocumentList,
-                                            onClick: () =>
-                                              quick(
-                                                `unit-${unit.id}`,
-                                                {
-                                                  type: "EXAM",
-                                                  scope: { kind: "UNIT", unitId: unit.id },
-                                                },
-                                                "examen",
-                                              ),
-                                          },
-                                          {
-                                            label: "Ajustar examen de esta unidad",
-                                            href: `/create?type=EXAM&courseId=${planning.course.id}&scope=UNIT:${unit.id}`,
-                                            icon: HiOutlineAdjustmentsHorizontal,
-                                          },
-                                        ]
-                                      : []),
-                                  ]
-                            }
-                          />
-                        </div>
-                      </CardHeader>
-                      <CardContent className="flex flex-col gap-3">
-                        <ol className="flex flex-col gap-3" aria-label={`Temas de ${unit.title}`}>
-                          {unit.topics.map((topic) => (
-                            <li key={topic.id} className="rounded-lg border bg-muted/30 p-3">
-                              <div className="flex items-start justify-between gap-2">
-                                <div>
-                                  <h3
-                                    className={
-                                      topic.archived
-                                        ? "font-medium text-muted-foreground line-through"
-                                        : "font-medium"
-                                    }
-                                  >
-                                    {topic.title}
-                                  </h3>
-                                  <p className="text-xs text-muted-foreground">
-                                    {topic.plannedSessions
-                                      ? `${topic.plannedSessions} sesiones`
-                                      : "Sesiones sin definir"}
-                                    {topic.description ? ` · ${topic.description}` : ""}
-                                  </p>
-                                </div>
-                                <ItemActions
-                                  kind="topic"
-                                  id={topic.id}
-                                  archived={topic.archived}
-                                  label={`tema «${topic.title}»`}
-                                  onEdit={() =>
-                                    setDialog({ type: "topic", unitId: unit.id, topic })
-                                  }
-                                  actions={actions}
-                                  extra={[
-                                    {
-                                      label: "Ajustar antes de crear",
-                                      href: `/create?courseId=${planning.course.id}&topicId=${topic.id}`,
-                                      icon: HiOutlineAdjustmentsHorizontal,
-                                    },
-                                  ]}
+                            <DropdownMenuItem
+                              render={
+                                <Link
+                                  href={`/create?type=EXAM&courseId=${planning.course.id}&scope=PERIOD:${group.period.number}`}
                                 />
-                              </div>
-                              <ol
-                                className="mt-2 flex flex-col gap-2"
-                                aria-label={`Objetivos de ${topic.title}`}
-                              >
-                                {topic.objectives.map((objective) => (
-                                  <ObjectiveItem
-                                    key={objective.id}
-                                    objective={objective}
-                                    warnWithoutDba={planning.areaHasItems}
+                              }
+                            >
+                              <HiOutlineAdjustmentsHorizontal aria-hidden />
+                              Ajustar examen del periodo
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      )}
+                  </div>
+                </div>
+
+                <ol
+                  className="flex flex-col gap-3"
+                  aria-label={`Unidades de ${group.period?.name ?? "sin periodo"}`}
+                >
+                  {group.units.map((unit) => (
+                    <li key={unit.id}>
+                      <Card className={unit.archived ? "opacity-60" : undefined}>
+                        <CardHeader>
+                          <div className="flex items-start justify-between gap-2">
+                            <div>
+                              <CardTitle>{unit.title}</CardTitle>
+                              {unit.description && (
+                                <CardDescription>{unit.description}</CardDescription>
+                              )}
+                            </div>
+                            <ItemActions
+                              kind="unit"
+                              id={unit.id}
+                              archived={unit.archived}
+                              label={`unidad «${unit.title}»`}
+                              onEdit={() => setDialog({ type: "unit", unit })}
+                              actions={actions}
+                              extra={
+                                unit.archived
+                                  ? undefined
+                                  : [
+                                      ...(canPropose && unit.periodNumber !== null
+                                        ? [
+                                            {
+                                              label: "Proponer temas",
+                                              icon: HiOutlineSparkles,
+                                              onClick: () =>
+                                                proposeFor(
+                                                  { scope: "UNIT", unitId: unit.id },
+                                                  unit.title,
+                                                ),
+                                            },
+                                          ]
+                                        : []),
+                                      ...(unit.topics.some((t) => !t.archived)
+                                        ? [
+                                            ...(canPropose
+                                              ? [
+                                                  {
+                                                    label: "Proponer objetivos",
+                                                    icon: HiOutlineSparkles,
+                                                    onClick: () =>
+                                                      proposeObjectives(
+                                                        { scope: "UNIT", unitId: unit.id },
+                                                        unit.title,
+                                                      ),
+                                                  },
+                                                ]
+                                              : []),
+                                            {
+                                              label: "Crear examen de esta unidad",
+                                              icon: HiOutlineClipboardDocumentList,
+                                              onClick: () =>
+                                                quick(
+                                                  `unit-${unit.id}`,
+                                                  {
+                                                    type: "EXAM",
+                                                    scope: { kind: "UNIT", unitId: unit.id },
+                                                  },
+                                                  "examen",
+                                                ),
+                                            },
+                                            {
+                                              label: "Ajustar examen de esta unidad",
+                                              href: `/create?type=EXAM&courseId=${planning.course.id}&scope=UNIT:${unit.id}`,
+                                              icon: HiOutlineAdjustmentsHorizontal,
+                                            },
+                                          ]
+                                        : []),
+                                    ]
+                              }
+                            />
+                          </div>
+                        </CardHeader>
+                        <CardContent className="flex flex-col gap-3">
+                          <ol className="flex flex-col gap-3" aria-label={`Temas de ${unit.title}`}>
+                            {unit.topics.map((topic) => (
+                              <li key={topic.id} className="rounded-lg border bg-muted/30 p-3">
+                                <div className="flex items-start justify-between gap-2">
+                                  <div>
+                                    <h3
+                                      className={
+                                        topic.archived
+                                          ? "font-medium text-muted-foreground line-through"
+                                          : "font-medium"
+                                      }
+                                    >
+                                      {topic.title}
+                                    </h3>
+                                    <p className="text-xs text-muted-foreground">
+                                      {topic.plannedSessions
+                                        ? `${topic.plannedSessions} sesiones`
+                                        : "Sesiones sin definir"}
+                                      {topic.description ? ` · ${topic.description}` : ""}
+                                    </p>
+                                    {/* CA-0014-13: los DBA del tema (propuesta y objetivos). */}
+                                    <DbaChips
+                                      codes={topicDbaCodes(topic)}
+                                      className="mt-1.5"
+                                      label={`DBA de ${topic.title}`}
+                                    />
+                                  </div>
+                                  <ItemActions
+                                    kind="topic"
+                                    id={topic.id}
+                                    archived={topic.archived}
+                                    label={`tema «${topic.title}»`}
                                     onEdit={() =>
-                                      setDialog({ type: "objective", topicId: topic.id, objective })
+                                      setDialog({ type: "topic", unitId: unit.id, topic })
                                     }
                                     actions={actions}
+                                    extra={[
+                                      {
+                                        label: "Ajustar antes de crear",
+                                        href: `/create?courseId=${planning.course.id}&topicId=${topic.id}`,
+                                        icon: HiOutlineAdjustmentsHorizontal,
+                                      },
+                                    ]}
                                   />
-                                ))}
-                              </ol>
-                              {!topic.archived && (
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="mt-2"
-                                  onClick={() =>
-                                    setDialog({ type: "objective", topicId: topic.id })
-                                  }
+                                </div>
+                                <ol
+                                  className="mt-2 flex flex-col gap-2"
+                                  aria-label={`Objetivos de ${topic.title}`}
                                 >
-                                  <HiOutlinePlus aria-hidden />
-                                  Agregar objetivo
-                                </Button>
-                              )}
-                              {!topic.archived && (
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="mt-2"
-                                  onClick={() =>
-                                    setDialog({
-                                      type: "suggest",
-                                      topicId: topic.id,
-                                      topicTitle: topic.title,
-                                    })
-                                  }
-                                >
-                                  <HiOutlineSparkles aria-hidden />
-                                  Sugerir objetivos con IA
-                                </Button>
-                              )}
-                              {!topic.archived &&
-                                (
-                                  [
-                                    ["QUIZ", "quiz", "Crear quiz", HiOutlineClipboardDocumentCheck],
-                                    ["WORKSHOP", "taller", "Crear taller", HiOutlineDocumentText],
-                                  ] as const
-                                ).map(([type, noun, text, Icon]) => (
+                                  {topic.objectives.map((objective) => (
+                                    <ObjectiveItem
+                                      key={objective.id}
+                                      objective={objective}
+                                      warnWithoutDba={planning.areaHasItems}
+                                      onEdit={() =>
+                                        setDialog({
+                                          type: "objective",
+                                          topicId: topic.id,
+                                          objective,
+                                        })
+                                      }
+                                      actions={actions}
+                                    />
+                                  ))}
+                                </ol>
+                                {!topic.archived && (
                                   <Button
-                                    key={type}
-                                    variant="outline"
+                                    variant="ghost"
                                     size="sm"
-                                    className="mt-2 border-brand-border text-brand-strong hover:bg-brand-soft"
-                                    disabled={quickPending}
-                                    aria-busy={busyWith(`${type}-${topic.id}`)}
+                                    className="mt-2"
                                     onClick={() =>
-                                      quick(
-                                        `${type}-${topic.id}`,
-                                        { type, topicId: topic.id },
-                                        noun,
-                                      )
+                                      setDialog({ type: "objective", topicId: topic.id })
                                     }
                                   >
-                                    <Icon aria-hidden />
-                                    {busyWith(`${type}-${topic.id}`) ? "Creando…" : text}
-                                    <span className="sr-only"> de «{topic.title}»</span>
+                                    <HiOutlinePlus aria-hidden />
+                                    Agregar objetivo
                                   </Button>
-                                ))}
-                            </li>
-                          ))}
-                        </ol>
-                        {!unit.archived && (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="w-fit"
-                            onClick={() => setDialog({ type: "topic", unitId: unit.id })}
-                          >
-                            <HiOutlinePlus aria-hidden />
-                            Agregar tema
-                          </Button>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </li>
-                ))}
-              </ol>
-            </>
-          )}
-        </section>
-      ))}
+                                )}
+                                {!topic.archived && (
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="mt-2"
+                                    onClick={() =>
+                                      setDialog({
+                                        type: "suggest",
+                                        topicId: topic.id,
+                                        topicTitle: topic.title,
+                                      })
+                                    }
+                                  >
+                                    <HiOutlineSparkles aria-hidden />
+                                    Sugerir objetivos con IA
+                                  </Button>
+                                )}
+                                {!topic.archived &&
+                                  (
+                                    [
+                                      [
+                                        "QUIZ",
+                                        "quiz",
+                                        "Crear quiz",
+                                        HiOutlineClipboardDocumentCheck,
+                                      ],
+                                      ["WORKSHOP", "taller", "Crear taller", HiOutlineDocumentText],
+                                    ] as const
+                                  ).map(([type, noun, text, Icon]) => (
+                                    <Button
+                                      key={type}
+                                      variant="outline"
+                                      size="sm"
+                                      className="mt-2 border-brand-border text-brand-strong hover:bg-brand-soft"
+                                      disabled={quickPending}
+                                      aria-busy={busyWith(`${type}-${topic.id}`)}
+                                      onClick={() =>
+                                        quick(
+                                          `${type}-${topic.id}`,
+                                          { type, topicId: topic.id },
+                                          noun,
+                                        )
+                                      }
+                                    >
+                                      <Icon aria-hidden />
+                                      {busyWith(`${type}-${topic.id}`) ? "Creando…" : text}
+                                      <span className="sr-only"> de «{topic.title}»</span>
+                                    </Button>
+                                  ))}
+                              </li>
+                            ))}
+                          </ol>
+                          {!unit.archived && (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="w-fit"
+                              onClick={() => setDialog({ type: "topic", unitId: unit.id })}
+                            >
+                              <HiOutlinePlus aria-hidden />
+                              Agregar tema
+                            </Button>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </li>
+                  ))}
+                </ol>
+              </>
+            )}
+          </section>
+        ))}
 
-      <Dialog open={dialog !== null} onOpenChange={(open) => !open && close()}>
-        <DialogContent
-          className={
-            dialog?.type === "proposal" || dialog?.type === "objectivesBatch"
-              ? "sm:max-w-2xl"
-              : "sm:max-w-xl"
-          }
-        >
-          {dialog && (
-            <DialogHeader>
-              <DialogTitle>
-                {dialog.type === "proposal"
-                  ? `Propuesta de temas · ${dialog.label}`
-                  : dialog.type === "objectivesBatch"
-                    ? `Objetivos propuestos · ${dialog.label}`
-                    : DIALOG_TITLES[dialog.type][0]}
-              </DialogTitle>
-              <DialogDescription>{DIALOG_TITLES[dialog.type][1]}</DialogDescription>
-            </DialogHeader>
-          )}
-          {dialog?.type === "unit" && (
-            <UnitForm
-              courseId={course.id}
-              periods={periods}
-              initial={dialog.unit}
-              defaultPeriod={dialog.periodNumber}
-              onSubmit={(v) =>
-                dialog.unit
-                  ? actions.updateUnit({
-                      unitId: dialog.unit.id,
-                      title: v.title,
-                      description: v.description,
-                      periodNumber: v.periodNumber,
-                    })
-                  : actions.createUnit(v)
-              }
-              onDone={done}
-            />
-          )}
-          {dialog?.type === "topic" && (
-            <TopicForm
-              unitId={dialog.unitId}
-              initial={dialog.topic}
-              onSubmit={(v) =>
-                dialog.topic
-                  ? actions.updateTopic({
-                      topicId: dialog.topic.id,
-                      title: v.title,
-                      description: v.description,
-                      plannedSessions: v.plannedSessions,
-                    })
-                  : actions.createTopic(v)
-              }
-              onDone={done}
-            />
-          )}
-          {dialog?.type === "objective" && (
-            <ObjectiveForm
-              topicId={dialog.topicId}
-              references={planning.references.filter((r) => r.type === "DBA")}
-              hasArea={planning.hasArea}
-              suggestDba={async (query) => {
-                const result = await actions.searchCurriculum({
-                  courseId: planning.course.id,
-                  query,
-                });
-                if (!result.ok || result.data?.status !== "ok") return null;
-                return result.data.references.filter((r) => r.type === "DBA").map((r) => r.code);
-              }}
-              initial={
-                dialog.objective && {
-                  statement: dialog.objective.statement,
-                  links: dialog.objective.links.map((l) => ({
-                    code: l.code,
-                    evidenceIndexes: l.evidenceIndexes,
-                  })),
+        <Dialog open={dialog !== null} onOpenChange={(open) => !open && close()}>
+          <DialogContent
+            className={
+              dialog?.type === "proposal" || dialog?.type === "objectivesBatch"
+                ? "sm:max-w-2xl"
+                : "sm:max-w-xl"
+            }
+          >
+            {dialog && (
+              <DialogHeader>
+                <DialogTitle>
+                  {dialog.type === "proposal"
+                    ? `Propuesta de temas · ${dialog.label}`
+                    : dialog.type === "objectivesBatch"
+                      ? `Objetivos propuestos · ${dialog.label}`
+                      : DIALOG_TITLES[dialog.type][0]}
+                </DialogTitle>
+                <DialogDescription>{DIALOG_TITLES[dialog.type][1]}</DialogDescription>
+              </DialogHeader>
+            )}
+            {dialog?.type === "unit" && (
+              <UnitForm
+                courseId={course.id}
+                periods={periods}
+                initial={dialog.unit}
+                defaultPeriod={dialog.periodNumber}
+                onSubmit={(v) =>
+                  dialog.unit
+                    ? actions.updateUnit({
+                        unitId: dialog.unit.id,
+                        title: v.title,
+                        description: v.description,
+                        periodNumber: v.periodNumber,
+                      })
+                    : actions.createUnit(v)
                 }
-              }
-              onSubmit={(v) =>
-                dialog.objective
-                  ? actions.updateObjective({
-                      objectiveId: dialog.objective.id,
-                      statement: v.statement,
-                      links: v.links,
-                    })
-                  : actions.createObjective(v)
-              }
-              onDone={done}
-            />
-          )}
-          {dialog?.type === "proposalPick" && (
-            <div className="flex flex-col gap-2" role="group" aria-label="Para qué periodo">
-              {periods.map((p) => {
-                const count = units.filter(
-                  (u) => u.periodNumber === p.number && !u.archived,
-                ).length;
-                return (
-                  <Button
-                    key={p.number}
-                    variant="outline"
-                    className="h-auto justify-between py-2.5"
-                    onClick={() => proposePeriod(p.number, p.name)}
-                  >
-                    <span className="font-semibold">{p.name}</span>
-                    <span className="text-xs font-normal text-muted-foreground">
-                      {count === 0 ? "Vacío" : count === 1 ? "1 unidad" : `${count} unidades`}
-                    </span>
-                  </Button>
-                );
-              })}
-              <Button
-                variant="outline"
-                className="h-auto justify-between py-2.5"
-                onClick={() => proposeFor({ scope: "YEAR", courseId: course.id }, "Todo el año")}
-              >
-                <span className="font-semibold">Todo el año</span>
-                <span className="text-xs font-normal text-muted-foreground">
-                  Reparte los {coverage.total} DBA entre los periodos
-                </span>
-              </Button>
-            </div>
-          )}
-          {dialog?.type === "objectivesBatch" && (
-            <ObjectivesBatchPanel
-              key={JSON.stringify(dialog.target)}
-              target={dialog.target}
-              actions={actions.objectivesBatch}
-              onDone={close}
-            />
-          )}
-          {dialog?.type === "proposal" && (
-            <ProposalPanel
-              key={JSON.stringify(dialog.target)}
-              target={dialog.target}
-              actions={actions.proposal}
-              onDone={close}
-            />
-          )}
-          {dialog?.type === "suggest" && (
-            <SuggestPanel topicId={dialog.topicId} actions={actions.suggestions} />
-          )}
-          {dialog?.type === "periods" && (
-            <PeriodsForm
-              courseId={course.id}
-              periods={periods}
-              onSubmit={actions.setPeriods}
-              onDone={done}
-            />
-          )}
-          {dialog?.type === "copy" && (
-            <div className="flex flex-col gap-4">
-              <SelectField
-                id="copy-target"
-                value={copyTarget}
-                onChange={setCopyTarget}
-                options={copyTargets.map((t) => ({
-                  value: t.id,
-                  label: `${course.subjectName}${t.groupName ? ` · ${t.groupName}` : ""} · ${t.academicYear}`,
-                }))}
+                onDone={done}
               />
-              <p className="text-sm text-muted-foreground">
-                Se agregará al final de la planeación de ese curso. Lo archivado no se copia.
-              </p>
-              <Button
-                disabled={!copyTarget || isPending}
-                onClick={() =>
-                  run(
-                    () => actions.copy({ fromCourseId: course.id, toCourseId: copyTarget }),
-                    "Planeación copiada",
-                    close,
-                  )
+            )}
+            {dialog?.type === "topic" && (
+              <TopicForm
+                unitId={dialog.unitId}
+                initial={dialog.topic}
+                onSubmit={(v) =>
+                  dialog.topic
+                    ? actions.updateTopic({
+                        topicId: dialog.topic.id,
+                        title: v.title,
+                        description: v.description,
+                        plannedSessions: v.plannedSessions,
+                      })
+                    : actions.createTopic(v)
                 }
-              >
-                Copiar planeación
-              </Button>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
-    </div>
+                onDone={done}
+              />
+            )}
+            {dialog?.type === "objective" && (
+              <ObjectiveForm
+                topicId={dialog.topicId}
+                references={planning.references.filter((r) => r.type === "DBA")}
+                hasArea={planning.hasArea}
+                suggestDba={async (query) => {
+                  const result = await actions.searchCurriculum({
+                    courseId: planning.course.id,
+                    query,
+                  });
+                  if (!result.ok || result.data?.status !== "ok") return null;
+                  return result.data.references.filter((r) => r.type === "DBA").map((r) => r.code);
+                }}
+                initial={
+                  dialog.objective && {
+                    statement: dialog.objective.statement,
+                    links: dialog.objective.links.map((l) => ({
+                      code: l.code,
+                      evidenceIndexes: l.evidenceIndexes,
+                    })),
+                  }
+                }
+                onSubmit={(v) =>
+                  dialog.objective
+                    ? actions.updateObjective({
+                        objectiveId: dialog.objective.id,
+                        statement: v.statement,
+                        links: v.links,
+                      })
+                    : actions.createObjective(v)
+                }
+                onDone={done}
+              />
+            )}
+            {dialog?.type === "proposalPick" && (
+              <div className="flex flex-col gap-2" role="group" aria-label="Para qué periodo">
+                {periods.map((p) => {
+                  const count = units.filter(
+                    (u) => u.periodNumber === p.number && !u.archived,
+                  ).length;
+                  return (
+                    <Button
+                      key={p.number}
+                      variant="outline"
+                      className="h-auto justify-between py-2.5"
+                      onClick={() => proposePeriod(p.number, p.name)}
+                    >
+                      <span className="font-semibold">{p.name}</span>
+                      <span className="text-xs font-normal text-muted-foreground">
+                        {count === 0 ? "Vacío" : count === 1 ? "1 unidad" : `${count} unidades`}
+                      </span>
+                    </Button>
+                  );
+                })}
+                <Button
+                  variant="outline"
+                  className="h-auto justify-between py-2.5"
+                  onClick={() => proposeFor({ scope: "YEAR", courseId: course.id }, "Todo el año")}
+                >
+                  <span className="font-semibold">Todo el año</span>
+                  <span className="text-xs font-normal text-muted-foreground">
+                    Reparte los {coverage.total} DBA entre los periodos
+                  </span>
+                </Button>
+              </div>
+            )}
+            {dialog?.type === "objectivesBatch" && (
+              <ObjectivesBatchPanel
+                key={JSON.stringify(dialog.target)}
+                target={dialog.target}
+                actions={actions.objectivesBatch}
+                onDone={close}
+              />
+            )}
+            {dialog?.type === "proposal" && (
+              <ProposalPanel
+                key={JSON.stringify(dialog.target)}
+                target={dialog.target}
+                actions={actions.proposal}
+                onDone={close}
+              />
+            )}
+            {dialog?.type === "suggest" && (
+              <SuggestPanel topicId={dialog.topicId} actions={actions.suggestions} />
+            )}
+            {dialog?.type === "periods" && (
+              <PeriodsForm
+                courseId={course.id}
+                periods={periods}
+                onSubmit={actions.setPeriods}
+                onDone={done}
+              />
+            )}
+            {dialog?.type === "copy" && (
+              <div className="flex flex-col gap-4">
+                <SelectField
+                  id="copy-target"
+                  value={copyTarget}
+                  onChange={setCopyTarget}
+                  options={copyTargets.map((t) => ({
+                    value: t.id,
+                    label: `${course.subjectName}${t.groupName ? ` · ${t.groupName}` : ""} · ${t.academicYear}`,
+                  }))}
+                />
+                <p className="text-sm text-muted-foreground">
+                  Se agregará al final de la planeación de ese curso. Lo archivado no se copia.
+                </p>
+                <Button
+                  disabled={!copyTarget || isPending}
+                  onClick={() =>
+                    run(
+                      () => actions.copy({ fromCourseId: course.id, toCourseId: copyTarget }),
+                      "Planeación copiada",
+                      close,
+                    )
+                  }
+                >
+                  Copiar planeación
+                </Button>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
+      </div>
+    </DbaCatalogProvider>
   );
 }

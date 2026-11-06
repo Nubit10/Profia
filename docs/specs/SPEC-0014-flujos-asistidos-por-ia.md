@@ -310,7 +310,7 @@ Los clics se cuentan como en SPEC-0012/0013 (solo clics, sin escribir).
 - [x] T4 — Pantalla de revisión de la propuesta (árbol con casillas, edición en el sitio, "otra propuesta") y "Proponer temas" de una unidad (CA-01 a CA-07) — frontend
 - [x] T5 — Objetivos en bloque por unidad o periodo (RN-06, CA-08/09) — backend + frontend
 - [x] T6 — Recurso con un toque desde el tema, la unidad y el periodo (RN-07, CA-10/11) — backend + frontend
-- [ ] T7 — Ficha de DBA (`DbaChip` con enunciado, evidencias y fuente) en todas las pantallas, y DBA del tema (CA-12/13) — curriculum + frontend
+- [x] T7 — Ficha de DBA (`DbaChip` con enunciado, evidencias y fuente) en todas las pantallas, y DBA del tema (CA-12/13) — curriculum + frontend
 - [ ] T8 — Vista agrupada Periodo → Unidad → Tema en "Recursos del curso" y "Mis recursos" (RN-09, CA-14 a CA-18) — backend (resources) + frontend
 - [ ] T9 — Límite de propuestas (RN-08, CA-21) — backend
 - [ ] T10 — Pruebas: un test por CA con su ID; acceso cruzado (CA-17/20); axe, 360 px e hidratación (CA-22) — qa
@@ -334,7 +334,7 @@ Los clics se cuentan como en SPEC-0012/0013 (solo clics, sin escribir).
 
 ## 13. Estado de la implementación y cómo continuar
 
-Actualizado el 2026-11-06, al cerrar la parte 2 (rama `claude/jolly-dirac-fz2ibq`, PR
+Actualizado el 2026-11-06, al cerrar la parte 3 (rama `claude/jolly-dirac-fz2ibq`, PR
 Nubit10/Profia#1).
 
 **Parte 1, hecha (T1–T4):** propuesta de planeación con IA.
@@ -373,16 +373,26 @@ Nubit10/Profia#1).
   - Las pruebas de accesibilidad de SPEC-0012 y SPEC-0013 esperan a que terminen las animaciones
     antes de medir el contraste.
 
-**Siguiente: parte 3 (T7), la ficha de DBA.**
+**Parte 3, hecha (T7):** la ficha de DBA.
 
-- Un `DbaChip`: botón "DBA n" que abre en el sitio el número, el enunciado, las evidencias y la
-  fuente (documento del MEN, versión y página). Se cierra con Escape o Atrás (`useBackToClose`).
-- Va en todas las pantallas: planeación (objetivos y temas), propuesta, objetivos en bloque,
-  diálogo de objetivo, asistente y recurso.
-- La planeación muestra los DBA del tema (`Topic.dbaCodes` y los de sus objetivos).
-- `CurriculumReference` ya trae `citation`.
+- `components/curriculum/dba-chip.tsx`:
+  - `DbaChip`: botón "DBA n" que abre el número, el enunciado, las evidencias y la fuente (documento
+    del MEN, versión, año y página, con enlace al PDF). Es un `Dialog`, así que en el teléfono es una
+    hoja inferior y se cierra con Escape, Atrás o la X.
+  - Recibe el DBA ya leído (`dba`, p. ej. el vínculo de un objetivo con sus evidencias elegidas) o lo
+    busca por `code` en `DbaCatalogProvider`; si no lo encuentra, queda solo la etiqueta.
+  - `DbaChips` pinta varios códigos.
+- El texto sale siempre del catálogo (RN-01). El proveedor recibe los DBA del curso en la
+  planeación (`planning.references`), en la página del recurso y en `/create`
+  (`getCourseReferences`).
+- Va en: objetivos y temas de la planeación, DBA pendientes de la cobertura, propuesta, objetivos
+  en bloque, sugerencias, diálogo de objetivo, asistente (taller, quiz y examen) y editores del
+  recurso.
+- CA-0014-13: cada tema muestra sus DBA (`Topic.dbaCodes` más los de sus objetivos vigentes).
+- Pruebas e2e: CA-0014-12/13, CA-0014-10/12 (ficha desde una pregunta del quiz) y CA-0014-22
+  (parte 3, axe y 360 px con la ficha abierta).
 
-**Después:**
+**Siguiente:**
 
 - Parte 4: T8, recursos agrupados Periodo → Unidad → Tema en "Recursos del curso"
   (`app/(app)/courses/[courseId]/resources-library.tsx`, que todavía dice "Crear taller o quiz") y

@@ -15,6 +15,7 @@ import {
   type ResourceDetail,
   type WorkshopContent,
 } from "@/modules/resources/client";
+import { DbaChip } from "@/components/curriculum/dba-chip";
 import { ItemFeedback, RegenerateItem, type FeedbackActions } from "./item-tools";
 
 const newId = () => `a-${Math.random().toString(36).slice(2, 10)}`;
@@ -42,9 +43,7 @@ export function ActivityView({ a, dba }: { a: Activity; dba: Map<string, number>
       <div className="flex flex-wrap gap-1" data-detail>
         <Badge variant="outline">{LEVEL_LABELS[a.cognitiveLevel]}</Badge>
         {a.dbaCodes.map((c) => (
-          <Badge key={c} variant="secondary">
-            DBA {dba.get(c) ?? c}
-          </Badge>
+          <DbaChip key={c} code={c} number={dba.get(c)} />
         ))}
       </div>
     </div>

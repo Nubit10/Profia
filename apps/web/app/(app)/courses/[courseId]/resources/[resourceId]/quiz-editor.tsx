@@ -25,6 +25,7 @@ import {
   type QuizQuestion,
   type ResourceDetail,
 } from "@/modules/resources/client";
+import { DbaChip } from "@/components/curriculum/dba-chip";
 import { ItemFeedback, RegenerateItem, type FeedbackActions } from "./item-tools";
 
 const newId = () => `q-${Math.random().toString(36).slice(2, 10)}`;
@@ -60,9 +61,7 @@ export function QuestionView({ q, dba }: { q: QuizQuestion; dba: Map<string, num
         <Badge variant="outline">{QUESTION_TYPE_LABELS[q.type]}</Badge>
         <Badge variant="outline">{LEVEL_LABELS[q.cognitiveLevel]}</Badge>
         {q.dbaCodes.map((c) => (
-          <Badge key={c} variant="secondary">
-            DBA {dba.get(c) ?? c}
-          </Badge>
+          <DbaChip key={c} code={c} number={dba.get(c)} />
         ))}
       </div>
     </div>

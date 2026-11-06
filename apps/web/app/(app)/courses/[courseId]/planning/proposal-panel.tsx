@@ -1,10 +1,10 @@
 "use client";
 
+import { DbaChip } from "@/components/curriculum/dba-chip";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { HiOutlineArrowPath, HiOutlineExclamationTriangle, HiOutlinePlus } from "react-icons/hi2";
 import { sileo } from "sileo";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -131,23 +131,16 @@ function TopicRow({
             Sin DBA
           </p>
         ) : (
-          <details className="text-xs">
-            <summary className="flex cursor-pointer flex-wrap items-center gap-1 max-sm:min-h-11">
-              {topic.dba.map((d) => (
-                <Badge key={d.code} variant="secondary">
-                  DBA {d.number}
-                </Badge>
-              ))}
-              <span className="sr-only">Ver qué dicen estos DBA</span>
-            </summary>
-            <ul className="mt-1.5 flex flex-col gap-1 rounded-md bg-muted/60 p-2">
-              {topic.dba.map((d) => (
-                <li key={d.code}>
-                  <span className="font-medium">DBA {d.number}.</span> {d.statement}
-                </li>
-              ))}
-            </ul>
-          </details>
+          <ul
+            className="flex flex-wrap gap-1.5"
+            aria-label={`DBA de ${topic.title || "este tema"}`}
+          >
+            {topic.dba.map((d) => (
+              <li key={d.code}>
+                <DbaChip code={d.code} number={d.number} />
+              </li>
+            ))}
+          </ul>
         )}
       </div>
     </li>
