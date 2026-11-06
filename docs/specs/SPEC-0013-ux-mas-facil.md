@@ -471,7 +471,7 @@ Los clics se cuentan como en CA-0012-07: solo clics del usuario, sin contar escr
 - [x] T13 — ADR-0012 "App instalable": caché, alcance, actualización al desplegar, sin datos del docente — architect
 - [x] T14 — Piezas de celular en `components/ui`: hoja inferior/ventana según tamaño, `useBackToClose`, barra inferior, cajón y desplazador de pestañas (patrón de Terram) — frontend
 - [x] T15 — Pasar los formularios y menús a esas piezas; controles de 44 px; encabezado del curso y pestañas; `loading.tsx` con esqueletos (RN-11, CA-22 a 27) — frontend
-- [ ] T16 — Manifiesto, íconos desde el logo, `themeColor`, `public/sw.js`, página "Sin conexión" y "Instalar Profe" (RN-12/13, CA-28 a 31) — frontend + devops
+- [x] T16 — Manifiesto, íconos desde el logo, `themeColor`, `public/sw.js`, página "Sin conexión" y "Instalar Profe" (RN-12/13, CA-28 a 31) — frontend + devops
 - [x] T17 — Proyecto de Playwright "iPhone 13" que corre los E2E de esta spec en el celular, con la revisión de `data-floating` y de controles de 44 px — qa
 - [ ] T18 — Notificaciones: `modules/notifications` (tabla `PushSubscription`, registrar y quitar dispositivo, envío con `web-push` al terminar o fallar una generación desde el trabajo en segundo plano), tarjeta de permiso y Ajustes → Notificaciones (RN-15, CA-32 a 36) — backend + frontend + database
 - [ ] T19 — Recursos sin conexión: lista para sincronizar, sincronización en el navegador (Cache Storage + IndexedDB), pantalla "Sin conexión", estados "Disponible sin conexión", borrado al cerrar sesión (RN-13/14, CA-37 a 42) — documents + frontend + privacy
@@ -532,3 +532,9 @@ que puede querer instalarla, así que no se bloquea en ninguna página.
   (opciones, justificación, etiquetas y acciones), sin duplicar los editores.
 - Hallazgo de las pruebas: los diálogos más altos que la pantalla no se podían desplazar y sus
   últimas opciones quedaban fuera de alcance (corregido en `components/ui/dialog.tsx`).
+- **Parte 3 (T16), app instalable:** `app/manifest.ts`, íconos en `public/icons/` (los genera
+  `node scripts/generate-app-icons.mjs` desde el logo), `public/sw.js` y la página `/offline`. El
+  service worker se registra solo en producción. "Instalar Profe" vive en el pie del menú. Los
+  colores del manifiesto y del `themeColor` salen de `lib/brand-colors.ts` (el navegador no lee
+  variables CSS); una prueba unitaria verifica que coincidan con los tokens. Con
+  `viewport-fit=cover`, el encabezado y el cajón del celular respetan las áreas seguras.

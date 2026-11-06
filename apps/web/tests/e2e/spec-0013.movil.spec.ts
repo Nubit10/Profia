@@ -4,6 +4,11 @@ import { choose, signUpIndependentTeacher } from "./helpers";
 
 // SPEC-0013 RN-11: Profe en el celular (proyecto "movil": iPhone 13, 390 × 844, táctil).
 
+/** Espera a que terminen las animaciones de entrada antes de medir. */
+async function settled(locator: import("@playwright/test").Locator) {
+  await locator.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+}
+
 async function createCourse(page: Page) {
   await page
     .getByTestId("first-steps")
@@ -96,8 +101,9 @@ test("CA-0013-22/23: los formularios suben desde abajo y Atrás los cierra sin s
     .click();
   const dialog = page.getByRole("dialog");
   await expect(dialog).toBeVisible();
+  await settled(dialog);
   const box = (await dialog.boundingBox())!;
-  expect(Math.abs(box.y + box.height - viewport.height)).toBeLessThanOrEqual(2);
+  expect(Math.abs(box.y + box.height - viewport.height)).toBeLessThanOrEqual(1);
   await expect(dialog.getByRole("button", { name: "Crear curso" })).toBeInViewport();
 
   // CA-0013-22: Atrás cierra el formulario y la URL no cambia.
@@ -133,8 +139,9 @@ test("CA-0013-22/23: los formularios suben desde abajo y Atrás los cierra sin s
   await dialog.getByRole("button", { name: "Crear tema" }).click();
   await expect(dialog).toHaveCount(0);
   await page.getByRole("button", { name: "Agregar objetivo" }).click();
+  await settled(dialog);
   const objective = (await dialog.boundingBox())!;
-  expect(Math.abs(objective.y + objective.height - viewport.height)).toBeLessThanOrEqual(2);
+  expect(Math.abs(objective.y + objective.height - viewport.height)).toBeLessThanOrEqual(1);
   await expect(dialog.getByRole("button", { name: "Crear objetivo" })).toBeInViewport();
   const planningUrl = page.url();
   await page.goBack();
@@ -185,7 +192,7 @@ test("CA-0013-24/25: controles de 44 px y encabezado del curso que cabe en 390 p
     range.selectNodeContents(h);
     return new Set([...range.getClientRects()].map((r) => Math.round(r.top))).size;
   });
-  expect(lines).toBeLessThanOrEqual(2);
+  expect(lines).toBeLessThanOrEqual(1);
   const tabs = page.getByRole("navigation", { name: "Secciones del curso" }).getByRole("link");
   await expect(tabs).toHaveCount(3);
   for (const tab of await tabs.all()) await expect(tab).toBeInViewport({ ratio: 1 });
@@ -202,7 +209,7 @@ test("CA-0013-17/18/26: recurso con barra fija abajo, vista compacta y nada flot
   // CA-0013-18: "Descargar" en la barra fija de abajo y la primera pregunta sin hacer scroll.
   const bar = page.locator('[data-floating="bottom-bar"]');
   const barBox = (await bar.boundingBox())!;
-  expect(Math.abs(barBox.y + barBox.height - viewport.height)).toBeLessThanOrEqual(2);
+  expect(Math.abs(barBox.y + barBox.height - viewport.height)).toBeLessThanOrEqual(1);
   await expect(bar.getByRole("button", { name: "Descargar", exact: true })).toBeVisible();
   const first = (await questions.first().boundingBox())!;
   expect(first.y).toBeLessThan(barBox.y);
@@ -237,4 +244,58 @@ test("CA-0013-27: con mala señal, al tocar un enlace se ve enseguida la pantall
     page.getByTestId("link-pending").or(page.getByTestId("page-skeleton")).first(),
   ).toBeVisible({ timeout: 500 });
   await expect(page).toHaveURL(/\/resources$/, { timeout: 15_000 });
+});
+
+test("CA-0013-29: en iPhone 'Instalar Profe' explica cómo agregarla a la pantalla de inicio", async ({
+  page,
+}) => {
+  await signUpIndependentTeacher(page);
+  await page.getByRole("button", { name: "Abrir menú" }).click();
+  await page.getByRole("button", { name: "Instalar Profe" }).click();
+  const help = page.getByRole("dialog", { name: "Instala Profe en tu iPhone" });
+  await expect(help).toContainText("Agregar a pantalla de inicio");
+  await help.getByRole("button", { name: "Entendido" }).click();
+  await expect(help).toHaveCount(0);
+});
+
+test("CA-0013-31: abierta como app, se recorre Inicio → curso → recurso → Inicio sin el navegador", async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+  await page.addInitScript(() => {
+    const original = window.matchMedia.bind(window);
+    window.matchMedia = (query: string) =>
+      query.includes("display-mode: standalone")
+        ? ({ ...original(query), matches: true, media: query } as MediaQueryList)
+        : original(query);
+  });
+  await quizOnPhone(page);
+  // Inicio, por el menú.
+  await page.getByRole("button", { name: "Abrir menú" }).click();
+  await page.getByRole("link", { name: "Inicio" }).click();
+  await expect(page.getByRole("heading", { name: /^Hola,/ })).toBeVisible();
+  // Al curso, desde sus tarjetas.
+  await page
+    .getByRole("link", { name: /Matemáticas · 6° · 601/ })
+    .first()
+    .click();
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Matemáticas");
+  // Al recurso, desde la pestaña de recursos del curso.
+  await page.getByRole("link", { name: "Recursos", exact: true }).click();
+  await page
+    .getByRole("link", { name: /La recta numérica/ })
+    .first()
+    .click();
+  await expect(page.getByRole("list", { name: "Preguntas" })).toBeVisible();
+  // De vuelta, con el enlace visible "Recursos del curso" y el menú.
+  await page.getByRole("link", { name: "Recursos del curso" }).click();
+  await page.getByRole("button", { name: "Abrir menú" }).click();
+  await page.getByRole("link", { name: "Inicio" }).click();
+  await expect(page.getByRole("heading", { name: /^Hola,/ })).toBeVisible();
+  // El encabezado respeta la barra de estado del teléfono (área segura).
+  const padding = await page
+    .locator("header")
+    .first()
+    .evaluate((h) => h.className);
+  expect(padding).toContain("safe-area-inset-top");
 });

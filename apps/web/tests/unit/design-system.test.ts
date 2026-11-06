@@ -68,3 +68,13 @@ describe("contraste del degradado (RN-10)", () => {
     }
   });
 });
+
+describe("colores de la app instalable (SPEC-0013 RN-12)", () => {
+  it("CA-0013-28: el manifiesto y la barra del sistema usan los colores de los tokens", async () => {
+    const { BACKGROUND_COLOR, BRAND_COLOR } = await import("@/lib/brand-colors");
+    const css = readFileSync(path.join(ROOT, "app/globals.css"), "utf8");
+    const token = (name: string) => new RegExp(`--${name}:\\s*([^;]+);`).exec(css)?.[1]?.trim();
+    expect(BRAND_COLOR).toBe(token("brand"));
+    expect(BACKGROUND_COLOR).toBe(token("background"));
+  });
+});

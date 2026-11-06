@@ -23,6 +23,7 @@ import { useBodyScrollLock } from "@/lib/scroll-lock";
 import { useBackToClose } from "@/lib/use-back-to-close";
 import { cn } from "@/lib/utils";
 import { CreateMenu } from "./create-menu";
+import { InstallApp } from "./install-app";
 import { LinkPending } from "./link-pending";
 import { WATCH_STORAGE_PREFIX, useGenerationWatcher, type WatchAction } from "./generation-watcher";
 import {
@@ -198,6 +199,10 @@ export function AppShell(props: Props) {
             <HiOutlineQuestionMarkCircle className="size-[18px] text-brand" aria-hidden />
             Ver tutorial
           </button>
+          <InstallApp
+            className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-semibold text-sidebar-foreground transition hover:bg-brand-softer hover:text-brand-strong"
+            onDone={closeSidebar}
+          />
           <div className="mx-4 h-px bg-border" />
           <button
             type="button"
@@ -227,7 +232,7 @@ export function AppShell(props: Props) {
       </aside>
 
       {/* Celular y tableta: barra superior con el espacio y el cupo. */}
-      <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-border bg-card px-4 py-2.5 shadow-soft lg:hidden">
+      <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-border bg-card px-4 py-2.5 pt-[calc(0.625rem+env(safe-area-inset-top))] shadow-soft lg:hidden">
         <SpaceLogo identity={identity} size={34} />
         <span className="min-w-0 flex-1 truncate text-sm font-bold" title={identity.spaceName}>
           {identity.spaceName}
@@ -266,13 +271,13 @@ export function AppShell(props: Props) {
             role="dialog"
             aria-modal="true"
             aria-label="Menú"
-            className="absolute inset-y-0 left-0 w-[82vw] max-w-64 shadow-lift"
+            className="absolute inset-y-0 left-0 w-[82vw] max-w-64 bg-sidebar pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] shadow-lift"
           >
             <button
               type="button"
               onClick={closeSidebar}
               aria-label="Cerrar el menú"
-              className="absolute top-3 -right-12 rounded-xl bg-card p-2 text-foreground shadow-soft"
+              className="absolute top-[calc(0.75rem+env(safe-area-inset-top))] -right-14 flex size-11 items-center justify-center rounded-xl bg-card text-foreground shadow-soft"
             >
               <HiXMark className="size-5" aria-hidden />
             </button>
