@@ -150,6 +150,10 @@ export default async function CoursePage({
             archive: planning.setItemArchivedAction,
             copy: planning.copyPlanningAction,
             searchCurriculum: searchCurriculumAction,
+            proposal: {
+              propose: generation.proposePlanningAction,
+              accept: planning.acceptPlanningProposalAction,
+            },
             suggestions: {
               suggest: generation.suggestObjectivesAction,
               accept: generation.acceptSuggestionAction,

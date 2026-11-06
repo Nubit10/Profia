@@ -53,6 +53,7 @@ import type {
   UnitInput,
 } from "@/modules/planning/client";
 import { ObjectiveForm, PeriodsForm, TopicForm, UnitForm } from "./planning-forms";
+import { ProposalPanel, type ProposalActions, type ProposalScope } from "./proposal-panel";
 import { SuggestPanel, type SuggestActions } from "./suggest-panel";
 import { useRun } from "./use-run";
 
@@ -69,6 +70,8 @@ export type PlanningActions = {
   move: A<{ kind: PlanningKind; id: string; direction: "up" | "down" }>;
   archive: A<{ kind: PlanningKind; id: string; archived: boolean }>;
   suggestions: SuggestActions;
+  /** SPEC-0014: proponer unidades y temas con IA y agregarlos. */
+  proposal: ProposalActions;
   /** SPEC-0013 RN-04: búsqueda curricular para sugerir DBA al escribir un objetivo. */
   searchCurriculum: A<{ courseId: string; query: string }, CurriculumSearchResult>;
   copy: A<
@@ -84,6 +87,8 @@ type DialogState =
   | { type: "periods" }
   | { type: "copy" }
   | { type: "suggest"; topicId: string; topicTitle: string }
+  | { type: "proposalPick" }
+  | { type: "proposal"; target: ProposalScope; label: string }
   | null;
 
 type Props = {
@@ -101,6 +106,14 @@ const DIALOG_TITLES: Record<NonNullable<DialogState>["type"], [string, string]> 
   suggest: [
     "Sugerir objetivos con IA",
     "Propuestas basadas en los DBA del curso. Tú decides cuáles usar.",
+  ],
+  proposalPick: [
+    "Proponer temas con IA",
+    "Profe arma unidades y temas a partir de los DBA del grado. Tú revisas antes de agregar.",
+  ],
+  proposal: [
+    "Propuesta de temas",
+    "Cambia los títulos, quita lo que no quieras y agrega el resto. Nada se guarda hasta que lo agregues.",
   ],
   copy: [
     "Copiar planeación",
@@ -128,7 +141,7 @@ function ItemActions({
   onEdit: () => void;
   actions: PlanningActions;
   /** Opciones adicionales, como "Crear examen de esta unidad". */
-  extra?: { label: string; href: string; icon: IconType }[];
+  extra?: ({ label: string; icon: IconType } & ({ href: string } | { onClick: () => void }))[];
 }) {
   const { run, isPending } = useRun();
   if (archived) {
@@ -154,12 +167,19 @@ function ItemActions({
         <HiOutlineEllipsisHorizontal className="size-5" aria-hidden />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-60">
-        {extra?.map((item) => (
-          <DropdownMenuItem key={item.href} render={<Link href={item.href} />}>
-            <item.icon aria-hidden />
-            {item.label}
-          </DropdownMenuItem>
-        ))}
+        {extra?.map((item) =>
+          "href" in item ? (
+            <DropdownMenuItem key={item.label} render={<Link href={item.href} />}>
+              <item.icon aria-hidden />
+              {item.label}
+            </DropdownMenuItem>
+          ) : (
+            <DropdownMenuItem key={item.label} onClick={item.onClick}>
+              <item.icon aria-hidden />
+              {item.label}
+            </DropdownMenuItem>
+          ),
+        )}
         {extra && extra.length > 0 && <DropdownMenuSeparator />}
         <DropdownMenuItem aria-label={`Editar ${label}`} onClick={onEdit}>
           <HiOutlinePencilSquare aria-hidden />
@@ -280,6 +300,12 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
     router.refresh();
   };
   const { course, periods, units, coverage } = planning;
+  // SPEC-0014 CA-0014-07: sin DBA en el catálogo, la IA no tiene de dónde proponer.
+  const canPropose = planning.hasArea && coverage.total > 0;
+  const proposeFor = (target: ProposalScope, label: string) =>
+    setDialog({ type: "proposal", target, label });
+  const proposePeriod = (number: number, name: string) =>
+    proposeFor({ scope: "PERIOD", courseId: course.id, periodNumber: number }, name);
 
   const groups = [
     ...periods.map((p) => ({
@@ -297,6 +323,12 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
           <HiOutlinePlus aria-hidden />
           Nueva unidad
         </Button>
+        {canPropose && (
+          <Button variant="outline" onClick={() => setDialog({ type: "proposalPick" })}>
+            <HiOutlineSparkles aria-hidden />
+            Proponer temas con IA
+          </Button>
+        )}
         <Button variant="outline" onClick={() => setDialog({ type: "periods" })}>
           <HiOutlineCalendarDays aria-hidden />
           Periodos
@@ -321,7 +353,7 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
             <CardTitle>
               Cobertura de DBA: {coverage.covered.length} de {coverage.total}
             </CardTitle>
-            <CardDescription>DBA del grado vinculados a al menos un objetivo.</CardDescription>
+            <CardDescription>DBA del grado que ya están en un tema o un objetivo.</CardDescription>
           </CardHeader>
           {coverage.pending.length > 0 && (
             <CardContent>
@@ -347,10 +379,27 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
           <CardHeader>
             <CardTitle>Empieza tu planeación</CardTitle>
             <CardDescription>
-              Crea unidades por periodo, agrega temas y redacta objetivos vinculados a los DBA. Con
-              esa estructura Profe podrá ayudarte a generar materiales.
+              {canPropose
+                ? "Profe puede proponerte las unidades y los temas de todo el año a partir de los DBA del grado. Tú revisas y decides qué agregar."
+                : "Crea unidades por periodo, agrega temas y redacta objetivos. Con esa estructura Profe podrá ayudarte a generar materiales."}
             </CardDescription>
           </CardHeader>
+          <CardContent>
+            {canPropose ? (
+              <Button
+                variant="outline"
+                onClick={() => proposeFor({ scope: "YEAR", courseId: course.id }, "Todo el año")}
+              >
+                <HiOutlineSparkles aria-hidden />
+                Proponer el año con IA
+              </Button>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                Esta asignatura no tiene DBA en el catálogo, así que Profe no puede proponer temas.
+                Agrégalos a mano.
+              </p>
+            )}
+          </CardContent>
         </Card>
       )}
 
@@ -370,6 +419,16 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                 {group.period ? group.period.name : "Sin periodo"}
               </h2>
               <span className="mr-auto text-sm text-muted-foreground">Sin unidades</span>
+              {canPropose && group.period && (
+                <Button
+                  variant="ghost"
+                  onClick={() => proposePeriod(group.period!.number, group.period!.name)}
+                >
+                  <HiOutlineSparkles aria-hidden />
+                  Proponer temas con IA
+                  <span className="sr-only"> para {group.period.name}</span>
+                </Button>
+              )}
               <Button
                 variant="ghost"
                 onClick={() =>
@@ -398,17 +457,30 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                     </span>
                   )}
                 </h2>
-                {/* SPEC-0011 §7: un periodo sin temas activos no ofrece examen. */}
-                {group.period &&
-                  group.units.some((u) => !u.archived && u.topics.some((t) => !t.archived)) && (
-                    <Link
-                      href={`/create?type=EXAM&courseId=${planning.course.id}&scope=PERIOD:${group.period.number}`}
-                      className={buttonVariants({ variant: "ghost", size: "sm" })}
+                <div className="flex flex-wrap items-center gap-1">
+                  {canPropose && group.period && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => proposePeriod(group.period!.number, group.period!.name)}
                     >
-                      <HiOutlineClipboardDocumentList aria-hidden />
-                      Crear examen del periodo
-                    </Link>
+                      <HiOutlineSparkles aria-hidden />
+                      Proponer temas con IA
+                      <span className="sr-only"> para {group.period.name}</span>
+                    </Button>
                   )}
+                  {/* SPEC-0011 §7: un periodo sin temas activos no ofrece examen. */}
+                  {group.period &&
+                    group.units.some((u) => !u.archived && u.topics.some((t) => !t.archived)) && (
+                      <Link
+                        href={`/create?type=EXAM&courseId=${planning.course.id}&scope=PERIOD:${group.period.number}`}
+                        className={buttonVariants({ variant: "ghost", size: "sm" })}
+                      >
+                        <HiOutlineClipboardDocumentList aria-hidden />
+                        Crear examen del periodo
+                      </Link>
+                    )}
+                </div>
               </div>
 
               <ol
@@ -434,15 +506,32 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                             onEdit={() => setDialog({ type: "unit", unit })}
                             actions={actions}
                             extra={
-                              !unit.archived && unit.topics.some((t) => !t.archived)
-                                ? [
-                                    {
-                                      label: "Crear examen de esta unidad",
-                                      href: `/create?type=EXAM&courseId=${planning.course.id}&scope=UNIT:${unit.id}`,
-                                      icon: HiOutlineClipboardDocumentList,
-                                    },
+                              unit.archived
+                                ? undefined
+                                : [
+                                    ...(canPropose && unit.periodNumber !== null
+                                      ? [
+                                          {
+                                            label: "Proponer temas",
+                                            icon: HiOutlineSparkles,
+                                            onClick: () =>
+                                              proposeFor(
+                                                { scope: "UNIT", unitId: unit.id },
+                                                unit.title,
+                                              ),
+                                          },
+                                        ]
+                                      : []),
+                                    ...(unit.topics.some((t) => !t.archived)
+                                      ? [
+                                          {
+                                            label: "Crear examen de esta unidad",
+                                            href: `/create?type=EXAM&courseId=${planning.course.id}&scope=UNIT:${unit.id}`,
+                                            icon: HiOutlineClipboardDocumentList,
+                                          },
+                                        ]
+                                      : []),
                                   ]
-                                : undefined
                             }
                           />
                         </div>
@@ -563,10 +652,14 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
       ))}
 
       <Dialog open={dialog !== null} onOpenChange={(open) => !open && close()}>
-        <DialogContent className="sm:max-w-xl">
+        <DialogContent className={dialog?.type === "proposal" ? "sm:max-w-2xl" : "sm:max-w-xl"}>
           {dialog && (
             <DialogHeader>
-              <DialogTitle>{DIALOG_TITLES[dialog.type][0]}</DialogTitle>
+              <DialogTitle>
+                {dialog.type === "proposal"
+                  ? `Propuesta de temas · ${dialog.label}`
+                  : DIALOG_TITLES[dialog.type][0]}
+              </DialogTitle>
               <DialogDescription>{DIALOG_TITLES[dialog.type][1]}</DialogDescription>
             </DialogHeader>
           )}
@@ -638,6 +731,46 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                   : actions.createObjective(v)
               }
               onDone={done}
+            />
+          )}
+          {dialog?.type === "proposalPick" && (
+            <div className="flex flex-col gap-2" role="group" aria-label="Para qué periodo">
+              {periods.map((p) => {
+                const count = units.filter(
+                  (u) => u.periodNumber === p.number && !u.archived,
+                ).length;
+                return (
+                  <Button
+                    key={p.number}
+                    variant="outline"
+                    className="h-auto justify-between py-2.5"
+                    onClick={() => proposePeriod(p.number, p.name)}
+                  >
+                    <span className="font-semibold">{p.name}</span>
+                    <span className="text-xs font-normal text-muted-foreground">
+                      {count === 0 ? "Vacío" : count === 1 ? "1 unidad" : `${count} unidades`}
+                    </span>
+                  </Button>
+                );
+              })}
+              <Button
+                variant="outline"
+                className="h-auto justify-between py-2.5"
+                onClick={() => proposeFor({ scope: "YEAR", courseId: course.id }, "Todo el año")}
+              >
+                <span className="font-semibold">Todo el año</span>
+                <span className="text-xs font-normal text-muted-foreground">
+                  Reparte los {coverage.total} DBA entre los periodos
+                </span>
+              </Button>
+            </div>
+          )}
+          {dialog?.type === "proposal" && (
+            <ProposalPanel
+              key={JSON.stringify(dialog.target)}
+              target={dialog.target}
+              actions={actions.proposal}
+              onDone={close}
             />
           )}
           {dialog?.type === "suggest" && (

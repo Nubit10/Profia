@@ -16,3 +16,4 @@ Una decisión por archivo: `NNNN-titulo-en-kebab-case.md`, a partir de [_templat
 | [0010](0010-imagenes-pequenas-en-la-base.md)                 | Imágenes pequeñas (logos) en PostgreSQL                              | Aceptado  |
 | [0011](0011-despliegue-del-mvp.md)                           | Despliegue del MVP sin costo (Vercel, Supabase, Hugging Face)        | Propuesto |
 | [0012](0012-app-instalable-notificaciones-y-sin-conexion.md) | App instalable, notificaciones del navegador y recursos sin conexión | Aceptado  |
+| [0013](0013-propuesta-de-planeacion-con-ia.md)               | Propuesta de planeación con IA (`generation-planning.v1`)            | Aceptado  |

@@ -39,6 +39,9 @@ test("CA-0013-20: pantallas nuevas accesibles, con un botón principal y sin des
   page,
 }) => {
   test.setTimeout(180_000);
+  // axe mide el color en el instante en que corre: a mitad de una transición (un enlace que pasa a
+  // activo, una opción que se marca) ve colores intermedios. Sin transiciones mide el estado final.
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await signUpIndependentTeacher(page);
 
   // Inicio con "Primeros pasos".

@@ -270,7 +270,60 @@ def _format(data: dict) -> dict:
     }
 
 
+# Código inventado a propósito: el AI Engine debe quitarlo (SPEC-0014 RN-01, CA-0014-02).
+INVENTED_CODE = "MEN-DBA-INVENTADO-99"
+
+
+def _planning(data: dict) -> dict:
+    """Reparte "debeCubrir" entre los temas y titula sin repetir lo existente ni lo usado."""
+    period = data["periodo"]["numero"]
+    codes = [d["codigo"] for d in data.get("dba", [])]
+    must = list(data.get("debeCubrir", []))
+    unit = data.get("unidad")
+    n_units = data["unidades"]["min"]
+    t_min, t_max = data["temasPorUnidad"]["min"], data["temasPorUnidad"]["max"]
+    per_unit = min(t_max, max(t_min, -(-len(must) // n_units)))
+    taken = {t.lower() for t in data.get("titulosUsados", [])}
+    for u in data.get("existentes", []):
+        taken |= {u["unidad"].lower(), *(t.lower() for t in u["temas"])}
+    if unit:
+        taken |= {t.lower() for t in unit["temas"]}
+
+    def fresh(kind: str) -> str:
+        k = 1
+        while f"{kind} {k} del periodo {period}".lower() in taken:
+            k += 1
+        taken.add(f"{kind} {k} del periodo {period}".lower())
+        return f"{kind} {k} del periodo {period}"
+
+    slots = n_units * per_unit
+    assigned: list[list[str]] = [[] for _ in range(slots)]
+    for i, code in enumerate(must):
+        assigned[i % slots].append(code)
+    for i, bucket in enumerate(assigned):
+        if not bucket and codes:
+            bucket.append(codes[i % len(codes)])
+    if assigned and assigned[0]:
+        assigned[0].append(INVENTED_CODE)
+    units = []
+    for u in range(n_units):
+        topics = []
+        for t in range(per_unit):
+            bucket = assigned[u * per_unit + t]
+            topics.append(
+                {
+                    "title": fresh("Tema"),
+                    "description": f"Se trabaja con ejemplos de la clase para el periodo {period}.",
+                    "dbaCodes": bucket[:3] + [c for c in bucket[3:] if c == INVENTED_CODE],
+                }
+            )
+        title = unit["titulo"] if unit else fresh("Unidad")
+        units.append({"title": title, "topics": topics})
+    return {"units": units}
+
+
 TASKS = {
+    "planeacion": _planning,
     "quiz": _quiz,
     "taller": _workshop,
     "item": _item,

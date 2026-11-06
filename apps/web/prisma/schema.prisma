@@ -424,6 +424,8 @@ model Topic {
   title           String
   description     String?
   plannedSessions Int?
+  /// DBA del tema que trajo la propuesta con IA (SPEC-0014 RN-01); validados contra el curso.
+  dbaCodes        String[]        @default([])
   position        Int
   archivedAt      DateTime?
   createdAt       DateTime        @default(now())
@@ -495,25 +497,27 @@ enum SuggestionRating {
 }
 
 model GenerationLog {
-  id            String                 @id @default(cuid())
-  institutionId String
-  institution   Institution            @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  id             String                 @id @default(cuid())
+  institutionId  String
+  institution    Institution            @relation(fields: [institutionId], references: [id], onDelete: Cascade)
   /// Docente que la pidió (membresía). Sin datos personales en esta tabla.
-  membershipId  String
-  task          String
+  membershipId   String
+  task           String
   /// Entidad sobre la que se generó (p. ej. el tema).
-  entityType    String
-  entityId      String
-  status        GenerationStatus
-  provider      String?
-  model         String?
-  promptVersion String?
-  attempts      Int                    @default(0)
-  latencyMs     Int?
+  entityType     String
+  entityId       String
+  status         GenerationStatus
+  provider       String?
+  model          String?
+  promptVersion  String?
+  attempts       Int                    @default(0)
+  latencyMs      Int?
   /// Tokens de entrada + salida (SPEC-0008), para vigilar el cupo del proveedor.
-  tokens        Int?
-  createdAt     DateTime               @default(now())
-  suggestions   GenerationSuggestion[]
+  tokens         Int?
+  /// Códigos de DBA que el modelo devolvió y se descartaron por no ser del curso (SPEC-0014 RN-01).
+  discardedCodes Int?
+  createdAt      DateTime               @default(now())
+  suggestions    GenerationSuggestion[]
 
   @@unique([id, institutionId])
   @@index([institutionId, membershipId, createdAt])

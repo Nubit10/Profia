@@ -127,6 +127,83 @@ export const copySchema = z.object({
   toCourseId: z.string().min(1),
 });
 
+// ---------- Propuesta con IA (SPEC-0014) ----------
+
+export const PROPOSAL_SIZES = ["LESS", "DEFAULT", "MORE"] as const;
+export type ProposalSize = (typeof PROPOSAL_SIZES)[number];
+/** RN-05: unidades por periodo y temas por unidad según "Menos / Normal / Más". */
+export const PROPOSAL_RANGES: Record<
+  ProposalSize,
+  { units: [number, number]; topics: [number, number] }
+> = {
+  LESS: { units: [1, 2], topics: [2, 3] },
+  DEFAULT: { units: [2, 4], topics: [2, 4] },
+  MORE: { units: [3, 5], topics: [3, 5] },
+};
+export const PROPOSAL_TITLE_MAX = 80;
+
+/** "Otra propuesta": títulos que ya están en la revisión, para no repetirlos. */
+const avoidTitles = z.array(z.string().trim().max(150)).max(120).default([]);
+
+export const proposePlanningSchema = z.discriminatedUnion("scope", [
+  z.object({
+    scope: z.literal("PERIOD"),
+    courseId: z.string().min(1),
+    periodNumber: z.number().int().min(1).max(MAX_PERIODS),
+    size: z.enum(PROPOSAL_SIZES).default("DEFAULT"),
+    avoid: avoidTitles,
+  }),
+  z.object({
+    scope: z.literal("YEAR"),
+    courseId: z.string().min(1),
+    size: z.enum(PROPOSAL_SIZES).default("DEFAULT"),
+    avoid: avoidTitles,
+  }),
+  z.object({
+    scope: z.literal("UNIT"),
+    unitId: z.string().min(1),
+    size: z.enum(PROPOSAL_SIZES).default("DEFAULT"),
+    avoid: avoidTitles,
+  }),
+]);
+
+const proposalTitle = z
+  .string()
+  .trim()
+  .min(3, "Mínimo 3 caracteres")
+  .max(PROPOSAL_TITLE_MAX, `Máximo ${PROPOSAL_TITLE_MAX} caracteres`);
+const proposalTopic = z.object({
+  title: proposalTitle,
+  description: optionalText(200),
+  dbaCodes: z.array(z.string().min(1).max(60)).max(3).default([]),
+});
+
+/** Lo que el docente dejó en la revisión (RN-02). Se revalida todo en el servidor. */
+export const acceptProposalSchema = z.object({
+  courseId: z.string().min(1),
+  units: z
+    .array(
+      z.discriminatedUnion("kind", [
+        z.object({
+          kind: z.literal("NEW"),
+          periodNumber: z.number().int().min(1).max(MAX_PERIODS),
+          title: proposalTitle,
+          topics: z.array(proposalTopic).min(1).max(8),
+        }),
+        z.object({
+          kind: z.literal("EXISTING"),
+          unitId: z.string().min(1),
+          topics: z.array(proposalTopic).min(1).max(8),
+        }),
+      ]),
+    )
+    .min(1, "Elige al menos un tema")
+    .max(30),
+});
+
+export type ProposePlanningInput = z.input<typeof proposePlanningSchema>;
+export type AcceptProposalInput = z.input<typeof acceptProposalSchema>;
+
 export type CoursePeriodsInput = z.input<typeof coursePeriodsSchema>;
 export type UnitInput = z.input<typeof unitSchema>;
 export type TopicInput = z.input<typeof topicSchema>;

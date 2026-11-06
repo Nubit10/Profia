@@ -3,8 +3,10 @@
 import { z } from "zod";
 import { runAction, type ActionResult } from "@/lib/actions";
 import { requireTenant } from "@/modules/tenancy";
+import { proposePlanningSchema } from "@/modules/planning/client";
+import { proposePlanning } from "./planning";
 import { acceptSuggestion, discardSuggestion, rateSuggestion, suggestObjectives } from "./service";
-import type { ObjectiveSuggestionsResult } from "./types";
+import type { ObjectiveSuggestionsResult, PlanningProposal } from "./types";
 
 const id = z.string().min(1);
 
@@ -53,5 +55,14 @@ export async function rateSuggestionAction(input: unknown): Promise<ActionResult
     input,
     async ({ suggestionId, rating, comment }) =>
       rateSuggestion(await requireTenant(), suggestionId, rating, comment),
+  );
+}
+
+/** SPEC-0014: propuesta de unidades y temas con IA. No guarda nada en la planeación (RN-02). */
+export async function proposePlanningAction(
+  input: unknown,
+): Promise<ActionResult<PlanningProposal>> {
+  return runAction("propose_planning", proposePlanningSchema, input, async (data) =>
+    proposePlanning(await requireTenant(), data),
   );
 }

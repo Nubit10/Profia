@@ -22,7 +22,7 @@ Solo se implementa lo que está **Aprobada**. Solo el usuario (product owner) ap
 | [SPEC-0011](SPEC-0011-examenes.md)                   | Exámenes con IA                                                     | 6 · Generation              | En implementación |
 | [SPEC-0012](SPEC-0012-rediseno-visual-y-ux.md)       | Rediseño visual y de experiencia de usuario (va antes de SPEC-0011) | Transversal                 | Implementada      |
 | [SPEC-0013](SPEC-0013-ux-mas-facil.md)               | Profe más fácil: menos pasos, hecho para el celular e instalable    | Transversal                 | Implementada      |
-| [SPEC-0014](SPEC-0014-flujos-asistidos-por-ia.md)    | Flujos asistidos por IA de punta a punta: el docente hace lo mínimo | 4/6 · Planning y Generation | Borrador          |
+| [SPEC-0014](SPEC-0014-flujos-asistidos-por-ia.md)    | Flujos asistidos por IA de punta a punta: el docente hace lo mínimo | 4/6 · Planning y Generation | En implementación |
 
 ## Mapa del roadmap → specs previstas
 

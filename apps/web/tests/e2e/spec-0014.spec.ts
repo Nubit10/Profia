@@ -1,0 +1,189 @@
+import AxeBuilder from "@axe-core/playwright";
+import type { Locator, Page } from "@playwright/test";
+import { expect, test } from "./fixtures";
+import { choose, signUpIndependentTeacher } from "./helpers";
+
+// SPEC-0014 parte 1: la IA propone la planeación a partir de los DBA (AI Engine con el LLM de
+// prueba, que además devuelve un código de DBA inventado en cada periodo).
+
+async function openNewCourse(page: Page, subject = "Matemáticas", group = "601") {
+  await page
+    .getByRole("button", { name: /Crear mi primer curso|Nuevo curso/ })
+    .first()
+    .click();
+  await choose(page, "Asignatura", subject);
+  await choose(page, "Grado", "6°");
+  await page.getByLabel("Grupo").fill(group);
+  await page.getByRole("button", { name: "Crear curso" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await page.getByRole("link", { name: `${subject} · 6° · ${group}` }).click();
+  await expect(page.getByRole("heading", { name: "Periodo 1", exact: true })).toBeVisible();
+}
+
+function clickCounter() {
+  let clicks = 0;
+  return {
+    click: async (locator: Locator) => {
+      clicks += 1;
+      await locator.click();
+    },
+    get count() {
+      return clicks;
+    },
+  };
+}
+
+const unitsOf = (page: Page, period: string) =>
+  page.getByRole("list", { name: `Unidades de ${period}` });
+
+test("CA-0014-01/02: proponer el periodo 1 y agregarlo en 3 clics, sin escribir", async ({
+  page,
+}) => {
+  await signUpIndependentTeacher(page);
+  await openNewCourse(page);
+  const user = clickCounter();
+
+  await user.click(page.getByRole("button", { name: "Proponer temas con IA", exact: true }));
+  await user.click(page.getByRole("dialog").getByRole("button", { name: /^Periodo 1/ }));
+  const dialog = page.getByRole("dialog");
+  const add = dialog.getByRole("button", { name: /Agregar a la planeación \(\d+\)/ });
+  await expect(add).toBeEnabled();
+
+  // CA-0014-02: cada tema muestra DBA del curso y el código inventado no aparece (el tema que
+  // queda sin ninguno, "Sin DBA", se prueba en integración).
+  await expect(dialog.getByText("Sin DBA")).toHaveCount(0);
+  await expect(dialog.getByText(/^DBA \d+$/).first()).toBeVisible();
+  await expect(dialog).not.toContainText("INVENTADO");
+
+  await user.click(add);
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  expect(user.count).toBeLessThanOrEqual(4);
+
+  const units = unitsOf(page, "Periodo 1");
+  await expect(units.locator(":scope > li")).toHaveCount(2);
+  await expect(units.getByRole("heading", { level: 3 })).toHaveCount(4);
+  await expect(page.getByText("Cobertura de DBA: 3 de 12")).toBeVisible();
+});
+
+test("CA-0014-03: se guarda exactamente lo que quedó en la revisión; cerrar no guarda", async ({
+  page,
+}) => {
+  await signUpIndependentTeacher(page);
+  await openNewCourse(page);
+
+  // Cerrar sin agregar no guarda nada.
+  await page.getByRole("button", { name: "Proponer temas con IA para Periodo 2" }).click();
+  await expect(page.getByRole("button", { name: /Agregar a la planeación/ })).toBeEnabled();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect(unitsOf(page, "Periodo 2")).toHaveCount(0);
+
+  await page.getByRole("button", { name: "Proponer temas con IA para Periodo 1" }).click();
+  const dialog = page.getByRole("dialog");
+  await dialog.getByRole("button", { name: "Más temas" }).click();
+  const add = dialog.getByRole("button", { name: /Agregar a la planeación/ });
+  await expect(add).toBeEnabled();
+  const unitTitles = dialog.getByRole("textbox", { name: "Título de la unidad" });
+  await expect(unitTitles).toHaveCount(3);
+
+  // Cambia el título de la primera, quita la segunda y pide otra propuesta para la tercera.
+  await unitTitles.nth(0).fill("Números enteros");
+  const second = await unitTitles.nth(1).inputValue();
+  await dialog.getByRole("checkbox", { name: `Incluir la unidad «${second}»` }).click();
+  const third = await unitTitles.nth(2).inputValue();
+  await dialog.getByRole("button", { name: `Otra propuesta para «${third}»` }).click();
+  await expect(dialog.locator("[aria-busy=true]")).toHaveCount(0);
+  const replaced = await unitTitles.nth(2).inputValue();
+  // Quita también un tema de la primera unidad.
+  const firstTopic = dialog.getByRole("textbox", { name: "Título del tema" }).first();
+  const removedTopic = await firstTopic.inputValue();
+  await dialog.getByRole("checkbox", { name: `Incluir el tema «${removedTopic}»` }).click();
+
+  const expected = Number(/\((\d+)\)/.exec((await add.textContent()) ?? "")![1]);
+  await add.click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+
+  const units = unitsOf(page, "Periodo 1");
+  await expect(units.locator(":scope > li")).toHaveCount(2);
+  await expect(units).toContainText("Números enteros");
+  await expect(units).toContainText(replaced);
+  await expect(units).not.toContainText(second);
+  await expect(units).not.toContainText(removedTopic);
+  await expect(units.getByRole("heading", { level: 3 })).toHaveCount(expected);
+});
+
+test("CA-0014-05: el año completo cubre los 12 DBA de 6°", async ({ page }) => {
+  await signUpIndependentTeacher(page);
+  await openNewCourse(page);
+  await page.getByRole("button", { name: "Proponer el año con IA" }).click();
+  await page.getByRole("button", { name: /Agregar a la planeación/ }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  for (const n of [1, 2, 3, 4]) {
+    await expect(unitsOf(page, `Periodo ${n}`).locator(":scope > li")).not.toHaveCount(0);
+  }
+  await expect(page.getByText("Cobertura de DBA: 12 de 12")).toBeVisible();
+});
+
+test("CA-0014-04/06: proponer temas de una unidad que ya existe, sin tocar lo que tenía", async ({
+  page,
+}) => {
+  await signUpIndependentTeacher(page);
+  await openNewCourse(page);
+  await page.getByRole("button", { name: "Nueva unidad" }).click();
+  await page.getByLabel("Título de la unidad").fill("Números enteros");
+  await page.getByRole("button", { name: "Crear unidad" }).click();
+  await page.getByRole("button", { name: "Agregar tema" }).click();
+  await page.getByLabel("Título del tema").fill("La recta numérica");
+  await page.getByRole("button", { name: "Crear tema" }).click();
+  await expect(page.getByRole("heading", { name: "La recta numérica" })).toBeVisible();
+
+  await page.getByRole("button", { name: "Opciones de unidad «Números enteros»" }).click();
+  await page.getByRole("menuitem", { name: "Proponer temas" }).click();
+  const dialog = page.getByRole("dialog");
+  const topics = dialog.getByRole("textbox", { name: "Título del tema" });
+  await expect(topics).not.toHaveCount(0);
+  const count = await topics.count();
+  expect(count).toBeGreaterThanOrEqual(2);
+  expect(count).toBeLessThanOrEqual(4);
+  await dialog.getByRole("button", { name: `Agregar a la planeación (${count})` }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+
+  const unit = unitsOf(page, "Periodo 1").locator(":scope > li");
+  await expect(unit).toHaveCount(1);
+  const titles = unit.getByRole("heading", { level: 3 });
+  await expect(titles).toHaveCount(count + 1);
+  await expect(titles.first()).toHaveText("La recta numérica");
+});
+
+test("CA-0014-07: una asignatura sin DBA en el catálogo no ofrece la propuesta y explica por qué", async ({
+  page,
+}) => {
+  await signUpIndependentTeacher(page);
+  await openNewCourse(page, "Ciencias Naturales y Educación Ambiental");
+  await expect(page.getByRole("button", { name: /Proponer .* con IA/ })).toHaveCount(0);
+  await expect(page.getByText(/no tiene DBA en el catálogo/)).toBeVisible();
+});
+
+test("CA-0014-22 (parte 1): la revisión de la propuesta es accesible y cabe en 360 px", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 360, height: 780 });
+  await signUpIndependentTeacher(page);
+  await openNewCourse(page);
+  await page.getByRole("button", { name: "Proponer temas con IA para Periodo 1" }).click();
+  await expect(page.getByRole("button", { name: /Agregar a la planeación/ })).toBeEnabled();
+  const axe = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+    .analyze();
+  expect(axe.violations.map((v) => v.id)).toEqual([]);
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(0);
+  // Atrás cierra la revisión sin salir de la planeación (SPEC-0013) y no guarda nada.
+  await page.goBack();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Periodo 1", exact: true })).toBeVisible();
+  await expect(unitsOf(page, "Periodo 1")).toHaveCount(0);
+});

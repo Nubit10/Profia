@@ -2,7 +2,7 @@
 
 | Campo                    | Valor                                                                                                                                                                                                                                                               |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Estado                   | Borrador                                                                                                                                                                                                                                                            |
+| Estado                   | En implementación                                                                                                                                                                                                                                                   |
 | Fase del roadmap         | 4 · Planning y 6 · Generation (continúa SPEC-0013)                                                                                                                                                                                                                  |
 | Módulo(s) responsable(s) | `modules/planning` (propuesta de planeación y su aceptación), `modules/generation` (cliente del contrato), `apps/ai-engine` (endpoint, prompt y validador), `modules/resources` (recursos por periodo y tema), `modules/curriculum` (DBA a la mano), `apps/web/app` |
 | Agentes                  | product, architect, curriculum, ai-engine, backend, frontend, qa, reviewer                                                                                                                                                                                          |
@@ -304,10 +304,10 @@ Los clics se cuentan como en SPEC-0012/0013 (solo clics, sin escribir).
 
 ## 11. Tareas
 
-- [ ] T1 — ADR-0013 y contrato `generation-planning.v1` (entradas, salidas, validador, reparto de DBA) — architect + ai-engine
-- [ ] T2 — AI Engine: endpoint, prompt versionado, validador pedagógico (solo códigos dados, sin repetidos, tamaños) y benchmark con `--mock` — ai-engine
-- [ ] T3 — Cliente del contrato y propuestas en `modules/generation`; aceptación en `modules/planning` con validación y auditoría (RN-01 a RN-05) — backend
-- [ ] T4 — Pantalla de revisión de la propuesta (árbol con casillas, edición en el sitio, "otra propuesta") y "Proponer temas" de una unidad (CA-01 a CA-07) — frontend
+- [x] T1 — ADR-0013 y contrato `generation-planning.v1` (entradas, salidas, validador, reparto de DBA) — architect + ai-engine
+- [x] T2 — AI Engine: endpoint, prompt versionado, validador pedagógico (solo códigos dados, sin repetidos, tamaños) y benchmark con `--mock` — ai-engine
+- [x] T3 — Cliente del contrato y propuestas en `modules/generation`; aceptación en `modules/planning` con validación y auditoría (RN-01 a RN-05) — backend
+- [x] T4 — Pantalla de revisión de la propuesta (árbol con casillas, edición en el sitio, "otra propuesta") y "Proponer temas" de una unidad (CA-01 a CA-07) — frontend
 - [ ] T5 — Objetivos en bloque por unidad o periodo (RN-06, CA-08/09) — backend + frontend
 - [ ] T6 — Recurso con un toque desde el tema, la unidad y el periodo (RN-07, CA-10/11) — backend + frontend
 - [ ] T7 — Ficha de DBA (`DbaChip` con enunciado, evidencias y fuente) en todas las pantallas, y DBA del tema (CA-12/13) — curriculum + frontend
@@ -317,25 +317,17 @@ Los clics se cuentan como en SPEC-0012/0013 (solo clics, sin escribir).
 - [ ] T11 — Capturas antes/después y sistema de diseño — frontend
 - [ ] T12 — Revisión contra la spec y DoD — reviewer
 
-## 12. Preguntas abiertas
+## 12. Decisiones (resueltas por el usuario el 2026-11-06: "con tu recomendación")
 
-1. **¿Por periodo o el año completo?** Recomendado: ofrecer las dos. Con el curso vacío se sugiere
-   "el año completo", que reparte los DBA en los periodos; después, "este periodo".
-2. **¿Cuántos temas por defecto?** Recomendado: 2–4 unidades por periodo y 2–4 temas por unidad, con
-   "más" o "menos" antes de generar. ¿Prefieres que dependa de las horas semanales de la asignatura?
-   Hoy el curso no las guarda; agregarlas sería un campo nuevo.
-3. **Cupo de las propuestas.** Recomendado: no descuentan el cupo de 10 recursos diarios y tienen su
-   propio límite (20 por día). ¿O prefieres que cuenten?
-4. **"Generar el documento del tema".** ¿Te refieres a una **guía del tema**: un documento explicativo
-   del contenido para el estudiante, en Word y PDF, como otro tipo de recurso? Recomendado: hacerla
-   en una spec aparte (SPEC-0015), porque es un generador nuevo (contrato, prompts, documento y
-   revisión), y dejar esta spec en los flujos.
-5. **Un toque: ¿genera directo o pregunta?** Recomendado: genera directo con los valores recomendados
-   y deja "Ajustar antes" al lado. Siempre se puede regenerar o editar después.
-6. **"Mis recursos": ¿agrupado por defecto?** Recomendado: "Recientes" arriba y debajo agrupado por
-   curso, periodo y tema, con periodos plegables. ¿O prefieres conservar la lista por fecha con una
-   opción "Agrupar"?
-7. **Asignaturas sin DBA en el catálogo** (hoy solo hay Matemáticas, Lenguaje y Transición): no se
-   ofrece la propuesta y se explica (recomendado, evidence over hallucination). ¿Quieres que más
-   adelante usemos los Estándares Básicos de Competencias para las demás áreas, cuando estén en el
-   catálogo?
+1. **Por periodo y año completo.** Las dos opciones. Con el curso vacío se sugiere "el año completo"
+   (RN-04).
+2. **Tamaño:** 2–4 unidades por periodo y 2–4 temas por unidad, con "más temas" o "menos temas"
+   (RN-05). No se agregan horas semanales a la asignatura.
+3. **Cupo:** las propuestas no descuentan el cupo de recursos. Tienen su propio límite de 20 por día
+   y 5 por minuto por docente (RN-08).
+4. **Guía del tema:** va en una spec aparte (SPEC-0015). Esta spec queda en los flujos.
+5. **Un toque:** genera directo con los valores recomendados; "Ajustar antes" queda al lado (RN-07).
+6. **Mis recursos:** "Recientes" arriba y debajo agrupado por curso, periodo y tema, con periodos
+   plegables (CA-0014-17/18).
+7. **Asignaturas sin DBA en el catálogo:** no se ofrece la propuesta y se explica por qué. Los
+   Estándares Básicos de Competencias quedan para cuando estén en el catálogo.

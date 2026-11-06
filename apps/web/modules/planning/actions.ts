@@ -5,7 +5,9 @@ import { requireTenant } from "@/modules/tenancy";
 import { copyPlanning } from "./copy";
 import { createQuickTopic } from "./outline";
 import { setCoursePeriods } from "./periods";
+import { acceptPlanningProposal, type AcceptProposalResult } from "./proposal";
 import {
+  acceptProposalSchema,
   archiveSchema,
   copySchema,
   coursePeriodsSchema,
@@ -97,5 +99,14 @@ export async function copyPlanningAction(
 ): Promise<ActionResult<{ units: number; topics: number; objectives: number }>> {
   return runAction("copy_planning", copySchema, input, async ({ fromCourseId, toCourseId }) =>
     copyPlanning(await requireTenant(), fromCourseId, toCourseId),
+  );
+}
+
+/** SPEC-0014: agrega lo que el docente dejó en la revisión de la propuesta con IA. */
+export async function acceptPlanningProposalAction(
+  input: unknown,
+): Promise<ActionResult<AcceptProposalResult>> {
+  return runAction("accept_planning_proposal", acceptProposalSchema, input, async (data) =>
+    acceptPlanningProposal(await requireTenant(), data),
   );
 }

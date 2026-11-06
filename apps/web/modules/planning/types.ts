@@ -25,6 +25,8 @@ export type PlanningTopic = {
   description: string | null;
   plannedSessions: number | null;
   archived: boolean;
+  /** DBA del tema (SPEC-0014): los que trajo la propuesta con IA. */
+  dbaCodes: string[];
   objectives: PlanningObjective[];
 };
 

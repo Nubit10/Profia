@@ -30,3 +30,14 @@ export function formatDateTime(value: Date | string): string {
 export function formatDayMonth(value: Date | string): string {
   return plainSpaces(dayMonth.format(new Date(value)));
 }
+
+const time = new Intl.DateTimeFormat("es-CO", {
+  hour: "numeric",
+  minute: "2-digit",
+  timeZone: TIME_ZONE,
+});
+
+/** "10:53 p. m." */
+export function formatTime(value: Date | string): string {
+  return plainSpaces(time.format(new Date(value)));
+}

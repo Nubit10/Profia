@@ -43,6 +43,8 @@ export type AuditAction =
   | "objective.unarchived"
   | "planning.copied"
   | "ai.objectives_suggested"
+  | "ai.planning_proposed"
+  | "planning.ai_proposal_accepted"
   | "ai.suggestion_accepted"
   | "ai.suggestion_discarded"
   | "resource.generation_requested"
