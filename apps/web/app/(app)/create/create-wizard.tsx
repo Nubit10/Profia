@@ -98,7 +98,8 @@ const KIND_CARDS: {
   },
 ];
 
-const STEP_LABELS = ["Qué crear", "Curso y tema", "Ajustes", "Confirmar"];
+// SPEC-0013 CA-0013-10: taller y quiz se generan desde los ajustes, sin paso de confirmar.
+const STEP_LABELS = ["Qué crear", "Curso y tema", "Ajustes"];
 const EXAM_STEP_LABELS = ["Qué crear", "Curso y temas", "Ajustes", "Confirmar"];
 
 const scopeParam = (scope: ExamScope) =>
@@ -129,7 +130,7 @@ export function CreateWizard(props: Props) {
   const units = outline.find((o) => o.courseId === course?.id)?.units ?? [];
   const topics = units.flatMap((u) => u.topics);
   const ready = isExam ? props.exam.context !== null : isResource && props.formContext !== null;
-  const current = !kind ? 0 : !ready ? 1 : props.step === "settings" ? 2 : 3;
+  const current = !kind ? 0 : !ready ? 1 : isExam && props.step === "confirm" ? 3 : 2;
   const labels =
     kind === "PLAN" ? STEP_LABELS.slice(0, 2) : isExam ? EXAM_STEP_LABELS : STEP_LABELS;
 
@@ -156,8 +157,8 @@ export function CreateWizard(props: Props) {
       if (index === 2) return href({ ...examBase, topics: examTopics.join(",") });
       return null;
     }
-    if (index === 1) return href({ type: kind, courseId: props.courseId });
-    if (index === 2) return href({ ...base, topicId: props.topicId });
+    // `elegir`: el docente quiere cambiar el tema, aunque el curso tenga uno solo (RN-03).
+    if (index === 1) return href({ type: kind, courseId: props.courseId, elegir: "1" });
     return null;
   };
 
@@ -224,7 +225,7 @@ export function CreateWizard(props: Props) {
               {target ? (
                 <Link
                   href={target}
-                  className="flex items-center gap-2 rounded-full pr-2 hover:bg-muted"
+                  className="flex items-center gap-2 rounded-full pr-2 hover:bg-muted max-sm:min-h-11"
                 >
                   {content}
                 </Link>
@@ -539,7 +540,7 @@ export function CreateWizard(props: Props) {
             <span className="text-muted-foreground">·</span>
             <span className="font-semibold">Tema: {props.formContext.topic.title}</span>
             <Link
-              href={href({ type: kind, courseId: props.courseId })}
+              href={href({ type: kind, courseId: props.courseId, elegir: "1" })}
               className={buttonVariants({ variant: "link", size: "sm" })}
             >
               Cambiar
@@ -548,18 +549,10 @@ export function CreateWizard(props: Props) {
           <SettingsStep
             key={`${kind}:${props.formContext.topic.id}`}
             type={kind as "WORKSHOP" | "QUIZ"}
-            step={props.step}
             context={props.formContext}
             courseTitle={course?.title ?? ""}
             blocked={blocked}
             quotaText={quotaText}
-            onStep={(next) =>
-              go({
-                ...base,
-                topicId: props.topicId,
-                step: next === "confirm" ? "confirmar" : null,
-              })
-            }
             create={props.actions.createResource}
             preferenceActions={props.actions.preferences}
           />

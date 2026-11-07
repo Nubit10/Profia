@@ -43,6 +43,10 @@ export type AuditAction =
   | "objective.unarchived"
   | "planning.copied"
   | "ai.objectives_suggested"
+  | "ai.planning_proposed"
+  | "planning.ai_proposal_accepted"
+  | "planning.ai_objectives_accepted"
+  | "ai.objectives_batch_proposed"
   | "ai.suggestion_accepted"
   | "ai.suggestion_discarded"
   | "resource.generation_requested"
@@ -54,6 +58,7 @@ export type AuditAction =
   | "resource.duplicated"
   | "resource.item_regenerated"
   | "resource.exported"
+  | "resource.cached_offline"
   | "resource.grading_scale_updated"
   | "format.created"
   | "format.updated"
@@ -95,4 +100,21 @@ export async function recordAuditSafely(event: AuditEvent): Promise<void> {
     // La auditoría de autenticación no debe impedir iniciar o cerrar sesión, pero sí se reporta.
     logger.warn("audit.record_failed", { action: event.action, error });
   }
+}
+
+/** SPEC-0013 RN-02: si la persona ya hizo algo en el espacio (p. ej. su primera descarga). */
+export async function hasRecordedAction(event: {
+  action: AuditAction;
+  institutionId: string;
+  actorUserId: string;
+}): Promise<boolean> {
+  const found = await db.auditLog.findFirst({
+    where: {
+      action: event.action,
+      institutionId: event.institutionId,
+      actorUserId: event.actorUserId,
+    },
+    select: { id: true },
+  });
+  return found !== null;
 }

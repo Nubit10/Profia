@@ -18,6 +18,7 @@
     "typecheck": "npm run typecheck -w @profe/web",
     "test": "npm run test -w @profe/web",
     "test:e2e": "npm run test:e2e -w @profe/web",
+    "test:e2e:dev": "npm run test:e2e:dev -w @profe/web",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "db:up": "docker compose up -d postgres",

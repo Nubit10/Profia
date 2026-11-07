@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { DbaCatalogProvider } from "@/components/curriculum/dba-chip";
 import { DomainError } from "@/lib/errors";
 import { createCourseAction, listMyCourses, listSubjects } from "@/modules/courses";
 import { courseTitle } from "@/modules/courses/client";
+import { getCourseReferences } from "@/modules/curriculum";
 import { listCampuses } from "@/modules/institutions";
 import { createQuickTopicAction, listTopicOutline } from "@/modules/planning";
 import * as resources from "@/modules/resources";
@@ -33,8 +35,9 @@ const timeFormat = new Intl.DateTimeFormat("es-CO", {
 });
 
 /**
- * Asistente de creación (SPEC-0012): qué crear → curso y tema → ajustes → confirmar. El paso sale
- * de la URL, así que volver atrás o recargar no pierde el avance (RN-04).
+ * Asistente de creación (SPEC-0012): qué crear → curso y tema → ajustes (SPEC-0013: taller y quiz
+ * se generan desde los ajustes; el examen conserva su paso de confirmar). El paso sale de la URL,
+ * así que volver atrás o recargar no pierde el avance (RN-04).
  */
 export default async function CreatePage({ searchParams }: PageProps<"/create">) {
   const ctx = await requireTenant();
@@ -60,8 +63,14 @@ export default async function CreatePage({ searchParams }: PageProps<"/create">)
       u.topics.map((t) => t.id),
     ),
   );
+  // SPEC-0013 RN-03: con un solo tema en el curso no hay nada que elegir, salvo que el docente
+  // haya pedido cambiarlo (`elegir`).
+  const onlyTopic =
+    (kind === "WORKSHOP" || kind === "QUIZ") && topicIds.size === 1 && params.elegir === undefined
+      ? [...topicIds][0]!
+      : null;
   const topicId =
-    typeof params.topicId === "string" && topicIds.has(params.topicId) ? params.topicId : null;
+    typeof params.topicId === "string" && topicIds.has(params.topicId) ? params.topicId : onlyTopic;
 
   const ignoreForeign = (error: unknown) => {
     if (
@@ -107,38 +116,48 @@ export default async function CreatePage({ searchParams }: PageProps<"/create">)
                 .flatMap((u) => u.topics.map((t) => t.id))
             : [];
 
+  // SPEC-0014 CA-0014-12: la ficha de los DBA de los objetivos sale del catálogo del curso.
+  const dbaRefs =
+    course && (formContext || examContext)
+      ? await getCourseReferences(ctx, course.id)
+          .then((r) => r.references.filter((ref) => ref.type === "DBA"))
+          .catch(() => [])
+      : [];
+
   return (
-    <CreateWizard
-      kind={kind}
-      step={step}
-      courses={courses.map((c) => ({
-        id: c.id,
-        title: courseTitle(c),
-        subjectId: c.subjectId,
-        subjectName: c.subjectName,
-      }))}
-      outline={outline}
-      courseId={course?.id ?? null}
-      topicId={topicId}
-      formContext={formContext}
-      exam={{ scope, preselected, context: examContext }}
-      quota={{
-        used: quota.used,
-        limit: quota.limit,
-        freesAtLabel: quota.freesAt ? timeFormat.format(quota.freesAt) : null,
-      }}
-      subjects={subjects.map(({ id, name }) => ({ id, name }))}
-      campuses={campuses.map(({ id, name }) => ({ id, name }))}
-      actions={{
-        createCourse: createCourseAction,
-        createQuickTopic: createQuickTopicAction,
-        createResource: resources.createResourceAction,
-        preferences: {
-          add: resources.addPreferenceAction,
-          update: resources.updatePreferenceAction,
-          remove: resources.deletePreferenceAction,
-        },
-      }}
-    />
+    <DbaCatalogProvider references={dbaRefs}>
+      <CreateWizard
+        kind={kind}
+        step={step}
+        courses={courses.map((c) => ({
+          id: c.id,
+          title: courseTitle(c),
+          subjectId: c.subjectId,
+          subjectName: c.subjectName,
+        }))}
+        outline={outline}
+        courseId={course?.id ?? null}
+        topicId={topicId}
+        formContext={formContext}
+        exam={{ scope, preselected, context: examContext }}
+        quota={{
+          used: quota.used,
+          limit: quota.limit,
+          freesAtLabel: quota.freesAt ? timeFormat.format(quota.freesAt) : null,
+        }}
+        subjects={subjects.map(({ id, name }) => ({ id, name }))}
+        campuses={campuses.map(({ id, name }) => ({ id, name }))}
+        actions={{
+          createCourse: createCourseAction,
+          createQuickTopic: createQuickTopicAction,
+          createResource: resources.createResourceAction,
+          preferences: {
+            add: resources.addPreferenceAction,
+            update: resources.updatePreferenceAction,
+            remove: resources.deletePreferenceAction,
+          },
+        }}
+      />
+    </DbaCatalogProvider>
   );
 }

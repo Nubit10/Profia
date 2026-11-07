@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { createCourse, listSubjects } from "@/modules/courses";
 import { importCurriculumJson } from "@/modules/curriculum";
 import { createIndependentSpace } from "@/modules/institutions";
+import type { GenerationFinished } from "@/modules/notifications";
 import { createObjective, createTopic, createUnit, getCoursePlanning } from "@/modules/planning";
 import {
   DAILY_LIMIT,
@@ -298,6 +299,84 @@ describe("talleres y quices con IA (SPEC-0008)", () => {
     const [listed] = await listCourseResources(ctx, course.id);
     expect(listed).toMatchObject({ id, status: "FAILED" });
     expect((await getResource(ctx, id)).failureReason).toBe("interrupted");
+  });
+
+  it("CA-0013-33: al terminar, avisa al docente que lo pidió (listo o fallido)", async () => {
+    const { ctx, user, topic, course } = await teacherWithTopic();
+    const events: GenerationFinished[] = [];
+    const notify = async (event: GenerationFinished) => {
+      events.push(event);
+    };
+
+    const ready = {
+      ...deps(engine({ "/v1/generation/quiz": ok(quizBody(4)) }) as unknown as typeof fetch),
+      notify,
+    };
+    const created = await createResource(ctx, quizBlueprint(topic.id), ready);
+    await ready.done();
+    expect(events).toEqual([
+      {
+        userId: user.id,
+        resourceId: created.id,
+        courseId: course.id,
+        typeLabel: "quiz",
+        name: "Quiz de enteros", // el título que puso la IA, sin prefijo
+        outcome: "READY",
+      },
+    ]);
+
+    const failing = {
+      ...deps(
+        engine({
+          "/v1/generation/quiz": () => new Response("{}", { status: 502 }),
+        }) as unknown as typeof fetch,
+      ),
+      notify,
+    };
+    const failed = await createResource(ctx, quizBlueprint(topic.id), failing);
+    await failing.done();
+    expect(events[1]).toMatchObject({ resourceId: failed.id, outcome: "FAILED" });
+  });
+
+  it("CA-0013-13: los cambios del docente en menos de 60 s van en la misma versión", async () => {
+    const { ctx, topic } = await teacherWithTopic();
+    const run = deps(engine({ "/v1/generation/quiz": ok(quizBody(4)) }) as unknown as typeof fetch);
+    const { id } = await createResource(ctx, quizBlueprint(topic.id), run);
+    await run.done();
+    const original = (await getResource(ctx, id)).data!.content as QuizContent;
+    const withStem = (stem: string): QuizContent => ({
+      ...original,
+      questions: original.questions.map((q, i) => (i === 0 ? { ...q, stem } : q)),
+    });
+
+    // La versión generada (1) nunca se reemplaza: el primer cambio crea la 2.
+    expect(await saveResourceContent(ctx, id, 1, withStem("Primer cambio"))).toEqual({
+      version: 2,
+    });
+    // Otro "Listo" enseguida se agrega a la versión 2.
+    expect(await saveResourceContent(ctx, id, 2, withStem("Segundo cambio"))).toEqual({
+      version: 2,
+    });
+    const versions = () =>
+      db.resourceVersion.findMany({ where: { resourceId: id }, orderBy: { number: "asc" } });
+    expect((await versions()).map((v) => v.number)).toEqual([1, 2]);
+    expect(((await getResource(ctx, id)).data!.content as QuizContent).questions[0]!.stem).toBe(
+      "Segundo cambio",
+    );
+
+    // Pasado el minuto, el siguiente cambio es una versión nueva.
+    await db.resourceVersion.updateMany({
+      where: { resourceId: id, number: 2 },
+      data: { createdAt: new Date(Date.now() - 61_000) },
+    });
+    expect(await saveResourceContent(ctx, id, 2, withStem("Tercer cambio"))).toEqual({
+      version: 3,
+    });
+    expect((await versions()).map((v) => [v.number, v.source])).toEqual([
+      [1, "AI"],
+      [2, "TEACHER"],
+      [3, "TEACHER"],
+    ]);
   });
 
   it("CA-0008-06: editar crea una versión nueva y conserva la original", async () => {

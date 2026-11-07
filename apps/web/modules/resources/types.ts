@@ -19,6 +19,8 @@ export type ResourceSummary = {
   status: ResourceStatus;
   title: string;
   topicTitle: string;
+  /** Tema principal primero; un examen trae todos sus temas (SPEC-0014 RN-09). */
+  topicIds: string[];
   createdAt: Date;
   updatedAt: Date;
 };
@@ -121,6 +123,8 @@ export type QuotaStatus = { used: number; limit: number; freesAt: Date | null };
 /** Recurso en "Mis recursos" y en el Inicio, con su curso (SPEC-0012 RN-13). */
 export type ResourceListItem = ResourceSummary & {
   courseId: string;
+  /** Última versión guardada (SPEC-0013 RN-14: qué guardar sin conexión). */
+  version: number;
   courseTitle: string;
   subjectId: string;
 };
@@ -138,8 +142,25 @@ export type NextStep =
     }
   | { kind: "OPEN_LAST"; resource: ResourceListItem };
 
+/**
+ * SPEC-0013 RN-02: los cuatro primeros pasos (curso → tema → primer recurso → primera descarga).
+ * `null` cuando ya los completó todos. Cada paso pendiente trae a dónde lleva.
+ */
+export type FirstStepKey = "COURSE" | "TOPIC" | "RESOURCE" | "DOWNLOAD";
+export type FirstSteps = {
+  done: Record<FirstStepKey, boolean>;
+  current: FirstStepKey;
+  /** Curso para escribir el primer tema; tema para el primer recurso; recurso para descargar. */
+  courseId: string | null;
+  courseTitle: string | null;
+  topicId: string | null;
+  topicTitle: string | null;
+  resource: ResourceListItem | null;
+};
+
 export type TeacherHome = {
   nextStep: NextStep;
+  firstSteps: FirstSteps | null;
   courses: {
     id: string;
     title: string;
@@ -149,4 +170,19 @@ export type TeacherHome = {
     topicCount: number;
   }[];
   recent: ResourceListItem[];
+};
+
+/** SPEC-0013 RN-08: lo que el shell vigila para avisar cuando una generación termina. */
+export type WatchedResource = {
+  id: string;
+  type: ResourceType;
+  title: string;
+  courseId: string;
+  status: ResourceStatus;
+};
+export type GenerationWatch = {
+  /** Recursos del docente que se están generando ahora, en el espacio activo. */
+  generating: WatchedResource[];
+  /** De los recursos pedidos, los que ya terminaron (listos para revisar o fallidos). */
+  finished: WatchedResource[];
 };

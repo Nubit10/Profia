@@ -1,6 +1,7 @@
 import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { defineConfig, devices } from "@playwright/test";
+import webpush from "web-push";
 
 if (existsSync(".env")) process.loadEnvFile(".env");
 
@@ -10,6 +11,8 @@ const ENGINE_TOKEN = "e2e-token-e2e-token-e2e-token-0000";
 // uv puede estar en el PATH (CI) o instalado como módulo de Python (equipo de desarrollo).
 const uv = spawnSync("uv", ["--version"], { shell: true }).status === 0 ? "uv" : "python -m uv";
 const baseURL = `http://localhost:${PORT}`;
+// SPEC-0013 RN-15: claves VAPID de un solo uso para el servidor de pruebas (no se guardan en el repo).
+const vapid = webpush.generateVAPIDKeys();
 const testDatabaseUrl = process.env.TEST_DATABASE_URL;
 if (!testDatabaseUrl) throw new Error("Falta TEST_DATABASE_URL (ver apps/web/.env.example).");
 
@@ -25,7 +28,16 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [["list"], ["html", { open: "never" }]] : "list",
   use: { baseURL, trace: "retain-on-failure", locale: "es-CO" },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    { name: "chromium", use: { ...devices["Desktop Chrome"] }, testIgnore: /\.movil\.spec\.ts$/ },
+    // SPEC-0013 RN-11: las pantallas en un celular (390 × 844, táctil). Chromium: es el que está
+    // instalado; el tamaño, el tacto y el agente de usuario son los del iPhone 13.
+    {
+      name: "movil",
+      testMatch: /\.movil\.spec\.ts$/,
+      use: { ...devices["iPhone 13"], defaultBrowserType: "chromium" },
+    },
+  ],
   webServer: [
     {
       // AI Engine con el proveedor de prueba y Qdrant en memoria: sin modelos ni Docker (SPEC-0005).
@@ -45,6 +57,9 @@ export default defineConfig({
         DATABASE_URL: testDatabaseUrl,
         AI_ENGINE_URL: `http://localhost:${ENGINE_PORT}`,
         AI_ENGINE_TOKEN: ENGINE_TOKEN,
+        NEXT_PUBLIC_VAPID_PUBLIC_KEY: vapid.publicKey,
+        VAPID_PRIVATE_KEY: vapid.privateKey,
+        VAPID_SUBJECT: "mailto:pruebas@profe.test",
       },
     },
   ],

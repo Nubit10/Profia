@@ -20,8 +20,15 @@ import {
 } from "@/components/ui/dialog";
 import type { ActionResult } from "@/lib/action-result";
 import { useBodyScrollLock } from "@/lib/scroll-lock";
+import { useBackToClose } from "@/lib/use-back-to-close";
 import { cn } from "@/lib/utils";
+import { disablePush } from "@/components/notifications/push-device";
+import { wipeOffline } from "@/components/offline/offline-store";
+import { useOfflineSync, type OfflineActions } from "@/components/offline/offline-sync";
 import { CreateMenu } from "./create-menu";
+import { InstallApp } from "./install-app";
+import { LinkPending } from "./link-pending";
+import { WATCH_STORAGE_PREFIX, useGenerationWatcher, type WatchAction } from "./generation-watcher";
 import {
   IdentityCard,
   SpaceLogo,
@@ -36,6 +43,15 @@ import { useShellStore } from "./use-shell-store";
 
 export { type SpaceOption } from "./identity-card";
 
+/** Páginas con su propia barra de acciones abajo en el celular (SPEC-0013 CA-0013-18). */
+const OWN_BOTTOM_BAR = /^\/courses\/[^/]+\/resources\/[^/]+$/;
+
+/** Quien no es docente no tiene biblioteca sin conexión: la sincronización no hace nada. */
+const NO_OFFLINE: OfflineActions = {
+  library: async () => ({ ok: false, error: "" }),
+  recordSync: async () => ({ ok: true }),
+};
+
 /** Borradores del asistente de creación: se borran al cerrar sesión (SPEC-0012 §9). */
 export const DRAFT_STORAGE_PREFIX = "profe:create:";
 
@@ -47,6 +63,12 @@ type Props = {
   activeSpaceId: string;
   logoutAction: () => Promise<ActionResult>;
   switchSpaceAction: (input: { institutionId: string }) => Promise<ActionResult>;
+  /** SPEC-0013 RN-08: generaciones en curso del docente (vacío para quien no es docente). */
+  generation: { initial: string[]; storageKey: string; action: WatchAction };
+  /** SPEC-0013 RN-15: al cerrar sesión, este dispositivo deja de recibir avisos de la cuenta. */
+  removePushDevice: (input: { installationId: string }) => Promise<ActionResult>;
+  /** SPEC-0013 RN-14: biblioteca sin conexión del docente (`null` para quien no es docente). */
+  offline: { userId: string; spaceIds: string[]; actions: OfflineActions } | null;
   children: ReactNode;
 };
 
@@ -62,8 +84,15 @@ export function AppShell(props: Props) {
   const drawer = useRef<HTMLDivElement>(null);
   const sections = getNavSections(access);
   const line = quota ? quotaLine(quota) : null;
+  const generating = useGenerationWatcher(props.generation);
+  useOfflineSync(props.offline ?? { userId: "", spaceIds: [], actions: NO_OFFLINE });
+  // CA-0013-12: "Mis recursos" dice cuántos se están generando.
+  const badges: Record<string, string> =
+    generating > 0 ? { "/resources": `${generating} generándose` } : {};
 
   useBodyScrollLock(sidebarOpen);
+  // SPEC-0013 RN-11: Atrás cierra el cajón del menú en el celular.
+  useBackToClose(sidebarOpen, closeSidebar);
 
   // El cajón se cierra al navegar.
   useEffect(() => closeSidebar(), [pathname, closeSidebar]);
@@ -85,10 +114,19 @@ export function AppShell(props: Props) {
 
   const logout = () =>
     startLogout(async () => {
+      // Antes de cerrar la sesión: quitar el dispositivo la necesita.
+      if ("serviceWorker" in navigator) {
+        await disablePush({ remove: props.removePushDevice }).catch(() => undefined);
+      }
+      // RN-14: lo guardado sin conexión es de esta cuenta; no se queda en el dispositivo.
+      await wipeOffline().catch(() => undefined);
       await props.logoutAction();
       try {
         for (const key of Object.keys(sessionStorage)) {
           if (key.startsWith(DRAFT_STORAGE_PREFIX)) sessionStorage.removeItem(key);
+        }
+        for (const key of Object.keys(localStorage)) {
+          if (key.startsWith(WATCH_STORAGE_PREFIX)) localStorage.removeItem(key);
         }
       } catch {
         // Sin acceso al almacenamiento no hay borradores que limpiar.
@@ -126,9 +164,9 @@ export function AppShell(props: Props) {
                 const Icon = item.icon;
                 return (
                   <li key={item.href}>
+                    {/* El cajón se cierra al cambiar de página, no al tocar: así se ve que carga. */}
                     <Link
                       href={item.href}
-                      onClick={closeSidebar}
                       aria-current={active ? "page" : undefined}
                       className={cn(
                         "group relative flex min-h-10 items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition",
@@ -151,6 +189,17 @@ export function AppShell(props: Props) {
                         )}
                       />
                       <span className="min-w-0 flex-1 truncate">{item.label}</span>
+                      {badges[item.href] && (
+                        <span
+                          className={cn(
+                            "shrink-0 rounded-full px-2 py-0.5 text-[11px] font-bold",
+                            active ? "bg-white/20 text-white" : "bg-info-soft text-info",
+                          )}
+                        >
+                          {badges[item.href]}
+                        </span>
+                      )}
+                      <LinkPending />
                     </Link>
                   </li>
                 );
@@ -173,6 +222,10 @@ export function AppShell(props: Props) {
             <HiOutlineQuestionMarkCircle className="size-[18px] text-brand" aria-hidden />
             Ver tutorial
           </button>
+          <InstallApp
+            className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-semibold text-sidebar-foreground transition hover:bg-brand-softer hover:text-brand-strong"
+            onDone={closeSidebar}
+          />
           <div className="mx-4 h-px bg-border" />
           <button
             type="button"
@@ -202,7 +255,7 @@ export function AppShell(props: Props) {
       </aside>
 
       {/* Celular y tableta: barra superior con el espacio y el cupo. */}
-      <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-border bg-card px-4 py-2.5 shadow-soft lg:hidden">
+      <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-border bg-card px-4 py-2.5 pt-[calc(0.625rem+env(safe-area-inset-top))] shadow-soft lg:hidden">
         <SpaceLogo identity={identity} size={34} />
         <span className="min-w-0 flex-1 truncate text-sm font-bold" title={identity.spaceName}>
           {identity.spaceName}
@@ -221,7 +274,7 @@ export function AppShell(props: Props) {
           onClick={toggleSidebar}
           aria-label="Abrir menú"
           aria-expanded={sidebarOpen}
-          className="shrink-0 rounded-xl p-2 text-foreground hover:bg-muted"
+          className="flex size-11 shrink-0 items-center justify-center rounded-xl text-foreground hover:bg-muted"
         >
           <HiOutlineBars3 className="size-6" aria-hidden />
         </button>
@@ -241,13 +294,13 @@ export function AppShell(props: Props) {
             role="dialog"
             aria-modal="true"
             aria-label="Menú"
-            className="absolute inset-y-0 left-0 w-[82vw] max-w-64 shadow-lift"
+            className="absolute inset-y-0 left-0 w-[82vw] max-w-64 bg-sidebar pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] shadow-lift"
           >
             <button
               type="button"
               onClick={closeSidebar}
               aria-label="Cerrar el menú"
-              className="absolute top-3 -right-12 rounded-xl bg-card p-2 text-foreground shadow-soft"
+              className="absolute top-[calc(0.75rem+env(safe-area-inset-top))] -right-14 flex size-11 items-center justify-center rounded-xl bg-card text-foreground shadow-soft"
             >
               <HiXMark className="size-5" aria-hidden />
             </button>
@@ -268,9 +321,13 @@ export function AppShell(props: Props) {
         </main>
       </div>
 
-      {/* Celular: "Crear" siempre a mano, flotando abajo a la derecha. */}
-      {access.isTeacher && !sidebarOpen && (
-        <div className="fixed right-4 bottom-4 z-30 lg:hidden">
+      {/* Celular: "Crear" siempre a mano, flotando abajo a la derecha. SPEC-0013 RN-11: nada más
+          flota abajo, así que no aparece donde la página ya tiene su barra inferior (el recurso). */}
+      {access.isTeacher && !sidebarOpen && !OWN_BOTTOM_BAR.test(pathname) && (
+        <div
+          data-floating="create"
+          className="fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-30 lg:hidden"
+        >
           <CreateMenu floating />
         </div>
       )}

@@ -18,7 +18,7 @@ import { courseTitle } from "@/modules/courses/client";
 import { searchCurriculumAction } from "@/modules/curriculum";
 import * as generation from "@/modules/generation";
 import * as planning from "@/modules/planning";
-import { listCourseResources } from "@/modules/resources";
+import { listCourseResources, quickCreateResourceAction } from "@/modules/resources";
 import { requireTenant } from "@/modules/tenancy";
 import { LinkSubjectArea } from "./link-subject-area";
 import { PlanningView } from "./planning/planning-view";
@@ -39,12 +39,14 @@ async function load(courseId: string, includeArchived: boolean) {
   const ctx = await requireTenant();
   try {
     // getCoursePlanning valida que el curso sea del docente y trae también sus referentes.
-    const [data, copyTargets, resources] = await Promise.all([
+    const [data, copyTargets, resources, plans] = await Promise.all([
       planning.getCoursePlanning(ctx, courseId, { includeArchived }),
       planning.listCopyTargets(ctx, courseId),
       listCourseResources(ctx, courseId, { includeArchived }),
+      planning.listCoursePlans(ctx, [courseId]),
     ]);
-    return { data, copyTargets, resources };
+    const plan = plans[0] ?? { courseId, periods: [], units: [] };
+    return { data, copyTargets, resources, plan };
   } catch (error) {
     // CA-0004-07 / CA-0006-08: curso de otro docente o de otro espacio → 404.
     if (error instanceof DomainError && ["NOT_FOUND", "FORBIDDEN"].includes(error.code)) notFound();
@@ -60,7 +62,7 @@ export default async function CoursePage({
   const { tab, archivados } = await searchParams;
   const active: Tab = TABS.find((t) => t.id === tab)?.id ?? "planeacion";
   const includeArchived = archivados === "1";
-  const { data, copyTargets, resources } = await load(courseId, includeArchived);
+  const { data, copyTargets, resources, plan } = await load(courseId, includeArchived);
   const { course, areaName } = data;
 
   const tint = subjectTint(course.subjectId);
@@ -70,7 +72,7 @@ export default async function CoursePage({
       <div className="flex flex-col gap-4">
         <Link
           href="/courses"
-          className="flex w-fit items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground"
+          className="flex w-fit items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground max-sm:min-h-11"
         >
           <HiOutlineArrowLeft aria-hidden />
           Volver a cursos
@@ -86,8 +88,12 @@ export default async function CoursePage({
           >
             {course.subjectName.charAt(0)}
           </span>
-          <div className="flex min-w-0 flex-1 flex-col gap-1">
-            <h1 className="text-2xl font-extrabold sm:text-3xl">{courseTitle(course)}</h1>
+          {/* SPEC-0013 CA-0013-25: el texto tiene una base de ancho, así el botón baja a su propia
+              línea en el celular en vez de partir el título. */}
+          <div className="flex min-w-0 flex-1 basis-48 flex-col gap-1">
+            <h1 className="text-2xl font-extrabold text-balance sm:text-3xl">
+              {courseTitle(course)}
+            </h1>
             <p className="text-muted-foreground">
               Año {course.academicYear}
               {areaName ? ` · Área curricular: ${areaName}` : ""}
@@ -95,7 +101,7 @@ export default async function CoursePage({
           </div>
           <Link
             href={`/create?courseId=${course.id}`}
-            className={buttonVariants({ variant: "brand", size: "lg" })}
+            className={cn(buttonVariants({ variant: "brand", size: "lg" }), "max-sm:w-full")}
           >
             <HiOutlineSparkles aria-hidden />
             Crear con IA
@@ -105,7 +111,7 @@ export default async function CoursePage({
 
       <nav
         aria-label="Secciones del curso"
-        className="flex gap-1 overflow-x-auto rounded-2xl border border-border bg-card p-1 shadow-soft"
+        className="grid grid-cols-3 gap-1 rounded-2xl border border-border bg-card p-1 shadow-soft sm:flex"
       >
         {TABS.map((t) => {
           const Icon = t.icon;
@@ -115,7 +121,8 @@ export default async function CoursePage({
               href={`/courses/${course.id}?tab=${t.id}`}
               aria-current={active === t.id ? "page" : undefined}
               className={cn(
-                "flex shrink-0 items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold whitespace-nowrap transition",
+                // En el celular las tres pestañas se ven completas (sin cortarse): columnas iguales.
+                "flex min-h-11 items-center justify-center gap-2 rounded-xl px-2 py-2 text-center text-sm leading-tight font-semibold transition max-sm:flex-col max-sm:gap-1 max-sm:text-xs sm:shrink-0 sm:px-4 sm:whitespace-nowrap",
                 active === t.id
                   ? "bg-brand text-white shadow-soft"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -144,6 +151,16 @@ export default async function CoursePage({
             move: planning.moveItemAction,
             archive: planning.setItemArchivedAction,
             copy: planning.copyPlanningAction,
+            searchCurriculum: searchCurriculumAction,
+            objectivesBatch: {
+              propose: generation.proposeObjectivesBatchAction,
+              accept: planning.acceptObjectivesBatchAction,
+            },
+            quickCreate: quickCreateResourceAction,
+            proposal: {
+              propose: generation.proposePlanningAction,
+              accept: planning.acceptPlanningProposalAction,
+            },
             suggestions: {
               suggest: generation.suggestObjectivesAction,
               accept: generation.acceptSuggestionAction,
@@ -155,8 +172,10 @@ export default async function CoursePage({
       ) : active === "recursos" ? (
         <ResourcesLibrary
           courseId={course.id}
+          plan={plan}
           resources={resources}
           includeArchived={includeArchived}
+          quickCreate={quickCreateResourceAction}
         />
       ) : !data.hasArea ? (
         <LinkSubjectArea

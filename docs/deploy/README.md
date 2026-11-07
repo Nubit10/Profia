@@ -129,6 +129,16 @@ git push -u origin main
    | `AI_ENGINE_URL`   | `https://<tu-usuario>-profe-ai-engine.hf.space` (sin `/` al final)                               |
    | `AI_ENGINE_TOKEN` | El mismo token que pusiste en el Space                                                           |
 
+   Opcionales, para las **notificaciones del navegador** (SPEC-0013, ADR-0012). Sin ellas Profe funciona
+   igual, solo que no ofrece los avisos. Genera el par **una sola vez** en tu computador con
+   `npx web-push generate-vapid-keys` y no lo cambies: cambiarlo apaga los avisos de todos los docentes.
+
+   | Variable                       | Valor                                                     |
+   | ------------------------------ | --------------------------------------------------------- |
+   | `NEXT_PUBLIC_VAPID_PUBLIC_KEY` | La *Public Key* del par                                    |
+   | `VAPID_PRIVATE_KEY`            | La *Private Key* del par (secreta: solo aquí, nunca en el repositorio) |
+   | `VAPID_SUBJECT`                | `mailto:` con un correo de soporte, o la URL `https://` de Profe |
+
 3. Revisa estos ajustes en **Settings**:
    - *Build and Deployment → Node.js Version*: **24.x**.
    - *Functions → Function Region*: **Washington, D.C. (iad1)**, la misma región de Supabase.

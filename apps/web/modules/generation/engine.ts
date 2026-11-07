@@ -339,3 +339,53 @@ export type EngineFormatRequest = {
 
 export const requestFormatAnalysis = (body: EngineFormatRequest, fetcher: typeof fetch = fetch) =>
   post("/v1/formats/analyze", body, formatResponse, TIMEOUT_MS, fetcher);
+
+// --- SPEC-0014: propuesta de planeación (generation-planning.v1, ADR-0013) ------------------
+
+/** Año completo: una llamada por periodo; con el modelo local puede tardar minutos. */
+const PLANNING_TIMEOUT_MS = 240_000;
+
+const planningResponse = z.object({
+  periods: z.array(
+    z.object({
+      number: z.number().int(),
+      units: z.array(
+        z.object({
+          title: z.string(),
+          topics: z.array(
+            z.object({
+              title: z.string(),
+              description: z.string(),
+              dbaCodes: z.array(z.string()),
+            }),
+          ),
+        }),
+      ),
+    }),
+  ),
+  meta: resourceMeta.extend({ droppedCodes: z.number().int() }),
+});
+
+export type EnginePlanning = z.infer<typeof planningResponse>;
+
+export type EnginePlanningRequest = {
+  subject: string;
+  grade: string;
+  dba: { code: string; statement: string; evidences: string[] }[];
+  periods: {
+    number: number;
+    name: string;
+    dbaCodes: string[];
+    mustCover: string[];
+    existing: { title: string; topics: string[] }[];
+  }[];
+  unit: { title: string; description: string | null; topics: string[] } | null;
+  avoid: string[];
+  unitsMin: number;
+  unitsMax: number;
+  topicsMin: number;
+  topicsMax: number;
+};
+
+export const requestPlanning = (body: EnginePlanningRequest, fetcher: typeof fetch = fetch) =>
+  post("/v1/generation/planning", body, planningResponse, PLANNING_TIMEOUT_MS, fetcher);

@@ -1,12 +1,21 @@
 import "server-only";
 import { db } from "@/lib/db";
+import { hasRecordedAction } from "@/modules/audit";
 import { listMyCourses } from "@/modules/courses";
 import { courseTitle } from "@/modules/courses/client";
 import { listTopicOutline } from "@/modules/planning";
 import { requireRole, type TenantContext } from "@/modules/tenancy";
 import type { ResourceType } from "./schemas";
 import { DAILY_LIMIT, quotaFor, recoverStale, summary } from "./service";
-import type { NextStep, QuotaStatus, ResourceListItem, TeacherHome } from "./types";
+import type {
+  GenerationWatch,
+  FirstStepKey,
+  FirstSteps,
+  NextStep,
+  QuotaStatus,
+  ResourceListItem,
+  TeacherHome,
+} from "./types";
 
 // Vistas de lectura para el Inicio, el menú y "Mis recursos" (SPEC-0012 RN-02, RN-12, RN-13).
 // Todo filtra por el espacio activo y por el docente; nada se calcula en el cliente.
@@ -32,11 +41,14 @@ const listSelect = {
   createdAt: true,
   updatedAt: true,
   courseId: true,
+  currentVersion: true,
+  topicId: true,
+  topics: { select: { topicId: true, position: true } },
 } as const;
 
 async function withCourses(
   ctx: TenantContext,
-  rows: (Parameters<typeof summary>[0] & { courseId: string })[],
+  rows: (Parameters<typeof summary>[0] & { courseId: string; currentVersion: number })[],
 ): Promise<ResourceListItem[]> {
   const courses = new Map(
     (await listMyCourses(ctx, { includeArchived: true })).map((c) => [c.id, c]),
@@ -46,6 +58,7 @@ async function withCourses(
     return {
       ...summary(row),
       courseId: row.courseId,
+      version: row.currentVersion,
       courseTitle: course ? courseTitle(course) : "",
       subjectId: course?.subjectId ?? "",
     };
@@ -128,8 +141,36 @@ export async function getTeacherHome(ctx: TenantContext): Promise<TeacherHome> {
     nextStep = { kind: "OPEN_LAST", resource: recent[0]! };
   }
 
+  const downloaded =
+    recent.length > 0 &&
+    (await hasRecordedAction({
+      action: "resource.exported",
+      institutionId: ctx.institutionId,
+      actorUserId: ctx.userId,
+    }));
+  const done: Record<FirstStepKey, boolean> = {
+    COURSE: courses.length > 0,
+    TOPIC: firstTopic !== null,
+    RESOURCE: recent.length > 0,
+    DOWNLOAD: downloaded,
+  };
+  const current = (["COURSE", "TOPIC", "RESOURCE", "DOWNLOAD"] as const).find((k) => !done[k]);
+  const firstCourse = firstTopic ? courses.find((c) => c.id === firstTopic.courseId) : courses[0];
+  const firstSteps: FirstSteps | null = current
+    ? {
+        done,
+        current,
+        courseId: firstCourse?.id ?? null,
+        courseTitle: firstCourse ? courseTitle(firstCourse) : null,
+        topicId: firstTopic?.topicId ?? null,
+        topicTitle: firstTopic?.topicTitle ?? null,
+        resource: recent[0] ?? null,
+      }
+    : null;
+
   return {
     nextStep,
+    firstSteps,
     courses: courses
       .filter((c) => active.has(c.id))
       .map((c) => ({
@@ -141,5 +182,31 @@ export async function getTeacherHome(ctx: TenantContext): Promise<TeacherHome> {
         topicCount: topicCount.get(c.id) ?? 0,
       })),
     recent,
+  };
+}
+
+/**
+ * SPEC-0013 RN-08: generaciones en curso del docente y el resultado de las que el navegador vigila.
+ * Solo recursos propios del espacio activo (un id ajeno simplemente no aparece).
+ */
+export async function watchGenerations(
+  ctx: TenantContext,
+  watchedIds: string[] = [],
+): Promise<GenerationWatch> {
+  requireRole(ctx, "TEACHER");
+  await recoverStale(ctx);
+  const rows = await db.resource.findMany({
+    where: {
+      institutionId: ctx.institutionId,
+      membershipId: ctx.membershipId,
+      OR: [{ status: "GENERATING" }, { id: { in: watchedIds } }],
+    },
+    orderBy: { createdAt: "asc" },
+    select: { id: true, type: true, title: true, courseId: true, status: true },
+  });
+  const items = rows;
+  return {
+    generating: items.filter((r) => r.status === "GENERATING"),
+    finished: items.filter((r) => r.status !== "GENERATING" && watchedIds.includes(r.id)),
   };
 }

@@ -25,6 +25,7 @@ import {
   type QuizQuestion,
   type ResourceDetail,
 } from "@/modules/resources/client";
+import { DbaChip } from "@/components/curriculum/dba-chip";
 import { ItemFeedback, RegenerateItem, type FeedbackActions } from "./item-tools";
 
 const newId = () => `q-${Math.random().toString(36).slice(2, 10)}`;
@@ -34,7 +35,7 @@ export function QuestionView({ q, dba }: { q: QuizQuestion; dba: Map<string, num
     <div className="flex flex-col gap-2">
       <p className="text-sm whitespace-pre-line">{q.stem}</p>
       {q.type !== "SHORT_ANSWER" ? (
-        <ul className="flex flex-col gap-1 text-sm">
+        <ul className="flex flex-col gap-1 text-sm" data-detail>
           {q.options.map((o) => (
             <li key={o} className="flex items-center gap-2">
               {o === q.answer ? (
@@ -47,22 +48,20 @@ export function QuestionView({ q, dba }: { q: QuizQuestion; dba: Map<string, num
           ))}
         </ul>
       ) : (
-        <p className="text-sm">
+        <p className="text-sm" data-detail>
           <span className="text-muted-foreground">Respuesta esperada:</span> {q.answer}
         </p>
       )}
       {q.explanation && (
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground" data-detail>
           <span className="font-medium">Justificación:</span> {q.explanation}
         </p>
       )}
-      <div className="flex flex-wrap gap-1">
+      <div className="flex flex-wrap gap-1" data-detail>
         <Badge variant="outline">{QUESTION_TYPE_LABELS[q.type]}</Badge>
         <Badge variant="outline">{LEVEL_LABELS[q.cognitiveLevel]}</Badge>
         {q.dbaCodes.map((c) => (
-          <Badge key={c} variant="secondary">
-            DBA {dba.get(c) ?? c}
-          </Badge>
+          <DbaChip key={c} code={c} number={dba.get(c)} />
         ))}
       </div>
     </div>
@@ -205,12 +204,22 @@ type Props = {
   content: QuizContent;
   onChange: (content: QuizContent) => void;
   dirty: boolean;
+  /** SPEC-0013 RN-05: "Listo" en un ítem guarda el recurso. */
+  onItemDone: () => void;
   /** Ítems ya guardados: solo esos se pueden regenerar o calificar. */
   savedKeys: Set<string>;
   actions: FeedbackActions;
 };
 
-export function QuizEditor({ resource, content, onChange, dirty, savedKeys, actions }: Props) {
+export function QuizEditor({
+  resource,
+  content,
+  onChange,
+  dirty,
+  savedKeys,
+  actions,
+  onItemDone,
+}: Props) {
   const [editing, setEditing] = useState<string | null>(null);
   const dba = new Map(resource.context.dba.map((d) => [d.code, d.number]));
   const questions = content.questions;
@@ -249,7 +258,7 @@ export function QuizEditor({ resource, content, onChange, dirty, savedKeys, acti
             <li key={q.id} className="flex flex-col gap-3 rounded-lg border p-4">
               <div className="flex items-center justify-between gap-2">
                 <h3 className="text-sm font-medium">{label}</h3>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1" data-detail>
                   <Button
                     type="button"
                     size="icon-sm"
@@ -295,7 +304,10 @@ export function QuizEditor({ resource, content, onChange, dirty, savedKeys, acti
                     size="sm"
                     variant="outline"
                     className="w-fit"
-                    onClick={() => setEditing(null)}
+                    onClick={() => {
+                      setEditing(null);
+                      onItemDone();
+                    }}
                   >
                     Listo
                   </Button>
@@ -303,7 +315,7 @@ export function QuizEditor({ resource, content, onChange, dirty, savedKeys, acti
               ) : (
                 <QuestionView q={q} dba={dba} />
               )}
-              <div className="flex flex-wrap items-start justify-between gap-2">
+              <div className="flex flex-wrap items-start justify-between gap-2" data-detail>
                 <div className="flex flex-wrap gap-1">
                   {editing !== q.id && (
                     <Button

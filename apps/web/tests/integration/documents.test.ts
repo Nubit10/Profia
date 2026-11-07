@@ -5,7 +5,7 @@ import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { db } from "@/lib/db";
 import { createCourse, listSubjects } from "@/modules/courses";
 import { importCurriculumJson } from "@/modules/curriculum";
-import { exportResource } from "@/modules/documents";
+import { exportResource, listOfflineLibrary, recordOfflineSync } from "@/modules/documents";
 import { createIndependentSpace } from "@/modules/institutions";
 import { createTopic, createUnit, getCoursePlanning } from "@/modules/planning";
 import {
@@ -209,5 +209,52 @@ describe("exportar a Word y PDF (SPEC-0009)", () => {
       exportResource(a.ctx, a.resourceId, { doc: "student", format: "pdf", variant: "A" }),
     ).rejects.toMatchObject({ code: "CONFLICT" });
     expect(await db.auditLog.count({ where: { action: "resource.exported" } })).toBe(0);
+  });
+});
+
+describe("biblioteca sin conexión (SPEC-0013 RN-14)", () => {
+  it("CA-0013-42: la lista para guardar trae solo los recursos propios del espacio activo", async () => {
+    const { ctx, course, resourceId } = await teacherWithQuiz();
+    const other = await teacherWithQuiz();
+
+    const library = await listOfflineLibrary(ctx);
+    expect(library.map((e) => e.resourceId)).toEqual([resourceId]);
+    const [entry] = library;
+    expect(entry).toMatchObject({ courseId: course.id, type: "QUIZ", version: 1 });
+    expect(entry!.files.map((f) => `${f.label} ${f.format}`)).toEqual([
+      "Hoja del estudiante pdf",
+      "Hoja del estudiante docx",
+      "Clave pdf",
+      "Clave docx",
+    ]);
+    expect(entry!.files[0]!.url).toBe(
+      `/courses/${course.id}/resources/${resourceId}/export?doc=student&format=pdf&version=1&variant=A&purpose=offline`,
+    );
+    expect((await listOfflineLibrary(other.ctx)).map((e) => e.resourceId)).toEqual([
+      other.resourceId,
+    ]);
+
+    // Archivado: deja de estar en la lista (la siguiente sincronización lo borra del dispositivo).
+    await setResourceStatus(ctx, resourceId, "ARCHIVED");
+    expect(await listOfflineLibrary(ctx)).toEqual([]);
+  });
+
+  it("CA-0013-42: guardar sin conexión no cuenta como descarga; se audita una vez por sincronización", async () => {
+    const { ctx, resourceId } = await teacherWithQuiz();
+    const file = await exportResource(ctx, resourceId, {
+      doc: "student",
+      format: "pdf",
+      variant: "A",
+      offline: true,
+    });
+    expect(file.body.length).toBeGreaterThan(0);
+    const exported = () =>
+      db.auditLog.count({ where: { action: "resource.exported", entityId: resourceId } });
+    expect(await exported()).toBe(0);
+
+    await recordOfflineSync(ctx, 4);
+    const sync = await db.auditLog.findFirst({ where: { action: "resource.cached_offline" } });
+    expect(sync).toMatchObject({ actorUserId: ctx.userId, institutionId: ctx.institutionId });
+    expect(sync?.metadata).toEqual({ files: 4 });
   });
 });

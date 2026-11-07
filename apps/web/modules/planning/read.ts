@@ -4,7 +4,7 @@ import { invalid, notFound } from "@/lib/errors";
 import { GRADE_LABELS } from "@/modules/courses/client";
 import { getCourseReferences } from "@/modules/curriculum";
 import type { TenantContext } from "@/modules/tenancy";
-import { ownedTopic } from "./access";
+import { ownedTopic, ownedUnit } from "./access";
 import { ensureDefaultPeriods, listCoursePeriods } from "./periods";
 import type { CoursePlanning } from "./types";
 
@@ -42,6 +42,7 @@ export async function getCoursePlanning(
             title: true,
             description: true,
             plannedSessions: true,
+            dbaCodes: true,
             archivedAt: true,
             objectives: {
               where: visible,
@@ -82,6 +83,7 @@ export async function getCoursePlanning(
   ]);
 
   const linked = new Set<string>();
+  const dbaCodes = new Set(refs.references.filter((r) => r.type === "DBA").map((r) => r.code));
   const shaped = units.map((unit) => ({
     id: unit.id,
     periodNumber: unit.periodNumber,
@@ -94,6 +96,12 @@ export async function getCoursePlanning(
       description: topic.description,
       plannedSessions: topic.plannedSessions,
       archived: !!topic.archivedAt,
+      // SPEC-0014 RN-01: solo los que siguen siendo DBA del curso; también cuentan en la cobertura.
+      dbaCodes: topic.dbaCodes.filter((code) => {
+        if (!dbaCodes.has(code)) return false;
+        if (!unit.archivedAt && !topic.archivedAt) linked.add(code);
+        return true;
+      }),
       objectives: topic.objectives.map((objective) => ({
         id: objective.id,
         statement: objective.statement,
@@ -316,4 +324,10 @@ export async function getTopicPeriodName(
     select: { name: true },
   });
   return period?.name ?? `Periodo ${topic.unit.periodNumber}`;
+}
+
+/** Curso de una unidad del docente (SPEC-0014: proponer temas de una unidad). NOT_FOUND si es ajena. */
+export async function getUnitCourseId(ctx: TenantContext, unitId: string) {
+  const unit = await db.$transaction((tx) => ownedUnit(tx, ctx, unitId));
+  return unit.courseId;
 }

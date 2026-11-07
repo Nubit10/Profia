@@ -15,6 +15,7 @@ import {
   type ResourceDetail,
   type WorkshopContent,
 } from "@/modules/resources/client";
+import { DbaChip } from "@/components/curriculum/dba-chip";
 import { ItemFeedback, RegenerateItem, type FeedbackActions } from "./item-tools";
 
 const newId = () => `a-${Math.random().toString(36).slice(2, 10)}`;
@@ -31,18 +32,18 @@ export function ActivityView({ a, dba }: { a: Activity; dba: Map<string, number>
         {a.title}{" "}
         <span className="font-normal text-muted-foreground">· {a.durationMinutes} min</span>
       </p>
-      <p className="text-sm whitespace-pre-line">{a.instructions}</p>
+      <p className="text-sm whitespace-pre-line" data-detail>
+        {a.instructions}
+      </p>
       {a.expectedOutcome && (
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground" data-detail>
           <span className="font-medium">Producto esperado:</span> {a.expectedOutcome}
         </p>
       )}
-      <div className="flex flex-wrap gap-1">
+      <div className="flex flex-wrap gap-1" data-detail>
         <Badge variant="outline">{LEVEL_LABELS[a.cognitiveLevel]}</Badge>
         {a.dbaCodes.map((c) => (
-          <Badge key={c} variant="secondary">
-            DBA {dba.get(c) ?? c}
-          </Badge>
+          <DbaChip key={c} code={c} number={dba.get(c)} />
         ))}
       </div>
     </div>
@@ -108,11 +109,21 @@ type Props = {
   content: WorkshopContent;
   onChange: (content: WorkshopContent) => void;
   dirty: boolean;
+  /** SPEC-0013 RN-05: "Listo" en un ítem guarda el recurso. */
+  onItemDone: () => void;
   savedKeys: Set<string>;
   actions: FeedbackActions;
 };
 
-export function WorkshopEditor({ resource, content, onChange, dirty, savedKeys, actions }: Props) {
+export function WorkshopEditor({
+  resource,
+  content,
+  onChange,
+  dirty,
+  savedKeys,
+  actions,
+  onItemDone,
+}: Props) {
   const [editing, setEditing] = useState<string | null>(null);
   const dba = new Map(resource.context.dba.map((d) => [d.code, d.number]));
   const total = content.moments
@@ -189,6 +200,7 @@ export function WorkshopEditor({ resource, content, onChange, dirty, savedKeys, 
                       size="icon-sm"
                       variant="ghost"
                       aria-label={`Eliminar ${label}`}
+                      data-detail
                       onClick={() =>
                         setActivities(
                           mi,
@@ -215,7 +227,10 @@ export function WorkshopEditor({ resource, content, onChange, dirty, savedKeys, 
                         size="sm"
                         variant="outline"
                         className="w-fit"
-                        onClick={() => setEditing(null)}
+                        onClick={() => {
+                          setEditing(null);
+                          onItemDone();
+                        }}
                       >
                         Listo
                       </Button>
@@ -223,7 +238,7 @@ export function WorkshopEditor({ resource, content, onChange, dirty, savedKeys, 
                   ) : (
                     <ActivityView a={a} dba={dba} />
                   )}
-                  <div className="flex flex-wrap items-start justify-between gap-2">
+                  <div className="flex flex-wrap items-start justify-between gap-2" data-detail>
                     <div className="flex flex-wrap gap-1">
                       {editing !== a.id && (
                         <Button

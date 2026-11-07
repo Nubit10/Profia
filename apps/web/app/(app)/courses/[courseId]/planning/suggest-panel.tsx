@@ -1,5 +1,6 @@
 "use client";
 
+import { DbaChip } from "@/components/curriculum/dba-chip";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
 import {
@@ -86,9 +87,7 @@ function SuggestionCard({
       {suggestion.dba.length > 0 && (
         <div className="flex flex-wrap gap-1">
           {suggestion.dba.map((d) => (
-            <Badge key={d.code} variant="secondary" title={d.statement}>
-              DBA {d.number}
-            </Badge>
+            <DbaChip key={d.code} code={d.code} number={d.number} />
           ))}
         </div>
       )}

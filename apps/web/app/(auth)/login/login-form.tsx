@@ -14,13 +14,14 @@ import { loginSchema, type ActionResult, type LoginInput } from "@/modules/auth/
 type Props = {
   action: (input: LoginInput) => Promise<ActionResult>;
   callbackUrl: string;
+  defaultEmail?: string;
 };
 
-export function LoginForm({ action, callbackUrl }: Props) {
+export function LoginForm({ action, callbackUrl, defaultEmail = "" }: Props) {
   const router = useRouter();
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "" },
+    defaultValues: { email: defaultEmail, password: "" },
   });
   const { errors, isSubmitting } = form.formState;
 

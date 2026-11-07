@@ -19,6 +19,18 @@ const envSchema = z.object({
     emptyToUndefined,
     z.string().min(24, "debe tener al menos 24 caracteres").optional(),
   ),
+  // Notificaciones del navegador (SPEC-0013 RN-15, ADR-0012). Opcionales: sin ellas Profe no las
+  // ofrece. Se generan una vez con `npx web-push generate-vapid-keys` y no se cambian.
+  NEXT_PUBLIC_VAPID_PUBLIC_KEY: z.preprocess(emptyToUndefined, z.string().min(40).optional()),
+  VAPID_PRIVATE_KEY: z.preprocess(emptyToUndefined, z.string().min(20).optional()),
+  /** Contacto para el servicio push: `mailto:` o una URL del sitio. */
+  VAPID_SUBJECT: z.preprocess(
+    emptyToUndefined,
+    z
+      .string()
+      .regex(/^(mailto:|https:\/\/)/, "debe empezar por mailto: o https://")
+      .optional(),
+  ),
 });
 
 export type Env = z.infer<typeof envSchema>;

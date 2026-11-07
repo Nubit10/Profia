@@ -70,9 +70,14 @@ test("CA-0011-17: de la planeación al examen generado, con temas de dos periodo
   await createCourse(page);
   const { courseId } = await seedPlanning(user.email);
 
-  // Desde la planeación: "Crear examen de esta unidad" llega con sus temas marcados.
+  // Desde la planeación: "Ajustar examen de esta unidad" llega con sus temas marcados.
   await page.goto(`/courses/${courseId}?tab=planeacion`);
-  await page.getByRole("link", { name: "Crear examen de esta unidad" }).first().click();
+  // SPEC-0013: la opción vive en el menú "⋯" de la unidad.
+  await page
+    .getByRole("button", { name: /^Opciones de unidad/ })
+    .first()
+    .click();
+  await page.getByRole("menuitem", { name: "Ajustar examen de esta unidad" }).click();
   await expect(page).toHaveURL(/type=EXAM.*scope=UNIT/);
   await expect(page.getByRole("heading", { name: "¿Qué temas evalúa?" })).toBeVisible();
   await expect(page.getByRole("checkbox", { name: "La recta numérica" })).toBeChecked();

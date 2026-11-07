@@ -34,7 +34,11 @@ export async function loginAction(input: unknown): Promise<ActionResult> {
   }
 }
 
-export async function registerAction(input: unknown): Promise<ActionResult> {
+/**
+ * SPEC-0013 RN-01: crear la cuenta inicia la sesión. `signedIn: false` si la cuenta quedó creada pero
+ * no se pudo iniciar sesión (p. ej. límite de intentos): el formulario lleva al login de hoy.
+ */
+export async function registerAction(input: unknown): Promise<ActionResult<{ signedIn: boolean }>> {
   const ip = clientIp(await headers());
   if (!(await authLimiters.register.consume(`register:${ip}`)).allowed) {
     return { ok: false, error: RATE_LIMITED_ERROR };
@@ -56,7 +60,12 @@ export async function registerAction(input: unknown): Promise<ActionResult> {
       return { ok: false, error: message, fieldErrors: { email: [message] } };
     }
     logger.info("auth.register.succeeded", { userId: result.user.id });
-    return { ok: true };
+    const login = await loginAction({
+      email: parsed.data.email,
+      password: parsed.data.password,
+    });
+    if (!login.ok) logger.warn("auth.register.auto_login_failed", { userId: result.user.id });
+    return { ok: true, data: { signedIn: login.ok } };
   } catch (error) {
     logger.error("auth.register.unexpected_error", { error });
     return { ok: false, error: UNEXPECTED_ERROR };

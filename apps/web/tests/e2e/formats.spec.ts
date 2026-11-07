@@ -59,7 +59,12 @@ test("CA-0010-01/03/04/08/10: subir el formato, revisarlo y generar un taller co
   await page.getByRole("button", { name: "Crear tema" }).click();
   await expect(page.getByRole("dialog")).toHaveCount(0);
 
-  await page.getByRole("link", { name: "Crear taller o quiz" }).click();
+  // SPEC-0014: "Ajustar antes de crear" (menú del tema) abre el asistente; el toque crea directo.
+  await page
+    .getByRole("button", { name: /^Opciones de tema/ })
+    .first()
+    .click();
+  await page.getByRole("menuitem", { name: "Ajustar antes de crear" }).click();
   // Asistente (SPEC-0012): el curso y el tema ya vienen elegidos; falta el tipo.
   await page.getByRole("link", { name: /^Taller/ }).click();
   await expect(

@@ -93,9 +93,8 @@ test("CA-0002-03/04/05: un colegio se registra, invita a un profesor y este acep
   await teacherPage.getByRole("link", { name: /Crear cuenta con/ }).click();
   await expect(teacherPage.getByLabel("Correo")).toHaveValue(teacher.email);
   await teacherPage.getByLabel("Nombre").fill(teacher.name);
+  // SPEC-0013 RN-01: al crear la cuenta ya tiene sesión y vuelve directo a la invitación.
   await fillRegistration(teacherPage, teacher);
-  await expect(teacherPage).toHaveURL(/\/login\?callbackUrl=/);
-  await login(teacherPage, teacher.email);
   await expect(teacherPage).toHaveURL(/\/invitations\//);
   await teacherPage.getByRole("button", { name: "Aceptar invitación" }).click();
   await expect(teacherPage).toHaveURL(/\/dashboard$/);

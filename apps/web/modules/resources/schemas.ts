@@ -677,3 +677,21 @@ export const regenerateSchema = z.object({
     .min(3, "Escribe qué quieres cambiar")
     .max(300, "Máximo 300 caracteres"),
 });
+
+/** SPEC-0014 RN-07: recurso con un toque desde la planeación (valores recomendados del grado). */
+export const quickResourceSchema = z.discriminatedUnion("type", [
+  z.object({ type: z.literal("QUIZ"), topicId: z.string().min(1) }),
+  z.object({ type: z.literal("WORKSHOP"), topicId: z.string().min(1) }),
+  z.object({
+    type: z.literal("EXAM"),
+    scope: z.discriminatedUnion("kind", [
+      z.object({ kind: z.literal("UNIT"), unitId: z.string().min(1) }),
+      z.object({
+        kind: z.literal("PERIOD"),
+        courseId: z.string().min(1),
+        periodNumber: z.number().int().min(1).max(6),
+      }),
+    ]),
+  }),
+]);
+export type QuickResourceRequest = z.input<typeof quickResourceSchema>;

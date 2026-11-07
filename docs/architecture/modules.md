@@ -31,7 +31,8 @@ Cada módulo expone su API en `modules/<x>/index.ts` (servidor) y, si hace falta
 | `planning`     | Periodos, unidades, temas y objetivos del curso; vínculo con DBA; copia                                                                | `curriculum`, `tenancy`, `audit`                                   |
 | `formats`      | Formato propio del docente y del colegio (extracción del DOCX, detección, análisis con IA) y logo (ADR-0010)                           | `generation`, `tenancy`, `audit`                                   |
 | `documents`    | Exportar recursos a DOCX y PDF: modelo intermedio, versiones A–D, renderizadores (ADR-0009); examen con hoja de respuestas (SPEC-0011) | `resources`, `formats`, `courses`, `planning`, `tenancy`, `audit`  |
-| `resources`    | Talleres, quices y exámenes: blueprint, generación en segundo plano, versiones, evaluación, preferencias, biblioteca, escala de notas  | `generation`, `planning`, `courses`, `formats`, `tenancy`, `audit` |
+| `resources`    | Talleres, quices y exámenes: blueprint, generación en segundo plano, versiones, evaluación, preferencias, biblioteca, escala de notas  | `generation`, `planning`, `courses`, `formats`, `tenancy`, `audit`, `notifications` |
+| `notifications` | Avisos del navegador (Web Push, SPEC-0013, ADR-0012): dispositivos del usuario y envío al terminar una generación | `auth` |
 
 **Por qué `tenancy` es un módulo aparte:** `courses` necesita el contexto de tenant, e `institutions` necesita a `courses` para precargar las asignaturas al crear un espacio. Si el contexto viviera en `institutions`, habría un ciclo.
 

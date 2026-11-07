@@ -29,6 +29,7 @@ import {
   type ExamSection,
   type ResourceDetail,
 } from "@/modules/resources/client";
+import { DbaChip } from "@/components/curriculum/dba-chip";
 import { ItemFeedback, RegenerateItem, type FeedbackActions } from "./item-tools";
 
 // Editor del examen (SPEC-0011): secciones en su orden, preguntas con puntos, emparejamiento y
@@ -110,9 +111,7 @@ export function ExamQuestionView({
         <Badge variant="outline">Tema: {topics.get(q.topicId) ?? "—"}</Badge>
         <Badge variant="outline">{LEVEL_LABELS[q.cognitiveLevel]}</Badge>
         {q.dbaCodes.map((c) => (
-          <Badge key={c} variant="secondary">
-            DBA {dba.get(c) ?? c}
-          </Badge>
+          <DbaChip key={c} code={c} number={dba.get(c)} />
         ))}
       </div>
     </div>
@@ -488,11 +487,21 @@ type Props = {
   content: ExamContent;
   onChange: (content: ExamContent) => void;
   dirty: boolean;
+  /** SPEC-0013 RN-05: "Listo" en un ítem guarda el recurso. */
+  onItemDone: () => void;
   savedKeys: Set<string>;
   actions: FeedbackActions;
 };
 
-export function ExamEditor({ resource, content, onChange, dirty, savedKeys, actions }: Props) {
+export function ExamEditor({
+  resource,
+  content,
+  onChange,
+  dirty,
+  savedKeys,
+  actions,
+  onItemDone,
+}: Props) {
   const [editing, setEditing] = useState<string | null>(null);
   const dba = new Map(resource.context.dba.map((d) => [d.code, d.number]));
   const topics: Topics = new Map(content.topics.map((t) => [t.id, t.title]));
@@ -647,7 +656,10 @@ export function ExamEditor({ resource, content, onChange, dirty, savedKeys, acti
                           size="sm"
                           variant="outline"
                           className="w-fit"
-                          onClick={() => setEditing(null)}
+                          onClick={() => {
+                            setEditing(null);
+                            onItemDone();
+                          }}
                         >
                           Listo
                         </Button>

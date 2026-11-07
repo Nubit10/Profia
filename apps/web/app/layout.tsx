@@ -1,6 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { Toaster } from "sileo";
+import { ServiceWorker } from "@/components/service-worker";
+import { BRAND_COLOR } from "@/lib/brand-colors";
 import "./globals.css";
 
 // SPEC-0012: tipografía de la marca (cercana y legible para titulares y texto).
@@ -17,6 +19,21 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: { default: "Profe", template: "%s · Profe" },
   description: "Plataforma de gestión y producción pedagógica asistida por IA.",
+  applicationName: "Profe",
+  // SPEC-0013 RN-12: instalable también en iPhone (Compartir → Agregar a pantalla de inicio).
+  appleWebApp: { capable: true, title: "Profe", statusBarStyle: "default" },
+  icons: {
+    icon: [{ url: "/icons/icon-192.png", type: "image/png", sizes: "192x192" }],
+    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  // El contenido llega a los bordes del teléfono; las áreas seguras las respetan los estilos.
+  viewportFit: "cover",
+  themeColor: BRAND_COLOR,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -25,6 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col bg-background">
         {children}
         <Toaster position="bottom-right" />
+        <ServiceWorker />
       </body>
     </html>
   );

@@ -32,8 +32,14 @@ async function topicWithObjective(page: Page, group: string) {
   await page.getByRole("button", { name: "Crear objetivo" }).click();
   await expect(page.getByRole("dialog")).toHaveCount(0);
 
-  await page.getByRole("link", { name: "Crear taller o quiz" }).click();
-  await expect(page.getByRole("heading", { name: "Crear taller o quiz con IA" })).toBeVisible();
+  // SPEC-0014: "Ajustar antes de crear" (menú del tema) abre el asistente; el toque crea directo.
+  await page
+    .getByRole("button", { name: /^Opciones de tema/ })
+    .first()
+    .click();
+  await page.getByRole("menuitem", { name: "Ajustar antes de crear" }).click();
+  // Asistente (SPEC-0012): el curso y el tema ya vienen elegidos; falta el tipo.
+  await expect(page.getByRole("heading", { name: "¿Qué quieres crear?" })).toBeVisible();
 }
 
 test("CA-0008-01/06/07/08/09: generar un quiz, editarlo, regenerar una pregunta y evaluarlo", async ({
@@ -57,8 +63,8 @@ test("CA-0008-01/06/07/08/09: generar un quiz, editarlo, regenerar una pregunta 
     .nth(0)
     .getByLabel("Enunciado")
     .fill("¿Qué número está más a la izquierda en la recta?");
+  // SPEC-0013 RN-05: "Listo" ya guarda el cambio.
   await questions.nth(0).getByRole("button", { name: "Listo" }).click();
-  await page.getByRole("button", { name: "Guardar cambios" }).click();
   await expect(page.getByText(/Versión 2/).first()).toBeVisible();
   await expect(questions.nth(0)).toContainText("¿Qué número está más a la izquierda en la recta?");
 
@@ -91,20 +97,25 @@ test("CA-0008-01/06/07/08/09: generar un quiz, editarlo, regenerar una pregunta 
   await expect(page.getByText("Listo", { exact: true })).toBeVisible();
 
   // CA-0009-10 (SPEC-0009): descargar la versión B de la hoja y su clave.
-  await choose(page, "Versiones para evitar la copia", "2");
   const sheet = await download(page, "Hoja del estudiante (versión B) en PDF");
   expect(sheet.suggestedFilename()).toBe("Quiz - La recta numérica - 6°6C - Versión B.pdf");
   const key = await download(page, "Clave (versión B) en Word");
   expect(key.suggestedFilename()).toBe("Clave - Quiz - La recta numérica - 6°6C - Versión B.docx");
 
   await page.getByRole("link", { name: "Recursos del curso" }).click();
-  const library = page.getByRole("list", { name: "Recursos del curso" });
+  // SPEC-0014: la biblioteca se agrupa por tema.
+  const library = page.getByRole("list", { name: "Recursos de La recta numérica" });
   await expect(library).toContainText("Quiz: La recta numérica");
   await expect(library).toContainText("Listo");
 
   // La preferencia aparece en el siguiente formulario y se puede quitar de esta generación.
   await page.getByRole("link", { name: "Planeación" }).click();
-  await page.getByRole("link", { name: "Crear taller o quiz" }).click();
+  // SPEC-0014: "Ajustar antes de crear" (menú del tema) abre el asistente; el toque crea directo.
+  await page
+    .getByRole("button", { name: /^Opciones de tema/ })
+    .first()
+    .click();
+  await page.getByRole("menuitem", { name: "Ajustar antes de crear" }).click();
   await page.getByRole("link", { name: /^Quiz/ }).click();
   await page.getByText("Más opciones").click();
   const prefs = page.getByRole("list", { name: "Preferencias guardadas" });

@@ -7,6 +7,7 @@ import { getLimiter } from "@/lib/rate-limit";
 import { redactContactData } from "@/lib/text";
 import { recordAudit } from "@/modules/audit";
 import { getMyCourse } from "@/modules/courses";
+import { notifyGenerationFinished, type GenerationFinished } from "@/modules/notifications";
 import {
   defaultFormatId,
   getFormatSnapshot,
@@ -94,7 +95,12 @@ const MAX_PREFERENCES = 5;
 const MAX_PREFERENCES_CHARS = 500;
 
 export type Scheduler = (task: () => Promise<void>) => void;
-export type GenerationDeps = { fetcher?: typeof fetch; schedule?: Scheduler };
+export type GenerationDeps = {
+  fetcher?: typeof fetch;
+  schedule?: Scheduler;
+  /** SPEC-0013 RN-15: aviso del navegador al terminar. En tests se inyecta otro. */
+  notify?: (event: GenerationFinished) => Promise<void>;
+};
 
 /** ADR-0008: la generación corre después de responder. En tests se inyecta otro planificador. */
 const runAfterResponse: Scheduler = (task) => after(task);
@@ -421,6 +427,8 @@ type Job = {
   resourceId: string;
   institutionId: string;
   membershipId: string;
+  /** Quien pidió el recurso: solo a esa persona le llega el aviso (RN-08, RN-15). */
+  userId: string;
   blueprint: Blueprint;
   snapshot: Snapshot;
   preferences: string[];
@@ -632,6 +640,37 @@ export async function runGeneration(job: Job, fetcher: typeof fetch = fetch): Pr
   }
 }
 
+/**
+ * SPEC-0013 RN-15: avisa con una notificación del navegador cómo terminó la generación (lista para
+ * revisar o fallida). Si se interrumpió o se archivó mientras tanto, no avisa. Nunca lanza.
+ */
+async function announce(job: Job, notify: (event: GenerationFinished) => Promise<void>) {
+  try {
+    const resource = await db.resource.findFirst({
+      where: { id: job.resourceId, institutionId: job.institutionId },
+      select: { status: true, failureReason: true, title: true, courseId: true, type: true },
+    });
+    if (!resource) return;
+    const outcome =
+      resource.status === "DRAFT"
+        ? "READY"
+        : resource.status === "FAILED" && resource.failureReason !== "interrupted"
+          ? "FAILED"
+          : null;
+    if (!outcome) return;
+    await notify({
+      userId: job.userId,
+      resourceId: job.resourceId,
+      courseId: resource.courseId,
+      typeLabel: RESOURCE_TYPE_LABELS[resource.type].toLowerCase(),
+      name: resource.title.replace(/^[^:]{1,20}:\s*/, ""),
+      outcome,
+    });
+  } catch (error) {
+    logger.warn("resource.announce_failed", { resourceId: job.resourceId, error });
+  }
+}
+
 async function enqueue(
   ctx: TenantContext,
   blueprint: Blueprint,
@@ -718,13 +757,17 @@ async function enqueue(
     resourceId: resource.id,
     institutionId: ctx.institutionId,
     membershipId: ctx.membershipId,
+    userId: ctx.userId,
     blueprint,
     snapshot,
     preferences,
     format,
     title,
   };
-  (deps.schedule ?? runAfterResponse)(() => runGeneration(job, deps.fetcher));
+  (deps.schedule ?? runAfterResponse)(async () => {
+    await runGeneration(job, deps.fetcher);
+    await announce(job, deps.notify ?? notifyGenerationFinished);
+  });
   return resource;
 }
 
@@ -789,12 +832,21 @@ export const summary = (r: {
   context: Prisma.JsonValue;
   createdAt: Date;
   updatedAt: Date;
+  topicId: string;
+  topics?: { topicId: string; position: number }[];
 }): ResourceSummary => ({
   id: r.id,
   type: r.type,
   status: r.status,
   title: r.title,
   topicTitle: (r.context as unknown as Snapshot).topic.title,
+  // SPEC-0014 RN-09: el tema principal y, en un examen, todos los que cubre (para ubicarlo).
+  topicIds: [
+    ...new Set([
+      r.topicId,
+      ...[...(r.topics ?? [])].sort((a, b) => a.position - b.position).map((t) => t.topicId),
+    ]),
+  ],
   createdAt: r.createdAt,
   updatedAt: r.updatedAt,
 });
@@ -823,6 +875,8 @@ export async function listCourseResources(
       context: true,
       createdAt: true,
       updatedAt: true,
+      topicId: true,
+      topics: { select: { topicId: true, position: true } },
     },
   });
   return rows.map(summary);
@@ -976,6 +1030,49 @@ async function saveVersion(
   return number;
 }
 
+/** SPEC-0013 RN-05: los cambios guardados en menos de este tiempo van en la misma versión. */
+export const VERSION_GROUP_MS = 60_000;
+
+/**
+ * SPEC-0013 RN-05: "Listo" guarda cada cambio; si la versión actual la creó el docente hace menos de
+ * un minuto, el cambio se agrega a ella en lugar de crear otra. La versión generada (1) y las que
+ * vienen de la IA nunca se reemplazan. Devuelve `null` cuando hay que crear una versión nueva.
+ */
+async function replaceRecentVersion(
+  tx: Prisma.TransactionClient,
+  resource: { id: string; currentVersion: number; context: Prisma.JsonValue },
+  data: ResourceContent,
+): Promise<number | null> {
+  if (resource.currentVersion <= 1) return null;
+  const latest = await tx.resourceVersion.findUnique({
+    where: { resourceId_number: { resourceId: resource.id, number: resource.currentVersion } },
+    select: { id: true, source: true, createdAt: true },
+  });
+  if (
+    !latest ||
+    latest.source !== "TEACHER" ||
+    Date.now() - latest.createdAt.getTime() > VERSION_GROUP_MS
+  ) {
+    return null;
+  }
+  const allowed = new Set((resource.context as unknown as Snapshot).dba.map((d) => d.code));
+  const clean = sanitizeContent(data, allowed);
+  const keys = itemKeys(clean);
+  if (new Set(keys).size !== keys.length) throw invalid("Hay ítems con el mismo identificador");
+  // Bloquea la fila del recurso y confirma que nadie guardó otra versión mientras tanto.
+  const { count } = await tx.resource.updateMany({
+    where: { id: resource.id, currentVersion: resource.currentVersion },
+    data: { title: clean.content.title },
+  });
+  if (count === 0)
+    throw conflict("El recurso cambió en otra pestaña. Recarga para ver la última versión.");
+  await tx.resourceVersion.update({
+    where: { id: latest.id },
+    data: { content: clean.content as Prisma.InputJsonValue },
+  });
+  return resource.currentVersion;
+}
+
 /** CA-0008-06: cada guardado es una versión nueva; la generada (1) se conserva. */
 export async function saveResourceContent(
   ctx: TenantContext,
@@ -1003,7 +1100,9 @@ export async function saveResourceContent(
       : { type: resource.type, content: result.data }
   ) as ResourceContent;
   return db.$transaction(async (tx) => {
-    const number = await saveVersion(tx, ctx, resource, parsed);
+    const number =
+      (await replaceRecentVersion(tx, resource, parsed)) ??
+      (await saveVersion(tx, ctx, resource, parsed));
     await recordAudit(tx, {
       action: "resource.edited",
       institutionId: ctx.institutionId,

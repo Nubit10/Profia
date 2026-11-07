@@ -1,9 +1,9 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { DomainError } from "@/lib/errors";
-import { logger } from "@/lib/observability/logger";
+import { getLimiter } from "@/lib/rate-limit";
 import { exportResource, VARIANTS } from "@/modules/documents";
 import { requireTenant } from "@/modules/tenancy";
+import { errorResponse, fileResponse } from "./file-response";
 
 // Descarga de un recurso en DOCX o PDF (SPEC-0009 §5). Se genera al momento desde la versión
 // pedida; nada se guarda en disco.
@@ -13,14 +13,12 @@ const querySchema = z.object({
   format: z.enum(["pdf", "docx"]).default("pdf"),
   version: z.coerce.number().int().min(1).optional(),
   variant: z.enum(VARIANTS).default("A"),
+  /** SPEC-0013 RN-14: el dispositivo guarda el archivo para usarlo sin conexión. */
+  purpose: z.enum(["offline"]).optional(),
 });
 
-const STATUS: Record<string, number> = {
-  NOT_FOUND: 404,
-  FORBIDDEN: 404,
-  CONFLICT: 409,
-  INVALID: 400,
-};
+/** ADR-0012: la sincronización baja como máximo 30 archivos por minuto por docente. */
+const OFFLINE_PER_MINUTE = 30;
 
 export async function GET(
   request: NextRequest,
@@ -31,26 +29,20 @@ export async function GET(
   if (!query.success) return new Response("Parámetros inválidos", { status: 400 });
 
   const tenant = await requireTenant();
-  try {
-    const file = await exportResource(tenant, resourceId, query.data);
-    // RFC 6266/5987: nombre con tildes y "°" para navegadores modernos, y uno ASCII de respaldo.
-    const ascii = file.filename.normalize("NFD").replace(/[^\x20-\x7e]/g, "");
-    return new Response(new Uint8Array(file.body), {
-      headers: {
-        "content-type": file.contentType,
-        "content-disposition": `attachment; filename="${ascii.replace(/"/g, "")}"; filename*=UTF-8''${encodeURIComponent(file.filename)}`,
-        "cache-control": "private, no-store",
-        "x-content-type-options": "nosniff",
-      },
+  const { purpose, ...wanted } = query.data;
+  const offline = purpose === "offline";
+  if (
+    offline &&
+    !(await getLimiter("offline-sync", OFFLINE_PER_MINUTE, 60_000).consume(tenant.userId)).allowed
+  ) {
+    return new Response("Demasiadas descargas seguidas", {
+      status: 429,
+      headers: { "retry-after": "60" },
     });
+  }
+  try {
+    return fileResponse(await exportResource(tenant, resourceId, { ...wanted, offline }));
   } catch (error) {
-    if (error instanceof DomainError) {
-      // CA-0009-06: un recurso ajeno responde 404, igual que uno inexistente.
-      return new Response(error.code === "FORBIDDEN" ? "No encontrado" : error.message, {
-        status: STATUS[error.code] ?? 400,
-      });
-    }
-    logger.error("document.export_failed", { resourceId, error });
-    return new Response("No pudimos generar el documento", { status: 500 });
+    return errorResponse(error, resourceId);
   }
 }

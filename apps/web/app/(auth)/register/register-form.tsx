@@ -18,7 +18,7 @@ import {
 } from "@/modules/auth/client";
 
 type Props = {
-  action: (input: RegisterInput) => Promise<ActionResult>;
+  action: (input: RegisterInput) => Promise<ActionResult<{ signedIn: boolean }>>;
   /** Ruta a la que volver tras iniciar sesión (p. ej. un enlace de invitación). */
   callbackUrl: string;
   defaultEmail?: string;
@@ -54,12 +54,18 @@ export function RegisterForm({ action, callbackUrl, defaultEmail = "" }: Props) 
       sileo.error({ title: "No pudimos crear la cuenta", description: result.error });
       return;
     }
-    sileo.success({ title: "Cuenta creada", description: "Ya puedes iniciar sesión." });
-    router.push(
-      callbackUrl === DEFAULT_AFTER_LOGIN
-        ? "/login"
-        : `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`,
-    );
+    // SPEC-0013 RN-01: la cuenta nueva ya tiene sesión; sin espacio, el área de trabajo lleva al
+    // onboarding. Si iniciar sesión falló, el login de hoy con el correo ya escrito.
+    if (result.data?.signedIn) {
+      sileo.success({ title: "Cuenta creada", description: "Te damos la bienvenida a Profe." });
+      router.replace(callbackUrl);
+      router.refresh();
+      return;
+    }
+    sileo.success({ title: "Tu cuenta quedó creada", description: "Ingresa para continuar." });
+    const params = new URLSearchParams({ email: values.email });
+    if (callbackUrl !== DEFAULT_AFTER_LOGIN) params.set("callbackUrl", callbackUrl);
+    router.push(`/login?${params}`);
   });
 
   return (

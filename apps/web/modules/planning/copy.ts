@@ -90,6 +90,8 @@ export async function copyPlanning(ctx: TenantContext, fromCourseId: string, toC
                 title: topic.title,
                 description: topic.description,
                 plannedSessions: topic.plannedSessions,
+                // Misma asignatura y grado (RN-08): los DBA del tema siguen siendo del curso.
+                dbaCodes: topic.dbaCodes,
                 position: topic.position,
                 objectives: {
                   create: topic.objectives.map((objective) => {

@@ -1,5 +1,6 @@
 import type { IconType } from "react-icons";
 import {
+  HiOutlineBellAlert,
   HiOutlineBookOpen,
   HiOutlineBuildingLibrary,
   HiOutlineDocumentText,
@@ -40,6 +41,7 @@ const ITEMS = {
   },
   formats: { href: "/formats", label: "Formatos", icon: HiOutlineDocumentText },
   subjects: { href: "/subjects", label: "Asignaturas", icon: HiOutlineBookOpen },
+  notifications: { href: "/notifications", label: "Notificaciones", icon: HiOutlineBellAlert },
   school: { href: "/school", label: "Datos y sedes", icon: HiOutlineBuildingLibrary },
   members: { href: "/school/members", label: "Profesores", icon: HiOutlineUserGroup },
 } satisfies Record<string, NavItem>;
@@ -51,7 +53,7 @@ export function getNavSections({ isTeacher, isSchoolAdmin }: NavAccess): NavSect
   if (isTeacher) {
     sections.push(
       { title: "Mi trabajo", items: [ITEMS.resources, ITEMS.formats] },
-      { title: "Ajustes", items: [ITEMS.subjects] },
+      { title: "Ajustes", items: [ITEMS.subjects, ITEMS.notifications] },
     );
   }
   if (isSchoolAdmin) {

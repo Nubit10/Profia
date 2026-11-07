@@ -34,6 +34,12 @@ from ..generation.objectives import (
     suggest_objectives,
 )
 from ..generation.pipeline import StructuredResult
+from ..generation.planning import (
+    PLANNING_PROMPT_VERSION,
+    PeriodResult,
+    PlanningRequest,
+    propose_planning,
+)
 from ..generation.resources import (
     ITEM_PROMPT_VERSION,
     QUIZ_PROMPT_VERSION,
@@ -102,6 +108,15 @@ class SuggestionsResponse(BaseModel):
 
 class ResourceMeta(GenerationMeta):
     tokens: int
+
+
+class PlanningMeta(ResourceMeta):
+    droppedCodes: int
+
+
+class PlanningResponse(BaseModel):
+    periods: list[PeriodResult]
+    meta: PlanningMeta
 
 
 class QuizResponse(BaseModel):
@@ -208,6 +223,46 @@ def create_app(
                 denseModel=provider.dense_model,
                 catalogVersion=info["catalogVersion"],
                 latencyMs=latency,
+            ),
+        )
+
+    @app.post(
+        "/v1/generation/planning",
+        response_model=PlanningResponse,
+        dependencies=[Depends(require_token)],
+    )
+    def planning(body: PlanningRequest) -> PlanningResponse:
+        """SPEC-0014: propuesta de unidades y temas; la web la muestra y nada se guarda aquí."""
+        try:
+            result = propose_planning(llm, body)
+        except LLMUnavailableError as error:
+            log.warning("generation.unavailable chain=%s detail=%s", llm.name, error)
+            raise HTTPException(status_code=503, detail="unavailable") from error
+        except GenerationInvalidError as error:
+            log.warning(
+                "generation.invalid attempts=%d errors=%d", error.attempts, len(error.errors)
+            )
+            raise HTTPException(status_code=502, detail="invalid_output") from error
+        log.info(
+            "generation.planning provider=%s model=%s periods=%d attempts=%d dropped=%d "
+            "latency_ms=%d",
+            result.provider,
+            result.model,
+            len(result.periods),
+            result.attempts,
+            result.dropped_codes,
+            result.latency_ms,
+        )
+        return PlanningResponse(
+            periods=result.periods,
+            meta=PlanningMeta(
+                provider=result.provider,
+                model=result.model,
+                promptVersion=PLANNING_PROMPT_VERSION,
+                attempts=result.attempts,
+                latencyMs=result.latency_ms,
+                tokens=result.tokens,
+                droppedCodes=result.dropped_codes,
             ),
         )
 

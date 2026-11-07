@@ -6,6 +6,13 @@ import { copyPlanning } from "./copy";
 import { createQuickTopic } from "./outline";
 import { setCoursePeriods } from "./periods";
 import {
+  acceptObjectivesBatch,
+  acceptPlanningProposal,
+  type AcceptProposalResult,
+} from "./proposal";
+import {
+  acceptObjectivesSchema,
+  acceptProposalSchema,
   archiveSchema,
   copySchema,
   coursePeriodsSchema,
@@ -97,5 +104,23 @@ export async function copyPlanningAction(
 ): Promise<ActionResult<{ units: number; topics: number; objectives: number }>> {
   return runAction("copy_planning", copySchema, input, async ({ fromCourseId, toCourseId }) =>
     copyPlanning(await requireTenant(), fromCourseId, toCourseId),
+  );
+}
+
+/** SPEC-0014: agrega lo que el docente dejó en la revisión de la propuesta con IA. */
+export async function acceptPlanningProposalAction(
+  input: unknown,
+): Promise<ActionResult<AcceptProposalResult>> {
+  return runAction("accept_planning_proposal", acceptProposalSchema, input, async (data) =>
+    acceptPlanningProposal(await requireTenant(), data),
+  );
+}
+
+/** SPEC-0014 CA-0014-08/09: agrega los objetivos marcados en la revisión en bloque. */
+export async function acceptObjectivesBatchAction(
+  input: unknown,
+): Promise<ActionResult<{ objectives: number }>> {
+  return runAction("accept_objectives_batch", acceptObjectivesSchema, input, async (data) =>
+    acceptObjectivesBatch(await requireTenant(), data),
   );
 }

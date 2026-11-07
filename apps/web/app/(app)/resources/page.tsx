@@ -3,14 +3,17 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { HiOutlineFolderOpen, HiOutlinePlus } from "react-icons/hi2";
 import { EmptyState } from "@/components/empty-state";
+import { OfflinePanel } from "@/components/offline/offline-panel";
 import { PageHeader } from "@/components/page-header";
+import { PlanResources } from "@/components/plan-resources";
 import { ResourceList } from "@/components/resource-list";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { listMyCourses } from "@/modules/courses";
 import { courseTitle } from "@/modules/courses/client";
+import { listCoursePlans } from "@/modules/planning";
 import { listMyResources } from "@/modules/resources";
-import { RESOURCE_TYPES, type ResourceType } from "@/modules/resources/client";
+import { RESOURCE_TYPES, groupByPlan, type ResourceType } from "@/modules/resources/client";
 import { requireTenant } from "@/modules/tenancy";
 
 export const metadata: Metadata = { title: "Mis recursos" };
@@ -28,7 +31,7 @@ function Chip({ href, active, children }: { href: string; active: boolean; child
       href={href}
       aria-current={active ? "true" : undefined}
       className={cn(
-        "rounded-full border px-3.5 py-1.5 text-sm font-semibold transition",
+        "flex items-center rounded-full border px-3.5 py-1.5 text-sm font-semibold transition max-sm:min-h-11",
         active
           ? "border-brand bg-brand text-white shadow-soft"
           : "border-border bg-card text-foreground hover:border-brand-border hover:bg-brand-softer",
@@ -53,6 +56,17 @@ export default async function MyResourcesPage({ searchParams }: PageProps<"/reso
     ...(type ? { type } : {}),
   });
 
+  // SPEC-0014 CA-0014-17: arriba los 5 más recientes; debajo cada curso por periodo y tema.
+  const recent = resources.slice(0, 5);
+  const order = [...courses.map((c) => c.id), ...resources.map((r) => r.courseId)];
+  const courseIds = [...new Set(order)].filter((id) => resources.some((r) => r.courseId === id));
+  const plans = await listCoursePlans(ctx, courseIds);
+  const byCourse = courseIds.map((id) => {
+    const items = resources.filter((r) => r.courseId === id);
+    const plan = plans.find((p) => p.courseId === id) ?? { courseId: id, periods: [], units: [] };
+    return { id, title: items[0]!.courseTitle, groups: groupByPlan(plan, items) };
+  });
+
   const href = (next: { tipo?: string | null; curso?: string | null }) => {
     const query = new URLSearchParams();
     const tipo = next.tipo === undefined ? type : next.tipo;
@@ -69,7 +83,7 @@ export default async function MyResourcesPage({ searchParams }: PageProps<"/reso
       <PageHeader
         eyebrow={ctx.institutionName}
         title="Mis recursos"
-        description="Todos tus talleres y quices, de todos tus cursos."
+        description="Todos tus talleres, quices y exámenes, ordenados por curso, periodo y tema."
         actions={
           <Link href="/create" className={buttonVariants({ size: "lg" })}>
             <HiOutlinePlus aria-hidden />
@@ -77,6 +91,9 @@ export default async function MyResourcesPage({ searchParams }: PageProps<"/reso
           </Link>
         }
       />
+
+      {/* SPEC-0013 RN-14: guardar los recursos en este dispositivo para usarlos sin conexión. */}
+      <OfflinePanel hasResources={resources.length > 0 || filtered} />
 
       <div className="flex flex-col gap-3">
         <nav aria-label="Filtrar por tipo" className="flex flex-wrap gap-2">
@@ -125,7 +142,27 @@ export default async function MyResourcesPage({ searchParams }: PageProps<"/reso
           />
         )
       ) : (
-        <ResourceList resources={resources} label="Mis recursos" showCourse />
+        <div className="flex flex-col gap-8">
+          <section aria-labelledby="recientes" className="flex flex-col gap-3">
+            <h2 id="recientes" className="text-lg font-bold">
+              Recientes
+            </h2>
+            <ResourceList resources={recent} label="Recursos recientes" showCourse />
+          </section>
+          {byCourse.map((c) => (
+            <section key={c.id} aria-labelledby={`curso-${c.id}`} className="flex flex-col gap-3">
+              <h2 id={`curso-${c.id}`} className="text-lg font-bold">
+                {c.title}
+              </h2>
+              <PlanResources
+                groups={c.groups}
+                idPrefix={`m-${c.id}`}
+                periodLevel={3}
+                label={c.title}
+              />
+            </section>
+          ))}
+        </div>
       )}
     </div>
   );

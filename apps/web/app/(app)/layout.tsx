@@ -3,7 +3,9 @@ import type { QuotaView } from "@/components/app-shell/identity-card";
 import { logger } from "@/lib/observability/logger";
 import { logoutAction } from "@/modules/auth";
 import { getLogoInfo } from "@/modules/formats";
-import { getQuotaStatus } from "@/modules/resources";
+import { offlineLibraryAction, recordOfflineSyncAction } from "@/modules/documents";
+import { removePushDeviceAction } from "@/modules/notifications";
+import { getQuotaStatus, watchGenerations, watchGenerationsAction } from "@/modules/resources";
 import {
   isSchoolAdmin,
   requireTenant,
@@ -41,6 +43,17 @@ async function quotaView(ctx: TenantContext): Promise<QuotaView | null> {
   }
 }
 
+/** SPEC-0013 RN-08: lo que se está generando al pintar el layout. Si falla, el aviso espera. */
+async function generatingIds(ctx: TenantContext): Promise<string[]> {
+  if (!ctx.roles.includes("TEACHER")) return [];
+  try {
+    return (await watchGenerations(ctx)).generating.map((r) => r.id);
+  } catch (error) {
+    logger.warn("shell.generations_unavailable", { error });
+    return [];
+  }
+}
+
 async function logoUrl(ctx: TenantContext): Promise<string | null> {
   try {
     const logo = await getLogoInfo(ctx);
@@ -59,7 +72,11 @@ function roleLabel(ctx: TenantContext) {
 
 export default async function AppLayout({ children }: LayoutProps<"/">) {
   const ctx = await requireTenant();
-  const [quota, logo] = await Promise.all([quotaView(ctx), logoUrl(ctx)]);
+  const [quota, logo, generating] = await Promise.all([
+    quotaView(ctx),
+    logoUrl(ctx),
+    generatingIds(ctx),
+  ]);
 
   return (
     <AppShell
@@ -75,6 +92,21 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
       activeSpaceId={ctx.institutionId}
       logoutAction={logoutAction}
       switchSpaceAction={switchSpaceAction}
+      removePushDevice={removePushDeviceAction}
+      offline={
+        ctx.roles.includes("TEACHER")
+          ? {
+              userId: ctx.userId,
+              spaceIds: ctx.spaces.map((s) => s.institutionId),
+              actions: { library: offlineLibraryAction, recordSync: recordOfflineSyncAction },
+            }
+          : null
+      }
+      generation={{
+        initial: generating,
+        storageKey: `profe:watch:${ctx.membershipId}`,
+        action: watchGenerationsAction,
+      }}
     >
       {children}
     </AppShell>

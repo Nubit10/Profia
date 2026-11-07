@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import {
   HiOutlineArchiveBox,
+  HiOutlineBars3BottomLeft,
   HiOutlineArrowPath,
   HiOutlineCheckCircle,
   HiOutlineDocumentDuplicate,
@@ -13,6 +14,7 @@ import {
   HiOutlineSparkles,
 } from "react-icons/hi2";
 import { sileo } from "sileo";
+import { requestOfflineSync } from "@/components/offline/offline-sync";
 import { StatusBadge } from "@/components/resource-list";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -91,7 +93,10 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
   const initial = resource.data!;
   const [content, setContent] = useState(initial.content);
   const [saving, setSaving] = useState(false);
-  const dirty = JSON.stringify(content) !== JSON.stringify(initial.content);
+  const [compact, setCompact] = useState(false);
+  // Contenido y versión del último guardado: "Listo" guarda seguido, sin esperar al refresco.
+  const [saved, setSaved] = useState({ content: initial.content, version: resource.version });
+  const dirty = JSON.stringify(content) !== JSON.stringify(saved.content);
   const savedKeys = useMemo(
     () =>
       new Set<string>(
@@ -112,10 +117,11 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
   }, [dirty]);
 
   const save = async () => {
+    if (!dirty || saving) return;
     setSaving(true);
     const result = await actions.save({
       resourceId: resource.id,
-      version: resource.version,
+      version: saved.version,
       content,
     });
     setSaving(false);
@@ -123,18 +129,34 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
       sileo.error({ title: "No pudimos guardar", description: result.error });
       return;
     }
+    setSaved({ content, version: result.data!.version });
+    requestOfflineSync();
     sileo.success({ title: "Cambios guardados", description: `Versión ${result.data!.version}` });
     router.refresh();
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6" data-compact={compact || undefined}>
+      {/* SPEC-0013 CA-0013-17: vista compacta, solo enunciados y títulos, para recorrer rápido. */}
+      <div className="flex justify-end">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          aria-pressed={compact}
+          onClick={() => setCompact(!compact)}
+        >
+          <HiOutlineBars3BottomLeft aria-hidden />
+          {compact ? "Vista completa" : "Vista compacta"}
+        </Button>
+      </div>
       {initial.type === "QUIZ" ? (
         <QuizEditor
           resource={resource}
           content={content as QuizContent}
           onChange={setContent}
           dirty={dirty}
+          onItemDone={() => void save()}
           savedKeys={savedKeys}
           actions={actions}
         />
@@ -144,6 +166,7 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
           content={content as ExamContent}
           onChange={setContent}
           dirty={dirty}
+          onItemDone={() => void save()}
           savedKeys={savedKeys}
           actions={actions}
         />
@@ -153,23 +176,31 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
           content={content as WorkshopContent}
           onChange={setContent}
           dirty={dirty}
+          onItemDone={() => void save()}
           savedKeys={savedKeys}
           actions={actions}
         />
       )}
-      <div className="sticky bottom-0 z-10 -mx-4 flex flex-wrap items-center gap-3 border-t border-border bg-card/95 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-2xl sm:border sm:shadow-soft">
-        <Button type="button" disabled={!dirty || saving} onClick={save}>
-          {saving ? "Guardando…" : "Guardar cambios"}
-        </Button>
-        {dirty && (
-          <>
-            <Button type="button" variant="ghost" onClick={() => setContent(initial.content)}>
-              Descartar cambios
-            </Button>
-            <span className="text-sm text-muted-foreground">Tienes cambios sin guardar.</span>
-          </>
-        )}
-      </div>
+      {/* SPEC-0013 RN-05: los ítems se guardan con "Listo"; la barra solo aparece para lo demás
+          (título, instrucciones, orden) mientras haya algo sin guardar. */}
+      {(dirty || saving) && (
+        <div
+          data-floating="save-bar"
+          className="sticky bottom-0 z-10 -mx-4 flex flex-wrap items-center gap-3 border-t border-border bg-card/95 px-4 py-3 backdrop-blur max-md:bottom-[calc(4rem+env(safe-area-inset-bottom))] sm:mx-0 sm:rounded-2xl sm:border sm:shadow-soft"
+        >
+          <Button type="button" disabled={!dirty || saving} onClick={save}>
+            {saving ? "Guardando…" : "Guardar cambios"}
+          </Button>
+          {dirty && (
+            <>
+              <Button type="button" variant="ghost" onClick={() => setContent(saved.content)}>
+                Descartar cambios
+              </Button>
+              <span className="text-sm text-muted-foreground">Tienes cambios sin guardar.</span>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -238,6 +269,12 @@ export function ResourceView({
 }) {
   const router = useRouter();
   const { run, isPending } = useRun();
+  // SPEC-0013 RN-14: listo, archivado o restaurado cambia lo que se guarda sin conexión.
+  const setStatus: ResourceActions["setStatus"] = async (input) => {
+    const result = await actions.setStatus(input);
+    if (result.ok) requestOfflineSync();
+    return result;
+  };
   useGenerationPolling(resource.id, resource.status === "GENERATING", actions.status);
   const hasContent = !!resource.data;
   const label = RESOURCE_TYPE_LABELS[resource.type].toLowerCase();
@@ -266,7 +303,12 @@ export function ResourceView({
         </div>
 
         {hasContent && (resource.status === "DRAFT" || resource.status === "READY") && (
-          <div className="flex flex-wrap items-center gap-2">
+          // SPEC-0013 CA-0013-18: en el celular las acciones van en una barra fija abajo, al
+          // alcance del pulgar; en pantallas grandes siguen en el encabezado.
+          <div
+            data-floating="bottom-bar"
+            className="flex flex-wrap items-center gap-2 max-md:fixed max-md:inset-x-0 max-md:bottom-0 max-md:z-30 max-md:flex-nowrap max-md:border-t max-md:border-border max-md:bg-card/95 max-md:px-3 max-md:pt-2 max-md:pb-[calc(0.5rem+env(safe-area-inset-bottom))] max-md:shadow-lift max-md:backdrop-blur max-md:*:shrink-0"
+          >
             {resource.status === "DRAFT" ? (
               <Button
                 type="button"
@@ -276,7 +318,7 @@ export function ResourceView({
                 disabled={isPending}
                 onClick={() =>
                   run(
-                    () => actions.setStatus({ resourceId: resource.id, status: "READY" }),
+                    () => setStatus({ resourceId: resource.id, status: "READY" }),
                     "Recurso listo",
                   )
                 }
@@ -290,9 +332,7 @@ export function ResourceView({
                 size="lg"
                 variant="outline"
                 disabled={isPending}
-                onClick={() =>
-                  run(() => actions.setStatus({ resourceId: resource.id, status: "DRAFT" }))
-                }
+                onClick={() => run(() => setStatus({ resourceId: resource.id, status: "DRAFT" }))}
               >
                 Volver a borrador
               </Button>
@@ -303,6 +343,23 @@ export function ResourceView({
               type={resource.type}
               version={resource.version}
               answerSheet={resource.data?.type === "EXAM" && hasAnswerSheet(resource.data.content)}
+              draft={resource.status === "DRAFT"}
+              markReady={async () => {
+                const result = await setStatus({
+                  resourceId: resource.id,
+                  status: "READY",
+                });
+                if (!result.ok) {
+                  sileo.error({
+                    title: "No pudimos marcarlo como listo",
+                    description: result.error,
+                  });
+                  return false;
+                }
+                sileo.success({ title: "Recurso listo" });
+                router.refresh();
+                return true;
+              }}
             />
             <DropdownMenu>
               <DropdownMenuTrigger
@@ -320,7 +377,7 @@ export function ResourceView({
                   disabled={isPending}
                   onClick={() =>
                     run(
-                      () => actions.setStatus({ resourceId: resource.id, status: "ARCHIVED" }),
+                      () => setStatus({ resourceId: resource.id, status: "ARCHIVED" }),
                       "Recurso archivado",
                     )
                   }
@@ -375,9 +432,7 @@ export function ResourceView({
               variant="ghost"
               size="lg"
               disabled={isPending}
-              onClick={() =>
-                run(() => actions.setStatus({ resourceId: resource.id, status: "ARCHIVED" }))
-              }
+              onClick={() => run(() => setStatus({ resourceId: resource.id, status: "ARCHIVED" }))}
             >
               Archivar
             </Button>
@@ -395,7 +450,7 @@ export function ResourceView({
             disabled={isPending}
             onClick={() =>
               run(
-                () => actions.setStatus({ resourceId: resource.id, status: "RESTORE" }),
+                () => setStatus({ resourceId: resource.id, status: "RESTORE" }),
                 "Recurso restaurado",
               )
             }
@@ -429,6 +484,8 @@ export function ResourceView({
             initialComment={resource.ratingComment}
             actions={actions}
           />
+          {/* Espacio para que la barra fija del celular no tape el final de la página. */}
+          <div aria-hidden className="h-16 md:hidden" />
         </>
       )}
     </div>

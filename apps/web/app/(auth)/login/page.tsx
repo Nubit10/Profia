@@ -7,10 +7,16 @@ import { LoginForm } from "./login-form";
 export const metadata: Metadata = { title: "Iniciar sesión" };
 
 export default async function LoginPage({ searchParams }: PageProps<"/login">) {
-  const { callbackUrl } = await searchParams;
+  const { callbackUrl, email } = await searchParams;
   const target = safeCallbackUrl(callbackUrl);
 
   if (await getCurrentUser()) redirect(target);
 
-  return <LoginForm action={loginAction} callbackUrl={target} />;
+  return (
+    <LoginForm
+      action={loginAction}
+      callbackUrl={target}
+      defaultEmail={typeof email === "string" ? email : ""}
+    />
+  );
 }

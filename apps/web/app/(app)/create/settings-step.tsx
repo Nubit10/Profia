@@ -1,11 +1,11 @@
 "use client";
 
+import { DbaChips } from "@/components/curriculum/dba-chip";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Controller, useForm, useWatch, type Resolver } from "react-hook-form";
 import {
   HiOutlineAdjustmentsHorizontal,
-  HiOutlineArrowLeft,
   HiOutlineArrowRight,
   HiOutlineExclamationTriangle,
   HiOutlineSparkles,
@@ -103,8 +103,7 @@ const resolverFor =
 
 /** Campos que viven en "Más opciones": si uno tiene error, el panel se abre. */
 const ADVANCED: (keyof FormValues)[] = [
-  "durationMinutes",
-  "questionTypes",
+  "objectiveIds",
   "distribution",
   "notes",
   "excludedPreferenceIds",
@@ -112,12 +111,10 @@ const ADVANCED: (keyof FormValues)[] = [
 
 type Props = {
   type: "QUIZ" | "WORKSHOP";
-  step: "settings" | "confirm";
   context: ResourceFormContext;
   courseTitle: string;
   blocked: boolean;
   quotaText: string;
-  onStep: (step: "settings" | "confirm") => void;
   create: (input: unknown) => Promise<ActionResult<{ id: string }>>;
   preferenceActions: PreferenceActions;
 };
@@ -205,13 +202,10 @@ export function SettingsStep(props: Props) {
     return WORKSHOP_STRUCTURES[value as WorkshopStructure]?.label ?? value;
   };
 
-  const goConfirm = async () => {
-    const ok = await form.trigger();
-    if (!ok) {
-      if (ADVANCED.some((k) => form.getFieldState(k).invalid)) setAdvancedOpen(true);
-      return;
-    }
-    props.onStep("confirm");
+  // SPEC-0013 CA-0013-10: se genera desde los ajustes; si un campo de "Más opciones" tiene error,
+  // el panel se abre para mostrarlo.
+  const openAdvancedOnError = () => {
+    if (ADVANCED.some((k) => form.getFieldState(k).invalid)) setAdvancedOpen(true);
   };
 
   const generate = form.handleSubmit(async (v) => {
@@ -233,7 +227,7 @@ export function SettingsStep(props: Props) {
     });
     router.push(`/courses/${context.courseId}/resources/${result.data!.id}`);
     router.refresh();
-  });
+  }, openAdvancedOnError);
 
   const summary = [
     `${values.itemCount} ${unit}`,
@@ -244,86 +238,8 @@ export function SettingsStep(props: Props) {
       : (values.questionTypes ?? []).map((t) => QUESTION_TYPE_LABELS[t]).join(", "),
   ];
 
-  if (props.step === "confirm") {
-    const chosen = context.objectives.filter((o) => values.objectiveIds?.includes(o.id));
-    return (
-      <form onSubmit={generate} noValidate className="flex flex-col gap-6">
-        <div className="rounded-3xl border border-brand-border bg-card p-6 shadow-soft sm:p-8">
-          <p className="text-sm font-bold text-brand-strong">Todo listo</p>
-          <h2 className="mt-1 text-xl font-extrabold sm:text-2xl">
-            {RESOURCE_TYPE_LABELS[type]}: {context.topic.title}
-          </h2>
-          <p className="mt-1 text-muted-foreground">{props.courseTitle}</p>
-          <dl className="mt-6 grid gap-4 sm:grid-cols-2">
-            <div className="flex flex-col gap-1">
-              <dt className="text-sm text-muted-foreground">Cantidad y duración</dt>
-              <dd className="font-semibold">
-                {values.itemCount} {unit} · {values.durationMinutes} minutos
-              </dd>
-            </div>
-            <div className="flex flex-col gap-1">
-              <dt className="text-sm text-muted-foreground">Dificultad</dt>
-              <dd className="font-semibold">{DIFFICULTY_LABELS[values.difficulty]}</dd>
-            </div>
-            <div className="flex flex-col gap-1">
-              <dt className="text-sm text-muted-foreground">
-                {type === "WORKSHOP" ? "Estructura" : "Tipos de pregunta"}
-              </dt>
-              <dd className="font-semibold">{summary[3]}</dd>
-            </div>
-            <div className="flex flex-col gap-1">
-              <dt className="text-sm text-muted-foreground">Objetivos</dt>
-              <dd className="font-semibold">
-                {chosen.length === 0
-                  ? "El tema completo"
-                  : `${chosen.length} ${chosen.length === 1 ? "objetivo" : "objetivos"}`}
-              </dd>
-            </div>
-            {values.notes?.trim() && (
-              <div className="flex flex-col gap-1 sm:col-span-2">
-                <dt className="text-sm text-muted-foreground">Indicaciones</dt>
-                <dd className="font-semibold">{values.notes}</dd>
-              </div>
-            )}
-          </dl>
-        </div>
-
-        <p className="flex items-start gap-2 text-sm text-muted-foreground">
-          <HiOutlineSparkles className="mt-0.5 shrink-0 text-brand" aria-hidden />
-          La IA lo prepara en segundo plano, normalmente en menos de un minuto. Luego lo revisas, lo
-          editas y decides cuándo está listo.
-        </p>
-
-        <FieldError errors={[errors.root]} />
-        <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center">
-          <Button
-            type="button"
-            variant="outline"
-            size="lg"
-            onClick={() => props.onStep("settings")}
-          >
-            <HiOutlineArrowLeft aria-hidden />
-            Volver a ajustes
-          </Button>
-          <Button type="submit" variant="brand" size="xl" disabled={submitting || props.blocked}>
-            <HiOutlineSparkles aria-hidden />
-            {submitting ? "Enviando…" : `Generar ${label}`}
-          </Button>
-          <p className="text-sm text-muted-foreground sm:ml-auto">{props.quotaText}</p>
-        </div>
-      </form>
-    );
-  }
-
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        void goConfirm();
-      }}
-      noValidate
-      className="flex flex-col gap-6"
-    >
+    <form onSubmit={generate} noValidate className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-border bg-card p-4 shadow-soft">
         <span className="text-sm font-semibold">
           Valores recomendados para {context.gradeLabel}:
@@ -336,61 +252,6 @@ export function SettingsStep(props: Props) {
       </div>
 
       <FieldGroup className="rounded-3xl border border-border bg-card p-5 shadow-soft sm:p-6">
-        <FieldSet>
-          <FieldLegend className="font-bold">Objetivos que cubre</FieldLegend>
-          {context.objectives.length === 0 ? (
-            <FieldDescription>
-              El tema no tiene objetivos: se usará el título del tema. Puedes agregarlos en la
-              planeación.
-            </FieldDescription>
-          ) : (
-            <Controller
-              control={form.control}
-              name="objectiveIds"
-              render={({ field }) => (
-                <ul className="flex flex-col gap-2">
-                  {context.objectives.map((o) => {
-                    const id = `objective-${o.id}`;
-                    const checked = field.value.includes(o.id);
-                    return (
-                      <li
-                        key={o.id}
-                        className="flex items-start gap-3 rounded-xl border border-border p-3"
-                      >
-                        <Checkbox
-                          id={id}
-                          aria-labelledby={`${id}-label`}
-                          checked={checked}
-                          disabled={!checked && field.value.length >= 5}
-                          onCheckedChange={(c) =>
-                            field.onChange(
-                              c ? [...field.value, o.id] : field.value.filter((x) => x !== o.id),
-                            )
-                          }
-                          className="mt-0.5"
-                        />
-                        <label id={`${id}-label`} htmlFor={id} className="text-sm leading-snug">
-                          {o.statement}
-                          {o.dbaCodes.length > 0 && (
-                            <span className="text-muted-foreground">
-                              {" "}
-                              · {o.dbaCodes.length} DBA
-                            </span>
-                          )}
-                        </label>
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
-            />
-          )}
-          {values.objectiveIds?.length === 0 && context.objectives.length > 0 && (
-            <FieldDescription>Sin objetivos elegidos se usará el tema completo.</FieldDescription>
-          )}
-          <FieldError errors={[errors.objectiveIds]} />
-        </FieldSet>
-
         {type === "WORKSHOP" && (
           <FieldSet>
             <FieldLegend className="font-bold">Estructura del taller</FieldLegend>
@@ -487,7 +348,7 @@ export function SettingsStep(props: Props) {
           </FieldSet>
         )}
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <Field data-invalid={!!errors.itemCount}>
             <FieldLabel htmlFor="item-count">
               {type === "QUIZ" ? "Número de preguntas" : "Número de actividades"}
@@ -517,7 +378,53 @@ export function SettingsStep(props: Props) {
               )}
             />
           </Field>
+          <Field data-invalid={!!errors.durationMinutes}>
+            <FieldLabel htmlFor="duration">Duración (minutos)</FieldLabel>
+            <Input
+              id="duration"
+              type="number"
+              min={15}
+              max={180}
+              aria-invalid={!!errors.durationMinutes}
+              {...form.register("durationMinutes", { valueAsNumber: true })}
+            />
+            <FieldError errors={[errors.durationMinutes]} />
+          </Field>
         </div>
+        {type === "QUIZ" && (
+          <FieldSet>
+            <FieldLegend className="font-bold">Tipos de pregunta</FieldLegend>
+            <Controller
+              control={form.control}
+              name="questionTypes"
+              render={({ field }) => (
+                <div className="flex flex-wrap gap-4">
+                  {QUESTION_TYPES.map((t) => {
+                    const id = `type-${t}`;
+                    return (
+                      <div key={t} className="flex items-center gap-2">
+                        <Checkbox
+                          id={id}
+                          aria-labelledby={`${id}-label`}
+                          checked={field.value.includes(t)}
+                          onCheckedChange={(c) =>
+                            field.onChange(
+                              c ? [...field.value, t] : field.value.filter((x) => x !== t),
+                            )
+                          }
+                        />
+                        <label id={`${id}-label`} htmlFor={id} className="text-sm">
+                          {QUESTION_TYPE_LABELS[t]}
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            />
+            <FieldError errors={[errors.questionTypes]} />
+          </FieldSet>
+        )}
       </FieldGroup>
 
       <details
@@ -532,8 +439,7 @@ export function SettingsStep(props: Props) {
           <span className="flex flex-1 flex-col">
             <span className="font-bold">Más opciones</span>
             <span className="text-sm text-muted-foreground">
-              Duración, {type === "QUIZ" ? "tipos de pregunta, " : ""}niveles de pensamiento,
-              indicaciones y preferencias. Opcional.
+              Objetivos, niveles de pensamiento, indicaciones y preferencias. Opcional.
             </span>
           </span>
           <HiOutlineArrowRight
@@ -542,53 +448,63 @@ export function SettingsStep(props: Props) {
           />
         </summary>
         <FieldGroup className="border-t border-border p-5 sm:p-6">
-          <Field data-invalid={!!errors.durationMinutes} className="sm:max-w-xs">
-            <FieldLabel htmlFor="duration">Duración (minutos)</FieldLabel>
-            <Input
-              id="duration"
-              type="number"
-              min={15}
-              max={180}
-              aria-invalid={!!errors.durationMinutes}
-              {...form.register("durationMinutes", { valueAsNumber: true })}
-            />
-            <FieldError errors={[errors.durationMinutes]} />
-          </Field>
-
-          {type === "QUIZ" && (
-            <FieldSet>
-              <FieldLegend className="font-bold">Tipos de pregunta</FieldLegend>
+          <FieldSet>
+            <FieldLegend className="font-bold">Objetivos que cubre</FieldLegend>
+            {context.objectives.length === 0 ? (
+              <FieldDescription>
+                El tema no tiene objetivos: se usará el título del tema. Puedes agregarlos en la
+                planeación.
+              </FieldDescription>
+            ) : (
               <Controller
                 control={form.control}
-                name="questionTypes"
+                name="objectiveIds"
                 render={({ field }) => (
-                  <div className="flex flex-wrap gap-4">
-                    {QUESTION_TYPES.map((t) => {
-                      const id = `type-${t}`;
+                  <ul className="flex flex-col gap-2">
+                    {context.objectives.map((o) => {
+                      const id = `objective-${o.id}`;
+                      const checked = field.value.includes(o.id);
                       return (
-                        <div key={t} className="flex items-center gap-2">
+                        <li
+                          key={o.id}
+                          className="flex items-start gap-3 rounded-xl border border-border p-3"
+                        >
                           <Checkbox
                             id={id}
                             aria-labelledby={`${id}-label`}
-                            checked={field.value.includes(t)}
+                            checked={checked}
+                            disabled={!checked && field.value.length >= 5}
                             onCheckedChange={(c) =>
                               field.onChange(
-                                c ? [...field.value, t] : field.value.filter((x) => x !== t),
+                                c ? [...field.value, o.id] : field.value.filter((x) => x !== o.id),
                               )
                             }
+                            className="mt-0.5"
                           />
-                          <label id={`${id}-label`} htmlFor={id} className="text-sm">
-                            {QUESTION_TYPE_LABELS[t]}
-                          </label>
-                        </div>
+                          <div className="flex min-w-0 flex-col gap-1.5">
+                            <label id={`${id}-label`} htmlFor={id} className="text-sm leading-snug">
+                              {o.statement}
+                              {o.dbaCodes.length > 0 && (
+                                <span className="text-muted-foreground">
+                                  {" "}
+                                  · {o.dbaCodes.length} DBA
+                                </span>
+                              )}
+                            </label>
+                            <DbaChips codes={o.dbaCodes} label="DBA del objetivo" />
+                          </div>
+                        </li>
                       );
                     })}
-                  </div>
+                  </ul>
                 )}
               />
-              <FieldError errors={[errors.questionTypes]} />
-            </FieldSet>
-          )}
+            )}
+            {values.objectiveIds?.length === 0 && context.objectives.length > 0 && (
+              <FieldDescription>Sin objetivos elegidos se usará el tema completo.</FieldDescription>
+            )}
+            <FieldError errors={[errors.objectiveIds]} />
+          </FieldSet>
 
           <FieldSet>
             <FieldLegend className="font-bold">Niveles de pensamiento (%)</FieldLegend>
@@ -656,10 +572,17 @@ export function SettingsStep(props: Props) {
         </p>
       )}
 
+      <p className="flex items-start gap-2 text-sm text-muted-foreground">
+        <HiOutlineSparkles className="mt-0.5 shrink-0 text-brand" aria-hidden />
+        La IA lo prepara en segundo plano, normalmente en menos de un minuto. Luego lo revisas, lo
+        editas y decides cuándo está listo.
+      </p>
+
+      <FieldError errors={[errors.root]} />
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <Button type="submit" size="xl">
-          Continuar
-          <HiOutlineArrowRight aria-hidden />
+        <Button type="submit" variant="brand" size="xl" disabled={submitting || props.blocked}>
+          <HiOutlineSparkles aria-hidden />
+          {submitting ? "Enviando…" : `Generar ${label}`}
         </Button>
         <p className="text-sm text-muted-foreground">{props.quotaText}</p>
       </div>
