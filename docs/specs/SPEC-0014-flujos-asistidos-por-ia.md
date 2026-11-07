@@ -2,7 +2,7 @@
 
 | Campo                    | Valor                                                                                                                                                                                                                                                               |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Estado                   | En implementación                                                                                                                                                                                                                                                   |
+| Estado                   | Implementada                                                                                                                                                                                                                                                        |
 | Fase del roadmap         | 4 · Planning y 6 · Generation (continúa SPEC-0013)                                                                                                                                                                                                                  |
 | Módulo(s) responsable(s) | `modules/planning` (propuesta de planeación y su aceptación), `modules/generation` (cliente del contrato), `apps/ai-engine` (endpoint, prompt y validador), `modules/resources` (recursos por periodo y tema), `modules/curriculum` (DBA a la mano), `apps/web/app` |
 | Agentes                  | product, architect, curriculum, ai-engine, backend, frontend, qa, reviewer                                                                                                                                                                                          |
@@ -45,6 +45,17 @@ Capturas en `docs/design/capturas/spec-0014/`.
 | F-03 | DBA       | En la planeación y en el recurso el DBA aparece solo como "DBA 1", "DBA 2". **No se ve su texto ni sus evidencias** donde el docente decide; para leerlo hay que ir a la pestaña "DBA y Estándares".                      | `03-recurso-dba-sin-texto.png`; el texto no está en la página  |
 | F-04 | Recursos  | "Mis recursos" y "Recursos del curso" son **listas planas por fecha**. No hay periodo, unidad ni tema; con un año de trabajo, encontrar "el quiz de la recta numérica del periodo 1" exige leer toda la lista.            | `04-mis-recursos-lista-plana.png`, `05-recursos-del-curso.png` |
 | F-05 | Recurso   | Desde un tema de la planeación, crear un quiz pasa por el asistente (elegir tipo y luego generar). No hay un "crear con un toque" que use los valores recomendados del grado.                                             | recorrido (SPEC-0013 dejó 3 clics desde el Inicio)             |
+
+**Después (2026-11-07, mismo recorrido con la IA de prueba; `CAPTURAS=1 npx playwright test
+tests/e2e/spec-0014-capturas.spec.ts`):**
+
+| Id   | Ahora                                                                                                 | Evidencia                                                                                           |
+| ---- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| F-01 | "Proponer temas con IA" en la planeación vacía; el periodo 1 queda planeado en 3 clics, sin escribir. | `despues-01-planeacion-vacia.png`, `despues-02-revision-propuesta.png`                              |
+| F-02 | "Proponer objetivos" para toda la unidad: una revisión y "Aceptar todos" (3 clics).                   | `despues-03-objetivos-en-bloque.png`                                                                |
+| F-03 | Cada "DBA n" abre su ficha con el enunciado, las evidencias y la fuente; cada tema muestra sus DBA.   | `despues-04-planeacion-con-dba.png`, `despues-05-ficha-dba.png`, `despues-09-movil-ficha-dba.png`   |
+| F-04 | Recursos por Periodo · Unidad · Tema, con los exámenes en su unidad; "Mis recursos" con recientes.    | `despues-06-recursos-del-curso.png`, `despues-07-mis-recursos.png`, `despues-08-movil-recursos.png` |
+| F-05 | "Crear quiz" y "Crear taller" en cada tema y en los temas vacíos de "Recursos del curso": 1 clic.     | `despues-06-recursos-del-curso.png`                                                                 |
 
 ## 3. Alcance
 
@@ -312,10 +323,10 @@ Los clics se cuentan como en SPEC-0012/0013 (solo clics, sin escribir).
 - [x] T6 — Recurso con un toque desde el tema, la unidad y el periodo (RN-07, CA-10/11) — backend + frontend
 - [x] T7 — Ficha de DBA (`DbaChip` con enunciado, evidencias y fuente) en todas las pantallas, y DBA del tema (CA-12/13) — curriculum + frontend
 - [x] T8 — Vista agrupada Periodo → Unidad → Tema en "Recursos del curso" y "Mis recursos" (RN-09, CA-14 a CA-18) — backend (resources) + frontend
-- [ ] T9 — Límite de propuestas (RN-08, CA-21) — backend
-- [ ] T10 — Pruebas: un test por CA con su ID; acceso cruzado (CA-17/20); axe, 360 px e hidratación (CA-22) — qa
-- [ ] T11 — Capturas antes/después y sistema de diseño — frontend
-- [ ] T12 — Revisión contra la spec y DoD — reviewer
+- [x] T9 — Límite de propuestas (RN-08, CA-21) — backend
+- [x] T10 — Pruebas: un test por CA con su ID; acceso cruzado (CA-17/20); axe, 360 px e hidratación (CA-22) — qa
+- [x] T11 — Capturas antes/después y sistema de diseño — frontend
+- [x] T12 — Revisión contra la spec y DoD — reviewer
 
 ## 12. Decisiones (resueltas por el usuario el 2026-11-06: "con tu recomendación")
 
@@ -414,9 +425,15 @@ Nubit10/Profia#1).
   - e2e CA-0014-14/15/16, CA-0014-17/18 y CA-0014-22 (parte 4).
   - Se ajustaron 3 e2e anteriores que buscaban la lista plana.
 
-**Siguiente: cierre (T9 a T12).** Límites, axe a 360 px de las pantallas nuevas (ya cubierto por
-las pruebas CA-0014-22 de cada parte), capturas en `docs/design/capturas/spec-0014/`, `/review` y
-estado → Implementada.
+**Cierre, hecho (T9 a T12, 2026-11-07):**
+
+- T9: el límite de 20 propuestas al día, compartido con los objetivos en bloque, ya tenía código;
+  se agregó su prueba (CA-0014-21).
+- T10: un test por CA; se agregaron CA-0014-18 con 30 recursos en 4 periodos y CA-0014-22
+  (parte 2) para los objetivos en bloque.
+- T11: capturas "después" (§2), con el recorrido en `tests/e2e/spec-0014-capturas.spec.ts`
+  (solo con `CAPTURAS=1`); `DbaChip` y `PlanResources` en el sistema de diseño.
+- T12: revisión en §14.
 
 **Para retomar en una sesión nueva:**
 
@@ -436,3 +453,67 @@ estado → Implementada.
   pasar a Pro u otro proveedor) y si se despliega desde `main` (fusionando el PR) o desde la rama.
 - Claves VAPID en Vercel.
 - Validación en un iPhone real y recorrido con docentes (SPEC-0013).
+
+## 14. Revisión (2026-11-07, agente `reviewer`)
+
+**Veredicto: Aprobado.** Sin hallazgos bloqueantes.
+
+**Verificación real:**
+
+- lint sin errores, typecheck y build de producción;
+- 264 pruebas unitarias y de integración;
+- 76 E2E en el build de producción (1 omitida a propósito: el recorrido de capturas);
+- las 16 E2E de esta spec también contra `next dev`, sin errores de hidratación;
+- AI Engine: 105 pruebas y ruff sin hallazgos.
+
+| Criterios        | Estado    | Prueba (archivo:línea)                                                                                  |
+| ---------------- | --------- | ------------------------------------------------------------------------------------------------------- |
+| CA-0014-01/02/03 | Cumplido  | `e2e/spec-0014.spec.ts:39`, `:68`; `integration/spec-0014.test.ts:141`, `:198`                          |
+| CA-0014-04/05/06 | Cumplido  | `e2e/spec-0014.spec.ts:115`, `:127`; `integration/spec-0014.test.ts:254`, `:308`, `:332`                |
+| CA-0014-07       | Cumplido  | `e2e/spec-0014.spec.ts:158`; `integration/spec-0014.test.ts:359`                                        |
+| CA-0014-08/09    | Cumplido  | `e2e/spec-0014.spec.ts:204`, `:225`; `integration/spec-0014.test.ts:546`, `:592`                        |
+| CA-0014-10/11    | Cumplido  | `e2e/spec-0014.spec.ts:253`, `:285`; `integration/spec-0014.test.ts:703`, `:733`                        |
+| CA-0014-12/13    | Cumplido* | `e2e/spec-0014.spec.ts:253` (recurso), `:302` (planeación, clic, teclado, Escape y Atrás)               |
+| CA-0014-14/15/16 | Cumplido  | `e2e/spec-0014.spec.ts:360`; `unit/resources-grouping.test.ts:59`, `:76`, `:85`; `integration/…:818`    |
+| CA-0014-17/18    | Cumplido  | `e2e/spec-0014.spec.ts:404`; `unit/resources-grouping.test.ts:156`; `integration/spec-0014.test.ts:818` |
+| CA-0014-19       | Cumplido  | `integration/spec-0014.test.ts:175`                                                                     |
+| CA-0014-20       | Cumplido  | `integration/spec-0014.test.ts:388`, `:668`, `:784`, `:818` (acceso cruzado)                            |
+| CA-0014-21       | Cumplido  | `integration/spec-0014.test.ts:442` (por minuto), `:464` (por día)                                      |
+| CA-0014-22       | Cumplido  | `e2e/spec-0014.spec.ts:167`, `:339` y las partes 2 y 4 al final del archivo; suite contra `next dev`    |
+
+\* CA-0014-12: la ficha se prueba en la planeación y en el recurso. La propuesta, los objetivos en
+bloque, el diálogo de objetivo y el asistente usan el mismo `DbaChip`. Ahí la prueba solo verifica
+que la etiqueta se ve, sin abrir la ficha.
+
+**Reglas globales (AGENTS.md):**
+
+- Autorización y espacio en el servidor:
+  - `listCoursePlans` filtra por `institutionId` y por el docente;
+  - las fichas de DBA salen de `getCourseReferences`, que valida el curso (`getMyCourse`);
+  - "Mis recursos" y "Recursos del curso" siguen filtrando por docente.
+- Lo que muestra la ficha de DBA sale del catálogo, nunca de la IA (RN-01).
+- La agrupación es una función pura que no consulta la base.
+- Límites entre módulos verificados por ESLint: `resources` ya dependía de `planning`. No hay
+  dependencias nuevas.
+- El contrato con el AI Engine es `generation-planning.v1` (ADR-0013, Aceptado). Las partes 3 y 4
+  no cambian el AI Engine.
+
+**Definition of Done:**
+
+- [x] Spec aprobada y criterios cubiertos.
+- [x] Permisos en el servidor.
+- [x] Pruebas unitarias, de integración y E2E.
+- [x] Lint, typecheck y build.
+- [x] Documentación: spec, sistema de diseño, `CLAUDE.md` y ADR-0013.
+- [x] Revisión sin bloqueantes.
+- [x] Sin TODO críticos.
+
+**Observaciones no bloqueantes:**
+
+- "Recursos del curso" muestra todos los temas, también los vacíos, con sus botones. Con un año
+  entero planeado la página es larga; los periodos se pueden plegar. Se puede ver en el recorrido
+  con docentes.
+- CA-0013-20 (SPEC-0013) falló 2 veces de 4 con la suite completa en paralelo y pasó sola cada vez.
+  Parece intermitente por carga; conviene vigilarlo.
+
+**Pendiente fuera del código:** el recorrido con 2–3 docentes, junto con el de SPEC-0013.

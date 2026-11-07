@@ -3,9 +3,11 @@ import path from "node:path";
 import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { db } from "@/lib/db";
 import { DomainError } from "@/lib/errors";
+import { getLimiter } from "@/lib/rate-limit";
 import { createCourse, listSubjects } from "@/modules/courses";
 import { importCurriculumJson } from "@/modules/curriculum";
 import {
+  PROPOSALS_PER_DAY,
   PROPOSALS_PER_MINUTE,
   proposeObjectivesBatch,
   proposePlanning,
@@ -454,6 +456,39 @@ describe("proponer la planeación con IA (SPEC-0014)", () => {
       code: "RATE_LIMITED",
       message: expect.stringMatching(/Puedes pedir otra desde las \d{1,2}:\d{2}/),
     });
+    expect(await getQuotaStatus(ctx)).toEqual(quotaBefore);
+  });
+});
+
+describe("límite diario de propuestas (SPEC-0014 T9)", () => {
+  it("CA-0014-21: 20 propuestas al día entre planeación y objetivos; la 21 avisa la hora", async () => {
+    const ctx = await teacher();
+    const { unit } = await unitWithTopics(ctx, ["La recta numérica"], ["MEN-DBA-MAT-V2-G6-02"]);
+    const quotaBefore = await getQuotaStatus(ctx);
+    // Como si ya hubiera pedido 19 hoy, en minutos distintos (sin tocar el límite por minuto).
+    const daily = getLimiter("ai-planning-day", PROPOSALS_PER_DAY, 24 * 60 * 60 * 1000);
+    for (let i = 0; i < PROPOSALS_PER_DAY - 1; i++) await daily.consume(ctx.membershipId);
+
+    // La 20 pasa; es de objetivos en bloque: comparte el límite con la planeación (RN-08).
+    const batch = await proposeObjectivesBatch(
+      ctx,
+      { scope: "UNIT", unitId: unit.id },
+      objectivesEngine(),
+    );
+    expect(batch.status).toBe("ok");
+
+    const fetcher = engine();
+    await expect(
+      proposePlanning(ctx, { scope: "UNIT", unitId: unit.id, size: "LESS" }, fetcher),
+    ).rejects.toMatchObject({
+      code: "RATE_LIMITED",
+      message: expect.stringMatching(/Puedes pedir otra desde las \d{1,2}:\d{2}/),
+    });
+    await expect(
+      proposeObjectivesBatch(ctx, { scope: "UNIT", unitId: unit.id }, objectivesEngine()),
+    ).rejects.toMatchObject({ code: "RATE_LIMITED" });
+    // No se llamó a la IA y el cupo de recursos no cambió.
+    expect(fetcher).not.toHaveBeenCalled();
     expect(await getQuotaStatus(ctx)).toEqual(quotaBefore);
   });
 });

@@ -469,3 +469,24 @@ test("CA-0014-22 (parte 4): los recursos agrupados son accesibles y caben en 360
     expect(overflow).toBeLessThanOrEqual(0);
   }
 });
+
+test("CA-0014-22 (parte 2): la revisión de objetivos en bloque es accesible y cabe en 360 px", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 360, height: 780 });
+  await signUpIndependentTeacher(page);
+  await openNewCourse(page);
+  const unit = await plannedPeriod(page);
+  await unit.getByRole("button", { name: /^Opciones de unidad/ }).click();
+  await page.getByRole("menuitem", { name: "Proponer objetivos" }).click();
+  await expect(page.getByRole("button", { name: /^Aceptar todos/ })).toBeVisible();
+  const axe = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+    .analyze();
+  expect(axe.violations.map((v) => v.id)).toEqual([]);
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(0);
+});

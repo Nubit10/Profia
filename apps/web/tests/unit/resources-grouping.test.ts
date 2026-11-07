@@ -152,4 +152,40 @@ describe("groupByPlan (SPEC-0014 T8)", () => {
     expect(groups.unplaced.map((x) => x.id)).toEqual(["perdido"]);
     expect(groups.count).toBe(1);
   });
+
+  it("CA-0014-18: con 30 recursos en 4 periodos, el quiz de la recta numérica del periodo 1 está en el encabezado de su tema", () => {
+    const year: CoursePlan = {
+      courseId: "c1",
+      periods: [1, 2, 3, 4].map((n) => ({ number: n, name: `Periodo ${n}` })),
+      units: [1, 2, 3, 4].map((n) => ({
+        id: `u${n}`,
+        title: n === 1 ? "Números enteros" : `Unidad ${n}`,
+        periodNumber: n,
+        archived: false,
+        topics: [1, 2, 3].map((t) => ({
+          id: `p${n}t${t}`,
+          title: n === 1 && t === 1 ? "La recta numérica" : `Tema ${n}.${t}`,
+          archived: false,
+        })),
+      })),
+    };
+    const many = Array.from({ length: 30 }, (_, i) =>
+      r(`r${i}`, i % 2 ? "WORKSHOP" : "QUIZ", [`p${(i % 4) + 1}t${(i % 3) + 1}`]),
+    );
+    const groups = groupByPlan(year, many);
+    expect(groups.periods.map((p) => p.name)).toEqual([
+      "Periodo 1",
+      "Periodo 2",
+      "Periodo 3",
+      "Periodo 4",
+    ]);
+    expect(groups.count).toBe(30);
+    // Es el primer encabezado del primer periodo: no hay que pasar por los demás.
+    const p1 = groups.periods[0]!;
+    const topic = p1.units[0]!.topics[0]!;
+    expect(`${p1.name} · ${p1.units[0]!.title} · ${topic.title}`).toBe(
+      "Periodo 1 · Números enteros · La recta numérica",
+    );
+    expect(topic.resources.filter((x) => x.type === "QUIZ").length).toBeGreaterThan(0);
+  });
 });

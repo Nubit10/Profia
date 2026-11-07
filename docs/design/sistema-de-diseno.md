@@ -34,17 +34,19 @@ Radios: `rounded-xl` en campos y botones, `rounded-2xl` en tarjetas y `rounded-3
 
 ## Componentes
 
-| Componente                                                   | Dónde                          | Regla                                                           |
-| ------------------------------------------------------------ | ------------------------------ | --------------------------------------------------------------- |
-| `Button` (`brand`, `default`, `outline`, `ghost`, `inverse`) | `components/ui/button.tsx`     | `brand` una vez por pantalla. `inverse` sobre fondos de marca   |
-| `Badge` (`brand`, `success`, `warning`, `info`)              | `components/ui/badge.tsx`      | Estado de un recurso con `StatusBadge`                          |
-| `PageHeader`                                                 | `components/page-header.tsx`   | Línea superior, título, descripción y acciones                  |
-| `EmptyState`                                                 | `components/empty-state.tsx`   | Siempre una explicación de una línea y una acción concreta      |
-| `ResourceList`                                               | `components/resource-list.tsx` | Talleres y quices con tipo, estado y fecha                      |
-| Menú lateral                                                 | `components/app-shell/`        | Ver abajo                                                       |
-| `PageSkeleton`                                               | `components/page-skeleton.tsx` | Pantalla de carga de una ruta; nunca en rutas que responden 404 |
-| `OfflinePanel`, `OfflineBadge`                               | `components/offline/`          | Pregunta, progreso y marca "Disponible sin conexión"            |
-| `NotifyCard`                                                 | `components/notifications/`    | Pide el permiso de avisos solo después de "Generar"             |
+| Componente                                                   | Dónde                           | Regla                                                                                                                   |
+| ------------------------------------------------------------ | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `Button` (`brand`, `default`, `outline`, `ghost`, `inverse`) | `components/ui/button.tsx`      | `brand` una vez por pantalla. `inverse` sobre fondos de marca                                                           |
+| `Badge` (`brand`, `success`, `warning`, `info`)              | `components/ui/badge.tsx`       | Estado de un recurso con `StatusBadge`                                                                                  |
+| `PageHeader`                                                 | `components/page-header.tsx`    | Línea superior, título, descripción y acciones                                                                          |
+| `EmptyState`                                                 | `components/empty-state.tsx`    | Siempre una explicación de una línea y una acción concreta                                                              |
+| `ResourceList`                                               | `components/resource-list.tsx`  | Talleres y quices con tipo, estado y fecha                                                                              |
+| Menú lateral                                                 | `components/app-shell/`         | Ver abajo                                                                                                               |
+| `PageSkeleton`                                               | `components/page-skeleton.tsx`  | Pantalla de carga de una ruta; nunca en rutas que responden 404                                                         |
+| `OfflinePanel`, `OfflineBadge`                               | `components/offline/`           | Pregunta, progreso y marca "Disponible sin conexión"                                                                    |
+| `NotifyCard`                                                 | `components/notifications/`     | Pide el permiso de avisos solo después de "Generar"                                                                     |
+| `DbaChip`, `DbaChips` (SPEC-0014)                            | `components/curriculum/`        | Toda etiqueta "DBA n" abre su ficha (enunciado, evidencias, fuente del MEN); el texto sale del catálogo, nunca de la IA |
+| `PlanResources` (SPEC-0014)                                  | `components/plan-resources.tsx` | Recursos por Periodo · Unidad · Tema, un bloque plegable por periodo; agrupar con `groupByPlan`                         |
 
 ## Menú lateral (patrón CliqCut/Duali)
 
