@@ -71,7 +71,7 @@ export function RegisterForm({ action, callbackUrl, defaultEmail = "" }: Props) 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-xl">Crear cuenta</CardTitle>
+        <CardTitle className="font-display text-2xl font-semibold">Crear cuenta</CardTitle>
         <CardDescription>Regístrate como docente para empezar.</CardDescription>
       </CardHeader>
       <CardContent>

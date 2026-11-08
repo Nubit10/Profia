@@ -40,7 +40,7 @@ export function LoginForm({ action, callbackUrl, defaultEmail = "" }: Props) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-xl">Iniciar sesión</CardTitle>
+        <CardTitle className="font-display text-2xl font-semibold">Iniciar sesión</CardTitle>
         <CardDescription>Ingresa con tu correo y contraseña.</CardDescription>
       </CardHeader>
       <CardContent>

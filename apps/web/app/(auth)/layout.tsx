@@ -1,42 +1,51 @@
 import Link from "next/link";
-import { HiCheckCircle } from "react-icons/hi2";
 import { ProfeLogo } from "@/components/brand/profe-logo";
 
-const POINTS = [
-  "Talleres y quices listos para revisar en segundos",
-  "Alineados con los DBA y Estándares del MEN",
-  "Tu formato y tu logo en Word y PDF",
+const STEPS = [
+  ["DBA", "Los referentes oficiales de tu grado"],
+  ["Planeación", "Unidades, temas y objetivos del periodo"],
+  ["Recurso", "Taller, quiz o examen para revisar"],
+  ["Tu aula", "Word y PDF con tu formato y tu logo"],
 ];
 
-/** Ingreso y registro (SPEC-0012): formulario a la izquierda y el valor de Profe al lado. */
+/** Ingreso y registro: el formulario sobre la hoja rayada y, al lado, el recorrido de Profe. */
 export default function AuthLayout({ children }: LayoutProps<"/">) {
   return (
-    <main className="grid flex-1 bg-hero lg:grid-cols-2">
-      <div className="flex flex-col items-center justify-center gap-8 px-4 py-12">
+    <main className="grid flex-1 lg:grid-cols-[1fr_1.05fr]">
+      <div className="flex flex-col items-center justify-center gap-8 bg-ruled px-4 py-12">
         <Link href="/" aria-label="Profe, inicio">
           <ProfeLogo />
         </Link>
         <div className="w-full max-w-sm">{children}</div>
+        <p className="font-mono text-xs text-muted-foreground">
+          La IA propone · tú revisas y decides
+        </p>
       </div>
-      <aside className="relative hidden overflow-hidden bg-brand-gradient p-12 text-white lg:flex lg:flex-col lg:justify-center">
-        <div aria-hidden className="absolute -top-24 -right-24 size-80 rounded-full bg-white/10" />
-        <div
-          aria-hidden
-          className="absolute -bottom-32 -left-16 size-96 rounded-full bg-white/10"
-        />
-        <div className="relative flex max-w-md flex-col gap-6">
-          <h2 className="text-4xl leading-tight font-extrabold">
-            Más tiempo para enseñar, menos tiempo preparando
-          </h2>
-          <ul className="flex flex-col gap-3">
-            {POINTS.map((p) => (
-              <li key={p} className="flex items-center gap-3 text-lg font-semibold">
-                <HiCheckCircle className="size-6 shrink-0" aria-hidden />
-                {p}
+      <aside className="hidden flex-col justify-center bg-foreground p-12 text-background lg:flex xl:p-20">
+        <div className="flex max-w-md flex-col gap-10">
+          <div className="flex flex-col gap-4">
+            <p className="font-mono text-xs tracking-[0.2em] text-highlight uppercase">
+              Para docentes de Colombia
+            </p>
+            <h2 className="font-display text-4xl leading-tight font-semibold">
+              Del DBA a la clase del lunes,{" "}
+              <em className="text-highlight">sin gastarse el domingo.</em>
+            </h2>
+          </div>
+          <ol className="flex flex-col">
+            {STEPS.map(([title, text], i) => (
+              <li
+                key={title}
+                className="grid grid-cols-[2.5rem_1fr] gap-x-3 border-t border-background/15 py-4"
+              >
+                <span className="font-mono text-sm text-highlight">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="font-bold">{title}</span>
+                <span className="col-start-2 text-sm text-background/70">{text}</span>
               </li>
             ))}
-          </ul>
-          <p className="text-white/90">La IA propone; tú revisas y decides.</p>
+          </ol>
         </div>
       </aside>
     </main>

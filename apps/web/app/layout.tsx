@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { Fraunces, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { Toaster } from "sileo";
 import { ServiceWorker } from "@/components/service-worker";
 import { BRAND_COLOR } from "@/lib/brand-colors";
@@ -9,6 +9,14 @@ import "./globals.css";
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
+});
+
+// Titulares de la página pública y del acceso (font-display); el área de trabajo no la usa.
+const fraunces = Fraunces({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  style: ["normal", "italic"],
 });
 
 const geistMono = Geist_Mono({
@@ -38,7 +46,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es" className={`${jakarta.variable} ${geistMono.variable} h-full antialiased`}>
+    <html
+      lang="es"
+      className={`${jakarta.variable} ${fraunces.variable} ${geistMono.variable} h-full antialiased`}
+    >
       <body className="flex min-h-full flex-col bg-background">
         {children}
         <Toaster position="bottom-right" />

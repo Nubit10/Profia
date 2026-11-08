@@ -10,6 +10,7 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
+  --font-display: var(--font-display);
   --color-brand: var(--brand);
   --color-brand-strong: var(--brand-strong);
   --color-brand-soft: var(--brand-soft);
@@ -40,6 +41,10 @@
   --color-tint-5-fg: var(--tint-5-fg);
   --color-tint-6: var(--tint-6);
   --color-tint-6-fg: var(--tint-6-fg);
+  --color-highlight: var(--highlight);
+  --color-board: var(--board);
+  --color-board-raised: var(--board-raised);
+  --color-chalk: var(--chalk);
   --shadow-soft: var(--shadow-soft);
   --shadow-lift: var(--shadow-lift);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -127,6 +132,13 @@
   --tint-6: #fdf5d8;
   --tint-6-fg: #854d0e;
 
+  /* Resaltador amarillo de la página pública (acento, nunca fondo de texto largo). */
+  --highlight: #ffe27a;
+  /* Tablero verde de la página pública (el flujo de la IA se dibuja "en tiza"). */
+  --board: #1d3b33;
+  --board-raised: #24473e;
+  --chalk: #f4f1e6;
+
   --background: #ffffff;
   --foreground: #1c1530;
   --card: #ffffff;
@@ -201,6 +213,43 @@
   background-image:
     radial-gradient(60% 50% at 0% 0%, var(--surface-warm) 0%, transparent 70%),
     radial-gradient(50% 50% at 100% 10%, var(--brand-soft) 0%, transparent 70%);
+}
+
+/* Landing y acceso: hoja de cuaderno rayada con margen (lenguaje propio de la página pública). */
+@utility bg-ruled {
+  background-color: var(--surface-warm);
+  /* En el celular solo las rayas: la línea del margen cruzaría el texto. */
+  background-image: linear-gradient(
+    color-mix(in oklab, var(--tint-5-fg) 9%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 100% 32px;
+  @media (width >= 40rem) {
+    background-image:
+      linear-gradient(
+        90deg,
+        transparent 47px,
+        color-mix(in oklab, var(--brand-from) 35%, transparent) 47px,
+        color-mix(in oklab, var(--brand-from) 35%, transparent) 49px,
+        transparent 49px
+      ),
+      linear-gradient(color-mix(in oklab, var(--tint-5-fg) 9%, transparent) 1px, transparent 1px);
+    background-size:
+      100% 100%,
+      100% 32px;
+  }
+}
+/* Trazo de resaltador detrás de una palabra. */
+@utility mark-highlight {
+  background-image: linear-gradient(
+    transparent 58%,
+    var(--highlight) 58%,
+    var(--highlight) 92%,
+    transparent 92%
+  );
+  padding-inline: 0.12em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 /* Barra de progreso indeterminada mientras la IA trabaja. */

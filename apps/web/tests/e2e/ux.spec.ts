@@ -131,13 +131,13 @@ test("CA-0012-01/02: la landing presenta Profe sin prueba social inventada", asy
     "href",
     "/register",
   );
-  await expect(page.getByRole("link", { name: "Ver herramientas" })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: "Ver cómo funciona" })).toHaveAttribute(
     "href",
-    "#herramientas",
+    "#como-funciona",
   );
   for (const section of [
     "Todo lo que preparas para tus clases, en un solo lugar",
-    "De tu tema a un material listo, en tres pasos",
+    "Del DBA a tu material, en cinco pasos",
     "Lleva Profe a todo tu equipo docente",
     "Preguntas frecuentes",
   ]) {
