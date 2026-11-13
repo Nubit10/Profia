@@ -79,7 +79,7 @@ Referencia: 390 × 844, táctil. Las pruebas corren en el proyecto `movil` de Pl
 - Pasos de un flujo: `Stepper` (`components/stepper.tsx`, patrón de CliqCut). En el celular: "Atrás", "Paso 2 de 3 · Nombre", barra de progreso y puntos; nunca una fila de nombres que se corte. En escritorio, la fila con cada paso.
 - Filas que no caben (pestañas, filtros): `ScrollableRow` (`components/scrollable-row.tsx`, como `ScrollableTabs` de CliqCut). Se desliza hasta el elemento con `data-active` y avisa con un degradado y una flecha mientras quede algo por ver. Mejor aún si caben: etiquetas cortas en el celular (la pestaña "DBA y Estándares" dice "DBA", con el nombre completo en `aria-label`).
 - Nunca tarjeta dentro de tarjeta: dentro de un bloque, `ResourceList plain` y vacíos de una línea.
-- En la planeación, los temas de una unidad se separan con líneas (no recuadros) y los objetivos con un filete a la izquierda. Las acciones de un tema van en dos columnas parejas en el celular y en una fila en el escritorio.
+- En la planeación, los temas de una unidad se separan con líneas (no recuadros) y cada objetivo va en su propia tarjeta pequeña (`bg-muted/30`, sin sombra): es la única tarjeta permitida dentro de la de la unidad. Las acciones de un tema van en dos columnas parejas en el celular y en una fila en el escritorio.
 - Fichas pequeñas tocables (DBA): se ven compactas; en el celular el botón mide 44 px con margen negativo para que el área táctil no separe las líneas.
 - Filas de filtros o chips en el celular: una sola fila deslizable (`overflow-x-auto`, sin barra), nunca dos líneas.
 - Barras con varios botones en el celular: los botones se reparten el ancho; si el texto no cabe, uno más corto con el mismo `aria-label`.

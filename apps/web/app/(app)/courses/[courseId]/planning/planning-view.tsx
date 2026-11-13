@@ -243,7 +243,7 @@ function ObjectiveItem({
 }) {
   return (
     // Sin recuadro (nunca tarjeta dentro de tarjeta): una barra a la izquierda marca el nivel.
-    <li className="flex flex-col gap-2 border-l-2 border-brand-border py-1 pl-3">
+    <li className="flex flex-col gap-2 rounded-xl border border-border bg-muted/30 px-3 py-2.5">
       <div className="flex items-start justify-between gap-2">
         <p
           className={objective.archived ? "text-sm text-muted-foreground line-through" : "text-sm"}
