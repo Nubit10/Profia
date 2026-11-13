@@ -62,6 +62,10 @@ import { ProposalPanel, type ProposalActions, type ProposalScope } from "./propo
 import { SuggestPanel, type SuggestActions } from "./suggest-panel";
 import { useRun } from "./use-run";
 
+// Acciones de un tema: en el celular ocupan su columna y el texto puede bajar de línea.
+const TOPIC_ACTION =
+  "max-sm:h-auto max-sm:min-h-11 max-sm:justify-start max-sm:whitespace-normal max-sm:text-left";
+
 type A<I, O = void> = (input: I) => Promise<ActionResult<O>>;
 
 export type PlanningActions = {
@@ -238,7 +242,8 @@ function ObjectiveItem({
   actions: PlanningActions;
 }) {
   return (
-    <li className="flex flex-col gap-2 rounded-lg border bg-background p-3">
+    // Sin recuadro (nunca tarjeta dentro de tarjeta): una barra a la izquierda marca el nivel.
+    <li className="flex flex-col gap-2 border-l-2 border-brand-border py-1 pl-3">
       <div className="flex items-start justify-between gap-2">
         <p
           className={objective.archived ? "text-sm text-muted-foreground line-through" : "text-sm"}
@@ -642,9 +647,13 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                           </div>
                         </CardHeader>
                         <CardContent className="flex flex-col gap-3">
-                          <ol className="flex flex-col gap-3" aria-label={`Temas de ${unit.title}`}>
+                          {/* Los temas no llevan recuadro: van separados por una línea. */}
+                          <ol
+                            className="flex flex-col divide-y divide-border"
+                            aria-label={`Temas de ${unit.title}`}
+                          >
                             {unit.topics.map((topic) => (
-                              <li key={topic.id} className="rounded-lg border bg-muted/30 p-3">
+                              <li key={topic.id} className="py-4 first:pt-0">
                                 <div className="flex items-start justify-between gap-2">
                                   <div>
                                     <h3
@@ -708,67 +717,75 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                                   ))}
                                 </ol>
                                 {!topic.archived && (
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="mt-2"
-                                    onClick={() =>
-                                      setDialog({ type: "objective", topicId: topic.id })
-                                    }
-                                  >
-                                    <HiOutlinePlus aria-hidden />
-                                    Agregar objetivo
-                                  </Button>
-                                )}
-                                {!topic.archived && (
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="mt-2"
-                                    onClick={() =>
-                                      setDialog({
-                                        type: "suggest",
-                                        topicId: topic.id,
-                                        topicTitle: topic.title,
-                                      })
-                                    }
-                                  >
-                                    <AiAvatar size={18} />
-                                    Sugerir objetivos con IA
-                                  </Button>
-                                )}
-                                {!topic.archived &&
-                                  (
-                                    [
-                                      [
-                                        "QUIZ",
-                                        "quiz",
-                                        "Crear quiz",
-                                        HiOutlineClipboardDocumentCheck,
-                                      ],
-                                      ["WORKSHOP", "taller", "Crear taller", HiOutlineDocumentText],
-                                    ] as const
-                                  ).map(([type, noun, text, Icon]) => (
+                                  // Celular: dos columnas parejas; escritorio: una fila.
+                                  <div className="mt-2 grid grid-cols-2 gap-1 sm:flex sm:flex-wrap">
                                     <Button
-                                      key={type}
-                                      variant="outline"
+                                      variant="ghost"
                                       size="sm"
-                                      className="mt-2 border-brand-border text-brand-strong hover:bg-brand-soft"
-                                      disabled={quickPending}
-                                      aria-busy={busyWith(`${type}-${topic.id}`)}
+                                      className={TOPIC_ACTION}
                                       onClick={() =>
-                                        quick(
-                                          `${type}-${topic.id}`,
-                                          { type, topicId: topic.id },
-                                          noun,
-                                        )
+                                        setDialog({ type: "objective", topicId: topic.id })
                                       }
                                     >
-                                      <Icon aria-hidden />
-                                      {busyWith(`${type}-${topic.id}`) ? "Creando…" : text}
-                                      <span className="sr-only"> de «{topic.title}»</span>
+                                      <HiOutlinePlus aria-hidden />
+                                      Agregar objetivo
                                     </Button>
-                                  ))}
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className={TOPIC_ACTION}
+                                      onClick={() =>
+                                        setDialog({
+                                          type: "suggest",
+                                          topicId: topic.id,
+                                          topicTitle: topic.title,
+                                        })
+                                      }
+                                    >
+                                      <AiAvatar size={18} />
+                                      Sugerir objetivos con IA
+                                    </Button>
+                                    {(
+                                      [
+                                        [
+                                          "QUIZ",
+                                          "quiz",
+                                          "Crear quiz",
+                                          HiOutlineClipboardDocumentCheck,
+                                        ],
+                                        [
+                                          "WORKSHOP",
+                                          "taller",
+                                          "Crear taller",
+                                          HiOutlineDocumentText,
+                                        ],
+                                      ] as const
+                                    ).map(([type, noun, text, Icon]) => (
+                                      <Button
+                                        key={type}
+                                        variant="ghost"
+                                        size="sm"
+                                        className={cn(
+                                          TOPIC_ACTION,
+                                          "text-brand-strong hover:bg-brand-softer",
+                                        )}
+                                        disabled={quickPending}
+                                        aria-busy={busyWith(`${type}-${topic.id}`)}
+                                        onClick={() =>
+                                          quick(
+                                            `${type}-${topic.id}`,
+                                            { type, topicId: topic.id },
+                                            noun,
+                                          )
+                                        }
+                                      >
+                                        <Icon aria-hidden />
+                                        {busyWith(`${type}-${topic.id}`) ? "Creando…" : text}
+                                        <span className="sr-only"> de «{topic.title}»</span>
+                                      </Button>
+                                    ))}
+                                  </div>
+                                )}
                               </li>
                             ))}
                           </ol>

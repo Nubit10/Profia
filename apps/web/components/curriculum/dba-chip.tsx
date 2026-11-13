@@ -87,10 +87,9 @@ export function DbaChip({
   const [open, setOpen] = useState(false);
   const label = children ?? `DBA ${info?.number ?? number ?? "?"}`;
 
-  const chipClass = cn(
-    "inline-flex items-center gap-1 rounded-full border border-brand-border bg-brand-softer px-2 py-0.5 text-xs font-medium text-brand-strong max-sm:min-h-11 max-sm:px-3",
-    className,
-  );
+  const pill =
+    "inline-flex items-center gap-1 rounded-full border border-brand-border bg-brand-softer px-2 py-0.5 text-xs font-medium text-brand-strong";
+  const chipClass = cn(pill, className);
 
   if (!info) {
     return (
@@ -100,11 +99,13 @@ export function DbaChip({
 
   return (
     <>
+      {/* En el celular el botón mide 44 px de alto (área táctil) pero se ve la ficha compacta:
+          el margen negativo evita que el área invisible separe las líneas. */}
       <button
         type="button"
         className={cn(
-          chipClass,
-          "cursor-pointer transition-colors hover:bg-brand-soft focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
+          "group/dba inline-flex cursor-pointer items-center rounded-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none max-sm:-my-2.5 max-sm:min-h-11",
+          className,
         )}
         aria-haspopup="dialog"
         aria-label={`DBA ${info.number}: ver enunciado, evidencias y fuente`}
@@ -115,8 +116,10 @@ export function DbaChip({
           setOpen(true);
         }}
       >
-        <HiOutlineBookOpen className="size-3.5 shrink-0" aria-hidden />
-        {label}
+        <span className={cn(pill, "transition-colors group-hover/dba:bg-brand-soft")}>
+          <HiOutlineBookOpen className="size-3.5 shrink-0" aria-hidden />
+          {label}
+        </span>
       </button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-lg" data-testid="dba-sheet">
