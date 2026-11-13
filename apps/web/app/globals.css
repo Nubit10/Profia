@@ -287,3 +287,33 @@
   gap: 0.25rem;
   padding-block: 0.5rem;
 }
+
+/* Barra de desplazamiento delgada y sin flechas (patrón de CliqCut). Chrome, Edge y Safari usan los
+   pseudo-elementos: sin `::-webkit-scrollbar-button` no hay flechas. Firefox no los conoce y usa la
+   propiedad estándar. No se pone `scrollbar-width` en los demás: en Chrome 121+ anula los
+   pseudo-elementos y vuelve la barra del sistema con flechas en Windows. */
+.thin-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background-color: color-mix(in oklab, var(--muted-foreground) 35%, transparent);
+  border-radius: 9999px;
+}
+.thin-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: color-mix(in oklab, var(--muted-foreground) 55%, transparent);
+}
+.thin-scrollbar::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+@supports not selector(::-webkit-scrollbar) {
+  .thin-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--muted-foreground) 35%, transparent) transparent;
+  }
+}

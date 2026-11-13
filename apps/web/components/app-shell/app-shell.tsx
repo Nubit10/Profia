@@ -149,7 +149,10 @@ export function AppShell(props: Props) {
         {access.isTeacher && <CreateMenu onNavigate={closeSidebar} />}
       </div>
 
-      <nav aria-label="Menú principal" className="min-h-0 flex-1 overflow-y-auto px-3 pb-3">
+      <nav
+        aria-label="Menú principal"
+        className="thin-scrollbar min-h-0 flex-1 overflow-y-auto px-3 pb-3"
+      >
         {sections.map((section, index) => (
           <div
             key={section.title}

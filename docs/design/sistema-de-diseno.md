@@ -59,6 +59,8 @@ Radios: `rounded-xl` en campos y botones, `rounded-2xl` en tarjetas y `rounded-3
 - "Mis recursos" muestra "N generándose" mientras la IA trabaja, y cada enlace muestra un indicador al tocarlo si la pantalla aún no carga (`useLinkStatus`).
 - Pie: "Instalar Profe" cuando el navegador lo permite (en iPhone explica "Agregar a pantalla de inicio").
 
+- Barra de desplazamiento: clase `thin-scrollbar` (`app/globals.css`), delgada y sin flechas como en CliqCut. Va en el menú lateral; úsala en cualquier zona con scroll propio.
+
 ## Celular (SPEC-0013, patrón de Terram)
 
 Referencia: 390 × 844, táctil. Las pruebas corren en el proyecto `movil` de Playwright.
