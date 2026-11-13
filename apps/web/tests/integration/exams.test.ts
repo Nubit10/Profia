@@ -464,7 +464,7 @@ describe("exámenes con IA (SPEC-0011)", () => {
     expect(key).toContain("Puntos por sección");
     expect(key).toContain("Conversión a nota");
     expect(key).toContain("3,0 (nota mínima)");
-    expect(key).toMatch(/1 → [a-e]/);
+    expect(key).toMatch(/1 – [a-e]/);
 
     const answers = await exportResource(ctx, id, {
       doc: "answers",

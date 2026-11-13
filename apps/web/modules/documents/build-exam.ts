@@ -65,10 +65,10 @@ export function matchingColumn(q: ExamQuestion, ctx: ExportContext, variant: Var
   );
 }
 
-/** Pareja correcta de cada elemento de la columna A, como "1 → c". */
+/** Pareja correcta de cada elemento de la columna A, como "1 – c" (guion largo: la Roboto del PDF no trae la flecha). */
 export function matchingKey(q: ExamQuestion, ctx: ExportContext, variant: Variant): string[] {
   const column = matchingColumn(q, ctx, variant);
-  return q.pairs.map((p, i) => `${i + 1} → ${LETTERS[column.indexOf(p.right)]}`);
+  return q.pairs.map((p, i) => `${i + 1} – ${LETTERS[column.indexOf(p.right)]}`);
 }
 
 function studentQuestion(q: ExamQuestion, n: number, ctx: ExportContext, variant: Variant) {

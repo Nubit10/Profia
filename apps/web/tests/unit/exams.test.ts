@@ -233,7 +233,7 @@ describe("documentos del examen (SPEC-0011)", () => {
     const matching = content.sections[1]!.questions[0]!;
     const columnB = matchingColumn(matching, ctx, "B");
     expect(columnB).not.toEqual(matchingColumn(matching, ctx, "A"));
-    const letter = matchingKey(matching, ctx, "B")[0]!.split("→ ")[1]!;
+    const letter = matchingKey(matching, ctx, "B")[0]!.split("– ")[1]!;
     expect(columnB["abcdefgh".indexOf(letter)]).toBe("−3");
   });
 

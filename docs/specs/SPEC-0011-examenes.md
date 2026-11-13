@@ -2,7 +2,7 @@
 
 | Campo                    | Valor                                                                                                 |
 | ------------------------ | ----------------------------------------------------------------------------------------------------- |
-| Estado                   | En implementación                                                                                     |
+| Estado                   | Implementada                                                                                          |
 | Fase del roadmap         | 6 · Generation (con exportación de 7 · Documents)                                                     |
 | Módulo(s) responsable(s) | `modules/resources`, `modules/documents`, `apps/ai-engine` (generation, validation, prompts)          |
 | Agentes                  | product, domain, assessment, ai-engine, backend, database, documents, frontend, privacy, qa, reviewer |
@@ -159,7 +159,7 @@ Valores por defecto según el grado (p. ej. Transición–3°: 2 secciones, 10�
 - [x] T7 — UI sobre el sistema de diseño de SPEC-0012: "Examen" en "Crear" y en el asistente `/create` (temas múltiples, secciones y puntos), "Crear examen" desde unidad y periodo, editor por secciones, nota mínima, "Mis recursos" y biblioteca con el tipo Examen, landing sin "Próximamente" — frontend
 - [x] T8 — Revisión de privacidad del contrato nuevo — privacy
 - [x] T9 — Tests unitarios, integración (con acceso cruzado) y E2E con el AI Engine de prueba — qa
-- [ ] T10 — Revisión contra esta spec y DoD, con documentos reales abiertos — reviewer
+- [x] T10 — Revisión contra esta spec y DoD, con documentos reales abiertos — reviewer
 
 ## 11. Decisiones (resueltas por el usuario el 2026-10-10, con las recomendaciones de product)
 
@@ -269,3 +269,65 @@ Valores por defecto según el grado (p. ej. Transición–3°: 2 secciones, 10�
 | `apps/web/tests/integration/exams.test.ts` | CA-01 a CA-13, CA-15 y CA-16, con acceso cruzado, métricas y la nota de ADR-0008 |
 | `apps/web/tests/e2e/exams.spec.ts`         | CA-0011-17 y CA-11 (de la planeación a las descargas)                            |
 | `apps/web/tests/e2e/ux.spec.ts`            | Actualizado: Examen en "Crear" y en la landing, sin "Próximamente"               |
+
+## 13. Revisión (2026-11-13, agente `reviewer`)
+
+**Veredicto: Aprobado.** Hubo un hallazgo con los documentos abiertos y ya está corregido.
+
+**Verificación real:**
+
+- lint, typecheck y build de producción sin errores;
+- pruebas unitarias e integración y suite E2E completas;
+- AI Engine: pytest y ruff;
+- documentos generados y abiertos:
+  - hoja A y B, clave y hoja de respuestas en PDF;
+  - hoja en Word, convertida con LibreOffice.
+
+**Hallazgo con los documentos abiertos (corregido):**
+
+- En la clave del emparejamiento, la flecha de "1 → c" salía como un cuadro en el PDF: la Roboto
+  que trae pdfmake no tiene ese carácter.
+- Ahora la clave usa un guion largo ("1 – c").
+- `tests/unit/document-glyphs.test.ts` comprueba que todo carácter no ASCII que escriben los
+  documentos existe en la fuente. Usa `fontkit`, que ya venía con pdfmake y ahora es dependencia
+  de desarrollo declarada.
+
+| Criterios     | Estado   | Prueba (archivo:línea)                                                                         |
+| ------------- | -------- | ---------------------------------------------------------------------------------------------- |
+| CA-0011-01    | Cumplido | `integration/exams.test.ts:283`                                                                |
+| CA-0011-02    | Cumplido | `integration/exams.test.ts:312`; `ai-engine/tests/test_exams.py:60`                            |
+| CA-0011-03    | Cumplido | `ai-engine/tests/test_exams.py:136`, `:150`, `:246`                                            |
+| CA-0011-04/05 | Cumplido | `integration/exams.test.ts:369`; `unit/exams.test.ts:124`                                      |
+| CA-0011-06    | Cumplido | `integration/exams.test.ts:404`; `ai-engine/tests/test_exams.py:197`                           |
+| CA-0011-07/08 | Cumplido | `integration/exams.test.ts:437`; `unit/exams.test.ts:203`, `:213`; documentos abiertos         |
+| CA-0011-09    | Cumplido | `integration/exams.test.ts:510`; `unit/exams.test.ts:223`; hoja B abierta                      |
+| CA-0011-10    | Cumplido | `integration/exams.test.ts:312`; `ai-engine/tests/test_exams.py:236`                           |
+| CA-0011-11    | Cumplido | `integration/exams.test.ts:533`, `:566`; `e2e/exams.spec.ts:137`                               |
+| CA-0011-12    | Cumplido | `integration/exams.test.ts:577` (acceso cruzado)                                               |
+| CA-0011-13    | Cumplido | `integration/exams.test.ts:610`                                                                |
+| CA-0011-14    | Cumplido | Benchmark de 6 casos versionado en `benchmarks/results/` (6 de 6 válidos); `test_exams.py:256` |
+| CA-0011-15    | Cumplido | `integration/exams.test.ts:493`; `unit/exams.test.ts:240`; hoja de respuestas abierta          |
+| CA-0011-16    | Cumplido | `integration/exams.test.ts:437`                                                                |
+| CA-0011-17    | Cumplido | `e2e/exams.spec.ts:65`; `e2e/ux.spec.ts` (landing sin "Próximamente")                          |
+
+**Reglas globales (AGENTS.md):**
+
+- Tenancy con FK compuestas y prueba de acceso cruzado.
+- Al AI Engine solo va contexto pedagógico (sin ids, nombres ni contactos), y el contrato rechaza
+  campos de más.
+- Toda generación queda en `generation_logs`.
+- El examen respeta el límite de 300 s de Vercel (timeout de 280 s; máximo medido, 145 s).
+
+**Observaciones no bloqueantes:**
+
+- Solo el 17 % de los exámenes sale válido al primer intento. Las reparaciones no llegan al
+  docente, pero cuestan tokens (15.000–30.000 por examen). Conviene mejorar el prompt `exam.v1` en
+  una versión nueva y repetir el benchmark.
+- En el Word, al abrirlo en LibreOffice, los números de "Página x de y" se ven más grandes que el
+  resto del pie. El código les pone 8 pt; parece un detalle de LibreOffice con los campos y hay que
+  confirmarlo en Word.
+- Con cuatro campos, "Calificación" baja a una segunda línea en el Word.
+
+**Definition of Done:** spec aprobada y criterios cubiertos; permisos en el servidor; pruebas en
+todos los niveles; lint, typecheck y build; documentación; revisión sin bloqueantes; sin TODO
+críticos.
