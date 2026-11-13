@@ -187,11 +187,12 @@ export async function getResourceFormContext(
 ): Promise<ResourceFormContext> {
   requireRole(ctx, "TEACHER");
   const context = await getTopicGenerationContext(ctx, topicId); // NOT_FOUND si es ajeno
-  const [preferences, quota, formats, defaultFormat] = await Promise.all([
+  const [preferences, quota, formats, defaultFormat, udl] = await Promise.all([
     applicablePreferences(ctx, context.courseId),
     recoverStale(ctx).then(() => quotaFor(db, ctx)),
     listFormats(ctx),
     defaultFormatId(ctx),
+    lastWorkshopUdl(ctx),
   ]);
   return {
     courseId: context.courseId,
@@ -209,6 +210,7 @@ export async function getResourceFormContext(
       sections: f.structure.sections.map(({ title, kind }) => ({ title, kind })),
     })),
     defaultFormatId: defaultFormat,
+    lastUdl: udl,
     quota: {
       used: quota.used,
       limit: DAILY_LIMIT,
@@ -216,6 +218,19 @@ export async function getResourceFormContext(
       maxInFlight: MAX_IN_FLIGHT,
     },
   };
+}
+
+/**
+ * SPEC-0016 RN-01: el enfoque DUA del último taller que creó el docente en este espacio. La primera
+ * vez es `false`. El asistente lo trae marcado así y el toque rápido lo usa.
+ */
+export async function lastWorkshopUdl(ctx: TenantContext): Promise<boolean> {
+  const last = await db.resource.findFirst({
+    where: { institutionId: ctx.institutionId, membershipId: ctx.membershipId, type: "WORKSHOP" },
+    orderBy: { createdAt: "desc" },
+    select: { blueprint: true },
+  });
+  return (last?.blueprint as { udl?: boolean } | undefined)?.udl === true;
 }
 
 /** Datos del asistente para un examen de varios temas del mismo curso (SPEC-0011 §2). */
@@ -608,6 +623,7 @@ export async function runGeneration(job: Job, fetcher: typeof fetch = fetch): Pr
                     })),
                 }),
                 cognitiveDistribution: blueprint.cognitiveDistribution,
+                ...(blueprint.udl && { udl: true }),
               },
               fetcher,
             );

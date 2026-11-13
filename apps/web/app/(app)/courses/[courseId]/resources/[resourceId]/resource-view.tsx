@@ -295,6 +295,12 @@ export function ResourceView({
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline">{RESOURCE_TYPE_LABELS[resource.type]}</Badge>
           <StatusBadge status={resource.status} />
+          {/* SPEC-0016: el docente eligió el enfoque DUA. */}
+          {resource.blueprint.type === "WORKSHOP" && resource.blueprint.udl && (
+            <Badge variant="brand" title="Diseño Universal para el Aprendizaje">
+              Con DUA
+            </Badge>
+          )}
           <span className="text-sm text-muted-foreground">
             {resource.type === "EXAM" ? "Temas" : "Tema"}: {resource.context.topic.title}
             {resource.model ? " · Generado con IA" : ""}

@@ -78,6 +78,10 @@ function block(b: DocBlock): Content {
         stack: [
           { text: b.title, bold: true, margin: [0, 0, 0, 2] },
           { text: b.instructions },
+          ...(b.extras ?? []).map((x) => ({
+            text: x,
+            margin: [0, 3, 0, 0] as [number, number, number, number],
+          })),
           ...b.details.map((d) => ({
             text: d,
             color: MUTED,

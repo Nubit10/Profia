@@ -22,6 +22,8 @@ export type DocBlock =
       kind: "activity";
       title: string;
       instructions: string;
+      /** SPEC-0016: opciones DUA para el estudiante, en texto normal, antes de las líneas. */
+      extras?: string[];
       /** Datos para el docente (producto esperado, nivel, DBA); vacío en la guía del estudiante. */
       details: string[];
       answerLines: number;

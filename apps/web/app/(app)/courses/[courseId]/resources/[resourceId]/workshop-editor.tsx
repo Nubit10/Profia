@@ -11,7 +11,10 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   LEVELS,
   LEVEL_LABELS,
+  UDL_LABELS,
   type Activity,
+  type ActivityUdl,
+  type UdlGuide,
   type ResourceDetail,
   type WorkshopContent,
 } from "@/modules/resources/client";
@@ -46,7 +49,177 @@ export function ActivityView({ a, dba }: { a: Activity; dba: Map<string, number>
           <DbaChip key={c} code={c} number={dba.get(c)} />
         ))}
       </div>
+      {a.udl && <UdlView udl={a.udl} />}
     </div>
+  );
+}
+
+/** SPEC-0016: opciones DUA de la actividad, agrupadas por lo que el docente hace con ellas. */
+function UdlView({ udl }: { udl: ActivityUdl }) {
+  const lists: [string, string[]][] = [
+    [UDL_LABELS.representation, udl.representation],
+    [UDL_LABELS.expression, udl.expression],
+    [UDL_LABELS.supports, udl.supports],
+  ];
+  return (
+    <div
+      className="flex flex-col gap-2 rounded-xl border border-brand-border bg-brand-softer p-3 text-sm"
+      data-detail
+      data-testid="udl-activity"
+    >
+      <p className="text-xs font-bold tracking-wide text-brand-strong uppercase">Enfoque DUA</p>
+      {udl.engagement && (
+        <p>
+          <span className="font-medium">{UDL_LABELS.engagement}:</span> {udl.engagement}
+        </p>
+      )}
+      {lists.map(([title, items]) =>
+        items.length > 0 ? (
+          <div key={title}>
+            <p className="font-medium">{title}</p>
+            <ul className="ml-4 list-disc">
+              {items.map((x) => (
+                <li key={x}>{x}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null,
+      )}
+      {udl.challenge && (
+        <p>
+          <span className="font-medium">{UDL_LABELS.challenge}:</span> {udl.challenge}
+        </p>
+      )}
+    </div>
+  );
+}
+
+const EMPTY_UDL: ActivityUdl = {
+  representation: [],
+  expression: [],
+  engagement: "",
+  supports: [],
+  challenge: "",
+};
+
+function UdlForm({ a, onChange }: { a: Activity; onChange: (a: Activity) => void }) {
+  const udl = a.udl ?? EMPTY_UDL;
+  const set = (patch: Partial<ActivityUdl>) => onChange({ ...a, udl: { ...udl, ...patch } });
+  const listField = (key: "representation" | "expression" | "supports") => (
+    <Field>
+      <FieldLabel htmlFor={`${a.id}-udl-${key}`}>{UDL_LABELS[key]}</FieldLabel>
+      <Textarea
+        id={`${a.id}-udl-${key}`}
+        rows={3}
+        defaultValue={udl[key].join("\n")}
+        onBlur={(e) => set({ [key]: lines(e.target.value) })}
+      />
+      <FieldDescription>Una por línea.</FieldDescription>
+    </Field>
+  );
+  return (
+    <fieldset className="flex flex-col gap-3 rounded-xl border border-brand-border bg-brand-softer p-3">
+      <legend className="px-1 text-sm font-bold">Enfoque DUA</legend>
+      <Field>
+        <FieldLabel htmlFor={`${a.id}-udl-engagement`}>{UDL_LABELS.engagement}</FieldLabel>
+        <Input
+          id={`${a.id}-udl-engagement`}
+          value={udl.engagement}
+          onChange={(e) => set({ engagement: e.target.value })}
+        />
+      </Field>
+      {listField("representation")}
+      {listField("expression")}
+      {listField("supports")}
+      <Field>
+        <FieldLabel htmlFor={`${a.id}-udl-challenge`}>{UDL_LABELS.challenge}</FieldLabel>
+        <Input
+          id={`${a.id}-udl-challenge`}
+          value={udl.challenge}
+          onChange={(e) => set({ challenge: e.target.value })}
+        />
+      </Field>
+    </fieldset>
+  );
+}
+
+/** SPEC-0016 RN-03: barreras del grupo con su apoyo y la autoevaluación del estudiante. */
+function UdlGuideForm({ guide, onChange }: { guide: UdlGuide; onChange: (g: UdlGuide) => void }) {
+  const setBarrier = (i: number, patch: Partial<UdlGuide["barriers"][number]>) =>
+    onChange({
+      ...guide,
+      barriers: guide.barriers.map((b, j) => (j === i ? { ...b, ...patch } : b)),
+    });
+  return (
+    <section
+      aria-labelledby="udl-guide"
+      className="flex flex-col gap-3 rounded-2xl border border-brand-border bg-brand-softer p-4"
+    >
+      <h3 id="udl-guide" className="font-bold">
+        Guía DUA del taller
+      </h3>
+      <p className="text-sm text-muted-foreground">
+        Barreras que el grupo puede encontrar y cómo apoyarlo. Son del grupo, nunca de un estudiante
+        en particular.
+      </p>
+      <ol className="flex flex-col gap-3" aria-label={UDL_LABELS.barriers}>
+        {guide.barriers.map((b, i) => (
+          <li key={i} className="grid grid-cols-1 gap-2 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
+            <Field>
+              <FieldLabel htmlFor={`udl-barrier-${i}`}>Barrera {i + 1}</FieldLabel>
+              <Input
+                id={`udl-barrier-${i}`}
+                value={b.barrier}
+                onChange={(e) => setBarrier(i, { barrier: e.target.value })}
+              />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor={`udl-support-${i}`}>Apoyo</FieldLabel>
+              <Input
+                id={`udl-support-${i}`}
+                value={b.support}
+                onChange={(e) => setBarrier(i, { support: e.target.value })}
+              />
+            </Field>
+            <Button
+              type="button"
+              size="icon"
+              variant="ghost"
+              aria-label={`Quitar la barrera ${i + 1}`}
+              onClick={() =>
+                onChange({ ...guide, barriers: guide.barriers.filter((_, j) => j !== i) })
+              }
+            >
+              <HiOutlineTrash aria-hidden />
+            </Button>
+          </li>
+        ))}
+      </ol>
+      {guide.barriers.length < 6 && (
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          className="w-fit"
+          onClick={() =>
+            onChange({ ...guide, barriers: [...guide.barriers, { barrier: "", support: "" }] })
+          }
+        >
+          <HiOutlinePlus aria-hidden />
+          Agregar barrera
+        </Button>
+      )}
+      <Field>
+        <FieldLabel htmlFor="udl-self">{UDL_LABELS.selfAssessment}</FieldLabel>
+        <Textarea
+          id="udl-self"
+          rows={3}
+          defaultValue={guide.selfAssessment.join("\n")}
+          onBlur={(e) => onChange({ ...guide, selfAssessment: lines(e.target.value) })}
+        />
+        <FieldDescription>Una frase por línea, como «Puedo…».</FieldDescription>
+      </Field>
+    </section>
   );
 }
 
@@ -100,6 +273,7 @@ function ActivityForm({ a, onChange }: { a: Activity; onChange: (a: Activity) =>
           onChange={(e) => onChange({ ...a, expectedOutcome: e.target.value })}
         />
       </Field>
+      {a.udl && <UdlForm a={a} onChange={onChange} />}
     </div>
   );
 }
@@ -296,6 +470,8 @@ export function WorkshopEditor({
                   expectedOutcome: "",
                   cognitiveLevel: "APPLY",
                   dbaCodes: [],
+                  // SPEC-0016: en un taller DUA, la actividad nueva trae sus campos para llenar.
+                  ...(content.udlGuide && { udl: EMPTY_UDL }),
                 },
               ]);
               setEditing(id);
@@ -326,6 +502,13 @@ export function WorkshopEditor({
           />
         </Field>
       ))}
+
+      {content.udlGuide && (
+        <UdlGuideForm
+          guide={content.udlGuide}
+          onChange={(udlGuide) => onChange({ ...content, udlGuide })}
+        />
+      )}
 
       <Field>
         <FieldLabel htmlFor="ws-guidance">Orientaciones para el docente</FieldLabel>

@@ -87,6 +87,17 @@ const engineActivity = z.object({
   expectedOutcome: z.string(),
   cognitiveLevel: level,
   dbaCodes: z.array(z.string()),
+  // SPEC-0016 / ADR-0014: opciones DUA, solo cuando se pidieron.
+  udl: z
+    .object({
+      representation: z.array(z.string()),
+      expression: z.array(z.string()),
+      engagement: z.string(),
+      supports: z.array(z.string()),
+      challenge: z.string().default(""),
+    })
+    .nullish()
+    .transform((v) => v ?? undefined),
 });
 const resourceMeta = responseSchema.shape.meta.extend({ tokens: z.number() });
 
@@ -107,6 +118,13 @@ const workshopResponse = z.object({
     moments: z.array(z.object({ name: z.string(), activities: z.array(engineActivity) })),
     teacherGuidance: z.array(z.string()),
     sectionTexts: z.array(z.object({ title: z.string(), content: z.string() })).default([]),
+    udlGuide: z
+      .object({
+        barriers: z.array(z.object({ barrier: z.string(), support: z.string() })),
+        selfAssessment: z.array(z.string()),
+      })
+      .nullish()
+      .transform((v) => v ?? undefined),
   }),
   meta: resourceMeta,
 });
@@ -150,6 +168,8 @@ export type EngineWorkshopRequest = EngineResourceContext & {
   /** SPEC-0010: secciones del formato del docente (sin las fijas) cuando structure = CUSTOM. */
   customSections?: { title: string; kind: "ACTIVITIES" | "TEXT"; purpose: string }[];
   cognitiveDistribution: Distribution;
+  /** SPEC-0016: enfoque DUA. */
+  udl?: boolean;
 };
 
 export type EngineItemRequest = EngineResourceContext & {

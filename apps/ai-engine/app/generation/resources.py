@@ -24,6 +24,8 @@ WORKSHOP_PROMPT_VERSION = "workshop.v1"
 # SPEC-0010: taller con las secciones del formato propio del docente.
 WORKSHOP_CUSTOM_PROMPT_VERSION = "workshop.v2"
 ITEM_PROMPT_VERSION = "item_regenerate.v1"
+# SPEC-0016 / ADR-0014: anexo de DUA que se suma al prompt del taller o del ítem.
+UDL_PROMPT_VERSION = "udl.v1"
 
 
 def _prompt(version: str) -> str:
@@ -34,6 +36,7 @@ QUIZ_PROMPT = _prompt(QUIZ_PROMPT_VERSION)
 WORKSHOP_PROMPT = _prompt(WORKSHOP_PROMPT_VERSION)
 WORKSHOP_CUSTOM_PROMPT = _prompt(WORKSHOP_CUSTOM_PROMPT_VERSION)
 ITEM_PROMPT = _prompt(ITEM_PROMPT_VERSION)
+UDL_PROMPT = _prompt(UDL_PROMPT_VERSION)
 
 Level = Literal["REMEMBER", "UNDERSTAND", "APPLY", "ANALYZE", "EVALUATE", "CREATE"]
 LEVELS: tuple[Level, ...] = ("REMEMBER", "UNDERSTAND", "APPLY", "ANALYZE", "EVALUATE", "CREATE")
@@ -135,6 +138,8 @@ class WorkshopRequest(ResourceContext):
     structure: Structure | Literal["CUSTOM"]
     customSections: list[CustomSection] = Field(default_factory=list, max_length=10)  # noqa: N815
     cognitiveDistribution: dict[Level, int]  # noqa: N815
+    # SPEC-0016 RN-01: el docente eligió el enfoque DUA.
+    udl: bool = False
 
     @model_validator(mode="after")
     def _valid(self):
@@ -164,8 +169,16 @@ def text_sections(request: "WorkshopRequest") -> list[CustomSection]:
 
 
 def workshop_prompt_version(request: "WorkshopRequest") -> str:
-    return (
+    base = (
         WORKSHOP_CUSTOM_PROMPT_VERSION if request.structure == "CUSTOM" else WORKSHOP_PROMPT_VERSION
+    )
+    # ADR-0014: la versión registrada es la combinación del prompt base y el anexo de DUA.
+    return f"{base}+{UDL_PROMPT_VERSION}" if request.udl else base
+
+
+def item_prompt_version(request: "ItemRequest") -> str:
+    return (
+        f"{ITEM_PROMPT_VERSION}+{UDL_PROMPT_VERSION}" if wants_udl(request) else ITEM_PROMPT_VERSION
     )
 
 
@@ -186,6 +199,34 @@ class QuizOut(BaseModel):
     questions: list[QuizQuestion]
 
 
+Short = Annotated[str, Field(max_length=300)]
+
+
+class ActivityUdl(BaseModel):
+    """Opciones DUA de una actividad (SPEC-0016 RN-02)."""
+
+    model_config = ConfigDict(extra="forbid")
+    representation: list[Short] = Field(default_factory=list, max_length=4)
+    expression: list[Short] = Field(default_factory=list, max_length=4)
+    engagement: str = Field(default="", max_length=400)
+    supports: list[Short] = Field(default_factory=list, max_length=4)
+    challenge: str = Field(default="", max_length=400)
+
+
+class Barrier(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    barrier: str = Field(max_length=300)
+    support: str = Field(max_length=400)
+
+
+class UdlGuide(BaseModel):
+    """Guía DUA del taller (SPEC-0016 RN-03): barreras del grupo y autoevaluación."""
+
+    model_config = ConfigDict(extra="forbid")
+    barriers: list[Barrier] = Field(default_factory=list, max_length=6)
+    selfAssessment: list[Short] = Field(default_factory=list, max_length=5)  # noqa: N815
+
+
 class Activity(BaseModel):
     model_config = ConfigDict(extra="forbid")
     title: str = Field(max_length=200)
@@ -194,6 +235,7 @@ class Activity(BaseModel):
     expectedOutcome: str = Field(max_length=800)  # noqa: N815
     cognitiveLevel: Level  # noqa: N815
     dbaCodes: list[str] = Field(default_factory=list, max_length=6)  # noqa: N815
+    udl: ActivityUdl | None = None
 
 
 class Moment(BaseModel):
@@ -219,6 +261,8 @@ class WorkshopOut(BaseModel):
     )
     # Contenido de las secciones de texto del formato (SPEC-0010); vacío en las estructuras fijas.
     sectionTexts: list[SectionText] = Field(default_factory=list, max_length=10)  # noqa: N815
+    # SPEC-0016: solo con enfoque DUA.
+    udlGuide: UdlGuide | None = None  # noqa: N815
 
 
 class ItemRequest(ResourceContext):
@@ -248,6 +292,11 @@ class ItemRequest(ResourceContext):
 
 class ItemOut(BaseModel):
     item: QuizQuestion | Activity
+
+
+def wants_udl(request: "ItemRequest") -> bool:
+    """RN-07: una actividad de un taller DUA se reescribe con su DUA."""
+    return isinstance(request.current, Activity) and request.current.udl is not None
 
 
 # --- Distribución cognitiva ------------------------------------------------------------------
@@ -337,9 +386,14 @@ def build_workshop_messages(request: WorkshopRequest) -> list[Message]:
             }
             for c in request.customSections
         ]
+    system = WORKSHOP_CUSTOM_PROMPT if request.structure == "CUSTOM" else WORKSHOP_PROMPT
+    if request.udl:
+        data["enfoqueDUA"] = True
+        system = f"{system}\n{UDL_PROMPT}"
     return _messages(
-        WORKSHOP_CUSTOM_PROMPT if request.structure == "CUSTOM" else WORKSHOP_PROMPT,
-        f"Elabora un taller con exactamente {request.itemCount} actividades en total.",
+        system,
+        f"Elabora un taller con exactamente {request.itemCount} actividades en total"
+        + (", con enfoque DUA." if request.udl else "."),
         data,
     )
 
@@ -357,7 +411,11 @@ def build_item_messages(request: ItemRequest) -> list[Message]:
         "otrosItems": request.otherItems,
     }
     noun = "la pregunta" if request.kind == "QUIZ_QUESTION" else "la actividad"
-    return _messages(ITEM_PROMPT, f"Reescribe {noun} siguiendo la indicación del docente.", data)
+    system = ITEM_PROMPT
+    if wants_udl(request):
+        data["enfoqueDUA"] = True
+        system = f"{ITEM_PROMPT}\n{UDL_PROMPT}"
+    return _messages(system, f"Reescribe {noun} siguiendo la indicación del docente.", data)
 
 
 # --- Validadores pedagógicos -----------------------------------------------------------------
@@ -439,6 +497,35 @@ def activity_errors(a: Activity, label: str, max_minutes: int, allowed: set[str]
     return errors
 
 
+def udl_errors(udl: ActivityUdl | None, label: str) -> list[str]:
+    """SPEC-0016 RN-02: opciones DUA completas en cada actividad."""
+    if udl is None:
+        return [f"{label}: falta el objeto 'udl' del enfoque DUA"]
+    errors = []
+    if len([r for r in udl.representation if len(r.strip()) >= 5]) < 2:
+        errors.append(f"{label}: 'udl.representation' necesita al menos 2 formas de presentar")
+    if len([e for e in udl.expression if len(e.strip()) >= 5]) < 2:
+        errors.append(f"{label}: 'udl.expression' necesita al menos 2 formas de responder")
+    if len(udl.engagement.strip()) < 10:
+        errors.append(f"{label}: falta 'udl.engagement' (conexión con el estudiante)")
+    if not [x for x in udl.supports if len(x.strip()) >= 5]:
+        errors.append(f"{label}: 'udl.supports' necesita al menos un apoyo")
+    return errors
+
+
+def udl_guide_errors(guide: UdlGuide | None) -> list[str]:
+    """SPEC-0016 RN-03: barreras del grupo con su apoyo y autoevaluación."""
+    if guide is None:
+        return ["Falta 'udlGuide' (barreras y autoevaluación del enfoque DUA)"]
+    errors = []
+    barriers = [b for b in guide.barriers if b.barrier.strip() and len(b.support.strip()) >= 5]
+    if not 2 <= len(barriers) <= 5:
+        errors.append("'udlGuide.barriers' debe traer de 2 a 5 barreras, cada una con su apoyo")
+    if not 2 <= len([x for x in guide.selfAssessment if x.strip()]) <= 4:
+        errors.append("'udlGuide.selfAssessment' debe traer de 2 a 4 frases")
+    return errors
+
+
 def validate_workshop(out: WorkshopOut, request: WorkshopRequest) -> list[str]:
     errors: list[str] = []
     allowed = {d.code for d in request.dba}
@@ -487,6 +574,10 @@ def validate_workshop(out: WorkshopOut, request: WorkshopRequest) -> list[str]:
     for t in out.sectionTexts:
         if not 30 <= len(t.content.strip()) <= 3000:
             errors.append(f"La sección '{t.title}' debe tener entre 30 y 3000 caracteres")
+    if request.udl:
+        for i, a in enumerate(activities, start=1):
+            errors += udl_errors(a.udl, f"Actividad {i}")
+        errors += udl_guide_errors(out.udlGuide)
     return errors
 
 
@@ -503,6 +594,8 @@ def validate_item(out: ItemOut, request: ItemRequest) -> list[str]:
         if not isinstance(item, Activity):
             return ["Debe llegar una actividad (title, instructions, durationMinutes, ...)"]
         errors = activity_errors(item, "Actividad", request.durationMinutes, allowed)
+        if wants_udl(request):
+            errors += udl_errors(item.udl, "Actividad")
         text = item.title + item.instructions
         current = request.current.title + request.current.instructions  # type: ignore[union-attr]
     if norm(text) == norm(current):
@@ -537,9 +630,28 @@ def _clean_question(q: QuizQuestion) -> QuizQuestion:
     )
 
 
-def _clean_activity(a: Activity) -> Activity:
+def _strip_all(items: list[str]) -> list[str]:
+    return [x.strip() for x in items if x.strip()]
+
+
+def _clean_udl(udl: ActivityUdl) -> ActivityUdl:
+    return ActivityUdl(
+        representation=_strip_all(udl.representation),
+        expression=_strip_all(udl.expression),
+        engagement=udl.engagement.strip(),
+        supports=_strip_all(udl.supports),
+        challenge=udl.challenge.strip(),
+    )
+
+
+def _clean_activity(a: Activity, udl: bool = True) -> Activity:
+    """`udl=False`: sin enfoque DUA, sus campos se descartan aunque lleguen (RN-04)."""
     return a.model_copy(
-        update={"title": a.title.strip(), "dbaCodes": list(dict.fromkeys(a.dbaCodes))}
+        update={
+            "title": a.title.strip(),
+            "dbaCodes": list(dict.fromkeys(a.dbaCodes)),
+            "udl": _clean_udl(a.udl) if udl and a.udl else None,
+        }
     )
 
 
@@ -572,14 +684,25 @@ def generate_workshop(llm: LLM, request: WorkshopRequest) -> StructuredResult[Wo
     )
     # Los nombres de los momentos quedan con la ortografía canónica de la estructura.
     moments = [
-        Moment(name=name, activities=[_clean_activity(a) for a in m.activities])
+        Moment(name=name, activities=[_clean_activity(a, request.udl) for a in m.activities])
         for name, m in zip(moments_for(request), result.value.moments, strict=True)
     ]
     texts = [
         SectionText(title=section.title, content=t.content.strip())
         for section, t in zip(text_sections(request), result.value.sectionTexts, strict=True)
     ]
-    workshop = result.value.model_copy(update={"moments": moments, "sectionTexts": texts})
+    guide = result.value.udlGuide if request.udl else None
+    if guide is not None:
+        guide = UdlGuide(
+            barriers=[
+                Barrier(barrier=b.barrier.strip(), support=b.support.strip())
+                for b in guide.barriers
+            ],
+            selfAssessment=_strip_all(guide.selfAssessment),
+        )
+    workshop = result.value.model_copy(
+        update={"moments": moments, "sectionTexts": texts, "udlGuide": guide}
+    )
     return replace(result, value=workshop)
 
 
@@ -592,5 +715,9 @@ def regenerate_item(llm: LLM, request: ItemRequest) -> StructuredResult[ItemOut]
         max_tokens=700,
     )
     item = result.value.item
-    cleaned = _clean_question(item) if isinstance(item, QuizQuestion) else _clean_activity(item)
+    cleaned = (
+        _clean_question(item)
+        if isinstance(item, QuizQuestion)
+        else _clean_activity(item, wants_udl(request))
+    )
     return replace(result, value=ItemOut(item=cleaned))

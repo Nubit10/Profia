@@ -207,3 +207,53 @@ describe("safeFilename (RN-06)", () => {
     );
   });
 });
+
+describe("talleres con DUA (SPEC-0016)", () => {
+  const udl = {
+    representation: ["Lectura corta con imágenes", "Explicación en voz alta"],
+    expression: ["Escribir en el cuaderno", "Explicarlo en voz alta", "Hacer un dibujo"],
+    engagement: "Busca un ejemplo de temperaturas bajo cero en las noticias.",
+    supports: ["Ejemplo resuelto paso a paso"],
+    challenge: "Inventa un problema para tu grupo.",
+  };
+  const withUdl: WorkshopContent = {
+    ...workshop,
+    moments: workshop.moments.map((m) => ({
+      ...m,
+      activities: m.activities.map((a) => ({ ...a, udl })),
+    })),
+    udlGuide: {
+      barriers: [
+        { barrier: "Textos largos", support: "Leer en voz alta por partes" },
+        { barrier: "Vocabulario nuevo", support: "Banco de palabras en el tablero" },
+      ],
+      selfAssessment: ["Puedo ubicar enteros en la recta", "Puedo explicar qué es un opuesto"],
+    },
+  };
+
+  it("CA-0016-05: la hoja del estudiante trae 'Elige cómo responder' y 'Mi autoevaluación'; la guía del docente, las barreras", async () => {
+    const student = text(buildWorkshop(withUdl, ctx, "student"));
+    const teacher = text(buildWorkshop(withUdl, ctx, "key"));
+    expect(student).toContain(
+      "Elige cómo responder: Escribir en el cuaderno · Explicarlo en voz alta",
+    );
+    expect(student).toContain("Si necesitas ayuda: Ejemplo resuelto paso a paso");
+    expect(student).toContain("Reto: Inventa un problema para tu grupo.");
+    expect(student).toContain("Mi autoevaluación");
+    expect(student).toContain("[   ] Puedo ubicar enteros en la recta");
+    // Las formas de presentar y las barreras son para el docente.
+    expect(student).not.toContain("Formas de presentar");
+    expect(student).not.toContain("Textos largos");
+    expect(teacher).toContain("Formas de presentar el contenido: Lectura corta con imágenes");
+    expect(teacher).toContain("Barreras posibles y apoyos");
+    expect(teacher).toContain("Textos largos: Leer en voz alta por partes");
+    // Se dibujan en los dos formatos.
+    expect((await renderPdf(buildWorkshop(withUdl, ctx, "student"))).length).toBeGreaterThan(1000);
+    expect((await renderDocx(buildWorkshop(withUdl, ctx, "key"))).length).toBeGreaterThan(1000);
+  });
+
+  it("CA-0016-02: sin DUA, los documentos no cambian", () => {
+    expect(text(buildWorkshop(workshop, ctx, "student"))).not.toContain("Elige cómo responder");
+    expect(text(buildWorkshop(workshop, ctx, "student"))).not.toContain("Mi autoevaluación");
+  });
+});

@@ -4,7 +4,7 @@ import type {
   QuizQuestion,
   WorkshopContent,
 } from "@/modules/resources/client";
-import { LEVEL_LABELS } from "@/modules/resources/client";
+import { LEVEL_LABELS, UDL_LABELS } from "@/modules/resources/client";
 import type { FieldSource, FormatSnapshot } from "@/modules/formats/client";
 import type { DocBlock, DocLogo, DocModel } from "./model";
 import { seededShuffle, type Variant } from "./shuffle";
@@ -137,6 +137,26 @@ const dbaLabel = (codes: string[], ctx: ExportContext) =>
     .map((d) => `DBA ${d!.number}`)
     .join(", ");
 
+const joined = (items: string[]) => items.join(" · ");
+
+/**
+ * SPEC-0016 RN-02: en la hoja del estudiante, lo que él usa (conectar, elegir cómo responder,
+ * ayudas y reto); en la guía del docente, además, las formas de presentar el contenido.
+ */
+function udlLines(a: Activity, teacher: boolean): string[] {
+  const u = a.udl;
+  if (!u) return [];
+  return [
+    u.engagement && `${UDL_LABELS.engagement}: ${u.engagement}`,
+    teacher && u.representation.length
+      ? `${UDL_LABELS.representation}: ${joined(u.representation)}`
+      : "",
+    u.expression.length ? `${UDL_LABELS.expression}: ${joined(u.expression)}` : "",
+    u.supports.length ? `${UDL_LABELS.supports}: ${joined(u.supports)}` : "",
+    u.challenge && `${UDL_LABELS.challenge}: ${u.challenge}`,
+  ].filter((x): x is string => !!x);
+}
+
 function activityBlock(a: Activity, n: number, ctx: ExportContext, teacher: boolean): DocBlock {
   const details = teacher
     ? [
@@ -149,9 +169,26 @@ function activityBlock(a: Activity, n: number, ctx: ExportContext, teacher: bool
     kind: "activity",
     title: `Actividad ${n}. ${a.title} (${a.durationMinutes} min)`,
     instructions: a.instructions,
+    extras: udlLines(a, teacher),
     details,
     answerLines: teacher ? 0 : 4,
   };
+}
+
+/** SPEC-0016 RN-03: autoevaluación al final de la hoja; barreras y apoyos en la del docente. */
+function udlGuideBlocks(content: WorkshopContent, teacher: boolean): DocBlock[] {
+  const guide = content.udlGuide;
+  if (!guide) return [];
+  const blocks: DocBlock[] = [];
+  if (teacher && guide.barriers.length) {
+    blocks.push({ kind: "heading", text: UDL_LABELS.barriers, level: 1 });
+    blocks.push({ kind: "list", items: guide.barriers.map((b) => `${b.barrier}: ${b.support}`) });
+  }
+  if (guide.selfAssessment.length) {
+    blocks.push({ kind: "heading", text: UDL_LABELS.selfAssessment, level: 1 });
+    blocks.push({ kind: "list", items: guide.selfAssessment.map((x) => `[   ] ${x}`) });
+  }
+  return blocks;
 }
 
 export function buildWorkshop(
@@ -182,6 +219,7 @@ export function buildWorkshop(
     blocks.push({ kind: "heading", text: moment.name, level: 1 });
     for (const a of moment.activities) blocks.push(activityBlock(a, ++n, ctx, teacher));
   }
+  blocks.push(...udlGuideBlocks(content, teacher));
   if (teacher) {
     if (content.teacherGuidance.length) {
       blocks.push({ kind: "heading", text: "Orientaciones para el docente", level: 1 });
@@ -265,6 +303,7 @@ function buildFormattedWorkshop(
       );
     }
   }
+  blocks.push(...udlGuideBlocks(content, teacher));
   if (teacher) blocks.push(...teacherAppendix(content, ctx));
   return {
     ...top(

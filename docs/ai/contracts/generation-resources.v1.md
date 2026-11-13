@@ -87,6 +87,18 @@ Respuesta `200`: `{ "workshop": { "title", "purpose", "studentInstructions", "ma
 
 Garantías: momentos exactos y en orden (con la ortografía de la tabla), cada uno con al menos una actividad; total de actividades exacto; duración total entre el 50 % y el 110 % de `durationMinutes`; niveles según la distribución; solo DBA del contexto; orientaciones para el docente presentes.
 
+### Enfoque DUA (SPEC-0016, ADR-0014)
+
+Campo opcional `udl` (booleano, por defecto `false`). Con `true`:
+
+- el prompt suma el anexo `udl.v1` y `meta.promptVersion` es `workshop.v1+udl.v1` (o `workshop.v2+udl.v1`);
+- cada actividad trae `udl: { representation: [2–3], expression: [2–3], engagement, supports: [1–3], challenge }`;
+- el taller trae `udlGuide: { barriers: [{ barrier, support }] (2–5), selfAssessment: [2–4] }`.
+
+El validador exige esos campos y repara si faltan. Con `false` no se piden y, si llegan, se descartan.
+En `/v1/generation/item`, una actividad `current` con `udl` se reescribe con su DUA
+(`item_regenerate.v1+udl.v1`).
+
 ## `POST /v1/generation/item`
 
 Regenera una pregunta o una actividad con la indicación del docente (CA-0008-07). Petición: contexto común más

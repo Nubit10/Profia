@@ -65,6 +65,8 @@ type FormValues = {
   distribution: Record<CognitiveLevel, number>;
   notes: string;
   excludedPreferenceIds: string[];
+  /** SPEC-0016: taller con enfoque DUA. */
+  udl: boolean;
 };
 
 const toBlueprint = (v: FormValues, type: ResourceType, topicId: string) => ({
@@ -81,9 +83,12 @@ const toBlueprint = (v: FormValues, type: ResourceType, topicId: string) => ({
   excludedPreferenceIds: v.excludedPreferenceIds,
   ...(type === "QUIZ"
     ? { questionTypes: v.questionTypes }
-    : v.structure.startsWith("format:")
-      ? { structure: "CUSTOM", formatId: v.structure.slice("format:".length) }
-      : { structure: v.structure }),
+    : {
+        ...(v.structure.startsWith("format:")
+          ? { structure: "CUSTOM", formatId: v.structure.slice("format:".length) }
+          : { structure: v.structure }),
+        udl: !!v.udl,
+      }),
 });
 
 /** El mismo schema del servidor valida el formulario (convención del repo). */
@@ -161,6 +166,8 @@ export function SettingsStep(props: Props) {
       ) as Record<CognitiveLevel, number>,
       notes: "",
       excludedPreferenceIds: [],
+      // SPEC-0016 RN-01: la última elección del docente (la primera vez, sin DUA).
+      udl: context.lastUdl,
     },
   });
   const { errors } = form.formState;
@@ -236,6 +243,7 @@ export function SettingsStep(props: Props) {
     type === "WORKSHOP"
       ? structureLabel(values.structure)
       : (values.questionTypes ?? []).map((t) => QUESTION_TYPE_LABELS[t]).join(", "),
+    ...(type === "WORKSHOP" && values.udl ? ["Con DUA"] : []),
   ];
 
   return (
@@ -252,6 +260,13 @@ export function SettingsStep(props: Props) {
       </div>
 
       <FieldGroup className="rounded-3xl border border-border bg-card p-5 shadow-soft sm:p-6">
+        {type === "WORKSHOP" && (
+          <Controller
+            control={form.control}
+            name="udl"
+            render={({ field }) => <UdlSwitch checked={!!field.value} onChange={field.onChange} />}
+          />
+        )}
         {type === "WORKSHOP" && (
           <FieldSet>
             <FieldLegend className="font-bold">Estructura del taller</FieldLegend>
@@ -587,5 +602,45 @@ export function SettingsStep(props: Props) {
         <p className="text-sm text-muted-foreground">{props.quotaText}</p>
       </div>
     </form>
+  );
+}
+
+/**
+ * SPEC-0016 RN-01: el docente decide si el taller va con enfoque DUA. Una línea dice qué cambia,
+ * sin jerga; el interruptor es un `role="switch"` con su estado anunciado.
+ */
+function UdlSwitch({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <div className="flex items-start gap-3 rounded-2xl border border-brand-border bg-brand-softer p-4">
+      <div className="flex min-w-0 flex-1 flex-col gap-1">
+        <span id="udl-label" className="font-bold">
+          Con enfoque DUA
+        </span>
+        <span id="udl-help" className="text-sm text-muted-foreground">
+          Diseño Universal para el Aprendizaje: cada actividad trae varias formas de presentar el
+          tema y de responder, apoyos y un reto, para que todo el grupo pueda aprender.
+        </span>
+      </div>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={checked}
+        aria-labelledby="udl-label"
+        aria-describedby="udl-help"
+        onClick={() => onChange(!checked)}
+        className={cn(
+          "relative mt-1 inline-flex h-7 w-12 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none max-sm:my-2",
+          checked ? "bg-brand" : "bg-muted-foreground/40",
+        )}
+      >
+        <span
+          aria-hidden
+          className={cn(
+            "inline-block size-6 rounded-full bg-white shadow transition-transform",
+            checked ? "translate-x-5" : "translate-x-0",
+          )}
+        />
+      </button>
+    </div>
   );
 }

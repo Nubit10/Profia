@@ -41,7 +41,6 @@ from ..generation.planning import (
     propose_planning,
 )
 from ..generation.resources import (
-    ITEM_PROMPT_VERSION,
     QUIZ_PROMPT_VERSION,
     ItemOut,
     ItemRequest,
@@ -51,6 +50,7 @@ from ..generation.resources import (
     WorkshopRequest,
     generate_quiz,
     generate_workshop,
+    item_prompt_version,
     regenerate_item,
     workshop_prompt_version,
 )
@@ -361,7 +361,9 @@ def create_app(
         "/v1/generation/item", response_model=ItemResponse, dependencies=[Depends(require_token)]
     )
     def item(body: ItemRequest) -> ItemResponse:
-        value, meta = run_resource("item", ITEM_PROMPT_VERSION, lambda: regenerate_item(llm, body))
+        value, meta = run_resource(
+            "item", item_prompt_version(body), lambda: regenerate_item(llm, body)
+        )
         return ItemResponse(item=value.item, meta=meta)
 
     @app.post(

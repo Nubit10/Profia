@@ -135,6 +135,7 @@ function blocks(b: DocBlock): (Paragraph | Table)[] {
       return [
         p(b.title, { bold: true, spacing: { before: 120, after: 40 }, keepNext: true }),
         p(b.instructions),
+        ...(b.extras ?? []).map((x) => p(x)),
         ...b.details.map((d) => p(d, { color: MUTED, size: 20 })),
         ...answerLines(b.answerLines),
       ];

@@ -87,6 +87,8 @@ export type ResourceFormContext = {
     sections: { title: string; kind: "ACTIVITIES" | "TEXT" | "FIXED" }[];
   }[];
   defaultFormatId: string | null;
+  /** SPEC-0016 RN-01: si el último taller del docente fue con DUA. */
+  lastUdl: boolean;
   quota: { used: number; limit: number; inFlight: number; maxInFlight: number };
 };
 

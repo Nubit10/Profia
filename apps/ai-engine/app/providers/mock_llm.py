@@ -84,6 +84,33 @@ def _activity(i: int, topic: str, level: str, minutes: int, codes: list[str]) ->
     }
 
 
+def _activity_udl(topic: str) -> dict:
+    """SPEC-0016: opciones DUA de una actividad, completas."""
+    return {
+        "representation": [
+            f"Lectura corta sobre {topic} con imágenes",
+            "Explicación en voz alta con un ejemplo en el tablero",
+        ],
+        "expression": [
+            "Escribir la respuesta en el cuaderno",
+            "Explicarla en voz alta a un compañero",
+            "Hacer un dibujo o un esquema",
+        ],
+        "engagement": f"Busca un ejemplo de {topic} en tu casa o en tu barrio y elige cuál usar.",
+        "supports": ["Un ejemplo resuelto paso a paso", "Un banco de palabras clave"],
+        "challenge": f"Inventa un problema nuevo sobre {topic} para tu grupo.",
+    }
+
+
+UDL_GUIDE = {
+    "barriers": [
+        {"barrier": "Textos largos", "support": "Leer en voz alta y dividir el texto en partes"},
+        {"barrier": "Vocabulario nuevo", "support": "Banco de palabras con imágenes en el tablero"},
+    ],
+    "selfAssessment": ["Puedo explicar la idea principal", "Puedo resolver un ejercicio solo"],
+}
+
+
 def _workshop(data: dict) -> dict:
     topic = data["tema"]["titulo"]
     names = data["momentos"]
@@ -98,6 +125,9 @@ def _workshop(data: dict) -> dict:
             _activity(i + k, topic, levels[i + k], minutes, _codes(data.get("dba", []), i + k))
             for k in range(n)
         ]
+        if data.get("enfoqueDUA"):
+            for act in acts:
+                act["udl"] = _activity_udl(topic)
         moments.append({"name": name, "activities": acts})
         i += n
     return {
@@ -107,6 +137,7 @@ def _workshop(data: dict) -> dict:
         "materials": ["Cuaderno", "Lápiz"],
         "moments": moments,
         "teacherGuidance": ["Acompaña a los grupos y retoma los errores frecuentes al cierre."],
+        **({"udlGuide": UDL_GUIDE} if data.get("enfoqueDUA") else {}),
         # SPEC-0010: contenido de las secciones de texto del formato del docente.
         "sectionTexts": [
             {
@@ -139,6 +170,7 @@ def _item(data: dict) -> dict:
             "title": f"{current['title']} (revisada)",
             "instructions": f"Versión revisada ({note}): {current['instructions']}",
             "dbaCodes": _codes(data.get("dba", []), 0),
+            **({"udl": _activity_udl(data["tema"]["titulo"])} if data.get("enfoqueDUA") else {}),
         }
     }
 

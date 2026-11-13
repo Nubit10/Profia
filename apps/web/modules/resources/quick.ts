@@ -61,6 +61,8 @@ export async function quickTopicBlueprint(
     ...base,
     type,
     itemCount: Math.max(defaults.workshopCount, minimum),
+    // SPEC-0016 RN-01: con un toque se repite la última elección del docente sobre el DUA.
+    udl: context.lastUdl,
     ...(format
       ? { structure: "CUSTOM", formatId: format.id }
       : { structure: "START_DEVELOPMENT_CLOSE" }),

@@ -134,6 +134,8 @@ const workshopBlueprint = z.object({
   /** "CUSTOM" = formato propio del docente o del colegio (SPEC-0010). */
   structure: z.enum([...STRUCTURES, "CUSTOM"]),
   formatId: z.string().min(1).optional(),
+  /** SPEC-0016 RN-01: el docente eligió el enfoque DUA. */
+  udl: z.boolean().optional(),
 });
 
 // --- Examen (SPEC-0011) -----------------------------------------------------------------------
@@ -451,6 +453,43 @@ export const quizContentSchema = z.object({
 });
 export type QuizContent = z.infer<typeof quizContentSchema>;
 
+// --- DUA (SPEC-0016) --------------------------------------------------------------------------
+
+const udlLine = z.string().trim().min(1, "No dejes líneas vacías").max(300);
+/** Una línea por opción en el editor; se guardan sin vacías. */
+export const activityUdlSchema = z.object({
+  representation: z.array(udlLine).max(4),
+  expression: z.array(udlLine).max(4),
+  engagement: z.string().trim().max(400),
+  supports: z.array(udlLine).max(4),
+  challenge: z.string().trim().max(400).default(""),
+});
+export type ActivityUdl = z.infer<typeof activityUdlSchema>;
+
+export const udlGuideSchema = z.object({
+  barriers: z
+    .array(
+      z.object({
+        barrier: z.string().trim().min(1, "Escribe la barrera").max(300),
+        support: z.string().trim().min(1, "Escribe el apoyo").max(400),
+      }),
+    )
+    .max(6),
+  selfAssessment: z.array(udlLine).max(5),
+});
+export type UdlGuide = z.infer<typeof udlGuideSchema>;
+
+/** Qué dice cada principio del DUA en la UI y en los documentos (sin jerga). */
+export const UDL_LABELS = {
+  representation: "Formas de presentar el contenido",
+  expression: "Elige cómo responder",
+  engagement: "Para conectar",
+  supports: "Si necesitas ayuda",
+  challenge: "Reto",
+  barriers: "Barreras posibles y apoyos",
+  selfAssessment: "Mi autoevaluación",
+} as const;
+
 export const activitySchema = z.object({
   id: z.string().min(1).max(40),
   title: text(200, "Título de la actividad"),
@@ -459,6 +498,8 @@ export const activitySchema = z.object({
   expectedOutcome: z.string().trim().max(800),
   cognitiveLevel: z.enum(LEVELS),
   dbaCodes: z.array(z.string()).max(6),
+  /** SPEC-0016 RN-02: opciones DUA de la actividad; solo en talleres con enfoque DUA. */
+  udl: activityUdlSchema.optional(),
 });
 export type Activity = z.infer<typeof activitySchema>;
 
@@ -477,6 +518,8 @@ export const workshopContentSchema = z.object({
     .array(z.object({ title: text(120, "Sección"), content: z.string().trim().max(4000) }))
     .max(10)
     .default([]),
+  /** SPEC-0016 RN-03: barreras del grupo con su apoyo y autoevaluación (solo con DUA). */
+  udlGuide: udlGuideSchema.optional(),
 });
 export type WorkshopContent = z.infer<typeof workshopContentSchema>;
 
