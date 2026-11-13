@@ -2,15 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import {
-  HiOutlineArrowDownTray,
-  HiOutlineCheck,
-  HiOutlineSparkles,
-  HiOutlineTrash,
-} from "react-icons/hi2";
+import { HiOutlineArrowDownTray, HiOutlineCheck, HiOutlineTrash } from "react-icons/hi2";
 import { sileo } from "sileo";
+import { AiAvatar } from "@/components/brand/ai-avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { SelectableOption } from "@/components/forms/selectable";
 import {
   Dialog,
   DialogContent,
@@ -203,17 +199,13 @@ export function PiarEditor({ piar, actions }: { piar: PiarDetail; actions: Actio
             />
           </Field>
         </div>
-        <div className="flex items-start gap-3">
-          <Checkbox
-            id="piar-support"
-            checked={content.student.externalSupport}
-            onCheckedChange={(c) => setStudent({ externalSupport: c === true })}
-            className="mt-0.5"
-          />
-          <label htmlFor="piar-support" className="text-sm leading-snug">
-            Tiene una valoración o un soporte externo
-          </label>
-        </div>
+        <SelectableOption
+          id="piar-support"
+          checked={content.student.externalSupport}
+          onCheckedChange={(c) => setStudent({ externalSupport: c })}
+        >
+          Tiene una valoración o un soporte externo
+        </SelectableOption>
         {content.student.externalSupport && (
           <Field>
             <FieldLabel htmlFor="piar-issuer">¿Quién lo emitió?</FieldLabel>
@@ -302,7 +294,7 @@ export function PiarEditor({ piar, actions }: { piar: PiarDetail; actions: Actio
                     aria-busy={proposing === period.number}
                     onClick={() => propose(period.number)}
                   >
-                    <HiOutlineSparkles aria-hidden />
+                    <AiAvatar size={18} />
                     {proposing === period.number ? "Proponiendo…" : "Proponer ajustes con IA"}
                     <span className="sr-only"> para {period.name}</span>
                   </Button>

@@ -1,5 +1,6 @@
 "use client";
 
+import { AiAvatar } from "@/components/brand/ai-avatar";
 import { DbaChips } from "@/components/curriculum/dba-chip";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -12,7 +13,6 @@ import {
   HiOutlineArrowUp,
   HiOutlineExclamationTriangle,
   HiOutlinePlus,
-  HiOutlineSparkles,
   HiOutlineTrash,
 } from "react-icons/hi2";
 import { sileo } from "sileo";
@@ -20,7 +20,7 @@ import { DRAFT_STORAGE_PREFIX } from "@/components/app-shell/app-shell";
 import { SelectField } from "@/components/forms/select-field";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { SelectableOption } from "@/components/forms/selectable";
 import {
   Field,
   FieldDescription,
@@ -275,7 +275,7 @@ export function ExamSettingsStep(props: Props) {
         </div>
 
         <p className="flex items-start gap-2 text-sm text-muted-foreground">
-          <HiOutlineSparkles className="mt-0.5 shrink-0 text-brand" aria-hidden />
+          <AiAvatar size={18} className="mt-0.5" />
           La IA prepara el examen por secciones, en segundo plano; suele tardar uno o dos minutos.
           Usa {context.quota.cost} de tus recursos con IA del día. Luego lo revisas, lo editas y
           decides cuándo está listo.
@@ -293,7 +293,7 @@ export function ExamSettingsStep(props: Props) {
             Volver a ajustes
           </Button>
           <Button type="submit" variant="brand" size="xl" disabled={submitting || props.blocked}>
-            <HiOutlineSparkles aria-hidden />
+            <AiAvatar size={20} tone="light" />
             {submitting ? "Enviando…" : "Generar examen"}
           </Button>
           <p className="text-sm text-muted-foreground sm:ml-auto">{props.quotaText}</p>
@@ -571,13 +571,9 @@ export function ExamSettingsStep(props: Props) {
                       const id = `objective-${o.id}`;
                       const checked = field.value.includes(o.id);
                       return (
-                        <li
-                          key={o.id}
-                          className="flex items-start gap-3 rounded-xl border border-border p-3"
-                        >
-                          <Checkbox
+                        <li key={o.id} className="flex flex-col gap-1.5">
+                          <SelectableOption
                             id={id}
-                            aria-labelledby={`${id}-label`}
                             checked={checked}
                             disabled={!checked && field.value.length >= EXAM_LIMITS.objectives}
                             onCheckedChange={(c) =>
@@ -585,15 +581,11 @@ export function ExamSettingsStep(props: Props) {
                                 c ? [...field.value, o.id] : field.value.filter((x) => x !== o.id),
                               )
                             }
-                            className="mt-0.5"
-                          />
-                          <div className="flex min-w-0 flex-col gap-1.5">
-                            <label id={`${id}-label`} htmlFor={id} className="text-sm leading-snug">
-                              {o.statement}
-                              <span className="text-muted-foreground"> · {o.topic}</span>
-                            </label>
-                            <DbaChips codes={o.dbaCodes} label="DBA del objetivo" />
-                          </div>
+                            description={o.topic}
+                          >
+                            {o.statement}
+                          </SelectableOption>
+                          <DbaChips codes={o.dbaCodes} label="DBA del objetivo" className="ml-8" />
                         </li>
                       );
                     })}

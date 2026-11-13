@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { HiOutlineArrowRight } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { SelectableOption } from "@/components/forms/selectable";
 import type { TopicOutline } from "@/modules/planning/client";
 import { EXAM_LIMITS, type ExamScope } from "@/modules/resources/client";
 
@@ -109,20 +109,16 @@ export function ExamTopicsStep({ units, initial, scope, onContinue }: Props) {
                       const id = `exam-topic-${t.id}`;
                       const checked = selected.includes(t.id);
                       return (
-                        <li
-                          key={t.id}
-                          className="flex items-center gap-3 rounded-2xl border border-border p-3"
-                        >
-                          <Checkbox
+                        <li key={t.id}>
+                          <SelectableOption
                             id={id}
-                            aria-labelledby={`${id}-label`}
                             checked={checked}
                             disabled={!checked && selected.length >= max}
-                            onCheckedChange={(c) => toggle([t.id], !!c)}
-                          />
-                          <label id={`${id}-label`} htmlFor={id} className="text-sm font-semibold">
+                            onCheckedChange={(c) => toggle([t.id], c)}
+                            className="h-full"
+                          >
                             {t.title}
-                          </label>
+                          </SelectableOption>
                         </li>
                       );
                     })}

@@ -2,14 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import {
-  HiCheck,
-  HiChevronUpDown,
-  HiOutlineBuildingLibrary,
-  HiOutlineSparkles,
-  HiOutlineUser,
-} from "react-icons/hi2";
+import { HiCheck, HiChevronUpDown, HiOutlineBuildingLibrary, HiOutlineUser } from "react-icons/hi2";
 import { sileo } from "sileo";
+import { AiAvatar } from "@/components/brand/ai-avatar";
 import { ProfeMark } from "@/components/brand/profe-logo";
 import {
   DropdownMenu,
@@ -139,7 +134,7 @@ export function IdentityCard({ identity, quota, spaces, activeSpaceId, switchSpa
             className={cn("mt-1 flex items-center gap-1.5 text-xs font-semibold", line.tone)}
             data-testid="quota-line"
           >
-            <HiOutlineSparkles className="size-3.5 shrink-0" aria-hidden />
+            <AiAvatar size={14} />
             <span>{line.text}</span>
           </p>
         )}

@@ -11,9 +11,9 @@ import {
   HiOutlineExclamationTriangle,
   HiOutlinePencilSquare,
   HiOutlinePlus,
-  HiOutlineSparkles,
 } from "react-icons/hi2";
 import { sileo } from "sileo";
+import { AiAvatar } from "@/components/brand/ai-avatar";
 import type { QuotaView } from "@/components/app-shell/identity-card";
 import { PageHeader } from "@/components/page-header";
 import { Stepper } from "@/components/stepper";
@@ -387,9 +387,9 @@ export function CreateWizard(props: Props) {
                                           : `${t.objectiveCount} ${t.objectiveCount === 1 ? "objetivo" : "objetivos"}`}
                                       </span>
                                     </span>
-                                    <HiOutlineSparkles
-                                      className="size-5 shrink-0 text-muted-foreground transition group-hover:text-brand"
-                                      aria-hidden
+                                    <AiAvatar
+                                      size={22}
+                                      className="opacity-70 transition group-hover:opacity-100"
                                     />
                                   </Link>
                                 </li>

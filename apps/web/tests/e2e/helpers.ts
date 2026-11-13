@@ -104,6 +104,11 @@ export async function download(page: Page, name: string) {
 
 /** Elige una opción de un select de Base UI asociado a la etiqueta `label`. */
 export async function choose(page: Page, label: string, option: string) {
-  await page.getByLabel(label, { exact: true }).click();
+  const field = page.getByLabel(label, { exact: true });
+  await field.click();
   await page.getByRole("option", { name: option, exact: true }).click();
+  // Que la lista termine de cerrarse antes de seguir: si no, el siguiente clic cae sobre ella
+  // mientras se anima (pasaba a 360 px con la suite en paralelo).
+  await expect(page.getByRole("listbox")).toHaveCount(0);
+  await expect(field).toContainText(option);
 }

@@ -11,9 +11,9 @@ import {
   HiOutlineDocumentDuplicate,
   HiOutlineEllipsisHorizontal,
   HiOutlineExclamationTriangle,
-  HiOutlineSparkles,
 } from "react-icons/hi2";
 import { sileo } from "sileo";
+import { AiAvatar } from "@/components/brand/ai-avatar";
 import { requestOfflineSync } from "@/components/offline/offline-sync";
 import { StatusBadge } from "@/components/resource-list";
 import { Badge } from "@/components/ui/badge";
@@ -237,9 +237,7 @@ function GenerationProgress({ type }: { type: ResourceDetail["type"] }) {
       role="status"
     >
       <div className="flex items-start gap-4">
-        <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient text-white shadow-lift">
-          <HiOutlineSparkles className="size-6 motion-safe:animate-pulse" aria-hidden />
-        </span>
+        <AiAvatar size={48} className="shadow-lift motion-safe:animate-pulse" />
         <div className="flex flex-col gap-1">
           <p className="text-lg font-extrabold">Estamos creando tu {label}</p>
           <p className="text-muted-foreground" aria-live="polite">

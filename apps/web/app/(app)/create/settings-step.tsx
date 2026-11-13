@@ -1,5 +1,6 @@
 "use client";
 
+import { AiAvatar } from "@/components/brand/ai-avatar";
 import { DbaChips } from "@/components/curriculum/dba-chip";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -8,14 +9,13 @@ import {
   HiOutlineAdjustmentsHorizontal,
   HiOutlineArrowRight,
   HiOutlineExclamationTriangle,
-  HiOutlineSparkles,
 } from "react-icons/hi2";
 import { sileo } from "sileo";
 import { DRAFT_STORAGE_PREFIX } from "@/components/app-shell/app-shell";
 import { SelectField } from "@/components/forms/select-field";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { SelectableOption } from "@/components/forms/selectable";
 import {
   Field,
   FieldDescription,
@@ -413,27 +413,19 @@ export function SettingsStep(props: Props) {
               control={form.control}
               name="questionTypes"
               render={({ field }) => (
-                <div className="flex flex-wrap gap-4">
-                  {QUESTION_TYPES.map((t) => {
-                    const id = `type-${t}`;
-                    return (
-                      <div key={t} className="flex items-center gap-2">
-                        <Checkbox
-                          id={id}
-                          aria-labelledby={`${id}-label`}
-                          checked={field.value.includes(t)}
-                          onCheckedChange={(c) =>
-                            field.onChange(
-                              c ? [...field.value, t] : field.value.filter((x) => x !== t),
-                            )
-                          }
-                        />
-                        <label id={`${id}-label`} htmlFor={id} className="text-sm">
-                          {QUESTION_TYPE_LABELS[t]}
-                        </label>
-                      </div>
-                    );
-                  })}
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                  {QUESTION_TYPES.map((t) => (
+                    <SelectableOption
+                      key={t}
+                      id={`type-${t}`}
+                      checked={field.value.includes(t)}
+                      onCheckedChange={(c) =>
+                        field.onChange(c ? [...field.value, t] : field.value.filter((x) => x !== t))
+                      }
+                    >
+                      {QUESTION_TYPE_LABELS[t]}
+                    </SelectableOption>
+                  ))}
                 </div>
               )}
             />
@@ -480,13 +472,9 @@ export function SettingsStep(props: Props) {
                       const id = `objective-${o.id}`;
                       const checked = field.value.includes(o.id);
                       return (
-                        <li
-                          key={o.id}
-                          className="flex items-start gap-3 rounded-xl border border-border p-3"
-                        >
-                          <Checkbox
+                        <li key={o.id} className="flex flex-col gap-1.5">
+                          <SelectableOption
                             id={id}
-                            aria-labelledby={`${id}-label`}
                             checked={checked}
                             disabled={!checked && field.value.length >= 5}
                             onCheckedChange={(c) =>
@@ -494,20 +482,11 @@ export function SettingsStep(props: Props) {
                                 c ? [...field.value, o.id] : field.value.filter((x) => x !== o.id),
                               )
                             }
-                            className="mt-0.5"
-                          />
-                          <div className="flex min-w-0 flex-col gap-1.5">
-                            <label id={`${id}-label`} htmlFor={id} className="text-sm leading-snug">
-                              {o.statement}
-                              {o.dbaCodes.length > 0 && (
-                                <span className="text-muted-foreground">
-                                  {" "}
-                                  · {o.dbaCodes.length} DBA
-                                </span>
-                              )}
-                            </label>
-                            <DbaChips codes={o.dbaCodes} label="DBA del objetivo" />
-                          </div>
+                          >
+                            {o.statement}
+                          </SelectableOption>
+                          {/* Las fichas de DBA son botones: van fuera de la opción, no dentro. */}
+                          <DbaChips codes={o.dbaCodes} label="DBA del objetivo" className="ml-8" />
                         </li>
                       );
                     })}
@@ -588,7 +567,7 @@ export function SettingsStep(props: Props) {
       )}
 
       <p className="flex items-start gap-2 text-sm text-muted-foreground">
-        <HiOutlineSparkles className="mt-0.5 shrink-0 text-brand" aria-hidden />
+        <AiAvatar size={18} className="mt-0.5" />
         La IA lo prepara en segundo plano, normalmente en menos de un minuto. Luego lo revisas, lo
         editas y decides cuándo está listo.
       </p>
@@ -596,7 +575,7 @@ export function SettingsStep(props: Props) {
       <FieldError errors={[errors.root]} />
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <Button type="submit" variant="brand" size="xl" disabled={submitting || props.blocked}>
-          <HiOutlineSparkles aria-hidden />
+          <AiAvatar size={20} tone="light" />
           {submitting ? "Enviando…" : `Generar ${label}`}
         </Button>
         <p className="text-sm text-muted-foreground">{props.quotaText}</p>

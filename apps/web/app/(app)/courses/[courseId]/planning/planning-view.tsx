@@ -19,9 +19,9 @@ import {
   HiOutlineExclamationTriangle,
   HiOutlinePencilSquare,
   HiOutlinePlus,
-  HiOutlineSparkles,
 } from "react-icons/hi2";
 import { sileo } from "sileo";
+import { AiAvatar, AiIcon } from "@/components/brand/ai-avatar";
 import { DbaCatalogProvider, DbaChip, DbaChips } from "@/components/curriculum/dba-chip";
 import { SelectField } from "@/components/forms/select-field";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -349,7 +349,7 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
           </Button>
           {canPropose && (
             <Button variant="outline" onClick={() => setDialog({ type: "proposalPick" })}>
-              <HiOutlineSparkles aria-hidden />
+              <AiAvatar size={18} />
               Proponer temas con IA
             </Button>
           )}
@@ -416,7 +416,7 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                   variant="outline"
                   onClick={() => proposeFor({ scope: "YEAR", courseId: course.id }, "Todo el año")}
                 >
-                  <HiOutlineSparkles aria-hidden />
+                  <AiAvatar size={18} />
                   Proponer el año con IA
                 </Button>
               ) : (
@@ -450,7 +450,7 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                     variant="ghost"
                     onClick={() => proposePeriod(group.period!.number, group.period!.name)}
                   >
-                    <HiOutlineSparkles aria-hidden />
+                    <AiAvatar size={18} />
                     Proponer temas con IA
                     <span className="sr-only"> para {group.period.name}</span>
                   </Button>
@@ -490,7 +490,7 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                         size="sm"
                         onClick={() => proposePeriod(group.period!.number, group.period!.name)}
                       >
-                        <HiOutlineSparkles aria-hidden />
+                        <AiAvatar size={18} />
                         Proponer temas con IA
                         <span className="sr-only"> para {group.period.name}</span>
                       </Button>
@@ -522,7 +522,7 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                                   )
                                 }
                               >
-                                <HiOutlineSparkles aria-hidden />
+                                <AiAvatar size={18} />
                                 Proponer objetivos
                               </DropdownMenuItem>
                             )}
@@ -592,7 +592,7 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                                         ? [
                                             {
                                               label: "Proponer temas",
-                                              icon: HiOutlineSparkles,
+                                              icon: AiIcon,
                                               onClick: () =>
                                                 proposeFor(
                                                   { scope: "UNIT", unitId: unit.id },
@@ -607,7 +607,7 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                                               ? [
                                                   {
                                                     label: "Proponer objetivos",
-                                                    icon: HiOutlineSparkles,
+                                                    icon: AiIcon,
                                                     onClick: () =>
                                                       proposeObjectives(
                                                         { scope: "UNIT", unitId: unit.id },
@@ -733,7 +733,7 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                                       })
                                     }
                                   >
-                                    <HiOutlineSparkles aria-hidden />
+                                    <AiAvatar size={18} />
                                     Sugerir objetivos con IA
                                   </Button>
                                 )}

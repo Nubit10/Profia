@@ -6,7 +6,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { HiOutlineArrowPath, HiOutlineCheck } from "react-icons/hi2";
 import { sileo } from "sileo";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { SelectToggle } from "@/components/forms/selectable";
 import { Textarea } from "@/components/ui/textarea";
 import type { ActionResult } from "@/lib/action-result";
 import { cn } from "@/lib/utils";
@@ -189,12 +189,11 @@ export function ObjectivesBatchPanel({
             <ul className="flex flex-col gap-2">
               {topic.rows.map((row, index) => (
                 <li key={row.key} className="flex items-start gap-2">
-                  <Checkbox
-                    aria-label={`Incluir el objetivo ${index + 1} de «${topic.title}»`}
+                  <SelectToggle
+                    label={`Incluir el objetivo ${index + 1} de «${topic.title}»`}
                     checked={row.on}
                     disabled={isSaving}
                     onCheckedChange={(on) => patch(topic.topicId, row.key, { on })}
-                    className="mt-3"
                   />
                   <div
                     className={cn("flex min-w-0 flex-1 flex-col gap-1", !row.on && "opacity-60")}
@@ -221,7 +220,10 @@ export function ObjectivesBatchPanel({
           </section>
         );
       })}
-      <div className="sticky bottom-0 -mx-1 flex flex-col gap-2 border-t bg-background px-1 pt-3 sm:flex-row sm:items-center sm:justify-between">
+      <div
+        data-sticky-footer=""
+        className="sticky bottom-0 z-10 -mx-4 flex flex-col gap-2 border-t bg-popover/95 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur sm:-mx-5 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:pb-3"
+      >
         <p className="text-xs text-muted-foreground">
           {over.length > 0
             ? `Desmarca alguno: cada tema tiene un máximo de ${MAX_OBJECTIVES_PER_TOPIC} objetivos.`

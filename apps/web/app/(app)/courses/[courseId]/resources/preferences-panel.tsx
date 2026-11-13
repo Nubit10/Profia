@@ -4,7 +4,7 @@ import { useState } from "react";
 import { HiOutlinePlus, HiOutlineTrash } from "react-icons/hi2";
 import { SelectField } from "@/components/forms/select-field";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { SelectableOption } from "@/components/forms/selectable";
 import { FieldDescription, FieldLegend, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import type { ActionResult } from "@/lib/action-result";
@@ -71,25 +71,19 @@ export function PreferencesPanel({
                 key={p.id}
                 className="flex flex-col gap-2 rounded-lg border p-2.5 sm:flex-row sm:items-center"
               >
-                <div className="flex flex-1 items-start gap-2">
-                  <Checkbox
-                    id={id}
-                    aria-labelledby={`${id}-label`}
-                    checked={p.active && !excluded.includes(p.id)}
-                    disabled={!p.active}
-                    onCheckedChange={(c) =>
-                      onExcludedChange(c ? excluded.filter((x) => x !== p.id) : [...excluded, p.id])
-                    }
-                    className="mt-0.5"
-                  />
-                  <label
-                    id={`${id}-label`}
-                    htmlFor={id}
-                    className={p.active ? "text-sm" : "text-sm text-muted-foreground line-through"}
-                  >
+                <SelectableOption
+                  id={id}
+                  checked={p.active && !excluded.includes(p.id)}
+                  disabled={!p.active}
+                  onCheckedChange={(c) =>
+                    onExcludedChange(c ? excluded.filter((x) => x !== p.id) : [...excluded, p.id])
+                  }
+                  className="flex-1"
+                >
+                  <span className={p.active ? undefined : "text-muted-foreground line-through"}>
                     {p.text}
-                  </label>
-                </div>
+                  </span>
+                </SelectableOption>
                 <div className="flex items-center gap-1">
                   <div className="w-40">
                     <SelectField

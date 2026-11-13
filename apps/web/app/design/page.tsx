@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { HiOutlineFolderOpen, HiOutlineSparkles } from "react-icons/hi2";
+import { HiOutlineFolderOpen } from "react-icons/hi2";
+import { AiAvatar } from "@/components/brand/ai-avatar";
 import { ProfeLogo } from "@/components/brand/profe-logo";
 import { EmptyState } from "@/components/empty-state";
 import { PageHeader } from "@/components/page-header";
@@ -79,7 +80,7 @@ export default function DesignPage() {
         </p>
         <div className="flex flex-wrap items-center gap-3">
           <Button variant="brand" size="lg">
-            <HiOutlineSparkles aria-hidden />
+            <AiAvatar size={20} tone="light" />
             Generar taller
           </Button>
           <Button size="lg">Continuar</Button>

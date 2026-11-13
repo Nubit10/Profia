@@ -13,7 +13,7 @@ import { sileo } from "sileo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
+import { SelectableOption } from "@/components/forms/selectable";
 import {
   Field,
   FieldError,
@@ -120,29 +120,22 @@ export function InvitationsSection({
               render={({ field }) => (
                 <FieldSet>
                   <FieldLegend variant="label">Rol</FieldLegend>
-                  <div className="flex flex-wrap gap-4">
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                     {ROLES.map((role) => (
-                      <Field key={role} orientation="horizontal" className="w-auto">
-                        <Checkbox
-                          id={`invite-role-${role}`}
-                          aria-labelledby={`invite-role-${role}-label`}
-                          checked={field.value.includes(role)}
-                          onCheckedChange={(checked) =>
-                            field.onChange(
-                              checked
-                                ? [...field.value, role]
-                                : field.value.filter((r) => r !== role),
-                            )
-                          }
-                        />
-                        <FieldLabel
-                          id={`invite-role-${role}-label`}
-                          htmlFor={`invite-role-${role}`}
-                          className="font-normal"
-                        >
-                          {ROLE_LABELS[role]}
-                        </FieldLabel>
-                      </Field>
+                      <SelectableOption
+                        key={role}
+                        id={`invite-role-${role}`}
+                        checked={field.value.includes(role)}
+                        onCheckedChange={(checked) =>
+                          field.onChange(
+                            checked
+                              ? [...field.value, role]
+                              : field.value.filter((r) => r !== role),
+                          )
+                        }
+                      >
+                        {ROLE_LABELS[role]}
+                      </SelectableOption>
                     ))}
                   </div>
                   <FieldError errors={[errors.roles as { message?: string } | undefined]} />

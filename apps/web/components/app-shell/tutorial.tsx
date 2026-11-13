@@ -5,10 +5,10 @@ import type { IconType } from "react-icons";
 import {
   HiOutlineArrowDownTray,
   HiOutlineCalendarDays,
-  HiOutlineSparkles,
   HiOutlineSquares2X2,
   HiXMark,
 } from "react-icons/hi2";
+import { AiIcon } from "@/components/brand/ai-avatar";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -34,7 +34,7 @@ const STEPS: Step[] = [
     text: "Organiza el año en periodos, unidades y temas. Profe te sugiere objetivos alineados con los DBA.",
   },
   {
-    icon: HiOutlineSparkles,
+    icon: AiIcon,
     title: "3. Crea con IA y revisa",
     text: "Con el botón Crear haces un taller o un quiz en minutos. La IA propone; tú revisas, editas y decides.",
   },

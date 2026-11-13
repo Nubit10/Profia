@@ -5,7 +5,7 @@ import { Controller, useForm, type FieldPath } from "react-hook-form";
 import { sileo } from "sileo";
 import { SelectField } from "@/components/forms/select-field";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { SelectableOption } from "@/components/forms/selectable";
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import type { ActionResult } from "@/lib/action-result";
@@ -130,17 +130,13 @@ export function SchoolForm({ mode, defaultValues, action, onSuccess, submitLabel
             control={form.control}
             name="alsoTeaches"
             render={({ field }) => (
-              <Field orientation="horizontal">
-                <Checkbox
-                  id="alsoTeaches"
-                  aria-labelledby="alsoTeaches-label"
-                  checked={!!field.value}
-                  onCheckedChange={(checked) => field.onChange(checked)}
-                />
-                <FieldLabel id="alsoTeaches-label" htmlFor="alsoTeaches" className="font-normal">
-                  También doy clases en este colegio
-                </FieldLabel>
-              </Field>
+              <SelectableOption
+                id="alsoTeaches"
+                checked={!!field.value}
+                onCheckedChange={(checked) => field.onChange(checked)}
+              >
+                También doy clases en este colegio
+              </SelectableOption>
             )}
           />
         )}

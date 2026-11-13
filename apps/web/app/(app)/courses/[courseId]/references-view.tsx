@@ -4,10 +4,10 @@ import { useMemo, useState, useTransition } from "react";
 import {
   HiOutlineArrowTopRightOnSquare,
   HiOutlineMagnifyingGlass,
-  HiOutlineSparkles,
   HiOutlineXMark,
 } from "react-icons/hi2";
 import { sileo } from "sileo";
+import { AiAvatar } from "@/components/brand/ai-avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -124,9 +124,9 @@ export function ReferencesView({ courseId, references, emptyForGrade, searchActi
 
       <form onSubmit={search} className="flex flex-col gap-2 sm:flex-row" role="search">
         <div className="relative flex-1">
-          <HiOutlineSparkles
-            className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground"
-            aria-hidden
+          <AiAvatar
+            size={18}
+            className="pointer-events-none absolute top-1/2 left-2.5 -translate-y-1/2"
           />
           <Input
             value={question}

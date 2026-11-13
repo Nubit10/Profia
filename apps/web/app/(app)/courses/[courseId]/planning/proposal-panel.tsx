@@ -6,7 +6,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { HiOutlineArrowPath, HiOutlineExclamationTriangle, HiOutlinePlus } from "react-icons/hi2";
 import { sileo } from "sileo";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { SelectToggle } from "@/components/forms/selectable";
 import { Input } from "@/components/ui/input";
 import type { ActionResult } from "@/lib/action-result";
 import { cn } from "@/lib/utils";
@@ -107,13 +107,12 @@ function TopicRow({
   const id = `prop-topic-${topic.key}`;
   return (
     <li className="flex items-start gap-2 py-2">
-      <Checkbox
+      <SelectToggle
         id={id}
-        aria-label={`Incluir el tema «${topic.title}»`}
+        label={`Incluir el tema «${topic.title}»`}
         checked={topic.on}
         disabled={disabled}
         onCheckedChange={(on) => onChange({ on })}
-        className="mt-3"
       />
       <div className={cn("flex min-w-0 flex-1 flex-col gap-1", !topic.on && "opacity-60")}>
         <Input
@@ -334,12 +333,11 @@ export function ProposalPanel({
                 >
                   <div className="flex items-start gap-2">
                     {!unit.unitId && (
-                      <Checkbox
-                        aria-label={`Incluir la unidad «${unit.title}»`}
+                      <SelectToggle
+                        label={`Incluir la unidad «${unit.title}»`}
                         checked={unit.on}
                         disabled={busy}
                         onCheckedChange={(on) => patchUnit(unit.key, { on })}
-                        className="mt-3"
                       />
                     )}
                     <div className="flex min-w-0 flex-1 flex-col gap-1">
@@ -393,7 +391,10 @@ export function ProposalPanel({
         );
       })}
 
-      <div className="sticky bottom-0 -mx-1 flex flex-col gap-2 border-t bg-background px-1 pt-3 sm:flex-row sm:items-center sm:justify-between">
+      <div
+        data-sticky-footer=""
+        className="sticky bottom-0 z-10 -mx-4 flex flex-col gap-2 border-t bg-popover/95 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur sm:-mx-5 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:pb-3"
+      >
         <p className="text-xs text-muted-foreground">
           Se agrega al final de tu planeación; lo que ya tienes no cambia.
         </p>

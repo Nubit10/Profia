@@ -6,8 +6,8 @@ import {
   HiOutlineBookOpen,
   HiOutlineCalendarDays,
   HiOutlineRectangleStack,
-  HiOutlineSparkles,
 } from "react-icons/hi2";
+import { AiAvatar } from "@/components/brand/ai-avatar";
 import { buttonVariants } from "@/components/ui/button";
 import { subjectTint } from "@/lib/subject-tint";
 import { LINKABLE_AREAS } from "@/lib/curriculum-areas";
@@ -107,7 +107,7 @@ export default async function CoursePage({
             href={`/create?courseId=${course.id}`}
             className={cn(buttonVariants({ variant: "brand", size: "lg" }), "max-sm:w-full")}
           >
-            <HiOutlineSparkles aria-hidden />
+            <AiAvatar size={20} tone="light" />
             Crear con IA
           </Link>
         </div>

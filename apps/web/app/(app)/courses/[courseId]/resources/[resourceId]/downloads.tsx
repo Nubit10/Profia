@@ -8,7 +8,7 @@ import {
   HiOutlineExclamationTriangle,
 } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { SelectableOption } from "@/components/forms/selectable";
 import {
   Dialog,
   DialogContent,
@@ -185,21 +185,18 @@ function DownloadForm(props: Props & { onDone: () => void }) {
         {docOptions.map(({ doc, label }) => {
           const id = `download-${doc}`;
           return (
-            <div key={doc} className="flex min-h-11 items-center gap-3">
-              <Checkbox
-                id={id}
-                aria-labelledby={`${id}-label`}
-                checked={docs.includes(doc)}
-                onCheckedChange={(checked) =>
-                  update({
-                    docs: checked ? [...docs, doc] : docs.filter((d) => d !== doc),
-                  })
-                }
-              />
-              <label id={`${id}-label`} htmlFor={id} className="text-sm font-medium">
-                {label}
-              </label>
-            </div>
+            <SelectableOption
+              key={doc}
+              id={id}
+              checked={docs.includes(doc)}
+              onCheckedChange={(checked) =>
+                update({
+                  docs: checked ? [...docs, doc] : docs.filter((d) => d !== doc),
+                })
+              }
+            >
+              {label}
+            </SelectableOption>
           );
         })}
         {docs.length === 0 && (

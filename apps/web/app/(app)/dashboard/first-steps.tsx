@@ -7,10 +7,10 @@ import {
   HiOutlineArrowRight,
   HiOutlineBookOpen,
   HiOutlinePencilSquare,
-  HiOutlineSparkles,
   HiXMark,
 } from "react-icons/hi2";
 import type { IconType } from "react-icons";
+import { AiAvatar, AiIcon } from "@/components/brand/ai-avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -55,7 +55,7 @@ function stepView(key: FirstStepKey, steps: FirstSteps): StepView {
           steps.courseId && steps.topicId
             ? `/create?type=WORKSHOP&courseId=${steps.courseId}&topicId=${steps.topicId}`
             : "/create?type=WORKSHOP",
-        icon: HiOutlineSparkles,
+        icon: AiIcon,
       };
     case "DOWNLOAD":
       return {
@@ -99,7 +99,7 @@ export function FirstStepsCard({
         <div className="flex items-start justify-between gap-3">
           <div className="flex flex-col gap-1">
             <p className="flex items-center gap-1.5 text-sm font-bold text-brand-strong">
-              <HiOutlineSparkles aria-hidden />
+              <AiAvatar size={18} />
               {doneCount} de {ORDER.length} listos
             </p>
             <h2 id="first-steps-title" className="text-xl font-extrabold sm:text-2xl">

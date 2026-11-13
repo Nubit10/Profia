@@ -12,7 +12,7 @@ import {
 import { sileo } from "sileo";
 import { SelectField } from "@/components/forms/select-field";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { SelectableOption } from "@/components/forms/selectable";
 import { Textarea } from "@/components/ui/textarea";
 import type { ActionResult } from "@/lib/action-result";
 import {
@@ -98,17 +98,9 @@ function CommentBox({
         onChange={(e) => setComment(e.target.value)}
       />
       <div className="flex flex-wrap items-center gap-2">
-        <div className="flex items-center gap-2">
-          <Checkbox
-            id={id}
-            aria-labelledby={`${id}-label`}
-            checked={save}
-            onCheckedChange={(c) => setSave(!!c)}
-          />
-          <label id={`${id}-label`} htmlFor={id} className="text-sm">
-            Tenerlo en cuenta en mis próximas generaciones
-          </label>
-        </div>
+        <SelectableOption id={id} checked={save} onCheckedChange={setSave} className="sm:w-auto">
+          Tenerlo en cuenta en mis próximas generaciones
+        </SelectableOption>
         {save && (
           <div className="w-44">
             <SelectField

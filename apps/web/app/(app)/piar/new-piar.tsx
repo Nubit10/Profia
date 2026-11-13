@@ -6,7 +6,7 @@ import { HiOutlinePlus } from "react-icons/hi2";
 import { sileo } from "sileo";
 import { SelectField } from "@/components/forms/select-field";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { SelectableOption } from "@/components/forms/selectable";
 import {
   Dialog,
   DialogContent,
@@ -107,19 +107,15 @@ export function NewPiar({
               />
             </Field>
             <Field data-invalid={!!errors.consent}>
-              <div className="flex items-start gap-3">
-                <Checkbox
-                  id="piar-consent"
-                  checked={consent}
-                  onCheckedChange={(c) => setConsent(c === true)}
-                  aria-invalid={!!errors.consent}
-                  className="mt-0.5"
-                />
-                <label htmlFor="piar-consent" className="text-sm leading-snug">
-                  Tengo la autorización del acudiente y del colegio para registrar estos datos (Ley
-                  1581 de 2012).
-                </label>
-              </div>
+              <SelectableOption
+                id="piar-consent"
+                checked={consent}
+                onCheckedChange={setConsent}
+                invalid={!!errors.consent}
+              >
+                Tengo la autorización del acudiente y del colegio para registrar estos datos (Ley
+                1581 de 2012).
+              </SelectableOption>
               <FieldError errors={[errors.consent ? { message: errors.consent } : undefined]} />
             </Field>
             <Button type="submit" size="lg" disabled={pending}>

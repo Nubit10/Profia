@@ -10,8 +10,8 @@ import {
   HiOutlineFolderOpen,
   HiOutlinePencilSquare,
   HiOutlinePlus,
-  HiOutlineSparkles,
 } from "react-icons/hi2";
+import { AiAvatar } from "@/components/brand/ai-avatar";
 import { EmptyState } from "@/components/empty-state";
 import { OfflinePanel } from "@/components/offline/offline-panel";
 import { ResourceList, StatusBadge } from "@/components/resource-list";
@@ -133,7 +133,7 @@ export function TeacherHomeView(props: Props) {
             <div aria-hidden className="absolute inset-0 bg-hero opacity-80" />
             <div className="relative flex flex-col gap-3">
               <p className="flex items-center gap-1.5 text-sm font-bold text-brand-strong">
-                <HiOutlineSparkles aria-hidden />
+                <AiAvatar size={18} />
                 Siguiente paso
               </p>
               <h2 id="next-step-title" className="text-xl font-extrabold sm:text-2xl">

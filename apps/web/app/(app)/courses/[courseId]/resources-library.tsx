@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { HiOutlineArchiveBox, HiOutlineCalendarDays, HiOutlineSparkles } from "react-icons/hi2";
+import { HiOutlineArchiveBox, HiOutlineCalendarDays } from "react-icons/hi2";
 import { EmptyState } from "@/components/empty-state";
 import { PlanResources } from "@/components/plan-resources";
 import { buttonVariants } from "@/components/ui/button";
@@ -57,7 +57,7 @@ export function ResourcesLibrary({
               href={`/courses/${courseId}?tab=planeacion`}
               className={buttonVariants({ variant: "outline" })}
             >
-              <HiOutlineSparkles aria-hidden />
+              <HiOutlineCalendarDays aria-hidden />
               Ir a la planeación
             </Link>
           }

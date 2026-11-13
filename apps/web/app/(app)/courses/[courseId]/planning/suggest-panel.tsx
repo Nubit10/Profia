@@ -1,5 +1,6 @@
 "use client";
 
+import { AiAvatar } from "@/components/brand/ai-avatar";
 import { DbaChip } from "@/components/curriculum/dba-chip";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
@@ -8,7 +9,6 @@ import {
   HiOutlineHandThumbDown,
   HiOutlineHandThumbUp,
   HiOutlinePencilSquare,
-  HiOutlineSparkles,
   HiOutlineXMark,
 } from "react-icons/hi2";
 import { sileo } from "sileo";
@@ -242,7 +242,7 @@ export function SuggestPanel({ topicId, actions }: { topicId: string; actions: S
   if (state.kind === "loading") {
     return (
       <p className="flex items-center gap-2 py-6 text-sm text-muted-foreground" role="status">
-        <HiOutlineSparkles className="animate-pulse" aria-hidden />
+        <AiAvatar size={20} className="motion-safe:animate-pulse" />
         Generando sugerencias a partir de los DBA del curso… puede tardar hasta un minuto.
       </p>
     );
@@ -269,7 +269,7 @@ export function SuggestPanel({ topicId, actions }: { topicId: string; actions: S
         mejorarlas.
       </p>
       <Button variant="ghost" size="sm" className="w-fit" onClick={retry}>
-        <HiOutlineSparkles aria-hidden />
+        <AiAvatar size={18} />
         Pedir otras sugerencias
       </Button>
     </div>
