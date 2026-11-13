@@ -151,7 +151,7 @@ function Station({ s, i, step }: { s: Scenario; i: number; step: number }) {
           {s.dba.code}
         </p>
         <p className="mt-1 text-sm leading-snug text-chalk">{s.dba.text}</p>
-        <p className="mt-2 text-xs text-chalk/55">Fuente: {s.dba.source}</p>
+        <p className="mt-2 text-xs text-chalk/75">Fuente: {s.dba.source}</p>
       </>
     );
   if (i === 2)
@@ -302,7 +302,7 @@ export function AiFlow() {
                 >
                   {st.title}
                 </p>
-                <p className="text-center text-xs text-chalk/50">{st.sub}</p>
+                <p className="text-center text-xs text-chalk/75">{st.sub}</p>
                 <div
                   className={cn(
                     "mt-4 min-h-52 w-full rounded-lg border p-4 transition-all duration-500",
@@ -341,7 +341,7 @@ export function AiFlow() {
         ))}
       </ol>
 
-      <p className="mt-6 text-right font-mono text-xs text-chalk/45">Ejemplos ilustrativos</p>
+      <p className="mt-6 text-right font-mono text-xs text-chalk/75">Ejemplos ilustrativos</p>
     </div>
   );
 }

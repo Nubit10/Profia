@@ -63,16 +63,23 @@ export function ResourceList({
                 <Icon className="size-5" aria-hidden />
               </span>
               <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                <span className="truncate font-semibold">{r.title}</span>
-                <span className="truncate text-sm text-muted-foreground">
+                {/* En el celular el título ocupa hasta dos líneas en vez de cortarse a la mitad. */}
+                <span className="line-clamp-2 font-semibold break-words sm:truncate">
+                  {r.title}
+                </span>
+                <span className="line-clamp-2 text-sm text-muted-foreground sm:truncate">
                   {showCourse && r.courseTitle ? `${r.courseTitle} · ` : ""}Tema: {r.topicTitle}
                 </span>
                 {/* SPEC-0013 RN-14: si está guardado en este dispositivo para usarlo sin conexión. */}
-                {r.version !== undefined && (
-                  <span className="flex">
-                    <OfflineBadge resourceId={r.id} version={r.version} />
+                <span className="flex flex-wrap items-center gap-1.5 empty:hidden">
+                  {/* En el celular el estado va debajo del título, no apretado contra la flecha. */}
+                  <span className="sm:hidden">
+                    <StatusBadge status={r.status} />
                   </span>
-                )}
+                  {r.version !== undefined && (
+                    <OfflineBadge resourceId={r.id} version={r.version} />
+                  )}
+                </span>
               </span>
               <span className="hidden flex-col items-end gap-1 sm:flex">
                 <span className="flex items-center gap-1.5">
@@ -80,9 +87,6 @@ export function ResourceList({
                   <StatusBadge status={r.status} />
                 </span>
                 <span className="text-xs text-muted-foreground">{formatDateTime(r.updatedAt)}</span>
-              </span>
-              <span className="sm:hidden">
-                <StatusBadge status={r.status} />
               </span>
               <HiOutlineChevronRight
                 className="size-4 shrink-0 text-muted-foreground transition group-hover:translate-x-0.5"

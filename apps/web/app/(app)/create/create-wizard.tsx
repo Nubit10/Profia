@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import type { IconType } from "react-icons";
 import {
-  HiCheck,
   HiOutlineCalendarDays,
   HiOutlineClipboardDocumentCheck,
   HiOutlineClipboardDocumentList,
@@ -17,6 +16,7 @@ import {
 import { sileo } from "sileo";
 import type { QuotaView } from "@/components/app-shell/identity-card";
 import { PageHeader } from "@/components/page-header";
+import { Stepper } from "@/components/stepper";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -198,52 +198,7 @@ export function CreateWizard(props: Props) {
         description="Unos pocos pasos. Puedes volver atrás sin perder lo que elegiste."
       />
 
-      <ol aria-label="Pasos" className="flex flex-wrap items-center gap-2">
-        {labels.map((label, index) => {
-          const done = index < current;
-          const active = index === current;
-          const target = done ? stepHref(index) : null;
-          const content = (
-            <>
-              <span
-                className={cn(
-                  "flex size-7 items-center justify-center rounded-full text-xs font-bold",
-                  done && "bg-brand text-white",
-                  active && "bg-brand-gradient text-white shadow-lift",
-                  !done && !active && "bg-muted text-muted-foreground",
-                )}
-              >
-                {done ? <HiCheck aria-hidden /> : index + 1}
-              </span>
-              <span className={cn("text-sm font-semibold", !active && "text-muted-foreground")}>
-                {label}
-              </span>
-            </>
-          );
-          return (
-            <li key={label} className="flex items-center gap-2">
-              {target ? (
-                <Link
-                  href={target}
-                  className="flex items-center gap-2 rounded-full pr-2 hover:bg-muted max-sm:min-h-11"
-                >
-                  {content}
-                </Link>
-              ) : (
-                <span
-                  className="flex items-center gap-2 pr-2"
-                  aria-current={active ? "step" : undefined}
-                >
-                  {content}
-                </span>
-              )}
-              {index < labels.length - 1 && (
-                <span aria-hidden className="h-px w-6 bg-border sm:w-10" />
-              )}
-            </li>
-          );
-        })}
-      </ol>
+      <Stepper labels={labels} current={current} hrefFor={stepHref} />
 
       {/* CA-0012-10: el aviso de cupo llega antes de llenar los ajustes. */}
       {kind !== "PLAN" && blocked && (
@@ -498,19 +453,12 @@ export function CreateWizard(props: Props) {
 
       {ready && isExam && props.exam.context && (
         <>
-          <div className="flex flex-wrap items-center gap-2 text-sm">
-            <span className="text-muted-foreground">Para:</span>
-            <span className="font-semibold">{course?.title}</span>
-            <span className="text-muted-foreground">·</span>
-            <span className="font-semibold">
-              {props.exam.context.topics.length}{" "}
-              {props.exam.context.topics.length === 1 ? "tema" : "temas"}:{" "}
-              {props.exam.context.topics.map((t) => t.title).join(", ")}
-            </span>
-            <Link href={stepHref(1)!} className={buttonVariants({ variant: "link", size: "sm" })}>
-              Cambiar
-            </Link>
-          </div>
+          <ChoiceSummary
+            course={course?.title ?? ""}
+            topicLabel={props.exam.context.topics.length === 1 ? "Tema" : "Temas"}
+            topic={props.exam.context.topics.map((t) => t.title).join(", ")}
+            changeHref={stepHref(1)!}
+          />
           <ExamSettingsStep
             key={examTopics.join(",")}
             step={props.step}
@@ -534,18 +482,12 @@ export function CreateWizard(props: Props) {
 
       {ready && !isExam && props.formContext && (
         <>
-          <div className="flex flex-wrap items-center gap-2 text-sm">
-            <span className="text-muted-foreground">Para:</span>
-            <span className="font-semibold">{course?.title}</span>
-            <span className="text-muted-foreground">·</span>
-            <span className="font-semibold">Tema: {props.formContext.topic.title}</span>
-            <Link
-              href={href({ type: kind, courseId: props.courseId, elegir: "1" })}
-              className={buttonVariants({ variant: "link", size: "sm" })}
-            >
-              Cambiar
-            </Link>
-          </div>
+          <ChoiceSummary
+            course={course?.title ?? ""}
+            topicLabel="Tema"
+            topic={props.formContext.topic.title}
+            changeHref={href({ type: kind, courseId: props.courseId, elegir: "1" })}
+          />
           <SettingsStep
             key={`${kind}:${props.formContext.topic.id}`}
             type={kind as "WORKSHOP" | "QUIZ"}
@@ -558,6 +500,36 @@ export function CreateWizard(props: Props) {
           />
         </>
       )}
+    </div>
+  );
+}
+
+/** Lo elegido en el paso anterior: curso y tema, cada uno en su línea, con "Cambiar". */
+function ChoiceSummary({
+  course,
+  topicLabel,
+  topic,
+  changeHref,
+}: {
+  course: string;
+  topicLabel: string;
+  topic: string;
+  changeHref: string;
+}) {
+  return (
+    <div className="flex items-start gap-3 rounded-2xl border border-border bg-card p-4 text-sm shadow-soft">
+      <dl className="grid min-w-0 flex-1 grid-cols-[auto_1fr] gap-x-3 gap-y-1">
+        <dt className="text-muted-foreground">Curso</dt>
+        <dd className="min-w-0 font-semibold break-words">{course}</dd>
+        <dt className="text-muted-foreground">{topicLabel}</dt>
+        <dd className="min-w-0 font-semibold break-words">{topic}</dd>
+      </dl>
+      <Link
+        href={changeHref}
+        className={cn(buttonVariants({ variant: "link", size: "sm" }), "shrink-0 max-sm:min-h-11")}
+      >
+        Cambiar
+      </Link>
     </div>
   );
 }

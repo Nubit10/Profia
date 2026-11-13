@@ -31,7 +31,7 @@ function Chip({ href, active, children }: { href: string; active: boolean; child
       href={href}
       aria-current={active ? "true" : undefined}
       className={cn(
-        "flex items-center rounded-full border px-3.5 py-1.5 text-sm font-semibold transition max-sm:min-h-11",
+        "flex shrink-0 items-center rounded-full border px-3.5 py-1.5 text-sm font-semibold whitespace-nowrap transition max-sm:min-h-11",
         active
           ? "border-brand bg-brand text-white shadow-soft"
           : "border-border bg-card text-foreground hover:border-brand-border hover:bg-brand-softer",
@@ -96,7 +96,10 @@ export default async function MyResourcesPage({ searchParams }: PageProps<"/reso
       <OfflinePanel hasResources={resources.length > 0 || filtered} />
 
       <div className="flex flex-col gap-3">
-        <nav aria-label="Filtrar por tipo" className="flex flex-wrap gap-2">
+        <nav
+          aria-label="Filtrar por tipo"
+          className="-mx-4 flex [scrollbar-width:none] gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden"
+        >
           {TYPE_FILTERS.map((f) => (
             <Chip key={f.label} href={href({ tipo: f.value })} active={type === f.value}>
               {f.label}
@@ -104,7 +107,10 @@ export default async function MyResourcesPage({ searchParams }: PageProps<"/reso
           ))}
         </nav>
         {courses.length > 1 && (
-          <nav aria-label="Filtrar por curso" className="flex flex-wrap gap-2">
+          <nav
+            aria-label="Filtrar por curso"
+            className="-mx-4 flex [scrollbar-width:none] gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden"
+          >
             <Chip href={href({ curso: null })} active={!courseId}>
               Todos los cursos
             </Chip>

@@ -159,7 +159,9 @@ test("CA-0013-09/10: con un curso y un tema, Inicio → Generar quiz en 3 clics 
   const counter = clickCounter();
   await counter.click(page.getByRole("link", { name: /Crear quiz/ }));
   // RN-03: el curso y el tema ya están elegidos y se ven, con "Cambiar".
-  await expect(page.getByText("Tema: La recta numérica")).toBeVisible();
+  await expect(
+    page.getByRole("definition").filter({ hasText: /^La recta numérica$/ }),
+  ).toBeVisible();
   await expect(page.getByRole("link", { name: "Cambiar" })).toBeVisible();
 
   // CA-0013-10: 6 controles o menos a la vista; el resto en "Más opciones".

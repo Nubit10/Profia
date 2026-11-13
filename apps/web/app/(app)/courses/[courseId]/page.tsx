@@ -91,8 +91,12 @@ export default async function CoursePage({
           {/* SPEC-0013 CA-0013-25: el texto tiene una base de ancho, así el botón baja a su propia
               línea en el celular en vez de partir el título. */}
           <div className="flex min-w-0 flex-1 basis-48 flex-col gap-1">
-            <h1 className="text-2xl font-extrabold text-balance sm:text-3xl">
-              {courseTitle(course)}
+            {/* El grado y el grupo no se separan: nunca empieza una línea con "· 6°". */}
+            <h1 className="text-xl font-extrabold sm:text-3xl">
+              {course.subjectName}
+              <span className="whitespace-nowrap">
+                {courseTitle(course).slice(course.subjectName.length)}
+              </span>
             </h1>
             <p className="text-muted-foreground">
               Año {course.academicYear}

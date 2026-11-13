@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
-import { Toaster } from "sileo";
+import { AppToaster } from "@/components/app-toaster";
 import { ServiceWorker } from "@/components/service-worker";
 import { BRAND_COLOR } from "@/lib/brand-colors";
 import "./globals.css";
@@ -52,7 +52,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col bg-background">
         {children}
-        <Toaster position="bottom-right" />
+        <AppToaster />
         <ServiceWorker />
       </body>
     </html>

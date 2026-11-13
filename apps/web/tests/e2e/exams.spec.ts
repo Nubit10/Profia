@@ -102,6 +102,7 @@ test("CA-0011-17: de la planeación al examen generado, con temas de dos periodo
   await expect(page).toHaveURL(/step=confirmar/);
   await expect(
     page
+      .locator("form")
       .getByRole("definition")
       .filter({ hasText: "La recta numérica, Suma de enteros, Fracciones" }),
   ).toBeVisible();

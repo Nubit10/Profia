@@ -73,6 +73,14 @@ Referencia: 390 × 844, táctil. Las pruebas corren en el proyecto `movil` de Pl
 - **Rejillas y filas.** Las rejillas declaran `grid-cols-1` de base; en filas que se parten, el bloque de texto lleva `basis-*` para que los botones bajen a su línea (encabezado del curso). Las pestañas del curso se ven completas en tres columnas.
 - **Vista compacta.** En el editor del recurso, `data-compact` oculta lo marcado con `data-detail` (opciones, justificación, etiquetas y acciones).
 
+- Pasos de un flujo: `Stepper` (`components/stepper.tsx`), una fila que no se parte; en el celular se desliza sola hasta el paso activo.
+- Filas de filtros o chips en el celular: una sola fila deslizable (`overflow-x-auto`, sin barra), nunca dos líneas.
+- Barras con varios botones en el celular: los botones se reparten el ancho; si el texto no cabe, uno más corto con el mismo `aria-label`.
+- `basis-*` solo en filas: en una columna (`flex-col`) la base se vuelve altura y deja huecos. En columnas que pasan a fila, `sm:basis-*`.
+- Avisos emergentes: arriba y centrados en el celular (abajo está "Crear"), abajo a la derecha en el escritorio (`AppToaster`).
+- El menú lateral del celular se cierra tocando fuera, con Atrás o con Escape; sin botón flotante fuera del cajón.
+- Auditoría: `tests/e2e/auditoria.movil.spec.ts` recorre cada pantalla a 360 px (sin scroll horizontal ni nada fuera del borde); con `AUDIT_SHOTS=<carpeta>` deja capturas.
+
 ## App instalable y sin conexión (SPEC-0013, ADR-0012)
 
 - Manifiesto en `app/manifest.ts`; íconos en `public/icons/`, generados desde el logo con `node scripts/generate-app-icons.mjs`; colores en `lib/brand-colors.ts` (una prueba los compara con los tokens).

@@ -32,7 +32,7 @@ export function OfflinePanel({ hasResources }: { hasResources: boolean }) {
         <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-brand-soft text-brand-strong">
           <HiOutlineCloudArrowDown className="size-6" aria-hidden />
         </span>
-        <div className="flex min-w-0 flex-1 basis-56 flex-col gap-1">
+        <div className="flex min-w-0 flex-1 flex-col gap-1 sm:basis-56">
           <h2 id="offline-title" className="font-bold">
             ¿Guardar tus recursos en este dispositivo para usarlos sin conexión?
           </h2>

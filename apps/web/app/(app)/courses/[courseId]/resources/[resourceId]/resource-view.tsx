@@ -307,7 +307,7 @@ export function ResourceView({
           // alcance del pulgar; en pantallas grandes siguen en el encabezado.
           <div
             data-floating="bottom-bar"
-            className="flex flex-wrap items-center gap-2 max-md:fixed max-md:inset-x-0 max-md:bottom-0 max-md:z-30 max-md:flex-nowrap max-md:border-t max-md:border-border max-md:bg-card/95 max-md:px-3 max-md:pt-2 max-md:pb-[calc(0.5rem+env(safe-area-inset-bottom))] max-md:shadow-lift max-md:backdrop-blur max-md:*:shrink-0"
+            className="flex flex-wrap items-center gap-2 max-md:fixed max-md:inset-x-0 max-md:bottom-0 max-md:z-30 max-md:flex-nowrap max-md:border-t max-md:border-border max-md:bg-card/95 max-md:px-3 max-md:pt-2 max-md:pb-[calc(0.5rem+env(safe-area-inset-bottom))] max-md:shadow-lift max-md:backdrop-blur max-md:[&>button:last-child]:shrink-0 max-md:[&>button:not(:last-child)]:min-w-0 max-md:[&>button:not(:last-child)]:flex-1 max-md:[&>button:not(:last-child)]:px-3"
           >
             {resource.status === "DRAFT" ? (
               <Button
@@ -315,6 +315,7 @@ export function ResourceView({
                 size="lg"
                 variant="outline"
                 className="border-success/40 text-success hover:bg-success-soft"
+                aria-label="Marcar como listo"
                 disabled={isPending}
                 onClick={() =>
                   run(
@@ -324,7 +325,9 @@ export function ResourceView({
                 }
               >
                 <HiOutlineCheckCircle aria-hidden />
-                Marcar como listo
+                {/* En el celular la barra tiene poco ancho: texto corto, mismo nombre accesible. */}
+                <span className="md:hidden">Listo</span>
+                <span className="max-md:hidden">Marcar como listo</span>
               </Button>
             ) : (
               <Button
@@ -332,9 +335,11 @@ export function ResourceView({
                 size="lg"
                 variant="outline"
                 disabled={isPending}
+                aria-label="Volver a borrador"
                 onClick={() => run(() => setStatus({ resourceId: resource.id, status: "DRAFT" }))}
               >
-                Volver a borrador
+                <span className="md:hidden">A borrador</span>
+                <span className="max-md:hidden">Volver a borrador</span>
               </Button>
             )}
             <Downloads

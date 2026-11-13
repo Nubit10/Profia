@@ -7,7 +7,6 @@ import {
   HiOutlineArrowRightOnRectangle,
   HiOutlineBars3,
   HiOutlineQuestionMarkCircle,
-  HiXMark,
 } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";
 import {
@@ -299,14 +298,6 @@ export function AppShell(props: Props) {
             aria-label="Menú"
             className="absolute inset-y-0 left-0 w-[82vw] max-w-64 bg-sidebar pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] shadow-lift"
           >
-            <button
-              type="button"
-              onClick={closeSidebar}
-              aria-label="Cerrar el menú"
-              className="absolute top-[calc(0.75rem+env(safe-area-inset-top))] -right-14 flex size-11 items-center justify-center rounded-xl bg-card text-foreground shadow-soft"
-            >
-              <HiXMark className="size-5" aria-hidden />
-            </button>
             {nav}
           </div>
         </div>

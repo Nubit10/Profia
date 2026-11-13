@@ -150,8 +150,8 @@ test("CA-0012-01/02: la landing presenta Profe sin prueba social inventada", asy
   expect(text).not.toMatch(/\d[\d.]*\s*(docentes|profesores|usuarios)|★|testimonio/i);
   // RN-06 y CA-0011-17: los exámenes ya existen; ninguna herramienta queda en "Próximamente".
   const exams = page.getByRole("listitem").filter({ hasText: "Exámenes" });
-  await expect(exams).toBeVisible();
-  await expect(exams).not.toContainText("Próximamente");
+  await expect(exams.first()).toBeVisible();
+  for (const item of await exams.all()) await expect(item).not.toContainText("Próximamente");
   await checkScreen(page, "landing");
 
   await page.goto("/login");
