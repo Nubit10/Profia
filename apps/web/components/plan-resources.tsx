@@ -17,17 +17,23 @@ function Heading({ level, id, children }: { level: Level; id?: string; children:
 
 function Group({
   title,
+  shown,
   level,
   children,
 }: {
+  /** Nombre completo ("Periodo 1 · Unidad · Tema"): el de la región para lectores y búsquedas. */
   title: string;
+  /** Lo que se ve: sin el periodo, que ya encabeza el bloque. */
+  shown?: string;
   level: Level | 4;
   children: ReactNode;
 }) {
   const Tag = level === 2 ? "h2" : level === 3 ? "h3" : "h4";
   return (
-    <section className="flex flex-col gap-2" aria-label={title}>
-      <Tag className="text-sm font-semibold text-muted-foreground">{title}</Tag>
+    <section className="flex flex-col gap-1" aria-label={title}>
+      <Tag className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+        {shown ?? title}
+      </Tag>
       {children}
     </section>
   );
@@ -88,9 +94,11 @@ export function PlanResources({
                       key={topic.id}
                       level={inner}
                       title={`${period.name} · ${unit.title} · ${topic.title}`}
+                      shown={`${unit.title} · ${topic.title}`}
                     >
                       {topic.resources.length > 0 ? (
                         <ResourceList
+                          plain
                           resources={topic.resources}
                           label={`Recursos de ${topic.title}`}
                           showCourse={false}
@@ -101,25 +109,46 @@ export function PlanResources({
                     </Group>
                   ))}
                   {unit.exams.length > 0 && (
-                    <Group level={inner} title={`${period.name} · ${unit.title} · Exámenes`}>
-                      <ResourceList resources={unit.exams} label={`Exámenes de ${unit.title}`} />
+                    <Group
+                      level={inner}
+                      title={`${period.name} · ${unit.title} · Exámenes`}
+                      shown={`${unit.title} · Exámenes`}
+                    >
+                      <ResourceList
+                        plain
+                        resources={unit.exams}
+                        label={`Exámenes de ${unit.title}`}
+                      />
                     </Group>
                   )}
                 </div>
               ))}
               {period.exams.length > 0 && (
-                <Group level={inner} title={`${period.name} · Exámenes del periodo`}>
-                  <ResourceList resources={period.exams} label={`Exámenes de ${period.name}`} />
+                <Group
+                  level={inner}
+                  title={`${period.name} · Exámenes del periodo`}
+                  shown={`Exámenes del periodo`}
+                >
+                  <ResourceList
+                    plain
+                    resources={period.exams}
+                    label={`Exámenes de ${period.name}`}
+                  />
                 </Group>
               )}
               {period.archived.length > 0 && (
-                <Group level={inner} title={`${period.name} · Temas archivados`}>
+                <Group
+                  level={inner}
+                  title={`${period.name} · Temas archivados`}
+                  shown={`Temas archivados`}
+                >
                   {period.archived.map((a) => (
                     <div key={`${a.unitTitle}-${a.topicTitle}`} className="flex flex-col gap-1.5">
                       <p className="text-xs text-muted-foreground">
                         {a.unitTitle} · {a.topicTitle}
                       </p>
                       <ResourceList
+                        plain
                         resources={a.resources}
                         label={`Recursos de ${a.topicTitle} (archivado)`}
                       />

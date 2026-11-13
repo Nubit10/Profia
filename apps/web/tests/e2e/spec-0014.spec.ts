@@ -395,7 +395,7 @@ test("CA-0014-14/15/16: 'Recursos del curso' agrupa Periodo · Unidad · Tema y 
 
   // CA-0014-15: un tema sin recursos ofrece crearlos con un toque.
   const secondGroup = page.getByRole("region", { name: `Periodo 1 · ${unitTitle} · ${second}` });
-  await expect(secondGroup).toContainText("Este tema aún no tiene recursos.");
+  await expect(secondGroup).toContainText("Sin recursos todavía.");
   await secondGroup.getByRole("button", { name: `Crear taller de «${second}»` }).click();
   await expect(page).toHaveURL(/\/resources\//);
   await expect(page.getByRole("heading", { level: 1 })).toContainText(second!);

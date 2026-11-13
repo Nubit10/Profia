@@ -28,40 +28,42 @@ export function TopicQuickCreate({
   const [busy, setBusy] = useState<string | null>(null);
 
   return (
-    <div className="flex flex-wrap items-center gap-2 rounded-xl border border-dashed border-border p-3">
-      <p className="basis-full text-sm text-muted-foreground sm:flex-1 sm:basis-auto">
-        Este tema aún no tiene recursos.
-      </p>
-      {OPTIONS.map(({ type, noun, text, Icon }) => (
-        <Button
-          key={type}
-          variant="outline"
-          size="sm"
-          className="border-brand-border text-brand-strong hover:bg-brand-soft max-sm:min-h-11"
-          disabled={pending}
-          aria-busy={pending && busy === type}
-          onClick={() => {
-            setBusy(type);
-            start(async () => {
-              const result = await action({ type, topicId: topic.id });
-              if (!result.ok) {
-                setBusy(null);
-                sileo.error({ title: `No pudimos crear el ${noun}`, description: result.error });
-                return;
-              }
-              sileo.success({
-                title: `${noun.charAt(0).toUpperCase()}${noun.slice(1)} en preparación`,
-                description: "Puedes salir de esta página: lo encontrarás en Mis recursos.",
+    // Una línea simple dentro del periodo: sin caja propia (nunca tarjeta dentro de tarjeta).
+    // Texto arriba y los dos botones juntos debajo en el celular; en una línea en escritorio.
+    <div className="flex flex-col gap-0 sm:flex-row sm:items-center sm:gap-1">
+      <p className="pt-1 text-sm text-muted-foreground sm:mr-auto sm:py-2">Sin recursos todavía.</p>
+      <div className="-ml-3 flex gap-1 sm:ml-0">
+        {OPTIONS.map(({ type, noun, text, Icon }) => (
+          <Button
+            key={type}
+            variant="ghost"
+            size="sm"
+            className="text-brand-strong hover:bg-brand-softer max-sm:min-h-11"
+            disabled={pending}
+            aria-busy={pending && busy === type}
+            onClick={() => {
+              setBusy(type);
+              start(async () => {
+                const result = await action({ type, topicId: topic.id });
+                if (!result.ok) {
+                  setBusy(null);
+                  sileo.error({ title: `No pudimos crear el ${noun}`, description: result.error });
+                  return;
+                }
+                sileo.success({
+                  title: `${noun.charAt(0).toUpperCase()}${noun.slice(1)} en preparación`,
+                  description: "Puedes salir de esta página: lo encontrarás en Mis recursos.",
+                });
+                router.push(`/courses/${courseId}/resources/${result.data!.id}`);
               });
-              router.push(`/courses/${courseId}/resources/${result.data!.id}`);
-            });
-          }}
-        >
-          <Icon aria-hidden />
-          {pending && busy === type ? "Creando…" : text}
-          <span className="sr-only"> de «{topic.title}»</span>
-        </Button>
-      ))}
+            }}
+          >
+            <Icon aria-hidden />
+            {pending && busy === type ? "Creando…" : text}
+            <span className="sr-only"> de «{topic.title}»</span>
+          </Button>
+        ))}
+      </div>
     </div>
   );
 }

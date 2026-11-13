@@ -36,8 +36,11 @@ export function ResourceList({
   label,
   showCourse = false,
   className,
+  plain = false,
 }: {
   resources: Item[];
+  /** Sin marco propio: para usarla dentro de otra tarjeta (nunca tarjeta dentro de tarjeta). */
+  plain?: boolean;
   /** Nombre accesible de la lista. */
   label: string;
   showCourse?: boolean;
@@ -46,7 +49,10 @@ export function ResourceList({
   return (
     <ul
       className={cn(
-        "flex flex-col divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card shadow-soft",
+        "flex flex-col divide-y divide-border",
+        plain
+          ? "-mx-2 sm:-mx-3"
+          : "overflow-hidden rounded-2xl border border-border bg-card shadow-soft",
         className,
       )}
       aria-label={label}
@@ -57,7 +63,10 @@ export function ResourceList({
           <li key={r.id}>
             <Link
               href={`/courses/${r.courseId}/resources/${r.id}`}
-              className="group flex items-center gap-3 p-4 transition hover:bg-brand-softer"
+              className={cn(
+                "group flex items-center gap-3 transition hover:bg-brand-softer",
+                plain ? "rounded-xl px-2 py-3 sm:px-3" : "p-4",
+              )}
             >
               <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand-strong">
                 <Icon className="size-5" aria-hidden />
@@ -67,9 +76,12 @@ export function ResourceList({
                 <span className="line-clamp-2 font-semibold break-words sm:truncate">
                   {r.title}
                 </span>
-                <span className="line-clamp-2 text-sm text-muted-foreground sm:truncate">
-                  {showCourse && r.courseTitle ? `${r.courseTitle} · ` : ""}Tema: {r.topicTitle}
-                </span>
+                {/* Dentro de un tema (plain) el tema ya está en el encabezado: no se repite. */}
+                {!plain && (
+                  <span className="line-clamp-2 text-sm text-muted-foreground sm:truncate">
+                    {showCourse && r.courseTitle ? `${r.courseTitle} · ` : ""}Tema: {r.topicTitle}
+                  </span>
+                )}
                 {/* SPEC-0013 RN-14: si está guardado en este dispositivo para usarlo sin conexión. */}
                 <span className="flex flex-wrap items-center gap-1.5 empty:hidden">
                   {/* En el celular el estado va debajo del título, no apretado contra la flecha. */}

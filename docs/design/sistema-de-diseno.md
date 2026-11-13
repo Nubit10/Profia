@@ -76,7 +76,9 @@ Referencia: 390 × 844, táctil. Las pruebas corren en el proyecto `movil` de Pl
 - **Rejillas y filas.** Las rejillas declaran `grid-cols-1` de base; en filas que se parten, el bloque de texto lleva `basis-*` para que los botones bajen a su línea (encabezado del curso). Las pestañas del curso se ven completas en tres columnas.
 - **Vista compacta.** En el editor del recurso, `data-compact` oculta lo marcado con `data-detail` (opciones, justificación, etiquetas y acciones).
 
-- Pasos de un flujo: `Stepper` (`components/stepper.tsx`), una fila que no se parte; en el celular se desliza sola hasta el paso activo.
+- Pasos de un flujo: `Stepper` (`components/stepper.tsx`, patrón de CliqCut). En el celular: "Atrás", "Paso 2 de 3 · Nombre", barra de progreso y puntos; nunca una fila de nombres que se corte. En escritorio, la fila con cada paso.
+- Filas que no caben (pestañas, filtros): `ScrollableRow` (`components/scrollable-row.tsx`, como `ScrollableTabs` de CliqCut). Se desliza hasta el elemento con `data-active` y avisa con un degradado y una flecha mientras quede algo por ver. Mejor aún si caben: etiquetas cortas en el celular (la pestaña "DBA y Estándares" dice "DBA", con el nombre completo en `aria-label`).
+- Nunca tarjeta dentro de tarjeta: dentro de un bloque, `ResourceList plain` y vacíos de una línea.
 - Filas de filtros o chips en el celular: una sola fila deslizable (`overflow-x-auto`, sin barra), nunca dos líneas.
 - Barras con varios botones en el celular: los botones se reparten el ancho; si el texto no cabe, uno más corto con el mismo `aria-label`.
 - `basis-*` solo en filas: en una columna (`flex-col`) la base se vuelve altura y deja huecos. En columnas que pasan a fila, `sm:basis-*`.

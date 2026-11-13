@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
-import { HiCheck } from "react-icons/hi2";
+import { HiCheck, HiChevronLeft } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 
 /**
- * Pasos de un flujo en una sola fila. En el celular la fila se desliza sola hasta el paso activo
- * (sin barra visible), así nunca se parte en dos líneas ni queda el paso actual fuera de la vista.
+ * Pasos de un flujo (patrón de CliqCut, `BookingWizard`).
+ * - Celular: "Atrás", "Paso 2 de 3 · Curso y tema", una barra de progreso y puntos que se alargan al
+ *   avanzar. Nunca hay una fila de nombres que se corte ni pasos a medias en el borde.
+ * - Escritorio: la fila completa con el número y el nombre de cada paso; los hechos son enlaces.
  */
 export function Stepper({
   labels,
@@ -22,81 +23,108 @@ export function Stepper({
   hrefFor?: (index: number) => string | null;
   className?: string;
 }) {
-  const list = useRef<HTMLOListElement>(null);
-
-  useEffect(() => {
-    const el = list.current;
-    const active = el?.querySelector<HTMLElement>("[data-step-active]");
-    if (!el || !active) return;
-    // Centra el paso activo moviendo solo la fila (scrollIntoView movería también la página).
-    const left = active.offsetLeft - (el.clientWidth - active.offsetWidth) / 2;
-    el.scrollTo({ left: Math.max(0, left), behavior: "auto" });
-  }, [current]);
+  const total = labels.length;
+  const back = current > 0 ? (hrefFor?.(current - 1) ?? null) : null;
+  const progress = ((current + 1) / total) * 100;
 
   return (
-    <ol
-      ref={list}
-      aria-label="Pasos"
-      className={cn(
-        // Borde desvanecido en el celular: se nota que la fila sigue y se puede deslizar.
-        "-mx-4 flex snap-x [scrollbar-width:none] items-center gap-1 overflow-x-auto px-4 max-sm:[mask-image:linear-gradient(to_right,transparent,#000_1rem,#000_calc(100%-1rem),transparent)] sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden",
-        className,
-      )}
-    >
-      {labels.map((label, index) => {
-        const done = index < current;
-        const active = index === current;
-        const target = done ? (hrefFor?.(index) ?? null) : null;
-        const content = (
-          <>
-            <span
-              className={cn(
-                "flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold",
-                done && "bg-brand text-white",
-                active && "bg-brand-gradient text-white shadow-lift",
-                !done && !active && "bg-muted text-muted-foreground",
-              )}
+    <nav aria-label="Pasos" className={className}>
+      {/* Celular */}
+      <div className="flex flex-col gap-2 sm:hidden">
+        <div className="flex min-h-11 items-center justify-between gap-3">
+          {back ? (
+            <Link
+              href={back}
+              className="-ml-2 flex min-h-11 items-center gap-1 rounded-full px-2 text-sm font-medium text-muted-foreground hover:text-foreground"
             >
-              {done ? <HiCheck aria-hidden /> : index + 1}
-              {done && <span className="sr-only">(hecho)</span>}
-            </span>
+              <HiChevronLeft className="size-4" aria-hidden />
+              Atrás
+            </Link>
+          ) : (
+            <span />
+          )}
+          <p className="text-sm text-muted-foreground" aria-current="step">
+            Paso {current + 1} de {total} ·{" "}
+            <span className="font-semibold text-foreground">{labels[current]}</span>
+          </p>
+        </div>
+        <div
+          role="progressbar"
+          aria-label="Avance"
+          aria-valuemin={1}
+          aria-valuemax={total}
+          aria-valuenow={current + 1}
+          className="h-1.5 overflow-hidden rounded-full bg-muted"
+        >
+          <div
+            className="h-full rounded-full bg-brand-gradient transition-[width] duration-500"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        <div aria-hidden className="flex justify-center gap-1.5">
+          {labels.map((label, i) => (
             <span
+              key={label}
               className={cn(
-                "text-sm font-semibold whitespace-nowrap",
-                !active && "text-muted-foreground",
+                "h-1 rounded-full transition-all duration-300",
+                i <= current ? "w-4 bg-brand" : "w-2 bg-border",
               )}
-            >
-              {label}
-            </span>
-          </>
-        );
-        return (
-          <li
-            key={label}
-            className="flex shrink-0 snap-center items-center gap-1"
-            data-step-active={active ? "" : undefined}
-          >
-            {target ? (
-              <Link
-                href={target}
-                className="flex min-h-11 items-center gap-2 rounded-full pr-3 pl-1 hover:bg-muted"
-              >
-                {content}
-              </Link>
-            ) : (
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Escritorio */}
+      <ol className="hidden items-center gap-2 sm:flex">
+        {labels.map((label, index) => {
+          const done = index < current;
+          const active = index === current;
+          const target = done ? (hrefFor?.(index) ?? null) : null;
+          const content = (
+            <>
               <span
-                className="flex min-h-11 items-center gap-2 pr-3 pl-1"
-                aria-current={active ? "step" : undefined}
+                className={cn(
+                  "flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold",
+                  done && "bg-brand text-white",
+                  active && "bg-brand-gradient text-white shadow-lift",
+                  !done && !active && "bg-muted text-muted-foreground",
+                )}
               >
-                {content}
+                {done ? <HiCheck aria-hidden /> : index + 1}
+                {done && <span className="sr-only">(hecho)</span>}
               </span>
-            )}
-            {index < labels.length - 1 && (
-              <span aria-hidden className="h-px w-5 shrink-0 bg-border sm:w-10" />
-            )}
-          </li>
-        );
-      })}
-    </ol>
+              <span
+                className={cn(
+                  "text-sm font-semibold whitespace-nowrap",
+                  !active && "text-muted-foreground",
+                )}
+              >
+                {label}
+              </span>
+            </>
+          );
+          return (
+            <li key={label} className="flex items-center gap-2">
+              {target ? (
+                <Link
+                  href={target}
+                  className="flex items-center gap-2 rounded-full py-1 pr-3 pl-1 hover:bg-muted"
+                >
+                  {content}
+                </Link>
+              ) : (
+                <span
+                  className="flex items-center gap-2 py-1 pr-3 pl-1"
+                  aria-current={active ? "step" : undefined}
+                >
+                  {content}
+                </span>
+              )}
+              {index < total - 1 && <span aria-hidden className="h-px w-10 bg-border" />}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
   );
 }

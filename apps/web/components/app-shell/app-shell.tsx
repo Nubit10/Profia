@@ -323,7 +323,7 @@ export function AppShell(props: Props) {
           data-floating="create"
           className="fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-30 lg:hidden"
         >
-          <CreateMenu floating />
+          <CreateMenu floating courseId={/^\/courses\/([^/]+)/.exec(pathname)?.[1] ?? null} />
         </div>
       )}
 

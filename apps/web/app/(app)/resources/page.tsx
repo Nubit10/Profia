@@ -5,6 +5,7 @@ import { HiOutlineFolderOpen, HiOutlinePlus } from "react-icons/hi2";
 import { EmptyState } from "@/components/empty-state";
 import { OfflinePanel } from "@/components/offline/offline-panel";
 import { PageHeader } from "@/components/page-header";
+import { ScrollableRow } from "@/components/scrollable-row";
 import { PlanResources } from "@/components/plan-resources";
 import { ResourceList } from "@/components/resource-list";
 import { buttonVariants } from "@/components/ui/button";
@@ -30,6 +31,7 @@ function Chip({ href, active, children }: { href: string; active: boolean; child
     <Link
       href={href}
       aria-current={active ? "true" : undefined}
+      data-active={active ? "" : undefined}
       className={cn(
         "flex shrink-0 items-center rounded-full border px-3.5 py-1.5 text-sm font-semibold whitespace-nowrap transition max-sm:min-h-11",
         active
@@ -96,20 +98,24 @@ export default async function MyResourcesPage({ searchParams }: PageProps<"/reso
       <OfflinePanel hasResources={resources.length > 0 || filtered} />
 
       <div className="flex flex-col gap-3">
-        <nav
-          aria-label="Filtrar por tipo"
-          className="-mx-4 flex [scrollbar-width:none] gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden"
+        <ScrollableRow
+          as="nav"
+          label="Filtrar por tipo"
+          className="-mx-4 sm:mx-0"
+          rowClassName="gap-2 px-4 sm:flex-wrap sm:px-0"
         >
           {TYPE_FILTERS.map((f) => (
             <Chip key={f.label} href={href({ tipo: f.value })} active={type === f.value}>
               {f.label}
             </Chip>
           ))}
-        </nav>
+        </ScrollableRow>
         {courses.length > 1 && (
-          <nav
-            aria-label="Filtrar por curso"
-            className="-mx-4 flex [scrollbar-width:none] gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden"
+          <ScrollableRow
+            as="nav"
+            label="Filtrar por curso"
+            className="-mx-4 sm:mx-0"
+            rowClassName="gap-2 px-4 sm:flex-wrap sm:px-0"
           >
             <Chip href={href({ curso: null })} active={!courseId}>
               Todos los cursos
@@ -119,7 +125,7 @@ export default async function MyResourcesPage({ searchParams }: PageProps<"/reso
                 {courseTitle(c)}
               </Chip>
             ))}
-          </nav>
+          </ScrollableRow>
         )}
       </div>
 

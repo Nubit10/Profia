@@ -114,10 +114,12 @@ function DownloadForm(props: Props & { onDone: () => void }) {
     type === "WORKSHOP"
       ? ["Guía del estudiante", "Guía del docente"]
       : ["Hoja del estudiante", "Clave"];
-  const docOptions: { doc: Doc; label: string }[] = [
-    { doc: "student", label: studentLabel },
-    { doc: "key", label: keyLabel },
-    ...(props.answerSheet ? [{ doc: "answers" as const, label: "Hoja de respuestas" }] : []),
+  const docOptions: { doc: Doc; label: string; hint: string }[] = [
+    { doc: "student", label: studentLabel, hint: "Para entregar" },
+    { doc: "key", label: keyLabel, hint: "Solo para ti" },
+    ...(props.answerSheet
+      ? [{ doc: "answers" as const, label: "Hoja de respuestas", hint: "Para marcar A–D" }]
+      : []),
   ];
   const docs = prefs.docs.filter((d) => docOptions.some((o) => o.doc === d));
   const variants = withVariants ? prefs.variants : 1;
@@ -182,23 +184,28 @@ function DownloadForm(props: Props & { onDone: () => void }) {
 
       <fieldset className="flex flex-col gap-2">
         <legend className="mb-2 text-sm font-bold">Qué incluir</legend>
-        {docOptions.map(({ doc, label }) => {
-          const id = `download-${doc}`;
-          return (
-            <SelectableOption
-              key={doc}
-              id={id}
-              checked={docs.includes(doc)}
-              onCheckedChange={(checked) =>
-                update({
-                  docs: checked ? [...docs, doc] : docs.filter((d) => d !== doc),
-                })
-              }
-            >
-              {label}
-            </SelectableOption>
-          );
-        })}
+        {/* Tarjetas en cuadrícula, como las de formato: nunca filas a todo el ancho del modal. */}
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]">
+          {docOptions.map(({ doc, label, hint }) => {
+            const id = `download-${doc}`;
+            return (
+              <SelectableOption
+                key={doc}
+                id={id}
+                checked={docs.includes(doc)}
+                onCheckedChange={(checked) =>
+                  update({
+                    docs: checked ? [...docs, doc] : docs.filter((d) => d !== doc),
+                  })
+                }
+                description={hint}
+                className="h-full"
+              >
+                {label}
+              </SelectableOption>
+            );
+          })}
+        </div>
         {docs.length === 0 && (
           <p className="text-sm text-danger" role="alert">
             Elige al menos un documento.

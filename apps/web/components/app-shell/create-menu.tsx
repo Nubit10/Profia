@@ -61,10 +61,12 @@ type Props = {
   className?: string;
   /** Botón flotante redondo en el celular (SPEC-0012 §2.1). */
   floating?: boolean;
+  /** Dentro de un curso, el asistente abre con ese curso ya elegido. */
+  courseId?: string | null;
 };
 
 /** Botón "Crear": la acción primaria del área de trabajo (SPEC-0012 §2.1). */
-export function CreateMenu({ onNavigate, className, floating = false }: Props) {
+export function CreateMenu({ onNavigate, className, floating = false, courseId }: Props) {
   const router = useRouter();
   return (
     <DropdownMenu>
@@ -93,7 +95,7 @@ export function CreateMenu({ onNavigate, className, floating = false }: Props) {
                 if (!href) return;
                 onNavigate?.();
                 navigatingFromLayer();
-                router.push(href);
+                router.push(courseId ? `${href}&courseId=${encodeURIComponent(courseId)}` : href);
               }}
               className="items-start gap-3 py-2"
             >

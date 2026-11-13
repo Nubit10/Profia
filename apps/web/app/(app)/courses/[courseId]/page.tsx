@@ -8,6 +8,7 @@ import {
   HiOutlineRectangleStack,
 } from "react-icons/hi2";
 import { AiAvatar } from "@/components/brand/ai-avatar";
+import { ScrollableRow } from "@/components/scrollable-row";
 import { buttonVariants } from "@/components/ui/button";
 import { subjectTint } from "@/lib/subject-tint";
 import { LINKABLE_AREAS } from "@/lib/curriculum-areas";
@@ -31,7 +32,8 @@ const TABS = [
   { id: "planeacion", label: "Planeación", icon: HiOutlineCalendarDays },
   { id: "recursos", label: "Recursos", icon: HiOutlineRectangleStack },
   // Decisión 4 de SPEC-0012: "Referentes" se llama "DBA y Estándares" en la UI.
-  { id: "referentes", label: "DBA y Estándares", icon: HiOutlineBookOpen },
+  // En el celular, "DBA": las tres pestañas caben completas sin cortarse.
+  { id: "referentes", label: "DBA y Estándares", short: "DBA", icon: HiOutlineBookOpen },
 ] as const;
 type Tab = (typeof TABS)[number]["id"];
 
@@ -77,11 +79,13 @@ export default async function CoursePage({
           <HiOutlineArrowLeft aria-hidden />
           Volver a cursos
         </Link>
-        <div className="flex flex-wrap items-center gap-4 rounded-3xl border border-border bg-card p-5 shadow-soft sm:p-6">
+        {/* Celular: sin tarjeta, solo el curso (el botón flotante "Crear" ya está a mano).
+            Escritorio: tarjeta con "Crear con IA". */}
+        <div className="flex items-center gap-3 sm:gap-4 sm:rounded-3xl sm:border sm:border-border sm:bg-card sm:p-6 sm:shadow-soft">
           <span
             aria-hidden
             className={cn(
-              "flex size-14 shrink-0 items-center justify-center rounded-2xl text-2xl font-extrabold",
+              "flex size-12 shrink-0 items-center justify-center rounded-2xl text-xl font-extrabold sm:size-14 sm:text-2xl",
               tint.bg,
               tint.fg,
             )}
@@ -90,7 +94,7 @@ export default async function CoursePage({
           </span>
           {/* SPEC-0013 CA-0013-25: el texto tiene una base de ancho, así el botón baja a su propia
               línea en el celular en vez de partir el título. */}
-          <div className="flex min-w-0 flex-1 basis-48 flex-col gap-1">
+          <div className="flex min-w-0 flex-1 flex-col gap-0.5">
             {/* El grado y el grupo no se separan: nunca empieza una línea con "· 6°". */}
             <h1 className="text-xl font-extrabold sm:text-3xl">
               {course.subjectName}
@@ -98,14 +102,14 @@ export default async function CoursePage({
                 {courseTitle(course).slice(course.subjectName.length)}
               </span>
             </h1>
-            <p className="text-muted-foreground">
+            <p className="text-sm text-muted-foreground sm:text-base">
               Año {course.academicYear}
               {areaName ? ` · Área curricular: ${areaName}` : ""}
             </p>
           </div>
           <Link
             href={`/create?courseId=${course.id}`}
-            className={cn(buttonVariants({ variant: "brand", size: "lg" }), "max-sm:w-full")}
+            className={cn(buttonVariants({ variant: "brand", size: "lg" }), "max-sm:hidden")}
           >
             <AiAvatar size={20} tone="light" />
             Crear con IA
@@ -113,31 +117,44 @@ export default async function CoursePage({
         </div>
       </div>
 
-      <nav
-        aria-label="Secciones del curso"
-        className="grid grid-cols-3 gap-1 rounded-2xl border border-border bg-card p-1 shadow-soft sm:flex"
+      {/* Pestañas en una línea con subrayado; si no caben, la fila se desliza (patrón CliqCut). */}
+      <ScrollableRow
+        as="nav"
+        label="Secciones del curso"
+        className="-mx-4 border-b border-border sm:mx-0"
+        rowClassName="gap-1 px-4 sm:gap-2 sm:px-0"
       >
         {TABS.map((t) => {
           const Icon = t.icon;
+          const on = active === t.id;
           return (
             <Link
               key={t.id}
               href={`/courses/${course.id}?tab=${t.id}`}
-              aria-current={active === t.id ? "page" : undefined}
+              aria-current={on ? "page" : undefined}
+              data-active={on ? "" : undefined}
+              aria-label={t.label}
               className={cn(
-                // En el celular las tres pestañas se ven completas (sin cortarse): columnas iguales.
-                "flex min-h-11 items-center justify-center gap-2 rounded-xl px-2 py-2 text-center text-sm leading-tight font-semibold transition max-sm:flex-col max-sm:gap-1 max-sm:text-xs sm:shrink-0 sm:px-4 sm:whitespace-nowrap",
-                active === t.id
-                  ? "bg-brand text-white shadow-soft"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                "relative flex min-h-11 shrink-0 items-center gap-2 rounded-t-lg px-3 text-sm font-semibold whitespace-nowrap transition",
+                "after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full",
+                on
+                  ? "text-brand-strong after:bg-brand"
+                  : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
               )}
             >
               <Icon className="size-4" aria-hidden />
-              {t.label}
+              {"short" in t ? (
+                <>
+                  <span className="sm:hidden">{t.short}</span>
+                  <span className="max-sm:hidden">{t.label}</span>
+                </>
+              ) : (
+                t.label
+              )}
             </Link>
           );
         })}
-      </nav>
+      </ScrollableRow>
 
       {active === "planeacion" ? (
         <PlanningView
