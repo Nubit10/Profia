@@ -11,7 +11,7 @@ describe("menú lateral por rol (CA-0012-20)", () => {
   it("CA-0012-20: el docente ve Principal, Mi trabajo y Ajustes", () => {
     expect(titles({ isTeacher: true, isSchoolAdmin: false })).toEqual([
       ["Principal", ["Inicio", "Mis cursos"]],
-      ["Mi trabajo", ["Mis recursos", "Formatos"]],
+      ["Mi trabajo", ["Mis recursos", "PIAR", "Formatos"]],
       ["Ajustes", ["Asignaturas", "Notificaciones"]],
     ]);
   });
@@ -19,7 +19,7 @@ describe("menú lateral por rol (CA-0012-20)", () => {
   it("CA-0012-20: el administrador que también da clases ve además Colegio", () => {
     expect(titles({ isTeacher: true, isSchoolAdmin: true })).toEqual([
       ["Principal", ["Inicio", "Mis cursos"]],
-      ["Mi trabajo", ["Mis recursos", "Formatos"]],
+      ["Mi trabajo", ["Mis recursos", "PIAR", "Formatos"]],
       ["Ajustes", ["Asignaturas", "Notificaciones"]],
       ["Colegio", ["Datos y sedes", "Profesores"]],
     ]);

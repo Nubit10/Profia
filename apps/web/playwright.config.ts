@@ -1,4 +1,5 @@
 import { spawnSync } from "node:child_process";
+import { randomBytes } from "node:crypto";
 import { existsSync } from "node:fs";
 import { defineConfig, devices } from "@playwright/test";
 import webpush from "web-push";
@@ -60,6 +61,8 @@ export default defineConfig({
         NEXT_PUBLIC_VAPID_PUBLIC_KEY: vapid.publicKey,
         VAPID_PRIVATE_KEY: vapid.privateKey,
         VAPID_SUBJECT: "mailto:pruebas@profe.test",
+        // SPEC-0017 (ADR-0015): clave de cifrado del PIAR de un solo uso.
+        PIAR_ENCRYPTION_KEY: randomBytes(32).toString("base64"),
       },
     },
   ],

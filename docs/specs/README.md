@@ -24,6 +24,7 @@ Solo se implementa lo que está **Aprobada**. Solo el usuario (product owner) ap
 | [SPEC-0013](SPEC-0013-ux-mas-facil.md)               | Profe más fácil: menos pasos, hecho para el celular e instalable                | Transversal                 | Implementada      |
 | [SPEC-0014](SPEC-0014-flujos-asistidos-por-ia.md)    | Flujos asistidos por IA de punta a punta: el docente hace lo mínimo             | 4/6 · Planning y Generation | Implementada      |
 | [SPEC-0016](SPEC-0016-talleres-con-dua.md)           | Talleres con Diseño Universal para el Aprendizaje (DUA), a elección del docente | 6 · Generation              | Implementada      |
+| [SPEC-0017](SPEC-0017-piar.md)                       | PIAR: Plan Individual de Ajustes Razonables, privado y cifrado                  | 6 · Generation (privacidad) | Implementada      |
 
 ## Mapa del roadmap → specs previstas
 

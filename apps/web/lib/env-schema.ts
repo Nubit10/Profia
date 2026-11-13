@@ -23,6 +23,15 @@ const envSchema = z.object({
   // ofrece. Se generan una vez con `npx web-push generate-vapid-keys` y no se cambian.
   NEXT_PUBLIC_VAPID_PUBLIC_KEY: z.preprocess(emptyToUndefined, z.string().min(40).optional()),
   VAPID_PRIVATE_KEY: z.preprocess(emptyToUndefined, z.string().min(20).optional()),
+  // PIAR (SPEC-0017, ADR-0015): 32 bytes en base64. Opcional: sin ella Profe no ofrece el PIAR.
+  // Genérala UNA vez con `openssl rand -base64 32` y respáldala aparte de la base.
+  PIAR_ENCRYPTION_KEY: z.preprocess(
+    emptyToUndefined,
+    z
+      .string()
+      .refine((v) => Buffer.from(v, "base64").length === 32, "debe ser 32 bytes en base64")
+      .optional(),
+  ),
   /** Contacto para el servicio push: `mailto:` o una URL del sitio. */
   VAPID_SUBJECT: z.preprocess(
     emptyToUndefined,

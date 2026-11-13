@@ -354,7 +354,22 @@ def _planning(data: dict) -> dict:
     return {"units": units}
 
 
+def _piar(data: dict) -> dict:
+    """SPEC-0017: ajustes razonables completos para los temas del periodo."""
+    topic = (data.get("temas") or [data["asignatura"]])[0]
+    return {
+        "curricular": [f"Priorizar los aprendizajes esenciales de {topic} con metas intermedias."],
+        "didactic": [
+            "Dar las instrucciones por pasos, por escrito y en voz alta.",
+            f"Usar material concreto y apoyos visuales al trabajar {topic}.",
+        ],
+        "evaluative": ["Permitir responder de forma oral o con dibujos y dar tiempo adicional."],
+        "followUp": "Revisar cada semana el avance con una lista de chequeo corta.",
+    }
+
+
 TASKS = {
+    "piar": _piar,
     "planeacion": _planning,
     "quiz": _quiz,
     "taller": _workshop,

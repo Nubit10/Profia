@@ -188,6 +188,18 @@ test("móvil: el docente, pantalla por pantalla, a 360 px", async ({ page }) => 
     await page.goto(path);
     await check(page, name);
   }
+
+  // PIAR (SPEC-0017): lista, diálogo y editor.
+  await page.goto("/piar");
+  await check(page, "piar-lista");
+  await page.getByRole("button", { name: "Nuevo PIAR" }).click();
+  await check(page, "piar-nuevo");
+  const dialog = page.getByRole("dialog", { name: "Nuevo PIAR" });
+  await dialog.getByLabel("Nombre del estudiante").fill("Estudiante de prueba");
+  await dialog.getByRole("checkbox", { name: /Tengo la autorización/ }).click();
+  await dialog.getByRole("button", { name: "Crear PIAR" }).click();
+  await expect(page).toHaveURL(/\/piar\/[\w-]+$/);
+  await check(page, "piar-editor");
 });
 
 test("móvil: el colegio a 360 px", async ({ page }) => {

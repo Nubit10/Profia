@@ -131,6 +131,7 @@ model Institution {
   itemRegenerations  ItemRegeneration[]
   teacherPreferences TeacherPreference[]
   documentFormats    DocumentFormat[]
+  piars              Piar[]
   logo               InstitutionLogo?
 
   @@map("institutions")
@@ -169,6 +170,7 @@ model Membership {
   resources     Resource[]
   preferences   TeacherPreference[]
   formats       DocumentFormat[]
+  piars         Piar[]
 
   @@unique([institutionId, userId])
   @@unique([id, institutionId])
@@ -276,6 +278,7 @@ model Course {
   periods   CoursePeriod[]
   units     Unit[]
   resources Resource[]
+  piars     Piar[]
 
   @@unique([id, institutionId])
   @@unique([membershipId, subjectId, grade, groupName, academicYear])
@@ -737,4 +740,37 @@ model InstitutionLogo {
   updatedAt     DateTime    @updatedAt
 
   @@map("institution_logos")
+}
+
+// ---------------------------------------------------------------------------
+// PIAR (SPEC-0017, ADR-0015): datos de un estudiante menor de edad. Todo el contenido va cifrado
+// en la aplicación (AES-256-GCM); en claro solo quedan el curso, el año y las fechas.
+// ---------------------------------------------------------------------------
+
+model Piar {
+  id            String      @id @default(cuid())
+  institutionId String
+  institution   Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  /// Docente que lo creó: el único que lo ve (RN-01).
+  membershipId  String
+  membership    Membership  @relation(fields: [membershipId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  courseId      String
+  course        Course      @relation(fields: [courseId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  academicYear  String
+  /// Contenido cifrado: JSON de `piarContentSchema`. IV de 12 bytes y etiqueta de 16 (GCM).
+  ciphertext    Bytes
+  iv            Bytes
+  tag           Bytes
+  keyVersion    Int         @default(1)
+  /// RN-04: el docente confirmó la autorización del acudiente y del colegio.
+  consentAt     DateTime
+  /// RN-07: 31 de diciembre del año siguiente al año lectivo; luego se borra.
+  expiresAt     DateTime
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([id, institutionId])
+  @@index([institutionId, membershipId])
+  @@index([expiresAt])
+  @@map("piars")
 }

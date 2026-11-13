@@ -5,6 +5,7 @@ import {
   HiOutlineBuildingLibrary,
   HiOutlineDocumentText,
   HiOutlineHome,
+  HiOutlineLockClosed,
   HiOutlineRectangleStack,
   HiOutlineSquares2X2,
   HiOutlineUserGroup,
@@ -39,6 +40,8 @@ const ITEMS = {
     icon: HiOutlineRectangleStack,
     matches: /^\/resources(\/|$)/,
   },
+  // SPEC-0017: datos privados de estudiantes; el candado lo recuerda desde el menú.
+  piar: { href: "/piar", label: "PIAR", icon: HiOutlineLockClosed, matches: /^\/piar(\/|$)/ },
   formats: { href: "/formats", label: "Formatos", icon: HiOutlineDocumentText },
   subjects: { href: "/subjects", label: "Asignaturas", icon: HiOutlineBookOpen },
   notifications: { href: "/notifications", label: "Notificaciones", icon: HiOutlineBellAlert },
@@ -52,7 +55,7 @@ export function getNavSections({ isTeacher, isSchoolAdmin }: NavAccess): NavSect
   ];
   if (isTeacher) {
     sections.push(
-      { title: "Mi trabajo", items: [ITEMS.resources, ITEMS.formats] },
+      { title: "Mi trabajo", items: [ITEMS.resources, ITEMS.piar, ITEMS.formats] },
       { title: "Ajustes", items: [ITEMS.subjects, ITEMS.notifications] },
     );
   }

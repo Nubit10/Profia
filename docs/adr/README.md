@@ -18,3 +18,4 @@ Una decisión por archivo: `NNNN-titulo-en-kebab-case.md`, a partir de [_templat
 | [0012](0012-app-instalable-notificaciones-y-sin-conexion.md) | App instalable, notificaciones del navegador y recursos sin conexión | Aceptado  |
 | [0013](0013-propuesta-de-planeacion-con-ia.md)               | Propuesta de planeación con IA (`generation-planning.v1`)            | Aceptado  |
 | [0014](0014-dua-en-el-contrato-del-taller.md)                | DUA en el contrato del taller (campos opcionales y anexo `udl.v1`)   | Aceptado  |
+| [0015](0015-datos-sensibles-cifrados-en-la-aplicacion.md)    | Datos sensibles de estudiantes cifrados en la aplicación (PIAR)      | Aceptado  |

@@ -253,7 +253,7 @@ export function SettingsStep(props: Props) {
           Valores recomendados para {context.gradeLabel}:
         </span>
         {summary.map((s) => (
-          <Badge key={s} variant="brand">
+          <Badge key={s} variant="brand" className="h-auto max-w-full whitespace-normal">
             {s}
           </Badge>
         ))}

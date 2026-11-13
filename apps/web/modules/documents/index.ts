@@ -4,6 +4,7 @@ import "server-only";
 export { safeFilename } from "./filename";
 export {
   exportBundle,
+  exportPiar,
   exportResource,
   type BundleRequest,
   type ExportRequest,

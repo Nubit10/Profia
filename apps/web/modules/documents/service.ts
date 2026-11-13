@@ -6,6 +6,7 @@ import { getLogo } from "@/modules/formats";
 import { GRADE_LABELS } from "@/modules/courses/client";
 import { getTopicPeriodName } from "@/modules/planning";
 import { notFound } from "@/lib/errors";
+import { getPiarForExport } from "@/modules/piar";
 import { getResourceForExport } from "@/modules/resources";
 import {
   DEFAULT_GRADING_SCALE,
@@ -17,6 +18,7 @@ import { buildQuiz, buildWorkshop, type DocKind, type ExportContext } from "./bu
 import { buildExam, formatPoints, hasAnswerSheet } from "./build-exam";
 import { safeFilename } from "./filename";
 import type { DocFormat, DocModel } from "./model";
+import { buildPiar } from "./build-piar";
 import { renderDocx } from "./render-docx";
 import { renderPdf } from "./render-pdf";
 import { VARIANTS, type Variant } from "./shuffle";
@@ -215,5 +217,37 @@ export async function exportBundle(
     filename: `${bundleBase((student ?? files[0]!).filename)}.zip`,
     contentType: "application/zip",
     body,
+  };
+}
+
+/**
+ * SPEC-0017: el PIAR en Word o PDF. `getPiarForExport` comprueba el dueño y audita la descarga sin
+ * contenido. El nombre del archivo lleva solo las iniciales: queda en el historial de descargas.
+ */
+export async function exportPiar(
+  ctx: TenantContext,
+  piarId: string,
+  format: DocFormat,
+): Promise<ExportedFile> {
+  const piar = await getPiarForExport(ctx, piarId);
+  const school = ctx.institutionType === "SCHOOL";
+  const model = buildPiar(piar, {
+    logo: await getLogo(ctx),
+    institution: school ? ctx.institutionName : undefined,
+    teacherName: ctx.userName,
+    date: dateFormat.format(new Date()),
+  });
+  const initials = piar.content.student.name
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w) => `${w[0]!.toLocaleUpperCase("es")}.`)
+    .join("");
+  return {
+    filename: safeFilename(
+      ["PIAR", initials, piar.course.subjectName, piar.course.gradeLabel, piar.academicYear],
+      format,
+    ),
+    contentType: CONTENT_TYPES[format],
+    body: format === "pdf" ? await renderPdf(model) : await renderDocx(model),
   };
 }

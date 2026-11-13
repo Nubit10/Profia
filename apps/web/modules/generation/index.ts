@@ -4,6 +4,7 @@ import "server-only";
 export { acceptSuggestion, discardSuggestion, rateSuggestion, suggestObjectives } from "./service";
 export { MAX_BATCH_TOPICS, proposeObjectivesBatch } from "./objectives-batch";
 export { PROPOSALS_PER_DAY, PROPOSALS_PER_MINUTE, proposePlanning } from "./planning";
+export { proposePiarAdjustments } from "./piar";
 export {
   requestExam,
   requestExamItem,

@@ -139,6 +139,15 @@ git push -u origin main
    | `VAPID_PRIVATE_KEY`            | La *Private Key* del par (secreta: solo aquí, nunca en el repositorio) |
    | `VAPID_SUBJECT`                | `mailto:` con un correo de soporte, o la URL `https://` de Profe |
 
+   Opcional, para el **PIAR** (SPEC-0017, ADR-0015). Sin ella Profe no ofrece el PIAR. Cifra los datos
+   de los estudiantes: genérala **una sola vez** con `openssl rand -base64 32` y guárdala también en un
+   lugar seguro aparte de la base (un gestor de contraseñas). Si se pierde, los PIAR guardados no se
+   pueden leer.
+
+   | Variable              | Valor                                                   |
+   | --------------------- | ------------------------------------------------------- |
+   | `PIAR_ENCRYPTION_KEY` | 32 bytes en base64 (secreta: solo aquí y en tu respaldo) |
+
 3. Revisa estos ajustes en **Settings**:
    - *Build and Deployment → Node.js Version*: **24.x**.
    - *Functions → Function Region*: **Washington, D.C. (iad1)**, la misma región de Supabase.

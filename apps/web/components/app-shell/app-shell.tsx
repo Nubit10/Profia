@@ -43,7 +43,8 @@ import { useShellStore } from "./use-shell-store";
 export { type SpaceOption } from "./identity-card";
 
 /** Páginas con su propia barra de acciones abajo en el celular (SPEC-0013 CA-0013-18). */
-const OWN_BOTTOM_BAR = /^\/courses\/[^/]+\/resources\/[^/]+$/;
+// El recurso y el PIAR tienen su propia barra inferior (SPEC-0013, SPEC-0017).
+const OWN_BOTTOM_BAR = /^\/(courses\/[^/]+\/resources|piar)\/[^/]+$/;
 
 /** Quien no es docente no tiene biblioteca sin conexión: la sincronización no hace nada. */
 const NO_OFFLINE: OfflineActions = {

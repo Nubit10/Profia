@@ -63,7 +63,11 @@ export type AuditAction =
   | "format.created"
   | "format.updated"
   | "format.deleted"
-  | "logo.updated";
+  | "logo.updated"
+  | "piar.created"
+  | "piar.updated"
+  | "piar.downloaded"
+  | "piar.deleted";
 
 export type AuditEvent = {
   action: AuditAction;

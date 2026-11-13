@@ -409,3 +409,28 @@ export type EnginePlanningRequest = {
 
 export const requestPlanning = (body: EnginePlanningRequest, fetcher: typeof fetch = fetch) =>
   post("/v1/generation/planning", body, planningResponse, PLANNING_TIMEOUT_MS, fetcher);
+
+// --- SPEC-0017: ajustes razonables del PIAR (contrato generation-piar.v1) -------------------
+
+const piarResponse = z.object({
+  adjustments: z.object({
+    curricular: z.array(z.string()),
+    didactic: z.array(z.string()),
+    evaluative: z.array(z.string()),
+    followUp: z.string(),
+  }),
+  meta: resourceMeta,
+});
+export type EnginePiar = z.infer<typeof piarResponse>;
+
+/** RN-05 de SPEC-0017: solo datos pedagógicos; nunca nombre, edad, valoración ni fortalezas. */
+export type EnginePiarRequest = {
+  subject: string;
+  grade: string;
+  period: string;
+  topics: string[];
+  barriers: string;
+};
+
+export const requestPiarAdjustments = (body: EnginePiarRequest, fetcher: typeof fetch = fetch) =>
+  post("/v1/generation/piar-adjustments", body, piarResponse, TIMEOUT_MS, fetcher);

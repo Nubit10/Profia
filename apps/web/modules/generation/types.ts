@@ -61,3 +61,14 @@ export type ObjectivesBatchProposal =
     }
   | { status: "unavailable" }
   | { status: "invalid" };
+
+/** SPEC-0017: ajustes razonables propuestos para un periodo del PIAR. */
+export type PiarAdjustments = {
+  curricular: string[];
+  didactic: string[];
+  evaluative: string[];
+  followUp: string;
+};
+
+export type PiarProposal =
+  { status: "ok"; adjustments: PiarAdjustments } | { status: "unavailable" | "invalid" };

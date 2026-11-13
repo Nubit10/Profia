@@ -33,6 +33,7 @@ from ..generation.objectives import (
     ObjectiveRequest,
     suggest_objectives,
 )
+from ..generation.piar import PIAR_PROMPT_VERSION, PiarOut, PiarRequest, generate_piar
 from ..generation.pipeline import StructuredResult
 from ..generation.planning import (
     PLANNING_PROMPT_VERSION,
@@ -130,6 +131,13 @@ class WorkshopResponse(BaseModel):
 
 
 class ItemResponse(ItemOut):
+    meta: ResourceMeta
+
+
+class PiarResponse(BaseModel):
+    """SPEC-0017: ajustes razonables propuestos (contrato generation-piar.v1)."""
+
+    adjustments: PiarOut
     meta: ResourceMeta
 
 
@@ -409,5 +417,15 @@ def create_app(
             "format_analysis", FORMAT_PROMPT_VERSION, lambda: analyze_format(llm, body)
         )
         return FormatResponse(header=value.header, sections=value.sections, meta=meta)
+
+    @app.post(
+        "/v1/generation/piar-adjustments",
+        response_model=PiarResponse,
+        dependencies=[Depends(require_token)],
+    )
+    def piar_adjustments(body: PiarRequest) -> PiarResponse:
+        # SPEC-0017 RN-05: el pedido no admite datos personales; el log solo lleva métricas.
+        value, meta = run_resource("piar", PIAR_PROMPT_VERSION, lambda: generate_piar(llm, body))
+        return PiarResponse(adjustments=value, meta=meta)
 
     return app
