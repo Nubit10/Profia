@@ -31,6 +31,7 @@ import {
 } from "@/modules/planning";
 import { requireRole, type TenantContext } from "@/modules/tenancy";
 import {
+  carryAnswerChecks,
   engineExamQuestion,
   engineItem,
   examFromEngine,
@@ -1118,11 +1119,14 @@ export async function saveResourceContent(
   const result = schema.safeParse(content);
   if (!result.success) throw invalid(result.error.issues[0]?.message ?? "Contenido inválido");
   // RN-02 y RN-12: los temas del examen no se cambian al editar; salen de la copia guardada.
-  const parsed = (
+  const edited = (
     resource.type === "EXAM"
       ? { type: "EXAM", content: { ...result.data, topics: snapshotTopics(resource.context) } }
       : { type: resource.type, content: result.data }
   ) as ResourceContent;
+  // SPEC-0022 RN-08: las marcas de verificación salen de la versión anterior, nunca del navegador.
+  const previous = await currentContent(resource.id, resource.currentVersion, resource.type);
+  const parsed = carryAnswerChecks(previous, edited) as ResourceContent;
   return db.$transaction(async (tx) => {
     const number =
       (await replaceRecentVersion(tx, resource, parsed)) ??

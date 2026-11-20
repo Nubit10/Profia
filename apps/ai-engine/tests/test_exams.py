@@ -221,7 +221,8 @@ def test_endpoint_de_examen_con_el_llm_de_prueba(mock_api, auth):
     assert response.status_code == 200, response.text
     body = response.json()
     assert [len(s["questions"]) for s in body["exam"]["sections"]] == [6, 1, 4, 2]
-    assert body["meta"]["promptVersion"] == "exam.v1"
+    # SPEC-0022: en Matemáticas se suma el anexo de verificación de cálculos.
+    assert body["meta"]["promptVersion"] == "exam.v1+math_check.v1"
     assert [c["section"] for c in body["meta"]["calls"]] == [1, 2, 3, 4]
     assert body["meta"]["tokens"] == sum(c["tokens"] for c in body["meta"]["calls"])
 
@@ -230,7 +231,7 @@ def test_endpoint_de_examen_con_el_llm_de_prueba(mock_api, auth):
         "/v1/generation/exam/item", json=exam_item_request(question, 10), headers=auth
     )
     assert item.status_code == 200, item.text
-    assert item.json()["meta"]["promptVersion"] == "exam_item.v1"
+    assert item.json()["meta"]["promptVersion"] == "exam_item.v1+math_check.v1"
 
 
 def test_ca_0011_10_el_contrato_rechaza_campos_de_mas_y_exige_token(mock_api, auth):

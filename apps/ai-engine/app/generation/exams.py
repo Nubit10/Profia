@@ -12,6 +12,15 @@ from typing import Annotated, Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from ..providers.llm import LLM, Message
+from .mathcheck import (
+    MATH_CHECK_VERSION,
+    AnswerCheck,
+    MathCheck,
+    check_errors,
+    finalize,
+    is_math,
+    strip_checks,
+)
 from .objectives import DbaRef
 from .pipeline import StructuredResult, looks_spanish, norm, run_structured
 from .quality import balance_positions, check_questions
@@ -34,6 +43,14 @@ EXAM_PROMPT_VERSION = "exam.v1"
 EXAM_ITEM_PROMPT_VERSION = "exam_item.v1"
 EXAM_PROMPT = _prompt(EXAM_PROMPT_VERSION)
 EXAM_ITEM_PROMPT = _prompt(EXAM_ITEM_PROMPT_VERSION)
+MATH_CHECK_PROMPT = _prompt(MATH_CHECK_VERSION)
+
+
+def exam_prompt_version(subject: str, item: bool = False) -> str:
+    """SPEC-0022: en Matemáticas la versión registrada suma el anexo de verificación."""
+    base = EXAM_ITEM_PROMPT_VERSION if item else EXAM_PROMPT_VERSION
+    return f"{base}+{MATH_CHECK_VERSION}" if is_math(subject) else base
+
 
 ExamQuestionType = Literal["MULTIPLE_CHOICE", "TRUE_FALSE", "SHORT_ANSWER", "MATCHING", "OPEN"]
 # RN-09: máximo de preguntas por sección según el tipo (en emparejamiento, bloques de pares).
@@ -147,6 +164,9 @@ class ExamQuestion(BaseModel):
     topic: str = Field(max_length=4)
     cognitiveLevel: Level  # noqa: N815
     dbaCodes: list[str] = Field(default_factory=list, max_length=6)  # noqa: N815
+    # SPEC-0022: cálculo del modelo (entra) y estado de la verificación (sale).
+    check: MathCheck | None = None
+    answerCheck: AnswerCheck | None = None  # noqa: N815
 
 
 class SectionOut(BaseModel):
@@ -304,7 +324,8 @@ def build_section_messages(
         f"Elabora la sección {index + 1} del examen: exactamente {spec.questionCount} "
         f"preguntas de tipo {spec.questionType} ({TYPE_LABELS[spec.questionType]})."
     )
-    return _messages(EXAM_PROMPT, instruction, data)
+    system = f"{EXAM_PROMPT}\n{MATH_CHECK_PROMPT}" if is_math(request.subject) else EXAM_PROMPT
+    return _messages(system, instruction, data)
 
 
 def build_exam_item_messages(request: ExamItemRequest) -> list[Message]:
@@ -316,8 +337,11 @@ def build_exam_item_messages(request: ExamItemRequest) -> list[Message]:
         "indicacionDelDocente": request.instruction,
         "otrosItems": request.otherItems,
     }
+    system = (
+        f"{EXAM_ITEM_PROMPT}\n{MATH_CHECK_PROMPT}" if is_math(request.subject) else EXAM_ITEM_PROMPT
+    )
     return _messages(
-        EXAM_ITEM_PROMPT,
+        system,
         "Reescribe la pregunta del examen siguiendo la indicación del docente.",
         data,
     )
@@ -552,7 +576,19 @@ QUALITY_TYPES = ("MULTIPLE_CHOICE", "TRUE_FALSE", "SHORT_ANSWER")
 def section_quality(questions: list[ExamQuestion], request: ExamRequest, plan: SectionPlan):
     if plan.spec.questionType not in QUALITY_TYPES:
         return check_questions([], request.grade)
-    return check_questions(questions, request.grade)
+    report = check_questions(questions, request.grade)
+    if is_math(request.subject):
+        report.errors += check_errors(questions)
+    return report
+
+
+def verify_exam_math(
+    questions: list[ExamQuestion], subject: str, labels: list[str] | None = None
+) -> tuple[list[ExamQuestion], list[str]]:
+    """SPEC-0022 RN-06/07: estado de verificación de cada pregunta (solo Matemáticas)."""
+    if not is_math(subject):
+        return strip_checks(questions), []
+    return finalize(questions, labels)
 
 
 # --- Funciones públicas ----------------------------------------------------------------------
@@ -589,6 +625,9 @@ def generate_exam(llm: LLM, request: ExamRequest) -> ExamResult:
             quality=lambda out, p=plan: section_quality(out.questions, request, p).errors,
         )
         questions = [clean_exam_question(q, plan.spec.questionType) for q in result.value.questions]
+        questions, math_warnings = verify_exam_math(questions, request.subject)
+        if math_warnings:
+            result = replace(result, warnings=(*result.warnings, *math_warnings))
         # SPEC-0021 RN-08: equilibra la posición de la correcta en la sección, sin el modelo.
         questions = balance_positions(questions, "".join(q.stem for q in questions))
         notes = section_quality(questions, request, plan).notes
@@ -619,6 +658,12 @@ def regenerate_exam_item(llm: LLM, request: ExamItemRequest) -> StructuredResult
         ExamItemOut,
         lambda out: validate_exam_item(out, request),
         max_tokens=300 + TOKENS_PER_QUESTION[request.current.type],
+        quality=(
+            (lambda out: check_errors([out.item], ["Pregunta"]))
+            if is_math(request.subject) and request.current.type in QUALITY_TYPES
+            else None
+        ),
     )
     item = clean_exam_question(result.value.item, request.current.type)
-    return replace(result, value=ExamItemOut(item=item))
+    (item,), warnings = verify_exam_math([item], request.subject, ["Pregunta"])
+    return replace(result, value=ExamItemOut(item=item), warnings=(*result.warnings, *warnings))

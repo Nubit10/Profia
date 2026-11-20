@@ -128,6 +128,15 @@ distractores entre preguntas, el verbo no contradice el nivel cognitivo y la pre
 máximo de palabras del grado. La posición de la correcta se equilibra reordenando las opciones, sin
 llamar al modelo; las opciones numéricas en orden se dejan como están.
 
+## Verificación de Matemáticas (SPEC-0022, ADR-0017)
+
+En asignaturas de Matemáticas el prompt suma el anexo `math_check.v1` y la versión registrada es la
+combinación (p. ej. `quiz.v1+math_check.v1`). El modelo escribe `check` (el cálculo) en cada pregunta
+con respuesta numérica; el motor lo evalúa sin `eval`, no lo devuelve y agrega en cada pregunta de
+selección múltiple o respuesta corta `answerCheck: {"status": "VERIFIED" | "CORRECTED" | "REVIEW",
+"note": "…"}` (opcional). Solo corrige la respuesta cuando el cálculo coincide con exactamente una
+opción. Los desacuerdos que quedan van a `meta.qualityWarnings`.
+
 ## Errores (los tres endpoints)
 
 | Código | Cuándo                                    | Qué hace la web                                                |

@@ -30,8 +30,8 @@ Las funciones de Vercel tienen un límite de tamaño de paquete y no guardan est
   - el área de trabajo declara `maxDuration = 300`, el máximo de Vercel en todos sus planes;
   - las generaciones con `after()` (ADR-0008) corren dentro de ese límite: el cliente espera el examen como máximo 280 s y lo marca como interrumpido a los 6 minutos.
 - **Base (Supabase Free):**
-  - en ejecución, la web se conecta por el *pooler* en modo transacción (puerto 6543);
-  - las migraciones van por el *pooler* en modo sesión (puerto 5432);
+  - en ejecución, la web se conecta por el _pooler_ en modo transacción (puerto 6543);
+  - las migraciones van por el _pooler_ en modo sesión (puerto 5432);
   - la conexión va cifrada con `sslmode=require&uselibpqcompat=true`, porque la cadena de certificados de Supabase no está entre las CA públicas de Node;
   - la Data API de Supabase se apaga: Profe no la usa y expondría las tablas por HTTP.
 - **AI Engine (Space de Hugging Face, 2 vCPU y 16 GB):**
@@ -62,7 +62,7 @@ Las funciones de Vercel tienen un límite de tamaño de paquete y no guardan est
   - el AI Engine es una sola imagen portátil y sin servicios extra.
 - Negativas / costos:
   - **Vercel Hobby es para uso no comercial.** Sirve para un piloto sin cobro; cuando se les cobre a los clientes, se pasa a Pro.
-  - **El Space es público:** se ven el código del motor, sus prompts y el catálogo, que ya es público. Las claves van como *Secrets* y por el motor no pasan datos personales (RN-08 de SPEC-0008 y SPEC-0011).
+  - **El Space es público:** se ven el código del motor, sus prompts y el catálogo, que ya es público. Las claves van como _Secrets_ y por el motor no pasan datos personales (RN-08 de SPEC-0008 y SPEC-0011).
   - Si el monitor falla, el Space puede dormirse y Supabase pausarse. Mientras tanto, las generaciones fallan con un mensaje y sin gastar cupo.
   - Supabase Free no tiene respaldos descargables: hay que hacerlos a mano con `pg_dump`.
   - El cupo gratuito de Groq puede quedarse corto con uso real (un examen gasta 15.000–30.000 tokens).

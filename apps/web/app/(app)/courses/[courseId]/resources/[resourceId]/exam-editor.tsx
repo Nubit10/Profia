@@ -28,7 +28,9 @@ import {
   type ExamQuestion,
   type ExamSection,
   type ResourceDetail,
+  withoutStaleCheck,
 } from "@/modules/resources/client";
+import { AnswerCheckBadge } from "@/components/answer-check";
 import { DbaChip } from "@/components/curriculum/dba-chip";
 import { ItemFeedback, RegenerateItem, type FeedbackActions } from "./item-tools";
 
@@ -101,6 +103,7 @@ export function ExamQuestionView({
           ))}
         </ul>
       )}
+      <AnswerCheckBadge check={q.answerCheck} />
       {q.explanation && (
         <p className="text-xs text-muted-foreground">
           <span className="font-medium">Justificación:</span> {q.explanation}
@@ -647,7 +650,9 @@ export function ExamEditor({
                           topics={topics}
                           onChange={(next) =>
                             setSection(section.id, {
-                              questions: section.questions.map((x) => (x.id === q.id ? next : x)),
+                              questions: section.questions.map((x) =>
+                                x.id === q.id ? withoutStaleCheck(x, next) : x,
+                              ),
                             })
                           }
                         />

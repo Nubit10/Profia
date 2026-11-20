@@ -71,6 +71,12 @@ const RESOURCE_TIMEOUT_MS = 240_000;
 const level = z.enum(["REMEMBER", "UNDERSTAND", "APPLY", "ANALYZE", "EVALUATE", "CREATE"]);
 const questionType = z.enum(["MULTIPLE_CHOICE", "TRUE_FALSE", "SHORT_ANSWER"]);
 
+// SPEC-0022 / ADR-0017: verificación de la respuesta de Matemáticas (aditiva en el contrato).
+const answerCheck = z
+  .object({ status: z.enum(["VERIFIED", "CORRECTED", "REVIEW"]), note: z.string() })
+  .nullish()
+  .transform((v) => v ?? undefined);
+
 const engineQuestion = z.object({
   type: questionType,
   stem: z.string(),
@@ -79,6 +85,7 @@ const engineQuestion = z.object({
   explanation: z.string(),
   cognitiveLevel: level,
   dbaCodes: z.array(z.string()),
+  answerCheck,
 });
 const engineActivity = z.object({
   title: z.string(),
@@ -260,6 +267,7 @@ const engineExamQuestion = z.object({
   topic: z.string(),
   cognitiveLevel: level,
   dbaCodes: z.array(z.string()),
+  answerCheck,
 });
 const examResponse = z.object({
   exam: z.object({

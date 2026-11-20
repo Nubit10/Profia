@@ -106,6 +106,7 @@ export function toExamQuestion(
     topicId: topicIds[index] ?? topicIds[0]!,
     cognitiveLevel: q.cognitiveLevel,
     dbaCodes: onlyAllowed(q.dbaCodes, allowed),
+    ...(q.answerCheck && { answerCheck: q.answerCheck }),
   };
 }
 
@@ -152,6 +153,7 @@ export function engineExamQuestion(q: ExamQuestion, topicIds: string[]): EngineE
     topic: topicKey(index),
     cognitiveLevel: q.cognitiveLevel,
     dbaCodes: q.dbaCodes,
+    answerCheck: q.answerCheck,
   };
 }
 
@@ -310,4 +312,41 @@ export function engineItem(found: FoundItem): EngineQuestion | EngineActivity {
   const rest: Partial<typeof found.item> = { ...found.item };
   delete rest.id;
   return rest as EngineQuestion | EngineActivity;
+}
+
+/**
+ * SPEC-0022 RN-08: la marca de verificación es del AI Engine, no del navegador. Al guardar, una
+ * pregunta conserva su marca solo si su enunciado, opciones y respuesta son los de la versión
+ * anterior; si el docente la editó, la marca se quita (la respuesta ya es suya).
+ */
+export function carryAnswerChecks(previous: ResourceContent | null, next: ResourceContent) {
+  if (next.type === "WORKSHOP") return next;
+  const before = new Map<string, QuizQuestion | ExamQuestion>();
+  if (previous?.type === "QUIZ") previous.content.questions.forEach((q) => before.set(q.id, q));
+  if (previous?.type === "EXAM")
+    examQuestions(previous.content).forEach((q) => before.set(q.id, q));
+  const keep = <Q extends QuizQuestion | ExamQuestion>(q: Q): Q => {
+    const old = before.get(q.id);
+    const same =
+      !!old?.answerCheck &&
+      old.stem === q.stem &&
+      old.answer === q.answer &&
+      old.options.join("\u0000") === q.options.join("\u0000");
+    const rest = { ...q };
+    delete rest.answerCheck;
+    return same ? { ...rest, answerCheck: old!.answerCheck } : rest;
+  };
+  if (next.type === "QUIZ") {
+    return {
+      type: "QUIZ" as const,
+      content: { ...next.content, questions: next.content.questions.map(keep) },
+    };
+  }
+  return {
+    type: "EXAM" as const,
+    content: {
+      ...next.content,
+      sections: next.content.sections.map((s) => ({ ...s, questions: s.questions.map(keep) })),
+    },
+  };
 }

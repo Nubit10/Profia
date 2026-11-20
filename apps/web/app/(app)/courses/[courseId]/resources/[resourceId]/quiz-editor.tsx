@@ -24,7 +24,9 @@ import {
   type QuizContent,
   type QuizQuestion,
   type ResourceDetail,
+  withoutStaleCheck,
 } from "@/modules/resources/client";
+import { AnswerCheckBadge } from "@/components/answer-check";
 import { DbaChip } from "@/components/curriculum/dba-chip";
 import { ItemFeedback, RegenerateItem, type FeedbackActions } from "./item-tools";
 
@@ -52,6 +54,7 @@ export function QuestionView({ q, dba }: { q: QuizQuestion; dba: Map<string, num
           <span className="text-muted-foreground">Respuesta esperada:</span> {q.answer}
         </p>
       )}
+      <AnswerCheckBadge check={q.answerCheck} />
       {q.explanation && (
         <p className="text-xs text-muted-foreground" data-detail>
           <span className="font-medium">Justificación:</span> {q.explanation}
@@ -296,7 +299,9 @@ export function QuizEditor({
                   <QuestionForm
                     q={q}
                     onChange={(next) =>
-                      setQuestions(questions.map((x) => (x.id === q.id ? next : x)))
+                      setQuestions(
+                        questions.map((x) => (x.id === q.id ? withoutStaleCheck(x, next) : x)),
+                      )
                     }
                   />
                   <Button

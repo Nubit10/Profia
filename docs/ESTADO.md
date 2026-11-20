@@ -15,6 +15,15 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **SPEC-0022** — Verificar las respuestas de Matemáticas
+  ([spec](specs/SPEC-0022-verificar-respuestas-de-matematicas.md), ADR-0017), implementada el 2026-11-20.
+  Primera de las recomendaciones que el usuario pidió hacer ("hazlo lo que recomendaste"); siguen
+  SPEC-0023 (Saber/ICFES con figuras), SPEC-0024 (planes de aula y rúbricas en la escala del colegio),
+  SPEC-0025 (resultados → dificultades → refuerzo) y SPEC-0026 (validación con docentes).
+  - El modelo escribe el cálculo (`check`); el motor lo evalúa exacto y seguro, marca cada pregunta como
+    verificada, corregida o por revisar, y el editor lo muestra.
+  - Pruebas: AI Engine 170; web 299; e2e spec-0022 en verde.
+
 - **SPEC-0021** — Mejora continua de la IA con lo que hace el docente
   ([spec](specs/SPEC-0021-mejora-continua-con-el-docente.md), ADR-0016), implementada el 2026-11-20 con
   las recomendaciones de producto (el usuario aprobó "hazlo todo con tus recomendaciones").

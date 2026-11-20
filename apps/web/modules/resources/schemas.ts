@@ -417,6 +417,29 @@ export function examDefaultsForGrade(grade: Grade): ExamDefaults {
 const text = (max: number, label: string) =>
   z.string().trim().min(1, `${label}: no puede quedar vacío`).max(max, `${label}: máximo ${max}`);
 
+/** SPEC-0022 RN-07: verificación de la respuesta de Matemáticas (la decide el AI Engine). */
+export const ANSWER_CHECK_STATUSES = ["VERIFIED", "CORRECTED", "REVIEW"] as const;
+export const answerCheckSchema = z.object({
+  status: z.enum(ANSWER_CHECK_STATUSES),
+  note: z.string().max(200),
+});
+export type AnswerCheck = z.infer<typeof answerCheckSchema>;
+
+/** RN-08: si el docente cambia el enunciado, las opciones o la respuesta, la marca se quita. */
+export function withoutStaleCheck<
+  Q extends { stem: string; options: string[]; answer: string; answerCheck?: AnswerCheck },
+>(before: Q, next: Q): Q {
+  if (!next.answerCheck) return next;
+  const same =
+    before.stem === next.stem &&
+    before.answer === next.answer &&
+    before.options.join("\u0000") === next.options.join("\u0000");
+  if (same) return next;
+  const rest = { ...next };
+  delete rest.answerCheck;
+  return rest;
+}
+
 export const quizQuestionSchema = z
   .object({
     id: z.string().min(1).max(40),
@@ -427,6 +450,7 @@ export const quizQuestionSchema = z
     explanation: z.string().trim().max(1000),
     cognitiveLevel: z.enum(LEVELS),
     dbaCodes: z.array(z.string()).max(6),
+    answerCheck: answerCheckSchema.optional(),
   })
   .superRefine((q, ctx) => {
     if (q.type === "MULTIPLE_CHOICE") {
@@ -555,6 +579,7 @@ export const examQuestionSchema = z
     topicId: z.string().min(1).max(40),
     cognitiveLevel: z.enum(LEVELS),
     dbaCodes: z.array(z.string()).max(6),
+    answerCheck: answerCheckSchema.optional(),
   })
   .superRefine((q, ctx) => {
     const issue = (path: string, message: string) =>

@@ -9,6 +9,7 @@ from pydantic import ValidationError
 from app.api.main import create_app
 from app.generation.pipeline import GenerationInvalidError
 from app.generation.resources import (
+    MATH_CHECK_PROMPT,
     QUIZ_PROMPT,
     ItemRequest,
     QuizRequest,
@@ -66,6 +67,8 @@ def mc(stem: str, answer: str = "−3", level: str = "REMEMBER", codes=None, opt
         "explanation": "Está más a la izquierda en la recta.",
         "cognitiveLevel": level,
         "dbaCodes": ["MEN-DBA-MAT-V2-G6-01"] if codes is None else codes,
+        # SPEC-0022: en Matemáticas cada respuesta numérica trae su cálculo.
+        "check": {"expression": answer.replace("−", "-")},
     }
 
 
@@ -268,7 +271,8 @@ def test_las_notas_y_preferencias_van_como_datos_no_como_instrucciones():
     llm = ScriptedLLM(quiz_out(GOOD_QUIZ))
     generate_quiz(llm, QuizRequest(**{**QUIZ, "notes": injection, "preferences": ["Más ejemplos"]}))
     system, user = llm.calls[0]
-    assert system.content == QUIZ_PROMPT
+    # SPEC-0022: en Matemáticas el prompt suma el anexo de verificación de cálculos.
+    assert system.content == f"{QUIZ_PROMPT}\n{MATH_CHECK_PROMPT}"
     assert injection not in system.content
     inside = user.content.split(DATA_START, 1)[1].split(DATA_END, 1)[0]
     assert injection in inside
@@ -313,7 +317,7 @@ def test_endpoints_con_el_llm_de_prueba(mock_api, auth):
     assert quiz.status_code == 200, quiz.text
     body = quiz.json()
     assert len(body["quiz"]["questions"]) == 4
-    assert body["meta"]["promptVersion"] == "quiz.v1"
+    assert body["meta"]["promptVersion"] == "quiz.v1+math_check.v1"
     assert body["meta"]["tokens"] > 0
 
     for structure in [

@@ -12,12 +12,11 @@ from qdrant_client import QdrantClient
 
 from ..config import Settings, get_settings
 from ..generation.exams import (
-    EXAM_ITEM_PROMPT_VERSION,
-    EXAM_PROMPT_VERSION,
     ExamItemOut,
     ExamItemRequest,
     ExamOut,
     ExamRequest,
+    exam_prompt_version,
     generate_exam,
     regenerate_exam_item,
 )
@@ -49,7 +48,6 @@ from ..generation.preferences import (
 )
 from ..generation.quality import QUALITY_RULES_VERSION
 from ..generation.resources import (
-    QUIZ_PROMPT_VERSION,
     ItemOut,
     ItemRequest,
     QuizOut,
@@ -59,6 +57,7 @@ from ..generation.resources import (
     generate_quiz,
     generate_workshop,
     item_prompt_version,
+    quiz_prompt_version,
     regenerate_item,
     workshop_prompt_version,
 )
@@ -374,7 +373,9 @@ def create_app(
         "/v1/generation/quiz", response_model=QuizResponse, dependencies=[Depends(require_token)]
     )
     def quiz(body: QuizRequest) -> QuizResponse:
-        value, meta = run_resource("quiz", QUIZ_PROMPT_VERSION, lambda: generate_quiz(llm, body))
+        value, meta = run_resource(
+            "quiz", quiz_prompt_version(body), lambda: generate_quiz(llm, body)
+        )
         return QuizResponse(quiz=value, meta=meta)
 
     @app.post(
@@ -419,7 +420,7 @@ def create_app(
             )
             return result
 
-        value, meta = run_resource("exam", EXAM_PROMPT_VERSION, run)  # type: ignore[arg-type]
+        value, meta = run_resource("exam", exam_prompt_version(body.subject), run)  # type: ignore[arg-type]
         return ExamResponse(exam=value, meta=ExamMeta(**meta.model_dump(), calls=calls))
 
     @app.post(
@@ -429,7 +430,9 @@ def create_app(
     )
     def exam_item(body: ExamItemRequest) -> ExamItemResponse:
         value, meta = run_resource(
-            "exam_item", EXAM_ITEM_PROMPT_VERSION, lambda: regenerate_exam_item(llm, body)
+            "exam_item",
+            exam_prompt_version(body.subject, item=True),
+            lambda: regenerate_exam_item(llm, body),
         )
         return ExamItemResponse(item=value.item, meta=meta)
 

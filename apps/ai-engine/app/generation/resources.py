@@ -12,6 +12,15 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from ..config import ENGINE_DIR
 from ..providers.llm import DATA_END, DATA_START, LLM, Message
+from .mathcheck import (
+    MATH_CHECK_VERSION,
+    AnswerCheck,
+    MathCheck,
+    check_errors,
+    finalize,
+    is_math,
+    strip_checks,
+)
 from .objectives import DbaRef, TopicRef
 from .pipeline import StructuredResult, looks_spanish, norm, run_structured
 from .quality import balance_positions, check_questions
@@ -38,6 +47,8 @@ WORKSHOP_PROMPT = _prompt(WORKSHOP_PROMPT_VERSION)
 WORKSHOP_CUSTOM_PROMPT = _prompt(WORKSHOP_CUSTOM_PROMPT_VERSION)
 ITEM_PROMPT = _prompt(ITEM_PROMPT_VERSION)
 UDL_PROMPT = _prompt(UDL_PROMPT_VERSION)
+# SPEC-0022 / ADR-0017: anexo que pide el cálculo de cada respuesta numérica en Matemáticas.
+MATH_CHECK_PROMPT = _prompt(MATH_CHECK_VERSION)
 
 Level = Literal["REMEMBER", "UNDERSTAND", "APPLY", "ANALYZE", "EVALUATE", "CREATE"]
 LEVELS: tuple[Level, ...] = ("REMEMBER", "UNDERSTAND", "APPLY", "ANALYZE", "EVALUATE", "CREATE")
@@ -178,9 +189,24 @@ def workshop_prompt_version(request: "WorkshopRequest") -> str:
 
 
 def item_prompt_version(request: "ItemRequest") -> str:
+    if wants_udl(request):
+        return f"{ITEM_PROMPT_VERSION}+{UDL_PROMPT_VERSION}"
+    if wants_math_check(request):
+        return f"{ITEM_PROMPT_VERSION}+{MATH_CHECK_VERSION}"
+    return ITEM_PROMPT_VERSION
+
+
+def quiz_prompt_version(request: "QuizRequest") -> str:
+    """SPEC-0022: en Matemáticas la versión registrada suma el anexo de verificación."""
     return (
-        f"{ITEM_PROMPT_VERSION}+{UDL_PROMPT_VERSION}" if wants_udl(request) else ITEM_PROMPT_VERSION
+        f"{QUIZ_PROMPT_VERSION}+{MATH_CHECK_VERSION}"
+        if is_math(request.subject)
+        else QUIZ_PROMPT_VERSION
     )
+
+
+def wants_math_check(request: "ItemRequest") -> bool:
+    return request.kind == "QUIZ_QUESTION" and is_math(request.subject)
 
 
 class QuizQuestion(BaseModel):
@@ -192,6 +218,9 @@ class QuizQuestion(BaseModel):
     explanation: str = Field(max_length=1000)
     cognitiveLevel: Level  # noqa: N815
     dbaCodes: list[str] = Field(default_factory=list, max_length=6)  # noqa: N815
+    # SPEC-0022: el modelo escribe el cálculo; el motor decide `answerCheck` y no devuelve `check`.
+    check: MathCheck | None = None
+    answerCheck: AnswerCheck | None = None  # noqa: N815
 
 
 class QuizOut(BaseModel):
@@ -364,9 +393,8 @@ def build_quiz_messages(request: QuizRequest) -> list[Message]:
         "tiposPermitidos": request.questionTypes,
         "preguntasPorNivel": target_counts(request.cognitiveDistribution, request.itemCount),
     }
-    return _messages(
-        QUIZ_PROMPT, f"Elabora un quiz de exactamente {request.itemCount} preguntas.", data
-    )
+    system = f"{QUIZ_PROMPT}\n{MATH_CHECK_PROMPT}" if is_math(request.subject) else QUIZ_PROMPT
+    return _messages(system, f"Elabora un quiz de exactamente {request.itemCount} preguntas.", data)
 
 
 def build_workshop_messages(request: WorkshopRequest) -> list[Message]:
@@ -416,6 +444,8 @@ def build_item_messages(request: ItemRequest) -> list[Message]:
     if wants_udl(request):
         data["enfoqueDUA"] = True
         system = f"{ITEM_PROMPT}\n{UDL_PROMPT}"
+    elif wants_math_check(request):
+        system = f"{ITEM_PROMPT}\n{MATH_CHECK_PROMPT}"
     return _messages(system, f"Reescribe {noun} siguiendo la indicación del docente.", data)
 
 
@@ -668,14 +698,16 @@ def generate_quiz(llm: LLM, request: QuizRequest) -> StructuredResult[QuizOut]:
         max_tokens=600 + 260 * request.itemCount,
         max_wait_s=BACKGROUND_MAX_WAIT_S,
         # SPEC-0021 RN-07 a RN-12: calidad de las preguntas, sin llamar al modelo.
-        quality=lambda out: check_questions(out.questions, request.grade).errors,
+        quality=lambda out: quiz_quality(out.questions, request.grade, request.subject),
     )
     questions = [_clean_question(q) for q in result.value.questions]
+    # SPEC-0022 RN-06/07: verificación final de las respuestas de Matemáticas.
+    questions, math_warnings = verify_math(questions, request.subject)
     # RN-08: la posición de la correcta se equilibra reordenando, nunca con el modelo.
     questions = balance_positions(questions, "".join(q.stem for q in questions))
     notes = check_questions(questions, request.grade).notes
     quiz = result.value.model_copy(update={"questions": questions})
-    return replace(result, value=quiz, warnings=(*result.warnings, *notes))
+    return replace(result, value=quiz, warnings=(*result.warnings, *math_warnings, *notes))
 
 
 def generate_workshop(llm: LLM, request: WorkshopRequest) -> StructuredResult[WorkshopOut]:
@@ -712,17 +744,38 @@ def generate_workshop(llm: LLM, request: WorkshopRequest) -> StructuredResult[Wo
 
 
 def regenerate_item(llm: LLM, request: ItemRequest) -> StructuredResult[ItemOut]:
+    math = wants_math_check(request)
     result = run_structured(
         llm,
         build_item_messages(request),
         ItemOut,
         lambda out: validate_item(out, request),
         max_tokens=700,
+        quality=(
+            (lambda out: check_errors([out.item]) if isinstance(out.item, QuizQuestion) else [])
+            if math
+            else None
+        ),
     )
     item = result.value.item
-    cleaned = (
-        _clean_question(item)
-        if isinstance(item, QuizQuestion)
-        else _clean_activity(item, wants_udl(request))
-    )
-    return replace(result, value=ItemOut(item=cleaned))
+    warnings: list[str] = []
+    if isinstance(item, QuizQuestion):
+        cleaned, warnings = verify_math([_clean_question(item)], request.subject)
+        item_out: QuizQuestion | Activity = cleaned[0]
+    else:
+        item_out = _clean_activity(item, wants_udl(request))
+    return replace(result, value=ItemOut(item=item_out), warnings=(*result.warnings, *warnings))
+
+
+# --- Verificación de Matemáticas (SPEC-0022) --------------------------------------------------
+
+
+def quiz_quality(questions: list[QuizQuestion], grade: str, subject: str) -> list[str]:
+    errors = check_questions(questions, grade).errors
+    return errors + check_errors(questions) if is_math(subject) else errors
+
+
+def verify_math[Q](questions: list[Q], subject: str) -> tuple[list[Q], list[str]]:
+    if not is_math(subject):
+        return strip_checks(questions), []
+    return finalize(questions)
