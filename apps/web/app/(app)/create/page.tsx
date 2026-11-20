@@ -119,7 +119,10 @@ export default async function CreatePage({ searchParams }: PageProps<"/create">)
             ? units
                 .filter((u) => u.periodNumber === scope.periodNumber)
                 .flatMap((u) => u.topics.map((t) => t.id))
-            : [];
+            : // Prueba de usabilidad: con un solo tema en el curso no hay nada que elegir.
+              topicIds.size === 1
+              ? [...topicIds]
+              : [];
 
   // SPEC-0014 CA-0014-12: la ficha de los DBA de los objetivos sale del catálogo del curso.
   const dbaRefs =

@@ -144,9 +144,20 @@ describe("schema del examen (SPEC-0011)", () => {
       ],
       100,
     );
-    // 10 de peso 1 y 2 de peso 3: 100 / 16 = 6,25 → 6,3 por pregunta; 18,8 por abierta.
-    expect(sections.map((s) => s.pointsPerQuestion)).toEqual([6.3, 18.8]);
-    expect(examBlueprintPoints(sections)).toBe(100.6);
+    // 10 de peso 1 y 2 de peso 3: 100 / 16 = 6,25 → 6,3 por pregunta; las abiertas absorben el
+    // redondeo para que el total sea justo: (100 − 63) / 2 = 18,5.
+    expect(sections.map((s) => s.pointsPerQuestion)).toEqual([6.3, 18.5]);
+    expect(examBlueprintPoints(sections)).toBe(100);
+    // Los valores recomendados de 6° (10 + 5 + 4 de respuesta corta) suman 100, no 100,4.
+    const grade6 = distributePoints(
+      [
+        { questionType: "MULTIPLE_CHOICE" as const, questionCount: 10 },
+        { questionType: "TRUE_FALSE" as const, questionCount: 5 },
+        { questionType: "SHORT_ANSWER" as const, questionCount: 4 },
+      ],
+      100,
+    );
+    expect(examBlueprintPoints(grade6)).toBe(100);
   });
 
   it("RN-02/03/09: tamaño del examen y más temas que preguntas", () => {

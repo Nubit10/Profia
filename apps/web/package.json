@@ -20,6 +20,7 @@
     "curriculum:import": "node --conditions=react-server --import tsx scripts/curriculum-import.mts",
     "curriculum:verify": "python curriculum/tools/verify_sources.py",
     "benchmark:cases": "node --conditions=react-server --import tsx scripts/benchmark-cases.mts",
+    "ux:recorrido": "node scripts/recorrido-docente.mjs",
     "metrics:resources": "node --conditions=react-server --import tsx scripts/resource-metrics.mts",
     "piar:key": "node scripts/piar-key.mjs"
   },

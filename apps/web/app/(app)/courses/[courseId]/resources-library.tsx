@@ -51,7 +51,7 @@ export function ResourcesLibrary({
         <EmptyState
           icon={HiOutlineCalendarDays}
           title="Todavía no hay recursos en este curso"
-          description="Los recursos se crean desde los temas. Planea tus temas y la IA te prepara talleres, quices y exámenes."
+          description="Los recursos se crean desde los temas. Planea tus temas y la IA te prepara talleres, quices, exámenes y planes de aula."
           action={
             <Link
               href={`/courses/${courseId}?tab=planeacion`}

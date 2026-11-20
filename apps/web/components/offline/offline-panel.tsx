@@ -16,7 +16,7 @@ import { offlinePreference, setOfflinePreference, wipeOffline } from "./offline-
 
 const QUESTION = "¿Guardar tus recursos en este dispositivo para usarlos sin conexión?";
 const EXPLANATION =
-  "Tus talleres, quices y exámenes en Word y PDF, listos para descargar aunque no haya internet. Si este computador lo usan otras personas, mejor no.";
+  "Tus talleres, quices, exámenes y planes de aula en Word y PDF, listos para descargar aunque no haya internet. Si este computador lo usan otras personas, mejor no.";
 
 function subscribe(listener: () => void) {
   window.addEventListener("profe:offline-preference", listener);

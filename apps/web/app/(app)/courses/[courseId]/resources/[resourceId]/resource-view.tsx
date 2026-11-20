@@ -31,6 +31,7 @@ import {
   examTotalPoints,
   type ExamContent,
   type LessonPlanContent,
+  type QuickResourceRequest,
   type QuizContent,
   type ResourceDetail,
   type ResourceStatus,
@@ -41,6 +42,7 @@ import { Downloads } from "./downloads";
 import { ExamEditor } from "./exam-editor";
 import { GradingScalePanel } from "./grading-scale";
 import { LessonPlanEditor } from "./lesson-plan-editor";
+import { NextForTopic } from "./next-for-topic";
 import { ResourceRating, type FeedbackActions } from "./item-tools";
 import { QuizEditor } from "./quiz-editor";
 import { WorkshopEditor } from "./workshop-editor";
@@ -65,6 +67,8 @@ export type ResourceActions = FeedbackActions & {
     status: "READY" | "DRAFT" | "ARCHIVED" | "RESTORE";
   }) => Promise<ActionResult>;
   duplicate: (input: { resourceId: string }) => Promise<ActionResult<{ id: string }>>;
+  /** Crear otro recurso del mismo tema con un toque (SPEC-0014 RN-07). */
+  quickCreate: (input: QuickResourceRequest) => Promise<ActionResult<{ id: string }>>;
   /** SPEC-0011 RN-14: escala de notas de la clave del examen. */
   gradingScale: (input: {
     resourceId: string;
@@ -495,6 +499,15 @@ export function ResourceView({
               total={examTotalPoints(resource.data.content)}
               initial={resource.gradingScale}
               save={actions.gradingScale}
+            />
+          )}
+          {/* Prueba de usabilidad: lo siguiente que pide el docente es otro recurso del mismo tema. */}
+          {resource.type !== "EXAM" && (
+            <NextForTopic
+              courseId={resource.courseId}
+              topic={{ id: resource.context.topic.id, title: resource.context.topic.title }}
+              current={resource.type}
+              quickCreate={actions.quickCreate}
             />
           )}
           <ResourceRating

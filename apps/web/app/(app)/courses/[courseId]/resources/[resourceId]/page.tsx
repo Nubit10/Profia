@@ -67,6 +67,7 @@ export default async function ResourcePage({
             addPreference: resources.addPreferenceAction,
             regenerate: resources.regenerateItemAction,
             decide: resources.decideRegenerationAction,
+            quickCreate: resources.quickCreateResourceAction,
           }}
         />
       </DbaCatalogProvider>

@@ -19,6 +19,27 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **Prueba de usabilidad y de funcionamiento**, 2026-11-20
+  ([informe](usabilidad/2026-11-20-recorrido-docente.md)). Pedido del usuario: que sea tan fácil como
+  pedirle algo a ChatGPT, pero sin escribir instrucciones.
+  - Recorrido de una profesora nueva en celular y computador (`npm run ux:recorrido -w @profe/web`):
+    bajó de 34/29 a 27/24 clics para el trabajo de una semana.
+  - Cambios:
+    - "¿Qué más necesitas para «tema»?" al final de cada recurso: quiz, taller o plan del mismo tema
+      con un toque.
+    - Sin botón flotante dentro del asistente (tapaba botones).
+    - Estructuras del taller plegadas.
+    - Áreas táctiles de 44 px en la opción correcta y los interruptores.
+    - Examen que suma 100 exacto; tema único ya marcado en el examen.
+    - "Crear rápido" con los cinco tipos; un ícono por tipo.
+  - Las e2e de descargas fallaban por el contenedor sin configuración regional (no por el producto):
+    `playwright.config.ts` fija `LANG=C.UTF-8` y ya pasan.
+  - Pruebas: AI Engine 189; web 313; e2e 96 (nueva `usabilidad.movil.spec.ts`).
+  - Pendiente: los avisos emergentes tapan un momento el título en el celular; la validación con
+    docentes reales (SPEC-0026).
+  - Entorno: si se reinicia y Docker Hub no deja bajar la imagen, PostgreSQL 16 local sirve en 5434
+    (`initdb` en `/var/lib/postgresql/profe-data`, bases `profe` y `profe_test`).
+
 - **SPEC-0024** — Plan de aula y rúbrica en la escala del colegio
   ([spec](specs/SPEC-0024-plan-de-aula-y-escala-de-valoracion.md), ADR-0019), implementada el 2026-11-20.
   - Recurso `LESSON_PLAN` ("Plan de aula"): sesiones (1–6) de 30–120 minutos con inicio, desarrollo y

@@ -36,18 +36,23 @@ export function OptionSwitch({
         aria-labelledby={`${id}-label`}
         aria-describedby={`${id}-help`}
         onClick={() => onChange(!checked)}
-        className={cn(
-          "relative mt-1 inline-flex h-7 w-12 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none max-sm:my-2",
-          checked ? "bg-brand" : "bg-muted-foreground/40",
-        )}
+        // Prueba de usabilidad: el área táctil es de 44 × 56 px; el riel se ve igual que antes.
+        className="group -my-2 flex h-11 w-14 shrink-0 cursor-pointer items-center justify-center rounded-full focus-visible:outline-none"
       >
         <span
           aria-hidden
           className={cn(
-            "inline-block size-6 rounded-full bg-white shadow transition-transform",
-            checked ? "translate-x-5" : "translate-x-0",
+            "relative inline-flex h-7 w-12 items-center rounded-full border-2 border-transparent transition-colors group-focus-visible:ring-2 group-focus-visible:ring-ring",
+            checked ? "bg-brand" : "bg-muted-foreground/40",
           )}
-        />
+        >
+          <span
+            className={cn(
+              "inline-block size-6 rounded-full bg-white shadow transition-transform",
+              checked ? "translate-x-5" : "translate-x-0",
+            )}
+          />
+        </span>
       </button>
     </div>
   );

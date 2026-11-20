@@ -307,12 +307,29 @@ export function distributePoints<
     (sum, s) => sum + POINT_WEIGHTS[s.questionType] * Math.max(0, Number(s.questionCount) || 0),
     0,
   );
-  return sections.map((s) => ({
+  const out = sections.map((s) => ({
     ...s,
     pointsPerQuestion: weight
       ? Math.max(0.1, roundPoints((total * POINT_WEIGHTS[s.questionType]) / weight))
       : 1,
   }));
+  // Prueba de usabilidad: el redondeo dejaba totales como 100,4. Si una sección (de la última a la
+  // primera) puede absorber la diferencia con un valor exacto de un decimal, el total queda justo.
+  const count = (s: T) => Math.max(0, Number(s.questionCount) || 0);
+  for (let i = out.length - 1; i >= 0 && weight; i--) {
+    const n = count(out[i]!);
+    if (n === 0) continue;
+    const others = out.reduce(
+      (sum, s, j) => (j === i ? sum : sum + count(s) * s.pointsPerQuestion),
+      0,
+    );
+    const each = (total - others) / n;
+    if (each >= 0.1 && Math.abs(roundPoints(each) - each) < 1e-9) {
+      out[i] = { ...out[i]!, pointsPerQuestion: roundPoints(each) };
+      break;
+    }
+  }
+  return out;
 }
 
 const usedLevels = (d: Partial<Record<CognitiveLevel, number>>) =>

@@ -5,8 +5,10 @@ import { useState, useTransition } from "react";
 import type { IconType } from "react-icons";
 import {
   HiOutlineArrowRight,
+  HiOutlineBookOpen,
   HiOutlineCalendarDays,
   HiOutlineClipboardDocumentCheck,
+  HiOutlineClipboardDocumentList,
   HiOutlineFolderOpen,
   HiOutlinePencilSquare,
   HiOutlinePlus,
@@ -48,6 +50,18 @@ const QUICK: { label: string; description: string; href: string; icon: IconType 
     description: "Preguntas con su clave",
     href: "/create?type=QUIZ",
     icon: HiOutlineClipboardDocumentCheck,
+  },
+  {
+    label: "Examen",
+    description: "De una unidad o del periodo",
+    href: "/create?type=EXAM",
+    icon: HiOutlineClipboardDocumentList,
+  },
+  {
+    label: "Plan de aula",
+    description: "La clase por sesiones, con rúbrica",
+    href: "/create?type=LESSON_PLAN",
+    icon: HiOutlineBookOpen,
   },
   {
     label: "Planeación",
@@ -267,7 +281,7 @@ export function TeacherHomeView(props: Props) {
           {home.recent.length === 0 ? (
             <EmptyState
               icon={HiOutlineFolderOpen}
-              title="Aquí verás tus talleres y quices"
+              title="Aquí verás lo que crees"
               description="Lo que crees con IA queda guardado y lo puedes editar y descargar cuando quieras."
               action={
                 firstSteps ? undefined : (

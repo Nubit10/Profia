@@ -128,6 +128,7 @@ test("CA-0008-02/14: el taller usa la estructura que elige el docente", async ({
   await topicWithObjective(page, "6D");
 
   await page.getByRole("link", { name: /^Taller/ }).click();
+  await page.getByRole("button", { name: /^Cambiar estructura/ }).click();
   const option = page.getByRole("radio", { name: /Situación problema/ });
   await expect(option).toContainText("Necesita al menos 4 actividades");
   await option.click();

@@ -98,7 +98,7 @@ export default async function MyResourcesPage({ searchParams }: PageProps<"/reso
       <PageHeader
         eyebrow={ctx.institutionName}
         title="Mis recursos"
-        description="Todos tus talleres, quices y exámenes, ordenados por curso, periodo y tema."
+        description="Tus talleres, quices, exámenes y planes de aula, ordenados por curso, periodo y tema."
         actions={
           <>
             <Link href="/create" className={buttonVariants({ size: "lg" })}>

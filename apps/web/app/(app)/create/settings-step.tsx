@@ -134,6 +134,9 @@ export function SettingsStep(props: Props) {
   const draftKey = `${DRAFT_STORAGE_PREFIX}${type}:${context.topic.id}`;
   const [submitting, setSubmitting] = useState(false);
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  // Prueba de usabilidad: las estructuras ocupaban media pantalla en el celular. Se ve la elegida;
+  // "Cambiar estructura" muestra las demás.
+  const [allStructures, setAllStructures] = useState(false);
   const restored = useRef(false);
 
   /** Cada momento o sección de actividades necesita al menos una actividad. */
@@ -303,12 +306,13 @@ export function SettingsStep(props: Props) {
               name="structure"
               render={({ field }) => (
                 <div
-                  className="grid gap-2 md:grid-cols-2"
+                  className={cn("grid gap-2", allStructures && "md:grid-cols-2")}
                   role="radiogroup"
                   aria-label="Estructura del taller"
                 >
                   {context.formats.map((f) => {
                     const value = `format:${f.id}`;
+                    if (!allStructures && field.value !== value) return null;
                     return (
                       <button
                         key={f.id}
@@ -317,6 +321,7 @@ export function SettingsStep(props: Props) {
                         aria-checked={field.value === value}
                         onClick={() => {
                           field.onChange(value);
+                          setAllStructures(false);
                           const min = minActivities(value);
                           if (form.getValues("itemCount") < min) form.setValue("itemCount", min);
                         }}
@@ -347,6 +352,7 @@ export function SettingsStep(props: Props) {
                   })}
                   {STRUCTURES.map((s) => {
                     const info = WORKSHOP_STRUCTURES[s];
+                    if (!allStructures && field.value !== s) return null;
                     return (
                       <button
                         key={s}
@@ -355,6 +361,7 @@ export function SettingsStep(props: Props) {
                         aria-checked={field.value === s}
                         onClick={() => {
                           field.onChange(s);
+                          setAllStructures(false);
                           if (form.getValues("itemCount") < info.moments.length) {
                             form.setValue("itemCount", info.moments.length);
                           }
@@ -379,6 +386,18 @@ export function SettingsStep(props: Props) {
                 </div>
               )}
             />
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="w-fit"
+              aria-expanded={allStructures}
+              onClick={() => setAllStructures((v) => !v)}
+            >
+              {allStructures
+                ? "Ver solo la elegida"
+                : `Cambiar estructura (${STRUCTURES.length + context.formats.length} opciones)`}
+            </Button>
             <FieldError errors={[errors.structure]} />
           </FieldSet>
         )}
@@ -627,18 +646,23 @@ function UdlSwitch({ checked, onChange }: { checked: boolean; onChange: (v: bool
         aria-labelledby="udl-label"
         aria-describedby="udl-help"
         onClick={() => onChange(!checked)}
-        className={cn(
-          "relative mt-1 inline-flex h-7 w-12 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none max-sm:my-2",
-          checked ? "bg-brand" : "bg-muted-foreground/40",
-        )}
+        // Prueba de usabilidad: el área táctil es de 44 × 56 px; el riel se ve igual que antes.
+        className="group -my-2 flex h-11 w-14 shrink-0 cursor-pointer items-center justify-center rounded-full focus-visible:outline-none"
       >
         <span
           aria-hidden
           className={cn(
-            "inline-block size-6 rounded-full bg-white shadow transition-transform",
-            checked ? "translate-x-5" : "translate-x-0",
+            "relative inline-flex h-7 w-12 items-center rounded-full border-2 border-transparent transition-colors group-focus-visible:ring-2 group-focus-visible:ring-ring",
+            checked ? "bg-brand" : "bg-muted-foreground/40",
           )}
-        />
+        >
+          <span
+            className={cn(
+              "inline-block size-6 rounded-full bg-white shadow transition-transform",
+              checked ? "translate-x-5" : "translate-x-0",
+            )}
+          />
+        </span>
       </button>
     </div>
   );

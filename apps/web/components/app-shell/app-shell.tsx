@@ -45,6 +45,8 @@ export { type SpaceOption } from "./identity-card";
 /** Páginas con su propia barra de acciones abajo en el celular (SPEC-0013 CA-0013-18). */
 // El recurso y el PIAR tienen su propia barra inferior (SPEC-0013, SPEC-0017).
 const OWN_BOTTOM_BAR = /^\/(courses\/[^/]+\/resources|piar)\/[^/]+$/;
+/** En el asistente ya se está creando: el botón flotante tapaba sus botones (prueba de usabilidad). */
+const CREATING = /^\/create(\/|$)/;
 
 /** Quien no es docente no tiene biblioteca sin conexión: la sincronización no hace nada. */
 const NO_OFFLINE: OfflineActions = {
@@ -318,14 +320,17 @@ export function AppShell(props: Props) {
 
       {/* Celular: "Crear" siempre a mano, flotando abajo a la derecha. SPEC-0013 RN-11: nada más
           flota abajo, así que no aparece donde la página ya tiene su barra inferior (el recurso). */}
-      {access.isTeacher && !sidebarOpen && !OWN_BOTTOM_BAR.test(pathname) && (
-        <div
-          data-floating="create"
-          className="fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-30 lg:hidden"
-        >
-          <CreateMenu floating courseId={/^\/courses\/([^/]+)/.exec(pathname)?.[1] ?? null} />
-        </div>
-      )}
+      {access.isTeacher &&
+        !sidebarOpen &&
+        !OWN_BOTTOM_BAR.test(pathname) &&
+        !CREATING.test(pathname) && (
+          <div
+            data-floating="create"
+            className="fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-30 lg:hidden"
+          >
+            <CreateMenu floating courseId={/^\/courses\/([^/]+)/.exec(pathname)?.[1] ?? null} />
+          </div>
+        )}
 
       <Dialog open={confirmLogout} onOpenChange={setConfirmLogout}>
         <DialogContent className="sm:max-w-sm">

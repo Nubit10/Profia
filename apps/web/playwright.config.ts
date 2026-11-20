@@ -28,7 +28,14 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [["list"], ["html", { open: "never" }]] : "list",
-  use: { baseURL, trace: "retain-on-failure", locale: "es-CO" },
+  use: {
+    baseURL,
+    trace: "retain-on-failure",
+    locale: "es-CO",
+    // Sin configuración regional (contenedores con LANG vacío), Chromium no decodifica los nombres
+    // con tildes o "°" de `filename*` y guarda la descarga como "download". Un equipo real la tiene.
+    launchOptions: { env: { ...process.env, LANG: process.env.LANG || "C.UTF-8" } },
+  },
   projects: [
     { name: "chromium", use: { ...devices["Desktop Chrome"] }, testIgnore: /\.movil\.spec\.ts$/ },
     // SPEC-0013 RN-11: las pantallas en un celular (390 × 844, táctil). Chromium: es el que está

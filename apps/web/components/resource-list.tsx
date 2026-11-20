@@ -2,6 +2,8 @@ import Link from "next/link";
 import {
   HiOutlineChevronRight,
   HiOutlineClipboardDocumentCheck,
+  HiOutlineBookOpen,
+  HiOutlineClipboardDocumentList,
   HiOutlinePencilSquare,
 } from "react-icons/hi2";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +13,7 @@ import { cn } from "@/lib/utils";
 import {
   RESOURCE_TYPE_LABELS,
   STATUS_LABELS,
+  type ResourceType,
   type ResourceStatus,
   type ResourceSummary,
 } from "@/modules/resources/client";
@@ -27,6 +30,14 @@ const STATUS_VARIANT: Record<ResourceStatus, "success" | "brand" | "info" | "war
 export function StatusBadge({ status }: { status: ResourceStatus }) {
   return <Badge variant={STATUS_VARIANT[status]}>{STATUS_LABELS[status]}</Badge>;
 }
+
+/** Un ícono por tipo, el mismo del menú Crear (prueba de usabilidad: todo era un lápiz). */
+const TYPE_ICONS: Record<ResourceType, typeof HiOutlineBookOpen> = {
+  WORKSHOP: HiOutlinePencilSquare,
+  QUIZ: HiOutlineClipboardDocumentCheck,
+  EXAM: HiOutlineClipboardDocumentList,
+  LESSON_PLAN: HiOutlineBookOpen,
+};
 
 type Item = ResourceSummary & { courseId: string; courseTitle?: string; version?: number };
 
@@ -58,7 +69,7 @@ export function ResourceList({
       aria-label={label}
     >
       {resources.map((r) => {
-        const Icon = r.type === "QUIZ" ? HiOutlineClipboardDocumentCheck : HiOutlinePencilSquare;
+        const Icon = TYPE_ICONS[r.type];
         return (
           <li key={r.id}>
             <Link

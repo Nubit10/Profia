@@ -157,13 +157,17 @@ function QuestionForm({ q, onChange }: { q: QuizQuestion; onChange: (q: QuizQues
           <legend className="mb-1 text-sm font-medium">Opciones (marca la correcta)</legend>
           {q.options.map((o, i) => (
             <div key={i} className="flex items-center gap-2">
-              <input
-                type="radio"
-                name={`${q.id}-answer`}
-                aria-label={`Opción ${i + 1} es la correcta`}
-                checked={o !== "" && o === q.answer}
-                onChange={() => onChange({ ...q, answer: o })}
-              />
+              {/* Prueba de usabilidad: el círculo medía 13 px; ahora toda el área de 44 px lo marca. */}
+              <label className="flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-xl hover:bg-muted">
+                <input
+                  type="radio"
+                  className="size-5 cursor-pointer accent-brand"
+                  name={`${q.id}-answer`}
+                  aria-label={`Opción ${i + 1} es la correcta`}
+                  checked={o !== "" && o === q.answer}
+                  onChange={() => onChange({ ...q, answer: o })}
+                />
+              </label>
               <Input
                 aria-label={`Opción ${i + 1}`}
                 value={o}
