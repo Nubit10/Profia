@@ -27,7 +27,8 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
     que queda va a `generation_logs.qualityWarnings`.
   - C: `npm run benchmark:cases -w @profe/web` (casos anonimizados en `apps/ai-engine/benchmarks/real/`,
     fuera de git) y `benchmark-resources --real`; `metrics:resources` con señales implícitas.
-  - Pruebas: AI Engine 146; web 297 unitarias e integración; e2e spec-0021 (2) en verde. Las e2e que
+  - Revisión (reviewer): Aprobado; se corrigió que un 👎 reciente en un recurso viejo no contaba.
+  - Pruebas: AI Engine 146; web 298 unitarias e integración; build; e2e spec-0021 (2) en verde. Las e2e que
     revisan el nombre de un archivo descargado fallan en este entorno ("download"): no es de esta spec.
   - Pendiente: política de privacidad y términos antes de correr `benchmark:cases` en producción;
     revisión de los primeros casos reales; ajustar umbrales con las métricas.

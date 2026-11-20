@@ -341,3 +341,44 @@ El usuario aprobó la spec con las recomendaciones de producto:
     `tests/e2e/spec-0021*.spec.ts` (CA-04 y CA-09).
 - **Pendiente fuera del código:** publicar la política de privacidad y los términos antes de correr
   `benchmark:cases` contra producción (decisión 5), y que el product owner revise los primeros casos.
+
+## 13. Revisión (reviewer, 2026-11-20)
+
+| Criterio      | Estado   | Evidencia                                                                                                           |
+| ------------- | -------- | ------------------------------------------------------------------------------------------------------------------- |
+| CA-0021-01    | Cumplido | `tests/integration/spec-0021.test.ts` (3 recursos sí, 2 no, al marcar listo); motor `test_preferences.py`           |
+| CA-0021-02    | Cumplido | Integración: 7 días; una llamada al día aunque la IA no proponga; un 👎 reciente en un recurso viejo cuenta         |
+| CA-0021-03    | Cumplido | Integración: texto editado, solo este curso, viaja en `preferences`; doble decisión → "Ya la decidiste"             |
+| CA-0021-04    | Cumplido | Integración (90 días, `declined` al motor); motor `drop_known`; E2E escritorio "No, gracias"                        |
+| CA-0021-05    | Cumplido | Integración (desactiva la anterior en la misma transacción); motor `conflictsWith`                                  |
+| CA-0021-06    | Cumplido | Integración (claves del contrato, sin correo ni ids); motor `422` con campos extra                                  |
+| CA-0021-07    | Cumplido | Integración: el administrador del colegio recibe "no encontrado" y no ve la propuesta                               |
+| CA-0021-08    | Cumplido | Integración: motor caído → sin tarjeta, log `UNAVAILABLE`, sin recurso nuevo                                        |
+| CA-0021-09    | Cumplido | `tests/e2e/spec-0021.movil.spec.ts` (360 px, axe, Atrás cierra la hoja, aceptar)                                    |
+| CA-0021-10…14 | Cumplido | `apps/ai-engine/tests/test_quality.py`                                                                              |
+| CA-0021-15    | Cumplido | Motor (solo calidad no tumba; último intento con solo calidad); integración (`qualityWarnings` = 1)                 |
+| CA-0021-16    | Cumplido | `test_quality.py` con el mock; `benchmark-resources --mock` y `benchmark-exams --mock`: 100 % válidos, 1.er intento |
+| CA-0021-17    | Cumplido | Integración: dos colegios, sin ids ni teléfono, id opaco estable con la sal                                         |
+| CA-0021-18    | Cumplido | `test_quality.py` (`run_real_cases` y reporte); el examen queda como omitido                                        |
+| CA-0021-19    | Cumplido | Integración: editado, borrados y agregados, listo y descargado sin editar, avisos, aceptación                       |
+
+- **Reglas globales:**
+  - todo filtra por `institutionId` y `membershipId`, con `requireRole` en el servidor;
+  - la salida de la IA se valida con schema y validador;
+  - no se envían ids ni datos de contacto, y el PIAR no se toca;
+  - sin dependencias nuevas;
+  - los módulos solo se importan por su API pública (lo verifica ESLint).
+- **Hallazgo corregido en la revisión:** un 👎 o una calificación recientes sobre un recurso que no cambió
+  no contaban como señal (el filtro era por `updatedAt` del recurso). Ahora cuentan; tiene prueba en
+  CA-0021-02.
+- **No bloqueante:**
+  - las ediciones se comparan contra la versión de la IA, así que una edición antigua puede volver a
+    contar en un recurso que se sigue editando después de una propuesta;
+  - el examen todavía no se corre con casos reales (`--real`).
+- **Verificación:**
+  - lint, typecheck y build sin errores;
+  - Vitest 298 de 298; AI Engine 146 de 146 y ruff limpio;
+  - e2e de SPEC-0021: 2 de 2.
+  - Las e2e de otras specs que revisan el nombre de un archivo descargado fallan en este entorno ("download"
+    en vez del nombre); no tocan esta spec.
+- **Veredicto: Aprobado.**

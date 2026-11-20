@@ -59,7 +59,17 @@ const clean = (value: string) => redactContactData(value).trim().slice(0, COMMEN
 async function collectSignals(ctx: TenantContext, since: Date): Promise<Signal[]> {
   const scope = { institutionId: ctx.institutionId, membershipId: ctx.membershipId };
   const resources = await db.resource.findMany({
-    where: { ...scope, status: { in: ["DRAFT", "READY"] }, updatedAt: { gte: since } },
+    // Un recurso viejo cuenta si la señal es reciente (un 👎 no cambia `updatedAt` del recurso).
+    where: {
+      ...scope,
+      status: { in: ["DRAFT", "READY"] },
+      OR: [
+        { updatedAt: { gte: since } },
+        { ratedAt: { gte: since } },
+        { itemFeedback: { some: { updatedAt: { gte: since } } } },
+        { regenerations: { some: { decidedAt: { gte: since } } } },
+      ],
+    },
     orderBy: { updatedAt: "desc" },
     take: 50,
     select: {

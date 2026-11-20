@@ -236,6 +236,30 @@ describe("Parte A: preferencias propuestas (SPEC-0021)", () => {
     expect(fetcher).toHaveBeenCalledTimes(1);
   });
 
+  it("CA-0021-02: RN-06 una sola llamada al día aunque la IA no proponga nada", async () => {
+    const { ctx, topic } = await teacher();
+    const ids = await withSignals(ctx, topic.id);
+    const fetcher = engine({ "/v1/generation/preference-suggestions": ok(suggestionsBody([])) });
+    const f = fetcher as unknown as typeof fetch;
+    expect(await maybeProposePreferences(ctx, { fetcher: f })).toBe(0);
+    expect(await maybeProposePreferences(ctx, { fetcher: f })).toBe(0);
+    expect(fetcher).toHaveBeenCalledTimes(1);
+    const tomorrow = new Date(Date.now() + 25 * 3600 * 1000);
+    await maybeProposePreferences(ctx, { fetcher: f, now: tomorrow });
+    expect(fetcher).toHaveBeenCalledTimes(2);
+    // Un 👎 reciente en un recurso cuenta aunque el recurso no haya cambiado.
+    await db.resource.updateMany({
+      where: { id: ids[2]! },
+      data: { updatedAt: new Date(Date.now() - 90 * 24 * 3600 * 1000) },
+    });
+    const old = (await getResource(ctx, ids[2]!)).data!.content as QuizContent;
+    await rateItem(ctx, ids[2]!, old.questions[1]!.id, "DOWN", "Confuso");
+    const inTwoDays = new Date(Date.now() + 49 * 3600 * 1000);
+    await maybeProposePreferences(ctx, { fetcher: f, now: inTwoDays });
+    const signals = bodyOf(fetcher, 2).signals as { kind: string; comment?: string }[];
+    expect(signals.some((x) => x.comment === "Confuso")).toBe(true);
+  });
+
   it("CA-0021-03: aceptar con texto editado y solo este curso crea la preferencia que viaja al generar", async () => {
     const { ctx, course, topic } = await teacher();
     await withSignals(ctx, topic.id);
