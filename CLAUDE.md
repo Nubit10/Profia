@@ -25,6 +25,7 @@ Plataforma de gestión y producción pedagógica asistida por IA para docentes e
 - SPEC-0018 implementada: en el celular, "sin conexión" en "Mis recursos" es un ícono con punto de aviso junto a "Crear con IA" que abre una hoja inferior (`OfflineButton`); en escritorio sigue la tarjeta.
 - SPEC-0019 implementada: el asistente de crear va un paso por pantalla (Curso y Tema separados; examen Curso → Temas → Ajustes → Confirmar); lo elegido se ve en los pasos (`Stepper` con `values`; fila deslizable de fichas en el celular) y el enlace para volver al paso anterior va debajo de los pasos. Sin tarjeta "Curso / Tema".
 - SPEC-0020 en Borrador: material de referencia del docente (PDF, Word, texto, enlace o libro) para generar, sobre todo en asignaturas sin DBA. Necesita ADR.
+- SPEC-0021 en Borrador: mejora continua de la IA con lo que hace el docente (preferencias propuestas, validador de calidad de preguntas, casos reales al benchmark). Necesita ADR-0016.
 - Siguiente: planes de aula (Fase 6), preguntas tipo Saber/ICFES para exámenes, o formatos propios para quices y exámenes.
 - Índice de specs y su estado: [docs/specs/README.md](docs/specs/README.md)
 - Decisiones de arquitectura: [docs/adr/README.md](docs/adr/README.md)

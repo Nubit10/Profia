@@ -5,6 +5,16 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## En curso
 
+- **SPEC-0021** — Mejora continua de la IA con lo que hace el docente
+  ([spec](specs/SPEC-0021-mejora-continua-con-el-docente.md)). Estado: **Borrador**, 2026-11-20.
+  - Pedido: que la IA aprenda de verdad del docente. Hoy solo las preferencias escritas a mano cambian la
+    siguiente generación; estrellas, 👍/👎, ediciones y regeneraciones se guardan pero no vuelven a la IA.
+  - Propuesta: (A) Profe propone preferencias a partir de ediciones, 👎 con comentario y regeneraciones, y
+    el docente decide; (B) validador de calidad de preguntas determinista (opción más larga, posición de la
+    correcta reordenando, distractores repetidos, verbo y nivel, longitud por grado); (C) casos reales al
+    benchmark y métricas implícitas.
+  - Siguiente paso: el usuario responde las 5 preguntas abiertas y la aprueba → ADR-0016 → `/implement`.
+
 - **SPEC-0020** — Material de referencia del docente ([spec](specs/SPEC-0020-material-de-referencia.md)).
   Estado: **Borrador**, esperando que el usuario responda las 3 preguntas abiertas y la apruebe.
   - Pedido: cuando la asignatura no tiene DBA, que el docente pueda subir un PDF, pegar contenido, dar el

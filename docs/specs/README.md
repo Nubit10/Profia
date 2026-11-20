@@ -28,6 +28,7 @@ Solo se implementa lo que está **Aprobada**. Solo el usuario (product owner) ap
 | [SPEC-0018](SPEC-0018-sin-conexion-compacto-en-celular.md) | "Sin conexión" compacto en el celular: ícono con aviso y ventana                | Transversal                 | Implementada |
 | [SPEC-0019](SPEC-0019-asistente-un-paso-por-pantalla.md)   | Asistente de crear: un paso por pantalla, lo elegido en los pasos y «Atrás»     | Transversal                 | Implementada |
 | [SPEC-0020](SPEC-0020-material-de-referencia.md)           | Material de referencia del docente para generar (PDF, texto, libro o web)       | 6 · Generation              | Borrador     |
+| [SPEC-0021](SPEC-0021-mejora-continua-con-el-docente.md)   | Mejora continua de la IA con lo que hace el docente                             | 6 · Generation              | Borrador     |
 
 ## Mapa del roadmap → specs previstas
 
