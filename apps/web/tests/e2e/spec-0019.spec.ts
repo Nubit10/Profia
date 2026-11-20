@@ -4,7 +4,7 @@ import { teacherWithTwoCourses } from "./spec-0019-support";
 // SPEC-0019: el asistente de crear va un paso por pantalla; elegir avanza y lo elegido queda en los
 // pasos (escritorio).
 
-test("CA-0019-01/02/03/04/05: examen paso a paso, lo elegido en los pasos y «Atrás»", async ({
+test("CA-0019-01/02/03/04/05: examen paso a paso, lo elegido en los pasos y «Volver»", async ({
   page,
 }) => {
   test.setTimeout(120_000);
@@ -33,11 +33,11 @@ test("CA-0019-01/02/03/04/05: examen paso a paso, lo elegido en los pasos y «At
   await expect(steps).toContainText("La creación");
   await expect(page.getByRole("definition")).toHaveCount(0);
 
-  // CA-0019-04: «Atrás» vuelve al paso anterior (los temas, con lo marcado).
-  await steps.getByRole("link", { name: "Atrás" }).click();
+  // CA-0019-04: «Volver» vuelve al paso anterior (los temas, con lo marcado).
+  await page.getByRole("link", { name: "Volver a los temas" }).click();
   await expect(page.getByRole("heading", { name: "¿Qué temas evalúa?" })).toBeVisible();
   await expect(page.getByRole("button", { name: /Continuar con 1 tema/ })).toBeVisible();
-  await steps.getByRole("link", { name: "Atrás" }).click();
+  await page.getByRole("link", { name: "Volver al curso" }).click();
   await expect(page.getByRole("heading", { name: "¿Para qué curso?" })).toBeVisible();
 
   // CA-0019-03: tocar un paso hecho lleva a cambiarlo.
@@ -47,12 +47,11 @@ test("CA-0019-01/02/03/04/05: examen paso a paso, lo elegido en los pasos y «At
   await expect(page.getByRole("heading", { name: "¿Para qué curso?" })).toBeVisible();
 });
 
-test("CA-0019-01/04: taller: curso, luego tema en otra pantalla, y «Atrás» desde los ajustes", async ({
+test("CA-0019-01/04: taller: curso, luego tema en otra pantalla, y «Volver» desde los ajustes", async ({
   page,
 }) => {
   test.setTimeout(120_000);
   await teacherWithTwoCourses(page);
-  const steps = page.getByRole("navigation", { name: "Pasos" });
   await page.goto("/create?type=WORKSHOP");
   await expect(page.getByRole("heading", { name: "¿Sobre qué tema?" })).toHaveCount(0);
   await page.getByRole("radio", { name: /Matemáticas/ }).click();
@@ -61,6 +60,6 @@ test("CA-0019-01/04: taller: curso, luego tema en otra pantalla, y «Atrás» de
   await page.getByLabel(/tema vas a trabajar/).fill("Fracciones");
   await page.getByRole("button", { name: "Usar este tema" }).click();
   await expect(page.getByRole("button", { name: "Generar taller" })).toBeVisible();
-  await steps.getByRole("link", { name: "Atrás" }).click();
+  await page.getByRole("link", { name: "Volver al tema" }).click();
   await expect(page.getByRole("heading", { name: "¿Sobre qué tema?" })).toBeVisible();
 });

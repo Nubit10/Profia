@@ -19,9 +19,11 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
   ([spec](specs/SPEC-0019-asistente-un-paso-por-pantalla.md)), implementada el 2026-11-20.
   - Curso y Tema son pasos separados (examen: Curso → Temas → Ajustes → Confirmar); elegir avanza a otra
     pantalla. Lo elegido se ve en los pasos (escritorio) o en fichas (celular) y tocarlo lo cambia.
-    «Atrás» en escritorio y celular. Se quitó la tarjeta "Curso / Tema".
+    Volver al paso anterior va arriba del título ("← Volver al curso", "← Volver a los temas"…), igual
+    en escritorio y celular (antes era un botón «Atrás» suelto sobre los pasos; al usuario no le gustó).
+    Se quitó la tarjeta "Curso / Tema".
   - Código: `apps/web/app/(app)/create/create-wizard.tsx`, `page.tsx` (`curso=elegir`),
-    `apps/web/components/stepper.tsx` (`values`, «Atrás» en escritorio).
+    `apps/web/components/stepper.tsx` (`values`), `components/page-header.tsx` (`back`, 44 px en el celular).
   - Pruebas: `spec-0019.spec.ts`, `spec-0019.movil.spec.ts` y ajustes en `ux.spec.ts`, `spec-0013.spec.ts`.
     Capturas: `docs/design/capturas/spec-0019/`.
 

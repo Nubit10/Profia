@@ -3,7 +3,7 @@ import { teacherWithTwoCourses } from "./spec-0019-support";
 
 // SPEC-0019 en el celular (iPhone 13): lo elegido va en fichas bajo la barra de avance.
 
-test("CA-0019-06: en el celular, fichas de 44 px con lo elegido que llevan a cambiarlo, y «Atrás»", async ({
+test("CA-0019-06: en el celular, fichas de 44 px con lo elegido que llevan a cambiarlo, y «Volver»", async ({
   page,
 }) => {
   test.setTimeout(120_000);
@@ -23,6 +23,6 @@ test("CA-0019-06: en el celular, fichas de 44 px con lo elegido que llevan a cam
   }
   await chosen.getByRole("link", { name: /Cambiar tema: La creación/ }).click();
   await expect(page.getByRole("heading", { name: "¿Sobre qué tema?" })).toBeVisible();
-  await page.getByRole("link", { name: "Atrás" }).click();
+  await page.getByRole("link", { name: "Volver al curso" }).click();
   await expect(page.getByRole("heading", { name: "¿Para qué curso?" })).toBeVisible();
 });

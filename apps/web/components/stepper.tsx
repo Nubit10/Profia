@@ -1,16 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { HiCheck, HiChevronLeft, HiOutlinePencil } from "react-icons/hi2";
+import { HiCheck, HiOutlinePencil } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 
 /**
  * Pasos de un flujo (patrón de CliqCut, `BookingWizard`).
- * - Celular: "Atrás", "Paso 2 de 3 · Curso y tema", una barra de progreso y puntos que se alargan al
+ * - Celular: "Paso 2 de 3 · Curso", una barra de progreso y puntos que se alargan al
  *   avanzar. Nunca hay una fila de nombres que se corte ni pasos a medias en el borde.
  * - Escritorio: la fila completa con el número y el nombre de cada paso; los hechos son enlaces.
  * - SPEC-0019: con `values`, cada paso hecho muestra lo elegido (p. ej. el curso) y tocarlo lo cambia;
  *   en el celular, lo elegido va en fichas bajo la barra. Así no hace falta una tarjeta de resumen.
+ *   Volver al paso anterior va en el encabezado de la página (`PageHeader` con `back`), no aquí.
  */
 export function Stepper({
   labels,
@@ -29,7 +30,6 @@ export function Stepper({
   className?: string;
 }) {
   const total = labels.length;
-  const back = current > 0 ? (hrefFor?.(current - 1) ?? null) : null;
   const progress = ((current + 1) / total) * 100;
   const chosen = labels
     .map((label, index) => ({ label, index, value: values?.[index] ?? null }))
@@ -39,18 +39,7 @@ export function Stepper({
     <nav aria-label="Pasos" className={className}>
       {/* Celular */}
       <div className="flex flex-col gap-2 sm:hidden">
-        <div className="flex min-h-11 items-center justify-between gap-3">
-          {back ? (
-            <Link
-              href={back}
-              className="-ml-2 flex min-h-11 items-center gap-1 rounded-full px-2 text-sm font-medium text-muted-foreground hover:text-foreground"
-            >
-              <HiChevronLeft className="size-4" aria-hidden />
-              Atrás
-            </Link>
-          ) : (
-            <span />
-          )}
+        <div className="flex items-center gap-3">
           <p className="text-sm text-muted-foreground" aria-current="step">
             Paso {current + 1} de {total} ·{" "}
             <span className="font-semibold text-foreground">{labels[current]}</span>
@@ -115,17 +104,8 @@ export function Stepper({
         )}
       </div>
 
-      {/* Escritorio: "Atrás" arriba y los pasos en una fila (SPEC-0019: siempre se puede volver). */}
-      <div className="hidden flex-col items-start gap-3 sm:flex">
-        {back && (
-          <Link
-            href={back}
-            className="flex shrink-0 items-center gap-1 rounded-full border border-border bg-card py-1.5 pr-3.5 pl-2.5 text-sm font-medium text-muted-foreground shadow-soft hover:text-foreground"
-          >
-            <HiChevronLeft className="size-4" aria-hidden />
-            Atrás
-          </Link>
-        )}
+      {/* Escritorio */}
+      <div className="hidden sm:block">
         <ol className="flex flex-wrap items-center gap-2">
           {labels.map((label, index) => {
             const done = index < current;

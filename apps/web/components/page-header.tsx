@@ -19,7 +19,7 @@ export function PageHeader({ title, eyebrow, description, actions, back }: Props
       {back && (
         <Link
           href={back.href}
-          className="flex w-fit items-center gap-1.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground"
+          className="-my-2 flex w-fit items-center gap-1.5 rounded-md py-2 text-sm font-medium text-muted-foreground hover:text-foreground max-sm:min-h-11"
         >
           <HiOutlineArrowLeft aria-hidden />
           {back.label}

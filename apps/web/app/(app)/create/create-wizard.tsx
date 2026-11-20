@@ -102,6 +102,13 @@ const KIND_CARDS: {
 // SPEC-0019: un paso por pantalla; elegir avanza al siguiente (nada se despliega debajo).
 const STEP_LABELS = ["Qué crear", "Curso", "Tema", "Ajustes"];
 const EXAM_STEP_LABELS = ["Qué crear", "Curso", "Temas", "Ajustes", "Confirmar"];
+const BACK_LABELS: Record<string, string> = {
+  "Qué crear": "Volver a qué crear",
+  Curso: "Volver al curso",
+  Tema: "Volver al tema",
+  Temas: "Volver a los temas",
+  Ajustes: "Volver a los ajustes",
+};
 
 const scopeParam = (scope: ExamScope) =>
   scope.kind === "UNIT"
@@ -173,6 +180,12 @@ export function CreateWizard(props: Props) {
     return null;
   };
 
+  // SPEC-0019: volver al paso anterior, arriba del título (mismo lugar en escritorio y celular).
+  const backHref = current > 0 ? stepHref(current - 1) : null;
+  const back = backHref
+    ? { href: backHref, label: BACK_LABELS[labels[current - 1]!] ?? "Atrás" }
+    : null;
+
   // SPEC-0019: lo elegido se ve en los pasos (no en una tarjeta aparte) y cada uno se puede cambiar.
   const kindLabel = KIND_CARDS.find((k) => k.kind === kind)?.label ?? null;
   const topicValue = isExam
@@ -214,6 +227,7 @@ export function CreateWizard(props: Props) {
               : "Crear con IA"
         }
         description="Unos pocos pasos. Puedes volver atrás sin perder lo que elegiste."
+        back={back ?? undefined}
       />
 
       <Stepper labels={labels} current={current} hrefFor={stepHref} values={values} />
