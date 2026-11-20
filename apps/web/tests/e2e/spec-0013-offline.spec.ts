@@ -84,6 +84,8 @@ test("CA-0013-37/38/39/41: se guardan al aceptar, se descargan sin red y se mant
   await page.goto("/resources");
   const panel = page.getByTestId("offline-panel");
   await expect(panel).toContainText("¿Guardar tus recursos en este dispositivo");
+  // CA-0018-07: en escritorio sigue la tarjeta y no el ícono del celular.
+  await expect(page.getByTestId("offline-button")).toBeHidden();
   await page.waitForTimeout(1_000);
   expect(await savedOnDevice(page)).toEqual({ caches: [], entries: {} });
 

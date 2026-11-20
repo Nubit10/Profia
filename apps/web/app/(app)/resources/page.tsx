@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { HiOutlineFolderOpen, HiOutlinePlus } from "react-icons/hi2";
 import { EmptyState } from "@/components/empty-state";
-import { OfflinePanel } from "@/components/offline/offline-panel";
+import { OfflineButton, OfflinePanel } from "@/components/offline/offline-panel";
 import { PageHeader } from "@/components/page-header";
 import { ScrollableRow } from "@/components/scrollable-row";
 import { PlanResources } from "@/components/plan-resources";
@@ -87,14 +87,17 @@ export default async function MyResourcesPage({ searchParams }: PageProps<"/reso
         title="Mis recursos"
         description="Todos tus talleres, quices y exámenes, ordenados por curso, periodo y tema."
         actions={
-          <Link href="/create" className={buttonVariants({ size: "lg" })}>
-            <HiOutlinePlus aria-hidden />
-            Crear con IA
-          </Link>
+          <>
+            <Link href="/create" className={buttonVariants({ size: "lg" })}>
+              <HiOutlinePlus aria-hidden />
+              Crear con IA
+            </Link>
+            <OfflineButton hasResources={resources.length > 0 || filtered} />
+          </>
         }
       />
 
-      {/* SPEC-0013 RN-14: guardar los recursos en este dispositivo para usarlos sin conexión. */}
+      {/* SPEC-0013 RN-14: guardar los recursos sin conexión (en el celular, el ícono de arriba: SPEC-0018). */}
       <OfflinePanel hasResources={resources.length > 0 || filtered} />
 
       <div className="flex flex-col gap-3">

@@ -2,7 +2,7 @@
 
 | Campo                    | Valor                                                  |
 | ------------------------ | ------------------------------------------------------ |
-| Estado                   | **Borrador**                                           |
+| Estado                   | **Implementada**                                       |
 | Fase del roadmap         | Transversal (UX en el celular, continúa SPEC-0013)     |
 | Módulo(s) responsable(s) | `components/offline/` · `app/(app)/resources/page.tsx` |
 | Agentes                  | product, frontend, qa                                  |
@@ -99,13 +99,21 @@ La explicación conserva el aviso "Si este computador lo usan otras personas, me
 
 ## 10. Tareas
 
-- [ ] T1 — Extraer el contenido de la tarjeta (pregunta y estado) a un componente reutilizable — frontend
-- [ ] T2 — `OfflineButton`: ícono con punto de aviso y `Dialog` (hoja inferior en el celular) — frontend
-- [ ] T3 — En `resources/page.tsx`: ícono en `actions` del `PageHeader` solo `< sm`; tarjeta solo `≥ sm` — frontend
-- [ ] T4 — Ajustar `spec-0013-offline.spec.ts` (escritorio) y nuevo `spec-0018-offline-mobile.spec.ts` — qa
-- [ ] T5 — Captura antes/después en `docs/design/capturas/spec-0018/` y actualizar docs y `docs/ESTADO.md` — frontend
+- [x] T1 — Extraer el contenido de la tarjeta (pregunta y estado) a un componente reutilizable — frontend
+- [x] T2 — `OfflineButton`: ícono con punto de aviso y `Dialog` (hoja inferior en el celular) — frontend
+- [x] T3 — En `resources/page.tsx`: ícono en `actions` del `PageHeader` solo `< sm`; tarjeta solo `≥ sm` — frontend
+- [x] T4 — Ajustar `spec-0013-offline.spec.ts` (escritorio) y nuevo `spec-0018-offline-mobile.spec.ts` — qa
+- [x] T5 — Captura antes/después en `docs/design/capturas/spec-0018/` y actualizar docs y `docs/ESTADO.md` — frontend
 
-## 11. Preguntas abiertas
+## 11. Preguntas abiertas (resueltas el 2026-11-20)
 
-- ¿También en escritorio el ícono en lugar de la tarjeta? (Propuesta: no, allá no estorba.)
-- ¿El ícono debe aparecer en otras pantallas (por ejemplo Inicio)? (Propuesta: solo "Mis recursos".)
+- En escritorio se mantiene la tarjeta (no estorba allá).
+- El ícono va solo en "Mis recursos".
+
+## 12. Implementación
+
+- `components/offline/offline-panel.tsx`: `OfflineButton` (ícono, punto de aviso y `Dialog`); `OfflinePanel`
+  se oculta por debajo de `sm` (`max-sm:hidden`). Ambos comparten el texto y las acciones.
+- `app/(app)/resources/page.tsx`: el ícono va en `actions` del `PageHeader`, junto a "Crear con IA".
+- Pruebas: `tests/e2e/spec-0018.movil.spec.ts` (CA-0018-01 a 06 y 08) y CA-0018-07 en
+  `tests/e2e/spec-0013-offline.spec.ts`. Capturas en `docs/design/capturas/spec-0018/`.
