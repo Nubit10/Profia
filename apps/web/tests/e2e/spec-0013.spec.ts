@@ -158,11 +158,9 @@ test("CA-0013-09/10: con un curso y un tema, Inicio → Generar quiz en 3 clics 
   await page.goto("/dashboard");
   const counter = clickCounter();
   await counter.click(page.getByRole("link", { name: /Crear quiz/ }));
-  // RN-03: el curso y el tema ya están elegidos y se ven, con "Cambiar".
-  await expect(
-    page.getByRole("definition").filter({ hasText: /^La recta numérica$/ }),
-  ).toBeVisible();
-  await expect(page.getByRole("link", { name: "Cambiar" })).toBeVisible();
+  // RN-03: el curso y el tema ya están elegidos y se ven en los pasos, que llevan a cambiarlos (SPEC-0019).
+  const topicStep = page.getByRole("link", { name: /Tema\s*La recta numérica/ });
+  await expect(topicStep).toBeVisible();
 
   // CA-0013-10: 6 controles o menos a la vista; el resto en "Más opciones".
   expect(await visibleControls(page)).toBeLessThanOrEqual(6);
@@ -176,7 +174,7 @@ test("CA-0013-09/10: con un curso y un tema, Inicio → Generar quiz en 3 clics 
 
   // "Cambiar" deja elegir otro tema aunque el curso tenga uno solo.
   await page.goto("/create?type=QUIZ");
-  await page.getByRole("link", { name: "Cambiar" }).click();
+  await page.getByRole("link", { name: /Tema\s*La recta numérica/ }).click();
   await expect(page.getByRole("heading", { name: "¿Sobre qué tema?" })).toBeVisible();
 });
 

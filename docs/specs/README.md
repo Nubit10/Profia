@@ -26,6 +26,8 @@ Solo se implementa lo que está **Aprobada**. Solo el usuario (product owner) ap
 | [SPEC-0016](SPEC-0016-talleres-con-dua.md)                 | Talleres con Diseño Universal para el Aprendizaje (DUA), a elección del docente | 6 · Generation              | Implementada |
 | [SPEC-0017](SPEC-0017-piar.md)                             | PIAR: Plan Individual de Ajustes Razonables, privado y cifrado                  | 6 · Generation (privacidad) | Implementada |
 | [SPEC-0018](SPEC-0018-sin-conexion-compacto-en-celular.md) | "Sin conexión" compacto en el celular: ícono con aviso y ventana                | Transversal                 | Implementada |
+| [SPEC-0019](SPEC-0019-asistente-un-paso-por-pantalla.md)   | Asistente de crear: un paso por pantalla, lo elegido en los pasos y «Atrás»     | Transversal                 | Implementada |
+| [SPEC-0020](SPEC-0020-material-de-referencia.md)           | Material de referencia del docente para generar (PDF, texto, libro o web)       | 6 · Generation              | Borrador     |
 
 ## Mapa del roadmap → specs previstas
 

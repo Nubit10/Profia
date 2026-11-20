@@ -286,10 +286,9 @@ test("CA-0012-09: sin cursos, el asistente crea el curso sin salir del flujo", a
   await choose(page, "Grado", "7°");
   await page.getByRole("button", { name: "Crear curso y continuar" }).click();
   await expect(page.getByRole("heading", { name: "¿Sobre qué tema?" })).toBeVisible();
-  await expect(page.getByRole("radio", { name: /Matemáticas · 7°/ })).toHaveAttribute(
-    "aria-checked",
-    "true",
-  );
+  // SPEC-0019: el curso elegido queda en los pasos (un paso por pantalla).
+  await expect(page.getByRole("navigation", { name: "Pasos" })).toContainText("Matemáticas · 7°");
+  await expect(page.getByRole("radio", { name: /Matemáticas · 7°/ })).toHaveCount(0);
 });
 
 test("CA-0012-10/21: con el cupo agotado, el menú y el asistente lo avisan antes de los ajustes", async ({

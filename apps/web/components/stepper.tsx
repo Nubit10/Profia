@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { HiCheck, HiChevronLeft } from "react-icons/hi2";
+import { HiCheck, HiChevronLeft, HiOutlinePencil } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 
 /**
@@ -9,11 +9,14 @@ import { cn } from "@/lib/utils";
  * - Celular: "Atrás", "Paso 2 de 3 · Curso y tema", una barra de progreso y puntos que se alargan al
  *   avanzar. Nunca hay una fila de nombres que se corte ni pasos a medias en el borde.
  * - Escritorio: la fila completa con el número y el nombre de cada paso; los hechos son enlaces.
+ * - SPEC-0019: con `values`, cada paso hecho muestra lo elegido (p. ej. el curso) y tocarlo lo cambia;
+ *   en el celular, lo elegido va en fichas bajo la barra. Así no hace falta una tarjeta de resumen.
  */
 export function Stepper({
   labels,
   current,
   hrefFor,
+  values,
   className,
 }: {
   labels: readonly string[];
@@ -21,11 +24,16 @@ export function Stepper({
   current: number;
   /** Enlace de un paso ya hecho, para volver a él; null si no se puede. */
   hrefFor?: (index: number) => string | null;
+  /** Lo elegido en cada paso hecho (null si no aplica). */
+  values?: readonly (string | null)[];
   className?: string;
 }) {
   const total = labels.length;
   const back = current > 0 ? (hrefFor?.(current - 1) ?? null) : null;
   const progress = ((current + 1) / total) * 100;
+  const chosen = labels
+    .map((label, index) => ({ label, index, value: values?.[index] ?? null }))
+    .filter((c) => c.index < current && c.value);
 
   return (
     <nav aria-label="Pasos" className={className}>
@@ -72,59 +80,118 @@ export function Stepper({
             />
           ))}
         </div>
+        {chosen.length > 0 && (
+          <ul aria-label="Lo que elegiste" className="flex flex-wrap gap-2">
+            {chosen.map(({ label, index, value }) => {
+              const target = hrefFor?.(index) ?? null;
+              const chip = (
+                <>
+                  <span className="text-muted-foreground">{label}:</span>
+                  <span className="min-w-0 truncate font-semibold">{value}</span>
+                  {target && (
+                    <HiOutlinePencil className="size-3.5 shrink-0 text-brand-strong" aria-hidden />
+                  )}
+                </>
+              );
+              return (
+                <li key={label} className="max-w-full min-w-0">
+                  {target ? (
+                    <Link
+                      href={target}
+                      aria-label={`Cambiar ${label.toLowerCase()}: ${value}`}
+                      className="flex min-h-11 max-w-full items-center gap-1.5 rounded-full border border-border bg-card px-3 text-sm shadow-soft"
+                    >
+                      {chip}
+                    </Link>
+                  ) : (
+                    <span className="flex min-h-11 max-w-full items-center gap-1.5 rounded-full border border-border bg-card px-3 text-sm">
+                      {chip}
+                    </span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
 
-      {/* Escritorio */}
-      <ol className="hidden items-center gap-2 sm:flex">
-        {labels.map((label, index) => {
-          const done = index < current;
-          const active = index === current;
-          const target = done ? (hrefFor?.(index) ?? null) : null;
-          const content = (
-            <>
-              <span
-                className={cn(
-                  "flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold",
-                  done && "bg-brand text-white",
-                  active && "bg-brand-gradient text-white shadow-lift",
-                  !done && !active && "bg-muted text-muted-foreground",
-                )}
-              >
-                {done ? <HiCheck aria-hidden /> : index + 1}
-                {done && <span className="sr-only">(hecho)</span>}
-              </span>
-              <span
-                className={cn(
-                  "text-sm font-semibold whitespace-nowrap",
-                  !active && "text-muted-foreground",
-                )}
-              >
-                {label}
-              </span>
-            </>
-          );
-          return (
-            <li key={label} className="flex items-center gap-2">
-              {target ? (
-                <Link
-                  href={target}
-                  className="flex items-center gap-2 rounded-full py-1 pr-3 pl-1 hover:bg-muted"
-                >
-                  {content}
-                </Link>
-              ) : (
+      {/* Escritorio: "Atrás" arriba y los pasos en una fila (SPEC-0019: siempre se puede volver). */}
+      <div className="hidden flex-col items-start gap-3 sm:flex">
+        {back && (
+          <Link
+            href={back}
+            className="flex shrink-0 items-center gap-1 rounded-full border border-border bg-card py-1.5 pr-3.5 pl-2.5 text-sm font-medium text-muted-foreground shadow-soft hover:text-foreground"
+          >
+            <HiChevronLeft className="size-4" aria-hidden />
+            Atrás
+          </Link>
+        )}
+        <ol className="flex flex-wrap items-center gap-2">
+          {labels.map((label, index) => {
+            const done = index < current;
+            const active = index === current;
+            const target = done ? (hrefFor?.(index) ?? null) : null;
+            const content = (
+              <>
                 <span
-                  className="flex items-center gap-2 py-1 pr-3 pl-1"
-                  aria-current={active ? "step" : undefined}
+                  className={cn(
+                    "flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold",
+                    done && "bg-brand text-white",
+                    active && "bg-brand-gradient text-white shadow-lift",
+                    !done && !active && "bg-muted text-muted-foreground",
+                  )}
                 >
-                  {content}
+                  {done ? <HiCheck aria-hidden /> : index + 1}
+                  {done && <span className="sr-only">(hecho)</span>}
                 </span>
-              )}
-              {index < total - 1 && <span aria-hidden className="h-px w-10 bg-border" />}
-            </li>
-          );
-        })}
-      </ol>
+                {done && values?.[index] ? (
+                  <span className="flex min-w-0 flex-col text-left leading-tight">
+                    <span className="text-xs text-muted-foreground">{label}</span>
+                    <span
+                      className="max-w-40 truncate text-sm font-semibold"
+                      title={values[index]!}
+                    >
+                      {values[index]}
+                    </span>
+                  </span>
+                ) : (
+                  <span
+                    className={cn(
+                      "text-sm font-semibold whitespace-nowrap",
+                      !active && "text-muted-foreground",
+                    )}
+                  >
+                    {label}
+                  </span>
+                )}
+              </>
+            );
+            return (
+              <li key={label} className="flex min-w-0 items-center gap-2">
+                {target ? (
+                  <Link
+                    href={target}
+                    title={values?.[index] ? `Cambiar ${label.toLowerCase()}` : undefined}
+                    className="flex min-w-0 items-center gap-2 rounded-full py-1 pr-3 pl-1 hover:bg-muted"
+                  >
+                    {content}
+                  </Link>
+                ) : (
+                  <span
+                    className="flex items-center gap-2 py-1 pr-3 pl-1"
+                    aria-current={active ? "step" : undefined}
+                  >
+                    {content}
+                  </span>
+                )}
+                {index < total - 1 && (
+                  <span aria-hidden className="h-px w-4 shrink-0 bg-border xl:w-8" />
+                )}
+              </li>
+            );
+          })}
+        </ol>
+      </div>
     </nav>
   );
 }

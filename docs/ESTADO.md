@@ -5,9 +5,25 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## En curso
 
-- Nada a medias. Siguiente paso: que el usuario elija el próximo trabajo (ver "Siguientes candidatos").
+- **SPEC-0020** — Material de referencia del docente ([spec](specs/SPEC-0020-material-de-referencia.md)).
+  Estado: **Borrador**, esperando que el usuario responda las 3 preguntas abiertas y la apruebe.
+  - Pedido: cuando la asignatura no tiene DBA, que el docente pueda subir un PDF, pegar contenido, dar el
+    nombre de un libro o una página web para que el taller/quiz/examen se haga con eso.
+  - Propuesta: primero PDF, Word y texto pegado; enlaces después; el libro solo como referencia (la IA
+    no lo tiene). Necesita un ADR antes de implementar (texto de terceros a la IA, lectura segura de enlaces).
+  - Siguiente paso: aprobación → ADR → `/implement SPEC-0020`.
 
 ## Hecho
+
+- **SPEC-0019** — Asistente de crear un paso por pantalla
+  ([spec](specs/SPEC-0019-asistente-un-paso-por-pantalla.md)), implementada el 2026-11-20.
+  - Curso y Tema son pasos separados (examen: Curso → Temas → Ajustes → Confirmar); elegir avanza a otra
+    pantalla. Lo elegido se ve en los pasos (escritorio) o en fichas (celular) y tocarlo lo cambia.
+    «Atrás» en escritorio y celular. Se quitó la tarjeta "Curso / Tema".
+  - Código: `apps/web/app/(app)/create/create-wizard.tsx`, `page.tsx` (`curso=elegir`),
+    `apps/web/components/stepper.tsx` (`values`, «Atrás» en escritorio).
+  - Pruebas: `spec-0019.spec.ts`, `spec-0019.movil.spec.ts` y ajustes en `ux.spec.ts`, `spec-0013.spec.ts`.
+    Capturas: `docs/design/capturas/spec-0019/`.
 
 - **SPEC-0018** — "Sin conexión" compacto en el celular
   ([spec](specs/SPEC-0018-sin-conexion-compacto-en-celular.md)), implementada el 2026-11-20.
@@ -23,8 +39,9 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Pendiente conocido
 
-- **Prueba e2e que ya fallaba antes de SPEC-0018:** en `spec-0013-offline.spec.ts` (CA-0013-38), al descargar
-  sin red la "Clave en Word" el archivo llega con nombre `download` en vez de `Clave - Quiz - … .docx`.
+- **Pruebas e2e de descargas que ya fallaban antes de SPEC-0018:** el archivo descargado llega con nombre
+  `download` en vez del nombre real. Fallan: CA-0013-38 (`spec-0013-offline.spec.ts`, sin red), CA-0013-14 y
+  CA-0013-15/16 (`spec-0013.spec.ts`, .zip) y CA-0011-17 (`exams.spec.ts`, clave del examen).
   Comprobado: falla igual sin los cambios de SPEC-0018. Revisar cómo el service worker / la página
   `/offline` arma el nombre del archivo (`Content-Disposition` o atributo `download`).
 - SPEC-0012: recorrido guiado con el usuario.

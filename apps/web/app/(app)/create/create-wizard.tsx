@@ -17,7 +17,7 @@ import { AiAvatar } from "@/components/brand/ai-avatar";
 import type { QuotaView } from "@/components/app-shell/identity-card";
 import { PageHeader } from "@/components/page-header";
 import { Stepper } from "@/components/stepper";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import type { ActionResult } from "@/lib/action-result";
@@ -99,8 +99,9 @@ const KIND_CARDS: {
 ];
 
 // SPEC-0013 CA-0013-10: taller y quiz se generan desde los ajustes, sin paso de confirmar.
-const STEP_LABELS = ["Qué crear", "Curso y tema", "Ajustes"];
-const EXAM_STEP_LABELS = ["Qué crear", "Curso y temas", "Ajustes", "Confirmar"];
+// SPEC-0019: un paso por pantalla; elegir avanza al siguiente (nada se despliega debajo).
+const STEP_LABELS = ["Qué crear", "Curso", "Tema", "Ajustes"];
+const EXAM_STEP_LABELS = ["Qué crear", "Curso", "Temas", "Ajustes", "Confirmar"];
 
 const scopeParam = (scope: ExamScope) =>
   scope.kind === "UNIT"
@@ -130,7 +131,15 @@ export function CreateWizard(props: Props) {
   const units = outline.find((o) => o.courseId === course?.id)?.units ?? [];
   const topics = units.flatMap((u) => u.topics);
   const ready = isExam ? props.exam.context !== null : isResource && props.formContext !== null;
-  const current = !kind ? 0 : !ready ? 1 : isExam && props.step === "confirm" ? 3 : 2;
+  const current = !kind
+    ? 0
+    : !course || kind === "PLAN"
+      ? 1
+      : !ready
+        ? 2
+        : isExam && props.step === "confirm"
+          ? 4
+          : 3;
   const labels =
     kind === "PLAN" ? STEP_LABELS.slice(0, 2) : isExam ? EXAM_STEP_LABELS : STEP_LABELS;
 
@@ -151,16 +160,25 @@ export function CreateWizard(props: Props) {
 
   const stepHref = (index: number) => {
     if (index === 0) return href({ courseId: props.courseId, topicId: props.topicId });
+    // `curso=elegir`: volver a la lista de cursos aunque haya uno solo.
+    if (index === 1) return href({ type: kind, curso: "elegir" });
     if (isExam) {
       // Volver a los temas conserva lo marcado (RN-04 de SPEC-0012).
-      if (index === 1) return href({ ...examBase, seleccion: examTopics.join(",") || null });
-      if (index === 2) return href({ ...examBase, topics: examTopics.join(",") });
+      if (index === 2) return href({ ...examBase, seleccion: examTopics.join(",") || null });
+      if (index === 3) return href({ ...examBase, topics: examTopics.join(",") });
       return null;
     }
     // `elegir`: el docente quiere cambiar el tema, aunque el curso tenga uno solo (RN-03).
-    if (index === 1) return href({ type: kind, courseId: props.courseId, elegir: "1" });
+    if (index === 2) return href({ type: kind, courseId: props.courseId, elegir: "1" });
     return null;
   };
+
+  // SPEC-0019: lo elegido se ve en los pasos (no en una tarjeta aparte) y cada uno se puede cambiar.
+  const kindLabel = KIND_CARDS.find((k) => k.kind === kind)?.label ?? null;
+  const topicValue = isExam
+    ? (props.exam.context?.topics.map((t) => t.title).join(", ") ?? null)
+    : (props.formContext?.topic.title ?? null);
+  const values = [kindLabel, course?.title ?? null, ready ? topicValue : null, null, null];
 
   const createTopic = () =>
     startTransition(async () => {
@@ -198,7 +216,7 @@ export function CreateWizard(props: Props) {
         description="Unos pocos pasos. Puedes volver atrás sin perder lo que elegiste."
       />
 
-      <Stepper labels={labels} current={current} hrefFor={stepHref} />
+      <Stepper labels={labels} current={current} hrefFor={stepHref} values={values} />
 
       {/* CA-0012-10: el aviso de cupo llega antes de llenar los ajustes. */}
       {kind !== "PLAN" && blocked && (
@@ -345,120 +363,114 @@ export function CreateWizard(props: Props) {
                   })}
                 </div>
               </div>
-
-              {kind !== "PLAN" && course && (
-                <div className="flex flex-col gap-3">
-                  {!isExam && <h2 className="text-lg font-extrabold">¿Sobre qué tema?</h2>}
-                  {isExam && topics.length > 0 && (
-                    <ExamTopicsStep
-                      key={`${course.id}:${props.exam.preselected.join(",")}`}
-                      units={units}
-                      initial={props.exam.preselected}
-                      scope={props.exam.scope}
-                      onContinue={(ids, scope) =>
-                        go({ ...base, scope: scopeParam(scope), topics: ids.join(",") })
-                      }
-                    />
-                  )}
-                  {!isExam && topics.length > 0 && (
-                    <div className="flex flex-col gap-4">
-                      {units
-                        .filter((u) => u.topics.length > 0)
-                        .map((unit) => (
-                          <div key={unit.id} className="flex flex-col gap-2">
-                            <p className="text-sm font-semibold text-muted-foreground">
-                              {unit.title}
-                            </p>
-                            <ul
-                              aria-label={`Temas de ${unit.title}`}
-                              className="grid gap-2 sm:grid-cols-2"
-                            >
-                              {unit.topics.map((t) => (
-                                <li key={t.id}>
-                                  <Link
-                                    href={href({ ...base, topicId: t.id })}
-                                    className="group flex h-full items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft transition hover:border-brand-border hover:bg-brand-softer"
-                                  >
-                                    <span className="flex min-w-0 flex-1 flex-col">
-                                      <span className="font-semibold">{t.title}</span>
-                                      <span className="text-sm text-muted-foreground">
-                                        {t.objectiveCount === 0
-                                          ? "Sin objetivos: se usa el tema"
-                                          : `${t.objectiveCount} ${t.objectiveCount === 1 ? "objetivo" : "objetivos"}`}
-                                      </span>
-                                    </span>
-                                    <AiAvatar
-                                      size={22}
-                                      className="opacity-70 transition group-hover:opacity-100"
-                                    />
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
-                    </div>
-                  )}
-
-                  {/* §7: un curso sin temas no deja al docente en un callejón. */}
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      createTopic();
-                    }}
-                    className="flex flex-col gap-3 rounded-2xl border border-dashed border-brand-border bg-brand-softer p-4"
-                  >
-                    <Field data-invalid={!!topicError}>
-                      <FieldLabel htmlFor="quick-topic">
-                        {topics.length === 0
-                          ? "Este curso aún no tiene temas. ¿Qué tema vas a trabajar?"
-                          : "¿Es un tema nuevo? Escríbelo"}
-                      </FieldLabel>
-                      <div className="flex flex-col gap-2 sm:flex-row">
-                        <Input
-                          id="quick-topic"
-                          value={topicTitle}
-                          onChange={(e) => setTopicTitle(e.target.value)}
-                          placeholder="Ej.: Fracciones equivalentes"
-                          aria-invalid={!!topicError}
-                          className="bg-card"
-                        />
-                        <Button type="submit" disabled={isPending || topicTitle.trim().length < 3}>
-                          <HiOutlinePlus aria-hidden />
-                          {isPending ? "Agregando…" : "Usar este tema"}
-                        </Button>
-                      </div>
-                      <FieldError errors={topicError ? [{ message: topicError }] : []} />
-                    </Field>
-                    <p className="text-sm text-muted-foreground">
-                      Queda guardado en la planeación del curso.{" "}
-                      <Link
-                        href={`/courses/${course.id}?tab=planeacion`}
-                        className="font-semibold text-brand-strong underline"
-                      >
-                        Ir a la planeación
-                      </Link>
-                    </p>
-                  </form>
-                </div>
-              )}
-
-              {kind !== "PLAN" && !course && (
-                <p className="text-sm text-muted-foreground">Elige un curso para ver sus temas.</p>
-              )}
             </>
           )}
         </section>
       )}
 
+      {current === 2 && course && (
+        <section aria-labelledby="topic-title" className="flex flex-col gap-3">
+          {!isExam && (
+            <h2 id="topic-title" className="text-lg font-extrabold">
+              ¿Sobre qué tema?
+            </h2>
+          )}
+          {isExam && topics.length === 0 && (
+            <h2 id="topic-title" className="text-lg font-extrabold">
+              ¿Qué temas evalúa?
+            </h2>
+          )}
+          {isExam && topics.length > 0 && (
+            <ExamTopicsStep
+              key={`${course.id}:${props.exam.preselected.join(",")}`}
+              units={units}
+              initial={props.exam.preselected}
+              scope={props.exam.scope}
+              onContinue={(ids, scope) =>
+                go({ ...base, scope: scopeParam(scope), topics: ids.join(",") })
+              }
+            />
+          )}
+          {!isExam && topics.length > 0 && (
+            <div className="flex flex-col gap-4">
+              {units
+                .filter((u) => u.topics.length > 0)
+                .map((unit) => (
+                  <div key={unit.id} className="flex flex-col gap-2">
+                    <p className="text-sm font-semibold text-muted-foreground">{unit.title}</p>
+                    <ul aria-label={`Temas de ${unit.title}`} className="grid gap-2 sm:grid-cols-2">
+                      {unit.topics.map((t) => (
+                        <li key={t.id}>
+                          <Link
+                            href={href({ ...base, topicId: t.id })}
+                            className="group flex h-full items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft transition hover:border-brand-border hover:bg-brand-softer"
+                          >
+                            <span className="flex min-w-0 flex-1 flex-col">
+                              <span className="font-semibold">{t.title}</span>
+                              <span className="text-sm text-muted-foreground">
+                                {t.objectiveCount === 0
+                                  ? "Sin objetivos: se usa el tema"
+                                  : `${t.objectiveCount} ${t.objectiveCount === 1 ? "objetivo" : "objetivos"}`}
+                              </span>
+                            </span>
+                            <AiAvatar
+                              size={22}
+                              className="opacity-70 transition group-hover:opacity-100"
+                            />
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+            </div>
+          )}
+
+          {/* §7: un curso sin temas no deja al docente en un callejón. */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              createTopic();
+            }}
+            className="flex flex-col gap-3 rounded-2xl border border-dashed border-brand-border bg-brand-softer p-4"
+          >
+            <Field data-invalid={!!topicError}>
+              <FieldLabel htmlFor="quick-topic">
+                {topics.length === 0
+                  ? "Este curso aún no tiene temas. ¿Qué tema vas a trabajar?"
+                  : "¿Es un tema nuevo? Escríbelo"}
+              </FieldLabel>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <Input
+                  id="quick-topic"
+                  value={topicTitle}
+                  onChange={(e) => setTopicTitle(e.target.value)}
+                  placeholder="Ej.: Fracciones equivalentes"
+                  aria-invalid={!!topicError}
+                  className="bg-card"
+                />
+                <Button type="submit" disabled={isPending || topicTitle.trim().length < 3}>
+                  <HiOutlinePlus aria-hidden />
+                  {isPending ? "Agregando…" : "Usar este tema"}
+                </Button>
+              </div>
+              <FieldError errors={topicError ? [{ message: topicError }] : []} />
+            </Field>
+            <p className="text-sm text-muted-foreground">
+              Queda guardado en la planeación del curso.{" "}
+              <Link
+                href={`/courses/${course.id}?tab=planeacion`}
+                className="font-semibold text-brand-strong underline"
+              >
+                Ir a la planeación
+              </Link>
+            </p>
+          </form>
+        </section>
+      )}
+
       {ready && isExam && props.exam.context && (
         <>
-          <ChoiceSummary
-            course={course?.title ?? ""}
-            topicLabel={props.exam.context.topics.length === 1 ? "Tema" : "Temas"}
-            topic={props.exam.context.topics.map((t) => t.title).join(", ")}
-            changeHref={stepHref(1)!}
-          />
           <ExamSettingsStep
             key={examTopics.join(",")}
             step={props.step}
@@ -482,12 +494,6 @@ export function CreateWizard(props: Props) {
 
       {ready && !isExam && props.formContext && (
         <>
-          <ChoiceSummary
-            course={course?.title ?? ""}
-            topicLabel="Tema"
-            topic={props.formContext.topic.title}
-            changeHref={href({ type: kind, courseId: props.courseId, elegir: "1" })}
-          />
           <SettingsStep
             key={`${kind}:${props.formContext.topic.id}`}
             type={kind as "WORKSHOP" | "QUIZ"}
@@ -500,36 +506,6 @@ export function CreateWizard(props: Props) {
           />
         </>
       )}
-    </div>
-  );
-}
-
-/** Lo elegido en el paso anterior: curso y tema, cada uno en su línea, con "Cambiar". */
-function ChoiceSummary({
-  course,
-  topicLabel,
-  topic,
-  changeHref,
-}: {
-  course: string;
-  topicLabel: string;
-  topic: string;
-  changeHref: string;
-}) {
-  return (
-    <div className="flex items-start gap-3 rounded-2xl border border-border bg-card p-4 text-sm shadow-soft">
-      <dl className="grid min-w-0 flex-1 grid-cols-[auto_1fr] gap-x-3 gap-y-1">
-        <dt className="text-muted-foreground">Curso</dt>
-        <dd className="min-w-0 font-semibold break-words">{course}</dd>
-        <dt className="text-muted-foreground">{topicLabel}</dt>
-        <dd className="min-w-0 font-semibold break-words">{topic}</dd>
-      </dl>
-      <Link
-        href={changeHref}
-        className={cn(buttonVariants({ variant: "link", size: "sm" }), "shrink-0 max-sm:min-h-11")}
-      >
-        Cambiar
-      </Link>
     </div>
   );
 }

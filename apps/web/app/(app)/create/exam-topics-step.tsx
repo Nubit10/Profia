@@ -62,7 +62,9 @@ export function ExamTopicsStep({ units, initial, scope, onContinue }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <h2 className="text-lg font-extrabold">¿Qué temas evalúa?</h2>
+        <h2 id="topic-title" className="text-lg font-extrabold">
+          ¿Qué temas evalúa?
+        </h2>
         <p className="text-sm text-muted-foreground">
           Marca los temas del examen. Puedes mezclar unidades y periodos (máximo {max}).
         </p>

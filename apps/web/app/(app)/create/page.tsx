@@ -35,7 +35,7 @@ const timeFormat = new Intl.DateTimeFormat("es-CO", {
 });
 
 /**
- * Asistente de creación (SPEC-0012): qué crear → curso y tema → ajustes (SPEC-0013: taller y quiz
+ * Asistente de creación (SPEC-0012, SPEC-0019: un paso por pantalla): qué crear → curso → tema → ajustes (SPEC-0013: taller y quiz
  * se generan desde los ajustes; el examen conserva su paso de confirmar). El paso sale de la URL,
  * así que volver atrás o recargar no pierde el avance (RN-04).
  */
@@ -55,9 +55,12 @@ export default async function CreatePage({ searchParams }: PageProps<"/create">)
     ctx.institutionType === "SCHOOL" ? listCampuses(ctx) : Promise.resolve([]),
   ]);
 
-  // Con un solo curso no hay nada que elegir.
+  // Con un solo curso no hay nada que elegir, salvo que el docente pida cambiarlo (`curso=elegir`).
   const requestedCourse = courses.find((c) => c.id === params.courseId) ?? null;
-  const course = requestedCourse ?? (courses.length === 1 ? courses[0]! : null);
+  const course =
+    params.curso === "elegir"
+      ? null
+      : (requestedCourse ?? (courses.length === 1 ? courses[0]! : null));
   const topicIds = new Set(
     (outline.find((o) => o.courseId === course?.id)?.units ?? []).flatMap((u) =>
       u.topics.map((t) => t.id),
