@@ -5,16 +5,6 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## En curso
 
-- **SPEC-0021** — Mejora continua de la IA con lo que hace el docente
-  ([spec](specs/SPEC-0021-mejora-continua-con-el-docente.md)). Estado: **Borrador**, 2026-11-20.
-  - Pedido: que la IA aprenda de verdad del docente. Hoy solo las preferencias escritas a mano cambian la
-    siguiente generación; estrellas, 👍/👎, ediciones y regeneraciones se guardan pero no vuelven a la IA.
-  - Propuesta: (A) Profe propone preferencias a partir de ediciones, 👎 con comentario y regeneraciones, y
-    el docente decide; (B) validador de calidad de preguntas determinista (opción más larga, posición de la
-    correcta reordenando, distractores repetidos, verbo y nivel, longitud por grado); (C) casos reales al
-    benchmark y métricas implícitas.
-  - Siguiente paso: el usuario responde las 5 preguntas abiertas y la aprueba → ADR-0016 → `/implement`.
-
 - **SPEC-0020** — Material de referencia del docente ([spec](specs/SPEC-0020-material-de-referencia.md)).
   Estado: **Borrador**, esperando que el usuario responda las 3 preguntas abiertas y la apruebe.
   - Pedido: cuando la asignatura no tiene DBA, que el docente pueda subir un PDF, pegar contenido, dar el
@@ -24,6 +14,23 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
   - Siguiente paso: aprobación → ADR → `/implement SPEC-0020`.
 
 ## Hecho
+
+- **SPEC-0021** — Mejora continua de la IA con lo que hace el docente
+  ([spec](specs/SPEC-0021-mejora-continua-con-el-docente.md), ADR-0016), implementada el 2026-11-20 con
+  las recomendaciones de producto (el usuario aprobó "hazlo todo con tus recomendaciones").
+  - A: Profe propone preferencias a partir de ediciones, 👎 con comentario, regeneraciones aceptadas y
+    comentarios de 1–3 estrellas (60 días, ≥ 3 recursos, una por semana, 1 llamada al día). Tarjeta
+    "Profe aprendió algo de ti" en "Mis recursos" (hoja inferior en el celular); el docente edita, elige el
+    alcance y acepta o descarta.
+  - B: validador de calidad `quality.v1` en el AI Engine (opción más larga, posición de la correcta
+    reordenando, distractores repetidos, verbo y nivel, palabras por grado). No tumba la generación: lo
+    que queda va a `generation_logs.qualityWarnings`.
+  - C: `npm run benchmark:cases -w @profe/web` (casos anonimizados en `apps/ai-engine/benchmarks/real/`,
+    fuera de git) y `benchmark-resources --real`; `metrics:resources` con señales implícitas.
+  - Pruebas: AI Engine 146; web 297 unitarias e integración; e2e spec-0021 (2) en verde. Las e2e que
+    revisan el nombre de un archivo descargado fallan en este entorno ("download"): no es de esta spec.
+  - Pendiente: política de privacidad y términos antes de correr `benchmark:cases` en producción;
+    revisión de los primeros casos reales; ajustar umbrales con las métricas.
 
 - **PIAR sin autorización obligatoria para el docente independiente**, 2026-11-20 (decisión del usuario).
   - "Nuevo PIAR" del docente independiente ya no tiene casilla: muestra el aviso "Recuerda contarle al

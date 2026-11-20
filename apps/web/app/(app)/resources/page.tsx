@@ -5,6 +5,7 @@ import { HiOutlineFolderOpen, HiOutlinePlus } from "react-icons/hi2";
 import { EmptyState } from "@/components/empty-state";
 import { OfflineButton, OfflinePanel } from "@/components/offline/offline-panel";
 import { PageHeader } from "@/components/page-header";
+import { PreferenceSuggestionCard } from "@/components/preference-suggestion";
 import { ScrollableRow } from "@/components/scrollable-row";
 import { PlanResources } from "@/components/plan-resources";
 import { ResourceList } from "@/components/resource-list";
@@ -13,7 +14,13 @@ import { cn } from "@/lib/utils";
 import { listMyCourses } from "@/modules/courses";
 import { courseTitle } from "@/modules/courses/client";
 import { listCoursePlans } from "@/modules/planning";
-import { listMyResources } from "@/modules/resources";
+import {
+  acceptPreferenceSuggestionAction,
+  declinePreferenceSuggestionAction,
+  listMyResources,
+  pendingPreferenceSuggestions,
+  schedulePreferenceCheck,
+} from "@/modules/resources";
 import { RESOURCE_TYPES, groupByPlan, type ResourceType } from "@/modules/resources/client";
 import { requireTenant } from "@/modules/tenancy";
 
@@ -53,10 +60,15 @@ export default async function MyResourcesPage({ searchParams }: PageProps<"/reso
   const type = RESOURCE_TYPES.find((t) => t === params.tipo) ?? null;
   const courses = await listMyCourses(ctx);
   const courseId = courses.find((c) => c.id === params.curso)?.id ?? null;
-  const resources = await listMyResources(ctx, {
-    ...(courseId ? { courseId } : {}),
-    ...(type ? { type } : {}),
-  });
+  const [resources, suggestions] = await Promise.all([
+    listMyResources(ctx, {
+      ...(courseId ? { courseId } : {}),
+      ...(type ? { type } : {}),
+    }),
+    pendingPreferenceSuggestions(ctx),
+  ]);
+  // SPEC-0021 RN-02: al abrir "Mis recursos" se revisa si toca proponer (después de responder).
+  if (!suggestions.length) schedulePreferenceCheck(ctx);
 
   // SPEC-0014 CA-0014-17: arriba los 5 más recientes; debajo cada curso por periodo y tema.
   const recent = resources.slice(0, 5);
@@ -99,6 +111,16 @@ export default async function MyResourcesPage({ searchParams }: PageProps<"/reso
 
       {/* SPEC-0013 RN-14: guardar los recursos sin conexión (en el celular, el ícono de arriba: SPEC-0018). */}
       <OfflinePanel hasResources={resources.length > 0 || filtered} />
+
+      {/* SPEC-0021 Parte A: una propuesta a la vez; el docente decide. */}
+      {suggestions[0] && (
+        <PreferenceSuggestionCard
+          key={suggestions[0].id}
+          suggestion={suggestions[0]}
+          accept={acceptPreferenceSuggestionAction}
+          decline={declinePreferenceSuggestionAction}
+        />
+      )}
 
       <div className="flex flex-col gap-3">
         <ScrollableRow

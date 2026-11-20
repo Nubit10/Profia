@@ -46,6 +46,7 @@ import {
   workshopFromEngine,
 } from "./content";
 import { generationQueue } from "./queue";
+import { schedulePreferenceCheck, type SuggestionDeps } from "./suggestions";
 import {
   DEFAULT_GRADING_SCALE,
   EXAM_QUOTA_COST,
@@ -456,7 +457,7 @@ async function logGeneration(
   job: Job,
   task: string,
   status: "OK" | "INVALID" | "UNAVAILABLE",
-  meta?: EngineResourceMeta,
+  meta?: Omit<EngineResourceMeta, "qualityWarnings"> & { qualityWarnings?: string[] },
 ) {
   return client.generationLog.create({
     data: {
@@ -473,6 +474,11 @@ async function logGeneration(
         attempts: meta.attempts,
         latencyMs: meta.latencyMs,
         tokens: meta.tokens,
+        // SPEC-0021 RN-12: solo cuántos avisos y con qué reglas; nunca el texto.
+        ...(meta.qualityRulesVersion && {
+          qualityWarnings: meta.qualityWarnings?.length ?? 0,
+          qualityRulesVersion: meta.qualityRulesVersion,
+        }),
       }),
     },
     select: { id: true },
@@ -571,6 +577,8 @@ async function runExamGeneration(
         attempts: call.attempts,
         latencyMs: call.latencyMs,
         tokens: call.tokens,
+        qualityWarnings: call.qualityWarnings,
+        qualityRulesVersion: meta.qualityRulesVersion,
       });
       ids.push(log.id);
     }
@@ -1145,6 +1153,7 @@ export async function setResourceStatus(
   ctx: TenantContext,
   resourceId: string,
   status: "READY" | "DRAFT" | "ARCHIVED" | "RESTORE",
+  deps: SuggestionDeps = {},
 ) {
   requireRole(ctx, "TEACHER");
   const resource = await ownResource(ctx, resourceId);
@@ -1164,6 +1173,8 @@ export async function setResourceStatus(
       entityId: resource.id,
     });
   });
+  // SPEC-0021 RN-02: al marcar listo se revisa si toca proponer preferencias (después de responder).
+  if (status === "READY") schedulePreferenceCheck(ctx, deps);
 }
 
 /** Copia independiente en borrador (no usa la IA ni el cupo). */

@@ -4,6 +4,7 @@ uv run python -m app.cli index                    Reindexa el catálogo en Qdran
 uv run python -m app.cli benchmark [--dense M]    Mide recall@5 contra el benchmark (RN-06).
 uv run python -m app.cli benchmark-generation     Sugerencia de objetivos (SPEC-0007 CA-0007-09).
 uv run python -m app.cli benchmark-resources      Quices y talleres (SPEC-0008 CA-0008-13).
+uv run python -m app.cli benchmark-resources --real [RUTA]  Casos reales lado a lado (SPEC-0021).
 uv run python -m app.cli benchmark-exams          Exámenes por secciones (SPEC-0011 CA-0011-14).
 """
 
@@ -24,6 +25,7 @@ from .generation.objectives import (
     suggest_objectives,
 )
 from .generation.pipeline import StructuredResult
+from .generation.quality import QUALITY_RULES_VERSION
 from .generation.resources import (
     QUIZ_PROMPT_VERSION,
     WORKSHOP_PROMPT_VERSION,
@@ -50,6 +52,9 @@ GENERATION_BENCHMARK = ENGINE_DIR / "benchmarks" / "generation-objectives.jsonl"
 RESOURCES_BENCHMARK = ENGINE_DIR / "benchmarks" / "generation-resources.jsonl"
 EXAMS_BENCHMARK = ENGINE_DIR / "benchmarks" / "generation-exams.jsonl"
 RESULTS = ENGINE_DIR / "benchmarks" / "results"
+# SPEC-0021 RN-13: casos reales extraídos por la web (ignorados por git hasta revisarlos).
+REAL_DIR = ENGINE_DIR / "benchmarks" / "real"
+REAL_BENCHMARK = ENGINE_DIR / "benchmarks" / "generation-real-cases.jsonl"
 
 
 def cmd_index() -> None:
@@ -300,6 +305,82 @@ def cmd_benchmark_resources(mock: bool, pause_s: float) -> None:
     print(json.dumps({k: v for k, v in result.items() if k != "rows"}, ensure_ascii=False))
 
 
+def _real_request(case: dict) -> QuizRequest | WorkshopRequest | None:
+    """Un caso real (SPEC-0021 RN-13) trae su contexto completo; el examen aún no se corre aquí."""
+    fields = {
+        "subject": case["subject"],
+        "grade": case["gradeLabel"],
+        "topic": {"title": case["topic"], "description": case.get("topicDescription")},
+        "objectives": case["objectives"][:5],
+        "dba": case["dba"][:40],
+        "difficulty": case["difficulty"],
+        "durationMinutes": case["durationMinutes"],
+        "itemCount": case["itemCount"],
+        "cognitiveDistribution": case["cognitiveDistribution"],
+    }
+    if case["type"] == "QUIZ":
+        return QuizRequest(**fields, questionTypes=case["questionTypes"])
+    if case["type"] == "WORKSHOP":
+        return WorkshopRequest(**fields, structure=case["structure"])
+    return None
+
+
+def run_real_cases(llm, cases: list[dict], pause_s: float = 0) -> list[dict]:
+    """RN-14: genera cada caso con el prompt actual y lo deja junto a la queja del docente."""
+    rows = []
+    for n, case in enumerate(cases):
+        request = _real_request(case)
+        row: dict = {"id": case["id"], "type": case["type"], "complaints": case["complaints"]}
+        if request is None:
+            rows.append({**row, "skipped": "El examen todavía no se corre con casos reales"})
+            continue
+        if n and pause_s:
+            time.sleep(pause_s)
+        try:
+            result: StructuredResult = (
+                generate_quiz(llm, request)
+                if isinstance(request, QuizRequest)
+                else generate_workshop(llm, request)
+            )
+            row |= {
+                "valid": True,
+                "attempts": result.attempts,
+                "qualityWarnings": list(result.warnings),
+                "output": result.value.model_dump(),
+            }
+        except GenerationInvalidError as error:
+            row |= {"valid": False, "attempts": error.attempts, "errors": error.errors}
+        except LLMUnavailableError as error:
+            row |= {"valid": False, "attempts": 0, "errors": [str(error)]}
+        rows.append(row)
+    return rows
+
+
+def cmd_benchmark_real(path: Path, mock: bool, pause_s: float) -> None:
+    """SPEC-0021 RN-14: reporte lado a lado de los casos reales (queja → resultado nuevo)."""
+    llm = LLMChain([MockLLM()]) if mock else build_llm(get_settings())
+    cases = [json.loads(x) for x in path.read_text(encoding="utf8").splitlines() if x.strip()]
+    rows = run_real_cases(llm, cases, pause_s)
+    for row in rows:
+        state = row.get("skipped") or ("válido" if row["valid"] else "inválido")
+        warnings = len(row.get("qualityWarnings", []))
+        print(f"  {row['id']} {row['type']}: {state} ({warnings} aviso/s de calidad)", flush=True)
+    report = {
+        "date": datetime.now(UTC).isoformat(timespec="seconds"),
+        "chain": llm.name,
+        "model": llm.model,
+        "promptVersions": [QUIZ_PROMPT_VERSION, WORKSHOP_PROMPT_VERSION],
+        "qualityRulesVersion": QUALITY_RULES_VERSION,
+        "source": path.name,
+        "rows": rows,
+    }
+    # El reporte trae textos reales: se queda en la carpeta ignorada por git.
+    REAL_DIR.mkdir(parents=True, exist_ok=True)
+    name = f"report-{report['date'][:10]}-{llm.model.split('/')[-1].replace(':', '-')}.json"
+    (REAL_DIR / name).write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", "utf8")
+    print(f"Reporte en {REAL_DIR / name}")
+
+
 # SPEC-0011: pesos para repartir 100 puntos entre secciones, como hace la web (RN-06).
 POINT_WEIGHTS = {
     "MULTIPLE_CHOICE": 1,
@@ -430,6 +511,13 @@ def main() -> None:
     res = sub.add_parser("benchmark-resources")
     res.add_argument("--mock", action="store_true", help="Usar el LLM de prueba")
     res.add_argument("--pause", type=float, default=20.0, help="Segundos entre casos")
+    res.add_argument(
+        "--real",
+        nargs="?",
+        const=str(REAL_BENCHMARK),
+        default=None,
+        help="Casos reales (SPEC-0021); sin ruta usa benchmarks/generation-real-cases.jsonl",
+    )
     exams = sub.add_parser("benchmark-exams")
     exams.add_argument("--mock", action="store_true", help="Usar el LLM de prueba")
     exams.add_argument("--pause", type=float, default=60.0, help="Segundos entre casos")
@@ -438,6 +526,8 @@ def main() -> None:
         cmd_index()
     elif args.command == "benchmark-generation":
         cmd_benchmark_generation(args.mock)
+    elif args.command == "benchmark-resources" and args.real:
+        cmd_benchmark_real(Path(args.real), args.mock, 0 if args.mock else args.pause)
     elif args.command == "benchmark-resources":
         cmd_benchmark_resources(args.mock, 0 if args.mock else args.pause)
     elif args.command == "benchmark-exams":

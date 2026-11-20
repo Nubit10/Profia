@@ -29,7 +29,14 @@ export {
   type Scheduler,
 } from "./service";
 export { groupByPlan } from "./grouping";
-export { promptQualityMetrics } from "./metrics";
+export {
+  acceptPreferenceSuggestion,
+  declinePreferenceSuggestion,
+  maybeProposePreferences,
+  pendingPreferenceSuggestions,
+  schedulePreferenceCheck,
+} from "./suggestions";
+export { preferenceSuggestionMetrics, promptQualityMetrics } from "./metrics";
 export { createResourceQuick, type QuickResourceInput } from "./quick";
 export { getQuotaStatus, getTeacherHome, listMyResources, watchGenerations } from "./overview";
 export * from "./actions";

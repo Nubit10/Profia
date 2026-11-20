@@ -19,6 +19,7 @@
     "db:seed": "node prisma/seed-dev.mjs",
     "curriculum:import": "node --conditions=react-server --import tsx scripts/curriculum-import.mts",
     "curriculum:verify": "python curriculum/tools/verify_sources.py",
+    "benchmark:cases": "node --conditions=react-server --import tsx scripts/benchmark-cases.mts",
     "metrics:resources": "node --conditions=react-server --import tsx scripts/resource-metrics.mts",
     "piar:key": "node scripts/piar-key.mjs"
   },

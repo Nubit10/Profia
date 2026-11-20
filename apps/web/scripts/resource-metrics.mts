@@ -5,10 +5,14 @@ import { existsSync } from "node:fs";
 
 if (existsSync(".env")) process.loadEnvFile(".env");
 
-const { promptQualityMetrics } = await import("@/modules/resources/metrics");
+const { preferenceSuggestionMetrics, promptQualityMetrics } =
+  await import("@/modules/resources/metrics");
 const { db } = await import("@/lib/db");
 
 const rows = await promptQualityMetrics();
 if (rows.length === 0) console.log("Todavía no hay recursos generados con IA.");
 else console.table(rows);
+// SPEC-0021 RN-15: preferencias propuestas.
+console.log("Preferencias propuestas:");
+console.table([await preferenceSuggestionMetrics()]);
 await db.$disconnect();

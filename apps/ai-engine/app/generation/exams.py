@@ -14,6 +14,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from ..providers.llm import LLM, Message
 from .objectives import DbaRef
 from .pipeline import StructuredResult, looks_spanish, norm, run_structured
+from .quality import balance_positions, check_questions
 from .resources import (
     BACKGROUND_MAX_WAIT_S,
     DIFFICULTY_LABELS,
@@ -212,6 +213,12 @@ class ExamResult:
     @property
     def tokens(self) -> int:
         return sum(c.tokens for c in self.calls)
+
+    @property
+    def warnings(self) -> tuple[str, ...]:
+        return tuple(
+            f"Sección {i}: {w}" for i, c in enumerate(self.calls, start=1) for w in c.warnings
+        )
 
 
 # --- Plan por secciones ------------------------------------------------------------------------
@@ -536,6 +543,18 @@ def trim_section(out: SectionOut, plan: SectionPlan) -> SectionOut:
     return SectionOut(questions=[questions[i] for i in sorted(chosen)])
 
 
+# --- Calidad (SPEC-0021) ---------------------------------------------------------------------
+
+# Las reglas de calidad miran preguntas con enunciado propio; emparejamiento y abiertas no.
+QUALITY_TYPES = ("MULTIPLE_CHOICE", "TRUE_FALSE", "SHORT_ANSWER")
+
+
+def section_quality(questions: list[ExamQuestion], request: ExamRequest, plan: SectionPlan):
+    if plan.spec.questionType not in QUALITY_TYPES:
+        return check_questions([], request.grade)
+    return check_questions(questions, request.grade)
+
+
 # --- Funciones públicas ----------------------------------------------------------------------
 
 # Tokens de salida por pregunta según el tipo, para pedir lo justo y no pasarse del cupo por minuto.
@@ -567,8 +586,14 @@ def generate_exam(llm: LLM, request: ExamRequest) -> ExamResult:
             max_tokens=300 + TOKENS_PER_QUESTION[plan.spec.questionType] * plan.spec.questionCount,
             max_wait_s=BACKGROUND_MAX_WAIT_S,
             normalize=lambda out, p=plan: trim_section(out, p),
+            quality=lambda out, p=plan: section_quality(out.questions, request, p).errors,
         )
         questions = [clean_exam_question(q, plan.spec.questionType) for q in result.value.questions]
+        # SPEC-0021 RN-08: equilibra la posición de la correcta en la sección, sin el modelo.
+        questions = balance_positions(questions, "".join(q.stem for q in questions))
+        notes = section_quality(questions, request, plan).notes
+        if notes:
+            result = replace(result, warnings=(*result.warnings, *notes))
         for level in LEVELS:
             actual = sum(1 for q in questions if q.cognitiveLevel == level)
             debt[level] = debt.get(level, 0) + actual - plan.levels.get(level, 0)

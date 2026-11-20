@@ -137,6 +137,19 @@ Respuesta `200`: `{ "item": { … }, "meta": { …, "promptVersion": "exam_item.
 - es del mismo tipo que la actual y cumple las reglas de su tipo;
 - es distinta de la actual y no repite otra pregunta del examen.
 
+## Calidad de las preguntas (SPEC-0021, ADR-0016)
+
+Cambio aditivo en v1. Las respuestas de quiz y examen (también cada elemento de `meta.calls`) suman en `meta`:
+
+- `qualityWarnings: string[]`: errores de calidad que quedaron tras la reparación y avisos dudosos
+  (verbo y nivel). La generación no falla por ellos;
+- `qualityRulesVersion`: versión de las reglas (`quality.v1`), o `null` en tareas sin el validador.
+
+Reglas (`app/generation/quality.py`): la correcta no es casi siempre la opción más larga, no repite
+distractores entre preguntas, el verbo no contradice el nivel cognitivo y la pregunta no pasa del
+máximo de palabras del grado. La posición de la correcta se equilibra reordenando las opciones, sin
+llamar al modelo; las opciones numéricas en orden se dejan como están.
+
 ## Errores
 
 Los mismos de [generation-resources.v1](generation-resources.v1.md#errores-los-tres-endpoints):

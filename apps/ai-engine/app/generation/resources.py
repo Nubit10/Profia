@@ -14,6 +14,7 @@ from ..config import ENGINE_DIR
 from ..providers.llm import DATA_END, DATA_START, LLM, Message
 from .objectives import DbaRef, TopicRef
 from .pipeline import StructuredResult, looks_spanish, norm, run_structured
+from .quality import balance_positions, check_questions
 
 # Los recursos se generan en segundo plano (ADR-0008): vale la pena esperar a que se libere el cupo
 # por minuto de Groq antes de caer al modelo local, que en CPU no alcanza para un taller.
@@ -666,11 +667,15 @@ def generate_quiz(llm: LLM, request: QuizRequest) -> StructuredResult[QuizOut]:
         lambda out: validate_quiz(out, request),
         max_tokens=600 + 260 * request.itemCount,
         max_wait_s=BACKGROUND_MAX_WAIT_S,
+        # SPEC-0021 RN-07 a RN-12: calidad de las preguntas, sin llamar al modelo.
+        quality=lambda out: check_questions(out.questions, request.grade).errors,
     )
-    quiz = result.value.model_copy(
-        update={"questions": [_clean_question(q) for q in result.value.questions]}
-    )
-    return replace(result, value=quiz)
+    questions = [_clean_question(q) for q in result.value.questions]
+    # RN-08: la posición de la correcta se equilibra reordenando, nunca con el modelo.
+    questions = balance_positions(questions, "".join(q.stem for q in questions))
+    notes = check_questions(questions, request.grade).notes
+    quiz = result.value.model_copy(update={"questions": questions})
+    return replace(result, value=quiz, warnings=(*result.warnings, *notes))
 
 
 def generate_workshop(llm: LLM, request: WorkshopRequest) -> StructuredResult[WorkshopOut]:

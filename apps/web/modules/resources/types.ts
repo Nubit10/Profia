@@ -188,3 +188,13 @@ export type GenerationWatch = {
   /** De los recursos pedidos, los que ya terminaron (listos para revisar o fallidos). */
   finished: WatchedResource[];
 };
+
+/** SPEC-0021: preferencia que Profe propone; el docente la acepta o la descarta. */
+export type PendingSuggestion = {
+  id: string;
+  text: string;
+  reason: string;
+  /** Curso sugerido si sigue siendo del docente; si no, se propone para todos. */
+  course: { id: string; title: string } | null;
+  conflictsWith: { id: string; text: string } | null;
+};

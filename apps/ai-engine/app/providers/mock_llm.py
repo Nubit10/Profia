@@ -39,7 +39,8 @@ def _objectives(data: dict) -> dict:
 def _question(kind: str, i: int, topic: str, level: str, codes: list[str]) -> dict:
     stem = f"Pregunta {i + 1}: ¿qué afirmación sobre {topic} es correcta?"
     if kind == "MULTIPLE_CHOICE":
-        options = [f"Opción {letter} sobre {topic}" for letter in "ABCD"]
+        # Distractores propios de cada pregunta (SPEC-0021 RN-09).
+        options = [f"Opción {letter} de la pregunta {i + 1} sobre {topic}" for letter in "ABCD"]
         answer = options[i % 4]
     elif kind == "TRUE_FALSE":
         stem = f"Pregunta {i + 1}: {topic} se trabaja en la clase de hoy."
@@ -368,7 +369,26 @@ def _piar(data: dict) -> dict:
     }
 
 
+def _preferences(data: dict) -> dict:
+    """SPEC-0021: una preferencia a partir de las ediciones que acortan textos."""
+    edits = [
+        x for x in data["senales"] if x["tipo"] == "EDIT" and len(x["despues"]) < len(x["antes"])
+    ]
+    if len(edits) < 2:
+        return {"suggestions": []}
+    return {
+        "suggestions": [
+            {
+                "text": "Escribe enunciados cortos y directos, de una sola oración.",
+                "reason": f"Acortaste {len(edits)} textos en tus recursos.",
+                "conflictsWith": None,
+            }
+        ]
+    }
+
+
 TASKS = {
+    "preferencias": _preferences,
     "piar": _piar,
     "planeacion": _planning,
     "quiz": _quiz,

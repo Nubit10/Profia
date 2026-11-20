@@ -99,7 +99,12 @@ const engineActivity = z.object({
     .nullish()
     .transform((v) => v ?? undefined),
 });
-const resourceMeta = responseSchema.shape.meta.extend({ tokens: z.number() });
+const resourceMeta = responseSchema.shape.meta.extend({
+  tokens: z.number(),
+  // SPEC-0021 / ADR-0016: avisos de calidad (aditivo; un motor anterior no los manda).
+  qualityWarnings: z.array(z.string()).default([]),
+  qualityRulesVersion: z.string().nullish(),
+});
 
 const quizResponse = z.object({
   quiz: z.object({
@@ -275,6 +280,7 @@ const examResponse = z.object({
         attempts: z.number(),
         latencyMs: z.number(),
         tokens: z.number(),
+        qualityWarnings: z.array(z.string()).default([]),
       }),
     ),
   }),
@@ -434,3 +440,45 @@ export type EnginePiarRequest = {
 
 export const requestPiarAdjustments = (body: EnginePiarRequest, fetcher: typeof fetch = fetch) =>
   post("/v1/generation/piar-adjustments", body, piarResponse, TIMEOUT_MS, fetcher);
+
+// --- SPEC-0021: preferencias propuestas (generation-preference-suggestions.v1, ADR-0016) ----
+
+const preferenceSuggestionsResponse = z.object({
+  suggestions: z.array(
+    z.object({ text: z.string(), reason: z.string(), conflictsWith: z.number().int().nullable() }),
+  ),
+  meta: resourceMeta,
+});
+export type EnginePreferenceSuggestions = z.infer<typeof preferenceSuggestionsResponse>;
+
+/** Señales de un solo docente: sin ids ni datos personales (el contrato los rechaza). */
+export type EnginePreferenceSignal = {
+  kind: "EDIT" | "ITEM_DOWN" | "REGENERATION" | "RESOURCE_COMMENT";
+  resourceType: "QUIZ" | "WORKSHOP" | "EXAM";
+  subject: string;
+  grade: string;
+  before?: string;
+  after?: string;
+  comment?: string;
+};
+
+export type EnginePreferenceRequest = {
+  signals: EnginePreferenceSignal[];
+  activePreferences: string[];
+  declined: string[];
+};
+
+/** Corre después de responder: no hay prisa, pero tampoco vale esperar minutos (§7: 20 s). */
+const PREFERENCES_TIMEOUT_MS = 20_000;
+
+export const requestPreferenceSuggestions = (
+  body: EnginePreferenceRequest,
+  fetcher: typeof fetch = fetch,
+) =>
+  post(
+    "/v1/generation/preference-suggestions",
+    body,
+    preferenceSuggestionsResponse,
+    PREFERENCES_TIMEOUT_MS,
+    fetcher,
+  );

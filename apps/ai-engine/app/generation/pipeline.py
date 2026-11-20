@@ -13,7 +13,7 @@ from dataclasses import dataclass
 
 from pydantic import BaseModel, ValidationError
 
-from ..providers.llm import LLM, MAX_RATE_LIMIT_WAIT_S, Message
+from ..providers.llm import LLM, MAX_RATE_LIMIT_WAIT_S, Completion, Message
 
 MAX_ATTEMPTS = 3  # 1 intento + 2 reparaciones
 
@@ -38,6 +38,8 @@ class StructuredResult[T: BaseModel]:
     attempts: int
     latency_ms: int
     tokens: int
+    # SPEC-0021 RN-12: errores de calidad que quedaron tras la reparación, más los avisos dudosos.
+    warnings: tuple[str, ...] = ()
 
 
 def norm(text: str) -> str:
@@ -70,12 +72,18 @@ def run_structured[T: BaseModel](
     max_tokens: int,
     max_wait_s: float = MAX_RATE_LIMIT_WAIT_S,
     normalize: Callable[[T], T] | None = None,
+    quality: Callable[[T], list[str]] | None = None,
 ) -> StructuredResult[T]:
     """`normalize` corrige de forma determinista lo que no requiere al modelo (p. ej. preguntas
-    de más) antes de validar; lo que no se puede corregir así vuelve al modelo como reparación."""
+    de más) antes de validar; lo que no se puede corregir así vuelve al modelo como reparación.
+
+    `quality` (SPEC-0021 RN-12) devuelve errores de calidad: van a la reparación como los demás,
+    pero no tumban la generación. Si un intento quedó solo con errores de calidad y ningún intento
+    posterior queda limpio, se devuelve el último de esos intentos con los errores como avisos."""
     started = time.perf_counter()
     errors: list[str] = []
     tokens = 0
+    fallback: tuple[T, Completion, list[str]] | None = None
     for attempt in range(1, MAX_ATTEMPTS + 1):
         completion = llm.generate(
             messages, json_mode=True, max_tokens=max_tokens, max_wait_s=max_wait_s
@@ -86,9 +94,14 @@ def run_structured[T: BaseModel](
             if normalize:
                 value = normalize(value)
             errors = validate(value)
+            soft = quality(value) if quality and not errors else []
         except (ValueError, ValidationError) as error:
             errors = [f"El JSON no tiene la forma pedida: {str(error)[:300]}"]
-        if not errors:
+            soft = []
+        if not errors and soft:
+            fallback = (value, completion, soft)
+            errors = soft
+        elif not errors:
             return StructuredResult(
                 value=value,
                 provider=completion.provider,
@@ -97,6 +110,8 @@ def run_structured[T: BaseModel](
                 latency_ms=int((time.perf_counter() - started) * 1000),
                 tokens=tokens,
             )
+        if attempt == MAX_ATTEMPTS:
+            break
         # Reparación: se le devuelven al modelo sus errores concretos.
         messages = [
             *messages,
@@ -108,4 +123,15 @@ def run_structured[T: BaseModel](
                 + "\nCorrígela y responde solo con el JSON completo pedido.",
             ),
         ]
+    if fallback:
+        value, completion, soft = fallback
+        return StructuredResult(
+            value=value,
+            provider=completion.provider,
+            model=completion.model,
+            attempts=MAX_ATTEMPTS,
+            latency_ms=int((time.perf_counter() - started) * 1000),
+            tokens=tokens,
+            warnings=tuple(soft),
+        )
     raise GenerationInvalidError(errors, MAX_ATTEMPTS)

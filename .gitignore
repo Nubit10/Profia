@@ -11,3 +11,6 @@ __pycache__/
 
 # Copia de trabajo del Space de Hugging Face (scripts/publish-ai-engine-hf.ps1)
 .deploy/
+
+# SPEC-0021 RN-13: casos reales extraídos, sin revisar (nunca a git)
+apps/ai-engine/benchmarks/real/

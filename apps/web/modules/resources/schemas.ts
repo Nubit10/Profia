@@ -701,6 +701,21 @@ export const preferenceSchema = z.object({
 });
 export type PreferenceInput = z.infer<typeof preferenceSchema>;
 
+/** SPEC-0021 RN-05: aceptar una preferencia propuesta (texto editable, alcance y conflicto). */
+export const acceptSuggestionSchema = z
+  .object({
+    suggestionId: z.string().min(1),
+    text: z.string().trim().min(10, "Mínimo 10 caracteres").max(300, "Máximo 300 caracteres"),
+    scope: z.enum(PREFERENCE_SCOPES),
+    courseId: z.string().min(1).nullable().default(null),
+    deactivateIds: z.array(z.string().min(1)).max(5).default([]),
+  })
+  .refine((v) => v.scope === "ALL" || !!v.courseId, {
+    message: "Elige el curso",
+    path: ["courseId"],
+  });
+export type AcceptSuggestionInput = z.output<typeof acceptSuggestionSchema>;
+
 export const resourceRatingSchema = z.object({
   rating: z.number().int().min(1).max(5),
   comment: z.string().trim().max(1000).nullable(),

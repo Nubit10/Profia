@@ -25,7 +25,7 @@ Plataforma de gestión y producción pedagógica asistida por IA para docentes e
 - SPEC-0018 implementada: en el celular, "sin conexión" en "Mis recursos" es un ícono con punto de aviso junto a "Crear con IA" que abre una hoja inferior (`OfflineButton`); en escritorio sigue la tarjeta.
 - SPEC-0019 implementada: el asistente de crear va un paso por pantalla (Curso y Tema separados; examen Curso → Temas → Ajustes → Confirmar); lo elegido se ve en los pasos (`Stepper` con `values`; fila deslizable de fichas en el celular) y el enlace para volver al paso anterior va debajo de los pasos. Sin tarjeta "Curso / Tema".
 - SPEC-0020 en Borrador: material de referencia del docente (PDF, Word, texto, enlace o libro) para generar, sobre todo en asignaturas sin DBA. Necesita ADR.
-- SPEC-0021 en Borrador: mejora continua de la IA con lo que hace el docente (preferencias propuestas, validador de calidad de preguntas, casos reales al benchmark). Necesita ADR-0016.
+- SPEC-0021 implementada (ADR-0016): Profe propone preferencias a partir de lo que hace el docente (`modules/resources/suggestions.ts`, contrato `generation-preference-suggestions.v1`; el docente acepta o descarta), validador de calidad de preguntas `quality.v1` en el AI Engine (no tumba la generación; avisos en `generation_logs.qualityWarnings`) y casos reales anonimizados al benchmark (`npm run benchmark:cases -w @profe/web`, fuera de git) con métricas implícitas.
 - Siguiente: planes de aula (Fase 6), preguntas tipo Saber/ICFES para exámenes, o formatos propios para quices y exámenes.
 - Índice de specs y su estado: [docs/specs/README.md](docs/specs/README.md)
 - Decisiones de arquitectura: [docs/adr/README.md](docs/adr/README.md)
@@ -65,12 +65,13 @@ npm run format                  # Prettier
 npm run db:migrate              # prisma migrate dev (en apps/web)
 npm run curriculum:import -w @profe/web   # carga el catálogo oficial (idempotente)
 npm run curriculum:verify -w @profe/web   # verifica el catálogo contra los PDF (requiere los PDF en curriculum/sources)
-npm run metrics:resources -w @profe/web   # calidad de talleres y quices por versión de prompt (SPEC-0008)
+npm run metrics:resources -w @profe/web   # calidad de talleres y quices por versión de prompt (SPEC-0008, SPEC-0021)
+npm run benchmark:cases -w @profe/web     # casos reales anonimizados al benchmark (SPEC-0021; fuera de git)
 npm run piar:key -w @profe/web           # crea PIAR_ENCRYPTION_KEY en apps/web/.env si falta (nunca la reemplaza)
 docker compose up -d qdrant     # Qdrant en localhost:6333 (SPEC-0005)
 # AI Engine (apps/ai-engine, Python 3.12 con uv; aquí uv se invoca como `python -m uv`):
 #   uv run python -m app.cli index · uv run uvicorn app.main:app --port 8100 · uv run pytest · uv run ruff check .
-#   uv run python -m app.cli benchmark-generation · benchmark-resources · benchmark-exams (Groq real; --mock sin red)
+#   uv run python -m app.cli benchmark-generation · benchmark-resources [--real] · benchmark-exams (Groq real; --mock sin red)
 ```
 
 Un solo test: `cd apps/web && npx vitest run tests/unit/env.test.ts` · `npx playwright test -g "CA-0001-04"`.

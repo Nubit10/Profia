@@ -1,13 +1,13 @@
 # SPEC-0021 — Mejora continua de la IA con lo que hace el docente
 
-| Campo                    | Valor                                                                                                         |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------- |
-| Estado                   | Borrador                                                                                                      |
-| Fase del roadmap         | 6 · Generation (evaluación docente que alimenta la mejora) y §20 del plan maestro (observabilidad de IA)      |
-| Módulo(s) responsable(s) | `modules/resources` · `modules/generation` · `ai-engine/app/generation` · `ai-engine/app/cli.py`              |
-| Agentes                  | product, architect, ai-engine, backend, frontend, privacy, qa, reviewer                                       |
-| ADR relacionados         | **ADR-0016 (propuesto): señales del docente para mejorar la IA** · se apoya en ADR-0007, ADR-0008 y SPEC-0008 |
-| Autor / Fecha            | product / 2026-11-20                                                                                          |
+| Campo                    | Valor                                                                                                    |
+| ------------------------ | -------------------------------------------------------------------------------------------------------- |
+| Estado                   | Implementada                                                                                             |
+| Fase del roadmap         | 6 · Generation (evaluación docente que alimenta la mejora) y §20 del plan maestro (observabilidad de IA) |
+| Módulo(s) responsable(s) | `modules/resources` · `modules/generation` · `ai-engine/app/generation` · `ai-engine/app/cli.py`         |
+| Agentes                  | product, architect, ai-engine, backend, frontend, privacy, qa, reviewer                                  |
+| ADR relacionados         | **ADR-0016: señales del docente para mejorar la IA** · se apoya en ADR-0007, ADR-0008 y SPEC-0008        |
+| Autor / Fecha            | product / 2026-11-20                                                                                     |
 
 ## 1. Objetivo
 
@@ -110,12 +110,14 @@ sección del examen. Los umbrales viven en una sola constante versionada (`QUALI
   - No se reordenan las preguntas con opciones ordenadas ("1, 2, 3, 4", "de menor a mayor"), que detecta una
     regla simple.
 - **RN-09 — Distractores repetidos.** Es error si el mismo distractor (texto normalizado) aparece en más de 2
-  preguntas del mismo quiz o sección. Los de verdadero/falso no cuentan.
+  preguntas del mismo quiz o sección. Los de verdadero/falso no cuentan, ni los distractores cortos (3
+  caracteres o menos) o solo numéricos, que se repiten con razón en Matemáticas.
 - **RN-10 — Verbo y nivel cognitivo.** Una lista corta de verbos por nivel (Bloom, en español) marca **solo
   contradicciones claras**: un ítem de Analizar o más que solo pide definir, nombrar o enumerar, o un ítem de
   Recordar que pide justificar o crear. Lo dudoso no es error: queda como aviso en el log.
 - **RN-11 — Longitud según el grado.** Máximo de palabras del enunciado, sin contar el texto de contexto o
-  lectura:
+  lectura. Si el enunciado tiene varios párrafos, se mide solo el último, que es la pregunta; el mensaje de
+  reparación pide acortarla o poner el contexto en un párrafo aparte:
 
   | Grado         | Máximo de palabras |
   | ------------- | ------------------ |
@@ -124,12 +126,13 @@ sección del examen. Los umbrales viven en una sola constante versionada (`QUALI
   | 6°–9°         | 60                 |
   | 10°–11°       | 80                 |
 
-  Un enunciado más largo es error. Se valida con docentes antes de aprobar (pregunta 3).
+  Un enunciado más largo es error. Se arranca con estos umbrales y se ajustan con las métricas (decisión 3).
 
-- **RN-12 — La calidad no tumba la generación.** Los errores de RN-07, RN-09 y RN-11 entran a la reparación
-  existente, con el mensaje concreto. Si **solo** quedan errores de calidad en el último intento, el recurso
-  sale igual y esos errores se guardan como avisos (`qualityWarnings` en `generation_logs`). Los errores de
-  estructura siguen fallando como hoy.
+- **RN-12 — La calidad no tumba la generación.** Los errores de RN-07, RN-09, RN-10 (claros) y RN-11 entran
+  a la reparación existente, con el mensaje concreto. Si algún intento quedó **solo** con errores de calidad,
+  el recurso sale con el último de esos intentos y esos errores, junto con los avisos dudosos de RN-10, se
+  guardan como avisos (`qualityWarnings` en `generation_logs`). Los errores de estructura siguen fallando
+  como hoy. Aplica a generar quices y exámenes; regenerar un ítem queda igual.
 
 ### Parte C — Casos reales y métricas
 
@@ -279,35 +282,62 @@ sección del examen. Los umbrales viven en una sola constante versionada (`QUALI
 
 ## 10. Tareas
 
-- [ ] T1 — ADR-0016: señales del docente, contrato `generation-preference-suggestions.v1`, `qualityWarnings`
+- [x] T1 — ADR-0016: señales del docente, contrato `generation-preference-suggestions.v1`, `qualityWarnings`
       aditivo y casos reales fuera de git — architect
-- [ ] T2 — Tabla `preference_suggestions`, columnas de `generation_logs` y migración — database
-- [ ] T3 — Validador de calidad (RN-07 a RN-12), reordenamiento determinista y pruebas — ai-engine
-- [ ] T4 — Endpoint y prompt `preference_suggestions.v1`, validación y pruebas — ai-engine
-- [ ] T5 — Señales, barrido, límites, aceptar y descartar (`modules/resources`) — backend
-- [ ] T6 — Tarjeta y hoja inferior "Profe aprendió algo de ti" — frontend
-- [ ] T7 — `benchmark:cases`, `--real` y métricas implícitas — backend, ai-engine
-- [ ] T8 — Revisión de privacidad (señales, anonimización, textos legales) — privacy
-- [ ] T9 — Pruebas por CA (unitarias, integración con acceso cruzado, E2E en el celular) — qa
-- [ ] T10 — Revisión contra la spec — reviewer
+- [x] T2 — Tabla `preference_suggestions`, columnas de `generation_logs` y migración — database
+- [x] T3 — Validador de calidad (RN-07 a RN-12), reordenamiento determinista y pruebas — ai-engine
+- [x] T4 — Endpoint y prompt `preference_suggestions.v1`, validación y pruebas — ai-engine
+- [x] T5 — Señales, barrido, límites, aceptar y descartar (`modules/resources`) — backend
+- [x] T6 — Tarjeta y hoja inferior "Profe aprendió algo de ti" — frontend
+- [x] T7 — `benchmark:cases`, `--real` y métricas implícitas — backend, ai-engine
+- [x] T8 — Revisión de privacidad (señales, anonimización, textos legales) — privacy
+- [x] T9 — Pruebas por CA (unitarias, integración con acceso cruzado, E2E en el celular) — qa
+- [x] T10 — Revisión contra la spec — reviewer
 
-## 11. Preguntas abiertas
+## 11. Decisiones (2026-11-20)
 
-1. **¿Cómo se muestra la propuesta?** Opciones:
-   - una tarjeta en "Mis recursos" (propuesta);
-   - un aviso del navegador (SPEC-0013);
-   - un paso al terminar de calificar un recurso.
+El usuario aprobó la spec con las recomendaciones de producto:
 
-   ¿Cuál prefieres, o una combinación?
+1. **Dónde se muestra:** una tarjeta en "Mis recursos"; en el celular, una hoja inferior. Sin avisos del
+   navegador por ahora.
+2. **Frecuencia:** como máximo una propuesta por semana y con señales de al menos 3 recursos.
+3. **Umbrales:** se arranca con los de RN-07 a RN-11 y se ajustan con las métricas (`qualityWarnings` y
+   ediciones). Cambiar un umbral sube `QUALITY_RULES_VERSION`.
+4. **Casos reales:** el archivo extraído queda fuera de git (`benchmarks/real/`). Lo revisa el product owner
+   antes de pasarlo al benchmark versionado. Sin juez automático con IA por ahora.
+5. **Términos:** correr `benchmark:cases` contra la base de producción exige antes publicar la política de
+   privacidad y los términos que digan que las calificaciones y ediciones se usan para mejorar Profe. Las
+   partes A y B y las métricas agregadas no dependen de eso: usan los datos del mismo docente para él o solo
+   conteos.
 
-2. **¿Cada cuánto proponer?** Propuesta: como máximo una vez por semana y con señales de al menos 3 recursos.
-   ¿Te parece bien, o la quieres más seguida o más espaciada?
-3. **Umbrales del validador.** Los límites de palabras por grado (RN-11) y el 40 % de RN-08 son una primera
-   propuesta. ¿Los validamos con 2 o 3 docentes antes de aprobar, o arrancamos con estos y los ajustamos
-   con las métricas?
-4. **Casos reales en el repositorio.** Aunque estén anonimizados, salen de recursos reales. Propuesta: el
-   archivo extraído queda fuera de git y solo entra al benchmark versionado lo que alguien revisa. ¿Quién
-   hace esa revisión? ¿Agregamos un juez automático con IA más adelante (gasta cupo)?
-5. **Términos de uso.** Usar las calificaciones y ediciones para mejorar Profe debe estar en la política de
-   privacidad y en los términos, que aún no están publicados. ¿Lo dejamos como requisito para activar la
-   Parte C en producción?
+## 12. Implementación (2026-11-20)
+
+- **AI Engine:**
+  - `app/generation/quality.py` (`quality.v1`): RN-07 a RN-11 y `balance_positions` (RN-08, semilla
+    de los enunciados, sin tocar opciones en orden natural).
+  - `pipeline.run_structured(quality=…)` separa los errores de calidad de los de estructura y devuelve
+    `warnings` (RN-12). Quiz y examen (solo secciones de selección múltiple, verdadero/falso y
+    respuesta corta) lo usan; regenerar un ítem queda igual.
+  - Preferencias propuestas: `app/generation/preferences.py`, `prompts/preference_suggestions.v1.md` y
+    `POST /v1/generation/preference-suggestions`. Lo activo y lo descartado se quita sin llamar al
+    modelo (`drop_known`); la respuesta puede ser vacía.
+  - `benchmark-resources --real [ruta]`: reporte lado a lado en `benchmarks/real/` (ignorada por git).
+    El examen todavía no se corre con casos reales: queda marcado como omitido.
+  - Mock con distractores propios por pregunta.
+  - Pruebas: `tests/test_quality.py` y `tests/test_preferences.py`.
+- **Web:**
+  - Migraciones `20261120200000_preference_suggestions`: tabla `preference_suggestions` y
+    `generation_logs.qualityWarnings` / `qualityRulesVersion`.
+  - `modules/resources/edits.ts`: textos por ítem y distancia de edición, compartidos por señales y
+    métricas.
+  - `modules/resources/suggestions.ts`: señales, barrido con límites, aceptar y descartar. Se revisa
+    después de responder al marcar listo y al abrir "Mis recursos"; fuera de una petición se omite.
+  - `components/preference-suggestion.tsx`: tarjeta en escritorio; franja y hoja inferior en el celular.
+  - `modules/resources/benchmark-cases.ts` y `npm run benchmark:cases -w @profe/web`, con una sal local
+    en `apps/ai-engine/benchmarks/real/.salt`.
+  - `metrics:resources` suma `editedShare`, `itemsDeleted`, `itemsAdded`, `exportedUnedited`,
+    `readyUnedited`, `averageQualityWarnings` y la aceptación de propuestas.
+  - Pruebas: `tests/integration/spec-0021.test.ts` (CA-01 a 08, 15, 17 y 19) y
+    `tests/e2e/spec-0021*.spec.ts` (CA-04 y CA-09).
+- **Pendiente fuera del código:** publicar la política de privacidad y los términos antes de correr
+  `benchmark:cases` contra producción (decisión 5), y que el product owner revise los primeros casos.

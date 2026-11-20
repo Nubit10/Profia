@@ -4,6 +4,7 @@ import { z } from "zod";
 import { runAction, type ActionResult } from "@/lib/actions";
 import { requireTenant } from "@/modules/tenancy";
 import {
+  acceptSuggestionSchema,
   blueprintSchema,
   quickResourceSchema,
   gradingScaleSchema,
@@ -29,6 +30,7 @@ import {
   updatePreference,
 } from "./service";
 import { watchGenerations } from "./overview";
+import { acceptPreferenceSuggestion, declinePreferenceSuggestion } from "./suggestions";
 import { createResourceQuick } from "./quick";
 import type { GenerationWatch, RegenerateResult, ResourceStatus } from "./types";
 
@@ -196,5 +198,24 @@ export async function deletePreferenceAction(input: unknown): Promise<ActionResu
     z.object({ preferenceId: id }),
     input,
     async ({ preferenceId }) => deletePreference(await requireTenant(), preferenceId),
+  );
+}
+
+// --- SPEC-0021: preferencias propuestas -----------------------------------------------------
+
+export async function acceptPreferenceSuggestionAction(
+  input: unknown,
+): Promise<ActionResult<{ preferenceId: string }>> {
+  return runAction("accept_preference_suggestion", acceptSuggestionSchema, input, async (data) =>
+    acceptPreferenceSuggestion(await requireTenant(), data),
+  );
+}
+
+export async function declinePreferenceSuggestionAction(input: unknown): Promise<ActionResult> {
+  return runAction(
+    "decline_preference_suggestion",
+    z.object({ suggestionId: id }),
+    input,
+    async ({ suggestionId }) => declinePreferenceSuggestion(await requireTenant(), suggestionId),
   );
 }

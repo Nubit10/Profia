@@ -115,6 +115,19 @@ Regenera una pregunta o una actividad con la indicación del docente (CA-0008-07
 
 Respuesta `200`: `{ "item": { … }, "meta": { … , "promptVersion": "item_regenerate.v1" } }`. El ítem nuevo cumple las mismas reglas que en la generación completa, es distinto del actual y no repite otro ítem.
 
+## Calidad de las preguntas (SPEC-0021, ADR-0016)
+
+Cambio aditivo en v1. Las respuestas de quiz suman en `meta`:
+
+- `qualityWarnings: string[]`: errores de calidad que quedaron tras la reparación y avisos dudosos
+  (verbo y nivel). La generación no falla por ellos;
+- `qualityRulesVersion`: versión de las reglas (`quality.v1`), o `null` en tareas sin el validador.
+
+Reglas (`app/generation/quality.py`): la correcta no es casi siempre la opción más larga, no repite
+distractores entre preguntas, el verbo no contradice el nivel cognitivo y la pregunta no pasa del
+máximo de palabras del grado. La posición de la correcta se equilibra reordenando las opciones, sin
+llamar al modelo; las opciones numéricas en orden se dejan como están.
+
 ## Errores (los tres endpoints)
 
 | Código | Cuándo                                    | Qué hace la web                                                |

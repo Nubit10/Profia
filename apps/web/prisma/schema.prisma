@@ -96,43 +96,44 @@ enum MembershipStatus {
 
 /// Espacio de trabajo: un colegio o el espacio de un docente independiente.
 model Institution {
-  id                 String                    @id @default(cuid())
-  type               InstitutionType
-  name               String
+  id                    String                    @id @default(cuid())
+  type                  InstitutionType
+  name                  String
   /// Datos institucionales: solo para colegios (SPEC-0002 §5).
-  sector             Sector?
-  daneCode           String?
-  nit                String?
-  department         String?
-  municipality       String?
-  calendar           SchoolCalendar?
+  sector                Sector?
+  daneCode              String?
+  nit                   String?
+  department            String?
+  municipality          String?
+  calendar              SchoolCalendar?
   /// Dueño del espacio independiente; único por usuario (SPEC-0002 RN-03).
-  independentOwnerId String?                   @unique
-  independentOwner   User?                     @relation("IndependentSpace", fields: [independentOwnerId], references: [id])
-  createdAt          DateTime                  @default(now())
-  updatedAt          DateTime                  @updatedAt
-  campuses           Campus[]
-  memberships        Membership[]
-  invitations        Invitation[]
-  auditLogs          AuditLog[]
-  subjects           Subject[]
-  courses            Course[]
-  coursePeriods      CoursePeriod[]
-  units              Unit[]
-  topics             Topic[]
-  objectives         Objective[]
-  objectiveLinks     ObjectiveCurriculumLink[]
-  generationLogs     GenerationLog[]
-  generationItems    GenerationSuggestion[]
-  resources          Resource[]
-  resourceTopics     ResourceTopic[]
-  resourceVersions   ResourceVersion[]
-  itemFeedback       ResourceItemFeedback[]
-  itemRegenerations  ItemRegeneration[]
-  teacherPreferences TeacherPreference[]
-  documentFormats    DocumentFormat[]
-  piars              Piar[]
-  logo               InstitutionLogo?
+  independentOwnerId    String?                   @unique
+  independentOwner      User?                     @relation("IndependentSpace", fields: [independentOwnerId], references: [id])
+  createdAt             DateTime                  @default(now())
+  updatedAt             DateTime                  @updatedAt
+  campuses              Campus[]
+  memberships           Membership[]
+  invitations           Invitation[]
+  auditLogs             AuditLog[]
+  subjects              Subject[]
+  courses               Course[]
+  coursePeriods         CoursePeriod[]
+  units                 Unit[]
+  topics                Topic[]
+  objectives            Objective[]
+  objectiveLinks        ObjectiveCurriculumLink[]
+  generationLogs        GenerationLog[]
+  generationItems       GenerationSuggestion[]
+  resources             Resource[]
+  resourceTopics        ResourceTopic[]
+  resourceVersions      ResourceVersion[]
+  itemFeedback          ResourceItemFeedback[]
+  itemRegenerations     ItemRegeneration[]
+  teacherPreferences    TeacherPreference[]
+  preferenceSuggestions PreferenceSuggestion[]
+  documentFormats       DocumentFormat[]
+  piars                 Piar[]
+  logo                  InstitutionLogo?
 
   @@map("institutions")
 }
@@ -156,21 +157,22 @@ model Campus {
 }
 
 model Membership {
-  id            String              @id @default(cuid())
-  institutionId String
-  institution   Institution         @relation(fields: [institutionId], references: [id], onDelete: Cascade)
-  userId        String
-  user          User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  roles         Role[]
-  status        MembershipStatus    @default(ACTIVE)
-  createdAt     DateTime            @default(now())
-  updatedAt     DateTime            @updatedAt
-  invitations   Invitation[]
-  courses       Course[]
-  resources     Resource[]
-  preferences   TeacherPreference[]
-  formats       DocumentFormat[]
-  piars         Piar[]
+  id                    String                 @id @default(cuid())
+  institutionId         String
+  institution           Institution            @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  userId                String
+  user                  User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roles                 Role[]
+  status                MembershipStatus       @default(ACTIVE)
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  invitations           Invitation[]
+  courses               Course[]
+  resources             Resource[]
+  preferences           TeacherPreference[]
+  preferenceSuggestions PreferenceSuggestion[]
+  formats               DocumentFormat[]
+  piars                 Piar[]
 
   @@unique([institutionId, userId])
   @@unique([id, institutionId])
@@ -500,27 +502,31 @@ enum SuggestionRating {
 }
 
 model GenerationLog {
-  id             String                 @id @default(cuid())
-  institutionId  String
-  institution    Institution            @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  id                  String                 @id @default(cuid())
+  institutionId       String
+  institution         Institution            @relation(fields: [institutionId], references: [id], onDelete: Cascade)
   /// Docente que la pidió (membresía). Sin datos personales en esta tabla.
-  membershipId   String
-  task           String
+  membershipId        String
+  task                String
   /// Entidad sobre la que se generó (p. ej. el tema).
-  entityType     String
-  entityId       String
-  status         GenerationStatus
-  provider       String?
-  model          String?
-  promptVersion  String?
-  attempts       Int                    @default(0)
-  latencyMs      Int?
+  entityType          String
+  entityId            String
+  status              GenerationStatus
+  provider            String?
+  model               String?
+  promptVersion       String?
+  attempts            Int                    @default(0)
+  latencyMs           Int?
   /// Tokens de entrada + salida (SPEC-0008), para vigilar el cupo del proveedor.
-  tokens         Int?
+  tokens              Int?
   /// Códigos de DBA que el modelo devolvió y se descartaron por no ser del curso (SPEC-0014 RN-01).
-  discardedCodes Int?
-  createdAt      DateTime               @default(now())
-  suggestions    GenerationSuggestion[]
+  discardedCodes      Int?
+  /// SPEC-0021 RN-12: avisos de calidad de las preguntas que quedaron (solo el conteo) y la
+  /// versión de las reglas que los midió.
+  qualityWarnings     Int?
+  qualityRulesVersion String?
+  createdAt           DateTime               @default(now())
+  suggestions         GenerationSuggestion[]
 
   @@unique([id, institutionId])
   @@index([institutionId, membershipId, createdAt])
@@ -698,6 +704,38 @@ model TeacherPreference {
 
   @@index([institutionId, membershipId, active])
   @@map("teacher_preferences")
+}
+
+enum PreferenceSuggestionStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+/// SPEC-0021 Parte A: preferencia que Profe propone a partir de lo que hace el docente. No se
+/// usa al generar hasta que el docente la acepta (se crea entonces una `TeacherPreference`).
+model PreferenceSuggestion {
+  id              String                     @id @default(cuid())
+  institutionId   String
+  institution     Institution                @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  membershipId    String
+  membership      Membership                 @relation(fields: [membershipId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  /// Curso sugerido (todas las señales de un curso); null = todos sus cursos.
+  courseId        String?
+  text            String
+  /// Por qué se propone (p. ej. "Acortaste 7 enunciados en 4 quices").
+  reason          String
+  /// Preferencia activa que contradice (RN-04), si alguna.
+  conflictsWithId String?
+  status          PreferenceSuggestionStatus @default(PENDING)
+  /// Llamada al AI Engine que la propuso (generation_logs).
+  generationId    String?
+  createdAt       DateTime                   @default(now())
+  decidedAt       DateTime?
+
+  @@unique([id, institutionId])
+  @@index([institutionId, membershipId, createdAt])
+  @@map("preference_suggestions")
 }
 
 // ---------------------------------------------------------------------------

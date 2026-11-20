@@ -41,6 +41,13 @@ from ..generation.planning import (
     PlanningRequest,
     propose_planning,
 )
+from ..generation.preferences import (
+    PREFERENCES_PROMPT_VERSION,
+    PreferenceSuggestionsOut,
+    PreferenceSuggestionsRequest,
+    suggest_preferences,
+)
+from ..generation.quality import QUALITY_RULES_VERSION
 from ..generation.resources import (
     QUIZ_PROMPT_VERSION,
     ItemOut,
@@ -61,6 +68,9 @@ from ..retrieval.index import build_index, index_info
 from ..retrieval.search import search_curriculum
 
 log = logging.getLogger("ai_engine")
+
+# SPEC-0021: tareas con el validador de calidad de preguntas.
+QUALITY_TASKS = {"quiz", "exam"}
 
 Grade = Literal[tuple(GRADES)]  # type: ignore[valid-type]
 
@@ -109,6 +119,9 @@ class SuggestionsResponse(BaseModel):
 
 class ResourceMeta(GenerationMeta):
     tokens: int
+    # SPEC-0021 / ADR-0016: avisos de calidad (cambio aditivo del contrato v1).
+    qualityWarnings: list[str] = []
+    qualityRulesVersion: str | None = None
 
 
 class PlanningMeta(ResourceMeta):
@@ -141,6 +154,12 @@ class PiarResponse(BaseModel):
     meta: ResourceMeta
 
 
+class PreferenceSuggestionsResponse(PreferenceSuggestionsOut):
+    """SPEC-0021: preferencias propuestas (contrato generation-preference-suggestions.v1)."""
+
+    meta: ResourceMeta
+
+
 class FormatResponse(FormatOut):
     meta: ResourceMeta
 
@@ -154,6 +173,7 @@ class ExamCallMeta(BaseModel):
     attempts: int
     latencyMs: int
     tokens: int
+    qualityWarnings: list[str] = []
 
 
 class ExamMeta(ResourceMeta):
@@ -330,13 +350,14 @@ def create_app(
             raise HTTPException(status_code=502, detail="invalid_output") from error
         # Solo métricas y versión del prompt; nunca el contexto ni el texto generado.
         log.info(
-            "generation.%s provider=%s model=%s attempts=%d latency_ms=%d tokens=%d",
+            "generation.%s provider=%s model=%s attempts=%d latency_ms=%d tokens=%d warnings=%d",
             task,
             result.provider,
             result.model,
             result.attempts,
             result.latency_ms,
             result.tokens,
+            len(result.warnings),
         )
         return result.value, ResourceMeta(
             provider=result.provider,
@@ -345,6 +366,8 @@ def create_app(
             attempts=result.attempts,
             latencyMs=result.latency_ms,
             tokens=result.tokens,
+            qualityWarnings=list(result.warnings),
+            qualityRulesVersion=QUALITY_RULES_VERSION if task in QUALITY_TASKS else None,
         )
 
     @app.post(
@@ -390,6 +413,7 @@ def create_app(
                     attempts=c.attempts,
                     latencyMs=c.latency_ms,
                     tokens=c.tokens,
+                    qualityWarnings=list(c.warnings),
                 )
                 for i, c in enumerate(result.calls)
             )
@@ -427,5 +451,17 @@ def create_app(
         # SPEC-0017 RN-05: el pedido no admite datos personales; el log solo lleva métricas.
         value, meta = run_resource("piar", PIAR_PROMPT_VERSION, lambda: generate_piar(llm, body))
         return PiarResponse(adjustments=value, meta=meta)
+
+    @app.post(
+        "/v1/generation/preference-suggestions",
+        response_model=PreferenceSuggestionsResponse,
+        dependencies=[Depends(require_token)],
+    )
+    def preference_suggestions(body: PreferenceSuggestionsRequest) -> PreferenceSuggestionsResponse:
+        # SPEC-0021 / ADR-0016: señales de un solo docente, sin ids ni datos personales.
+        value, meta = run_resource(
+            "preferences", PREFERENCES_PROMPT_VERSION, lambda: suggest_preferences(llm, body)
+        )
+        return PreferenceSuggestionsResponse(suggestions=value.suggestions, meta=meta)
 
     return app

@@ -11,6 +11,7 @@ export {
   requestFormatAnalysis,
   requestItem,
   requestPlanning,
+  requestPreferenceSuggestions,
   requestQuiz,
   requestWorkshop,
 } from "./engine";
