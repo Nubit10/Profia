@@ -6,6 +6,8 @@ import { forbidden } from "@/lib/errors";
 import { getCurrentUser } from "@/modules/auth";
 import { requireTenant, setActiveSpaceCookie } from "@/modules/tenancy";
 import { createCampus, renameCampus, setCampusArchived } from "./campuses";
+import { updateGradingBands } from "./grading";
+import { gradingBandsSchema } from "./grading-scale";
 import { acceptInvitation, createInvitation, revokeInvitation } from "./invitations";
 import { setMemberActive, updateMemberRoles } from "./members";
 import {
@@ -106,5 +108,13 @@ export async function updateMemberRolesAction(input: unknown): Promise<ActionRes
 export async function setMemberActiveAction(input: unknown): Promise<ActionResult> {
   return runAction("set_member_active", memberStatusSchema, input, async (data) =>
     setMemberActive(await requireTenant(), data.membershipId, data.active),
+  );
+}
+
+// ---------- Escala de valoración (SPEC-0024 RN-04) ----------
+
+export async function updateGradingBandsAction(input: unknown): Promise<ActionResult> {
+  return runAction("update_grading_bands", gradingBandsSchema, input, async (bands) =>
+    updateGradingBands(await requireTenant(), bands),
   );
 }

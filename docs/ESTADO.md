@@ -5,17 +5,9 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## En curso
 
-- **SPEC-0024** — Plan de aula y rúbrica en la escala del colegio
-  ([spec](specs/SPEC-0024-plan-de-aula-y-escala-de-valoracion.md), ADR-0019). **Pausada por el usuario**
-  el 2026-11-20 ("para ahora; haz los specs uno por uno y dame resultados").
-  - Hecho: spec y ADR-0019; AI Engine completo (`app/generation/lesson_plan.py`, prompt
-    `lesson_plan.v1`, `POST /v1/generation/lesson-plan`, mock y `tests/test_lesson_plan.py`; 189 pruebas
-    en verde).
-  - Falta: web (`ResourceType.LESSON_PLAN`, `institutions.gradingBands` y migración, blueprint y
-    contenido, generación, página "Escala de valoración", asistente, editor, Word/PDF), pruebas y
-    revisión.
-  - Después: SPEC-0025 (resultados → dificultades → refuerzo) y SPEC-0026 (validación con docentes),
-    una por una y esperando al usuario entre cada una.
+- **Siguiente:** SPEC-0025 (resultados → dificultades → refuerzo) y después SPEC-0026 (validación con
+  docentes), una por una y esperando al usuario entre cada una. Antes, si el usuario quiere:
+  `/review SPEC-0024`.
 
 - **SPEC-0020** — Material de referencia del docente ([spec](specs/SPEC-0020-material-de-referencia.md)).
   Estado: **Borrador**, esperando que el usuario responda las 3 preguntas abiertas y la apruebe.
@@ -26,6 +18,24 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
   - Siguiente paso: aprobación → ADR → `/implement SPEC-0020`.
 
 ## Hecho
+
+- **SPEC-0024** — Plan de aula y rúbrica en la escala del colegio
+  ([spec](specs/SPEC-0024-plan-de-aula-y-escala-de-valoracion.md), ADR-0019), implementada el 2026-11-20.
+  - Recurso `LESSON_PLAN` ("Plan de aula"): sesiones (1–6) de 30–120 minutos con inicio, desarrollo y
+    cierre, evaluación, rúbrica de 2–5 criterios × 4 desempeños y ajustes para la diversidad. Cuesta 1 del
+    cupo, se genera en segundo plano (contrato `generation-lesson-plan.v1`) y se edita a mano con
+    versiones (sin regenerar sesión).
+  - Escala de valoración del espacio (`institutions.gradingBands`, migración
+    `20261120220000_lesson_plan_grading_bands`): nacional 1,0–5,0 por defecto; escalas de 5, 10 o 100. La
+    cambia el administrador del colegio o el docente independiente en Ajustes → "Escala de valoración"
+    (`/grading-scale`). La rúbrica la lee al verse y al descargarse.
+  - Entradas: asistente "Crear" (tarjeta "Plan de aula"), menú Crear, "Crear plan de aula" en cada tema de
+    la planeación y filtro "Planes de aula" en "Mis recursos". Word y PDF de un solo documento (sin clave).
+  - El contrato de preferencias acepta `resourceType: LESSON_PLAN` (aditivo).
+  - Pruebas: AI Engine 189; web 313 unitarias e integración (7 de spec-0024); e2e spec-0024 (asistente,
+    editor, escala, 360 px y axe) en verde; las e2e de ux, 0014, 0019 y auditoría móvil siguen en verde.
+    `resources.spec.ts:45` falla aquí por el nombre "download" de las descargas (conocido, no es de esta spec).
+  - Pendiente: revisión formal (`/review SPEC-0024`); usar la escala para las notas en SPEC-0025.
 
 - **SPEC-0023** — Preguntas tipo Saber (ICFES) con situación, figura y competencia
   ([spec](specs/SPEC-0023-preguntas-tipo-saber-con-figuras.md), ADR-0018), implementada el 2026-11-20.

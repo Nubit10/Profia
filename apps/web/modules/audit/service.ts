@@ -7,6 +7,7 @@ export type AuditAction =
   | "auth.logout"
   | "institution.created"
   | "institution.updated"
+  | "institution.grading_bands_updated"
   | "campus.created"
   | "campus.updated"
   | "campus.archived"

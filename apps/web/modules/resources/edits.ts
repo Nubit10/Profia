@@ -26,6 +26,20 @@ export function itemTexts(data: ResourceContent): Map<string, string> {
         : "";
       texts.set(q.id, compact(`${q.stem}${options}${pairs}`));
     }
+  } else if (data.type === "LESSON_PLAN") {
+    // SPEC-0024: sin ids por ítem; las sesiones y los criterios van por su posición.
+    for (const ses of data.content.sessions) {
+      texts.set(
+        `session-${ses.number}`,
+        compact(`${ses.title}. ${ses.start} ${ses.development} ${ses.closure}`),
+      );
+    }
+    data.content.rubric.forEach((r, i) =>
+      texts.set(
+        `rubric-${i + 1}`,
+        compact(`${r.criterion}: ${r.superior} | ${r.high} | ${r.basic} | ${r.low}`),
+      ),
+    );
   } else {
     for (const a of data.content.moments.flatMap((m) => m.activities)) {
       texts.set(a.id, compact(`${a.title}. ${a.instructions}`));

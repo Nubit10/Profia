@@ -1,10 +1,12 @@
 // Tipos de recursos seguros para el navegador (SPEC-0008).
 import type { Grade } from "@/modules/courses/client";
 import type { FormatScope, FormatSnapshot } from "@/modules/formats/client";
+import type { GradingBands } from "@/modules/institutions/client";
 import type {
   Blueprint,
   ExamContent,
   GradingScale,
+  LessonPlanContent,
   QuizContent,
   ResourceType,
   WorkshopContent,
@@ -41,7 +43,8 @@ export type ResourceContextSnapshot = {
 export type ResourceContent =
   | { type: "QUIZ"; content: QuizContent }
   | { type: "WORKSHOP"; content: WorkshopContent }
-  | { type: "EXAM"; content: ExamContent };
+  | { type: "EXAM"; content: ExamContent }
+  | { type: "LESSON_PLAN"; content: LessonPlanContent };
 
 export type ResourceDetail = ResourceSummary & {
   courseId: string;
@@ -61,6 +64,8 @@ export type ResourceDetail = ResourceSummary & {
   canEdit: boolean;
   /** Examen: escala de notas de la clave (SPEC-0011 RN-14). */
   gradingScale: GradingScale | null;
+  /** Plan de aula: escala de valoración del espacio para la rúbrica (SPEC-0024 RN-04). */
+  gradingBands: GradingBands | null;
 };
 
 export type TeacherPreferenceView = {

@@ -354,7 +354,7 @@ export function WorkshopEditor({
 
       <p className="text-sm text-muted-foreground">
         Duración total de las actividades: {total} minutos (planeado:{" "}
-        {resource.blueprint.durationMinutes}).
+        {"durationMinutes" in resource.blueprint ? resource.blueprint.durationMinutes : total}).
       </p>
 
       {content.moments.map((moment, mi) => (

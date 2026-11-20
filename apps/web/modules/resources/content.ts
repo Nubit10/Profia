@@ -4,6 +4,7 @@ import type {
   EngineActivity,
   EngineExam,
   EngineExamQuestion,
+  EngineLessonPlan,
   EngineQuestion,
   EngineQuiz,
   EngineWorkshop,
@@ -14,6 +15,7 @@ import {
   type Activity,
   type ExamContent,
   type ExamQuestion,
+  type LessonPlanContent,
   type QuizContent,
   type QuizQuestion,
   type WorkshopContent,
@@ -61,6 +63,27 @@ export function workshopFromEngine(
       name: m.name,
       activities: m.activities.map((a) => toActivity(a, allowed)),
     })),
+  };
+}
+
+// --- Plan de aula (SPEC-0024) -----------------------------------------------------------------
+
+/** RN-02: sesiones numeradas en orden y solo DBA del contexto. La IA no trae rangos ni notas. */
+export function lessonPlanFromEngine(
+  plan: EngineLessonPlan["plan"],
+  allowed: Set<string>,
+): LessonPlanContent {
+  return {
+    title: plan.title,
+    purpose: plan.purpose,
+    sessions: plan.sessions.map((s, i) => ({
+      ...s,
+      number: i + 1,
+      dbaCodes: onlyAllowed(s.dbaCodes, allowed),
+    })),
+    evaluation: plan.evaluation,
+    rubric: plan.rubric,
+    diversity: plan.diversity ?? "",
   };
 }
 
@@ -215,6 +238,19 @@ export function sanitizeContent(data: ResourceContent, allowed: Set<string>): Re
       },
     };
   }
+  if (data.type === "LESSON_PLAN") {
+    return {
+      type: "LESSON_PLAN",
+      content: {
+        ...data.content,
+        sessions: data.content.sessions.map((s, i) => ({
+          ...s,
+          number: i + 1,
+          dbaCodes: onlyAllowed(s.dbaCodes, allowed),
+        })),
+      },
+    };
+  }
   return {
     type: "WORKSHOP",
     content: {
@@ -227,9 +263,11 @@ export function sanitizeContent(data: ResourceContent, allowed: Set<string>): Re
   };
 }
 
+/** Ítems con evaluación y regeneración propias. El plan de aula no tiene (se edita a mano, §2). */
 export function itemKeys(data: ResourceContent): string[] {
   if (data.type === "QUIZ") return data.content.questions.map((q) => q.id);
   if (data.type === "EXAM") return examQuestions(data.content).map((q) => q.id);
+  if (data.type === "LESSON_PLAN") return [];
   return data.content.moments.flatMap((m) => m.activities.map((a) => a.id));
 }
 
@@ -255,6 +293,7 @@ export function findItem(data: ResourceContent, key: string): FoundItem | null {
       others: all.filter((q) => q.id !== key).map((q) => q.stem),
     };
   }
+  if (data.type === "LESSON_PLAN") return null;
   for (const m of data.content.moments) {
     const item = m.activities.find((a) => a.id === key);
     if (item) {
@@ -274,6 +313,7 @@ export function replaceItem(
   key: string,
   next: QuizQuestion | Activity | ExamQuestion,
 ): ResourceContent {
+  if (data.type === "LESSON_PLAN") return data;
   if (data.type === "QUIZ") {
     return {
       type: "QUIZ",
@@ -326,7 +366,7 @@ export function engineItem(found: FoundItem): EngineQuestion | EngineActivity {
  * anterior; si el docente la editó, la marca se quita (la respuesta ya es suya).
  */
 export function carryAnswerChecks(previous: ResourceContent | null, next: ResourceContent) {
-  if (next.type === "WORKSHOP") return next;
+  if (next.type === "WORKSHOP" || next.type === "LESSON_PLAN") return next;
   const before = new Map<string, QuizQuestion | ExamQuestion>();
   if (previous?.type === "QUIZ") previous.content.questions.forEach((q) => before.set(q.id, q));
   if (previous?.type === "EXAM")

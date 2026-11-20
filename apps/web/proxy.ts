@@ -23,6 +23,7 @@ export const config = {
     "/school/:path*",
     "/courses/:path*",
     "/notifications/:path*",
+    "/grading-scale",
     "/onboarding",
   ],
 };

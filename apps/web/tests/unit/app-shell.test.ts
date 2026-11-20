@@ -12,7 +12,7 @@ describe("menú lateral por rol (CA-0012-20)", () => {
     expect(titles({ isTeacher: true, isSchoolAdmin: false })).toEqual([
       ["Principal", ["Inicio", "Mis cursos"]],
       ["Mi trabajo", ["Mis recursos", "PIAR", "Formatos"]],
-      ["Ajustes", ["Asignaturas", "Notificaciones"]],
+      ["Ajustes", ["Asignaturas", "Escala de valoración", "Notificaciones"]],
     ]);
   });
 
@@ -20,7 +20,7 @@ describe("menú lateral por rol (CA-0012-20)", () => {
     expect(titles({ isTeacher: true, isSchoolAdmin: true })).toEqual([
       ["Principal", ["Inicio", "Mis cursos"]],
       ["Mi trabajo", ["Mis recursos", "PIAR", "Formatos"]],
-      ["Ajustes", ["Asignaturas", "Notificaciones"]],
+      ["Ajustes", ["Asignaturas", "Escala de valoración", "Notificaciones"]],
       ["Colegio", ["Datos y sedes", "Profesores"]],
     ]);
   });
@@ -28,7 +28,10 @@ describe("menú lateral por rol (CA-0012-20)", () => {
   it("CA-0012-20: el administrador sin rol docente ve solo Inicio y Colegio (con formato y asignaturas)", () => {
     expect(titles({ isTeacher: false, isSchoolAdmin: true })).toEqual([
       ["Principal", ["Inicio"]],
-      ["Colegio", ["Datos y sedes", "Profesores", "Formatos", "Asignaturas"]],
+      [
+        "Colegio",
+        ["Datos y sedes", "Profesores", "Formatos", "Asignaturas", "Escala de valoración"],
+      ],
     ]);
   });
 });
@@ -47,6 +50,7 @@ describe("ítem activo (CA-0012-22)", () => {
     expect(active("/resources")).toEqual(["Mis recursos"]);
     expect(active("/school")).toEqual(["Datos y sedes"]);
     expect(active("/school/members")).toEqual(["Profesores"]);
+    expect(active("/grading-scale")).toEqual(["Escala de valoración"]);
   });
 });
 

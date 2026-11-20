@@ -25,7 +25,7 @@ MAX_SUGGESTIONS = 3
 class Signal(BaseModel):
     model_config = ConfigDict(extra="forbid")
     kind: Literal["EDIT", "ITEM_DOWN", "REGENERATION", "RESOURCE_COMMENT"]
-    resourceType: Literal["QUIZ", "WORKSHOP", "EXAM"]  # noqa: N815
+    resourceType: Literal["QUIZ", "WORKSHOP", "EXAM", "LESSON_PLAN"]  # noqa: N815
     subject: str = Field(min_length=1, max_length=80)
     grade: str = Field(min_length=1, max_length=20)
     before: str = Field(default="", max_length=600)

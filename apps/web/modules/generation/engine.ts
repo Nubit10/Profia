@@ -252,6 +252,50 @@ export const requestWorkshop = (body: EngineWorkshopRequest, fetcher: typeof fet
 export const requestItem = (body: EngineItemRequest, fetcher: typeof fetch = fetch) =>
   post("/v1/generation/item", body, itemResponse, TIMEOUT_MS, fetcher);
 
+// --- SPEC-0024: plan de aula (generation-lesson-plan.v1, ADR-0019) ---------------------------
+
+const lessonPlanResponse = z.object({
+  plan: z.object({
+    title: z.string(),
+    purpose: z.string(),
+    sessions: z.array(
+      z.object({
+        number: z.number().int(),
+        title: z.string(),
+        start: z.string(),
+        startMinutes: z.number().int(),
+        development: z.string(),
+        developmentMinutes: z.number().int(),
+        closure: z.string(),
+        closureMinutes: z.number().int(),
+        resources: z.array(z.string()).default([]),
+        dbaCodes: z.array(z.string()).default([]),
+      }),
+    ),
+    evaluation: z.object({ evidence: z.string(), instruments: z.array(z.string()) }),
+    rubric: z.array(
+      z.object({
+        criterion: z.string(),
+        superior: z.string(),
+        high: z.string(),
+        basic: z.string(),
+        low: z.string(),
+      }),
+    ),
+    diversity: z.string().default(""),
+  }),
+  meta: resourceMeta,
+});
+export type EngineLessonPlan = z.infer<typeof lessonPlanResponse>;
+
+export type EngineLessonPlanRequest = EngineResourceContext & {
+  sessions: number;
+  minutesPerSession: number;
+};
+
+export const requestLessonPlan = (body: EngineLessonPlanRequest, fetcher: typeof fetch = fetch) =>
+  post("/v1/generation/lesson-plan", body, lessonPlanResponse, RESOURCE_TIMEOUT_MS, fetcher);
+
 // --- SPEC-0011: examen por secciones y regeneración de una pregunta del examen ---------------
 
 /**
@@ -480,7 +524,7 @@ export type EnginePreferenceSuggestions = z.infer<typeof preferenceSuggestionsRe
 /** Señales de un solo docente: sin ids ni datos personales (el contrato los rechaza). */
 export type EnginePreferenceSignal = {
   kind: "EDIT" | "ITEM_DOWN" | "REGENERATION" | "RESOURCE_COMMENT";
-  resourceType: "QUIZ" | "WORKSHOP" | "EXAM";
+  resourceType: "QUIZ" | "WORKSHOP" | "EXAM" | "LESSON_PLAN";
   subject: string;
   grade: string;
   before?: string;

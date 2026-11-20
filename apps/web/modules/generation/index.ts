@@ -10,6 +10,7 @@ export {
   requestExamItem,
   requestFormatAnalysis,
   requestItem,
+  requestLessonPlan,
   requestPlanning,
   requestPreferenceSuggestions,
   requestQuiz,

@@ -30,6 +30,7 @@ import {
   RESOURCE_TYPE_LABELS,
   examTotalPoints,
   type ExamContent,
+  type LessonPlanContent,
   type QuizContent,
   type ResourceDetail,
   type ResourceStatus,
@@ -39,6 +40,7 @@ import { useRun } from "../../planning/use-run";
 import { Downloads } from "./downloads";
 import { ExamEditor } from "./exam-editor";
 import { GradingScalePanel } from "./grading-scale";
+import { LessonPlanEditor } from "./lesson-plan-editor";
 import { ResourceRating, type FeedbackActions } from "./item-tools";
 import { QuizEditor } from "./quiz-editor";
 import { WorkshopEditor } from "./workshop-editor";
@@ -104,7 +106,9 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
           ? initial.content.questions.map((q) => q.id)
           : initial.type === "EXAM"
             ? initial.content.sections.flatMap((s) => s.questions.map((q) => q.id))
-            : initial.content.moments.flatMap((m) => m.activities.map((a) => a.id)),
+            : initial.type === "LESSON_PLAN"
+              ? []
+              : initial.content.moments.flatMap((m) => m.activities.map((a) => a.id)),
       ),
     [initial],
   );
@@ -169,6 +173,12 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
           onItemDone={() => void save()}
           savedKeys={savedKeys}
           actions={actions}
+        />
+      ) : initial.type === "LESSON_PLAN" ? (
+        <LessonPlanEditor
+          resource={resource}
+          content={content as LessonPlanContent}
+          onChange={setContent}
         />
       ) : (
         <WorkshopEditor
@@ -473,7 +483,8 @@ export function ResourceView({
         <>
           {resource.context.dba.length === 0 && (
             <p className="text-sm text-muted-foreground" role="note">
-              Este recurso no cita DBA: la asignatura no tiene DBA en el catálogo.
+              {resource.type === "LESSON_PLAN" ? "Este plan" : "Este recurso"} no cita DBA: la
+              asignatura no tiene DBA en el catálogo.
             </p>
           )}
           {/* La clave fuerza a reiniciar el borrador local cuando llega una versión nueva. */}

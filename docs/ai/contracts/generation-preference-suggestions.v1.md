@@ -19,7 +19,7 @@ Cada señal:
 | Campo          | Tipo                                                       |
 | -------------- | ---------------------------------------------------------- |
 | `kind`         | `EDIT` · `ITEM_DOWN` · `REGENERATION` · `RESOURCE_COMMENT` |
-| `resourceType` | `QUIZ` · `WORKSHOP` · `EXAM`                               |
+| `resourceType` | `QUIZ` · `WORKSHOP` · `EXAM` · `LESSON_PLAN` (SPEC-0024)   |
 | `subject`      | asignatura (1–80)                                          |
 | `grade`        | grado, p. ej. "6°" (1–20)                                  |
 | `before`       | texto que generó la IA (máx. 600; solo `EDIT`)             |

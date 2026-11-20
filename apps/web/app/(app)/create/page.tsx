@@ -14,7 +14,7 @@ import { CreateWizard, type WizardKind } from "./create-wizard";
 
 export const metadata: Metadata = { title: "Crear con IA" };
 
-const KINDS: WizardKind[] = ["WORKSHOP", "QUIZ", "EXAM", "PLAN"];
+const KINDS: WizardKind[] = ["WORKSHOP", "QUIZ", "EXAM", "LESSON_PLAN", "PLAN"];
 
 /** `scope=UNIT:<id>` o `scope=PERIOD:<n>`: de dónde partió el examen (SPEC-0011). */
 function parseScope(value: unknown): ExamScope {
@@ -69,7 +69,9 @@ export default async function CreatePage({ searchParams }: PageProps<"/create">)
   // SPEC-0013 RN-03: con un solo tema en el curso no hay nada que elegir, salvo que el docente
   // haya pedido cambiarlo (`elegir`).
   const onlyTopic =
-    (kind === "WORKSHOP" || kind === "QUIZ") && topicIds.size === 1 && params.elegir === undefined
+    (kind === "WORKSHOP" || kind === "QUIZ" || kind === "LESSON_PLAN") &&
+    topicIds.size === 1 &&
+    params.elegir === undefined
       ? [...topicIds][0]!
       : null;
   const topicId =
@@ -86,7 +88,7 @@ export default async function CreatePage({ searchParams }: PageProps<"/create">)
   };
 
   let formContext: resources.ResourceFormContext | null = null;
-  if ((kind === "WORKSHOP" || kind === "QUIZ") && topicId) {
+  if ((kind === "WORKSHOP" || kind === "QUIZ" || kind === "LESSON_PLAN") && topicId) {
     formContext = await resources.getResourceFormContext(ctx, topicId).catch(ignoreForeign);
   }
 

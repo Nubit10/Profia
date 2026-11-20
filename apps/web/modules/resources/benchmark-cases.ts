@@ -47,6 +47,8 @@ export async function extractBenchmarkCases(salt: string): Promise<BenchmarkCase
   const resources = await db.resource.findMany({
     where: {
       currentVersion: { gte: 1 },
+      // SPEC-0024: el benchmark de recursos no cubre planes de aula (otro contrato).
+      type: { not: "LESSON_PLAN" },
       OR: [
         { itemFeedback: { some: { rating: "DOWN", comment: { not: null } } } },
         { rating: { lte: LOW_RATING }, ratingComment: { not: null } },
@@ -69,7 +71,7 @@ export async function extractBenchmarkCases(salt: string): Promise<BenchmarkCase
   });
 
   return resources.map((r) => {
-    const blueprint = r.blueprint as unknown as Blueprint;
+    const blueprint = r.blueprint as unknown as Exclude<Blueprint, { type: "LESSON_PLAN" }>;
     const context = r.context as unknown as ResourceContextSnapshot;
     const generated = r.versions[0]
       ? itemTexts({ type: r.type, content: r.versions[0].content } as unknown as ResourceContent)
@@ -85,7 +87,7 @@ export async function extractBenchmarkCases(salt: string): Promise<BenchmarkCase
     ];
     return {
       id: opaqueId(salt, r.id),
-      type: r.type,
+      type: r.type as BenchmarkCase["type"],
       subject: context.subject,
       gradeLabel: context.grade,
       topic: clean(context.topic.title),

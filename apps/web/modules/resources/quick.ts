@@ -9,6 +9,7 @@ import {
   defaultsForGrade,
   distributePoints,
   examDefaultsForGrade,
+  lessonPlanDefaultsForGrade,
   type Blueprint,
 } from "./schemas";
 import { createResource, getResourceFormContext, type GenerationDeps } from "./service";
@@ -18,7 +19,7 @@ import { createResource, getResourceFormContext, type GenerationDeps } from "./s
 // (SPEC-0008/0011), el mismo cupo y los mismos avisos.
 
 export type QuickResourceInput =
-  | { type: "QUIZ" | "WORKSHOP"; topicId: string }
+  | { type: "QUIZ" | "WORKSHOP" | "LESSON_PLAN"; topicId: string }
   | {
       type: "EXAM";
       scope:
@@ -29,10 +30,21 @@ export type QuickResourceInput =
 /** Blueprint de quiz o taller con los valores del asistente sin cambios. */
 export async function quickTopicBlueprint(
   ctx: TenantContext,
-  type: "QUIZ" | "WORKSHOP",
+  type: "QUIZ" | "WORKSHOP" | "LESSON_PLAN",
   topicId: string,
 ): Promise<Blueprint> {
   const context = await getResourceFormContext(ctx, topicId); // NOT_FOUND si es ajeno
+  if (type === "LESSON_PLAN") {
+    const plan = lessonPlanDefaultsForGrade(context.grade);
+    return blueprintSchema.parse({
+      type,
+      topicId: context.topic.id,
+      objectiveIds: context.objectives.slice(0, 5).map((o) => o.id),
+      ...plan,
+      notes: null,
+      excludedPreferenceIds: [],
+    });
+  }
   const defaults = defaultsForGrade(context.grade);
   const base = {
     topicId: context.topic.id,

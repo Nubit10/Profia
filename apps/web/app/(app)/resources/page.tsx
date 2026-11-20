@@ -31,6 +31,7 @@ const TYPE_FILTERS: { value: ResourceType | null; label: string }[] = [
   { value: "WORKSHOP", label: "Talleres" },
   { value: "QUIZ", label: "Quices" },
   { value: "EXAM", label: "Exámenes" },
+  { value: "LESSON_PLAN", label: "Planes de aula" },
 ];
 
 function Chip({ href, active, children }: { href: string; active: boolean; children: string }) {

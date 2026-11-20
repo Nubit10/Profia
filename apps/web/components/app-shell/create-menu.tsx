@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import type { IconType } from "react-icons";
 import {
+  HiOutlineBookOpen,
   HiOutlineCalendarDays,
   HiOutlineClipboardDocumentCheck,
   HiOutlineClipboardDocumentList,
@@ -28,7 +29,7 @@ type Option = {
   href?: string;
 };
 
-// CA-0012-06 y SPEC-0011: Taller, Quiz, Examen y Planeación.
+// CA-0012-06, SPEC-0011 y SPEC-0024: Taller, Quiz, Examen, Plan de aula y Planeación.
 export const CREATE_OPTIONS: Option[] = [
   {
     label: "Taller",
@@ -47,6 +48,12 @@ export const CREATE_OPTIONS: Option[] = [
     description: "De unidad o de periodo, con puntaje",
     icon: HiOutlineClipboardDocumentList,
     href: "/create?type=EXAM",
+  },
+  {
+    label: "Plan de aula",
+    description: "Sesiones con evaluación y rúbrica",
+    icon: HiOutlineBookOpen,
+    href: "/create?type=LESSON_PLAN",
   },
   {
     label: "Planeación",

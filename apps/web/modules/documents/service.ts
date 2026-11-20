@@ -12,10 +12,13 @@ import {
   DEFAULT_GRADING_SCALE,
   RESOURCE_TYPE_LABELS,
   examTotalPoints,
+  sessionMinutes,
 } from "@/modules/resources/client";
 import { requireRole, type TenantContext } from "@/modules/tenancy";
 import { buildQuiz, buildWorkshop, type DocKind, type ExportContext } from "./build";
 import { buildExam, formatPoints, hasAnswerSheet } from "./build-exam";
+import { buildLessonPlan } from "./build-lesson-plan";
+import { DEFAULT_GRADING_BANDS } from "@/modules/institutions/client";
 import { safeFilename } from "./filename";
 import type { DocFormat, DocModel } from "./model";
 import { buildPiar } from "./build-piar";
@@ -58,6 +61,8 @@ export async function exportResource(
     // RN-15: la hoja de respuestas solo existe en exámenes con selección múltiple o V/F.
     if (resource.data.type !== "EXAM" || !hasAnswerSheet(resource.data.content)) throw notFound();
   }
+  // SPEC-0024 RN-05: el plan de aula es un solo documento del docente; no tiene clave.
+  if (resource.data.type === "LESSON_PLAN" && request.doc !== "student") throw notFound();
   const isExam = resource.data.type === "EXAM";
   const [course, topicPeriod] = await Promise.all([
     getMyCourse(ctx, resource.courseId),
@@ -108,6 +113,18 @@ export async function exportResource(
       { label: "Periodo", value: period ?? "—" },
       { label: "Año", value: course.academicYear },
       { label: isExam ? "Temas" : "Tema", value: topicsTitle },
+      ...(resource.data.type === "LESSON_PLAN"
+        ? [
+            {
+              label: "Sesiones",
+              value: `${resource.data.content.sessions.length} de ${
+                resource.data.content.sessions[0]
+                  ? sessionMinutes(resource.data.content.sessions[0])
+                  : 0
+              } minutos`,
+            },
+          ]
+        : []),
       ...(resource.data.type === "EXAM"
         ? [
             { label: "Duración", value: `${resource.data.content.durationMinutes} minutos` },
@@ -118,7 +135,10 @@ export async function exportResource(
   };
 
   // La hoja de respuestas es la misma para todas las versiones (RN-15).
-  const variant = resource.type === "WORKSHOP" || request.doc === "answers" ? "A" : request.variant;
+  const variant =
+    resource.type === "WORKSHOP" || resource.type === "LESSON_PLAN" || request.doc === "answers"
+      ? "A"
+      : request.variant;
   const model: DocModel =
     resource.data.type === "QUIZ"
       ? buildQuiz(resource.data.content, exportCtx, request.doc, variant)
@@ -130,7 +150,14 @@ export async function exportResource(
             variant,
             resource.gradingScale ?? DEFAULT_GRADING_SCALE,
           )
-        : buildWorkshop(resource.data.content, exportCtx, request.doc, resource.format);
+        : resource.data.type === "LESSON_PLAN"
+          ? buildLessonPlan(
+              resource.data.content,
+              exportCtx,
+              resource.context.objectives.map((o) => o.statement),
+              resource.gradingBands ?? DEFAULT_GRADING_BANDS,
+            )
+          : buildWorkshop(resource.data.content, exportCtx, request.doc, resource.format);
 
   const body = request.format === "pdf" ? await renderPdf(model) : await renderDocx(model);
 

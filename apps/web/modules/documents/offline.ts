@@ -44,13 +44,17 @@ export async function listOfflineLibrary(ctx: TenantContext): Promise<OfflineEnt
   );
   const entries: OfflineEntry[] = [];
   for (const r of resources) {
-    const docs: { doc: OfflineDoc; label: string }[] = [
-      {
-        doc: "student",
-        label: r.type === "WORKSHOP" ? "Guía del estudiante" : "Hoja del estudiante",
-      },
-      { doc: "key", label: r.type === "WORKSHOP" ? "Guía del docente" : "Clave" },
-    ];
+    // SPEC-0024: el plan de aula es un solo documento del docente.
+    const docs: { doc: OfflineDoc; label: string }[] =
+      r.type === "LESSON_PLAN"
+        ? [{ doc: "student", label: "Plan de aula" }]
+        : [
+            {
+              doc: "student",
+              label: r.type === "WORKSHOP" ? "Guía del estudiante" : "Hoja del estudiante",
+            },
+            { doc: "key", label: r.type === "WORKSHOP" ? "Guía del docente" : "Clave" },
+          ];
     if (r.type === "EXAM") {
       const exam = await getResourceForExport(ctx, r.id).catch(() => null);
       if (exam?.data.type === "EXAM" && hasAnswerSheet(exam.data.content)) {

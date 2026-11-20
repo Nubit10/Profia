@@ -7,6 +7,7 @@ import { getLimiter } from "@/lib/rate-limit";
 import { redactContactData } from "@/lib/text";
 import { recordAudit } from "@/modules/audit";
 import { getMyCourse } from "@/modules/courses";
+import { getGradingBands } from "@/modules/institutions";
 import { notifyGenerationFinished, type GenerationFinished } from "@/modules/notifications";
 import {
   defaultFormatId,
@@ -18,6 +19,7 @@ import {
   requestExam,
   requestExamItem,
   requestItem,
+  requestLessonPlan,
   requestQuiz,
   requestWorkshop,
   type EngineExamContext,
@@ -37,6 +39,7 @@ import {
   examFromEngine,
   findItem,
   itemKeys,
+  lessonPlanFromEngine,
   quizFromEngine,
   replaceItem,
   sanitizeContent,
@@ -57,6 +60,7 @@ import {
   examQuestionSchema,
   examTotalPoints,
   gradingScaleSchema,
+  lessonPlanContentSchema,
   quizContentSchema,
   quizQuestionSchema,
   saberApplies,
@@ -605,12 +609,55 @@ async function runExamGeneration(
   });
 }
 
+/** SPEC-0024: plan de aula (contrato generation-lesson-plan.v1). La IA no trae rangos ni notas. */
+async function runLessonPlanGeneration(
+  job: Job & { blueprint: Extract<Blueprint, { type: "LESSON_PLAN" }> },
+  fetcher: typeof fetch,
+) {
+  const { blueprint, snapshot } = job;
+  const result = await requestLessonPlan(
+    {
+      ...engineContext(snapshot, blueprint.difficulty, blueprint.notes, job.preferences),
+      sessions: blueprint.sessions,
+      minutesPerSession: blueprint.minutesPerSession,
+    },
+    fetcher,
+  );
+  if (result.status !== "ok") {
+    const log = await logGeneration(
+      db,
+      job,
+      "lesson_plan",
+      result.status === "invalid" ? "INVALID" : "UNAVAILABLE",
+    );
+    await fail(job, result.status, log.id);
+    return;
+  }
+  const allowed = new Set(snapshot.dba.map((d) => d.code));
+  const parsed = lessonPlanContentSchema.safeParse(lessonPlanFromEngine(result.data.plan, allowed));
+  if (!parsed.success) {
+    // El AI Engine ya valida; si aun así no cabe en el contenido editable, falla como inválido.
+    logger.warn("resource.lesson_plan_shape", { resourceId: job.resourceId });
+    const log = await logGeneration(db, job, "lesson_plan", "INVALID", result.data.meta);
+    await fail(job, "invalid", log.id);
+    return;
+  }
+  await db.$transaction(async (tx) => {
+    const log = await logGeneration(tx, job, "lesson_plan", "OK", result.data.meta);
+    await saveGenerated(tx, job, { type: "LESSON_PLAN", content: parsed.data }, log.id);
+  });
+}
+
 /** Llama al AI Engine y guarda el resultado. Nunca lanza: corre fuera de la petición. */
 export async function runGeneration(job: Job, fetcher: typeof fetch = fetch): Promise<void> {
   const { blueprint, snapshot } = job;
   try {
     if (blueprint.type === "EXAM") {
       await generationQueue.run(() => runExamGeneration({ ...job, blueprint }, fetcher));
+      return;
+    }
+    if (blueprint.type === "LESSON_PLAN") {
+      await generationQueue.run(() => runLessonPlanGeneration({ ...job, blueprint }, fetcher));
       return;
     }
     const task = blueprint.type === "QUIZ" ? "quiz" : "workshop";
@@ -726,7 +773,7 @@ async function enqueue(
       ? await prepareExam(ctx, blueprint)
       : await prepare(ctx, blueprint, existing?.format);
   // SPEC-0023 RN-01: el estilo Saber solo aplica a Matemáticas y Lenguaje.
-  if (blueprint.type !== "WORKSHOP" && blueprint.saber && !saberApplies(snapshot.subject)) {
+  if ("saber" in blueprint && blueprint.saber && !saberApplies(snapshot.subject)) {
     throw invalid("El estilo Saber solo está disponible en Matemáticas y Lenguaje", "saber");
   }
   const topicIds = blueprint.type === "EXAM" ? blueprint.topicIds : [blueprint.topicId];
@@ -979,6 +1026,8 @@ export async function getResource(ctx: TenantContext, resourceId: string): Promi
     ),
     canEdit: true,
     gradingScale: resource.type === "EXAM" ? scaleOf(resource.gradingScale) : null,
+    // SPEC-0024 RN-04: la escala del espacio, leída al verlo (no se copia en el plan).
+    gradingBands: resource.type === "LESSON_PLAN" ? await getGradingBands(ctx) : null,
   };
 }
 
@@ -1138,7 +1187,9 @@ export async function saveResourceContent(
       ? quizContentSchema
       : resource.type === "EXAM"
         ? examContentSchema
-        : workshopContentSchema;
+        : resource.type === "LESSON_PLAN"
+          ? lessonPlanContentSchema
+          : workshopContentSchema;
   const result = schema.safeParse(content);
   if (!result.success) throw invalid(result.error.issues[0]?.message ?? "Contenido inválido");
   // RN-02 y RN-12: los temas del examen no se cambian al editar; salen de la copia guardada.
@@ -1310,7 +1361,7 @@ export async function regenerateItem(
       );
     }
   } else {
-    if (blueprint.type === "EXAM") throw notFound();
+    if (blueprint.type === "EXAM" || blueprint.type === "LESSON_PLAN") throw notFound();
     const itemResult = await requestItem(
       {
         ...engineContext(snapshot, blueprint.difficulty, blueprint.notes, preferences),
@@ -1559,6 +1610,7 @@ export async function getResourceForExport(
     data,
     format: (resource.formatSnapshot as unknown as FormatSnapshot | null) ?? null,
     gradingScale: resource.type === "EXAM" ? scaleOf(resource.gradingScale) : null,
+    gradingBands: resource.type === "LESSON_PLAN" ? await getGradingBands(ctx) : null,
     context: {
       ...context,
       dba: context.dba.map(({ code, number: n, statement }) => ({ code, number: n, statement })),

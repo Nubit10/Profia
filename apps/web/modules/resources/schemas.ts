@@ -5,12 +5,13 @@ import type { Grade } from "@/modules/courses/client";
 // Schemas y catálogos compartidos entre formularios y servidor (SPEC-0008). Sin dependencias de
 // servidor: el mismo schema valida el formulario (React Hook Form) y la server action.
 
-export const RESOURCE_TYPES = ["QUIZ", "WORKSHOP", "EXAM"] as const;
+export const RESOURCE_TYPES = ["QUIZ", "WORKSHOP", "EXAM", "LESSON_PLAN"] as const;
 export type ResourceType = (typeof RESOURCE_TYPES)[number];
 export const RESOURCE_TYPE_LABELS: Record<ResourceType, string> = {
   QUIZ: "Quiz",
   WORKSHOP: "Taller",
   EXAM: "Examen",
+  LESSON_PLAN: "Plan de aula",
 };
 
 export const STATUS_LABELS = {
@@ -139,6 +140,35 @@ const workshopBlueprint = z.object({
   formatId: z.string().min(1).optional(),
   /** SPEC-0016 RN-01: el docente eligió el enfoque DUA. */
   udl: z.boolean().optional(),
+});
+
+// --- Plan de aula (SPEC-0024) ------------------------------------------------------------------
+
+export const LESSON_PLAN_LIMITS = {
+  sessions: { min: 1, max: 6 },
+  minutesPerSession: { min: 30, max: 120 },
+  rubric: { min: 2, max: 5 },
+  resources: 6,
+  instruments: 4,
+} as const;
+
+const lessonPlanBlueprint = z.object({
+  type: z.literal("LESSON_PLAN"),
+  topicId: blueprintBase.topicId,
+  objectiveIds: blueprintBase.objectiveIds,
+  sessions: z
+    .number({ error: "Escribe cuántas sesiones" })
+    .int()
+    .min(LESSON_PLAN_LIMITS.sessions.min, "Mínimo 1 sesión")
+    .max(LESSON_PLAN_LIMITS.sessions.max, `Máximo ${LESSON_PLAN_LIMITS.sessions.max} sesiones`),
+  minutesPerSession: z
+    .number({ error: "Escribe los minutos" })
+    .int()
+    .min(LESSON_PLAN_LIMITS.minutesPerSession.min, "Mínimo 30 minutos")
+    .max(LESSON_PLAN_LIMITS.minutesPerSession.max, "Máximo 120 minutos"),
+  difficulty: blueprintBase.difficulty,
+  notes: blueprintBase.notes,
+  excludedPreferenceIds: blueprintBase.excludedPreferenceIds,
 });
 
 // --- Examen (SPEC-0011) -----------------------------------------------------------------------
@@ -289,8 +319,14 @@ const usedLevels = (d: Partial<Record<CognitiveLevel, number>>) =>
   Object.values(d).filter((v) => (v ?? 0) > 0).length;
 
 export const blueprintSchema = z
-  .discriminatedUnion("type", [quizBlueprint, workshopBlueprint, examBlueprint])
+  .discriminatedUnion("type", [
+    quizBlueprint,
+    workshopBlueprint,
+    examBlueprint,
+    lessonPlanBlueprint,
+  ])
   .superRefine((b, ctx) => {
+    if (b.type === "LESSON_PLAN") return;
     const items = b.type === "EXAM" ? examQuestionCount(b.sections) : b.itemCount;
     if (usedLevels(b.cognitiveDistribution) > items) {
       ctx.addIssue({
@@ -384,6 +420,12 @@ export function defaultsForGrade(grade: Grade): Defaults {
     questionTypes: ["MULTIPLE_CHOICE", "SHORT_ANSWER"],
     distribution: { UNDERSTAND: 20, APPLY: 30, ANALYZE: 30, EVALUATE: 20 },
   };
+}
+
+/** SPEC-0024 §2: plan de aula de 3 sesiones con la duración de clase del grado. */
+export function lessonPlanDefaultsForGrade(grade: Grade) {
+  const d = defaultsForGrade(grade);
+  return { difficulty: d.difficulty, sessions: 3, minutesPerSession: d.durationMinutes };
 }
 
 type ExamDefaults = {
@@ -580,6 +622,90 @@ export const workshopContentSchema = z.object({
   udlGuide: udlGuideSchema.optional(),
 });
 export type WorkshopContent = z.infer<typeof workshopContentSchema>;
+
+// --- Contenido del plan de aula (SPEC-0024) ----------------------------------------------------
+
+const moment = (label: string) =>
+  z
+    .string()
+    .trim()
+    .min(20, `${label}: mínimo 20 caracteres`)
+    .max(1500, `${label}: máximo 1500 caracteres`);
+const minutes = z.number({ error: "Escribe los minutos" }).int().min(1, "Mínimo 1 minuto").max(120);
+
+export const lessonSessionSchema = z.object({
+  number: z.number().int().min(1).max(LESSON_PLAN_LIMITS.sessions.max),
+  title: text(150, "Título de la sesión"),
+  start: moment("Inicio"),
+  startMinutes: minutes,
+  development: moment("Desarrollo"),
+  developmentMinutes: minutes,
+  closure: moment("Cierre"),
+  closureMinutes: minutes,
+  resources: z
+    .array(z.string().trim().min(1, "No dejes recursos vacíos").max(200))
+    .max(LESSON_PLAN_LIMITS.resources, `Máximo ${LESSON_PLAN_LIMITS.resources} recursos`),
+  dbaCodes: z.array(z.string()).max(6),
+});
+export type LessonSession = z.infer<typeof lessonSessionSchema>;
+
+const descriptor = (label: string) =>
+  z
+    .string()
+    .trim()
+    .min(10, `${label}: mínimo 10 caracteres`)
+    .max(300, `${label}: máximo 300 caracteres`);
+
+/** RN-03: un descriptor por desempeño; la IA no escribe rangos ni notas. */
+export const rubricRowSchema = z
+  .object({
+    criterion: text(150, "Criterio"),
+    superior: descriptor("Superior"),
+    high: descriptor("Alto"),
+    basic: descriptor("Básico"),
+    low: descriptor("Bajo"),
+  })
+  .refine(
+    (r) => new Set([r.superior, r.high, r.basic, r.low].map((x) => x.toLowerCase())).size === 4,
+    { message: "Los cuatro desempeños deben ser distintos", path: ["superior"] },
+  );
+export type RubricRow = z.infer<typeof rubricRowSchema>;
+/** Orden de las columnas de la rúbrica, de Superior a Bajo, con su nivel de la escala. */
+export const RUBRIC_COLUMNS = [
+  { key: "superior", level: "SUPERIOR" },
+  { key: "high", level: "HIGH" },
+  { key: "basic", level: "BASIC" },
+  { key: "low", level: "LOW" },
+] as const;
+
+export const lessonPlanContentSchema = z.object({
+  title: text(200, "Título"),
+  purpose: z.string().trim().min(10, "Propósito: mínimo 10 caracteres").max(1000),
+  sessions: z
+    .array(lessonSessionSchema)
+    .min(1, "El plan necesita al menos una sesión")
+    .max(LESSON_PLAN_LIMITS.sessions.max),
+  evaluation: z.object({
+    evidence: z.string().trim().min(10, "Evidencias: mínimo 10 caracteres").max(1000),
+    instruments: z
+      .array(z.string().trim().min(1, "No dejes instrumentos vacíos").max(200))
+      .max(LESSON_PLAN_LIMITS.instruments + 2),
+  }),
+  rubric: z
+    .array(rubricRowSchema)
+    .min(
+      LESSON_PLAN_LIMITS.rubric.min,
+      `La rúbrica necesita al menos ${LESSON_PLAN_LIMITS.rubric.min} criterios`,
+    )
+    .max(LESSON_PLAN_LIMITS.rubric.max, `Máximo ${LESSON_PLAN_LIMITS.rubric.max} criterios`),
+  diversity: z.string().trim().max(2000).default(""),
+});
+export type LessonPlanContent = z.infer<typeof lessonPlanContentSchema>;
+
+/** Minutos de una sesión (inicio + desarrollo + cierre). */
+export const sessionMinutes = (
+  s: Pick<LessonSession, "startMinutes" | "developmentMinutes" | "closureMinutes">,
+) => s.startMinutes + s.developmentMinutes + s.closureMinutes;
 
 // --- Contenido del examen (SPEC-0011) ---------------------------------------------------------
 
@@ -800,6 +926,7 @@ export const regenerateSchema = z.object({
 export const quickResourceSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("QUIZ"), topicId: z.string().min(1) }),
   z.object({ type: z.literal("WORKSHOP"), topicId: z.string().min(1) }),
+  z.object({ type: z.literal("LESSON_PLAN"), topicId: z.string().min(1) }),
   z.object({
     type: z.literal("EXAM"),
     scope: z.discriminatedUnion("kind", [

@@ -2,7 +2,7 @@
 
 | Campo                    | Valor                                                                                           |
 | ------------------------ | ----------------------------------------------------------------------------------------------- |
-| Estado                   | En implementación                                                                               |
+| Estado                   | Implementada                                                                                    |
 | Fase del roadmap         | 6 · Generation (planes de aula, pendientes de la fase)                                          |
 | Módulo(s) responsable(s) | `modules/resources` · `modules/institutions` · `modules/documents` · `ai-engine/app/generation` |
 | Agentes                  | product, architect, domain, ai-engine, backend, frontend, documents, qa, reviewer               |
@@ -143,9 +143,9 @@ notes, excludedPreferenceIds }`.
 ## 10. Tareas
 
 - [x] T1 — ADR-0019 — architect
-- [ ] T2 — `ResourceType.LESSON_PLAN`, `institutions.gradingBands` y migración — database
+- [x] T2 — `ResourceType.LESSON_PLAN`, `institutions.gradingBands` y migración — database
 - [x] T3 — `app/generation/lesson_plan.py`, prompt `lesson_plan.v1`, endpoint, mock y pruebas — ai-engine
-- [ ] T4 — Blueprint, contenido, generación, escala (servicio y página) — backend
-- [ ] T5 — Asistente, ajustes, editor del plan y rúbrica — frontend
-- [ ] T6 — Word y PDF del plan — documents
-- [ ] T7 — Pruebas por CA y revisión — qa, reviewer
+- [x] T4 — Blueprint, contenido, generación, escala (servicio y página) — backend
+- [x] T5 — Asistente, ajustes, editor del plan y rúbrica — frontend
+- [x] T6 — Word y PDF del plan — documents
+- [x] T7 — Pruebas por CA — qa (la revisión formal con `/review SPEC-0024` queda pendiente)

@@ -6,6 +6,7 @@ import { useState, useTransition } from "react";
 import type { IconType } from "react-icons";
 import {
   HiOutlineArrowLeft,
+  HiOutlineBookOpen,
   HiOutlineCalendarDays,
   HiOutlineClipboardDocumentCheck,
   HiOutlineClipboardDocumentList,
@@ -36,9 +37,10 @@ import { CourseForm, type Option } from "../courses/course-form";
 import type { PreferenceActions } from "../courses/[courseId]/resources/preferences-panel";
 import { ExamSettingsStep } from "./exam-settings-step";
 import { ExamTopicsStep } from "./exam-topics-step";
+import { LessonPlanSettingsStep } from "./lesson-plan-settings-step";
 import { SettingsStep } from "./settings-step";
 
-export type WizardKind = "WORKSHOP" | "QUIZ" | "EXAM" | "PLAN";
+export type WizardKind = "WORKSHOP" | "QUIZ" | "EXAM" | "LESSON_PLAN" | "PLAN";
 type Step = "settings" | "confirm";
 
 type CourseOption = { id: string; title: string; subjectId: string; subjectName: string };
@@ -92,6 +94,12 @@ const KIND_CARDS: {
     icon: HiOutlineClipboardDocumentList,
   },
   {
+    kind: "LESSON_PLAN",
+    label: "Plan de aula",
+    description: "La clase de un tema por sesiones, con evaluación y rúbrica en tu escala.",
+    icon: HiOutlineBookOpen,
+  },
+  {
     kind: "PLAN",
     label: "Planeación",
     description: "Periodos, unidades y temas del curso, con objetivos alineados a los DBA.",
@@ -132,7 +140,8 @@ export function CreateWizard(props: Props) {
   const [topicTitle, setTopicTitle] = useState("");
   const [topicError, setTopicError] = useState<string | null>(null);
 
-  const isResource = kind === "WORKSHOP" || kind === "QUIZ" || kind === "EXAM";
+  const isResource =
+    kind === "WORKSHOP" || kind === "QUIZ" || kind === "EXAM" || kind === "LESSON_PLAN";
   const isExam = kind === "EXAM";
   const examTopics = props.exam.context?.topics.map((t) => t.id) ?? [];
   const course = courses.find((c) => c.id === props.courseId) ?? null;
@@ -224,7 +233,15 @@ export function CreateWizard(props: Props) {
           kind === "PLAN"
             ? "Planear un curso"
             : kind
-              ? `Crear ${kind === "QUIZ" ? "un quiz" : kind === "EXAM" ? "un examen" : "un taller"}`
+              ? `Crear ${
+                  kind === "QUIZ"
+                    ? "un quiz"
+                    : kind === "EXAM"
+                      ? "un examen"
+                      : kind === "LESSON_PLAN"
+                        ? "un plan de aula"
+                        : "un taller"
+                }`
               : "Crear con IA"
         }
         description="Unos pocos pasos. Puedes volver atrás sin perder lo que elegiste."
@@ -518,7 +535,18 @@ export function CreateWizard(props: Props) {
         </>
       )}
 
-      {ready && !isExam && props.formContext && (
+      {ready && kind === "LESSON_PLAN" && props.formContext && (
+        <LessonPlanSettingsStep
+          key={`${kind}:${props.formContext.topic.id}`}
+          context={props.formContext}
+          blocked={blocked}
+          quotaText={quotaText}
+          create={props.actions.createResource}
+          preferenceActions={props.actions.preferences}
+        />
+      )}
+
+      {ready && !isExam && kind !== "LESSON_PLAN" && props.formContext && (
         <>
           <SettingsStep
             key={`${kind}:${props.formContext.topic.id}`}

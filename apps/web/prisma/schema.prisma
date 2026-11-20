@@ -106,6 +106,9 @@ model Institution {
   department            String?
   municipality          String?
   calendar              SchoolCalendar?
+  /// Escala de valoración del espacio (SPEC-0024 RN-04, ADR-0019): JSON validado con Zod en
+  /// `modules/institutions/grading-scale.ts`. null = la nacional (1,0–5,0).
+  gradingBands          Json?
   /// Dueño del espacio independiente; único por usuario (SPEC-0002 RN-03).
   independentOwnerId    String?                   @unique
   independentOwner      User?                     @relation("IndependentSpace", fields: [independentOwnerId], references: [id])
@@ -562,6 +565,7 @@ enum ResourceType {
   WORKSHOP
   QUIZ
   EXAM
+  LESSON_PLAN
 }
 
 enum ResourceStatus {

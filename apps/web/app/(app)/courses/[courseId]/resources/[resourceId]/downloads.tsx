@@ -109,19 +109,25 @@ function DownloadForm(props: Props & { onDone: () => void }) {
   const [prefs, setPrefs] = useState(readPrefs);
   const [busy, setBusy] = useState(false);
   const [showSingles, setShowSingles] = useState(false);
-  const withVariants = type !== "WORKSHOP";
+  // SPEC-0024 RN-05: el plan de aula es un solo documento del docente, sin clave ni versiones.
+  const isPlan = type === "LESSON_PLAN";
+  const withVariants = type !== "WORKSHOP" && !isPlan;
   const [studentLabel, keyLabel] =
     type === "WORKSHOP"
       ? ["Guía del estudiante", "Guía del docente"]
       : ["Hoja del estudiante", "Clave"];
-  const docOptions: { doc: Doc; label: string; hint: string }[] = [
-    { doc: "student", label: studentLabel, hint: "Para entregar" },
-    { doc: "key", label: keyLabel, hint: "Solo para ti" },
-    ...(props.answerSheet
-      ? [{ doc: "answers" as const, label: "Hoja de respuestas", hint: "Para marcar A–D" }]
-      : []),
-  ];
-  const docs = prefs.docs.filter((d) => docOptions.some((o) => o.doc === d));
+  const docOptions: { doc: Doc; label: string; hint: string }[] = isPlan
+    ? [{ doc: "student", label: "Plan de aula", hint: "Para ti y el coordinador" }]
+    : [
+        { doc: "student", label: studentLabel, hint: "Para entregar" },
+        { doc: "key", label: keyLabel, hint: "Solo para ti" },
+        ...(props.answerSheet
+          ? [{ doc: "answers" as const, label: "Hoja de respuestas", hint: "Para marcar A–D" }]
+          : []),
+      ];
+  const docs: Doc[] = isPlan
+    ? ["student"]
+    : prefs.docs.filter((d) => docOptions.some((o) => o.doc === d));
   const variants = withVariants ? prefs.variants : 1;
   const base = `/courses/${props.courseId}/resources/${props.resourceId}/export`;
 
@@ -182,36 +188,38 @@ function DownloadForm(props: Props & { onDone: () => void }) {
         </div>
       </fieldset>
 
-      <fieldset className="flex flex-col gap-2">
-        <legend className="mb-2 text-sm font-bold">Qué incluir</legend>
-        {/* Tarjetas en cuadrícula, como las de formato: nunca filas a todo el ancho del modal. */}
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]">
-          {docOptions.map(({ doc, label, hint }) => {
-            const id = `download-${doc}`;
-            return (
-              <SelectableOption
-                key={doc}
-                id={id}
-                checked={docs.includes(doc)}
-                onCheckedChange={(checked) =>
-                  update({
-                    docs: checked ? [...docs, doc] : docs.filter((d) => d !== doc),
-                  })
-                }
-                description={hint}
-                className="h-full"
-              >
-                {label}
-              </SelectableOption>
-            );
-          })}
-        </div>
-        {docs.length === 0 && (
-          <p className="text-sm text-danger" role="alert">
-            Elige al menos un documento.
-          </p>
-        )}
-      </fieldset>
+      {!isPlan && (
+        <fieldset className="flex flex-col gap-2">
+          <legend className="mb-2 text-sm font-bold">Qué incluir</legend>
+          {/* Tarjetas en cuadrícula, como las de formato: nunca filas a todo el ancho del modal. */}
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]">
+            {docOptions.map(({ doc, label, hint }) => {
+              const id = `download-${doc}`;
+              return (
+                <SelectableOption
+                  key={doc}
+                  id={id}
+                  checked={docs.includes(doc)}
+                  onCheckedChange={(checked) =>
+                    update({
+                      docs: checked ? [...docs, doc] : docs.filter((d) => d !== doc),
+                    })
+                  }
+                  description={hint}
+                  className="h-full"
+                >
+                  {label}
+                </SelectableOption>
+              );
+            })}
+          </div>
+          {docs.length === 0 && (
+            <p className="text-sm text-danger" role="alert">
+              Elige al menos un documento.
+            </p>
+          )}
+        </fieldset>
+      )}
 
       {withVariants && (
         <fieldset className="flex flex-col gap-2">

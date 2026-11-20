@@ -18,6 +18,17 @@ export {
   revokeInvitation,
   type InvitationPreview,
 } from "./invitations";
+export { canEditGradingBands, getGradingBands, updateGradingBands } from "./grading";
+export {
+  DEFAULT_GRADING_BANDS,
+  PERFORMANCE_LABELS,
+  PERFORMANCE_LEVELS,
+  bandRange,
+  formatScore,
+  parseGradingBands,
+  type GradingBands,
+  type PerformanceLevel,
+} from "./grading-scale";
 export { listMembers, setMemberActive, updateMemberRoles } from "./members";
 export {
   acceptInvitationAction,
@@ -30,5 +41,6 @@ export {
   setCampusArchivedAction,
   setMemberActiveAction,
   updateMemberRolesAction,
+  updateGradingBandsAction,
   updateSchoolAction,
 } from "./actions";

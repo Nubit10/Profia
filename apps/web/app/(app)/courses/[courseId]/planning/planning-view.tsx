@@ -14,6 +14,7 @@ import {
   HiOutlineClipboardDocumentCheck,
   HiOutlineClipboardDocumentList,
   HiOutlineDocumentDuplicate,
+  HiOutlineBookOpen,
   HiOutlineDocumentText,
   HiOutlineEllipsisHorizontal,
   HiOutlineExclamationTriangle,
@@ -758,6 +759,13 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                                           "taller",
                                           "Crear taller",
                                           HiOutlineDocumentText,
+                                        ],
+                                        // SPEC-0024: plan de aula con los valores del grado.
+                                        [
+                                          "LESSON_PLAN",
+                                          "plan de aula",
+                                          "Crear plan de aula",
+                                          HiOutlineBookOpen,
                                         ],
                                       ] as const
                                     ).map(([type, noun, text, Icon]) => (

@@ -12,3 +12,4 @@ Contratos versionados (schemas) entre el producto y el AI Engine.
 | [generation-planning v1](generation-planning.v1.md)                             | `POST /v1/generation/planning`                     | SPEC-0014 |
 | [generation-piar v1](generation-piar.v1.md)                                     | `POST /v1/generation/piar-adjustments`             | SPEC-0017 |
 | [generation-preference-suggestions v1](generation-preference-suggestions.v1.md) | `POST /v1/generation/preference-suggestions`       | SPEC-0021 |
+| [generation-lesson-plan v1](generation-lesson-plan.v1.md)                       | `POST /v1/generation/lesson-plan`                  | SPEC-0024 |

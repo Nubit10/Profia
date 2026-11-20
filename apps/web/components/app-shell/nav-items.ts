@@ -7,6 +7,7 @@ import {
   HiOutlineHome,
   HiOutlineLockClosed,
   HiOutlineRectangleStack,
+  HiOutlineScale,
   HiOutlineSquares2X2,
   HiOutlineUserGroup,
 } from "react-icons/hi2";
@@ -45,6 +46,8 @@ const ITEMS = {
   formats: { href: "/formats", label: "Formatos", icon: HiOutlineDocumentText },
   subjects: { href: "/subjects", label: "Asignaturas", icon: HiOutlineBookOpen },
   notifications: { href: "/notifications", label: "Notificaciones", icon: HiOutlineBellAlert },
+  // SPEC-0024: escala de valoración del espacio (la cambia el administrador).
+  gradingScale: { href: "/grading-scale", label: "Escala de valoración", icon: HiOutlineScale },
   school: { href: "/school", label: "Datos y sedes", icon: HiOutlineBuildingLibrary },
   members: { href: "/school/members", label: "Profesores", icon: HiOutlineUserGroup },
 } satisfies Record<string, NavItem>;
@@ -56,14 +59,14 @@ export function getNavSections({ isTeacher, isSchoolAdmin }: NavAccess): NavSect
   if (isTeacher) {
     sections.push(
       { title: "Mi trabajo", items: [ITEMS.resources, ITEMS.piar, ITEMS.formats] },
-      { title: "Ajustes", items: [ITEMS.subjects, ITEMS.notifications] },
+      { title: "Ajustes", items: [ITEMS.subjects, ITEMS.gradingScale, ITEMS.notifications] },
     );
   }
   if (isSchoolAdmin) {
     // Quien no da clases administra aquí el formato institucional, el logo y las asignaturas.
     const items = isTeacher
       ? [ITEMS.school, ITEMS.members]
-      : [ITEMS.school, ITEMS.members, ITEMS.formats, ITEMS.subjects];
+      : [ITEMS.school, ITEMS.members, ITEMS.formats, ITEMS.subjects, ITEMS.gradingScale];
     sections.push({ title: "Colegio", items });
   }
   return sections.filter((s) => s.items.length > 0);
