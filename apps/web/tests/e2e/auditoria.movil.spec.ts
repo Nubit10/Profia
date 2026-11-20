@@ -196,7 +196,6 @@ test("móvil: el docente, pantalla por pantalla, a 360 px", async ({ page }) => 
   await check(page, "piar-nuevo");
   const dialog = page.getByRole("dialog", { name: "Nuevo PIAR" });
   await dialog.getByLabel("Nombre del estudiante").fill("Estudiante de prueba");
-  await dialog.getByRole("checkbox", { name: /Tengo la autorización/ }).click();
   await dialog.getByRole("button", { name: "Crear PIAR" }).click();
   await expect(page).toHaveURL(/\/piar\/[\w-]+$/);
   await check(page, "piar-editor");

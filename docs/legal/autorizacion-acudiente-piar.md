@@ -1,9 +1,11 @@
 # Modelo de autorización del acudiente para el PIAR en Profe
 
 Modelo para que **el docente que usa Profe por su cuenta** (docente independiente, sin contrato del colegio
-con Profe) pida al padre, madre o acudiente la autorización para registrar los datos del estudiante en su
-PIAR (SPEC-0017, RN-04). Profe le pide al docente que confirme que la tiene antes de crear un PIAR; este
-documento es esa autorización. Al final hay una nota para cuando sea el colegio el que contrata Profe.
+con Profe) informe al padre, madre o acudiente y, si quiere, le pida la autorización para registrar los datos
+del estudiante en su PIAR. **Profe no se la exige al docente independiente** (SPEC-0017, RN-04): al crear un
+PIAR solo le muestra un aviso para contarle al acudiente. Es un respaldo recomendado, porque la Ley 1581 pide
+autorización para datos sensibles de menores. Al final hay una nota para cuando el que contrata Profe es el
+colegio; en ese caso Profe sí pide confirmar la autorización.
 
 > **Es un modelo, no asesoría jurídica.** Conviene que lo revise un abogado antes de usarlo con clientes
 > reales. Lo que va entre `[corchetes]` lo llena quien corresponda.
@@ -25,11 +27,10 @@ Decreto 1421 de 2017 (PIAR y educación inclusiva).
 ## Cómo usarlo
 
 1. El docente llena sus datos una vez (nombre, correo o teléfono de contacto).
-2. Se lo entrega al acudiente **antes** de crear el PIAR en Profe, en papel o por un medio que deje
+2. Si decide usarlo, se lo entrega al acudiente **antes** de crear el PIAR en Profe, en papel o por un medio que deje
    constancia: foto del papel firmado, formulario digital o un correo/WhatsApp del acudiente que diga
    "autorizo" junto con este texto.
-3. El docente guarda la autorización firmada (en su archivo o en su correo), **no en Profe**. Profe solo
-   guarda la fecha en que el docente confirmó tenerla.
+3. Si la consigue, el docente la guarda (en su archivo o en su correo), **no en Profe**.
 4. Si el acudiente no autoriza, el docente hace el PIAR por otros medios (papel, los formatos del colegio).
    **El PIAR es un derecho del estudiante y no depende de esta autorización.**
 5. Si el estudiante tiene edad y madurez para entenderlo, se le explica y se tiene en cuenta su opinión.

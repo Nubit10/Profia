@@ -54,12 +54,11 @@ test("CA-0017-01/04/05/06/09: crear, llenar, proponer con IA, descargar y borrar
   await page.getByRole("button", { name: "Nuevo PIAR" }).click();
   const dialog = page.getByRole("dialog", { name: "Nuevo PIAR" });
   await dialog.getByLabel("Nombre del estudiante").fill("Valentina Ríos");
-  // RN-04: sin la autorización no se crea.
-  await dialog.getByRole("button", { name: "Crear PIAR" }).click();
-  await expect(dialog.getByText("Confirma que tienes la autorización")).toBeVisible();
+  // RN-04: el docente independiente no confirma la autorización; ve un aviso.
+  await expect(dialog.getByText(/Recuerda contarle al acudiente/)).toBeVisible();
+  await expect(dialog.getByRole("checkbox", { name: /Tengo la autorización/ })).toHaveCount(0);
   await noViolations(page, "diálogo nuevo");
   await shot(page, "01-nuevo-piar-movil");
-  await dialog.getByRole("checkbox", { name: /Tengo la autorización/ }).click();
   await dialog.getByRole("button", { name: "Crear PIAR" }).click();
   await expect(page).toHaveURL(/\/piar\/[\w-]+$/);
   // La pestaña no lleva el nombre del estudiante.
@@ -107,7 +106,6 @@ test("CA-0017-03: otro docente no ve el PIAR por su enlace", async ({ page }) =>
   await page.getByRole("button", { name: "Nuevo PIAR" }).click();
   const dialog = page.getByRole("dialog", { name: "Nuevo PIAR" });
   await dialog.getByLabel("Nombre del estudiante").fill("Samuel Gómez");
-  await dialog.getByRole("checkbox", { name: /Tengo la autorización/ }).click();
   await dialog.getByRole("button", { name: "Crear PIAR" }).click();
   await expect(page).toHaveURL(/\/piar\/[\w-]+$/);
   const url = page.url();

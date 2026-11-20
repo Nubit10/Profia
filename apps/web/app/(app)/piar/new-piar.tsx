@@ -18,7 +18,7 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import type { ActionResult } from "@/lib/action-result";
 import { navigatingFromLayer } from "@/lib/use-back-to-close";
-import { createPiarSchema } from "@/modules/piar/client";
+import { PIAR_CONSENT_REQUIRED, createPiarSchema } from "@/modules/piar/client";
 
 /** SPEC-0017 RN-04: crear un PIAR pide el curso, el nombre y la autorización. */
 export function NewPiar({
@@ -28,7 +28,7 @@ export function NewPiar({
   independent = false,
 }: {
   courses: { id: string; title: string }[];
-  /** Docente independiente: la autorización es solo del acudiente (no hay colegio de por medio). */
+  /** Docente independiente: no confirma la autorización, solo ve un aviso (RN-04). */
   independent?: boolean;
   create: (input: unknown) => Promise<ActionResult<{ id: string }>>;
   label?: string;
@@ -43,8 +43,12 @@ export function NewPiar({
 
   const submit = () => {
     const parsed = createPiarSchema.safeParse({ courseId, studentName: name, consent });
-    if (!parsed.success) {
-      setErrors(Object.fromEntries(parsed.error.issues.map((i) => [String(i.path[0]), i.message])));
+    const found: Record<string, string> = parsed.success
+      ? {}
+      : Object.fromEntries(parsed.error.issues.map((i) => [String(i.path[0]), i.message]));
+    if (!independent && !consent) found.consent = PIAR_CONSENT_REQUIRED;
+    if (!parsed.success || Object.keys(found).length > 0) {
+      setErrors(found);
       return;
     }
     setErrors({});
@@ -109,19 +113,25 @@ export function NewPiar({
                 errors={[errors.studentName ? { message: errors.studentName } : undefined]}
               />
             </Field>
-            <Field data-invalid={!!errors.consent}>
-              <SelectableOption
-                id="piar-consent"
-                checked={consent}
-                onCheckedChange={setConsent}
-                invalid={!!errors.consent}
-              >
-                {independent
-                  ? "Tengo la autorización firmada del acudiente para registrar estos datos (Ley 1581 de 2012)."
-                  : "Tengo la autorización del acudiente y del colegio para registrar estos datos (Ley 1581 de 2012)."}
-              </SelectableOption>
-              <FieldError errors={[errors.consent ? { message: errors.consent } : undefined]} />
-            </Field>
+            {independent ? (
+              <p className="rounded-xl bg-muted p-3 text-sm text-muted-foreground">
+                Recuerda contarle al acudiente que llevas el PIAR del estudiante en Profe y para qué
+                se usan sus datos.
+              </p>
+            ) : (
+              <Field data-invalid={!!errors.consent}>
+                <SelectableOption
+                  id="piar-consent"
+                  checked={consent}
+                  onCheckedChange={setConsent}
+                  invalid={!!errors.consent}
+                >
+                  Tengo la autorización del acudiente y del colegio para registrar estos datos (Ley
+                  1581 de 2012).
+                </SelectableOption>
+                <FieldError errors={[errors.consent ? { message: errors.consent } : undefined]} />
+              </Field>
+            )}
             <Button type="submit" size="lg" disabled={pending}>
               {pending ? "Creando…" : "Crear PIAR"}
             </Button>

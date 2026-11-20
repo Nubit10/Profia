@@ -15,6 +15,7 @@ import { requireRole, type TenantContext } from "@/modules/tenancy";
 import {
   MIN_BARRIERS_FOR_AI,
   piarContentSchema,
+  PIAR_CONSENT_REQUIRED,
   type CreatePiarInput,
   type PiarContent,
 } from "./schemas";
@@ -111,6 +112,9 @@ export async function purgeExpiredPiars(ctx: TenantContext, now = new Date()) {
 export async function createPiar(ctx: TenantContext, input: CreatePiarInput) {
   requireRole(ctx, "TEACHER");
   requireKey();
+  // RN-04: en un colegio se confirma la autorización; el docente independiente no.
+  const consent = input.consent === true;
+  if (ctx.institutionType === "SCHOOL" && !consent) throw invalid(PIAR_CONSENT_REQUIRED, "consent");
   const course = await getMyCourse(ctx, input.courseId); // NOT_FOUND si es ajeno
   const planning = await getCoursePlanning(ctx, course.id);
   const content: PiarContent = {
@@ -138,7 +142,7 @@ export async function createPiar(ctx: TenantContext, input: CreatePiarInput) {
         courseId: course.id,
         academicYear: course.academicYear,
         ...seal(id, ctx.institutionId, content),
-        consentAt: new Date(),
+        consentAt: consent ? new Date() : null,
         expiresAt: piarExpiry(course.academicYear),
       },
     });

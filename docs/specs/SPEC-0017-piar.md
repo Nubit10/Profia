@@ -62,10 +62,11 @@ datos son privados.
 - **RN-03 — Cifrado.** Todo el contenido del PIAR se guarda cifrado (AES-256-GCM, ADR-0015). En
   claro quedan solo: el curso, el año, las fechas y el vencimiento. Sin la clave
   `PIAR_ENCRYPTION_KEY`, Profe no ofrece el PIAR y lo explica.
-- **RN-04 — Autorización.** Para crear un PIAR, el docente confirma que tiene la autorización del
-  acudiente (y del colegio, si trabaja en el espacio de un colegio) para registrar estos datos (Ley 1581
-  de 2012). Se guarda la fecha. El docente independiente también puede usar el PIAR: es el responsable
-  de los datos y Profe su encargado. Modelo de autorización en `docs/legal/autorizacion-acudiente-piar.md`.
+- **RN-04 — Autorización.** En el espacio de un colegio, para crear un PIAR el docente confirma que
+  tiene la autorización del acudiente y del colegio (Ley 1581 de 2012) y se guarda la fecha. El
+  docente independiente no la confirma (decisión del producto, 2026-11-20): ve un aviso para contarle
+  al acudiente y `consentAt` queda vacío. El servidor aplica la regla según el tipo de espacio. Modelo
+  de autorización opcional en `docs/legal/autorizacion-acudiente-piar.md`.
 - **RN-05 — IA sin datos personales.** A la IA van solo la asignatura, el grado, el periodo, los
   temas del periodo y las barreras descritas por el docente. Antes de enviar:
   - se quita el nombre del estudiante de las barreras;

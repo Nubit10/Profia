@@ -138,6 +138,25 @@ describe("PIAR (SPEC-0017)", () => {
     await expect(getPiar(ctx, id)).rejects.toMatchObject({ code: "CONFLICT" });
   });
 
+  it("CA-0017-01: el docente independiente lo crea sin confirmar la autorización", async () => {
+    const ctx = await teacher();
+    const c = await course(ctx);
+    const { id } = await createPiar(ctx, { courseId: c.id, studentName: NAME });
+    expect((await getPiar(ctx, id)).consentAt).toBeNull();
+  });
+
+  it("CA-0017-01: en un colegio no se crea sin la autorización", async () => {
+    const admin = await createUser("Rectora");
+    const { institutionId } = await registerSchool(admin, { ...validSchool, alsoTeaches: true });
+    const ctx = await ctxFor(admin, institutionId);
+    const c = await course(ctx);
+    await expect(
+      createPiar(ctx, { courseId: c.id, studentName: NAME, consent: false }),
+    ).rejects.toMatchObject({ code: "INVALID", field: "consent" });
+    const { id } = await createPiar(ctx, { courseId: c.id, studentName: NAME, consent: true });
+    expect((await getPiar(ctx, id)).consentAt).toBeInstanceOf(Date);
+  });
+
   it("CA-0017-03: otro docente o el administrador del colegio no lo ven ni lo tocan", async () => {
     const admin = await createUser("Rector");
     const { institutionId } = await registerSchool(admin, { ...validSchool, alsoTeaches: true });

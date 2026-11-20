@@ -15,6 +15,16 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **PIAR sin autorización obligatoria para el docente independiente**, 2026-11-20 (decisión del usuario).
+  - "Nuevo PIAR" del docente independiente ya no tiene casilla: muestra el aviso "Recuerda contarle al
+    acudiente…" y `piars.consentAt` queda null (migración `20261120180000_piar_consent_optional`). En el
+    espacio de un colegio la casilla sigue siendo obligatoria y el servidor la exige (`createPiar`).
+  - Se le advirtió al usuario el riesgo: la Ley 1581 (arts. 6 y 7) pide autorización para datos
+    sensibles de menores; el modelo de autorización queda como respaldo opcional.
+  - Pruebas: integración spec-0017 (10) en verde; e2e: los pasos de crear pasan, pero
+    `spec-0017.spec.ts:93` falla aquí porque el PDF descargado llega como "download" (no se tocó la
+    exportación; revisar en el computador del usuario).
+
 - **Modelo de autorización del acudiente para el PIAR**, 2026-11-20
   ([docs/legal/autorizacion-acudiente-piar.md](legal/autorizacion-acudiente-piar.md)). Pensado para el
   **docente independiente**: él es el responsable de los datos y Profe su encargado; no necesita al colegio.

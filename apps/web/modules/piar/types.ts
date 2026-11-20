@@ -16,7 +16,8 @@ export type PiarDetail = {
   course: { id: string; title: string; subjectName: string; gradeLabel: string };
   academicYear: string;
   content: PiarContent;
-  consentAt: Date;
+  /** RN-04: null si lo creó un docente independiente (no se le pide). */
+  consentAt: Date | null;
   updatedAt: Date;
   expiresAt: Date;
   /** Temas activos de cada periodo, para la propuesta con IA y como guía (no se guardan aquí). */
