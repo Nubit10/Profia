@@ -26,6 +26,12 @@ from ..generation.formats import (
     FormatRequest,
     analyze_format,
 )
+from ..generation.lesson_plan import (
+    LESSON_PLAN_PROMPT_VERSION,
+    LessonPlanOut,
+    LessonPlanRequest,
+    generate_lesson_plan,
+)
 from ..generation.objectives import (
     PROMPT_VERSION,
     GenerationInvalidError,
@@ -156,6 +162,13 @@ class PiarResponse(BaseModel):
 class PreferenceSuggestionsResponse(PreferenceSuggestionsOut):
     """SPEC-0021: preferencias propuestas (contrato generation-preference-suggestions.v1)."""
 
+    meta: ResourceMeta
+
+
+class LessonPlanResponse(BaseModel):
+    """SPEC-0024: plan de aula (contrato generation-lesson-plan.v1)."""
+
+    plan: LessonPlanOut
     meta: ResourceMeta
 
 
@@ -470,5 +483,16 @@ def create_app(
             "preferences", PREFERENCES_PROMPT_VERSION, lambda: suggest_preferences(llm, body)
         )
         return PreferenceSuggestionsResponse(suggestions=value.suggestions, meta=meta)
+
+    @app.post(
+        "/v1/generation/lesson-plan",
+        response_model=LessonPlanResponse,
+        dependencies=[Depends(require_token)],
+    )
+    def lesson_plan(body: LessonPlanRequest) -> LessonPlanResponse:
+        value, meta = run_resource(
+            "lesson_plan", LESSON_PLAN_PROMPT_VERSION, lambda: generate_lesson_plan(llm, body)
+        )
+        return LessonPlanResponse(plan=value, meta=meta)
 
     return app

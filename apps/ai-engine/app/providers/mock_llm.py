@@ -423,7 +423,59 @@ def _preferences(data: dict) -> dict:
     }
 
 
+def _lesson_plan(data: dict) -> dict:
+    """SPEC-0024: plan de aula completo, con minutos que suman y rúbrica en progresión."""
+    topic = data["tema"]["titulo"]
+    minutes = data["minutosPorSesion"]
+    start, closure = 10, 10
+    codes = [d["codigo"] for d in data.get("dba", [])][:1]
+    return {
+        "title": f"Plan de aula: {topic}",
+        "purpose": f"Que los estudiantes comprendan y usen {topic} en situaciones cotidianas.",
+        "sessions": [
+            {
+                "number": n,
+                "title": f"Sesión {n}: {topic}",
+                "start": f"Se exploran los saberes previos sobre {topic} con una pregunta.",
+                "startMinutes": start,
+                "development": (
+                    f"Los estudiantes trabajan en parejas con ejemplos de {topic} y los comparten "
+                    "en el tablero con la guía del docente."
+                ),
+                "developmentMinutes": minutes - start - closure,
+                "closure": f"Cada estudiante escribe en el cuaderno lo que aprendió de {topic}.",
+                "closureMinutes": closure,
+                "resources": ["Cuaderno", "Tablero"],
+                "dbaCodes": codes,
+            }
+            for n in range(1, data["cantidadSesiones"] + 1)
+        ],
+        "evaluation": {
+            "evidence": f"Ejercicios resueltos sobre {topic} y explicación oral del proceso.",
+            "instruments": ["Lista de chequeo", "Rúbrica"],
+        },
+        "rubric": [
+            {
+                "criterion": f"Comprende {topic}",
+                "superior": "Explica el concepto con ejemplos propios y lo relaciona con otros.",
+                "high": "Explica el concepto con ejemplos de clase sin errores.",
+                "basic": "Reconoce el concepto en ejemplos sencillos con alguna ayuda.",
+                "low": "Aún no reconoce el concepto en ejemplos sencillos.",
+            },
+            {
+                "criterion": "Resuelve situaciones",
+                "superior": "Resuelve situaciones nuevas y justifica cada paso que realiza.",
+                "high": "Resuelve situaciones de clase y explica su procedimiento.",
+                "basic": "Resuelve situaciones sencillas siguiendo un ejemplo.",
+                "low": "Necesita acompañamiento para empezar a resolver situaciones.",
+            },
+        ],
+        "diversity": "Ofrecer material concreto y ejemplos visuales; permitir responder oralmente.",
+    }
+
+
 TASKS = {
+    "plan_de_aula": _lesson_plan,
     "preferencias": _preferences,
     "piar": _piar,
     "planeacion": _planning,

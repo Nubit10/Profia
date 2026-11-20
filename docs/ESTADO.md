@@ -5,6 +5,18 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## En curso
 
+- **SPEC-0024** — Plan de aula y rúbrica en la escala del colegio
+  ([spec](specs/SPEC-0024-plan-de-aula-y-escala-de-valoracion.md), ADR-0019). **Pausada por el usuario**
+  el 2026-11-20 ("para ahora; haz los specs uno por uno y dame resultados").
+  - Hecho: spec y ADR-0019; AI Engine completo (`app/generation/lesson_plan.py`, prompt
+    `lesson_plan.v1`, `POST /v1/generation/lesson-plan`, mock y `tests/test_lesson_plan.py`; 189 pruebas
+    en verde).
+  - Falta: web (`ResourceType.LESSON_PLAN`, `institutions.gradingBands` y migración, blueprint y
+    contenido, generación, página "Escala de valoración", asistente, editor, Word/PDF), pruebas y
+    revisión.
+  - Después: SPEC-0025 (resultados → dificultades → refuerzo) y SPEC-0026 (validación con docentes),
+    una por una y esperando al usuario entre cada una.
+
 - **SPEC-0020** — Material de referencia del docente ([spec](specs/SPEC-0020-material-de-referencia.md)).
   Estado: **Borrador**, esperando que el usuario responda las 3 preguntas abiertas y la apruebe.
   - Pedido: cuando la asignatura no tiene DBA, que el docente pueda subir un PDF, pegar contenido, dar el
