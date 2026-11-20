@@ -4,6 +4,8 @@ Plataforma de gestión y producción pedagógica asistida por IA para docentes e
 
 **Lee primero [AGENTS.md](AGENTS.md)** (reglas globales, no negociables). Referencia completa: [docs/plan-maestro.md](docs/plan-maestro.md).
 
+**Bitácora: [docs/ESTADO.md](docs/ESTADO.md).** Léela al empezar (la conversación puede haberse borrado) y actualízala al cerrar cada tarea o cuando el trabajo quede a medias: qué se hizo, qué falta y con qué seguir. Se commitea junto con el cambio.
+
 ## Estado actual
 
 - Fase del roadmap: **2 — Identity** completada (SPEC-0002, SPEC-0003). Docentes independientes y colegios con sedes e invitaciones; "Mis cursos".
@@ -20,6 +22,7 @@ Plataforma de gestión y producción pedagógica asistida por IA para docentes e
 - SPEC-0014 implementada: flujos asistidos por IA. La IA propone unidades y temas de un periodo, del año o de una unidad a partir de los DBA (ADR-0013, contrato `generation-planning.v1`; reparto determinista en `modules/planning/distribution.ts`), objetivos en bloque (`modules/generation/objectives-batch.ts`) y recurso con un toque (`modules/resources/quick.ts`). Ficha de DBA en todas las pantallas (`components/curriculum/dba-chip.tsx`) y recursos agrupados Periodo → Unidad → Tema (`modules/resources/grouping.ts`, `components/plan-resources.tsx`). Límite propio de 20 propuestas al día y 5 por minuto. Capturas en `docs/design/capturas/spec-0014/`. Queda el recorrido con docentes.
 - SPEC-0016 implementada: talleres con enfoque DUA a elección del docente (interruptor en los ajustes; se recuerda la última elección). Cada actividad trae formas de presentar, de responder, apoyos y reto; el taller, barreras con su apoyo y autoevaluación. Anexo de prompt `udl.v1` (ADR-0014); Word y PDF incluidos.
 - SPEC-0017 implementada: PIAR privado. Contenido cifrado en la aplicación (AES-256-GCM, `lib/crypto`, ADR-0015, clave `PIAR_ENCRYPTION_KEY`); solo el docente que lo creó lo ve; autorización del acudiente al crear; sin diagnósticos; la IA propone ajustes por periodo sin datos personales (`generation-piar.v1`); aviso de privacidad en cada pantalla; Word/PDF con firmas; se borra solo al cierre del año siguiente.
+- SPEC-0018 en Borrador: "sin conexión" como ícono con aviso y ventana en el celular.
 - Siguiente: planes de aula (Fase 6), preguntas tipo Saber/ICFES para exámenes, o formatos propios para quices y exámenes.
 - Índice de specs y su estado: [docs/specs/README.md](docs/specs/README.md)
 - Decisiones de arquitectura: [docs/adr/README.md](docs/adr/README.md)
