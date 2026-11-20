@@ -27,8 +27,8 @@ puede volver al paso anterior.
 - Lo elegido se ve en los pasos, no en una tarjeta: en escritorio, bajo el nombre del paso hecho
   ("Curso / Educación Religiosa · 3°"); en el celular, fichas bajo la barra de avance ("Curso:
   Educación Religiosa · 3° · 601 ✎"). Tocar uno lleva a cambiarlo.
-- **Volver al paso anterior** en todos los pasos después del primero, arriba del título como en el resto de
-  Profe ("← Volver al curso", "← Volver a los temas"…; `PageHeader` con `back`), igual en escritorio y celular.
+- **Volver al paso anterior** ("← Volver al curso", "← Volver a los temas"…) en todos los pasos después del
+  primero, **debajo de los pasos** y antes del contenido, igual en escritorio y celular.
 - Se elimina la tarjeta de resumen "Curso / Tema".
 
 **No incluye:** cambios en los ajustes, la generación ni el material de referencia (SPEC-0020).
@@ -61,6 +61,7 @@ y `spec-0013.spec.ts`. Capturas: `docs/design/capturas/spec-0019/`.
 ## 5. Tareas
 
 - [x] T1 — Separar curso y tema en pasos propios (`create-wizard.tsx`, `page.tsx` con `curso=elegir`) — frontend
-- [x] T2 — `Stepper` con `values` (lo elegido); volver con `PageHeader back` (2026-11-20: se movió de los pasos al encabezado por pedido del usuario) — frontend
+- [x] T2 — `Stepper` con `values` (lo elegido); enlace para volver debajo de los pasos (2026-11-20: el
+      usuario lo pidió ahí, ni suelto encima de los pasos ni arriba del título) — frontend
 - [x] T3 — Quitar `ChoiceSummary` — frontend
 - [x] T4 — Pruebas e2e y capturas — qa

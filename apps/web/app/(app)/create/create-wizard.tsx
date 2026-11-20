@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import type { IconType } from "react-icons";
 import {
+  HiOutlineArrowLeft,
   HiOutlineCalendarDays,
   HiOutlineClipboardDocumentCheck,
   HiOutlineClipboardDocumentList,
@@ -180,7 +181,7 @@ export function CreateWizard(props: Props) {
     return null;
   };
 
-  // SPEC-0019: volver al paso anterior, arriba del título (mismo lugar en escritorio y celular).
+  // SPEC-0019: volver al paso anterior (debajo de los pasos; mismo lugar en escritorio y celular).
   const backHref = current > 0 ? stepHref(current - 1) : null;
   const back = backHref
     ? { href: backHref, label: BACK_LABELS[labels[current - 1]!] ?? "Atrás" }
@@ -227,10 +228,21 @@ export function CreateWizard(props: Props) {
               : "Crear con IA"
         }
         description="Unos pocos pasos. Puedes volver atrás sin perder lo que elegiste."
-        back={back ?? undefined}
       />
 
-      <Stepper labels={labels} current={current} hrefFor={stepHref} values={values} />
+      <div className="flex flex-col gap-4">
+        <Stepper labels={labels} current={current} hrefFor={stepHref} values={values} />
+        {/* SPEC-0019: volver al paso anterior, debajo de los pasos y antes del contenido. */}
+        {back && (
+          <Link
+            href={back.href}
+            className="flex w-fit items-center gap-1.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground max-sm:min-h-11"
+          >
+            <HiOutlineArrowLeft aria-hidden />
+            {back.label}
+          </Link>
+        )}
+      </div>
 
       {/* CA-0012-10: el aviso de cupo llega antes de llenar los ajustes. */}
       {kind !== "PLAN" && blocked && (
