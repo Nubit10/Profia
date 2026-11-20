@@ -25,7 +25,7 @@ puede volver al paso anterior.
 - La pantalla del curso solo muestra los cursos; elegir uno avanza a la del tema. La del tema no muestra
   la lista de cursos.
 - Lo elegido se ve en los pasos, no en una tarjeta: en escritorio, bajo el nombre del paso hecho
-  ("Curso / Educación Religiosa · 3°"); en el celular, fichas bajo la barra de avance ("Curso:
+  ("Curso / Educación Religiosa · 3°"); en el celular, una sola fila de fichas que se desliza de lado con flechas (`ScrollableRow`, como los filtros) ("Curso:
   Educación Religiosa · 3° · 601 ✎"). Tocar uno lleva a cambiarlo.
 - **Volver al paso anterior** ("← Volver al curso", "← Volver a los temas"…) en todos los pasos después del
   primero, **debajo de los pasos** y antes del contenido, igual en escritorio y celular.
@@ -53,7 +53,7 @@ puede volver al paso anterior.
   cambiarlo.
 - **CA-0019-04:** «Atrás» vuelve al paso anterior, en escritorio y en el celular, conservando lo marcado.
 - **CA-0019-05:** No aparece la tarjeta "Curso / Tema".
-- **CA-0019-06:** En el celular, lo elegido va en fichas de al menos 44 px que no se salen de la pantalla.
+- **CA-0019-06:** En el celular, lo elegido va en una sola fila deslizable de fichas de al menos 44 px; la página no se ensancha.
 
 Pruebas: `tests/e2e/spec-0019.spec.ts`, `tests/e2e/spec-0019.movil.spec.ts` y ajustes en `ux.spec.ts`
 y `spec-0013.spec.ts`. Capturas: `docs/design/capturas/spec-0019/`.

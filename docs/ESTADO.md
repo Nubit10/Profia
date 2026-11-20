@@ -18,7 +18,7 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 - **SPEC-0019** — Asistente de crear un paso por pantalla
   ([spec](specs/SPEC-0019-asistente-un-paso-por-pantalla.md)), implementada el 2026-11-20.
   - Curso y Tema son pasos separados (examen: Curso → Temas → Ajustes → Confirmar); elegir avanza a otra
-    pantalla. Lo elegido se ve en los pasos (escritorio) o en fichas (celular) y tocarlo lo cambia.
+    pantalla. Lo elegido se ve en los pasos (escritorio) o en una fila de fichas que se desliza de lado con flechas (celular; el usuario no quiso las fichas una debajo de otra) y tocarlo lo cambia.
     Volver al paso anterior ("← Volver al curso"…) va **debajo de los pasos**, igual en escritorio y celular
     (el usuario descartó ponerlo suelto encima de los pasos y arriba del título).
     Se quitó la tarjeta "Curso / Tema".

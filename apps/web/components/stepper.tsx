@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { HiCheck, HiOutlinePencil } from "react-icons/hi2";
+import { ScrollableRow } from "@/components/scrollable-row";
 import { cn } from "@/lib/utils";
 
 /**
@@ -10,7 +11,7 @@ import { cn } from "@/lib/utils";
  *   avanzar. Nunca hay una fila de nombres que se corte ni pasos a medias en el borde.
  * - Escritorio: la fila completa con el número y el nombre de cada paso; los hechos son enlaces.
  * - SPEC-0019: con `values`, cada paso hecho muestra lo elegido (p. ej. el curso) y tocarlo lo cambia;
- *   en el celular, lo elegido va en fichas bajo la barra. Así no hace falta una tarjeta de resumen.
+ *   en el celular, lo elegido va en una fila de fichas que se desliza de lado, con flechas. Así no hace falta una tarjeta de resumen.
  *   Volver al paso anterior va en el encabezado de la página (`PageHeader` con `back`), no aquí.
  */
 export function Stepper({
@@ -70,37 +71,42 @@ export function Stepper({
           ))}
         </div>
         {chosen.length > 0 && (
-          <ul aria-label="Lo que elegiste" className="flex flex-wrap gap-2">
+          // SPEC-0019: una sola fila que se desliza de lado, con flechas (como los filtros).
+          <ScrollableRow
+            label="Lo que elegiste"
+            role="group"
+            className="-mx-4"
+            rowClassName="gap-2 px-4"
+          >
             {chosen.map(({ label, index, value }) => {
               const target = hrefFor?.(index) ?? null;
               const chip = (
                 <>
                   <span className="text-muted-foreground">{label}:</span>
-                  <span className="min-w-0 truncate font-semibold">{value}</span>
+                  <span className="max-w-56 truncate font-semibold">{value}</span>
                   {target && (
                     <HiOutlinePencil className="size-3.5 shrink-0 text-brand-strong" aria-hidden />
                   )}
                 </>
               );
-              return (
-                <li key={label} className="max-w-full min-w-0">
-                  {target ? (
-                    <Link
-                      href={target}
-                      aria-label={`Cambiar ${label.toLowerCase()}: ${value}`}
-                      className="flex min-h-11 max-w-full items-center gap-1.5 rounded-full border border-border bg-card px-3 text-sm shadow-soft"
-                    >
-                      {chip}
-                    </Link>
-                  ) : (
-                    <span className="flex min-h-11 max-w-full items-center gap-1.5 rounded-full border border-border bg-card px-3 text-sm">
-                      {chip}
-                    </span>
-                  )}
-                </li>
+              const chipClass =
+                "flex min-h-11 shrink-0 items-center gap-1.5 rounded-full border border-border bg-card px-3 text-sm whitespace-nowrap";
+              return target ? (
+                <Link
+                  key={label}
+                  href={target}
+                  aria-label={`Cambiar ${label.toLowerCase()}: ${value}`}
+                  className={chipClass}
+                >
+                  {chip}
+                </Link>
+              ) : (
+                <span key={label} className={chipClass}>
+                  {chip}
+                </span>
               );
             })}
-          </ul>
+          </ScrollableRow>
         )}
       </div>
 

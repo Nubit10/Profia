@@ -18,6 +18,7 @@ export function ScrollableRow({
   /** Color del fondo detrás de la fila, para el degradado (clase `from-*`). */
   fade = "from-background",
   as: Tag = "div",
+  role,
 }: {
   children: ReactNode;
   label: string;
@@ -25,6 +26,8 @@ export function ScrollableRow({
   rowClassName?: string;
   fade?: string;
   as?: "div" | "nav";
+  /** Rol del contenedor (p. ej. "group") cuando no es una navegación. */
+  role?: string;
 }) {
   const row = useRef<HTMLDivElement>(null);
   const [left, setLeft] = useState(false);
@@ -56,7 +59,7 @@ export function ScrollableRow({
     row.current?.scrollBy({ left: direction * 160, behavior: "smooth" });
 
   return (
-    <Tag aria-label={label} className={cn("relative", className)}>
+    <Tag aria-label={label} role={role} className={cn("relative", className)}>
       <div
         ref={row}
         className={cn(
