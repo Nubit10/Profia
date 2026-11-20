@@ -186,5 +186,6 @@ datos son privados.
   - `tests/e2e/spec-0017.spec.ts` (2, axe a 360 px);
   - el PIAR también en `tests/e2e/auditoria.movil.spec.ts`.
 - Revisión (reviewer): sin hallazgos bloqueantes. Pendiente fuera del código: que el colegio
-  defina su política de datos (Ley 1581) y la autorización de los acudientes; la rotación de la
+  defina su política de datos (Ley 1581) y la autorización de los acudientes (modelo en
+  `docs/legal/autorizacion-acudiente-piar.md`); la rotación de la
   clave (`keyVersion`) queda lista para cuando haga falta.

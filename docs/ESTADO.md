@@ -15,6 +15,13 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **Modelo de autorización del acudiente para el PIAR**, 2026-11-20
+  ([docs/legal/autorizacion-acudiente-piar.md](legal/autorizacion-acudiente-piar.md)). Texto listo para que el
+  colegio llene sus datos y lo haga firmar antes de registrar un PIAR en Profe (Ley 1581, datos sensibles
+  facultativos, IA sin datos personales, servidores en EE. UU., borrado y derechos), más la lista de lo que
+  debe tener su política de datos. Es un modelo: lo debe revisar el asesor jurídico del colegio. Falta llenar
+  la razón social del operador de Profe y, cuando haya colegios clientes, el contrato de transmisión.
+
 - **PIAR (SPEC-0017) listo para usar en local**, 2026-11-20. En el computador del usuario salía "El PIAR no
   está disponible todavía" porque su `apps/web/.env` no tenía `PIAR_ENCRYPTION_KEY` (el `.env` no va en git).
   - Nuevo comando `npm run piar:key -w @profe/web` (`apps/web/scripts/piar-key.mjs`): crea la clave y la
