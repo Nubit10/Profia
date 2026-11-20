@@ -16,11 +16,15 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 ## Hecho
 
 - **Modelo de autorización del acudiente para el PIAR**, 2026-11-20
-  ([docs/legal/autorizacion-acudiente-piar.md](legal/autorizacion-acudiente-piar.md)). Texto listo para que el
-  colegio llene sus datos y lo haga firmar antes de registrar un PIAR en Profe (Ley 1581, datos sensibles
-  facultativos, IA sin datos personales, servidores en EE. UU., borrado y derechos), más la lista de lo que
-  debe tener su política de datos. Es un modelo: lo debe revisar el asesor jurídico del colegio. Falta llenar
-  la razón social del operador de Profe y, cuando haya colegios clientes, el contrato de transmisión.
+  ([docs/legal/autorizacion-acudiente-piar.md](legal/autorizacion-acudiente-piar.md)). Pensado para el
+  **docente independiente**: él es el responsable de los datos y Profe su encargado; no necesita al colegio.
+  Trae el texto para firmar (Ley 1581, datos sensibles facultativos, IA sin datos personales, servidores en
+  EE. UU., borrado y derechos) y una nota para cuando el que contrata es el colegio.
+  - En la app, la casilla de "Nuevo PIAR" del docente independiente dice "autorización firmada del acudiente"
+    (ya no "y del colegio"); en un espacio de colegio sigue igual. RN-04 de SPEC-0017 actualizada.
+  - Falta (de Profe, no del docente): publicar la política de privacidad y los términos con la sección del
+    PIAR, llenar en el modelo la razón social, el enlace y el correo de soporte, y ofrecerlo para descargar
+    desde la pantalla del PIAR. Es un modelo: conviene que lo revise un abogado.
 
 - **PIAR (SPEC-0017) listo para usar en local**, 2026-11-20. En el computador del usuario salía "El PIAR no
   está disponible todavía" porque su `apps/web/.env` no tenía `PIAR_ENCRYPTION_KEY` (el `.env` no va en git).

@@ -25,8 +25,11 @@ export function NewPiar({
   courses,
   create,
   label = "Nuevo PIAR",
+  independent = false,
 }: {
   courses: { id: string; title: string }[];
+  /** Docente independiente: la autorización es solo del acudiente (no hay colegio de por medio). */
+  independent?: boolean;
   create: (input: unknown) => Promise<ActionResult<{ id: string }>>;
   label?: string;
 }) {
@@ -113,8 +116,9 @@ export function NewPiar({
                 onCheckedChange={setConsent}
                 invalid={!!errors.consent}
               >
-                Tengo la autorización del acudiente y del colegio para registrar estos datos (Ley
-                1581 de 2012).
+                {independent
+                  ? "Tengo la autorización firmada del acudiente para registrar estos datos (Ley 1581 de 2012)."
+                  : "Tengo la autorización del acudiente y del colegio para registrar estos datos (Ley 1581 de 2012)."}
               </SelectableOption>
               <FieldError errors={[errors.consent ? { message: errors.consent } : undefined]} />
             </Field>

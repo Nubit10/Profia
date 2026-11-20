@@ -40,7 +40,7 @@ export type PiarContent = z.infer<typeof piarContentSchema>;
 export const createPiarSchema = z.object({
   courseId: z.string().min(1, "Elige el curso"),
   studentName: z.string().trim().min(1, "Escribe el nombre del estudiante").max(120),
-  /** RN-04: autorización del acudiente y del colegio (Ley 1581 de 2012). */
+  /** RN-04: autorización del acudiente (y del colegio, en un espacio de colegio). Ley 1581 de 2012. */
   consent: z.literal(true, { error: "Confirma que tienes la autorización" }),
 });
 export type CreatePiarInput = z.infer<typeof createPiarSchema>;

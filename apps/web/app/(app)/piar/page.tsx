@@ -32,7 +32,11 @@ export default async function PiarListPage() {
         description="Planes Individuales de Ajustes Razonables de tus estudiantes, para cuando la planeación con DUA no basta (Decreto 1421 de 2017)."
         actions={
           enabled && options.length > 0 ? (
-            <NewPiar courses={options} create={createPiarAction} />
+            <NewPiar
+              courses={options}
+              create={createPiarAction}
+              independent={ctx.institutionType === "INDEPENDENT"}
+            />
           ) : undefined
         }
       />
