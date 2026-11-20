@@ -15,6 +15,15 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **PIAR (SPEC-0017) listo para usar en local**, 2026-11-20. En el computador del usuario salía "El PIAR no
+  está disponible todavía" porque su `apps/web/.env` no tenía `PIAR_ENCRYPTION_KEY` (el `.env` no va en git).
+  - Nuevo comando `npm run piar:key -w @profe/web` (`apps/web/scripts/piar-key.mjs`): crea la clave y la
+    escribe en `apps/web/.env` si falta; nunca reemplaza una existente (si se pierde, los PIAR guardados no se
+    leen) y avisa si la que hay no es válida. Luego hay que reiniciar `npm run dev`.
+  - Producción (Vercel): clave aparte en las variables de entorno (`docs/deploy/README.md`).
+  - Pendiente fuera del código (de SPEC-0017): política de datos del colegio (Ley 1581) y autorización de
+    los acudientes.
+
 - **SPEC-0019** — Asistente de crear un paso por pantalla
   ([spec](specs/SPEC-0019-asistente-un-paso-por-pantalla.md)), implementada el 2026-11-20.
   - Curso y Tema son pasos separados (examen: Curso → Temas → Ajustes → Confirmar); elegir avanza a otra
@@ -41,11 +50,11 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Pendiente conocido
 
-- **Pruebas e2e de descargas que ya fallaban antes de SPEC-0018:** el archivo descargado llega con nombre
-  `download` en vez del nombre real. Fallan: CA-0013-38 (`spec-0013-offline.spec.ts`, sin red), CA-0013-14 y
-  CA-0013-15/16 (`spec-0013.spec.ts`, .zip) y CA-0011-17 (`exams.spec.ts`, clave del examen).
-  Comprobado: falla igual sin los cambios de SPEC-0018. Revisar cómo el service worker / la página
-  `/offline` arma el nombre del archivo (`Content-Disposition` o atributo `download`).
+- **Pruebas e2e de descargas en la nube:** el archivo llega con nombre `download` en vez del nombre real
+  (CA-0013-38, CA-0013-14, CA-0013-15/16, CA-0011-17, CA-0017-05). **No es un error de Profe:** el 2026-11-20 se
+  probó con un servidor mínimo (sin Profe ni service worker) y el Chromium preinstalado de este contenedor da
+  `download` incluso con `Content-Disposition` correcto, y no dispara la descarga de un enlace `blob:` con
+  `download`. En una máquina normal deberían pasar; si fallan allí, revisar entonces.
 - SPEC-0012: recorrido guiado con el usuario.
 - SPEC-0013: validación manual en un iPhone real y recorrido con docentes.
 - SPEC-0014: recorrido con docentes.

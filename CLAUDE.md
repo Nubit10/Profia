@@ -65,6 +65,7 @@ npm run db:migrate              # prisma migrate dev (en apps/web)
 npm run curriculum:import -w @profe/web   # carga el catálogo oficial (idempotente)
 npm run curriculum:verify -w @profe/web   # verifica el catálogo contra los PDF (requiere los PDF en curriculum/sources)
 npm run metrics:resources -w @profe/web   # calidad de talleres y quices por versión de prompt (SPEC-0008)
+npm run piar:key -w @profe/web           # crea PIAR_ENCRYPTION_KEY en apps/web/.env si falta (nunca la reemplaza)
 docker compose up -d qdrant     # Qdrant en localhost:6333 (SPEC-0005)
 # AI Engine (apps/ai-engine, Python 3.12 con uv; aquí uv se invoca como `python -m uv`):
 #   uv run python -m app.cli index · uv run uvicorn app.main:app --port 8100 · uv run pytest · uv run ruff check .
