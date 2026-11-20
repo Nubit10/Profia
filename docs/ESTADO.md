@@ -5,9 +5,20 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## En curso
 
-- **Siguiente:** SPEC-0025 (resultados → dificultades → refuerzo) y después SPEC-0026 (validación con
-  docentes), una por una y esperando al usuario entre cada una. Antes, si el usuario quiere:
-  `/review SPEC-0024`.
+- **Siguiente (pedido del usuario el 2026-11-20): mejoras de usabilidad**, en el orden de
+  [usabilidad/proximos-pasos.md](usabilidad/proximos-pasos.md). Una spec por bloque, esperando la
+  aprobación del usuario entre cada una:
+  1. ajustes rápidos con botones (Más fácil, Más corto…);
+  2. usar el mismo recurso en mis otros grupos (sin gastar cupo);
+  3. ver el recurso como el documento que se imprime;
+  4. "Para esta semana" en el Inicio;
+  5. compartir por WhatsApp e imprimir;
+  6. primer curso con temas propuestos;
+  7. barra de navegación abajo en el celular;
+  8. detalles;
+  9. validación con docentes reales.
+- **Después:** SPEC-0025 (resultados → dificultades → refuerzo) y SPEC-0026 (validación con docentes),
+  una por una. Si el usuario quiere: `/review SPEC-0024`.
 
 - **SPEC-0020** — Material de referencia del docente ([spec](specs/SPEC-0020-material-de-referencia.md)).
   Estado: **Borrador**, esperando que el usuario responda las 3 preguntas abiertas y la apruebe.
