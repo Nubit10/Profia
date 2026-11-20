@@ -28,6 +28,7 @@ from .resources import (
     BACKGROUND_MAX_WAIT_S,
     DIFFICULTY_LABELS,
     LEVELS,
+    SABER_PROMPT,
     Difficulty,
     Level,
     QuizQuestion,
@@ -36,7 +37,16 @@ from .resources import (
     _messages,
     _prompt,
     question_errors,
+    saber_data,
     target_counts,
+)
+from .saber import (
+    SABER_PROMPT_VERSION,
+    Figure,
+    clean_saber,
+    saber_area,
+    saber_errors,
+    saber_quality,
 )
 
 EXAM_PROMPT_VERSION = "exam.v1"
@@ -46,10 +56,12 @@ EXAM_ITEM_PROMPT = _prompt(EXAM_ITEM_PROMPT_VERSION)
 MATH_CHECK_PROMPT = _prompt(MATH_CHECK_VERSION)
 
 
-def exam_prompt_version(subject: str, item: bool = False) -> str:
-    """SPEC-0022: en Matemáticas la versión registrada suma el anexo de verificación."""
-    base = EXAM_ITEM_PROMPT_VERSION if item else EXAM_PROMPT_VERSION
-    return f"{base}+{MATH_CHECK_VERSION}" if is_math(subject) else base
+def exam_prompt_version(subject: str, item: bool = False, saber: bool = False) -> str:
+    """SPEC-0022 y SPEC-0023: la versión registrada suma los anexos que se usaron."""
+    parts = [EXAM_ITEM_PROMPT_VERSION if item else EXAM_PROMPT_VERSION]
+    parts += [MATH_CHECK_VERSION] if is_math(subject) else []
+    parts += [SABER_PROMPT_VERSION] if saber else []
+    return "+".join(parts)
 
 
 ExamQuestionType = Literal["MULTIPLE_CHOICE", "TRUE_FALSE", "SHORT_ANSWER", "MATCHING", "OPEN"]
@@ -119,10 +131,14 @@ class ExamRequest(BaseModel):
     durationMinutes: int = Field(ge=30, le=240)  # noqa: N815
     sections: list[ExamSectionSpec] = Field(min_length=2, max_length=5)
     cognitiveDistribution: dict[Level, int]  # noqa: N815
+    # SPEC-0023: preguntas de selección múltiple tipo Saber (Matemáticas y Lenguaje).
+    saber: bool = False
 
     @model_validator(mode="after")
     def _valid(self):
         _check_distribution(self.cognitiveDistribution)
+        if self.saber and saber_area(self.subject) is None:
+            raise ValueError("El estilo Saber solo aplica a Matemáticas y Lenguaje")
         total = sum(s.questionCount for s in self.sections)
         if not MIN_QUESTIONS <= total <= MAX_QUESTIONS:
             raise ValueError(f"El examen debe tener entre {MIN_QUESTIONS} y {MAX_QUESTIONS}")
@@ -167,6 +183,10 @@ class ExamQuestion(BaseModel):
     # SPEC-0022: cálculo del modelo (entra) y estado de la verificación (sale).
     check: MathCheck | None = None
     answerCheck: AnswerCheck | None = None  # noqa: N815
+    # SPEC-0023: situación, competencia y figura de las preguntas tipo Saber.
+    context: str | None = Field(default=None, max_length=2000)
+    competency: str | None = Field(default=None, max_length=200)
+    figure: Figure | None = None
 
 
 class SectionOut(BaseModel):
@@ -325,7 +345,23 @@ def build_section_messages(
         f"preguntas de tipo {spec.questionType} ({TYPE_LABELS[spec.questionType]})."
     )
     system = f"{EXAM_PROMPT}\n{MATH_CHECK_PROMPT}" if is_math(request.subject) else EXAM_PROMPT
+    if saber_section(request, plan):
+        data |= saber_data(request.subject)
+        system = f"{system}\n{SABER_PROMPT}"
     return _messages(system, instruction, data)
+
+
+def saber_section(request: ExamRequest, plan: SectionPlan) -> bool:
+    """SPEC-0023: el estilo Saber aplica a las secciones de selección múltiple."""
+    return request.saber and plan.spec.questionType == "MULTIPLE_CHOICE"
+
+
+def saber_item(request: ExamItemRequest) -> bool:
+    return (
+        request.current.type == "MULTIPLE_CHOICE"
+        and bool(request.current.context)
+        and saber_area(request.subject) is not None
+    )
 
 
 def build_exam_item_messages(request: ExamItemRequest) -> list[Message]:
@@ -340,6 +376,9 @@ def build_exam_item_messages(request: ExamItemRequest) -> list[Message]:
     system = (
         f"{EXAM_ITEM_PROMPT}\n{MATH_CHECK_PROMPT}" if is_math(request.subject) else EXAM_ITEM_PROMPT
     )
+    if saber_item(request):
+        data |= saber_data(request.subject)
+        system = f"{system}\n{SABER_PROMPT}"
     return _messages(
         system,
         "Reescribe la pregunta del examen siguiendo la indicación del docente.",
@@ -467,6 +506,9 @@ def validate_section(
     )
     if out.questions and not looks_spanish(text):
         errors.append("La sección no parece estar en español")
+    if saber_section(request, plan):
+        labels = [f"Pregunta {i}" for i in range(1, len(out.questions) + 1)]
+        errors += saber_errors(out.questions, request.subject, labels)
     return errors
 
 
@@ -477,6 +519,8 @@ def validate_exam_item(out: ExamItemOut, request: ExamItemRequest) -> list[str]:
     errors = exam_question_errors(
         item, "Pregunta", request.current.type, request.points, keys, allowed
     )
+    if saber_item(request):
+        errors += saber_errors([item], request.subject, ["Pregunta"])
     current = norm(request.current.stem + "".join(p.left for p in request.current.pairs))
     text = norm(item.stem + "".join(p.left for p in item.pairs))
     if text == current:
@@ -579,6 +623,8 @@ def section_quality(questions: list[ExamQuestion], request: ExamRequest, plan: S
     report = check_questions(questions, request.grade)
     if is_math(request.subject):
         report.errors += check_errors(questions)
+    if saber_section(request, plan):
+        report.errors += saber_quality(questions, request.subject)
     return report
 
 
@@ -624,7 +670,14 @@ def generate_exam(llm: LLM, request: ExamRequest) -> ExamResult:
             normalize=lambda out, p=plan: trim_section(out, p),
             quality=lambda out, p=plan: section_quality(out.questions, request, p).errors,
         )
-        questions = [clean_exam_question(q, plan.spec.questionType) for q in result.value.questions]
+        questions = [
+            clean_saber(
+                clean_exam_question(q, plan.spec.questionType),
+                saber_section(request, plan),
+                request.subject,
+            )
+            for q in result.value.questions
+        ]
         questions, math_warnings = verify_exam_math(questions, request.subject)
         if math_warnings:
             result = replace(result, warnings=(*result.warnings, *math_warnings))
@@ -664,6 +717,10 @@ def regenerate_exam_item(llm: LLM, request: ExamItemRequest) -> StructuredResult
             else None
         ),
     )
-    item = clean_exam_question(result.value.item, request.current.type)
+    item = clean_saber(
+        clean_exam_question(result.value.item, request.current.type),
+        saber_item(request),
+        request.subject,
+    )
     (item,), warnings = verify_exam_math([item], request.subject, ["Pregunta"])
     return replace(result, value=ExamItemOut(item=item), warnings=(*result.warnings, *warnings))

@@ -9,7 +9,7 @@ import {
 } from "@/modules/resources/client";
 import type { DocBlock, DocModel } from "./model";
 import { seededShuffle, type Variant } from "./shuffle";
-import type { DocKind, ExportContext } from "./build";
+import { saberParts, withCompetency, type DocKind, type ExportContext } from "./build";
 
 // Constructor del examen (SPEC-0011 §2). Hoja del estudiante sin respuestas ni criterios (RN-02 de
 // SPEC-0009), clave con puntos y tabla de conversión a nota (RN-14), hoja de respuestas (RN-15) y
@@ -95,6 +95,7 @@ function studentQuestion(q: ExamQuestion, n: number, ctx: ExportContext, variant
   blocks.push({
     kind: "question",
     number: n,
+    ...saberParts(q),
     stem,
     options:
       q.type === "MULTIPLE_CHOICE"
@@ -118,7 +119,7 @@ function keyAnswer(q: ExamQuestion, ctx: ExportContext, variant: Variant): strin
 }
 
 function keyDetail(q: ExamQuestion): string {
-  if (q.type !== "OPEN") return q.explanation;
+  if (q.type !== "OPEN") return withCompetency(q.explanation, q.competency);
   const criteria = q.criteria.map((c) => `${c.description} (${formatPoints(c.points)})`);
   return [`Criterios: ${criteria.join("; ")}`, q.explanation].filter(Boolean).join(". ");
 }

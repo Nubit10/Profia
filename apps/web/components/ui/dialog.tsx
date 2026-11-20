@@ -74,7 +74,7 @@ function DialogContent({
           {/* Espacio final; sobra si el contenido termina en una barra fija (data-sticky-footer). */}
           <div
             aria-hidden
-            className="h-[env(safe-area-inset-bottom)] min-h-1 [[data-sticky-footer]+&]:hidden [*:has(>[data-sticky-footer]:last-child)+&]:hidden"
+            className="h-[env(safe-area-inset-bottom)] min-h-1 [*:has(>[data-sticky-footer]:last-child)+&]:hidden [[data-sticky-footer]+&]:hidden"
           />
         </div>
         {showCloseButton && (

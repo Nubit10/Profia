@@ -30,6 +30,7 @@ Solo se implementa lo que está **Aprobada**. Solo el usuario (product owner) ap
 | [SPEC-0020](SPEC-0020-material-de-referencia.md)              | Material de referencia del docente para generar (PDF, texto, libro o web)       | 6 · Generation              | Borrador     |
 | [SPEC-0021](SPEC-0021-mejora-continua-con-el-docente.md)      | Mejora continua de la IA con lo que hace el docente                             | 6 · Generation              | Implementada |
 | [SPEC-0022](SPEC-0022-verificar-respuestas-de-matematicas.md) | Verificar las respuestas de Matemáticas                                         | 6 · Generation              | Implementada |
+| [SPEC-0023](SPEC-0023-preguntas-tipo-saber-con-figuras.md)    | Preguntas tipo Saber (ICFES) con situación, figura y competencia                | 6 · Generation              | Implementada |
 
 ## Mapa del roadmap → specs previstas
 

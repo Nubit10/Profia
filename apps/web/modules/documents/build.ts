@@ -6,7 +6,8 @@ import type {
 } from "@/modules/resources/client";
 import { LEVEL_LABELS, UDL_LABELS } from "@/modules/resources/client";
 import type { FieldSource, FormatSnapshot } from "@/modules/formats/client";
-import type { DocBlock, DocLogo, DocModel } from "./model";
+import { drawFigure } from "@/lib/figures/svg";
+import type { DocBlock, DocFigure, DocLogo, DocModel } from "./model";
 import { seededShuffle, type Variant } from "./shuffle";
 
 // Constructores del modelo intermedio (SPEC-0009). Aquí se decide qué va en cada documento:
@@ -96,7 +97,7 @@ export function buildQuiz(
           rows: questions.map((q, i) => ({
             number: String(i + 1),
             answer: correctLabel(q),
-            explanation: q.explanation,
+            explanation: withCompetency(q.explanation, q.competency),
           })),
         },
       ],
@@ -111,6 +112,7 @@ export function buildQuiz(
     blocks.push({
       kind: "question",
       number: i + 1,
+      ...saberParts(q),
       stem: q.stem,
       // RN-02: en la hoja del estudiante no se marca la correcta.
       options: optionsOf(q).map(({ label, text }) => ({ label, text })),
@@ -322,4 +324,20 @@ function buildFormattedWorkshop(
     blocks,
     footer: footer(ctx),
   };
+}
+
+/** SPEC-0023 RN-06: situación y figura de una pregunta tipo Saber, para la hoja del estudiante. */
+export function saberParts(q: { context?: string; figure?: Parameters<typeof drawFigure>[0] }): {
+  context?: string;
+  figure?: DocFigure;
+} {
+  return {
+    ...(q.context && { context: q.context }),
+    ...(q.figure && { figure: drawFigure(q.figure) }),
+  };
+}
+
+/** SPEC-0023 RN-06: en la clave y la guía del docente se ve la competencia de cada pregunta. */
+export function withCompetency(explanation: string, competency?: string): string {
+  return competency ? `Competencia: ${competency}. ${explanation}`.trim() : explanation;
 }

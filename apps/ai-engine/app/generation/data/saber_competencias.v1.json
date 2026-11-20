@@ -1,0 +1,17 @@
+{
+  "version": "saber_competencias.v1",
+  "estado": "Pendiente de revisión docente (SPEC-0023 RN-02)",
+  "fuente": "ICFES, marcos de referencia de las pruebas Saber 11 (Matemáticas y Lectura crítica), usados como referencia para todos los grados.",
+  "areas": {
+    "MATEMATICAS": [
+      "Interpretación y representación",
+      "Formulación y ejecución",
+      "Argumentación"
+    ],
+    "LENGUAJE": [
+      "Identificar y entender los contenidos locales del texto",
+      "Comprender cómo se articulan las partes de un texto para darle un sentido global",
+      "Reflexionar a partir de un texto y evaluar su contenido"
+    ]
+  }
+}

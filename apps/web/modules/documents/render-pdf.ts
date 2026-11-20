@@ -28,6 +28,7 @@ pdfmake.setUrlAccessPolicy(() => false);
 pdfmake.setLocalAccessPolicy(() => false);
 
 const LINE = "_".repeat(80);
+type Margins = [number, number, number, number];
 const MUTED = "#555555";
 
 function block(b: DocBlock): Content {
@@ -51,6 +52,17 @@ function block(b: DocBlock): Content {
         unbreakable: true,
         margin: [0, 6, 0, 6],
         stack: [
+          // SPEC-0023: situación y figura (vector) antes del enunciado.
+          ...(b.context ? [{ text: b.context, margin: [0, 0, 0, 4] as Margins }] : []),
+          ...(b.figure
+            ? [
+                {
+                  svg: b.figure.svg,
+                  width: Math.min(b.figure.width * 0.75, 380),
+                  margin: [0, 2, 0, 6] as Margins,
+                },
+              ]
+            : []),
           { text: [{ text: `${b.number}. `, bold: true }, b.stem] },
           b.inline
             ? {

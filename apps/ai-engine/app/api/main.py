@@ -420,7 +420,7 @@ def create_app(
             )
             return result
 
-        value, meta = run_resource("exam", exam_prompt_version(body.subject), run)  # type: ignore[arg-type]
+        value, meta = run_resource("exam", exam_prompt_version(body.subject, saber=body.saber), run)  # type: ignore[arg-type]
         return ExamResponse(exam=value, meta=ExamMeta(**meta.model_dump(), calls=calls))
 
     @app.post(
@@ -431,7 +431,11 @@ def create_app(
     def exam_item(body: ExamItemRequest) -> ExamItemResponse:
         value, meta = run_resource(
             "exam_item",
-            exam_prompt_version(body.subject, item=True),
+            exam_prompt_version(
+                body.subject,
+                item=True,
+                saber=body.current.type == "MULTIPLE_CHOICE" and bool(body.current.context),
+            ),
             lambda: regenerate_exam_item(llm, body),
         )
         return ExamItemResponse(item=value.item, meta=meta)

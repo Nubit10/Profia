@@ -159,6 +159,15 @@ selección múltiple o respuesta corta `answerCheck: {"status": "VERIFIED" | "CO
 "note": "…"}` (opcional). Solo corrige la respuesta cuando el cálculo coincide con exactamente una
 opción. Los desacuerdos que quedan van a `meta.qualityWarnings`.
 
+## Preguntas tipo Saber (SPEC-0023, ADR-0018)
+
+El pedido acepta `saber: boolean` (Matemáticas y Lenguaje; en otra asignatura responde `422`). Con
+`saber`, el prompt suma el anexo `saber.v1` y la versión registrada termina en `+saber.v1`. Cada
+pregunta de selección múltiple trae `context` (situación), `competency` (del catálogo
+`saber_competencias.v1`) y, solo en Matemáticas, `figure` opcional con los **datos** de una figura
+(`NUMBER_LINE`, `BAR_CHART`, `TABLE`, `FRACTION` o `RECTANGLE`) que el producto dibuja. Sin `saber`
+esos campos llegan en `null`.
+
 ## Errores
 
 Los mismos de [generation-resources.v1](generation-resources.v1.md#errores-los-tres-endpoints):

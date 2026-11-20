@@ -18,6 +18,7 @@ import {
 import { sileo } from "sileo";
 import { DRAFT_STORAGE_PREFIX } from "@/components/app-shell/app-shell";
 import { SelectField } from "@/components/forms/select-field";
+import { OptionSwitch, SABER_SWITCH } from "@/components/forms/option-switch";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SelectableOption } from "@/components/forms/selectable";
@@ -74,6 +75,8 @@ type FormValues = {
   distribution: Record<CognitiveLevel, number>;
   notes: string;
   excludedPreferenceIds: string[];
+  /** SPEC-0023: secciones de selección múltiple tipo Saber. */
+  saber: boolean;
 };
 
 const toBlueprint = (v: FormValues, topicIds: string[], scope: ExamScope) => ({
@@ -95,6 +98,7 @@ const toBlueprint = (v: FormValues, topicIds: string[], scope: ExamScope) => ({
   ),
   notes: v.notes.trim() || null,
   excludedPreferenceIds: v.excludedPreferenceIds,
+  ...(v.saber && { saber: true }),
 });
 
 /** El mismo schema del servidor valida el formulario (convención del repo). */
@@ -161,6 +165,7 @@ export function ExamSettingsStep(props: Props) {
       ) as Record<CognitiveLevel, number>,
       notes: "",
       excludedPreferenceIds: [],
+      saber: context.saberAvailable && context.lastSaber,
     },
   });
   const sections = useFieldArray({ control: form.control, name: "sections" });
@@ -321,6 +326,20 @@ export function ExamSettingsStep(props: Props) {
       </div>
 
       <FieldGroup className="rounded-3xl border border-border bg-card p-5 shadow-soft sm:p-6">
+        {context.saberAvailable && (
+          <Controller
+            control={form.control}
+            name="saber"
+            render={({ field }) => (
+              <OptionSwitch
+                id="saber"
+                {...SABER_SWITCH}
+                checked={!!field.value}
+                onChange={field.onChange}
+              />
+            )}
+          />
+        )}
         <FieldSet>
           <FieldLegend className="font-bold">Secciones del examen</FieldLegend>
           <FieldDescription>

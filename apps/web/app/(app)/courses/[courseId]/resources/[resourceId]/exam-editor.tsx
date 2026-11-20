@@ -31,6 +31,8 @@ import {
   withoutStaleCheck,
 } from "@/modules/resources/client";
 import { AnswerCheckBadge } from "@/components/answer-check";
+import { FigureImage } from "@/components/figure-image";
+import { CompetencyBadge, SaberContext } from "@/components/saber-context";
 import { DbaChip } from "@/components/curriculum/dba-chip";
 import { ItemFeedback, RegenerateItem, type FeedbackActions } from "./item-tools";
 
@@ -54,6 +56,7 @@ export function ExamQuestionView({
 }) {
   return (
     <div className="flex flex-col gap-2">
+      <SaberContext context={q.context} figure={q.figure} />
       <p className="text-sm whitespace-pre-line">{q.stem}</p>
       {(q.type === "MULTIPLE_CHOICE" || q.type === "TRUE_FALSE") && (
         <ul className="flex flex-col gap-1 text-sm">
@@ -113,6 +116,7 @@ export function ExamQuestionView({
         <Badge variant="brand">{pts(q.points)}</Badge>
         <Badge variant="outline">Tema: {topics.get(q.topicId) ?? "—"}</Badge>
         <Badge variant="outline">{LEVEL_LABELS[q.cognitiveLevel]}</Badge>
+        <CompetencyBadge competency={q.competency} />
         {q.dbaCodes.map((c) => (
           <DbaChip key={c} code={c} number={dba.get(c)} />
         ))}
@@ -222,6 +226,35 @@ function ExamQuestionForm({
           />
         </Field>
       </div>
+      {(q.context !== undefined || q.figure) && (
+        <Field>
+          <FieldLabel htmlFor={`${q.id}-context`}>Situación</FieldLabel>
+          <Textarea
+            id={`${q.id}-context`}
+            rows={3}
+            value={q.context ?? ""}
+            onChange={(e) => onChange({ ...q, context: e.target.value })}
+          />
+        </Field>
+      )}
+      {q.figure && (
+        <div className="flex flex-col gap-2">
+          <FigureImage figure={q.figure} />
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="w-fit"
+            onClick={() => {
+              const rest = { ...q };
+              delete rest.figure;
+              onChange(rest);
+            }}
+          >
+            Quitar figura
+          </Button>
+        </div>
+      )}
       <Field>
         <FieldLabel htmlFor={`${q.id}-stem`}>
           {q.type === "MATCHING" ? "Instrucción" : "Enunciado"}

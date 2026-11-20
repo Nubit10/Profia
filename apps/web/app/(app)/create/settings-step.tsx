@@ -28,6 +28,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import type { ActionResult } from "@/lib/action-result";
+import { OptionSwitch, SABER_SWITCH } from "@/components/forms/option-switch";
 import { cn } from "@/lib/utils";
 import {
   DIFFICULTIES,
@@ -67,6 +68,8 @@ type FormValues = {
   excludedPreferenceIds: string[];
   /** SPEC-0016: taller con enfoque DUA. */
   udl: boolean;
+  /** SPEC-0023: quiz con preguntas tipo Saber. */
+  saber: boolean;
 };
 
 const toBlueprint = (v: FormValues, type: ResourceType, topicId: string) => ({
@@ -82,7 +85,7 @@ const toBlueprint = (v: FormValues, type: ResourceType, topicId: string) => ({
   notes: v.notes.trim() || null,
   excludedPreferenceIds: v.excludedPreferenceIds,
   ...(type === "QUIZ"
-    ? { questionTypes: v.questionTypes }
+    ? { questionTypes: v.questionTypes, ...(v.saber && { saber: true }) }
     : {
         ...(v.structure.startsWith("format:")
           ? { structure: "CUSTOM", formatId: v.structure.slice("format:".length) }
@@ -168,6 +171,8 @@ export function SettingsStep(props: Props) {
       excludedPreferenceIds: [],
       // SPEC-0016 RN-01: la última elección del docente (la primera vez, sin DUA).
       udl: context.lastUdl,
+      // SPEC-0023: la última elección del docente, si la asignatura lo admite.
+      saber: context.saberAvailable && context.lastSaber,
     },
   });
   const { errors } = form.formState;
@@ -244,6 +249,7 @@ export function SettingsStep(props: Props) {
       ? structureLabel(values.structure)
       : (values.questionTypes ?? []).map((t) => QUESTION_TYPE_LABELS[t]).join(", "),
     ...(type === "WORKSHOP" && values.udl ? ["Con DUA"] : []),
+    ...(type === "QUIZ" && values.saber ? ["Estilo Saber"] : []),
   ];
 
   return (
@@ -260,6 +266,20 @@ export function SettingsStep(props: Props) {
       </div>
 
       <FieldGroup className="rounded-3xl border border-border bg-card p-5 shadow-soft sm:p-6">
+        {type === "QUIZ" && context.saberAvailable && (
+          <Controller
+            control={form.control}
+            name="saber"
+            render={({ field }) => (
+              <OptionSwitch
+                id="saber"
+                {...SABER_SWITCH}
+                checked={!!field.value}
+                onChange={field.onChange}
+              />
+            )}
+          />
+        )}
         {type === "WORKSHOP" && (
           <Controller
             control={form.control}

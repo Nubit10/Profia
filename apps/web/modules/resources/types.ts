@@ -89,11 +89,17 @@ export type ResourceFormContext = {
   defaultFormatId: string | null;
   /** SPEC-0016 RN-01: si el último taller del docente fue con DUA. */
   lastUdl: boolean;
+  /** SPEC-0023: si la asignatura admite el estilo Saber y si el último quiz lo usó. */
+  saberAvailable: boolean;
+  lastSaber: boolean;
   quota: { used: number; limit: number; inFlight: number; maxInFlight: number };
 };
 
 /** Datos del asistente para un examen (SPEC-0011): varios temas del mismo curso. */
 export type ExamFormContext = {
+  /** SPEC-0023: si la asignatura admite el estilo Saber y si el último examen lo usó. */
+  saberAvailable: boolean;
+  lastSaber: boolean;
   courseId: string;
   grade: Grade;
   gradeLabel: string;

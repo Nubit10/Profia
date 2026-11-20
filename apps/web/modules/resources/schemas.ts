@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { figureSchema } from "@/lib/figures/schema";
 import type { Grade } from "@/modules/courses/client";
 
 // Schemas y catálogos compartidos entre formularios y servidor (SPEC-0008). Sin dependencias de
@@ -125,6 +126,8 @@ const quizBlueprint = z.object({
     .array(z.enum(QUESTION_TYPES))
     .min(1, "Elige al menos un tipo de pregunta")
     .refine((t) => new Set(t).size === t.length, "Tipos repetidos"),
+  /** SPEC-0023: preguntas tipo Saber (Matemáticas y Lenguaje). */
+  saber: z.boolean().optional(),
 });
 
 const workshopBlueprint = z.object({
@@ -225,7 +228,23 @@ const examBlueprint = z.object({
   cognitiveDistribution: distributionSchema,
   notes: blueprintBase.notes,
   excludedPreferenceIds: blueprintBase.excludedPreferenceIds,
+  /** SPEC-0023: secciones de selección múltiple tipo Saber (Matemáticas y Lenguaje). */
+  saber: z.boolean().optional(),
 });
+
+/**
+ * SPEC-0023 RN-01: el estilo Saber aplica a Matemáticas y Lenguaje (también "Lengua Castellana" o
+ * "Español"), las áreas con competencias en el catálogo del AI Engine.
+ */
+export function saberApplies(subjectName: string): boolean {
+  const plain = subjectName
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+  return ["matematic", "lenguaje", "castellan", "espanol", "lectura"].some((k) =>
+    plain.includes(k),
+  );
+}
 
 export const examQuestionCount = (sections: { questionCount: number }[]) =>
   sections.reduce((sum, s) => sum + (Number(s.questionCount) || 0), 0);
@@ -427,11 +446,18 @@ export type AnswerCheck = z.infer<typeof answerCheckSchema>;
 
 /** RN-08: si el docente cambia el enunciado, las opciones o la respuesta, la marca se quita. */
 export function withoutStaleCheck<
-  Q extends { stem: string; options: string[]; answer: string; answerCheck?: AnswerCheck },
+  Q extends {
+    stem: string;
+    options: string[];
+    answer: string;
+    context?: string;
+    answerCheck?: AnswerCheck;
+  },
 >(before: Q, next: Q): Q {
   if (!next.answerCheck) return next;
   const same =
     before.stem === next.stem &&
+    (before.context ?? "") === (next.context ?? "") &&
     before.answer === next.answer &&
     before.options.join("\u0000") === next.options.join("\u0000");
   if (same) return next;
@@ -439,6 +465,13 @@ export function withoutStaleCheck<
   delete rest.answerCheck;
   return rest;
 }
+
+/** SPEC-0023: situación, competencia y figura de una pregunta tipo Saber (opcionales). */
+const saberFields = {
+  context: z.string().trim().max(2000, "Situación: máximo 2000").optional(),
+  competency: z.string().max(200).optional(),
+  figure: figureSchema.optional(),
+};
 
 export const quizQuestionSchema = z
   .object({
@@ -451,6 +484,7 @@ export const quizQuestionSchema = z
     cognitiveLevel: z.enum(LEVELS),
     dbaCodes: z.array(z.string()).max(6),
     answerCheck: answerCheckSchema.optional(),
+    ...saberFields,
   })
   .superRefine((q, ctx) => {
     if (q.type === "MULTIPLE_CHOICE") {
@@ -580,6 +614,7 @@ export const examQuestionSchema = z
     cognitiveLevel: z.enum(LEVELS),
     dbaCodes: z.array(z.string()).max(6),
     answerCheck: answerCheckSchema.optional(),
+    ...saberFields,
   })
   .superRefine((q, ctx) => {
     const issue = (path: string, message: string) =>

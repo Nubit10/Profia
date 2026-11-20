@@ -21,3 +21,4 @@ Una decisión por archivo: `NNNN-titulo-en-kebab-case.md`, a partir de [_templat
 | [0015](0015-datos-sensibles-cifrados-en-la-aplicacion.md)    | Datos sensibles de estudiantes cifrados en la aplicación (PIAR)                                      | Aceptado  |
 | [0016](0016-senales-del-docente-para-mejorar-la-ia.md)       | Señales del docente para mejorar la IA (preferencias propuestas, calidad de preguntas, casos reales) | Aceptado  |
 | [0017](0017-verificacion-de-calculos-en-el-ai-engine.md)     | Verificación de cálculos en el AI Engine (evaluador propio, `math_check.v1`)                         | Aceptado  |
+| [0018](0018-figuras-dibujadas-por-codigo.md)                 | Figuras dibujadas por código (SVG propio, PNG con resvg para Word)                                   | Aceptado  |

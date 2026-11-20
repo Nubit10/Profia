@@ -1,6 +1,7 @@
 import "server-only";
 import { z } from "zod";
 import { getEnv } from "@/lib/env";
+import { figureSchema } from "@/lib/figures/schema";
 import { logger } from "@/lib/observability/logger";
 
 // Cliente de los contratos de generación (docs/ai/contracts/): sugerencia de objetivos
@@ -77,6 +78,13 @@ const answerCheck = z
   .nullish()
   .transform((v) => v ?? undefined);
 
+// SPEC-0023 / ADR-0018: situación, competencia y figura (datos) de las preguntas tipo Saber.
+const optionalText = z
+  .string()
+  .nullish()
+  .transform((v) => v ?? undefined);
+const figure = figureSchema.nullish().transform((v) => v ?? undefined);
+
 const engineQuestion = z.object({
   type: questionType,
   stem: z.string(),
@@ -86,6 +94,9 @@ const engineQuestion = z.object({
   cognitiveLevel: level,
   dbaCodes: z.array(z.string()),
   answerCheck,
+  context: optionalText,
+  competency: optionalText,
+  figure,
 });
 const engineActivity = z.object({
   title: z.string(),
@@ -171,6 +182,8 @@ export type EngineQuizRequest = EngineResourceContext & {
   itemCount: number;
   questionTypes: z.infer<typeof questionType>[];
   cognitiveDistribution: Distribution;
+  /** SPEC-0023: preguntas tipo Saber. */
+  saber?: boolean;
 };
 
 export type EngineWorkshopRequest = EngineResourceContext & {
@@ -268,6 +281,9 @@ const engineExamQuestion = z.object({
   cognitiveLevel: level,
   dbaCodes: z.array(z.string()),
   answerCheck,
+  context: optionalText,
+  competency: optionalText,
+  figure,
 });
 const examResponse = z.object({
   exam: z.object({
@@ -320,6 +336,8 @@ export type EngineExamRequest = EngineExamContext & {
     instructions: string | null;
   }[];
   cognitiveDistribution: Distribution;
+  /** SPEC-0023: secciones de selección múltiple tipo Saber. */
+  saber?: boolean;
 };
 
 export type EngineExamItemRequest = EngineExamContext & {

@@ -4,6 +4,9 @@
 
 export type DocOption = { label: string; text: string; correct?: boolean };
 
+/** SPEC-0023 / ADR-0018: figura ya dibujada (SVG); el Word la rasteriza a PNG. */
+export type DocFigure = { svg: string; width: number; height: number; alt: string };
+
 export type DocBlock =
   | { kind: "heading"; text: string; level: 1 | 2 }
   | { kind: "paragraph"; text: string; tone?: "normal" | "muted" | "strong" }
@@ -11,6 +14,10 @@ export type DocBlock =
   | {
       kind: "question";
       number: number;
+      /** SPEC-0023: situación de una pregunta tipo Saber, antes del enunciado. */
+      context?: string;
+      /** SPEC-0023: figura entre la situación y el enunciado. */
+      figure?: DocFigure;
       stem: string;
       /** Opciones en una sola línea (verdadero/falso) o en columna (selección múltiple). */
       options: DocOption[];

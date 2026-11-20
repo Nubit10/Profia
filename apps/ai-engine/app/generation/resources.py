@@ -24,6 +24,15 @@ from .mathcheck import (
 from .objectives import DbaRef, TopicRef
 from .pipeline import StructuredResult, looks_spanish, norm, run_structured
 from .quality import balance_positions, check_questions
+from .saber import (
+    SABER_PROMPT_VERSION,
+    Figure,
+    clean_saber,
+    competencies,
+    saber_area,
+    saber_errors,
+    saber_quality,
+)
 
 # Los recursos se generan en segundo plano (ADR-0008): vale la pena esperar a que se libere el cupo
 # por minuto de Groq antes de caer al modelo local, que en CPU no alcanza para un taller.
@@ -49,6 +58,8 @@ ITEM_PROMPT = _prompt(ITEM_PROMPT_VERSION)
 UDL_PROMPT = _prompt(UDL_PROMPT_VERSION)
 # SPEC-0022 / ADR-0017: anexo que pide el cálculo de cada respuesta numérica en Matemáticas.
 MATH_CHECK_PROMPT = _prompt(MATH_CHECK_VERSION)
+# SPEC-0023 / ADR-0018: anexo de preguntas tipo Saber (situación, competencia y figura).
+SABER_PROMPT = _prompt(SABER_PROMPT_VERSION)
 
 Level = Literal["REMEMBER", "UNDERSTAND", "APPLY", "ANALYZE", "EVALUATE", "CREATE"]
 LEVELS: tuple[Level, ...] = ("REMEMBER", "UNDERSTAND", "APPLY", "ANALYZE", "EVALUATE", "CREATE")
@@ -126,10 +137,14 @@ class QuizRequest(ResourceContext):
     itemCount: int = Field(ge=3, le=15)  # noqa: N815
     questionTypes: list[QuestionType] = Field(min_length=1, max_length=3)  # noqa: N815
     cognitiveDistribution: dict[Level, int]  # noqa: N815
+    # SPEC-0023 RN-01: preguntas tipo Saber (solo Matemáticas y Lenguaje).
+    saber: bool = False
 
     @model_validator(mode="after")
     def _valid(self):
         _check_distribution(self.cognitiveDistribution)
+        if self.saber and saber_area(self.subject) is None:
+            raise ValueError("El estilo Saber solo aplica a Matemáticas y Lenguaje")
         if len(set(self.questionTypes)) != len(self.questionTypes):
             raise ValueError("Tipos de pregunta repetidos")
         return self
@@ -188,25 +203,46 @@ def workshop_prompt_version(request: "WorkshopRequest") -> str:
     return f"{base}+{UDL_PROMPT_VERSION}" if request.udl else base
 
 
+def _versions(base: str, *, udl=False, math=False, saber=False) -> str:
+    """Versión registrada: el prompt base y sus anexos, siempre en el mismo orden."""
+    parts = [base]
+    parts += [UDL_PROMPT_VERSION] if udl else []
+    parts += [MATH_CHECK_VERSION] if math else []
+    parts += [SABER_PROMPT_VERSION] if saber else []
+    return "+".join(parts)
+
+
 def item_prompt_version(request: "ItemRequest") -> str:
-    if wants_udl(request):
-        return f"{ITEM_PROMPT_VERSION}+{UDL_PROMPT_VERSION}"
-    if wants_math_check(request):
-        return f"{ITEM_PROMPT_VERSION}+{MATH_CHECK_VERSION}"
-    return ITEM_PROMPT_VERSION
+    return _versions(
+        ITEM_PROMPT_VERSION,
+        udl=wants_udl(request),
+        math=wants_math_check(request) and not wants_udl(request),
+        saber=wants_saber(request),
+    )
 
 
 def quiz_prompt_version(request: "QuizRequest") -> str:
-    """SPEC-0022: en Matemáticas la versión registrada suma el anexo de verificación."""
-    return (
-        f"{QUIZ_PROMPT_VERSION}+{MATH_CHECK_VERSION}"
-        if is_math(request.subject)
-        else QUIZ_PROMPT_VERSION
-    )
+    """SPEC-0022 y SPEC-0023: la versión registrada suma los anexos que se usaron."""
+    return _versions(QUIZ_PROMPT_VERSION, math=is_math(request.subject), saber=request.saber)
 
 
 def wants_math_check(request: "ItemRequest") -> bool:
     return request.kind == "QUIZ_QUESTION" and is_math(request.subject)
+
+
+def wants_saber(request: "ItemRequest") -> bool:
+    """SPEC-0023: una pregunta tipo Saber se reescribe en el mismo estilo."""
+    current = request.current
+    return (
+        request.kind == "QUIZ_QUESTION"
+        and bool(getattr(current, "context", None))
+        and saber_area(request.subject) is not None
+    )
+
+
+def saber_data(subject: str) -> dict:
+    area = saber_area(subject)
+    return {"estiloSaber": True, "competencias": competencies()[area]} if area else {}
 
 
 class QuizQuestion(BaseModel):
@@ -221,6 +257,10 @@ class QuizQuestion(BaseModel):
     # SPEC-0022: el modelo escribe el cálculo; el motor decide `answerCheck` y no devuelve `check`.
     check: MathCheck | None = None
     answerCheck: AnswerCheck | None = None  # noqa: N815
+    # SPEC-0023: situación, competencia y figura (datos) de las preguntas tipo Saber.
+    context: str | None = Field(default=None, max_length=2000)
+    competency: str | None = Field(default=None, max_length=200)
+    figure: Figure | None = None
 
 
 class QuizOut(BaseModel):
@@ -394,6 +434,9 @@ def build_quiz_messages(request: QuizRequest) -> list[Message]:
         "preguntasPorNivel": target_counts(request.cognitiveDistribution, request.itemCount),
     }
     system = f"{QUIZ_PROMPT}\n{MATH_CHECK_PROMPT}" if is_math(request.subject) else QUIZ_PROMPT
+    if request.saber:
+        data |= saber_data(request.subject)
+        system = f"{system}\n{SABER_PROMPT}"
     return _messages(system, f"Elabora un quiz de exactamente {request.itemCount} preguntas.", data)
 
 
@@ -446,6 +489,9 @@ def build_item_messages(request: ItemRequest) -> list[Message]:
         system = f"{ITEM_PROMPT}\n{UDL_PROMPT}"
     elif wants_math_check(request):
         system = f"{ITEM_PROMPT}\n{MATH_CHECK_PROMPT}"
+    if wants_saber(request):
+        data |= saber_data(request.subject)
+        system = f"{system}\n{SABER_PROMPT}"
     return _messages(system, f"Reescribe {noun} siguiendo la indicación del docente.", data)
 
 
@@ -508,6 +554,9 @@ def validate_quiz(out: QuizOut, request: QuizRequest) -> list[str]:
         seen.add(norm(q.stem))
     if not looks_spanish(" ".join([out.instructions, *(q.stem for q in out.questions)])):
         errors.append("El quiz no parece estar en español")
+    if request.saber:
+        labels = [f"Pregunta {i}" for i in range(1, len(out.questions) + 1)]
+        errors += saber_errors(out.questions, request.subject, labels)
     errors += _distribution_errors(
         [q.cognitiveLevel for q in out.questions], request.cognitiveDistribution
     )
@@ -620,6 +669,8 @@ def validate_item(out: ItemOut, request: ItemRequest) -> list[str]:
         if not isinstance(item, QuizQuestion):
             return ["Debe llegar una pregunta (type, stem, options, answer, explanation, ...)"]
         errors = question_errors(item, "Pregunta", request.questionTypes, allowed)
+        if wants_saber(request):
+            errors += saber_errors([item], request.subject, ["Pregunta"])
         text, current = item.stem, request.current.stem  # type: ignore[union-attr]
     else:
         if not isinstance(item, Activity):
@@ -698,9 +749,14 @@ def generate_quiz(llm: LLM, request: QuizRequest) -> StructuredResult[QuizOut]:
         max_tokens=600 + 260 * request.itemCount,
         max_wait_s=BACKGROUND_MAX_WAIT_S,
         # SPEC-0021 RN-07 a RN-12: calidad de las preguntas, sin llamar al modelo.
-        quality=lambda out: quiz_quality(out.questions, request.grade, request.subject),
+        quality=lambda out: quiz_quality(
+            out.questions, request.grade, request.subject, request.saber
+        ),
     )
-    questions = [_clean_question(q) for q in result.value.questions]
+    questions = [
+        clean_saber(_clean_question(q), request.saber, request.subject)
+        for q in result.value.questions
+    ]
     # SPEC-0022 RN-06/07: verificación final de las respuestas de Matemáticas.
     questions, math_warnings = verify_math(questions, request.subject)
     # RN-08: la posición de la correcta se equilibra reordenando, nunca con el modelo.
@@ -760,7 +816,8 @@ def regenerate_item(llm: LLM, request: ItemRequest) -> StructuredResult[ItemOut]
     item = result.value.item
     warnings: list[str] = []
     if isinstance(item, QuizQuestion):
-        cleaned, warnings = verify_math([_clean_question(item)], request.subject)
+        item = clean_saber(_clean_question(item), wants_saber(request), request.subject)
+        cleaned, warnings = verify_math([item], request.subject)
         item_out: QuizQuestion | Activity = cleaned[0]
     else:
         item_out = _clean_activity(item, wants_udl(request))
@@ -770,9 +827,12 @@ def regenerate_item(llm: LLM, request: ItemRequest) -> StructuredResult[ItemOut]
 # --- Verificación de Matemáticas (SPEC-0022) --------------------------------------------------
 
 
-def quiz_quality(questions: list[QuizQuestion], grade: str, subject: str) -> list[str]:
+def quiz_quality(
+    questions: list[QuizQuestion], grade: str, subject: str, saber: bool = False
+) -> list[str]:
     errors = check_questions(questions, grade).errors
-    return errors + check_errors(questions) if is_math(subject) else errors
+    errors += check_errors(questions) if is_math(subject) else []
+    return errors + (saber_quality(questions, subject) if saber else [])
 
 
 def verify_math[Q](questions: list[Q], subject: str) -> tuple[list[Q], list[str]]:

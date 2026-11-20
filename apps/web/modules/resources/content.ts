@@ -107,6 +107,9 @@ export function toExamQuestion(
     cognitiveLevel: q.cognitiveLevel,
     dbaCodes: onlyAllowed(q.dbaCodes, allowed),
     ...(q.answerCheck && { answerCheck: q.answerCheck }),
+    ...(q.context && { context: q.context }),
+    ...(q.competency && { competency: q.competency }),
+    ...(q.figure && { figure: q.figure }),
   };
 }
 
@@ -154,6 +157,9 @@ export function engineExamQuestion(q: ExamQuestion, topicIds: string[]): EngineE
     cognitiveLevel: q.cognitiveLevel,
     dbaCodes: q.dbaCodes,
     answerCheck: q.answerCheck,
+    context: q.context,
+    competency: q.competency,
+    figure: q.figure,
   };
 }
 
@@ -330,6 +336,7 @@ export function carryAnswerChecks(previous: ResourceContent | null, next: Resour
     const same =
       !!old?.answerCheck &&
       old.stem === q.stem &&
+      (old.context ?? "") === (q.context ?? "") &&
       old.answer === q.answer &&
       old.options.join("\u0000") === q.options.join("\u0000");
     const rest = { ...q };

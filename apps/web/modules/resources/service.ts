@@ -59,6 +59,7 @@ import {
   gradingScaleSchema,
   quizContentSchema,
   quizQuestionSchema,
+  saberApplies,
   workshopContentSchema,
   type Blueprint,
   type ExamScope,
@@ -196,6 +197,7 @@ export async function getResourceFormContext(
     defaultFormatId(ctx),
     lastWorkshopUdl(ctx),
   ]);
+  const saber = await lastSaber(ctx, "QUIZ");
   return {
     courseId: context.courseId,
     grade: context.gradeCode,
@@ -213,6 +215,8 @@ export async function getResourceFormContext(
     })),
     defaultFormatId: defaultFormat,
     lastUdl: udl,
+    saberAvailable: saberApplies(context.subject),
+    lastSaber: saber,
     quota: {
       used: quota.used,
       limit: DAILY_LIMIT,
@@ -235,6 +239,16 @@ export async function lastWorkshopUdl(ctx: TenantContext): Promise<boolean> {
   return (last?.blueprint as { udl?: boolean } | undefined)?.udl === true;
 }
 
+/** SPEC-0023 RN-01: el estilo Saber del último quiz o examen del docente (como el DUA). */
+export async function lastSaber(ctx: TenantContext, type: "QUIZ" | "EXAM"): Promise<boolean> {
+  const last = await db.resource.findFirst({
+    where: { institutionId: ctx.institutionId, membershipId: ctx.membershipId, type },
+    orderBy: { createdAt: "desc" },
+    select: { blueprint: true },
+  });
+  return (last?.blueprint as { saber?: boolean } | undefined)?.saber === true;
+}
+
 /** Datos del asistente para un examen de varios temas del mismo curso (SPEC-0011 §2). */
 export async function getExamFormContext(
   ctx: TenantContext,
@@ -242,11 +256,14 @@ export async function getExamFormContext(
 ): Promise<ExamFormContext> {
   requireRole(ctx, "TEACHER");
   const context = await getTopicsGenerationContext(ctx, topicIds); // NOT_FOUND si es ajeno
-  const [preferences, quota] = await Promise.all([
+  const [preferences, quota, saber] = await Promise.all([
     applicablePreferences(ctx, context.courseId),
     recoverStale(ctx).then(() => quotaFor(db, ctx)),
+    lastSaber(ctx, "EXAM"),
   ]);
   return {
+    saberAvailable: saberApplies(context.subject),
+    lastSaber: saber,
     courseId: context.courseId,
     grade: context.gradeCode,
     gradeLabel: context.grade,
@@ -541,6 +558,7 @@ async function runExamGeneration(
         instructions: s.instructions ? redactContactData(s.instructions) : null,
       })),
       cognitiveDistribution: blueprint.cognitiveDistribution,
+      ...(blueprint.saber && { saber: true }),
     },
     fetcher,
   );
@@ -612,6 +630,7 @@ export async function runGeneration(job: Job, fetcher: typeof fetch = fetch): Pr
                 itemCount: blueprint.itemCount,
                 questionTypes: blueprint.questionTypes,
                 cognitiveDistribution: blueprint.cognitiveDistribution,
+                ...(blueprint.saber && { saber: true }),
               },
               fetcher,
             )
@@ -706,6 +725,10 @@ async function enqueue(
     blueprint.type === "EXAM"
       ? await prepareExam(ctx, blueprint)
       : await prepare(ctx, blueprint, existing?.format);
+  // SPEC-0023 RN-01: el estilo Saber solo aplica a Matemáticas y Lenguaje.
+  if (blueprint.type !== "WORKSHOP" && blueprint.saber && !saberApplies(snapshot.subject)) {
+    throw invalid("El estilo Saber solo está disponible en Matemáticas y Lenguaje", "saber");
+  }
   const topicIds = blueprint.type === "EXAM" ? blueprint.topicIds : [blueprint.topicId];
   const existingId = existing?.id;
   const cost = quotaCost(blueprint.type);

@@ -58,6 +58,36 @@ def _question(kind: str, i: int, topic: str, level: str, codes: list[str]) -> di
     }
 
 
+def _saber(data: dict, questions: list[dict]) -> list[dict]:
+    """SPEC-0023: situación, competencia (en rueda) y, en Matemáticas, una recta numérica."""
+    if not data.get("estiloSaber"):
+        return questions
+    competencies = data["competencias"]
+    math = "matem" in data.get("asignatura", "").lower()
+    out = []
+    for i, q in enumerate(questions):
+        if q["type"] != "MULTIPLE_CHOICE":
+            out.append(q)
+            continue
+        extra = {
+            "context": (
+                "En la tienda del barrio, una familia anota en un cuaderno lo que pasa en la "
+                f"semana para resolver la situación {i + 1} con calma y en orden."
+            ),
+            "competency": competencies[i % len(competencies)],
+        }
+        if math and i == 0:
+            extra["figure"] = {
+                "kind": "NUMBER_LINE",
+                "min": -5,
+                "max": 5,
+                "step": 1,
+                "marks": [{"value": -3, "label": "A"}, {"value": 2, "label": "B"}],
+            }
+        out.append({**q, **extra})
+    return out
+
+
 def _quiz(data: dict) -> dict:
     topic = data["tema"]["titulo"]
     types = data["tiposPermitidos"]
@@ -65,10 +95,13 @@ def _quiz(data: dict) -> dict:
     return {
         "title": f"Quiz: {topic}",
         "instructions": "Lee cada pregunta con atención y responde en el espacio indicado.",
-        "questions": [
-            _question(types[i % len(types)], i, topic, level, _codes(data.get("dba", []), i))
-            for i, level in enumerate(levels)
-        ],
+        "questions": _saber(
+            data,
+            [
+                _question(types[i % len(types)], i, topic, level, _codes(data.get("dba", []), i))
+                for i, level in enumerate(levels)
+            ],
+        ),
     }
 
 
@@ -233,17 +266,20 @@ def _exam_section(data: dict) -> dict:
     order = [*data["temasObligatorios"], *topics]
     offset = section["numero"] * 100
     return {
-        "questions": [
-            _exam_question(
-                kind,
-                offset + i,
-                topics[order[i % len(order)]],
-                levels[i],
-                _codes(data.get("dba", []), i),
-                pts,
-            )
-            for i in range(count)
-        ]
+        "questions": _saber(
+            data,
+            [
+                _exam_question(
+                    kind,
+                    offset + i,
+                    topics[order[i % len(order)]],
+                    levels[i],
+                    _codes(data.get("dba", []), i),
+                    pts,
+                )
+                for i in range(count)
+            ],
+        )
     }
 
 

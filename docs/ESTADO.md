@@ -15,6 +15,15 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **SPEC-0023** — Preguntas tipo Saber (ICFES) con situación, figura y competencia
+  ([spec](specs/SPEC-0023-preguntas-tipo-saber-con-figuras.md), ADR-0018), implementada el 2026-11-20.
+  - Interruptor "Estilo Saber (ICFES)" en quiz y examen (Matemáticas y Lenguaje; se recuerda).
+  - Figuras dibujadas por código (recta, barras, tabla, fracción, rectángulo) en el editor, el PDF y el
+    Word (PNG con resvg y la Roboto de pdfmake).
+  - Pendiente: revisión docente del catálogo de competencias; contexto compartido entre preguntas.
+  - Siguen SPEC-0024 (planes de aula y rúbricas), SPEC-0025 (resultados → refuerzo) y SPEC-0026
+    (validación con docentes).
+
 - **SPEC-0022** — Verificar las respuestas de Matemáticas
   ([spec](specs/SPEC-0022-verificar-respuestas-de-matematicas.md), ADR-0017), implementada el 2026-11-20.
   Primera de las recomendaciones que el usuario pidió hacer ("hazlo lo que recomendaste"); siguen

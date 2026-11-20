@@ -16,6 +16,7 @@ import {
   WidthType,
   type IParagraphOptions,
 } from "docx";
+import { figurePng } from "./figure-png";
 import { LETTER, MARGIN_PT, type DocBlock, type DocModel } from "./model";
 
 // Renderizador DOCX (ADR-0009): texto real y editable, carta, márgenes de 2 cm. El texto del
@@ -107,6 +108,30 @@ function blocks(b: DocBlock): (Paragraph | Table)[] {
       );
     case "question":
       return [
+        // SPEC-0023: situación y figura (PNG, ADR-0018) antes del enunciado.
+        ...(b.context
+          ? [p(b.context, { spacing: { before: 160, after: 60 }, keepNext: true })]
+          : []),
+        ...(b.figure
+          ? [
+              new Paragraph({
+                keepNext: true,
+                spacing: { after: 60 },
+                children: [
+                  new ImageRun({
+                    type: "png",
+                    data: figurePng(b.figure.svg),
+                    transformation: {
+                      width: Math.min(b.figure.width * 0.8, 420),
+                      height:
+                        (Math.min(b.figure.width * 0.8, 420) * b.figure.height) / b.figure.width,
+                    },
+                    altText: { name: "Figura", description: b.figure.alt, title: "Figura" },
+                  }),
+                ],
+              }),
+            ]
+          : []),
         new Paragraph({
           spacing: { before: 160, after: 60 },
           keepNext: true,
