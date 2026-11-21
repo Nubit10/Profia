@@ -453,7 +453,7 @@ export function PlanningView({
                 </Button>
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  Esta asignatura no tiene DBA en el catálogo, así que ProfIA no puede proponer
+                  Esta asignatura no tiene DBA en el catálogo, así que Lucía no puede proponer
                   temas. Agrégalos a mano.
                 </p>
               )}

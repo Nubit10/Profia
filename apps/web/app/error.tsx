@@ -1,5 +1,6 @@
 "use client";
 
+import { HelpLink } from "@/components/support/help";
 import { Button } from "@/components/ui/button";
 
 // Error genérico: nunca muestra detalles internos ni stack traces al usuario.
@@ -9,6 +10,9 @@ export default function GlobalError({ reset }: { error: Error; reset: () => void
       <h1 className="text-2xl font-semibold">Algo salió mal</h1>
       <p className="text-muted-foreground">No pudimos cargar esta página. Intenta de nuevo.</p>
       <Button onClick={reset}>Reintentar</Button>
+      <HelpLink where="un error en ProfIA" className="min-h-11 text-sm">
+        ¿Sigue fallando? Escríbenos por WhatsApp
+      </HelpLink>
     </main>
   );
 }

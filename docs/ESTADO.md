@@ -22,6 +22,15 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **Ayuda por WhatsApp** (2026-11-21), pedido del usuario al estilo de CliqCut. Número de soporte
+  320 568 5222 en un solo lugar (`lib/support.ts`; `NEXT_PUBLIC_SUPPORT_WHATSAPP` lo cambia sin tocar
+  código), con mensaje inicial sin datos del docente. Burbuja verde abajo a la derecha con "¿Necesitas
+  ayuda?" al pasar el mouse en la página pública y en login, registro y contraseña
+  (`components/support/help.tsx`, token `--whatsapp`); en el área de trabajo, "¿Necesitas ayuda? ·
+  Escríbenos por WhatsApp" arriba de Instalar y Cerrar sesión (menú lateral y del celular); en la
+  página de error, "¿Sigue fallando? Escríbenos por WhatsApp". e2e `soporte.spec.ts`; capturas en
+  `design/capturas/soporte/`. El modo de pantalla de Ajustes se queda visible (decisión del usuario).
+
 - **Lucía, la IA de ProfIA, y frases más claras en la página pública** (2026-11-21), aprobado por el usuario.
   - Página pública: título "Prepara tus clases en minutos, alineadas con los DBA y el DUA."; "Le cuentas a
     Lucía, la IA de ProfIA, qué vas a enseñar…"; "Gratis y sin tarjeta de crédito · Funciona en el celular ·

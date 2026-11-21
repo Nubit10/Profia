@@ -22,6 +22,7 @@
   --color-surface: var(--surface);
   --color-surface-warm: var(--surface-warm);
   --color-success: var(--success);
+  --color-whatsapp: var(--whatsapp);
   --color-success-soft: var(--success-soft);
   --color-warning: var(--warning);
   --color-warning-soft: var(--warning-soft);
@@ -110,6 +111,8 @@
   --surface-warm: #fff6f1;
 
   --success: #047857;
+  /* Botón de ayuda por WhatsApp: verde de WhatsApp oscurecido para que el ícono blanco contraste. */
+  --whatsapp: #168a43;
   --success-soft: #e7f7ef;
   --warning: #b45309;
   --warning-soft: #fdf3e2;

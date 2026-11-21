@@ -9,6 +9,7 @@ import {
 } from "react-icons/hi2";
 import { ProfiaLogo } from "@/components/brand/profia-logo";
 import { AiFlow } from "@/components/landing/ai-flow";
+import { HelpBubble } from "@/components/support/help";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -549,6 +550,7 @@ export default function HomePage() {
           </p>
         </div>
       </footer>
+      <HelpBubble />
     </div>
   );
 }

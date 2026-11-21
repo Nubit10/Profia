@@ -1,5 +1,6 @@
 "use client";
 
+import { FaWhatsapp } from "react-icons/fa";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, useTransition, type ReactNode } from "react";
@@ -16,6 +17,7 @@ import {
 import type { ActionResult } from "@/lib/action-result";
 import { useBodyScrollLock } from "@/lib/scroll-lock";
 import { useBackToClose } from "@/lib/use-back-to-close";
+import { supportWhatsAppUrl } from "@/lib/support";
 import { cn } from "@/lib/utils";
 import { disablePush } from "@/components/notifications/push-device";
 import { wipeOffline } from "@/components/offline/offline-store";
@@ -212,7 +214,21 @@ export function AppShell(props: Props) {
 
       <div className="px-3 pb-3">
         <div className="overflow-hidden rounded-xl border border-border bg-card shadow-soft">
-          {/* En esta tarjeta solo quedan instalar y salir; lo demás vive en Ajustes. */}
+          {/* En esta tarjeta quedan ayuda, instalar y salir; lo demás vive en Ajustes. */}
+          <a
+            href={supportWhatsAppUrl("ProfIA")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-semibold text-sidebar-foreground transition hover:bg-brand-softer hover:text-brand-strong"
+          >
+            <FaWhatsapp className="size-[18px] shrink-0 text-whatsapp" aria-hidden />
+            <span className="flex min-w-0 flex-col">
+              ¿Necesitas ayuda?
+              <span className="text-xs font-normal text-muted-foreground">
+                Escríbenos por WhatsApp
+              </span>
+            </span>
+          </a>
           <InstallApp
             className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-semibold text-sidebar-foreground transition hover:bg-brand-softer hover:text-brand-strong"
             onDone={closeSidebar}

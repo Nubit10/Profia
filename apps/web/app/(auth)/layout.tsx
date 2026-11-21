@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { HiCheck } from "react-icons/hi2";
 import { ProfiaLogo } from "@/components/brand/profia-logo";
+import { HelpBubble } from "@/components/support/help";
 
 /**
  * Ingreso, registro y recuperar contraseña: el formulario sin tarjeta sobre un fondo liso y, en el
@@ -9,7 +10,7 @@ import { ProfiaLogo } from "@/components/brand/profia-logo";
 export default function AuthLayout({ children }: LayoutProps<"/">) {
   return (
     <main className="grid flex-1 lg:grid-cols-2">
-      <div className="flex min-h-dvh flex-col bg-brand-softer px-6 py-6 sm:px-10 sm:py-8">
+      <div className="flex min-h-dvh flex-col bg-brand-softer px-6 pt-6 pb-24 sm:px-10 sm:pt-8 lg:pb-8">
         <Link href="/" aria-label="ProfIA, inicio" className="self-start">
           <ProfiaLogo size={32} />
         </Link>
@@ -41,6 +42,7 @@ export default function AuthLayout({ children }: LayoutProps<"/">) {
           </div>
         </div>
       </aside>
+      <HelpBubble where="el ingreso a ProfIA" />
     </main>
   );
 }
