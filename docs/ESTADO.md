@@ -5,6 +5,12 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## En curso
 
+- **SPEC-0036** — DBA y Estándares de Ciencias Naturales y Ciencias Sociales
+  ([spec](specs/SPEC-0036-dba-y-estandares-de-ciencias.md)). Estado: **Borrador**, esperando que el
+  usuario responda 4 preguntas (cómo guardar los Estándares, asignaturas de 10°–11°, si entra Inglés,
+  quién revisa la muestra) y la apruebe. Mismo proceso de SPEC-0004; sin ADR nuevo salvo que la
+  pregunta 1 lo exija. Para el piloto: docentes de Matemáticas, Lenguaje y Transición.
+
 - **Siguiente (para entregar a los primeros docentes):** configurar el correo de producción
   (`SMTP_URL`, `MAIL_FROM`, `APP_URL`; ver `deploy/README.md`) y probar que no cae en spam; decidir las
   recomendaciones del [informe de la contraseña](usabilidad/2026-11-21-recuperar-contrasena.md); política
