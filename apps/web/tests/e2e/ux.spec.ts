@@ -126,7 +126,7 @@ async function expectNoHorizontalScroll(page: Page, path: string) {
 test("CA-0012-01/02: la landing presenta ProfIA sin prueba social inventada", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("navigation", { name: "Secciones" })).toBeAttached();
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("IA para docentes");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Prepara tus clases en minutos");
   await expect(page.getByRole("link", { name: /Empieza gratis/ })).toHaveAttribute(
     "href",
     "/register",
