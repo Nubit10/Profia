@@ -6,8 +6,8 @@ def test_ca_0005_01_indexa_un_punto_por_item_con_metadatos(indexed, catalog, set
     client, _, count = indexed
     items, version = catalog
     # Matemáticas, Lenguaje, Transición, Ciencias Naturales y Sociales (DBA y Estándares, SPEC-0036)
-    assert count == len(items) == 951
-    points, _ = client.scroll(settings.collection, limit=2000, with_payload=True)
+    assert count == len(items) == 1518
+    points, _ = client.scroll(settings.collection, limit=3000, with_payload=True)
     codes = {p.payload["code"] for p in points}
     assert codes == {i.code for i in items}
     sample = next(p.payload for p in points if p.payload["code"] == "MEN-DBA-MAT-V2-G6-01")
@@ -21,7 +21,13 @@ def test_ca_0005_02_los_filtros_se_aplican_antes_del_ranking(indexed, settings):
     client, provider, _ = indexed
     for area, grade in [("MATEMATICAS", "G6"), ("LENGUAJE", "G3"), ("TRANSICION", "TRANSICION")]:
         hits = search_curriculum(
-            client, provider, settings.collection, "lectura números textos", area=area, grade=grade
+            client,
+            provider,
+            settings.collection,
+            "lectura números textos",
+            area=area,
+            grade=grade,
+            types=["DBA"],
         )
         assert hits, (area, grade)
         prefix = {"MATEMATICAS": "MEN-DBA-MAT", "LENGUAJE": "MEN-DBA-LEN"}.get(area, "MEN-DBA-TRA")

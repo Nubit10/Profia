@@ -32,11 +32,15 @@ const itemSchema = z
     number: z.number().int().positive(),
     component: z.string().trim().min(1).nullable().optional(),
     statement: text,
-    evidences: z.array(text).min(1),
+    // Un DBA trae sus evidencias; un estándar puede no traer lista (Matemáticas, SPEC-0037).
+    evidences: z.array(text),
     page: z.number().int().positive(),
   })
   .refine((i) => (i.type === "DBA" ? !!i.grade : !!i.gradeFrom && !!i.gradeTo), {
     message: "Un DBA lleva `grade`; un estándar lleva `gradeFrom` y `gradeTo`",
+  })
+  .refine((i) => i.type !== "DBA" || i.evidences.length > 0, {
+    message: "Un DBA lleva al menos una evidencia",
   });
 
 export const curriculumFileSchema = z

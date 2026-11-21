@@ -21,12 +21,13 @@ Cualquier cambio que rompa este contrato es una versión nueva (`/v2/...`) y se 
 { "query": "fracciones con material concreto", "area": "MATEMATICAS", "grade": "G5", "limit": 8 }
 ```
 
-| Campo   | Tipo                                           | Reglas                                                             |
-| ------- | ---------------------------------------------- | ------------------------------------------------------------------ |
-| `query` | string                                         | 3–300 caracteres. Es texto de búsqueda, nunca instrucción.         |
-| `area`  | string, opcional                               | Id de área curricular (`MATEMATICAS`, `LENGUAJE`, `TRANSICION`, …) |
-| `grade` | `JARDIN` · `TRANSICION` · `G1`…`G11`, opcional | Se filtra antes del ranking.                                       |
-| `limit` | entero, opcional                               | 1–20 (por defecto 8).                                              |
+| Campo   | Tipo                                           | Reglas                                                                                                                        |
+| ------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `query` | string                                         | 3–300 caracteres. Es texto de búsqueda, nunca instrucción.                                                                    |
+| `area`  | string, opcional                               | Id de área curricular (`MATEMATICAS`, `LENGUAJE`, `TRANSICION`, …)                                                            |
+| `grade` | `JARDIN` · `TRANSICION` · `G1`…`G11`, opcional | Se filtra antes del ranking.                                                                                                  |
+| `limit` | entero, opcional                               | 1–20 (por defecto 8).                                                                                                         |
+| `types` | lista de `DBA` · `STANDARD`, opcional          | Solo esos tipos (SPEC-0037, aditivo). Sin él, DBA y Estándares. Al sugerir DBA para un objetivo, el producto envía `["DBA"]`. |
 
 No se envían datos personales: ni nombre, ni correo, ni institución.
 

@@ -39,7 +39,22 @@ GROUPS = {
     "Octavo a noveno": ("G8", "G9"),
     "Décimo a undécimo": ("G10", "G11"),
 }
-AREA_TITLE = {"CIENCIAS_NATURALES": "Ciencias Naturales", "CIENCIAS_SOCIALES": "Ciencias Sociales"}
+AREA_TITLE = {
+    "CIENCIAS_NATURALES": "Estándares Básicos de Competencias en Ciencias Naturales",
+    "CIENCIAS_SOCIALES": "Estándares Básicos de Competencias en Ciencias Sociales",
+    "MATEMATICAS": "Estándares Básicos de Competencias en Matemáticas",
+    "LENGUAJE": "Estándares Básicos de Competencias del Lenguaje",
+}
+# Cómo está armada cada área (SPEC-0037):
+# - ciencias: estándares generales arriba + columnas de acciones (págs. 122-141);
+# - matemáticas: una columna por pensamiento; cada viñeta ya es un estándar (págs. 80-89);
+# - lenguaje: cada columna trae su estándar («Produzco textos…») y, después de «Para lo cual,»,
+#   los subprocesos en viñetas (págs. 32-41).
+KIND = {"CIENCIAS_NATURALES": "ciencias", "CIENCIAS_SOCIALES": "ciencias", "MATEMATICAS": "matematicas", "LENGUAJE": "lenguaje"}
+FLAT_HEADERS_BAND = (168, 226)  # títulos de columna en Matemáticas y Lenguaje
+FLAT_BODY_TOP = {"matematicas": 230, "lenguaje": 335}
+LENGUAJE_STATEMENT_BAND = (216, 322)
+STATEMENT_HEIGHT = (7.5, 10.0)  # en 8°-9° los recuadros usan letra de 8,3 pt
 BODY_HEIGHT = (8.5, 10.0)  # texto de estándares y viñetas (9,2 pt)
 HEADER_HEIGHT = (10.0, 11.5)  # títulos de columna (10,8 pt)
 STANDARDS_BAND = (150, 222)  # y de los recuadros de estándares generales
@@ -56,6 +71,8 @@ def clean(text: str) -> str:
     text = re.sub(r"ﬁ\s+(?=[a-záéíóúñ])", "fi", text).replace("ﬁ", "fi")
     text = re.sub(r"ﬂ\s+(?=[a-záéíóúñ])", "fl", text).replace("ﬂ", "fl")
     text = re.sub(r"\s+", " ", text.replace("­", "")).strip()
+    # Ligadura partida con guion al final de la línea: «fi - guras».
+    text = re.sub(r"(fi|fl) - (?=[a-záéíóúñ])", r"\1", text)
     # En los títulos la ligadura sale como «fi» suelto: «científi co(a)».
     text = re.sub(r"(\w)(fi|fl) (?=[a-záéíóúñ])", r"\1\2", text)
     # Guion de fin de línea antes de mayúscula: es un compuesto («Europa-América- África»).
@@ -123,7 +140,10 @@ def within(h, band):
 def extract(pdf: str, area: str):
     all_pages = list(pages(pdf))
     by_index = {index: (width, words) for index, width, words in all_pages}
-    title = f"Estándares Básicos de Competencias en {AREA_TITLE[area]}"
+    title = AREA_TITLE[area]
+    kind_of_area = KIND[area]
+    headers_band = HEADERS_BAND if kind_of_area == "ciencias" else FLAT_HEADERS_BAND
+    body_top = BODY_TOP if kind_of_area == "ciencias" else FLAT_BODY_TOP[kind_of_area]
     spreads = []
     for index, width, words in all_pages:
         text = " ".join(w["text"] for w in words if w["y"] < 130)
@@ -140,10 +160,23 @@ def extract(pdf: str, area: str):
             {**w, "x": w["x"] + width, "x2": w["x2"] + width} for w in by_index[first + 1][1]
         ]
         lines = lines_of(words)
+        # Lenguaje: el cuerpo empieza en «Para lo cual,» (más arriba en primaria, donde los
+        # recuadros de los estándares son más cortos).
+        spread_body_top = body_top
+        statement_band = LENGUAJE_STATEMENT_BAND
+        if kind_of_area == "lenguaje":
+            para = [l["y"] for l in lines if l["text"].startswith("Para lo cual")]
+            if para:
+                spread_body_top = min(para) + 5
+                statement_band = (LENGUAJE_STATEMENT_BAND[0], min(para) - 2)
 
         # 1. Estándares generales: recuadros arriba, uno por columna de texto.
         std_lines = [
-            l for l in lines if within(l["h"], BODY_HEIGHT) and STANDARDS_BAND[0] <= l["y"] <= STANDARDS_BAND[1]
+            l
+            for l in lines
+            if kind_of_area == "ciencias"
+            and within(l["h"], BODY_HEIGHT)
+            and STANDARDS_BAND[0] <= l["y"] <= STANDARDS_BAND[1]
         ]
         boxes: list[list[dict]] = []
         for l in sorted(std_lines, key=lambda l: (l["x"], l["y"])):
@@ -159,7 +192,7 @@ def extract(pdf: str, area: str):
                 standards.append(text)
 
         # 2. Columnas: por la x de las viñetas.
-        bullets = [l for l in lines if l["text"].startswith("•") and l["y"] >= BODY_TOP]
+        bullets = [l for l in lines if l["text"].startswith("•") and l["y"] >= spread_body_top]
         xs = sorted({round(l["x"]) for l in bullets})
         starts: list[float] = []
         for x in xs:
@@ -168,14 +201,14 @@ def extract(pdf: str, area: str):
         columns = []
         for i, start in enumerate(starts):
             end = starts[i + 1] - 20 if i + 1 < len(starts) else float("inf")
-            columns.append({"start": start - 20, "end": end, "header": [], "items": []})
+            columns.append({"start": start - 20, "end": end, "header": [], "items": [], "statement": []})
 
         def column_of(x):
             return next((c for c in columns if c["start"] <= x < c["end"]), None)
 
         # 3. Títulos de columna (centrados en su recuadro).
         for l in lines:
-            if within(l["h"], HEADER_HEIGHT) and HEADERS_BAND[0] <= l["y"] <= HEADERS_BAND[1]:
+            if within(l["h"], HEADER_HEIGHT) and headers_band[0] <= l["y"] <= headers_band[1]:
                 if l["text"].startswith("…manejo") or l["text"].startswith("propios de"):
                     continue
                 center = (l["x"] + l["x2"]) / 2
@@ -184,7 +217,17 @@ def extract(pdf: str, area: str):
                     column["header"].append(l)
 
         # 4. Viñetas y sus continuaciones, por columna y de arriba abajo.
-        body = [l for l in lines if within(l["h"], BODY_HEIGHT) and l["y"] >= BODY_TOP]
+        # Lenguaje: el estándar de cada columna va en su recuadro, antes de «Para lo cual,».
+        if kind_of_area == "lenguaje":
+            for l in sorted(lines, key=lambda l: l["y"]):
+                if within(l["h"], STATEMENT_HEIGHT) and statement_band[0] <= l["y"] <= statement_band[1]:
+                    column = column_of(l["x"])
+                    if column is not None and not l["text"].startswith("Para lo cual"):
+                        column["statement"].append(l["text"])
+
+        body = [l for l in lines if within(l["h"], BODY_HEIGHT) and l["y"] >= spread_body_top]
+        notes_from = min((l["y"] for l in body if l["text"].startswith("Nota")), default=float("inf"))
+        body = [l for l in body if l["y"] < notes_from]  # las notas al pie de la página no son viñetas
         for l in sorted(body, key=lambda l: l["y"]):
             column = column_of(l["x"])
             if column is None:
@@ -193,6 +236,63 @@ def extract(pdf: str, area: str):
                 column["items"].append({"text": l["text"].lstrip("•").strip(), "page": l["page"]})
             elif column["items"]:
                 column["items"][-1]["text"] += " " + l["text"]
+
+        if kind_of_area != "ciencias":
+            # Los títulos pueden ir en dos líneas y abarcar dos columnas («PRODUCCIÓN TEXTUAL»):
+            # se agrupan en recuadros y una columna sin título toma el del recuadro más cercano.
+            header_lines = [
+                l
+                for l in lines
+                if within(l["h"], HEADER_HEIGHT) and headers_band[0] <= l["y"] <= headers_band[1]
+            ]
+            boxes_h: list[list[dict]] = []
+            for l in sorted(header_lines, key=lambda l: l["y"]):
+                center = (l["x"] + l["x2"]) / 2
+                box = next(
+                    (
+                        b
+                        for b in boxes_h
+                        if abs((b[-1]["x"] + b[-1]["x2"]) / 2 - center) < 40 and l["y"] - b[-1]["y"] < 20
+                    ),
+                    None,
+                )
+                (box.append(l) if box is not None else boxes_h.append([l]))
+            centers = [
+                (sum((l["x"] + l["x2"]) / 2 for l in b) / len(b), " ".join(l["text"] for l in b)) for b in boxes_h
+            ]
+            for column in columns:
+                column["header"] = []
+            for center, text in centers:
+                column = column_of(center)
+                if column is not None:
+                    column["header"].append({"text": text, "y": 0})
+            for i, column in enumerate(columns):
+                if not column["header"] and centers:
+                    middle = (
+                        column["start"] + 20 + (columns[i + 1]["start"] if i + 1 < len(columns) else column["start"] + 140)
+                    ) / 2
+                    nearest = min(centers, key=lambda c: abs(c[0] - middle))
+                    column["header"] = [{"text": nearest[1], "y": 0}]
+
+            area_name = "matemáticas" if kind_of_area == "matematicas" else "lenguaje"
+            flat = []
+            for column in columns:
+                header = clean(" ".join(l["text"] for l in sorted(column["header"], key=lambda l: l["y"])))
+                label = header[:1].upper() + header[1:].lower() if header.isupper() else header
+                statement = clean(" ".join(column["statement"]))
+                flat.append(
+                    {
+                        "kind": area_name,
+                        "label": label,
+                        # Lenguaje: el estándar de la columna; Matemáticas: cada viñeta ya es el estándar.
+                        "evidences": [statement] if statement else [],
+                        "items": [{"text": clean(i["text"]), "page": i["page"]} for i in column["items"]],
+                    }
+                )
+            results.append(
+                {"group": group, "grades": GROUPS[group], "page": first, "standards": [], "paired": True, "columns": flat}
+            )
+            continue
 
         science = "ciencias sociales" if area == "CIENCIAS_SOCIALES" else "ciencias naturales"
         labeled = []

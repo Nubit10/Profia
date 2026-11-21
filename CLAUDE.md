@@ -9,7 +9,7 @@ Plataforma de gestión y producción pedagógica asistida por IA para docentes e
 ## Estado actual
 
 - Fase del roadmap: **2 — Identity** completada (SPEC-0002, SPEC-0003). Docentes independientes y colegios con sedes e invitaciones; "Mis cursos".
-- Fase 3 — Curriculum: SPEC-0004 implementada (catálogo DBA Matemáticas, Lenguaje y Transición, pendiente de revisión docente); SPEC-0036 implementada (DBA y Estándares de Ciencias Naturales y Sociales; herramientas `extract_dba_columns.py`, `extract_ebc.py`, `verify_columns.py`; Inglés pendiente); SPEC-0005 implementada (AI Engine con búsqueda híbrida; reranker desactivado por licencias).
+- Fase 3 — Curriculum: SPEC-0004 implementada (catálogo DBA Matemáticas, Lenguaje y Transición, pendiente de revisión docente); SPEC-0036 implementada (DBA y Estándares de Ciencias Naturales y Sociales; herramientas `extract_dba_columns.py`, `extract_ebc.py`, `verify_columns.py`); SPEC-0037 implementada (Estándares de Matemáticas, Lenguaje e Inglés Guía 22; la búsqueda filtra por tipo; faltan los DBA de Inglés 6°-11°, sin PDF oficial publicado); SPEC-0005 implementada (AI Engine con búsqueda híbrida; reranker desactivado por licencias).
 - Fase 4 — Planning: SPEC-0006 implementada (planeación por curso con objetivos vinculados a DBA).
 - Fase 5 — AI Engine: SPEC-0007 implementada (generación estructurada; "Sugerir objetivos con IA"). Cadena de LLM: Groq gratis → Ollama local (ADR-0007, etapas de costo); clave en `apps/ai-engine/.env`.
 - Fase 6 — Generation: SPEC-0008 implementada (talleres y quices con IA en segundo plano, edición con versiones, regeneración de un ítem, evaluación docente y preferencias). Faltan en la fase: planes de aula y otros tipos de recurso.

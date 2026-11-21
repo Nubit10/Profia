@@ -34,7 +34,7 @@ def build_index(
         },
         sparse_vectors_config={SPARSE: models.SparseVectorParams(modifier=models.Modifier.IDF)},
     )
-    for field in ("area", "grades"):
+    for field in ("area", "grades", "type"):
         client.create_payload_index(collection, field, models.PayloadSchemaType.KEYWORD)
 
     for start in range(0, len(items), BATCH):
@@ -55,6 +55,7 @@ def build_index(
                         "code": item.code,
                         "area": item.area,
                         "grades": list(item.grades),
+                        "type": item.type,
                         "source_key": item.source_key,
                         "text": item.text,
                         "catalog_version": catalog_version,

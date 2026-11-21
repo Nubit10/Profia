@@ -87,7 +87,10 @@ export type PlanningActions = {
   /** SPEC-0014 RN-07: crear un recurso con un toque, con los valores recomendados. */
   quickCreate: A<QuickResourceRequest, { id: string }>;
   /** SPEC-0013 RN-04: búsqueda curricular para sugerir DBA al escribir un objetivo. */
-  searchCurriculum: A<{ courseId: string; query: string }, CurriculumSearchResult>;
+  searchCurriculum: A<
+    { courseId: string; query: string; types?: ("DBA" | "STANDARD")[] },
+    CurriculumSearchResult
+  >;
   copy: A<
     { fromCourseId: string; toCourseId: string },
     { units: number; topics: number; objectives: number }
@@ -909,6 +912,7 @@ export function PlanningView({
                   const result = await actions.searchCurriculum({
                     courseId: planning.course.id,
                     query,
+                    types: ["DBA"],
                   });
                   if (!result.ok || result.data?.status !== "ok") return null;
                   return result.data.references.filter((r) => r.type === "DBA").map((r) => r.code);

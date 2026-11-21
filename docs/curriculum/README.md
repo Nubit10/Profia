@@ -2,15 +2,21 @@
 
 Fuentes oficiales del MEN cargadas en ProfIA (ADR-0005, SPEC-0004).
 
-| Fuente                                                          | Ítems        | Estado de revisión            |
-| --------------------------------------------------------------- | ------------ | ----------------------------- |
-| DBA Matemáticas V.2 (2016)                                      | 119          | Pendiente de revisión docente |
-| DBA Lenguaje V.2 (2016)                                         | 88           | Pendiente de revisión docente |
-| DBA Transición V.1 (2016)                                       | 16           | Pendiente de revisión docente |
-| DBA Ciencias Naturales V.1 (2016)                               | 54           | Pendiente de revisión docente |
-| DBA Ciencias Sociales V.1 (2016)                                | 82           | Pendiente de revisión docente |
-| Estándares Básicos de Competencias en Ciencias Naturales (2006) | 342 acciones | Pendiente de revisión docente |
-| Estándares Básicos de Competencias en Ciencias Sociales (2006)  | 250 acciones | Pendiente de revisión docente |
+| Fuente                                                          | Ítems           | Estado de revisión            |
+| --------------------------------------------------------------- | --------------- | ----------------------------- |
+| DBA Matemáticas V.2 (2016)                                      | 119             | Pendiente de revisión docente |
+| DBA Lenguaje V.2 (2016)                                         | 88              | Pendiente de revisión docente |
+| DBA Transición V.1 (2016)                                       | 16              | Pendiente de revisión docente |
+| DBA Ciencias Naturales V.1 (2016)                               | 54              | Pendiente de revisión docente |
+| DBA Ciencias Sociales V.1 (2016)                                | 82              | Pendiente de revisión docente |
+| Estándares Básicos de Competencias en Ciencias Naturales (2006) | 342 acciones    | Pendiente de revisión docente |
+| Estándares Básicos de Competencias en Ciencias Sociales (2006)  | 250 acciones    | Pendiente de revisión docente |
+| Estándares Básicos de Competencias en Matemáticas (2006)        | 172             | Pendiente de revisión docente |
+| Estándares Básicos de Competencias del Lenguaje (2006)          | 177 subprocesos | Pendiente de revisión docente |
+| Estándares de Inglés, Guía 22 (2006), 1.° a 5.°                 | 91              | Pendiente de revisión docente |
+| Estándares de Inglés, Guía 22 (2006), 6.° a 11.°                | 127             | Pendiente de revisión docente |
+
+DBA de Inglés de 6.° a 11.°: pendientes, el PDF oficial no está publicado en los sitios del MEN (SPEC-0037).
 
 Los Estándares (SPEC-0036) se guardan como una acción de pensamiento por ítem: el componente es su
 columna y la lista que lo acompaña es el estándar general del grupo de grados al que apunta.

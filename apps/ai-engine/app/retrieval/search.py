@@ -16,8 +16,12 @@ class Hit:
     score: float
 
 
-def _filter(area: str | None, grade: str | None) -> models.Filter | None:
+def _filter(
+    area: str | None, grade: str | None, types: list[str] | None = None
+) -> models.Filter | None:
     must: list[models.Condition] = []
+    if types:
+        must.append(models.FieldCondition(key="type", match=models.MatchAny(any=types)))
     if area:
         must.append(models.FieldCondition(key="area", match=models.MatchValue(value=area)))
     if grade:
@@ -34,9 +38,10 @@ def search_curriculum(
     area: str | None = None,
     grade: str | None = None,
     limit: int = 8,
+    types: list[str] | None = None,
 ) -> list[Hit]:
     """La consulta es solo texto de búsqueda: nunca se interpreta como instrucción (RN-04)."""
-    flt = _filter(area, grade)
+    flt = _filter(area, grade, types)
     dense = provider.embed([query], "query")[0]
     sparse = provider.embed_sparse([query], "query")[0]
     pool = max(CANDIDATES_PER_RETRIEVER, limit * 4)

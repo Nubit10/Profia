@@ -1,0 +1,2451 @@
+{
+  "source": {
+    "key": "MEN-EBC-LEN-V1",
+    "issuer": "Ministerio de Educación Nacional (MEN)",
+    "title": "Estándares Básicos de Competencias del Lenguaje",
+    "documentType": "STANDARD",
+    "area": "LENGUAJE",
+    "version": "V.1",
+    "year": 2006,
+    "isbn": "958-691-290-6",
+    "url": "https://www.mineducacion.gov.co/1621/articles-340021_recurso_1.pdf",
+    "landingUrl": "https://www.mineducacion.gov.co/portal/men/Publicaciones/Guias/340021:Estandares-Basicos-de-Competencias-en-Lenguaje-Matematicas-Ciencias-y-Ciudadanas",
+    "sha256": "163b9f20b568e1cf3ba1178da6dba07a8ec09cd08043175e4308affdc40e8703",
+    "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es un estándar; en Lenguaje lo acompaña el estándar de su columna, y en Inglés, las competencias que desarrolla."
+  },
+  "review": {
+    "status": "PENDING",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "method": "Extracción automática del PDF oficial + correcciones documentadas; pendiente revisión humana de una muestra.",
+    "pendingFixes": []
+  },
+  "items": [
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-01",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 1,
+      "component": "Producción textual",
+      "statement": "Utilizo, de acuerdo con el contexto, un vocabulario adecuado para expresar mis ideas.",
+      "evidences": ["Produzco textos orales que responden a distintos propósitos comunicativos."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-02",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 2,
+      "component": "Producción textual",
+      "statement": "Expreso en forma clara mis ideas y sentimientos, según lo amerite la situación comunicativa.",
+      "evidences": ["Produzco textos orales que responden a distintos propósitos comunicativos."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-03",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 3,
+      "component": "Producción textual",
+      "statement": "Utilizo la entonación y los matices afectivos de voz para alcanzar mi propósito en diferentes situaciones comunicativas.",
+      "evidences": ["Produzco textos orales que responden a distintos propósitos comunicativos."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-04",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 4,
+      "component": "Producción textual",
+      "statement": "Tengo en cuenta aspectos semánticos y morfosintácticos, de acuerdo con la situación comunicativa en la que intervengo.",
+      "evidences": ["Produzco textos orales que responden a distintos propósitos comunicativos."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-05",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 5,
+      "component": "Producción textual",
+      "statement": "Describo personas, objetos, lugares, etc., en forma detallada.",
+      "evidences": ["Produzco textos orales que responden a distintos propósitos comunicativos."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-06",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 6,
+      "component": "Producción textual",
+      "statement": "Describo eventos de manera secuencial.",
+      "evidences": ["Produzco textos orales que responden a distintos propósitos comunicativos."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-07",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 7,
+      "component": "Producción textual",
+      "statement": "Elaboro instrucciones que evidencian secuencias lógicas en la realización de acciones.",
+      "evidences": ["Produzco textos orales que responden a distintos propósitos comunicativos."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-08",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 8,
+      "component": "Producción textual",
+      "statement": "Expongo y defiendo mis ideas en función de la situación comunicativa.",
+      "evidences": ["Produzco textos orales que responden a distintos propósitos comunicativos."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-09",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 9,
+      "component": "Producción textual",
+      "statement": "Determino el tema, el posible lector de mi texto y el propósito comunicativo que me lleva a producirlo.",
+      "evidences": ["Produzco textos escritos que responden a diversas necesidades comunicativas."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-10",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 10,
+      "component": "Producción textual",
+      "statement": "Elijo el tipo de texto que requiere mi propósito comunicativo.",
+      "evidences": ["Produzco textos escritos que responden a diversas necesidades comunicativas."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-11",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 11,
+      "component": "Producción textual",
+      "statement": "Busco información en distintas fuentes: personas, medios de comunicación y libros, entre otras.",
+      "evidences": ["Produzco textos escritos que responden a diversas necesidades comunicativas."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-12",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 12,
+      "component": "Producción textual",
+      "statement": "Elaboro un plan para organizar mis ideas.",
+      "evidences": ["Produzco textos escritos que responden a diversas necesidades comunicativas."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-13",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 13,
+      "component": "Producción textual",
+      "statement": "Desarrollo un plan textual para la producción de un texto descriptivo.",
+      "evidences": ["Produzco textos escritos que responden a diversas necesidades comunicativas."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-14",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 14,
+      "component": "Producción textual",
+      "statement": "Reviso, socializo y corrijo mis escritos, teniendo en cuenta las propuestas de mis compañeros y profesor, y atendiendo algunos aspectos gramaticales (concordancia, tiempos verbales, pronombres) y ortográficos (acentuación, mayúsculas, signos de puntuación) de la lengua castellana.",
+      "evidences": ["Produzco textos escritos que responden a diversas necesidades comunicativas."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-15",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 15,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Leo diferentes clases de textos: manuales, tarjetas, afiches, cartas, periódicos, etc.",
+      "evidences": ["Comprendo textos que tienen diferentes formatos y finalidades."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-16",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 16,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Reconozco la función social de los diversos tipos de textos que leo.",
+      "evidences": ["Comprendo textos que tienen diferentes formatos y finalidades."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-17",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 17,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Identifico la silueta o el formato de los textos que leo.",
+      "evidences": ["Comprendo textos que tienen diferentes formatos y finalidades."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-18",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 18,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Elaboro hipótesis acerca del sentido global de los textos, antes y durante el proceso de lectura; para el efecto, me apoyo en mis conocimientos previos, las imágenes y los títulos.",
+      "evidences": ["Comprendo textos que tienen diferentes formatos y finalidades."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-19",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 19,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Identifico el propósito comunicativo y la idea global de un texto.",
+      "evidences": ["Comprendo textos que tienen diferentes formatos y finalidades."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-20",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 20,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Elaboro resúmenes y esquemas que dan cuenta del sentido de un texto.",
+      "evidences": ["Comprendo textos que tienen diferentes formatos y finalidades."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-21",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 21,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Comparo textos de acuerdo con sus formatos, temáticas y funciones.",
+      "evidences": ["Comprendo textos que tienen diferentes formatos y finalidades."],
+      "page": 32
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-22",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 22,
+      "component": "Literatura",
+      "statement": "Leo fábulas, cuentos, poemas, relatos mitológicos, leyendas, o cualquier otro texto literario.",
+      "evidences": [
+        "Comprendo textos literarios para propiciar el desarrollo de mi capacidad creativa y lúdica."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-23",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 23,
+      "component": "Literatura",
+      "statement": "Elaboro y socializo hipótesis predictivas acerca del contenido de los textos.",
+      "evidences": [
+        "Comprendo textos literarios para propiciar el desarrollo de mi capacidad creativa y lúdica."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-24",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 24,
+      "component": "Literatura",
+      "statement": "Identifico maneras de cómo se formula el inicio y el final de algunas narraciones.",
+      "evidences": [
+        "Comprendo textos literarios para propiciar el desarrollo de mi capacidad creativa y lúdica."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-25",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 25,
+      "component": "Literatura",
+      "statement": "Diferencio poemas, cuentos y obras de teatro.",
+      "evidences": [
+        "Comprendo textos literarios para propiciar el desarrollo de mi capacidad creativa y lúdica."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-26",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 26,
+      "component": "Literatura",
+      "statement": "Recreo relatos y cuentos cambiando personajes, ambientes, hechos y épocas.",
+      "evidences": [
+        "Comprendo textos literarios para propiciar el desarrollo de mi capacidad creativa y lúdica."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-27",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 27,
+      "component": "Literatura",
+      "statement": "Participo en la elaboración de guiones para teatro de títeres.",
+      "evidences": [
+        "Comprendo textos literarios para propiciar el desarrollo de mi capacidad creativa y lúdica."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-28",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 28,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Identifico los diversos medios de comunicación masiva con los que interactúo.",
+      "evidences": [
+        "Reconozco los medios de comunicación masiva y caracterizo la información que difunden."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-29",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 29,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Caracterizo algunos medios de comunicación: radio, televisión, prensa, entre otros.",
+      "evidences": [
+        "Reconozco los medios de comunicación masiva y caracterizo la información que difunden."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-30",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 30,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Comento mis programas favoritos de televisión o radio.",
+      "evidences": [
+        "Reconozco los medios de comunicación masiva y caracterizo la información que difunden."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-31",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 31,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Identifico la información que emiten los medios de comunicación masiva y la forma de presentarla.",
+      "evidences": [
+        "Reconozco los medios de comunicación masiva y caracterizo la información que difunden."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-32",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 32,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Establezco diferencias y semejanzas entre noticieros, telenovelas, anuncios comerciales, dibujos animados, caricaturas, entre otros.",
+      "evidences": [
+        "Reconozco los medios de comunicación masiva y caracterizo la información que difunden."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-33",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 33,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Utilizo los medios de comunicación masiva para adquirir información e incorporarla de manera significativa a mis esquemas de conocimiento.",
+      "evidences": [
+        "Reconozco los medios de comunicación masiva y caracterizo la información que difunden."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-34",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 34,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Entiendo el lenguaje empleado en historietas y otros tipos de textos con imágenes fijas.",
+      "evidences": [
+        "Comprendo la información que circula a través de algunos sistemas de comunicación no verbal."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-35",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 35,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Expongo oralmente lo que me dicen mensajes cifrados en pictogramas, jeroglíficos, etc.",
+      "evidences": [
+        "Comprendo la información que circula a través de algunos sistemas de comunicación no verbal."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-36",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 36,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Reconozco la temática de caricaturas, tiras cómicas, historietas, anuncios publicitarios y otros medios de expresión gráfica.",
+      "evidences": [
+        "Comprendo la información que circula a través de algunos sistemas de comunicación no verbal."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-37",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 37,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Ordeno y completo la secuencia de viñetas que conforman una historieta.",
+      "evidences": [
+        "Comprendo la información que circula a través de algunos sistemas de comunicación no verbal."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-38",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 38,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Relaciono gráficas con texto escrito, ya sea completándolas o explicándolas.",
+      "evidences": [
+        "Comprendo la información que circula a través de algunos sistemas de comunicación no verbal."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-39",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 39,
+      "component": "Ética de la comunicación",
+      "statement": "Reconozco los principales elementos constitutivos de un proceso de comunicación: interlocutores, código, canal, texto y situación comunicativa.",
+      "evidences": [
+        "Identifico los principales elementos y roles de la comunicación para enriquecer procesos comunicativos auténticos."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-40",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 40,
+      "component": "Ética de la comunicación",
+      "statement": "Establezco semejanzas y diferencias entre quien produce el texto y quien lo interpreta.",
+      "evidences": [
+        "Identifico los principales elementos y roles de la comunicación para enriquecer procesos comunicativos auténticos."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-41",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 41,
+      "component": "Ética de la comunicación",
+      "statement": "Identifico en situaciones comunicativas reales los roles de quien produce y de quien interpreta un texto.",
+      "evidences": [
+        "Identifico los principales elementos y roles de la comunicación para enriquecer procesos comunicativos auténticos."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G1A3-42",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 42,
+      "component": "Ética de la comunicación",
+      "statement": "Identifico la intención de quien produce un texto.",
+      "evidences": [
+        "Identifico los principales elementos y roles de la comunicación para enriquecer procesos comunicativos auténticos."
+      ],
+      "page": 33
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-01",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 1,
+      "component": "Producción textual",
+      "statement": "Organizo mis ideas para producir un texto oral, teniendo en cuenta mi realidad y mis propias experiencias.",
+      "evidences": [
+        "Produzco textos orales, en situaciones comunicativas que permiten evidenciar el uso significativo de la entonación y la pertinencia articulatoria."
+      ],
+      "page": 34
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-02",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 2,
+      "component": "Producción textual",
+      "statement": "Elaboro un plan para la exposición de mis ideas.",
+      "evidences": [
+        "Produzco textos orales, en situaciones comunicativas que permiten evidenciar el uso significativo de la entonación y la pertinencia articulatoria."
+      ],
+      "page": 34
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-03",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 3,
+      "component": "Producción textual",
+      "statement": "Selecciono el léxico apropiado y acomodo mi estilo al plan de exposición así como al contexto comunicativo.",
+      "evidences": [
+        "Produzco textos orales, en situaciones comunicativas que permiten evidenciar el uso significativo de la entonación y la pertinencia articulatoria."
+      ],
+      "page": 34
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-04",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 4,
+      "component": "Producción textual",
+      "statement": "Adecuo la entonación y la pronunciación a las exigencias de las situaciones comunicativas en que participo.",
+      "evidences": [
+        "Produzco textos orales, en situaciones comunicativas que permiten evidenciar el uso significativo de la entonación y la pertinencia articulatoria."
+      ],
+      "page": 34
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-05",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 5,
+      "component": "Producción textual",
+      "statement": "Produzco un texto oral, teniendo en cuenta la entonación, la articulación y la organización de ideas que requiere la situación comunicativa.",
+      "evidences": [
+        "Produzco textos orales, en situaciones comunicativas que permiten evidenciar el uso significativo de la entonación y la pertinencia articulatoria."
+      ],
+      "page": 34
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-06",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 6,
+      "component": "Producción textual",
+      "statement": "Elijo un tema para producir un texto escrito, teniendo en cuenta un propósito, las características del interlocutor y las exigencias del contexto.",
+      "evidences": [
+        "Produzco textos escritos que responden a diversas necesidades comunicativas y que siguen un procedimiento estratégico para su elaboración."
+      ],
+      "page": 34
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-07",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 7,
+      "component": "Producción textual",
+      "statement": "Diseño un plan para elaborar un texto informativo.",
+      "evidences": [
+        "Produzco textos escritos que responden a diversas necesidades comunicativas y que siguen un procedimiento estratégico para su elaboración."
+      ],
+      "page": 34
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-08",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 8,
+      "component": "Producción textual",
+      "statement": "Produzco la primera versión de un texto informativo, atendiendo a requerimientos (formales y conceptuales) de la producción escrita en lengua castellana, con énfasis en algunos aspectos gramaticales (concordancia, tiempos verbales, nombres, pronombres, entre otros) y ortográficos.",
+      "evidences": [
+        "Produzco textos escritos que responden a diversas necesidades comunicativas y que siguen un procedimiento estratégico para su elaboración."
+      ],
+      "page": 34
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-09",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 9,
+      "component": "Producción textual",
+      "statement": "Reescribo el texto a partir de las propuestas de corrección formuladas por mis compañeros y por mí.",
+      "evidences": [
+        "Produzco textos escritos que responden a diversas necesidades comunicativas y que siguen un procedimiento estratégico para su elaboración."
+      ],
+      "page": 34
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-10",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 10,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Leo diversos tipos de texto: descriptivo, informativo, narrativo, explicativo y argumentativo.",
+      "evidences": [
+        "Comprendo diversos tipos de texto, utilizando algunas estrategias de búsqueda, organización y almacenamiento de la información."
+      ],
+      "page": 34
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-11",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 11,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Comprendo los aspectos formales y conceptuales (en especial: características de las oraciones y formas de relación entre ellas), al interior de cada texto leído.",
+      "evidences": [
+        "Comprendo diversos tipos de texto, utilizando algunas estrategias de búsqueda, organización y almacenamiento de la información."
+      ],
+      "page": 34
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-12",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 12,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Identifico la intención comunicativa de cada uno de los textos leídos.",
+      "evidences": [
+        "Comprendo diversos tipos de texto, utilizando algunas estrategias de búsqueda, organización y almacenamiento de la información."
+      ],
+      "page": 34
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-13",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 13,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Determino algunas estrategias para buscar, seleccionar y almacenar información: resúmenes, cuadros sinópticos, mapas conceptuales y fichas.",
+      "evidences": [
+        "Comprendo diversos tipos de texto, utilizando algunas estrategias de búsqueda, organización y almacenamiento de la información."
+      ],
+      "page": 34
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-14",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 14,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Establezco diferencias y semejanzas entre las estrategias de búsqueda, selección y almacenamiento de información.",
+      "evidences": [
+        "Comprendo diversos tipos de texto, utilizando algunas estrategias de búsqueda, organización y almacenamiento de la información."
+      ],
+      "page": 34
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-15",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 15,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Utilizo estrategias de búsqueda, selección y almacenamiento de información para mis procesos de producción y comprensión textual.",
+      "evidences": [
+        "Comprendo diversos tipos de texto, utilizando algunas estrategias de búsqueda, organización y almacenamiento de la información."
+      ],
+      "page": 34
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-16",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 16,
+      "component": "Literatura",
+      "statement": "Leo diversos tipos de texto literario: relatos mitológicos, leyendas, cuentos, fábulas, poemas y obras teatrales.",
+      "evidences": [
+        "Elaboro hipótesis de lectura acerca de las relaciones entre los elementos constitutivos de un texto literario, y entre éste y el contexto."
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-17",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 17,
+      "component": "Literatura",
+      "statement": "Reconozco, en los textos literarios que leo, elementos tales como tiempo, espacio, acción, personajes.",
+      "evidences": [
+        "Elaboro hipótesis de lectura acerca de las relaciones entre los elementos constitutivos de un texto literario, y entre éste y el contexto."
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-18",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 18,
+      "component": "Literatura",
+      "statement": "Propongo hipótesis predictivas acerca de un texto literario, partiendo de aspectos como título, tipo de texto, época de la producción, etc.",
+      "evidences": [
+        "Elaboro hipótesis de lectura acerca de las relaciones entre los elementos constitutivos de un texto literario, y entre éste y el contexto."
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-19",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 19,
+      "component": "Literatura",
+      "statement": "Relaciono las hipótesis predictivas que surgen de los textos que leo, con su contexto y con otros textos, sean literarios o no.",
+      "evidences": [
+        "Elaboro hipótesis de lectura acerca de las relaciones entre los elementos constitutivos de un texto literario, y entre éste y el contexto."
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-20",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 20,
+      "component": "Literatura",
+      "statement": "Comparo textos narrativos, líricos y dramáticos, teniendo en cuenta algunos de sus elementos constitutivos.",
+      "evidences": [
+        "Elaboro hipótesis de lectura acerca de las relaciones entre los elementos constitutivos de un texto literario, y entre éste y el contexto."
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-21",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 21,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Reconozco las características de los diferentes medios de comunicación masiva.",
+      "evidences": [
+        "Caracterizo los medios de comunicación masiva y selecciono la información que emiten, para utilizarla en la creación de nuevos textos."
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-22",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 22,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Selecciono y clasifico la información emitida por los diferentes medios de comunicación.",
+      "evidences": [
+        "Caracterizo los medios de comunicación masiva y selecciono la información que emiten, para utilizarla en la creación de nuevos textos."
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-23",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 23,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Elaboro planes textuales con la información seleccionada de los medios de comunicación.",
+      "evidences": [
+        "Caracterizo los medios de comunicación masiva y selecciono la información que emiten, para utilizarla en la creación de nuevos textos."
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-24",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 24,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Produzco textos orales y escritos con base en planes en los que utilizo la información recogida de los medios.",
+      "evidences": [
+        "Caracterizo los medios de comunicación masiva y selecciono la información que emiten, para utilizarla en la creación de nuevos textos."
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-25",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 25,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Socializo, analizo y corrijo los textos producidos con base en la información tomada de los medios de comunicación masiva.",
+      "evidences": [
+        "Caracterizo los medios de comunicación masiva y selecciono la información que emiten, para utilizarla en la creación de nuevos textos."
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-26",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 26,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Entiendo las obras no verbales como productos de las comunidades humanas.",
+      "evidences": [
+        "Caracterizo el funcionamiento de algunos códigos no verbales con miras a su uso en situaciones comunicativas auténticas."
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-27",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 27,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Doy cuenta de algunas estrategias empleadas para comunicar a través del lenguaje no verbal.",
+      "evidences": [
+        "Caracterizo el funcionamiento de algunos códigos no verbales con miras a su uso en situaciones comunicativas auténticas."
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-28",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 28,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Explico el sentido que tienen mensajes no verbales en mi contexto: señales de tránsito, indicios, banderas, colores, etc.",
+      "evidences": [
+        "Caracterizo el funcionamiento de algunos códigos no verbales con miras a su uso en situaciones comunicativas auténticas."
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-29",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 29,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Reconozco y uso códigos no verbales en situaciones comunicativas auténticas.",
+      "evidences": [
+        "Caracterizo el funcionamiento de algunos códigos no verbales con miras a su uso en situaciones comunicativas auténticas."
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-30",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 30,
+      "component": "Ética de la comunicación",
+      "statement": "Identifico los elementos constitutivos de la comunicación: interlocutores, código, canal, mensaje y contextos.",
+      "evidences": [
+        "Conozco y analizo los elementos, roles, relaciones y reglas básicas de la comunicación, para inferir las intenciones y expectativas de mis interlocutores y hacer más eficaces"
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-31",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 31,
+      "component": "Ética de la comunicación",
+      "statement": "Caracterizo los roles desempeñados por los sujetos que participan del proceso comunicativo.",
+      "evidences": [
+        "Conozco y analizo los elementos, roles, relaciones y reglas básicas de la comunicación, para inferir las intenciones y expectativas de mis interlocutores y hacer más eficaces"
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-32",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 32,
+      "component": "Ética de la comunicación",
+      "statement": "Tengo en cuenta, en mis interacciones comunicativas, principios básicos de la comunicación: reconocimiento del otro en tanto interlocutor válido y respeto por los turnos conversacionales.",
+      "evidences": [
+        "Conozco y analizo los elementos, roles, relaciones y reglas básicas de la comunicación, para inferir las intenciones y expectativas de mis interlocutores y hacer más eficaces"
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G4A5-33",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 33,
+      "component": "Ética de la comunicación",
+      "statement": "Identifico en situaciones comunicativas reales los roles, las intenciones de los interlocutores y el respeto por los principios básicos de la comunicación.",
+      "evidences": [
+        "Conozco y analizo los elementos, roles, relaciones y reglas básicas de la comunicación, para inferir las intenciones y expectativas de mis interlocutores y hacer más eficaces"
+      ],
+      "page": 35
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-01",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 1,
+      "component": "Producción textual",
+      "statement": "Defino una temática para la elaboración de un texto oral con fines argumentativos.",
+      "evidences": [
+        "Conozco y utilizo algunas estrategias argumentativas que posibilitan la construcción de textos orales en situaciones comunicativas auténticas."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-02",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 2,
+      "component": "Producción textual",
+      "statement": "Formulo una hipótesis para demostrarla en un texto oral con fines argumentativos.",
+      "evidences": [
+        "Conozco y utilizo algunas estrategias argumentativas que posibilitan la construcción de textos orales en situaciones comunicativas auténticas."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-03",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 3,
+      "component": "Producción textual",
+      "statement": "Llevo a cabo procedimientos de búsqueda, selección y almacenamiento de información acerca de la temática que voy a tratar en un texto con fines argumentativos.",
+      "evidences": [
+        "Conozco y utilizo algunas estrategias argumentativas que posibilitan la construcción de textos orales en situaciones comunicativas auténticas."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-04",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 4,
+      "component": "Producción textual",
+      "statement": "Elaboro un plan textual, jerarquizando la información que he obtenido de fuentes diversas.",
+      "evidences": [
+        "Conozco y utilizo algunas estrategias argumentativas que posibilitan la construcción de textos orales en situaciones comunicativas auténticas."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-05",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 5,
+      "component": "Producción textual",
+      "statement": "Caracterizo estrategias argumentativas de tipo descriptivo.",
+      "evidences": [
+        "Conozco y utilizo algunas estrategias argumentativas que posibilitan la construcción de textos orales en situaciones comunicativas auténticas."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-06",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 6,
+      "component": "Producción textual",
+      "statement": "Utilizo estrategias descriptivas para producir un texto oral con fines argumentativos.",
+      "evidences": [
+        "Conozco y utilizo algunas estrategias argumentativas que posibilitan la construcción de textos orales en situaciones comunicativas auténticas."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-07",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 7,
+      "component": "Producción textual",
+      "statement": "Defino una temática para la producción de un texto narrativo.",
+      "evidences": [
+        "Produzco textos escritos que responden a necesidades específicas de comunicación, a procedimientos sistemáticos de elaboración y establezco nexos intertextuales y extratextuales."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-08",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 8,
+      "component": "Producción textual",
+      "statement": "Llevo a cabo procedimientos de búsqueda, selección y almacenamiento de información acerca de la temática que voy a tratar en mi texto narrativo.",
+      "evidences": [
+        "Produzco textos escritos que responden a necesidades específicas de comunicación, a procedimientos sistemáticos de elaboración y establezco nexos intertextuales y extratextuales."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-09",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 9,
+      "component": "Producción textual",
+      "statement": "Elaboro un plan textual, organizando la información en secuencias lógicas.",
+      "evidences": [
+        "Produzco textos escritos que responden a necesidades específicas de comunicación, a procedimientos sistemáticos de elaboración y establezco nexos intertextuales y extratextuales."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-10",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 10,
+      "component": "Producción textual",
+      "statement": "Produzco una primera versión del texto narrativo teniendo en cuenta personajes, espacio, tiempos y vínculos con otros textos y con mi entorno.",
+      "evidences": [
+        "Produzco textos escritos que responden a necesidades específicas de comunicación, a procedimientos sistemáticos de elaboración y establezco nexos intertextuales y extratextuales."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-11",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 11,
+      "component": "Producción textual",
+      "statement": "Reescribo un texto, teniendo en cuenta aspectos de coherencia (unidad temática, relaciones lógicas, consecutividad temporal...) y cohesión (conectores, pronombres, manejo de modos verbales, puntuación...).",
+      "evidences": [
+        "Produzco textos escritos que responden a necesidades específicas de comunicación, a procedimientos sistemáticos de elaboración y establezco nexos intertextuales y extratextuales."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-12",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 12,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Reconozco las características de los diversos tipos de texto que leo.",
+      "evidences": [
+        "Comprendo e interpreto diversos tipos de texto, para establecer sus relaciones internas y su clasificación en una tipología textual."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-13",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 13,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Propongo hipótesis de interpretación para cada uno de los tipos de texto que he leído.",
+      "evidences": [
+        "Comprendo e interpreto diversos tipos de texto, para establecer sus relaciones internas y su clasificación en una tipología textual."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-14",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 14,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Identifico las principales características formales del texto: formato de presentación, títulos, graficación, capítulos, organización, etc.",
+      "evidences": [
+        "Comprendo e interpreto diversos tipos de texto, para establecer sus relaciones internas y su clasificación en una tipología textual."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-15",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 15,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Comparo el contenido de los diferentes tipos de texto que he leído.",
+      "evidences": [
+        "Comprendo e interpreto diversos tipos de texto, para establecer sus relaciones internas y su clasificación en una tipología textual."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-16",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 16,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Relaciono la forma y el contenido de los textos que leo y muestro cómo se influyen mutuamente.",
+      "evidences": [
+        "Comprendo e interpreto diversos tipos de texto, para establecer sus relaciones internas y su clasificación en una tipología textual."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-17",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 17,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Establezco relaciones de semejanza y diferencia entre los diversos tipos de texto que he leído.",
+      "evidences": [
+        "Comprendo e interpreto diversos tipos de texto, para establecer sus relaciones internas y su clasificación en una tipología textual."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-18",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 18,
+      "component": "Literatura",
+      "statement": "Interpreto y clasifico textos provenientes de la tradición oral tales como coplas, leyendas, relatos mitológicos, canciones, proverbios, refranes, parábolas, entre otros.",
+      "evidences": [
+        "Reconozco la tradición oral como fuente de la conformación y desarrollo de la literatura."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-19",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 19,
+      "component": "Literatura",
+      "statement": "Caracterizo rasgos específicos que consolidan la tradición oral, como: origen, autoría colectiva, función social, uso del lenguaje, evolución, recurrencias temáticas, etc.",
+      "evidences": [
+        "Reconozco la tradición oral como fuente de la conformación y desarrollo de la literatura."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-20",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 20,
+      "component": "Literatura",
+      "statement": "Identifico en la tradición oral el origen de los géneros literarios fundamentales: lírico, narrativo y dramático.",
+      "evidences": [
+        "Reconozco la tradición oral como fuente de la conformación y desarrollo de la literatura."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-21",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 21,
+      "component": "Literatura",
+      "statement": "Establezco relaciones entre los textos provenientes de la tradición oral y otros textos en cuanto a temas, personajes, lenguaje, entre otros aspectos.",
+      "evidences": [
+        "Reconozco la tradición oral como fuente de la conformación y desarrollo de la literatura."
+      ],
+      "page": 36
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-22",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 22,
+      "component": "Literatura",
+      "statement": "Leo obras literarias de género narrativo, lírico y dramático, de diversa temática, época y región.",
+      "evidences": [
+        "Comprendo obras literarias de diferentes géneros, propiciando así el desarrollo de mi capacidad crítica y creativa."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-23",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 23,
+      "component": "Literatura",
+      "statement": "Comprendo elementos constitutivos de obras literarias, tales como tiempo, espacio, función de los personajes, lenguaje, atmósferas, diálogos, escenas, entre otros.",
+      "evidences": [
+        "Comprendo obras literarias de diferentes géneros, propiciando así el desarrollo de mi capacidad crítica y creativa."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-24",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 24,
+      "component": "Literatura",
+      "statement": "Reconozco en las obras literarias procedimientos narrativos, líricos y dramáticos.",
+      "evidences": [
+        "Comprendo obras literarias de diferentes géneros, propiciando así el desarrollo de mi capacidad crítica y creativa."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-25",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 25,
+      "component": "Literatura",
+      "statement": "Comparo los procedimientos narrativos, líricos o dramáticos empleados en la literatura que permiten estudiarla por géneros.",
+      "evidences": [
+        "Comprendo obras literarias de diferentes géneros, propiciando así el desarrollo de mi capacidad crítica y creativa."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-26",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 26,
+      "component": "Literatura",
+      "statement": "Formulo hipótesis de comprensión acerca de las obras literarias que leo teniendo en cuenta género, temática, época y región.",
+      "evidences": [
+        "Comprendo obras literarias de diferentes géneros, propiciando así el desarrollo de mi capacidad crítica y creativa."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-27",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 27,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Reconozco las características de los principales medios de comunicación masiva.",
+      "evidences": [
+        "Caracterizo los medios de comunicación masiva y selecciono la información que emiten para clasificarla y almacenarla."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-28",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 28,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Selecciono y clasifico la información emitida por los medios de comunicación masiva.",
+      "evidences": [
+        "Caracterizo los medios de comunicación masiva y selecciono la información que emiten para clasificarla y almacenarla."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-29",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 29,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Recopilo en fichas, mapas, gráficos y cuadros la información que he obtenido de los medios de comunicación masiva.",
+      "evidences": [
+        "Caracterizo los medios de comunicación masiva y selecciono la información que emiten para clasificarla y almacenarla."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-30",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 30,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Organizo (mediante ordenación alfabética, temática, de autores, medio de difusión, entre muchas otras posibilidades) la información recopilada y la almaceno de tal forma que la pueda consultar cuando lo requiera.",
+      "evidences": [
+        "Caracterizo los medios de comunicación masiva y selecciono la información que emiten para clasificarla y almacenarla."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-31",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 31,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Caracterizo obras no verbales (pintura, escultura, arquitectura, danza, etc.), mediante producciones verbales.",
+      "evidences": [
+        "Relaciono de manera intertextual obras que emplean el lenguaje no verbal y obras que emplean el lenguaje verbal."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-32",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 32,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Cotejo obras no verbales con las descripciones y explicaciones que se han formulado acerca de dichas obras.",
+      "evidences": [
+        "Relaciono de manera intertextual obras que emplean el lenguaje no verbal y obras que emplean el lenguaje verbal."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-33",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 33,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Comparo el sentido que tiene el uso del espacio y de los movimientos corporales en situaciones comunicativas cotidianas, con el sentido que tienen en obras artísticas.",
+      "evidences": [
+        "Relaciono de manera intertextual obras que emplean el lenguaje no verbal y obras que emplean el lenguaje verbal."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-34",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 34,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Propongo hipótesis de interpretación de espectáculos teatrales, obras pictóricas, escultóricas, arquitectónicas, entre otras.",
+      "evidences": [
+        "Relaciono de manera intertextual obras que emplean el lenguaje no verbal y obras que emplean el lenguaje verbal."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-35",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 35,
+      "component": "Ética de la comunicación",
+      "statement": "Caracterizo el contexto cultural del otro y lo comparo con el mío.",
+      "evidences": [
+        "Reconozco, en situaciones comunicativas auténticas, la diversidad y el encuentro de culturas, con el fin de afianzar mis actitudes de respeto y tolerancia."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-36",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 36,
+      "component": "Ética de la comunicación",
+      "statement": "Identifico en situaciones comunicativas auténticas algunas variantes lingüísticas de mi entorno, generadas por ubicación geográfica, diferencia social o generacional, profesión, oficio, entre otras.",
+      "evidences": [
+        "Reconozco, en situaciones comunicativas auténticas, la diversidad y el encuentro de culturas, con el fin de afianzar mis actitudes de respeto y tolerancia."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-37",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 37,
+      "component": "Ética de la comunicación",
+      "statement": "Evidencio que las variantes lingüísticas encierran una visión particular del mundo.",
+      "evidences": [
+        "Reconozco, en situaciones comunicativas auténticas, la diversidad y el encuentro de culturas, con el fin de afianzar mis actitudes de respeto y tolerancia."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G6A7-38",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 38,
+      "component": "Ética de la comunicación",
+      "statement": "Reconozco que las variantes lingüísticas y culturales no impiden respetar al otro como interlocutor válido.",
+      "evidences": [
+        "Reconozco, en situaciones comunicativas auténticas, la diversidad y el encuentro de culturas, con el fin de afianzar mis actitudes de respeto y tolerancia."
+      ],
+      "page": 37
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-01",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 1,
+      "component": "Producción textual",
+      "statement": "Organizo previamente las ideas que deseo exponer y me documento para sustentarlas.",
+      "evidences": [
+        "Produzco textos orales de tipo argumentativo para exponer mis ideas y llegar a acuerdos en los que prime el respeto por mi interlocutor y la valoración de los contextos comunicativos."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-02",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 2,
+      "component": "Producción textual",
+      "statement": "Identifico y valoro los aportes de mi interlocutor y del contexto en el que expongo mis ideas.",
+      "evidences": [
+        "Produzco textos orales de tipo argumentativo para exponer mis ideas y llegar a acuerdos en los que prime el respeto por mi interlocutor y la valoración de los contextos comunicativos."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-03",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 3,
+      "component": "Producción textual",
+      "statement": "Caracterizo y utilizo estrategias descriptivas y explicativas para argumentar mis ideas, valorando y respetando las normas básicas de la comunicación.",
+      "evidences": [
+        "Produzco textos orales de tipo argumentativo para exponer mis ideas y llegar a acuerdos en los que prime el respeto por mi interlocutor y la valoración de los contextos comunicativos."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-04",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 4,
+      "component": "Producción textual",
+      "statement": "Utilizo el discurso oral para establecer acuerdos a partir del reconocimiento de los argumentos de mis interlocutores y la fuerza de mis propios argumentos.",
+      "evidences": [
+        "Produzco textos orales de tipo argumentativo para exponer mis ideas y llegar a acuerdos en los que prime el respeto por mi interlocutor y la valoración de los contextos comunicativos."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-05",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 5,
+      "component": "Producción textual",
+      "statement": "Diseño un plan textual para la presentación de mis ideas, pensamientos y saberes en los contextos en que así lo requiera.",
+      "evidences": [
+        "Produzco textos escritos que evidencian el conocimiento que he alcanzado acerca del funcionamiento de la lengua en situaciones de comunicación y el uso de las estrategias de producción textual."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-06",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 6,
+      "component": "Producción textual",
+      "statement": "Utilizo un texto explicativo para la presentación de mis ideas, pensamientos y saberes, de acuerdo con las características de mi interlocutor y con la intención que persigo al producir el texto.",
+      "evidences": [
+        "Produzco textos escritos que evidencian el conocimiento que he alcanzado acerca del funcionamiento de la lengua en situaciones de comunicación y el uso de las estrategias de producción textual."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-07",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 7,
+      "component": "Producción textual",
+      "statement": "Identifico estrategias que garantizan coherencia, cohesión y pertinencia del texto.",
+      "evidences": [
+        "Produzco textos escritos que evidencian el conocimiento que he alcanzado acerca del funcionamiento de la lengua en situaciones de comunicación y el uso de las estrategias de producción textual."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-08",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 8,
+      "component": "Producción textual",
+      "statement": "Tengo en cuenta reglas sintácticas, semánticas y pragmáticas para la producción de un texto.",
+      "evidences": [
+        "Produzco textos escritos que evidencian el conocimiento que he alcanzado acerca del funcionamiento de la lengua en situaciones de comunicación y el uso de las estrategias de producción textual."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-09",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 9,
+      "component": "Producción textual",
+      "statement": "Elaboro una primera versión de un texto explicativo atendiendo a los requerimientos estructurales, conceptuales y lingüísticos.",
+      "evidences": [
+        "Produzco textos escritos que evidencian el conocimiento que he alcanzado acerca del funcionamiento de la lengua en situaciones de comunicación y el uso de las estrategias de producción textual."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-10",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 10,
+      "component": "Producción textual",
+      "statement": "Reescribo el texto, a partir de mi propia valoración y del efecto causado por éste en mis interlocutores.",
+      "evidences": [
+        "Produzco textos escritos que evidencian el conocimiento que he alcanzado acerca del funcionamiento de la lengua en situaciones de comunicación y el uso de las estrategias de producción textual."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-11",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 11,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Elaboro hipótesis de lectura de diferentes textos, a partir de la revisión de sus características como: forma de presentación, títulos, graficación y manejo de la lengua: marcas textuales, organización sintáctica, uso de deícticos, entre otras.",
+      "evidences": [
+        "Comprendo e interpreto textos, teniendo en cuenta el funcionamiento de la lengua en situaciones de comunicación, el uso de estrategias de lectura y el papel del interlocutor y del contexto."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-12",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 12,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Comprendo el sentido global de cada uno de los textos que leo, la intención de quien lo produce y las características del contexto en el que se produce.",
+      "evidences": [
+        "Comprendo e interpreto textos, teniendo en cuenta el funcionamiento de la lengua en situaciones de comunicación, el uso de estrategias de lectura y el papel del interlocutor y del contexto."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-13",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 13,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Caracterizo los textos de acuerdo con la intención comunicativa de quien los produce.",
+      "evidences": [
+        "Comprendo e interpreto textos, teniendo en cuenta el funcionamiento de la lengua en situaciones de comunicación, el uso de estrategias de lectura y el papel del interlocutor y del contexto."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-14",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 14,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Analizo los aspectos textuales, conceptuales y formales de cada uno de los textos que leo.",
+      "evidences": [
+        "Comprendo e interpreto textos, teniendo en cuenta el funcionamiento de la lengua en situaciones de comunicación, el uso de estrategias de lectura y el papel del interlocutor y del contexto."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-15",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 15,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Infiero otros sentidos en cada uno de los textos que leo, relacionándolos con su sentido global y con el contexto en el cual se han producido, reconociendo rasgos sociológicos, ideológicos, científicos y culturales.",
+      "evidences": [
+        "Comprendo e interpreto textos, teniendo en cuenta el funcionamiento de la lengua en situaciones de comunicación, el uso de estrategias de lectura y el papel del interlocutor y del contexto."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-16",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 16,
+      "component": "Literatura",
+      "statement": "Conozco y caracterizo producciones literarias de la tradición oral latinoamericana.",
+      "evidences": [
+        "Determino en las obras literarias latinoamericanas, elementos textuales que dan cuenta de sus características estéticas, históricas y sociológicas, cuando sea pertinente."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-17",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 17,
+      "component": "Literatura",
+      "statement": "Leo con sentido crítico obras literarias de autores latinoamericanos.",
+      "evidences": [
+        "Determino en las obras literarias latinoamericanas, elementos textuales que dan cuenta de sus características estéticas, históricas y sociológicas, cuando sea pertinente."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-18",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 18,
+      "component": "Literatura",
+      "statement": "Establezco relaciones entre obras literarias latinoamericanas, procedentes de fuentes escritas y orales.",
+      "evidences": [
+        "Determino en las obras literarias latinoamericanas, elementos textuales que dan cuenta de sus características estéticas, históricas y sociológicas, cuando sea pertinente."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-19",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 19,
+      "component": "Literatura",
+      "statement": "Caracterizo los principales momentos de la literatura latinoamericana, atendiendo a particularidades temporales, geográficas, de género, de autor, etc.",
+      "evidences": [
+        "Determino en las obras literarias latinoamericanas, elementos textuales que dan cuenta de sus características estéticas, históricas y sociológicas, cuando sea pertinente."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-20",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 20,
+      "component": "Literatura",
+      "statement": "Identifico los recursos del lenguaje empleados por autores latinoamericanos de diferentes épocas y los comparo con los empleados por autores de otros contextos temporales y espaciales, cuando sea pertinente.",
+      "evidences": [
+        "Determino en las obras literarias latinoamericanas, elementos textuales que dan cuenta de sus características estéticas, históricas y sociológicas, cuando sea pertinente."
+      ],
+      "page": 38
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-21",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 21,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Caracterizo los medios de comunicación masiva a partir de aspectos como: de qué manera(s) difunden la información, cuál es su cobertura y alcance, y a qué tipo de audiencia se dirigen, entre otros.",
+      "evidences": [
+        "Retomo crítica y selectivamente la información que circula a través de los medios de comunicación masiva, para confrontarla con la que proviene de otras fuentes."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-22",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 22,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Diferencio los medios de comunicación masiva de acuerdo con sus características formales y conceptuales, haciendo énfasis en el código, los recursos técnicos, el manejo de la información y los potenciales mecanismos de participación de la audiencia.",
+      "evidences": [
+        "Retomo crítica y selectivamente la información que circula a través de los medios de comunicación masiva, para confrontarla con la que proviene de otras fuentes."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-23",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 23,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Utilizo estrategias para la búsqueda, organización, almacenamiento y recuperación de información que circula en diferentes medios de comunicación masiva.",
+      "evidences": [
+        "Retomo crítica y selectivamente la información que circula a través de los medios de comunicación masiva, para confrontarla con la que proviene de otras fuentes."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-24",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 24,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Selecciono la información obtenida a través de los medios masivos, para satisfacer mis necesidades comunicativas.",
+      "evidences": [
+        "Retomo crítica y selectivamente la información que circula a través de los medios de comunicación masiva, para confrontarla con la que proviene de otras fuentes."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-25",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 25,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Utilizo estrategias para la búsqueda, organización, almacenamiento y recuperación de la información que proporcionan fuentes bibliográficas y la que se produce en los contextos en los que interactúo.",
+      "evidences": [
+        "Retomo crítica y selectivamente la información que circula a través de los medios de comunicación masiva, para confrontarla con la que proviene de otras fuentes."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-26",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 26,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Establezco relaciones entre la información seleccionada en los medios de difusión masiva y la contrasto críticamente con la que recojo de los contextos en los cuales intervengo.",
+      "evidences": [
+        "Retomo crítica y selectivamente la información que circula a través de los medios de comunicación masiva, para confrontarla con la que proviene de otras fuentes."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-27",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 27,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Determino características, funciones e intenciones de los discursos que circulan a través de los medios de comunicación masiva.",
+      "evidences": [
+        "Retomo crítica y selectivamente la información que circula a través de los medios de comunicación masiva, para confrontarla con la que proviene de otras fuentes."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-28",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 28,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Interpreto elementos políticos, culturales e ideológicos que están presentes en la información que difunden los medios masivos y adopto una posición crítica frente a ellos.",
+      "evidences": [
+        "Retomo crítica y selectivamente la información que circula a través de los medios de comunicación masiva, para confrontarla con la que proviene de otras fuentes."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-29",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 29,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Caracterizo diversas manifestaciones del lenguaje no verbal: música, pintura, escultura, arquitectura, mapas y tatuajes, entre otras.",
+      "evidences": [
+        "Comprendo los factores sociales y culturales que determinan algunas manifestaciones del lenguaje no verbal."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-30",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 30,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Identifico rasgos culturales y sociales en diversas manifestaciones del lenguaje no verbal: música, pintura, escultura, arquitectura, mapas y tatuajes, entre otros.",
+      "evidences": [
+        "Comprendo los factores sociales y culturales que determinan algunas manifestaciones del lenguaje no verbal."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-31",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 31,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Relaciono manifestaciones artísticas no verbales con las personas y las comunidades humanas que las produjeron.",
+      "evidences": [
+        "Comprendo los factores sociales y culturales que determinan algunas manifestaciones del lenguaje no verbal."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-32",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 32,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Interpreto manifestaciones artísticas no verbales y las relaciono con otras producciones humanas, ya sean artísticas o no.",
+      "evidences": [
+        "Comprendo los factores sociales y culturales que determinan algunas manifestaciones del lenguaje no verbal."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-33",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 33,
+      "component": "Ética de la comunicación",
+      "statement": "Reconozco el lenguaje como capacidad humana que configura múltiples sistemas simbólicos y posibilita los procesos de significar y comunicar.",
+      "evidences": [
+        "Reflexiono en forma crítica acerca de los actos comunicativos y explico los componentes del proceso de comunicación, con énfasis en los agentes, los discursos, los contextos y el funcionamiento de la lengua, en tanto sistema de signos, símbolos y reglas de uso."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-34",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 34,
+      "component": "Ética de la comunicación",
+      "statement": "Entiendo la lengua como uno de los sistemas simbólicos producto del lenguaje y la caracterizo en sus aspectos convencionales y arbitrarios.",
+      "evidences": [
+        "Reflexiono en forma crítica acerca de los actos comunicativos y explico los componentes del proceso de comunicación, con énfasis en los agentes, los discursos, los contextos y el funcionamiento de la lengua, en tanto sistema de signos, símbolos y reglas de uso."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-35",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 35,
+      "component": "Ética de la comunicación",
+      "statement": "Explico el proceso de comunicación y doy cuenta de los aspectos e individuos que intervienen en su dinámica.",
+      "evidences": [
+        "Reflexiono en forma crítica acerca de los actos comunicativos y explico los componentes del proceso de comunicación, con énfasis en los agentes, los discursos, los contextos y el funcionamiento de la lengua, en tanto sistema de signos, símbolos y reglas de uso."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-36",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 36,
+      "component": "Ética de la comunicación",
+      "statement": "Comprendo el concepto de coherencia y distingo entre coherencia local y global, en textos míos o de mis compañeros.",
+      "evidences": [
+        "Reflexiono en forma crítica acerca de los actos comunicativos y explico los componentes del proceso de comunicación, con énfasis en los agentes, los discursos, los contextos y el funcionamiento de la lengua, en tanto sistema de signos, símbolos y reglas de uso."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G8A9-37",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 37,
+      "component": "Ética de la comunicación",
+      "statement": "Valoro, entiendo y adopto los aportes de la ortografía para la comprensión y producción de textos.",
+      "evidences": [
+        "Reflexiono en forma crítica acerca de los actos comunicativos y explico los componentes del proceso de comunicación, con énfasis en los agentes, los discursos, los contextos y el funcionamiento de la lengua, en tanto sistema de signos, símbolos y reglas de uso."
+      ],
+      "page": 39
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-01",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 1,
+      "component": "Producción textual",
+      "statement": "Comprendo el valor del lenguaje en los procesos de construcción del conocimiento.",
+      "evidences": [
+        "Produzco textos argumentativos que evidencian mi conocimiento de la lengua y el control sobre el uso que hago de ella en contextos comunicativos orales y escritos."
+      ],
+      "page": 40
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-02",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 2,
+      "component": "Producción textual",
+      "statement": "Desarrollo procesos de autocontrol y corrección lingüística en mi producción de textos orales y escritos.",
+      "evidences": [
+        "Produzco textos argumentativos que evidencian mi conocimiento de la lengua y el control sobre el uso que hago de ella en contextos comunicativos orales y escritos."
+      ],
+      "page": 40
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-03",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 3,
+      "component": "Producción textual",
+      "statement": "Caracterizo y utilizo estrategias descriptivas, explicativas y analógicas en mi producción de textos orales y escritos.",
+      "evidences": [
+        "Produzco textos argumentativos que evidencian mi conocimiento de la lengua y el control sobre el uso que hago de ella en contextos comunicativos orales y escritos."
+      ],
+      "page": 40
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-04",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 4,
+      "component": "Producción textual",
+      "statement": "Evidencio en mis producciones textuales el conocimiento de los diferentes niveles de la lengua y el control sobre el uso que hago de ellos en contextos comunicativos.",
+      "evidences": [
+        "Produzco textos argumentativos que evidencian mi conocimiento de la lengua y el control sobre el uso que hago de ella en contextos comunicativos orales y escritos."
+      ],
+      "page": 40
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-05",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 5,
+      "component": "Producción textual",
+      "statement": "Produzco ensayos de carácter argumentativo en los que desarrollo mis ideas con rigor y atendiendo a las características propias del género.",
+      "evidences": [
+        "Produzco textos argumentativos que evidencian mi conocimiento de la lengua y el control sobre el uso que hago de ella en contextos comunicativos orales y escritos."
+      ],
+      "page": 40
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-06",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 6,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Elaboro hipótesis de interpretación atendiendo a la intención comunicativa y al sentido global del texto que leo.",
+      "evidences": ["Comprendo e interpreto textos con actitud crítica y capacidad argumentativa."],
+      "page": 40
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-07",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 7,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Relaciono el significado de los textos que leo con los contextos sociales, culturales y políticos en los cuales se han producido.",
+      "evidences": ["Comprendo e interpreto textos con actitud crítica y capacidad argumentativa."],
+      "page": 40
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-08",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 8,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Diseño un esquema de interpretación, teniendo en cuenta al tipo de texto, tema, interlocutor e intención comunicativa.",
+      "evidences": ["Comprendo e interpreto textos con actitud crítica y capacidad argumentativa."],
+      "page": 40
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-09",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 9,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Construyo reseñas críticas acerca de los textos que leo.",
+      "evidences": ["Comprendo e interpreto textos con actitud crítica y capacidad argumentativa."],
+      "page": 40
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-10",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 10,
+      "component": "Comprensión e interpretación textual",
+      "statement": "Asumo una actitud crítica frente a los textos que leo y elaboro, y frente a otros tipos de texto: explicativos, descriptivos y narrativos.",
+      "evidences": ["Comprendo e interpreto textos con actitud crítica y capacidad argumentativa."],
+      "page": 40
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-11",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 11,
+      "component": "Literatura",
+      "statement": "Leo textos literarios de diversa índole, género, temática y origen.",
+      "evidences": [
+        "Analizo crítica y creativamente diferentes manifestaciones literarias del contexto universal."
+      ],
+      "page": 40
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-12",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 12,
+      "component": "Literatura",
+      "statement": "Identifico en obras de la literatura universal el lenguaje, las características formales, las épocas y escuelas, estilos, tendencias, temáticas, géneros y autores, entre otros aspectos.",
+      "evidences": [
+        "Analizo crítica y creativamente diferentes manifestaciones literarias del contexto universal."
+      ],
+      "page": 40
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-13",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 13,
+      "component": "Literatura",
+      "statement": "Comprendo en los textos que leo las dimensiones éticas, estéticas, filosóficas, entre otras, que se evidencian en ellos.",
+      "evidences": [
+        "Analizo crítica y creativamente diferentes manifestaciones literarias del contexto universal."
+      ],
+      "page": 40
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-14",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 14,
+      "component": "Literatura",
+      "statement": "Comparo textos de diversos autores, temas, épocas y culturas, y utilizo recursos de la teoría literaria para enriquecer su interpretación.",
+      "evidences": [
+        "Analizo crítica y creativamente diferentes manifestaciones literarias del contexto universal."
+      ],
+      "page": 40
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-15",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 15,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Comprendo el papel que cumplen los medios de comunicación masiva en el contexto social, cultural, económico y político de las sociedades contemporáneas.",
+      "evidences": [
+        "Interpreto en forma crítica la información difundida por los medios de comunicación masiva."
+      ],
+      "page": 41
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-16",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 16,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Infiero las implicaciones de los medios de comunicación masiva en la conformación de los contextos sociales, culturales, políticos, etc., del país.",
+      "evidences": [
+        "Interpreto en forma crítica la información difundida por los medios de comunicación masiva."
+      ],
+      "page": 41
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-17",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 17,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Analizo los mecanismos ideológicos que subyacen a la estructura de los medios de información masiva.",
+      "evidences": [
+        "Interpreto en forma crítica la información difundida por los medios de comunicación masiva."
+      ],
+      "page": 41
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-18",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 18,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Asumo una posición crítica frente a los elementos ideológicos presentes en dichos medios, y analizo su incidencia en la sociedad actual.",
+      "evidences": [
+        "Interpreto en forma crítica la información difundida por los medios de comunicación masiva."
+      ],
+      "page": 41
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-19",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 19,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Doy cuenta del uso del lenguaje verbal o no verbal en manifestaciones humanas como los graffiti, la publicidad, los símbolos patrios, las canciones, los caligramas, entre otros.",
+      "evidences": [
+        "Retomo críticamente los lenguajes no verbales para desarrollar procesos comunicativos intencionados."
+      ],
+      "page": 41
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-20",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 20,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Analizo las implicaciones culturales, sociales e ideológicas de manifestaciones humanas como los graffiti, la publicidad, los símbolos patrios, las canciones, los caligramas, entre otros.",
+      "evidences": [
+        "Retomo críticamente los lenguajes no verbales para desarrollar procesos comunicativos intencionados."
+      ],
+      "page": 41
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-21",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 21,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Explico cómo los códigos verbales y no verbales se articulan para generar sentido en obras cinematográficas, canciones y caligramas, entre otras.",
+      "evidences": [
+        "Retomo críticamente los lenguajes no verbales para desarrollar procesos comunicativos intencionados."
+      ],
+      "page": 41
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-22",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 22,
+      "component": "Medios de comunicación y otros sistemas simbólicos",
+      "statement": "Produzco textos, empleando lenguaje verbal o no verbal, para exponer mis ideas o para recrear realidades, con sentido crítico.",
+      "evidences": [
+        "Retomo críticamente los lenguajes no verbales para desarrollar procesos comunicativos intencionados."
+      ],
+      "page": 41
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-23",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 23,
+      "component": "Ética de la comunicación",
+      "statement": "Identifico, caracterizo y valoro diferentes grupos humanos teniendo en cuenta aspectos étnicos, lingüísticos, sociales y culturales, entre otros, del mundo contemporáneo.",
+      "evidences": [
+        "Expreso respeto por la diversidad cultural y social del mundo contemporáneo, en las situaciones comunicativas en las que intervengo."
+      ],
+      "page": 41
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-24",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 24,
+      "component": "Ética de la comunicación",
+      "statement": "Respeto la diversidad de criterios y posiciones ideológicas que surgen en los grupos humanos.",
+      "evidences": [
+        "Expreso respeto por la diversidad cultural y social del mundo contemporáneo, en las situaciones comunicativas en las que intervengo."
+      ],
+      "page": 41
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-25",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 25,
+      "component": "Ética de la comunicación",
+      "statement": "Utilizo el diálogo y la argumentación para superar enfrentamientos y posiciones antagónicas.",
+      "evidences": [
+        "Expreso respeto por la diversidad cultural y social del mundo contemporáneo, en las situaciones comunicativas en las que intervengo."
+      ],
+      "page": 41
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-26",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 26,
+      "component": "Ética de la comunicación",
+      "statement": "Comprendo que en la relación intercultural con las comunidades indígenas y afrocolombianas deben primar el respeto y la igualdad, lo que propiciará el acercamiento socio-cultural entre todos los colombianos.",
+      "evidences": [
+        "Expreso respeto por la diversidad cultural y social del mundo contemporáneo, en las situaciones comunicativas en las que intervengo."
+      ],
+      "page": 41
+    },
+    {
+      "code": "MEN-EBC-LEN-V1-G10A11-27",
+      "type": "STANDARD",
+      "area": "LENGUAJE",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 27,
+      "component": "Ética de la comunicación",
+      "statement": "Argumento, en forma oral y escrita, acerca de temas y problemáticas que puedan ser objeto de intolerancia, segregación, señalamientos, etc.",
+      "evidences": [
+        "Expreso respeto por la diversidad cultural y social del mundo contemporáneo, en las situaciones comunicativas en las que intervengo."
+      ],
+      "page": 41
+    }
+  ]
+}

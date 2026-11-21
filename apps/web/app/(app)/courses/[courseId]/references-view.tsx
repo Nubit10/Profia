@@ -210,19 +210,25 @@ export function ReferencesView({ courseId, references, emptyForGrade, searchActi
                   <CardTitle className="leading-snug">{ref.statement}</CardTitle>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-3">
-                  <div>
-                    <p className="mb-1 text-sm font-medium">
-                      {/* SPEC-0036: un estándar trae el estándar general del grupo de grados. */}
-                      {ref.type === "DBA"
-                        ? "Evidencias de aprendizaje"
-                        : "Estándar del grupo de grados"}
-                    </p>
-                    <ul className="ml-5 list-disc space-y-1 text-sm">
-                      {ref.evidences.map((e) => (
-                        <li key={e}>{e}</li>
-                      ))}
-                    </ul>
-                  </div>
+                  {/* Un estándar de Matemáticas no trae lista (SPEC-0037). */}
+                  {ref.evidences.length > 0 && (
+                    <div>
+                      <p className="mb-1 text-sm font-medium">
+                        {/* SPEC-0036/0037: un estándar trae el estándar de su grupo o columna; en
+                            Inglés, las competencias que desarrolla. */}
+                        {ref.type === "DBA"
+                          ? "Evidencias de aprendizaje"
+                          : ref.evidences.every((e) => e.startsWith("Competencia "))
+                            ? "Competencias que desarrolla"
+                            : "Estándar del grupo de grados"}
+                      </p>
+                      <ul className="ml-5 list-disc space-y-1 text-sm">
+                        {ref.evidences.map((e) => (
+                          <li key={e}>{e}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                   <Citation citation={ref.citation} />
                 </CardContent>
               </Card>

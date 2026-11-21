@@ -63,6 +63,14 @@ describe("búsqueda en el currículo (SPEC-0005)", () => {
     expect(String(init.body)).not.toContain(ctx.userName);
   });
 
+  it("CA-0037-06: al sugerir DBA para un objetivo se piden solo DBA al AI Engine", async () => {
+    const { ctx, course } = await mathCourse();
+    const fetcher = engineReply(["MEN-DBA-MAT-V2-G6-03"]);
+    await searchCourseCurriculum(ctx, course.id, "fracciones y decimales", fetcher, ["DBA"]);
+    const [, init] = fetcher.mock.calls[0] as unknown as [URL, RequestInit];
+    expect(JSON.parse(String(init.body))).toMatchObject({ types: ["DBA"] });
+  });
+
   it("CA-0005-07: devuelve los ítems en el orden del AI Engine, con texto y cita desde la base", async () => {
     const { ctx, course } = await mathCourse();
     const result = await searchCourseCurriculum(

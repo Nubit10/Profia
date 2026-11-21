@@ -2,7 +2,7 @@ def test_health_informa_proveedor_e_indice(api):
     body = api.get("/health").json()
     assert body["status"] == "ok"
     assert body["provider"] == "mock"
-    assert body["index"]["points"] == 951
+    assert body["index"]["points"] == 1518
     assert body["index"]["catalogVersion"]
 
 
@@ -18,7 +18,13 @@ def test_ca_0005_05_sin_token_o_con_token_invalido_responde_401(api):
 def test_busqueda_con_filtros_devuelve_codigos_y_metadatos(api, auth):
     response = api.post(
         "/v1/retrieval/curriculum",
-        json={"query": "probabilidad de eventos", "area": "MATEMATICAS", "grade": "G8", "limit": 5},
+        json={
+            "query": "probabilidad de eventos",
+            "area": "MATEMATICAS",
+            "grade": "G8",
+            "limit": 5,
+            "types": ["DBA"],
+        },
         headers=auth,
     )
     assert response.status_code == 200
@@ -53,4 +59,18 @@ def test_un_texto_con_instrucciones_se_trata_como_busqueda(api, auth):
         headers=auth,
     )
     assert response.status_code == 200
-    assert all(r["code"].startswith("MEN-DBA-LEN-V2-G5-") for r in response.json()["results"])
+    # DBA o Estándares de Lenguaje que cubren 5° (SPEC-0037): nunca de otra área ni grado.
+    assert all(
+        r["code"].startswith(("MEN-DBA-LEN-V2-G5-", "MEN-EBC-LEN-V1-G4A5-"))
+        for r in response.json()["results"]
+    )
+
+
+def test_spec_0037_el_filtro_de_tipo_deja_solo_dba_o_solo_estandares(api, auth):
+    url = "/v1/retrieval/curriculum"
+    base = {"query": "fracciones y números racionales", "area": "MATEMATICAS", "grade": "G6"}
+    dba = api.post(url, json={**base, "types": ["DBA"]}, headers=auth).json()["results"]
+    std = api.post(url, json={**base, "types": ["STANDARD"]}, headers=auth).json()["results"]
+    assert dba and all(r["code"].startswith("MEN-DBA-MAT-V2-G6-") for r in dba)
+    assert std and all(r["code"].startswith("MEN-EBC-MAT-V1-G6A7-") for r in std)
+    assert api.post(url, json={**base, "types": ["OTRO"]}, headers=auth).status_code == 422

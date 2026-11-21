@@ -147,7 +147,9 @@ describe("referentes por curso", () => {
     );
 
     expect(refs.areaId).toBe("MATEMATICAS");
-    expect(refs.references).toHaveLength(expected.length);
+    // Los DBA van primero; después vienen los Estándares de 6°-7° (SPEC-0037).
+    const dba = refs.references.filter((r) => r.type === "DBA");
+    expect(dba).toHaveLength(expected.length);
     expect(refs.references[0]).toMatchObject({
       code: "MEN-DBA-MAT-V2-G6-01",
       citation: {
@@ -195,13 +197,16 @@ describe("referentes por curso", () => {
     await linkSubjectToArea(ctx, custom.id, "LENGUAJE");
     const refs = await getCourseReferences(ctx, course.id);
     expect(refs.emptyReason).toBeNull();
-    expect(refs.references.every((r) => r.code.startsWith("MEN-DBA-LEN-V2-G9-"))).toBe(true);
-    expect(refs.references).toHaveLength(8);
+    const dba = refs.references.filter((r) => r.type === "DBA");
+    expect(dba.every((r) => r.code.startsWith("MEN-DBA-LEN-V2-G9-"))).toBe(true);
+    expect(dba).toHaveLength(8);
+    // Y los Estándares de Lenguaje de 8°-9° (SPEC-0037).
+    expect(refs.references.some((r) => r.code.startsWith("MEN-EBC-LEN-V1-G8A9-"))).toBe(true);
   });
 
   it("muestra un aviso cuando el área no tiene DBA en ese grado", async () => {
-    // Inglés tiene área curricular pero aún no tiene DBA en el catálogo (SPEC-0036 dejó Inglés para después).
-    const { ctx, course } = await teacherWithCourse("Inglés", "G6");
+    // Inglés tiene Estándares desde 1° (SPEC-0037), pero nada para Jardín.
+    const { ctx, course } = await teacherWithCourse("Inglés", "JARDIN");
     expect((await getCourseReferences(ctx, course.id)).emptyReason).toBe("NO_ITEMS_FOR_GRADE");
   });
 

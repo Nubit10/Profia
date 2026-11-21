@@ -131,5 +131,83 @@
       "sha256": "163b9f20b568e1cf3ba1178da6dba07a8ec09cd08043175e4308affdc40e8703",
       "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es una acción de pensamiento y producción; la lista que lo acompaña es el estándar general del grupo de grados al que apunta."
     }
+  },
+  "ebc-matematicas-v1": {
+    "draft": "draft/ebc-mat.json",
+    "fixes": null,
+    "pdf": "sources/estandares-basicos-competencias.pdf",
+    "layout": "ebc",
+    "source": {
+      "key": "MEN-EBC-MAT-V1",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Estándares Básicos de Competencias en Matemáticas",
+      "documentType": "STANDARD",
+      "area": "MATEMATICAS",
+      "version": "V.1",
+      "year": 2006,
+      "isbn": "958-691-290-6",
+      "url": "https://www.mineducacion.gov.co/1621/articles-340021_recurso_1.pdf",
+      "landingUrl": "https://www.mineducacion.gov.co/portal/men/Publicaciones/Guias/340021:Estandares-Basicos-de-Competencias-en-Lenguaje-Matematicas-Ciencias-y-Ciudadanas",
+      "sha256": "163b9f20b568e1cf3ba1178da6dba07a8ec09cd08043175e4308affdc40e8703",
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es un estándar; en Lenguaje lo acompaña el estándar de su columna, y en Inglés, las competencias que desarrolla."
+    }
+  },
+  "ebc-lenguaje-v1": {
+    "draft": "draft/ebc-len.json",
+    "fixes": null,
+    "pdf": "sources/estandares-basicos-competencias.pdf",
+    "layout": "ebc",
+    "source": {
+      "key": "MEN-EBC-LEN-V1",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Estándares Básicos de Competencias del Lenguaje",
+      "documentType": "STANDARD",
+      "area": "LENGUAJE",
+      "version": "V.1",
+      "year": 2006,
+      "isbn": "958-691-290-6",
+      "url": "https://www.mineducacion.gov.co/1621/articles-340021_recurso_1.pdf",
+      "landingUrl": "https://www.mineducacion.gov.co/portal/men/Publicaciones/Guias/340021:Estandares-Basicos-de-Competencias-en-Lenguaje-Matematicas-Ciencias-y-Ciudadanas",
+      "sha256": "163b9f20b568e1cf3ba1178da6dba07a8ec09cd08043175e4308affdc40e8703",
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es un estándar; en Lenguaje lo acompaña el estándar de su columna, y en Inglés, las competencias que desarrolla."
+    }
+  },
+  "ebc-ingles-parte1-v1": {
+    "draft": "draft/ebc-ing1.json",
+    "fixes": null,
+    "pdf": "sources/guia22-ingles-parte1.pdf",
+    "layout": "ebc",
+    "source": {
+      "key": "MEN-EBC-ING1-V1",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Estándares Básicos de Competencias en Lenguas Extranjeras: Inglés (Guía 22), 1.° a 5.°",
+      "documentType": "STANDARD",
+      "area": "INGLES",
+      "version": "V.1",
+      "year": 2006,
+      "url": "https://www.mineducacion.gov.co/1621/articles-115174_archivo_pdf.pdf",
+      "landingUrl": "https://www.mineducacion.gov.co/1621/w3-article-115174.html",
+      "sha256": "79023c60a5ca4bbe4102440c8d35d56bc3b620c84a70b157ee17b5c9d891de4b",
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es un estándar; en Lenguaje lo acompaña el estándar de su columna, y en Inglés, las competencias que desarrolla."
+    }
+  },
+  "ebc-ingles-parte2-v1": {
+    "draft": "draft/ebc-ing2.json",
+    "fixes": null,
+    "pdf": "sources/guia22-ingles-parte2.pdf",
+    "layout": "ebc",
+    "source": {
+      "key": "MEN-EBC-ING2-V1",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Estándares Básicos de Competencias en Lenguas Extranjeras: Inglés (Guía 22), 6.° a 11.°",
+      "documentType": "STANDARD",
+      "area": "INGLES",
+      "version": "V.1",
+      "year": 2006,
+      "url": "https://www.mineducacion.gov.co/1621/articles-115174_archivo_pdf1.pdf",
+      "landingUrl": "https://www.mineducacion.gov.co/1621/w3-article-115174.html",
+      "sha256": "175c2d501bc77b04c246f2ada277cc7e073dc61daed5d236fd92927085d22ee9",
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es un estándar; en Lenguaje lo acompaña el estándar de su columna, y en Inglés, las competencias que desarrolla."
+    }
   }
 }

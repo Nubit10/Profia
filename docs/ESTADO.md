@@ -7,6 +7,15 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **SPEC-0037 — Estándares de Matemáticas, Lenguaje e Inglés** (2026-11-21), pedido del usuario. Catálogo:
+  Matemáticas 172, Lenguaje 177, Inglés Guía 22 (1°-5° 91, 6°-11° 127), todos verificados contra los PDF
+  oficiales. `extract_ebc.py` con perfil por área y `extract_guia22.py`. Un estándar puede ir sin lista; la
+  tarjeta dice «Competencias que desarrolla» en Inglés. AI Engine: tipo en el índice y filtro `types`
+  (contrato aditivo); las sugerencias de DBA piden solo DBA. Índice: 1.518 ítems.
+  - Pendiente: **DBA de Inglés 6°-11°** (el PDF oficial no está en los sitios del MEN; pedir al usuario el
+    PDF o el enlace oficial); usar los Estándares al planear y generar (spec siguiente, a decidir);
+    revisión docente; en producción `curriculum:import` y republicar el Space.
+
 - **Fuente de títulos dentro del proyecto** (2026-11-21). En el computador del usuario `next dev`
   (Turbopack) fallaba con «next/font/google queries have exactly one entry» al cargar Fraunces desde
   Google Fonts (depende de la respuesta de Google; aquí no se reproducía). Fraunces ahora es

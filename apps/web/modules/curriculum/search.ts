@@ -38,6 +38,7 @@ export async function searchCourseCurriculum(
   courseId: string,
   query: string,
   fetcher: Fetcher = fetch,
+  types?: ("DBA" | "STANDARD")[],
 ): Promise<CurriculumSearchResult> {
   const course = await getMyCourse(ctx, courseId);
   // RN-07: 30 búsquedas por minuto por usuario.
@@ -58,7 +59,13 @@ export async function searchCourseCurriculum(
       method: "POST",
       headers: { "content-type": "application/json", authorization: `Bearer ${AI_ENGINE_TOKEN}` },
       // RN-04 / plan maestro §18: solo la consulta y los filtros; ningún dato personal.
-      body: JSON.stringify({ query, area, grade: course.grade, limit: 8 }),
+      body: JSON.stringify({
+        query,
+        area,
+        grade: course.grade,
+        limit: 8,
+        ...(types ? { types } : {}),
+      }),
       signal: AbortSignal.timeout(TIMEOUT_MS),
       cache: "no-store",
     });

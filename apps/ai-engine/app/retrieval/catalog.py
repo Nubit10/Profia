@@ -27,6 +27,8 @@ class CatalogItem:
     code: str
     area: str
     grades: tuple[str, ...]
+    # «DBA» o «STANDARD» (SPEC-0037): permite pedir solo DBA al sugerirlos para un objetivo.
+    type: str
     source_key: str
     text: str
 
@@ -56,6 +58,7 @@ def load_catalog(directory: Path) -> tuple[list[CatalogItem], str]:
                     code=item["code"],
                     area=item["area"],
                     grades=_grades_of(item),
+                    type=item.get("type", "DBA"),
                     source_key=source_key,
                     # Un fragmento por ítem: enunciado + evidencias (SPEC-0005 §2).
                     text=" ".join([item["statement"], *item["evidences"]]),

@@ -58,7 +58,9 @@ test("CA-0004-06: una asignatura propia se vincula a un área y muestra sus refe
   const refs = page
     .getByRole("list", { name: "DBA y Estándares", exact: true })
     .locator(":scope > li");
-  await expect(refs).toHaveCount(8);
+  // 8 DBA de Lenguaje de 3° y, desde SPEC-0037, los 42 subprocesos de los Estándares de 1°-3°.
+  await expect(refs.filter({ hasText: /^DBA \d/ })).toHaveCount(8);
+  await expect(refs).toHaveCount(8 + 42);
 });
 
 test("CA-0004-07: el curso de otro docente responde 404", async ({ page, browser }) => {

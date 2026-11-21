@@ -86,6 +86,8 @@ class CurriculumQuery(BaseModel):
     area: str | None = Field(default=None, max_length=40)
     grade: Grade | None = None
     limit: int = Field(default=8, ge=1, le=20)
+    # Opcional (SPEC-0037, aditivo): solo esos tipos; sin él, DBA y Estándares.
+    types: list[Literal["DBA", "STANDARD"]] | None = None
 
 
 class CurriculumHit(BaseModel):
@@ -252,6 +254,7 @@ def create_app(
             area=body.area,
             grade=body.grade,
             limit=body.limit,
+            types=body.types,
         )
         latency = int((time.perf_counter() - started) * 1000)
         # RN-04: se registra latencia y cantidad, nunca el texto de la consulta.
