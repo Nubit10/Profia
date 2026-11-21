@@ -32,6 +32,9 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
     objetivos, sugerencias, DBA marcados, ajustes, formatos, "Lucía aprendió algo de ti", tutorial y PIAR.
     La plataforma sigue siendo ProfIA. Regla en `docs/design/sistema-de-diseno.md` → Marca.
   - Pruebas e2e y el recorrido de usabilidad actualizados a los textos nuevos.
+  - Inicio (aprobado): bajo el saludo "Soy Lucía, tu asistente. ¿Qué preparamos hoy?" con el foco;
+    paso 3 "Crea tu primer taller con Lucía"; columna derecha "Pídele a Lucía". El cupo del menú se
+    queda como estaba (decisión del usuario). Capturas en `design/capturas/lucia/`.
 
 - **Nuevo nombre: ProfIA** (2026-11-21), decisión del usuario. Se cambió "Profe" por "ProfIA" en toda la
   interfaz, la página pública, los correos, la app instalable (manifiesto y título), los pies de los Word

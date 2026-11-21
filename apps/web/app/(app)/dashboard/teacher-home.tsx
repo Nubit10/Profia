@@ -134,7 +134,10 @@ export function TeacherHomeView(props: Props) {
       <header className="flex flex-col gap-1">
         <p className="text-sm font-medium text-brand-strong">{props.spaceName}</p>
         <h1 className="text-2xl font-extrabold sm:text-3xl">Hola, {props.userName}</h1>
-        <p className="text-muted-foreground">¿Qué vas a preparar hoy?</p>
+        <p className="flex items-start gap-1.5 text-muted-foreground">
+          <AiAvatar size={18} className="mt-0.5 shrink-0" />
+          Soy Lucía, tu asistente. ¿Qué preparamos hoy?
+        </p>
       </header>
 
       {/* Bloque 4 de usabilidad: lo que sigue en cada curso, listo para crear con un toque. */}
@@ -231,7 +234,7 @@ export function TeacherHomeView(props: Props) {
           className="flex flex-col gap-3 rounded-3xl border border-border bg-card p-6 shadow-soft"
         >
           <h2 id="quick-title" className="text-base font-bold">
-            Crear rápido
+            Pídele a Lucía
           </h2>
           <ul className="flex flex-col gap-2">
             {QUICK.map(({ label, description, href, icon: Icon }) => (

@@ -59,7 +59,7 @@ function stepView(key: FirstStepKey, steps: FirstSteps): StepView {
       };
     case "RESOURCE":
       return {
-        title: "Crea tu primer taller con IA",
+        title: "Crea tu primer taller con Lucía",
         text: steps.topicTitle
           ? `Para «${steps.topicTitle}». La IA lo prepara y tú lo revisas.`
           : "La IA lo prepara y tú lo revisas.",
