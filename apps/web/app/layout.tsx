@@ -12,10 +12,12 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 // Titulares de la página pública y del acceso (font-display); el área de trabajo no la usa.
+// Fraunces es una fuente variable: se carga así (sin pesos fijos). Con pesos fijos Google a veces
+// responde con direcciones `fonts.gstatic.com/l/font?…` que Turbopack no resuelve en `next dev`
+// («next/font/google queries have exactly one entry»). La variable trae todos los pesos (400–900).
 const fraunces = Fraunces({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["600", "700"],
   style: ["normal", "italic"],
 });
 
