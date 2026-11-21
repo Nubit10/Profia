@@ -23,6 +23,10 @@ Lo que el docente hace con el material es mandarlo al grupo de WhatsApp o imprim
   compartir falla, se descarga como siempre.
 - **RN-02 — Imprimir (computador).** "Imprimir" abre el PDF de la hoja en el navegador
   (`inline=1`, `content-disposition: inline`), listo para imprimir.
+- **RN-04 — WhatsApp (computador).** "Enviar por WhatsApp" junto a "Imprimir": WhatsApp Web no
+  recibe archivos desde otra página, así que descarga la hoja del estudiante en PDF, abre
+  `web.whatsapp.com` en otra pestaña y avisa "adjunta el archivo descargado". (Agregado el
+  2026-11-21: en el computador el docente no veía nada de WhatsApp.)
 - **RN-03:** las mismas reglas de acceso de la ruta `export` (404 a lo ajeno) y su límite por minuto.
 
 ## 3. Criterios de aceptación
@@ -30,6 +34,9 @@ Lo que el docente hace con el material es mandarlo al grupo de WhatsApp o imprim
 - **CA-0031-01:** "Imprimir" abre `…/export?doc=student&format=pdf&inline=1` y el servidor responde
   `inline`.
 - **CA-0031-02:** en un navegador sin `navigator.canShare` para archivos no aparece "Compartir".
+- **CA-0031-03:** en el computador, "Enviar por WhatsApp" descarga la hoja en PDF y abre WhatsApp Web.
+
+Pruebas: `apps/web/tests/e2e/spec-0031.spec.ts`.
 
 Pendiente: validación manual en un iPhone y un Android reales (el contenedor de pruebas no comparte
 archivos).

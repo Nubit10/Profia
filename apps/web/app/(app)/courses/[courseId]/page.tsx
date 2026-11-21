@@ -5,9 +5,9 @@ import {
   HiOutlineArrowLeft,
   HiOutlineBookOpen,
   HiOutlineCalendarDays,
+  HiOutlinePlus,
   HiOutlineRectangleStack,
 } from "react-icons/hi2";
-import { AiAvatar } from "@/components/brand/ai-avatar";
 import { ScrollableRow } from "@/components/scrollable-row";
 import { buttonVariants } from "@/components/ui/button";
 import { subjectTint } from "@/lib/subject-tint";
@@ -109,9 +109,10 @@ export default async function CoursePage({
           </div>
           <Link
             href={`/create?courseId=${course.id}`}
-            className={cn(buttonVariants({ variant: "brand", size: "lg" }), "max-sm:hidden")}
+            className={cn(buttonVariants({ size: "lg" }), "max-sm:hidden")}
           >
-            <AiAvatar size={20} tone="light" />
+            {/* Igual que en las demás vistas: color principal y "+" (consistencia). */}
+            <HiOutlinePlus aria-hidden />
             Crear con IA
           </Link>
         </div>

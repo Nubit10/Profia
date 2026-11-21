@@ -456,9 +456,16 @@ export function ResourceView({
                 return true;
               }}
             />
-            {/* Bloque 5 de usabilidad: imprimir (escritorio) y compartir por WhatsApp (celular). */}
+            {/* Bloque 5 de usabilidad: imprimir y WhatsApp (escritorio) y compartir por WhatsApp (celular). */}
             <SharePrint
               variant="print"
+              courseId={resource.courseId}
+              resourceId={resource.id}
+              version={resource.version}
+              title={resource.title}
+            />
+            <SharePrint
+              variant="whatsapp"
               courseId={resource.courseId}
               resourceId={resource.id}
               version={resource.version}

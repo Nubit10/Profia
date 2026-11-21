@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { FaWhatsapp } from "react-icons/fa";
 import { HiOutlinePrinter, HiOutlineShare } from "react-icons/hi2";
+import { sileo } from "sileo";
 import { Button } from "@/components/ui/button";
 
 /**
@@ -10,6 +12,8 @@ import { Button } from "@/components/ui/button";
  *   página porque Safari solo deja compartir justo después del toque (sin esperar la red). Si el
  *   navegador no comparte archivos, se descarga como siempre.
  * - Imprimir: abre el PDF en el navegador, listo para imprimir.
+ * - WhatsApp (computador): WhatsApp Web no recibe archivos desde otra página, así que se descarga
+ *   la hoja en PDF y se abre WhatsApp Web para adjuntarla en el chat del grupo.
  */
 export function SharePrint({
   courseId,
@@ -22,8 +26,11 @@ export function SharePrint({
   resourceId: string;
   version: number;
   title: string;
-  /** "share": botón de ícono para la barra del celular; "print": botón de texto en escritorio. */
-  variant: "share" | "print";
+  /**
+   * "share": botón de ícono para la barra del celular; "print" y "whatsapp": botones de texto en
+   * escritorio.
+   */
+  variant: "share" | "print" | "whatsapp";
 }) {
   const url = `/courses/${courseId}/resources/${resourceId}/export?doc=student&format=pdf&version=${version}`;
   const file = useRef<File | null>(null);
@@ -64,6 +71,31 @@ export function SharePrint({
       >
         <HiOutlinePrinter aria-hidden />
         Imprimir
+      </Button>
+    );
+  }
+
+  if (variant === "whatsapp") {
+    return (
+      <Button
+        type="button"
+        size="lg"
+        variant="outline"
+        className="max-md:hidden"
+        onClick={() => {
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = "";
+          link.click();
+          window.open("https://web.whatsapp.com/", "_blank", "noopener");
+          sileo.success({
+            title: "Se descargó la hoja en PDF",
+            description: "En WhatsApp, abre el chat del grupo y adjunta el archivo descargado.",
+          });
+        }}
+      >
+        <FaWhatsapp aria-hidden />
+        Enviar por WhatsApp
       </Button>
     );
   }

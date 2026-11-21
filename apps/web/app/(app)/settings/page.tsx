@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/page-header";
 import { getAccount } from "@/modules/auth";
 import { requireTenant } from "@/modules/tenancy";
-import { AccountCard, DisplaySettings, HelpCard } from "./settings-panels";
+import { AccountCard, DisplaySettings, HelpCard, OfflineCard } from "./settings-panels";
 
 export const metadata: Metadata = { title: "Ajustes" };
 
@@ -36,6 +36,7 @@ export default async function SettingsPage() {
         }))}
       />
       <DisplaySettings />
+      {ctx.roles.includes("TEACHER") && <OfflineCard />}
       <HelpCard />
     </div>
   );

@@ -222,3 +222,47 @@ export function OfflineBadge({ resourceId, version }: { resourceId: string; vers
     </span>
   );
 }
+
+/**
+ * Ajustes → "Sin conexión": la misma preferencia del navegador que preguntan "Mis recursos" y la hoja
+ * del celular (SPEC-0013 RN-14, SPEC-0018), para cambiarla cuando el docente quiera.
+ */
+export function OfflineSettings() {
+  const preference = usePreference();
+  const { saved, total, syncing } = useOfflineState();
+  if (preference === "unknown") return null;
+  const count = Object.keys(saved).length;
+
+  if (preference === "on") {
+    return (
+      <div className="flex flex-col gap-3">
+        <p className="text-sm font-semibold text-success">
+          <SavedCount />
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {!syncing && count < total && (
+            <Button type="button" variant="outline" className="min-h-11" onClick={forceOfflineSync}>
+              Guardar ahora
+            </Button>
+          )}
+          <Button type="button" variant="outline" className="min-h-11" onClick={stopSaving}>
+            Dejar de guardar en este dispositivo
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      <p className="text-sm text-muted-foreground">{EXPLANATION}</p>
+      <Button
+        type="button"
+        className="min-h-11 self-start"
+        onClick={() => setOfflinePreference("on")}
+      >
+        Guardar en este dispositivo
+      </Button>
+    </div>
+  );
+}

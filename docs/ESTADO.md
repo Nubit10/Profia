@@ -19,6 +19,16 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **Ajustes (2), "Crear con IA" y WhatsApp en el computador** (2026-11-21), pedido del usuario.
+  - Ajustes → "Usar sin conexión": activar, ver cuántos van guardados y dejar de guardar
+    (`OfflineSettings` en `components/offline/offline-panel.tsx`; solo docentes).
+  - En el curso, "Crear con IA" usa el color principal y "+", como en las demás vistas (sin el
+    degradado ni el ícono de IA).
+  - SPEC-0031 RN-04: "Enviar por WhatsApp" en el computador (descarga el PDF y abre WhatsApp Web). El
+    "Compartir" del celular (Web Share) ya existía, pero solo se ve en el teléfono; por eso no aparecía.
+  - Pruebas: `spec-0031.spec.ts` nueva (CA-0031-01/02/03 no tenían prueba, y Ajustes sin conexión);
+    `ux`, `spec-0013-offline` y `spec-0018` en verde. Capturas en `docs/design/capturas/ajustes/`.
+
 - **Ajustes** (2026-11-21), pedido del usuario. Página nueva `/settings` ("Configuración → Ajustes" en el
   menú; quien no da clases la ve en "Cuenta"): Mi cuenta (nombre, correo y fecha con que se registró, y sus
   espacios con el rol; solo lectura, `getAccount` en `modules/auth`), tamaño de la letra (Normal / Más

@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react";
 import type { IconType } from "react-icons";
 import {
+  HiOutlineCloudArrowDown,
   HiOutlineComputerDesktop,
   HiOutlineMoon,
   HiOutlineQuestionMarkCircle,
@@ -12,6 +13,7 @@ import {
 import { RiFontSize2 } from "react-icons/ri";
 import { useLargeText } from "@/components/app-shell/text-size";
 import { useShellStore } from "@/components/app-shell/use-shell-store";
+import { OfflineSettings } from "@/components/offline/offline-panel";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -217,6 +219,19 @@ export function HelpCard() {
       >
         Ver tutorial
       </Button>
+    </Section>
+  );
+}
+
+/** Guardar los recursos para usarlos sin internet (solo docentes: quien no da clases no tiene). */
+export function OfflineCard() {
+  return (
+    <Section
+      title="Usar sin conexión"
+      description="Tus recursos en Word y PDF, listos aunque no haya internet. Si este dispositivo lo usan otras personas, mejor no."
+      icon={HiOutlineCloudArrowDown}
+    >
+      <OfflineSettings />
     </Section>
   );
 }
