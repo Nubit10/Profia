@@ -22,6 +22,14 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **Login más minimalista** (2026-11-21), pedido del usuario con su CRM (NubiA) como referencia.
+  `app/(auth)/layout.tsx`: formulario sin tarjeta sobre fondo liso (`bg-brand-softer`), logo arriba a la
+  izquierda, botón de color sólido (no el degradado) y, en el computador, un panel oscuro con una frase y
+  dos avisos de ejemplo (decorativos, `aria-hidden`). Se quitaron la hoja rayada, la lista de 4 pasos y
+  la frase de abajo. Títulos con `AuthHeading` en login, registro, olvidé y contraseña nueva. Capturas en
+  `design/capturas/login-minimalista/` (las de `spec-0035/` muestran el diseño anterior). e2e de auth,
+  0013, a11y, ux, workspaces, auditoría móvil y 0035 en verde (41).
+
 - **SPEC-0035 — Recuperar la contraseña por correo y ver la contraseña** (2026-11-21, ADR-0021). El
   usuario eligió el camino completo por correo con Nodemailer.
   - "¿Olvidaste tu contraseña?" en el login (lleva el correo escrito) → `/forgot-password` → correo con

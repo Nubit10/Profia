@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 import { useForm, type FieldPath } from "react-hook-form";
 import { sileo } from "sileo";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/forms/password-input";
+import { AuthHeading } from "../auth-heading";
 import {
   DEFAULT_AFTER_LOGIN,
   PASSWORD_MIN,
@@ -70,53 +70,48 @@ export function RegisterForm({ action, callbackUrl, defaultEmail = "" }: Props) 
   });
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle role="heading" aria-level={1} className="font-display text-2xl font-semibold">
-          Crear cuenta
-        </CardTitle>
-        <CardDescription>Regístrate como docente para empezar.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={onSubmit} noValidate>
-          <FieldGroup>
-            {FIELDS.map((field) => (
-              <Field key={field.name} data-invalid={!!errors[field.name]}>
-                <FieldLabel htmlFor={field.name}>{field.label}</FieldLabel>
-                {field.type === "password" ? (
-                  <PasswordInput
-                    id={field.name}
-                    autoComplete={field.auto}
-                    aria-invalid={!!errors[field.name]}
-                    {...form.register(field.name)}
-                  />
-                ) : (
-                  <Input
-                    id={field.name}
-                    type={field.type}
-                    autoComplete={field.auto}
-                    aria-invalid={!!errors[field.name]}
-                    {...form.register(field.name)}
-                  />
-                )}
-                {field.name === "password" && !errors.password && (
-                  <FieldDescription>Mínimo {PASSWORD_MIN} caracteres.</FieldDescription>
-                )}
-                <FieldError errors={[errors[field.name]]} />
-              </Field>
-            ))}
-            <Button type="submit" variant="brand" size="lg" disabled={isSubmitting}>
-              {isSubmitting ? "Creando cuenta…" : "Crear cuenta"}
-            </Button>
-            <p className="text-center text-sm text-muted-foreground">
-              ¿Ya tienes cuenta?{" "}
-              <Link href="/login" className="font-semibold text-brand-strong underline">
-                Iniciar sesión
-              </Link>
-            </p>
-          </FieldGroup>
-        </form>
-      </CardContent>
-    </Card>
+    <>
+      <AuthHeading title="Crea tu cuenta">
+        Para docentes. Después eliges si das clases por tu cuenta o con tu colegio.
+      </AuthHeading>
+      <form onSubmit={onSubmit} noValidate>
+        <FieldGroup>
+          {FIELDS.map((field) => (
+            <Field key={field.name} data-invalid={!!errors[field.name]}>
+              <FieldLabel htmlFor={field.name}>{field.label}</FieldLabel>
+              {field.type === "password" ? (
+                <PasswordInput
+                  id={field.name}
+                  autoComplete={field.auto}
+                  aria-invalid={!!errors[field.name]}
+                  {...form.register(field.name)}
+                />
+              ) : (
+                <Input
+                  id={field.name}
+                  type={field.type}
+                  autoComplete={field.auto}
+                  aria-invalid={!!errors[field.name]}
+                  {...form.register(field.name)}
+                />
+              )}
+              {field.name === "password" && !errors.password && (
+                <FieldDescription>Mínimo {PASSWORD_MIN} caracteres.</FieldDescription>
+              )}
+              <FieldError errors={[errors[field.name]]} />
+            </Field>
+          ))}
+          <Button type="submit" size="xl" className="w-full" disabled={isSubmitting}>
+            {isSubmitting ? "Creando cuenta…" : "Crear cuenta"}
+          </Button>
+        </FieldGroup>
+      </form>
+      <p className="mt-8 border-t border-border pt-6 text-sm text-muted-foreground">
+        ¿Ya tienes cuenta?{" "}
+        <Link href="/login" className="font-semibold text-brand-strong hover:underline">
+          Inicia sesión
+        </Link>
+      </p>
+    </>
   );
 }

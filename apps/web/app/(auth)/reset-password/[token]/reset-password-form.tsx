@@ -8,8 +8,8 @@ import { useForm } from "react-hook-form";
 import { sileo } from "sileo";
 import { PasswordInput } from "@/components/forms/password-input";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { AuthHeading } from "../../auth-heading";
 import {
   DEFAULT_AFTER_LOGIN,
   PASSWORD_MIN,
@@ -59,80 +59,59 @@ export function ResetPasswordForm({ action, token }: Props) {
   if (expired) return <InvalidResetLink />;
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle role="heading" aria-level={1} className="font-display text-2xl font-semibold">
-          Crea tu contraseña nueva
-        </CardTitle>
-        <CardDescription>
-          Al guardarla, entras a Profe y se cierra la sesión en los demás dispositivos.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={onSubmit} noValidate>
-          <FieldGroup>
-            <Field data-invalid={!!errors.password}>
-              <FieldLabel htmlFor="password">Contraseña nueva</FieldLabel>
-              <PasswordInput
-                id="password"
-                autoComplete="new-password"
-                aria-invalid={!!errors.password}
-                {...form.register("password")}
-              />
-              {!errors.password && (
-                <FieldDescription>Mínimo {PASSWORD_MIN} caracteres.</FieldDescription>
-              )}
-              <FieldError errors={[errors.password]} />
-            </Field>
-            <Field data-invalid={!!errors.confirmPassword}>
-              <FieldLabel htmlFor="confirmPassword">Confirmar contraseña</FieldLabel>
-              <PasswordInput
-                id="confirmPassword"
-                autoComplete="new-password"
-                aria-invalid={!!errors.confirmPassword}
-                {...form.register("confirmPassword")}
-              />
-              <FieldError errors={[errors.confirmPassword]} />
-            </Field>
-            <Button type="submit" variant="brand" size="lg" disabled={isSubmitting}>
-              {isSubmitting ? "Guardando…" : "Guardar y entrar"}
-            </Button>
-          </FieldGroup>
-        </form>
-      </CardContent>
-    </Card>
+    <>
+      <AuthHeading title="Crea tu contraseña nueva">
+        Al guardarla entras a Profe y se cierra la sesión en los demás dispositivos.
+      </AuthHeading>
+      <form onSubmit={onSubmit} noValidate>
+        <FieldGroup>
+          <Field data-invalid={!!errors.password}>
+            <FieldLabel htmlFor="password">Contraseña nueva</FieldLabel>
+            <PasswordInput
+              id="password"
+              autoComplete="new-password"
+              aria-invalid={!!errors.password}
+              {...form.register("password")}
+            />
+            {!errors.password && (
+              <FieldDescription>Mínimo {PASSWORD_MIN} caracteres.</FieldDescription>
+            )}
+            <FieldError errors={[errors.password]} />
+          </Field>
+          <Field data-invalid={!!errors.confirmPassword}>
+            <FieldLabel htmlFor="confirmPassword">Confirmar contraseña</FieldLabel>
+            <PasswordInput
+              id="confirmPassword"
+              autoComplete="new-password"
+              aria-invalid={!!errors.confirmPassword}
+              {...form.register("confirmPassword")}
+            />
+            <FieldError errors={[errors.confirmPassword]} />
+          </Field>
+          <Button type="submit" size="xl" className="w-full" disabled={isSubmitting}>
+            {isSubmitting ? "Guardando…" : "Guardar y entrar"}
+          </Button>
+        </FieldGroup>
+      </form>
+    </>
   );
 }
 
 /** CA-0035-05: vencido, usado o inventado se ven igual, con la salida a pedir otro. */
 export function InvalidResetLink() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle role="heading" aria-level={1} className="font-display text-2xl font-semibold">
-          Este enlace ya no sirve
-        </CardTitle>
-        <CardDescription>
-          Los enlaces vencen en 1 hora y sirven una sola vez. Si pediste varios, solo sirve el
-          último.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-col gap-4">
-          <Link
-            href="/forgot-password"
-            className={buttonVariants({ variant: "brand", size: "lg" })}
-          >
-            Pedir un enlace nuevo
-          </Link>
-          <Link
-            href="/login"
-            className="py-2 text-center text-sm font-semibold text-brand-strong underline"
-          >
-            Volver a iniciar sesión
-          </Link>
-        </div>
-      </CardContent>
-    </Card>
+    <>
+      <AuthHeading title="Este enlace ya no sirve">
+        Los enlaces vencen en 1 hora y sirven una sola vez. Si pediste varios, solo sirve el último.
+      </AuthHeading>
+      <Link href="/forgot-password" className={buttonVariants({ size: "xl", className: "w-full" })}>
+        Pedir un enlace nuevo
+      </Link>
+      <p className="mt-8 border-t border-border pt-6 text-sm text-muted-foreground">
+        <Link href="/login" className="font-semibold text-brand-strong hover:underline">
+          Volver a iniciar sesión
+        </Link>
+      </p>
+    </>
   );
 }
