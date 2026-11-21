@@ -32,6 +32,7 @@ Solo se implementa lo que está **Aprobada**. Solo el usuario (product owner) ap
 | [SPEC-0022](SPEC-0022-verificar-respuestas-de-matematicas.md) | Verificar las respuestas de Matemáticas                                         | 6 · Generation              | Implementada |
 | [SPEC-0023](SPEC-0023-preguntas-tipo-saber-con-figuras.md)    | Preguntas tipo Saber (ICFES) con situación, figura y competencia                | 6 · Generation              | Implementada |
 | [SPEC-0024](SPEC-0024-plan-de-aula-y-escala-de-valoracion.md) | Plan de aula (secuencia didáctica) y rúbrica en la escala del colegio           | 6 · Generation              | Implementada |
+| [SPEC-0027](SPEC-0027-ajustes-rapidos-con-botones.md)         | Ajustes rápidos con botones («Más fácil», «Más corto»…) sin escribir            | 6 · Generation              | Borrador     |
 
 ## Mapa del roadmap → specs previstas
 

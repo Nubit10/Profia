@@ -5,6 +5,12 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## En curso
 
+- **SPEC-0027** — Ajustes rápidos con botones ([spec](specs/SPEC-0027-ajustes-rapidos-con-botones.md)),
+  bloque 1 de los próximos pasos de usabilidad. Estado: **Borrador** (2026-11-21), esperando que el
+  usuario responda 3 preguntas (¿juntar con el bloque 2?, ¿cuesta cupo?, ¿se esconde o se quita el
+  texto libre de "Regenerar"?) y la apruebe. Siguiente: ADR-0020 → `/implement SPEC-0027`.
+  SPEC-0025 y SPEC-0026 quedan reservadas para resultados y validación.
+
 - **Siguiente (pedido del usuario el 2026-11-20): mejoras de usabilidad**, en el orden de
   [usabilidad/proximos-pasos.md](usabilidad/proximos-pasos.md). Una spec por bloque, esperando la
   aprobación del usuario entre cada una:
