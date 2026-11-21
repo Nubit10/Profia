@@ -183,7 +183,7 @@ export type FirstSteps = {
   topicId: string | null;
   topicTitle: string | null;
   resource: ResourceListItem | null;
-  /** Bloque 6 de usabilidad: el curso tiene DBA, así que Profe le propone los temas. */
+  /** Bloque 6 de usabilidad: el curso tiene DBA, así que ProfIA le propone los temas. */
   canProposeTopics: boolean;
 };
 
@@ -221,7 +221,7 @@ export type GenerationWatch = {
   finished: WatchedResource[];
 };
 
-/** SPEC-0021: preferencia que Profe propone; el docente la acepta o la descarta. */
+/** SPEC-0021: preferencia que ProfIA propone; el docente la acepta o la descarta. */
 export type PendingSuggestion = {
   id: string;
   text: string;

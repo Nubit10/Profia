@@ -92,7 +92,7 @@ export async function revokeSession(sessionId: string): Promise<void> {
   });
 }
 
-/** Ajustes → Mi cuenta: lo que el docente escribió al registrarse y desde cuándo usa Profe. */
+/** Ajustes → Mi cuenta: lo que el docente escribió al registrarse y desde cuándo usa ProfIA. */
 export async function getAccount(
   userId: string,
 ): Promise<{ name: string; email: string; createdAt: Date } | null> {

@@ -136,7 +136,7 @@ async function courseWithTopic(ctx: TenantContext, groupName = "601") {
 }
 
 async function teacher() {
-  const user = await createUser("Profe");
+  const user = await createUser("ProfIA");
   const { institutionId } = await createIndependentSpace(user);
   const ctx = await ctxFor(user, institutionId);
   return { ctx, ...(await courseWithTopic(ctx)) };
@@ -370,7 +370,7 @@ describe("Parte A: preferencias propuestas (SPEC-0021)", () => {
     const admin = await createUser("Rectora");
     const { institutionId } = await registerSchool(admin, { ...validSchool, alsoTeaches: true });
     const adminCtx = await ctxFor(admin, institutionId);
-    const other = await createUser("Profe");
+    const other = await createUser("ProfIA");
     const { token } = await createInvitation(adminCtx, { email: other.email, roles: ["TEACHER"] });
     await acceptInvitation(other, token);
     const ctx = await ctxFor(other, institutionId);

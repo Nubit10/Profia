@@ -86,7 +86,7 @@
 }
 
 /*
- * Sistema de diseño de Profe (SPEC-0012, docs/design/sistema-de-diseno.md).
+ * Sistema de diseño de ProfIA (SPEC-0012, docs/design/sistema-de-diseno.md).
  * Paleta propia cálida: naranja → magenta → violeta. Todos los colores de la UI salen de estos
  * tokens (RN-09); los tres puntos del degradado tienen contraste AA con texto blanco (RN-10).
  */

@@ -38,7 +38,7 @@ type Props = {
 };
 
 /** Preferencias de descarga por dispositivo (RN-06): de UI, no de dominio. */
-const PREFS_KEY = "profe:descargas";
+const PREFS_KEY = "profia:descargas";
 const DEFAULT_PREFS: Prefs = { format: "pdf", docs: ["student", "key"], variants: 1 };
 
 function readPrefs(): Prefs {

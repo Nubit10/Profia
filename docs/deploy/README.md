@@ -1,6 +1,6 @@
 # Despliegue del MVP (sin costo)
 
-Guía para poner Profe en producción **sin pagar nada** y sin tarjeta de crédito. La decisión y sus razones están en [ADR-0011](../adr/0011-despliegue-del-mvp.md).
+Guía para poner ProfIA en producción **sin pagar nada** y sin tarjeta de crédito. La decisión y sus razones están en [ADR-0011](../adr/0011-despliegue-del-mvp.md).
 
 ```
 Docentes ──► Vercel Hobby (apps/web) ──► Supabase Free (PostgreSQL)
@@ -19,7 +19,7 @@ Orden: **GitHub → Supabase → Hugging Face → Vercel → UptimeRobot → ver
 | GitHub             | Código             | Repositorio privado sin límite.                                                                                                                                                                                                    |
 | Supabase Free      | PostgreSQL         | 500 MB. **Se pausa tras 7 días sin actividad** (el monitor lo evita). Sin respaldos descargables: haz los tuyos (paso 8).                                                                                                          |
 | Hugging Face Space | AI Engine          | CPU de 2 núcleos y 16 GB de RAM. **Se duerme tras 48 h sin visitas** (el monitor lo evita). El Space es **público**: se ven el código del motor, los prompts y el catálogo, que es público. Nunca las claves ni datos de usuarios. |
-| Vercel Hobby       | Web                | Funciones de hasta 300 s, suficiente para Profe. Sus términos lo limitan a **uso personal o no comercial**: sirve para un piloto sin cobro; cuando les cobres a tus clientes, pasa a Pro.                                          |
+| Vercel Hobby       | Web                | Funciones de hasta 300 s, suficiente para ProfIA. Sus términos lo limitan a **uso personal o no comercial**: sirve para un piloto sin cobro; cuando les cobres a tus clientes, pasa a Pro.                                         |
 | Groq Free          | Modelo de lenguaje | Cupo diario por modelo. Con dos clientes alcanza. Revisa los límites en https://console.groq.com/settings/limits.                                                                                                                  |
 | UptimeRobot Free   | Monitor            | 50 monitores. Te avisa por correo si algo se cae.                                                                                                                                                                                  |
 
@@ -46,7 +46,7 @@ git push -u origin main
 1. Crea un proyecto en https://supabase.com/dashboard:
    - **Región:** East US (North Virginia), la misma de las funciones de Vercel (`iad1`). Cada página hace varias consultas; con la base cerca de la web responde mucho más rápido.
    - Guarda la contraseña de la base. Usa solo letras y números: los caracteres especiales (`@ # / ? %`) rompen la URL si no se codifican.
-2. **Apaga la Data API.** Supabase expone por defecto las tablas del esquema `public` por HTTP, y Profe no la usa: el acceso a los datos pasa siempre por el servidor, con sus permisos. Ve a _Project Settings → Data API_ (o _Integrations → Data API_) y desactívala. Si no la apagas, cualquiera con la clave `anon` del proyecto podría leer las tablas.
+2. **Apaga la Data API.** Supabase expone por defecto las tablas del esquema `public` por HTTP, y ProfIA no la usa: el acceso a los datos pasa siempre por el servidor, con sus permisos. Ve a _Project Settings → Data API_ (o _Integrations → Data API_) y desactívala. Si no la apagas, cualquiera con la clave `anon` del proyecto podría leer las tablas.
 3. En **Connect** (botón superior), copia dos cadenas de conexión:
    - **Transaction pooler** (puerto **6543**): la usa la web.
    - **Session pooler** (puerto **5432**): sirve para las migraciones.
@@ -81,7 +81,7 @@ git push -u origin main
 
 1. Crea una cuenta gratuita en https://huggingface.co (no pide tarjeta).
 2. Crea el Space en https://huggingface.co/new-space:
-   - **Name:** `profe-ai-engine`;
+   - **Name:** `profia-ai-engine`;
    - **SDK:** Docker, plantilla _Blank_;
    - **Hardware:** CPU basic (gratis);
    - **Visibility:** Public. Un Space privado exige el token de Hugging Face en cada llamada y choca con el token del motor.
@@ -100,17 +100,17 @@ git push -u origin main
 5. Publica el motor desde la raíz del proyecto:
 
    ```powershell
-   powershell -ExecutionPolicy Bypass -File scripts/publish-ai-engine-hf.ps1 -Space <tu-usuario>/profe-ai-engine
+   powershell -ExecutionPolicy Bypass -File scripts/publish-ai-engine-hf.ps1 -Space <tu-usuario>/profia-ai-engine
    ```
 
    - Si git pide credenciales: el usuario es tu usuario de Hugging Face y la contraseña es el token del paso 4.
    - El script sube **solo** el código del motor, sus prompts y el catálogo oficial. Nada de la web ni de tus `.env`.
 
 6. Hugging Face construye la imagen en sus servidores: unos 10 minutos la primera vez, porque descarga el modelo de embeddings (~1 GB). Sigue el avance en la pestaña _Logs_ del Space. Al arrancar, el motor indexa el catálogo en memoria (menos de un minuto).
-7. Comprueba que responde. La URL del motor es `https://<tu-usuario>-profe-ai-engine.hf.space`:
+7. Comprueba que responde. La URL del motor es `https://<tu-usuario>-profia-ai-engine.hf.space`:
 
    ```powershell
-   curl.exe https://<tu-usuario>-profe-ai-engine.hf.space/health
+   curl.exe https://<tu-usuario>-profia-ai-engine.hf.space/health
    ```
 
    Debe responder `"status":"ok"` con `"provider":"local"` y un índice con ítems.
@@ -126,10 +126,10 @@ git push -u origin main
    | ----------------- | ----------------------------------------------------------------------------------------------- |
    | `DATABASE_URL`    | La URL de la web de Supabase (puerto **6543**, con `sslmode=require&uselibpqcompat=true`)       |
    | `AUTH_SECRET`     | Uno nuevo: `npx auth secret` (o 32+ caracteres aleatorios). **No reutilices** el de desarrollo. |
-   | `AI_ENGINE_URL`   | `https://<tu-usuario>-profe-ai-engine.hf.space` (sin `/` al final)                              |
+   | `AI_ENGINE_URL`   | `https://<tu-usuario>-profia-ai-engine.hf.space` (sin `/` al final)                             |
    | `AI_ENGINE_TOKEN` | El mismo token que pusiste en el Space                                                          |
 
-   Opcionales, para las **notificaciones del navegador** (SPEC-0013, ADR-0012). Sin ellas Profe funciona
+   Opcionales, para las **notificaciones del navegador** (SPEC-0013, ADR-0012). Sin ellas ProfIA funciona
    igual, solo que no ofrece los avisos. Genera el par **una sola vez** en tu computador con
    `npx web-push generate-vapid-keys` y no lo cambies: cambiarlo apaga los avisos de todos los docentes.
 
@@ -137,7 +137,7 @@ git push -u origin main
    | ------------------------------ | ---------------------------------------------------------------------- |
    | `NEXT_PUBLIC_VAPID_PUBLIC_KEY` | La _Public Key_ del par                                                |
    | `VAPID_PRIVATE_KEY`            | La _Private Key_ del par (secreta: solo aquí, nunca en el repositorio) |
-   | `VAPID_SUBJECT`                | `mailto:` con un correo de soporte, o la URL `https://` de Profe       |
+   | `VAPID_SUBJECT`                | `mailto:` con un correo de soporte, o la URL `https://` de ProfIA      |
 
    **Correo** para recuperar la contraseña (SPEC-0035, ADR-0021). Sin `SMTP_URL` el enlace **no sale** y los
    docentes que olviden la contraseña quedan por fuera: configúralo antes de dar acceso. Sirve cualquier
@@ -148,14 +148,14 @@ git push -u origin main
    | Variable    | Valor                                                                                                                                |
    | ----------- | ------------------------------------------------------------------------------------------------------------------------------------ |
    | `SMTP_URL`  | Gmail: `smtps://tu-correo%40gmail.com:<contraseña de aplicación sin espacios>@smtp.gmail.com:465` (la `@` del usuario va como `%40`) |
-   | `MAIL_FROM` | `Profe <tu-correo@gmail.com>` (con Gmail, el mismo correo de `SMTP_URL`)                                                             |
-   | `APP_URL`   | La URL pública de Profe, p. ej. `https://<proyecto>.vercel.app` (sin `/` al final). Arma los enlaces.                                |
+   | `MAIL_FROM` | `ProfIA <tu-correo@gmail.com>` (con Gmail, el mismo correo de `SMTP_URL`)                                                            |
+   | `APP_URL`   | La URL pública de ProfIA, p. ej. `https://<proyecto>.vercel.app` (sin `/` al final). Arma los enlaces.                               |
 
    Prueba: en el login, "¿Olvidaste tu contraseña?" con tu correo; debe llegar en menos de un minuto (mira
    también en spam). Si no llega, en Vercel → _Logs_ busca `auth.password_reset.mail_failed` o
    `mail.not_configured`.
 
-   Opcional, para el **PIAR** (SPEC-0017, ADR-0015). Sin ella Profe no ofrece el PIAR. Cifra los datos
+   Opcional, para el **PIAR** (SPEC-0017, ADR-0015). Sin ella ProfIA no ofrece el PIAR. Cifra los datos
    de los estudiantes: genérala **una sola vez** con `openssl rand -base64 32` y guárdala también en un
    lugar seguro aparte de la base (un gestor de contraseñas). Si se pierde, los PIAR guardados no se
    pueden leer.
@@ -174,10 +174,10 @@ git push -u origin main
 
 En https://uptimerobot.com (cuenta gratuita), crea dos monitores **HTTP(s)** con intervalo de **30 minutos**:
 
-| Monitor   | URL                                                    | Qué evita                                                 |
-| --------- | ------------------------------------------------------ | --------------------------------------------------------- |
-| Profe web | `https://<proyecto>.vercel.app/api/health`             | Que Supabase pause el proyecto: la ruta consulta la base. |
-| Profe IA  | `https://<tu-usuario>-profe-ai-engine.hf.space/health` | Que el Space se duerma a las 48 h.                        |
+| Monitor    | URL                                                     | Qué evita                                                 |
+| ---------- | ------------------------------------------------------- | --------------------------------------------------------- |
+| ProfIA web | `https://<proyecto>.vercel.app/api/health`              | Que Supabase pause el proyecto: la ruta consulta la base. |
+| ProfIA IA  | `https://<tu-usuario>-profia-ai-engine.hf.space/health` | Que el Space se duerma a las 48 h.                        |
 
 Además te avisa por correo si algo se cae. Si el Space se duerme de todas formas (por ejemplo, por mantenimiento de Hugging Face), abre su página y se despierta en uno o dos minutos.
 
@@ -202,9 +202,9 @@ Si una generación falla: en el Space → _Logs_ aparece `generation.<tipo>` con
 - **Colegio:**
   1. Un directivo se registra y crea el colegio con sus sedes.
   2. Desde _Colegio → Miembros_, invita a los docentes; cada invitación genera un enlace.
-  3. El directivo envía el enlace por WhatsApp o correo (Profe no envía correos).
+  3. El directivo envía el enlace por WhatsApp o correo (ProfIA no envía correos).
 - **Cupo:** cada docente tiene **10 generaciones al día**, y un examen cuenta como 2. Si Groq agota su cupo diario, la generación falla con un mensaje y no gasta cupo del docente.
-- **Retroalimentación:** cada recurso generado tiene su evaluación docente (SPEC-0008). Con `npm run metrics:resources -w @profe/web`, apuntando `DATABASE_URL` a Supabase como en el paso 2.5, ves la calidad por versión de prompt.
+- **Retroalimentación:** cada recurso generado tiene su evaluación docente (SPEC-0008). Con `npm run metrics:resources -w @profia/web`, apuntando `DATABASE_URL` a Supabase como en el paso 2.5, ves la calidad por versión de prompt.
 
 ## 8. Actualizaciones y respaldos
 

@@ -58,7 +58,7 @@ export function RegisterForm({ action, callbackUrl, defaultEmail = "" }: Props) 
     // SPEC-0013 RN-01: la cuenta nueva ya tiene sesión; sin espacio, el área de trabajo lleva al
     // onboarding. Si iniciar sesión falló, el login de hoy con el correo ya escrito.
     if (result.data?.signedIn) {
-      sileo.success({ title: "Cuenta creada", description: "Te damos la bienvenida a Profe." });
+      sileo.success({ title: "Cuenta creada", description: "Te damos la bienvenida a ProfIA." });
       router.replace(callbackUrl);
       router.refresh();
       return;

@@ -33,7 +33,7 @@ Las funciones de Vercel tienen un límite de tamaño de paquete y no guardan est
   - en ejecución, la web se conecta por el _pooler_ en modo transacción (puerto 6543);
   - las migraciones van por el _pooler_ en modo sesión (puerto 5432);
   - la conexión va cifrada con `sslmode=require&uselibpqcompat=true`, porque la cadena de certificados de Supabase no está entre las CA públicas de Node;
-  - la Data API de Supabase se apaga: Profe no la usa y expondría las tablas por HTTP.
+  - la Data API de Supabase se apaga: ProfIA no la usa y expondría las tablas por HTTP.
 - **AI Engine (Space de Hugging Face, 2 vCPU y 16 GB):**
   - una imagen con los modelos, los prompts y el catálogo ya incluidos (`apps/ai-engine/Dockerfile`, construida desde la raíz);
   - Hugging Face la construye en sus servidores;

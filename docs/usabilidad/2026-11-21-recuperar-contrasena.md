@@ -35,7 +35,7 @@ entrar". El correo no se vuelve a escribir: el enlace del login lo lleva.
 - **"Revisa tu correo"** muestra a qué correo se envió (si está mal escrito se nota) y qué hacer si no llega
   (spam). No dice si la cuenta existe (seguridad), pero no confunde.
 - **El correo** es corto, con el nombre, un solo botón grande y el enlace de respaldo para copiar.
-- **Al guardar entra directo** a Profe; no hay que volver a escribir la contraseña en el login.
+- **Al guardar entra directo** a ProfIA; no hay que volver a escribir la contraseña en el login.
 - **Enlace vencido o usado:** un mensaje claro y un solo botón, "Pedir un enlace nuevo".
 - Se corrigió durante la prueba: los títulos de estas pantallas (y de login y registro) no eran
   encabezados para los lectores de pantalla; ahora sí.
@@ -47,9 +47,9 @@ entrar". El correo no se vuelve a escribir: el enlace del login lo lleva.
    3 campos.
 2. **Tras un intento fallido de inicio de sesión**, decir en el mismo mensaje "¿Olvidaste tu contraseña?"
    con el enlace (hoy está debajo del campo, pero el aviso rojo llama más la atención).
-3. **Avisar del remitente** en "Revisa tu correo" ("te llega de Profe <…>"), cuando se sepa el correo de
+3. **Avisar del remitente** en "Revisa tu correo" ("te llega de ProfIA <…>"), cuando se sepa el correo de
    producción, para que lo encuentren en la bandeja.
 4. Probar con un servidor SMTP real que el correo no caiga en spam en Gmail, Outlook y Hotmail (los
    correos institucionales de colegios suelen ser Outlook).
 5. Si el docente abre el enlace desde la app de Gmail en el celular, entra en el navegador interno de
-   Gmail, no en Profe instalado. Es normal; se puede explicar en "Primeros pasos" si confunde.
+   Gmail, no en ProfIA instalado. Es normal; se puede explicar en "Primeros pasos" si confunde.

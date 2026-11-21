@@ -17,7 +17,7 @@ import {
   type SavedEntry,
 } from "./offline-store";
 
-// SPEC-0013 RN-14: con Profe abierto y con señal, baja lo que falta o cambió de a un archivo y borra
+// SPEC-0013 RN-14: con ProfIA abierto y con señal, baja lo que falta o cambió de a un archivo y borra
 // lo archivado. Corre en la página (no en segundo plano del navegador: no existe en Safari).
 
 export type OfflineActions = {
@@ -185,18 +185,18 @@ export function useOfflineSync({
     };
     window.addEventListener("online", onOnline);
     window.addEventListener(SYNC_EVENT, onOnline);
-    window.addEventListener("profe:offline-preference", onPreference);
+    window.addEventListener("profia:offline-preference", onPreference);
     return () => {
       cancelled = true;
       clearInterval(timer);
       window.removeEventListener("online", onOnline);
       window.removeEventListener(SYNC_EVENT, onOnline);
-      window.removeEventListener("profe:offline-preference", onPreference);
+      window.removeEventListener("profia:offline-preference", onPreference);
     };
   }, [userId, spacesKey, actions]);
 }
 
-const SYNC_EVENT = "profe:offline-sync";
+const SYNC_EVENT = "profia:offline-sync";
 
 /** Un recurso cambió (se guardó, se marcó como listo o se archivó): sincronizar ya. */
 export function requestOfflineSync() {

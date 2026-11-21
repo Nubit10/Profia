@@ -27,7 +27,7 @@ import { createUser, ctxFor, resetDatabase, validSchool } from "../support/facto
 
 const MEN_DIR = path.resolve(__dirname, "../../curriculum/men");
 
-async function teacher(name = "Profe") {
+async function teacher(name = "ProfIA") {
   const user = await createUser(name);
   const { institutionId } = await createIndependentSpace(user);
   return { user, ctx: await ctxFor(user, institutionId), institutionId };

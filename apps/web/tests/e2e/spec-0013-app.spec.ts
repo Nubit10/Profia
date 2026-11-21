@@ -33,7 +33,7 @@ async function insertGenerating(email: string) {
   return { id, courseId: ref.courseId! };
 }
 
-// SPEC-0013 RN-12/13 y ADR-0012: Profe instalable y su service worker.
+// SPEC-0013 RN-12/13 y ADR-0012: ProfIA instalable y su service worker.
 
 /** Espera a que el service worker controle la página. */
 async function serviceWorkerReady(page: import("@playwright/test").Page) {
@@ -47,7 +47,7 @@ async function serviceWorkerReady(page: import("@playwright/test").Page) {
   });
 }
 
-test("CA-0013-28: Chrome considera instalable a Profe y el manifiesto trae lo necesario", async ({
+test("CA-0013-28: Chrome considera instalable a ProfIA y el manifiesto trae lo necesario", async ({
   page,
 }) => {
   await page.goto("/");
@@ -59,7 +59,7 @@ test("CA-0013-28: Chrome considera instalable a Profe y el manifiesto trae lo ne
 
   const manifest = await (await page.request.get("/manifest.webmanifest")).json();
   expect(manifest).toMatchObject({
-    name: "Profe",
+    name: "ProfIA",
     display: "standalone",
     start_url: "/dashboard",
     theme_color: expect.any(String),
@@ -85,12 +85,12 @@ test("CA-0013-28: Chrome considera instalable a Profe y el manifiesto trae lo ne
   }
 });
 
-test("CA-0013-29: 'Instalar Profe' abre el aviso del navegador y no aparece con la app instalada", async ({
+test("CA-0013-29: 'Instalar ProfIA' abre el aviso del navegador y no aparece con la app instalada", async ({
   page,
   browser,
 }) => {
   await signUpIndependentTeacher(page);
-  const install = page.getByRole("button", { name: "Instalar Profe" });
+  const install = page.getByRole("button", { name: "Instalar ProfIA" });
   // Sin aviso del navegador (p. ej. Firefox de escritorio) no se ofrece.
   await expect(install).toHaveCount(0);
 
@@ -125,7 +125,7 @@ test("CA-0013-29: 'Instalar Profe' abre el aviso del navegador y no aparece con 
   await app.goto("/dashboard");
   await expect(app.getByRole("heading", { name: /^Hola,/ })).toBeVisible();
   await app.evaluate(() => window.dispatchEvent(new Event("beforeinstallprompt")));
-  await expect(app.getByRole("button", { name: "Instalar Profe" })).toHaveCount(0);
+  await expect(app.getByRole("button", { name: "Instalar ProfIA" })).toHaveCount(0);
   await installed.close();
 });
 
@@ -272,7 +272,7 @@ async function recordNotifications(page: import("@playwright/test").Page) {
   return () => worker.evaluate(() => (self as unknown as { shown: string[] }).shown);
 }
 
-test("CA-0013-33/34: el aviso se muestra con Profe cerrado y no con Profe a la vista", async ({
+test("CA-0013-33/34: el aviso se muestra con ProfIA cerrado y no con ProfIA a la vista", async ({
   page,
   context,
 }) => {
@@ -287,12 +287,12 @@ test("CA-0013-33/34: el aviso se muestra con Profe cerrado y no con Profe a la v
     tag: "resource-y",
   };
 
-  // CA-0013-34: Profe abierto y a la vista → no se repite como notificación del sistema.
+  // CA-0013-34: ProfIA abierto y a la vista → no se repite como notificación del sistema.
   await deliverPush(page, message, origin);
   await page.waitForTimeout(500);
   expect(await shown()).toEqual([]);
 
-  // CA-0013-33: sin ninguna ventana de Profe abierta → notificación del sistema.
+  // CA-0013-33: sin ninguna ventana de ProfIA abierta → notificación del sistema.
   const other = await context.newPage();
   await other.goto("about:blank");
   await page.close();

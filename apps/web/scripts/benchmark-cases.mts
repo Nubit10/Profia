@@ -6,7 +6,7 @@
 // Contra la base de producción: solo después de publicar la política de privacidad y los términos
 // que lo permitan (decisión 5 de SPEC-0021).
 //
-// Uso: npm run benchmark:cases -w @profe/web
+// Uso: npm run benchmark:cases -w @profia/web
 import { randomBytes } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";

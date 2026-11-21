@@ -13,7 +13,7 @@
 
 Hoy, para cambiar un recurso, el docente tiene que escribir qué quiere ("Regenerar" de un ítem pide
 texto libre). Con ChatGPT bastaría con decir "hazlo más fácil". Esta spec pone **botones con
-indicaciones fijas** debajo de cada recurso y **fichas** en cada pregunta o actividad: Profe propone la
+indicaciones fijas** debajo de cada recurso y **fichas** en cada pregunta o actividad: ProfIA propone la
 versión ajustada y el docente se queda con ella o vuelve a la anterior con un toque. Es el bloque 1 de
 [usabilidad/proximos-pasos.md](../usabilidad/proximos-pasos.md).
 
@@ -88,8 +88,8 @@ versión ajustada y el docente se queda con ella o vuelve a la anterior con un t
   aceptar la propuesta el recurso vuelve a "Borrador" (es contenido nuevo sin revisar).
 - **RN-08 — Interrupciones.** Un ajuste que lleva más del tiempo de ADR-0008 §5 se marca como
   interrumpido, no cuenta en el cupo y el recurso queda como estaba.
-- **RN-09 — Lo que aprende Profe.** Los ajustes elegidos alimentan las sugerencias de preferencias de
-  SPEC-0021 (p. ej., si el docente pide "Más fácil" en 3 quices de 6°, Profe puede proponer la
+- **RN-09 — Lo que aprende ProfIA.** Los ajustes elegidos alimentan las sugerencias de preferencias de
+  SPEC-0021 (p. ej., si el docente pide "Más fácil" en 3 quices de 6°, ProfIA puede proponer la
   preferencia "Preguntas más sencillas en 6°"); el docente sigue aceptando o descartando.
 
 ## 5. Entradas

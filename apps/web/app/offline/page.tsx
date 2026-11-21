@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ProfeLogo } from "@/components/brand/profe-logo";
+import { ProfiaLogo } from "@/components/brand/profia-logo";
 import { OfflineLibrary } from "./offline-library";
 import { RetryButton } from "./retry-button";
 
@@ -11,7 +11,7 @@ export const dynamic = "force-static";
 export default function OfflinePage() {
   return (
     <main className="mx-auto flex w-full max-w-lg flex-1 flex-col items-center justify-center gap-6 px-4 py-12 text-center">
-      <ProfeLogo />
+      <ProfiaLogo />
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-extrabold">Sin conexión</h1>
         <p className="text-muted-foreground">

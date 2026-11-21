@@ -46,7 +46,7 @@ export default async function PiarListPage() {
         <EmptyState
           icon={HiOutlineLockClosed}
           title="El PIAR no está disponible todavía"
-          description="Falta configurar el cifrado de los datos en el servidor. Mientras tanto, Profe no guarda datos de estudiantes."
+          description="Falta configurar el cifrado de los datos en el servidor. Mientras tanto, ProfIA no guarda datos de estudiantes."
         />
       ) : options.length === 0 ? (
         <EmptyState
@@ -63,7 +63,7 @@ export default async function PiarListPage() {
         <EmptyState
           icon={HiOutlineUser}
           title="Aún no tienes PIAR"
-          description="Crea uno para un estudiante que necesita ajustes razonables. Profe te ayuda a proponerlos con IA."
+          description="Crea uno para un estudiante que necesita ajustes razonables. ProfIA te ayuda a proponerlos con IA."
         />
       ) : (
         <ul

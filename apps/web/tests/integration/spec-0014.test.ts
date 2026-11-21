@@ -96,7 +96,7 @@ const bodyOf = (fetcher: ReturnType<typeof engine>, call = 0) =>
     String((fetcher.mock.calls[call] as unknown as [URL, RequestInit])[1].body),
   ) as EnginePlanningRequest;
 
-async function teacher(name = "Profe") {
+async function teacher(name = "ProfIA") {
   const user = await createUser(name);
   const { institutionId } = await createIndependentSpace(user);
   return ctxFor(user, institutionId);

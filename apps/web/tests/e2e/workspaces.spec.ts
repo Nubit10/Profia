@@ -144,7 +144,7 @@ test("CA-0002-07 / CA-0012-23: un docente con dos espacios cambia entre ellos", 
     .getByLabel("Subir logo")
     .setInputFiles({ name: "logo.png", mimeType: "image/png", buffer: PNG_1X1 });
   await expect(adminPage.getByRole("img", { name: "Logo actual" })).toBeVisible();
-  const teacher = { name: "Profe Doble", email: uniqueEmail("doble") };
+  const teacher = { name: "ProfIA Doble", email: uniqueEmail("doble") };
   await adminPage.getByRole("link", { name: "Profesores", exact: true }).click();
   await adminPage.getByLabel("Correo del profesor").fill(teacher.email);
   await adminPage.getByRole("button", { name: "Generar enlace" }).click();

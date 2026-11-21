@@ -5,7 +5,7 @@ import { useTransition } from "react";
 import { HiCheck, HiChevronUpDown, HiOutlineBuildingLibrary, HiOutlineUser } from "react-icons/hi2";
 import { sileo } from "sileo";
 import { AiAvatar } from "@/components/brand/ai-avatar";
-import { ProfeMark } from "@/components/brand/profe-logo";
+import { ProfiaMark } from "@/components/brand/profia-logo";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,7 +30,7 @@ export type Identity = {
 };
 
 export function SpaceLogo({ identity, size = 40 }: { identity: Identity; size?: number }) {
-  if (!identity.logoUrl) return <ProfeMark size={size} />;
+  if (!identity.logoUrl) return <ProfiaMark size={size} />;
   return (
     // eslint-disable-next-line @next/next/no-img-element -- el logo lo sirve una ruta propia, con caché por versión
     <img

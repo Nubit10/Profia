@@ -8,7 +8,7 @@
 
 ## Contexto
 
-Desde la Fase 6, Profe generará planes de aula, talleres, quices, exámenes y temas. El plan maestro pide modelos **open-weight** autoalojados (vLLM en GPU para producción, Ollama para desarrollo) y que el proveedor se pueda cambiar sin tocar el dominio. El equipo de desarrollo no tiene GPU (i7-4702MQ de 2013, 12 GB RAM, ver medición abajo). Hay que decidir dónde corre el modelo en desarrollo, en los pilotos con docentes y en producción.
+Desde la Fase 6, ProfIA generará planes de aula, talleres, quices, exámenes y temas. El plan maestro pide modelos **open-weight** autoalojados (vLLM en GPU para producción, Ollama para desarrollo) y que el proveedor se pueda cambiar sin tocar el dominio. El equipo de desarrollo no tiene GPU (i7-4702MQ de 2013, 12 GB RAM, ver medición abajo). Hay que decidir dónde corre el modelo en desarrollo, en los pilotos con docentes y en producción.
 
 Supuesto de consumo por recurso generado (p. ej. un taller): ~3.000 tokens de entrada (curso, tema, objetivos, DBA) y ~2.500 de salida.
 

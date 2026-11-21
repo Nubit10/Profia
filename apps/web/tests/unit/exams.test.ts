@@ -136,7 +136,7 @@ describe("schema del examen (SPEC-0011)", () => {
     expect(examTotalPoints(content)).toBe(100);
   });
 
-  it("RN-06: Profe reparte el total según el número de preguntas y su tipo", () => {
+  it("RN-06: ProfIA reparte el total según el número de preguntas y su tipo", () => {
     const sections = distributePoints(
       [
         { questionType: "MULTIPLE_CHOICE" as const, questionCount: 10 },

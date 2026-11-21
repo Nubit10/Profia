@@ -1,4 +1,4 @@
-# Profe — Plataforma educativa con IA
+# ProfIA — Plataforma educativa con IA
 
 Plataforma de gestión y producción pedagógica asistida por IA para docentes e instituciones (mercado inicial: Colombia). La IA propone; el docente decide.
 
@@ -61,6 +61,6 @@ Comprobación: `http://localhost:3000/api/health` responde `{"status":"ok","db":
 | `npm run db:up`        | Levantar PostgreSQL                                    |
 | `npm run db:seed`      | Crear/restablecer el usuario de prueba (solo dev)      |
 
-**Usuario de prueba (solo desarrollo local):** `docente@profe.test` / `Profe2026!`. Se crea con `npm run db:seed`.
+**Usuario de prueba (solo desarrollo local):** `docente@profia.test` / `Profe2026!`. Se crea con `npm run db:seed`.
 
 La primera vez que corras E2E: `npx playwright install chromium` dentro de `apps/web`.

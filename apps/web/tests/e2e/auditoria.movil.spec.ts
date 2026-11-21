@@ -2,7 +2,7 @@ import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
 import { choose, signUpIndependentTeacher, signUpSchoolAdmin, openEditor } from "./helpers";
 
-// Auditoría móvil: cada pantalla de Profe, a 360 px (el teléfono más angosto que soportamos), sin
+// Auditoría móvil: cada pantalla de ProfIA, a 360 px (el teléfono más angosto que soportamos), sin
 // scroll horizontal ni nada que se salga del borde. Con AUDIT_SHOTS=<carpeta> deja una captura de
 // cada pantalla para revisarla a ojo.
 

@@ -193,7 +193,7 @@ export function ExamSettingsStep(props: Props) {
     }
   }, [draftKey, values]);
 
-  /** RN-06: Profe reparte el total; el docente puede ajustar los puntos de cada sección. */
+  /** RN-06: ProfIA reparte el total; el docente puede ajustar los puntos de cada sección. */
   const redistribute = (total = Number(form.getValues("totalPoints")) || 0) => {
     const current = form.getValues("sections");
     distributePoints(current, total).forEach((s, i) =>

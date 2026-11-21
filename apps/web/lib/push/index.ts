@@ -5,7 +5,7 @@ import { logger } from "@/lib/observability/logger";
 
 /**
  * Web Push estándar con VAPID (SPEC-0013 RN-15, ADR-0012; el mismo canal de Terram): navegadores y la
- * app instalada (en iPhone, iOS 16.4+ con Profe en la pantalla de inicio). Sin las claves no hay
+ * app instalada (en iPhone, iOS 16.4+ con ProfIA en la pantalla de inicio). Sin las claves no hay
  * canal (`null`).
  */
 export type PushMessage = { title: string; body: string; url: string; tag: string };
@@ -23,7 +23,7 @@ export function getPushClient(): PushClient | null {
   if (!NEXT_PUBLIC_VAPID_PUBLIC_KEY || !VAPID_PRIVATE_KEY) return null;
   const options = {
     vapidDetails: {
-      subject: VAPID_SUBJECT ?? "mailto:soporte@profe.app",
+      subject: VAPID_SUBJECT ?? "mailto:soporte@profia.app",
       publicKey: NEXT_PUBLIC_VAPID_PUBLIC_KEY,
       privateKey: VAPID_PRIVATE_KEY,
     },

@@ -5,7 +5,7 @@ import { HiOutlinePause, HiOutlinePlay } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 
 /*
- * Cómo trabaja la IA de Profe, dibujado "en tiza" sobre el tablero. Cada ejemplo recorre las
+ * Cómo trabaja la IA de ProfIA, dibujado "en tiza" sobre el tablero. Cada ejemplo recorre las
  * cinco estaciones reales del sistema: el pedido del docente, la búsqueda de los DBA oficiales
  * (AI Engine, búsqueda híbrida), la escritura con un prompt versionado, la revisión automática
  * (schema + validador pedagógico + reparación) y la decisión del docente. Todo es un ejemplo.

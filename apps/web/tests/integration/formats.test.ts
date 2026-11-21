@@ -147,7 +147,7 @@ async function topicFor(ctx: TenantContext, group = "601") {
 }
 
 async function independentTeacher() {
-  const user = await createUser("Profe");
+  const user = await createUser("ProfIA");
   const { institutionId } = await createIndependentSpace(user);
   return ctxFor(user, institutionId);
 }

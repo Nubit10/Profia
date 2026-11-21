@@ -8,7 +8,7 @@
 
 ## Contexto
 
-SPEC-0010 agrega el logo o escudo de la institución en el encabezado de los documentos. Es el primer archivo binario que guarda Profe. El plan maestro menciona Cloudinary para imágenes, pero hoy hay una imagen por institución, dos colegios piloto y presupuesto cero (ADR-0007).
+SPEC-0010 agrega el logo o escudo de la institución en el encabezado de los documentos. Es el primer archivo binario que guarda ProfIA. El plan maestro menciona Cloudinary para imágenes, pero hoy hay una imagen por institución, dos colegios piloto y presupuesto cero (ADR-0007).
 
 ## Decisión
 

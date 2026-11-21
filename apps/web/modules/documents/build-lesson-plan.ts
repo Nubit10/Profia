@@ -101,6 +101,6 @@ export function buildLessonPlan(
     header: ctx.header,
     studentFields: [],
     blocks,
-    footer: `Profe · Versión ${ctx.version} del plan · ${ctx.date}`,
+    footer: `ProfIA · Versión ${ctx.version} del plan · ${ctx.date}`,
   };
 }

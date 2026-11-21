@@ -11,7 +11,7 @@ const noop = () => () => {};
 /**
  * SPEC-0013 RN-15 / CA-0013-32: la primera vez que el docente genera algo, una tarjeta pregunta
  * "¿Te avisamos cuando esté listo?". Nunca se pide el permiso al cargar una página. En iPhone sin
- * Profe instalada explica que los avisos llegan a la app instalada.
+ * ProfIA instalada explica que los avisos llegan a la app instalada.
  */
 export function NotifyCard({
   publicKey,
@@ -38,7 +38,7 @@ export function NotifyCard({
       const next = await enablePush(publicKey, actions);
       setState(next === "granted" ? "done" : next);
       if (next === "granted") {
-        sileo.success({ title: "Te avisaremos", description: "Aunque cierres Profe." });
+        sileo.success({ title: "Te avisaremos", description: "Aunque cierres ProfIA." });
       }
     } catch {
       sileo.error({ title: "No pudimos activar los avisos", description: "Intenta más tarde." });
@@ -62,8 +62,8 @@ export function NotifyCard({
         </h2>
         <p className="text-sm text-muted-foreground">
           {current === "ios-install"
-            ? "En iPhone los avisos llegan a Profe instalada: en Safari toca Compartir → «Agregar a pantalla de inicio» y entra desde ese ícono."
-            : "Puedes cerrar Profe o cambiar de pestaña: te llega un aviso cuando termine."}
+            ? "En iPhone los avisos llegan a ProfIA instalada: en Safari toca Compartir → «Agregar a pantalla de inicio» y entra desde ese ícono."
+            : "Puedes cerrar ProfIA o cambiar de pestaña: te llega un aviso cuando termine."}
         </p>
       </div>
       {current === "default" && (

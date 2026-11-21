@@ -73,7 +73,7 @@ function deps(fetcher: typeof fetch): GenerationDeps & { done: () => Promise<unk
 }
 
 async function teacherWithTopic(subjectName = "Matemáticas") {
-  const user = await createUser("Profe");
+  const user = await createUser("ProfIA");
   const { institutionId } = await createIndependentSpace(user);
   const ctx = await ctxFor(user, institutionId);
   const subject = (await listSubjects(ctx)).find((s) => s.name === subjectName)!;

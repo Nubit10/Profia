@@ -68,7 +68,7 @@ export default defineConfig({
         AI_ENGINE_TOKEN: ENGINE_TOKEN,
         NEXT_PUBLIC_VAPID_PUBLIC_KEY: vapid.publicKey,
         VAPID_PRIVATE_KEY: vapid.privateKey,
-        VAPID_SUBJECT: "mailto:pruebas@profe.test",
+        VAPID_SUBJECT: "mailto:pruebas@profia.test",
         // SPEC-0017 (ADR-0015): clave de cifrado del PIAR de un solo uso.
         PIAR_ENCRYPTION_KEY: randomBytes(32).toString("base64"),
         MAIL_OUTBOX_DIR,

@@ -17,7 +17,7 @@ import { createUser, ctxFor, resetDatabase } from "../support/factories";
 const MEN_DIR = path.resolve(__dirname, "../../curriculum/men");
 
 async function teacher() {
-  const user = await createUser("Profe");
+  const user = await createUser("ProfIA");
   const { institutionId } = await createIndependentSpace(user);
   return ctxFor(user, institutionId);
 }
@@ -137,7 +137,7 @@ describe("bloque 4: Para esta semana", () => {
 });
 
 describe("bloque 6: primer curso con temas propuestos", () => {
-  it("con DBA, el paso 2 de Primeros pasos es revisar los temas que Profe propone", async () => {
+  it("con DBA, el paso 2 de Primeros pasos es revisar los temas que ProfIA propone", async () => {
     const ctx = await teacher();
     await course(ctx, "601");
     const home = await getTeacherHome(ctx);

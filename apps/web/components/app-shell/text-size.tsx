@@ -2,7 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 
-const KEY = "profe:letra";
+const KEY = "profia:letra";
 const listeners = new Set<() => void>();
 
 function read(): boolean {

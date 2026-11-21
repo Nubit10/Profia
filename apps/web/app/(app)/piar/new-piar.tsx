@@ -115,8 +115,8 @@ export function NewPiar({
             </Field>
             {independent ? (
               <p className="rounded-xl bg-muted p-3 text-sm text-muted-foreground">
-                Recuerda contarle al acudiente que llevas el PIAR del estudiante en Profe y para qué
-                se usan sus datos.
+                Recuerda contarle al acudiente que llevas el PIAR del estudiante en ProfIA y para
+                qué se usan sus datos.
               </p>
             ) : (
               <Field data-invalid={!!errors.consent}>

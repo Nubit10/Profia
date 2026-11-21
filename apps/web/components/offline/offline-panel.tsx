@@ -19,8 +19,8 @@ const EXPLANATION =
   "Tus talleres, quices, exámenes y planes de aula en Word y PDF, listos para descargar aunque no haya internet. Si este computador lo usan otras personas, mejor no.";
 
 function subscribe(listener: () => void) {
-  window.addEventListener("profe:offline-preference", listener);
-  return () => window.removeEventListener("profe:offline-preference", listener);
+  window.addEventListener("profia:offline-preference", listener);
+  return () => window.removeEventListener("profia:offline-preference", listener);
 }
 
 /** La preferencia vive en el navegador: en el servidor es "unknown" y no se pinta nada (RN-09). */
@@ -46,7 +46,7 @@ function SavedCount() {
 }
 
 /**
- * SPEC-0013 RN-14 / CA-0013-41: en el navegador, Profe pregunta una vez si guarda los recursos en
+ * SPEC-0013 RN-14 / CA-0013-41: en el navegador, ProfIA pregunta una vez si guarda los recursos en
  * este dispositivo (los computadores del colegio suelen ser compartidos) y no guarda nada hasta que
  * el docente acepta. Ya activo, muestra cuántos van guardados y deja apagarlo.
  * SPEC-0018: en el celular se oculta (`max-sm:hidden`) y la pregunta vive en `OfflineButton`.

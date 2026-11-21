@@ -1,5 +1,5 @@
 // SPEC-0017 / ADR-0015: crea la clave que cifra los PIAR y la guarda en apps/web/.env.
-// Uso (desde la raíz): npm run piar:key -w @profe/web
+// Uso (desde la raíz): npm run piar:key -w @profia/web
 // Nunca reemplaza una clave que ya exista: si se pierde, los PIAR guardados no se pueden leer.
 import { randomBytes } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
@@ -35,7 +35,7 @@ const next = line
 writeFileSync(envPath, next);
 
 console.log(`Listo: ${NAME} quedó guardada en apps/web/.env.`);
-console.log("1. Reinicia `npm run dev` para que Profe la lea.");
+console.log("1. Reinicia `npm run dev` para que ProfIA la lea.");
 console.log(
   "2. Guarda una copia de la clave fuera del proyecto (por ejemplo, en tu gestor de contraseñas).",
 );

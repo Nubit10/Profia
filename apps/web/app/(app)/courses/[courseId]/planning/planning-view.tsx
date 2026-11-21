@@ -126,7 +126,7 @@ const DIALOG_TITLES: Record<NonNullable<DialogState>["type"], [string, string]> 
   ],
   proposalPick: [
     "Proponer temas con IA",
-    "Profe arma unidades y temas a partir de los DBA del grado. Tú revisas antes de agregar.",
+    "ProfIA arma unidades y temas a partir de los DBA del grado. Tú revisas antes de agregar.",
   ],
   objectivesBatch: [
     "Objetivos propuestos",
@@ -438,8 +438,8 @@ export function PlanningView({
               <CardTitle>Empieza tu planeación</CardTitle>
               <CardDescription>
                 {canPropose
-                  ? "Profe puede proponerte las unidades y los temas de todo el año a partir de los DBA del grado. Tú revisas y decides qué agregar."
-                  : "Crea unidades por periodo, agrega temas y redacta objetivos. Con esa estructura Profe podrá ayudarte a generar materiales."}
+                  ? "ProfIA puede proponerte las unidades y los temas de todo el año a partir de los DBA del grado. Tú revisas y decides qué agregar."
+                  : "Crea unidades por periodo, agrega temas y redacta objetivos. Con esa estructura ProfIA podrá ayudarte a generar materiales."}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -453,7 +453,7 @@ export function PlanningView({
                 </Button>
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  Esta asignatura no tiene DBA en el catálogo, así que Profe no puede proponer
+                  Esta asignatura no tiene DBA en el catálogo, así que ProfIA no puede proponer
                   temas. Agrégalos a mano.
                 </p>
               )}

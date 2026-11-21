@@ -14,7 +14,7 @@ import { compareVersions } from "./edits";
 import type { AcceptSuggestionInput, ResourceType } from "./schemas";
 import type { PendingSuggestion, ResourceContent, ResourceContextSnapshot } from "./types";
 
-// SPEC-0021 Parte A (ADR-0016): Profe propone preferencias a partir de lo que hace el docente.
+// SPEC-0021 Parte A (ADR-0016): ProfIA propone preferencias a partir de lo que hace el docente.
 // Nada se usa al generar hasta que el docente acepta (teacher-in-control).
 
 const DAY_MS = 24 * 60 * 60 * 1000;

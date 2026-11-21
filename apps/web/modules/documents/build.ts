@@ -43,7 +43,7 @@ const top = (ctx: ExportContext, hasInstitutionField = false) => ({
 
 const LETTERS = "abcdefghij";
 const footer = (ctx: ExportContext, variant?: Variant) =>
-  `Profe · Versión ${ctx.version} del recurso${variant && variant !== "A" ? ` · Versión ${variant} del quiz` : ""} · ${ctx.date}`;
+  `ProfIA · Versión ${ctx.version} del recurso${variant && variant !== "A" ? ` · Versión ${variant} del quiz` : ""} · ${ctx.date}`;
 
 /** RN-07: la versión A es el orden del docente; B–D barajan preguntas y opciones. */
 export function quizVariant(

@@ -772,7 +772,7 @@ enum PreferenceSuggestionStatus {
   DECLINED
 }
 
-/// SPEC-0021 Parte A: preferencia que Profe propone a partir de lo que hace el docente. No se
+/// SPEC-0021 Parte A: preferencia que ProfIA propone a partir de lo que hace el docente. No se
 /// usa al generar hasta que el docente la acepta (se crea entonces una `TeacherPreference`).
 model PreferenceSuggestion {
   id              String                     @id @default(cuid())

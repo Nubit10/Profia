@@ -130,7 +130,7 @@ async function topicFor(ctx: TenantContext) {
 }
 
 async function independentTeacher() {
-  const user = await createUser("Profe");
+  const user = await createUser("ProfIA");
   const { institutionId } = await createIndependentSpace(user);
   return ctxFor(user, institutionId);
 }

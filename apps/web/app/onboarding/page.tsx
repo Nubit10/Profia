@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ProfeLogo } from "@/components/brand/profe-logo";
+import { ProfiaLogo } from "@/components/brand/profia-logo";
 import { requireUser } from "@/modules/auth";
 import { createIndependentSpaceAction, registerSchoolAction } from "@/modules/institutions";
 import { getTenantContext } from "@/modules/tenancy";
@@ -16,8 +16,8 @@ export default async function OnboardingPage() {
 
   return (
     <main className="flex flex-1 flex-col items-center gap-8 bg-hero px-4 py-12">
-      <Link href="/" aria-label="Profe, inicio">
-        <ProfeLogo />
+      <Link href="/" aria-label="ProfIA, inicio">
+        <ProfiaLogo />
       </Link>
       <OnboardingView
         userName={user.name}

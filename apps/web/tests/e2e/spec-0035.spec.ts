@@ -36,7 +36,7 @@ test("CA-0035-01 / 02 / 04: olvida la contraseña, le llega el enlace y entra co
   await checkScreen(page, "revisa tu correo");
 
   const mail = await waitForMail(user.email);
-  expect(mail.subject).toBe("Crea una contraseña nueva para Profe");
+  expect(mail.subject).toBe("Crea una contraseña nueva para ProfIA");
   const link = resetLink(mail);
   expect(link.startsWith("http://localhost:3100/reset-password/")).toBe(true);
 

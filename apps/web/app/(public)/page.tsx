@@ -7,19 +7,19 @@ import {
   HiOutlineShieldCheck,
   HiOutlineUserGroup,
 } from "react-icons/hi2";
-import { ProfeLogo } from "@/components/brand/profe-logo";
+import { ProfiaLogo } from "@/components/brand/profia-logo";
 import { AiFlow } from "@/components/landing/ai-flow";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 /*
- * Página pública de Profe. Lenguaje propio del aula: la hoja de cuaderno rayada, las notas adhesivas
+ * Página pública de ProfIA. Lenguaje propio del aula: la hoja de cuaderno rayada, las notas adhesivas
  * del escritorio, el tablero verde donde se dibuja en tiza cómo trabaja la IA y el resaltador
  * amarillo. Habla como habla un docente colombiano y todo dato de muestra se rotula como ejemplo.
  * RN-05 de SPEC-0012: sin cifras de usuarios ni testimonios inventados.
  */
 
-// -- Lo que le duele al docente y cómo responde Profe -------------------------------------------
+// -- Lo que le duele al docente y cómo responde ProfIA -------------------------------------------
 const PAINS = [
   {
     pain: "Son las 10 de la noche del domingo y el taller del lunes todavía no existe.",
@@ -29,7 +29,7 @@ const PAINS = [
   },
   {
     pain: "Lo que encuentras en internet no es de tu grado o no tiene nada que ver con los DBA.",
-    answer: "Profe parte del DBA oficial de tu curso. Cada actividad sabe a qué apunta.",
+    answer: "ProfIA parte del DBA oficial de tu curso. Cada actividad sabe a qué apunta.",
     tone: "bg-tint-2",
     tilt: "rotate-1",
   },
@@ -92,7 +92,7 @@ const TOOLS = [
   ],
   [
     "Tu propio formato",
-    "Subes tu formato en Word una vez y Profe respeta tu encabezado y tus secciones en adelante.",
+    "Subes tu formato en Word una vez y ProfIA respeta tu encabezado y tus secciones en adelante.",
   ],
   [
     "DBA y Estándares",
@@ -122,8 +122,8 @@ const FAQ = [
     "Sí. Subes el formato en Word y los talleres salen con su encabezado y sus secciones. El colegio también puede subir uno institucional y su logo.",
   ],
   [
-    "¿Qué datos de mis estudiantes necesita Profe?",
-    "Ninguno. Profe trabaja con tus cursos y temas; te pedimos no escribir nombres ni datos de estudiantes en las indicaciones.",
+    "¿Qué datos de mis estudiantes necesita ProfIA?",
+    "Ninguno. ProfIA trabaja con tus cursos y temas; te pedimos no escribir nombres ni datos de estudiantes en las indicaciones.",
   ],
   [
     "¿Tengo que instalar algo?",
@@ -210,8 +210,8 @@ export default function HomePage() {
     <div className="flex flex-1 flex-col bg-background">
       <header className="sticky top-0 z-30 border-b border-border bg-background/90 backdrop-blur">
         <div className="mx-auto flex w-full max-w-6xl items-center gap-6 px-4 py-3 sm:px-6">
-          <Link href="/" aria-label="Profe, inicio">
-            <ProfeLogo size={32} />
+          <Link href="/" aria-label="ProfIA, inicio">
+            <ProfiaLogo size={32} />
           </Link>
           <nav aria-label="Secciones" className="hidden flex-1 justify-center gap-7 md:flex">
             {[
@@ -251,7 +251,7 @@ export default function HomePage() {
                 <em className="mark-highlight">sin gastarse el domingo.</em>
               </h1>
               <p className="max-w-xl text-lg text-muted-foreground">
-                Le dices a Profe qué vas a enseñar y a qué curso. Él busca los DBA oficiales de ese
+                Le dices a ProfIA qué vas a enseñar y a qué curso. Busca los DBA oficiales de ese
                 grado y te entrega el taller, el quiz, el examen o la planeación del periodo,{" "}
                 <strong className="font-semibold text-foreground">
                   listos para revisar y descargar en Word
@@ -288,7 +288,7 @@ export default function HomePage() {
               </h2>
               <p className="text-lg text-muted-foreground">
                 Entre clases, reuniones y calificar, el material se termina haciendo de noche y en
-                fines de semana. Profe se encarga de esa parte para que tú llegues al salón a
+                fines de semana. ProfIA se encarga de esa parte para que tú llegues al salón a
                 enseñar.
               </p>
             </div>
@@ -306,7 +306,7 @@ export default function HomePage() {
                     “{pain}”
                   </p>
                   <p className="mt-5 border-t border-foreground/15 pt-4 text-[0.95rem] text-foreground">
-                    <span className="font-bold">Con Profe: </span>
+                    <span className="font-bold">Con ProfIA: </span>
                     {answer}
                   </p>
                 </li>
@@ -324,7 +324,9 @@ export default function HomePage() {
           <div className="mx-auto w-full max-w-6xl rounded-2xl border-[10px] border-b-[18px] border-tint-3-fg/80 bg-board px-5 py-12 shadow-lift sm:px-10 lg:py-16">
             <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-end">
               <div className="flex flex-col gap-3">
-                <SectionLabel className="text-highlight">Cómo funciona la IA de Profe</SectionLabel>
+                <SectionLabel className="text-highlight">
+                  Cómo funciona la IA de ProfIA
+                </SectionLabel>
                 <h2
                   id="how-title"
                   className="font-display text-3xl font-semibold text-chalk sm:text-4xl"
@@ -349,7 +351,7 @@ export default function HomePage() {
             <div className="flex max-w-2xl flex-col gap-3">
               <SectionLabel>¿Y por qué no un chat de IA?</SectionLabel>
               <h2 id="versus-title" className="font-display text-3xl font-semibold sm:text-4xl">
-                Un chat te da texto. Profe te da la clase lista
+                Un chat te da texto. ProfIA te da la clase lista
               </h2>
               <p className="text-lg text-muted-foreground">
                 Si ya has probado pedirle un taller a un chat, sabes que el trabajo empieza después:
@@ -359,7 +361,7 @@ export default function HomePage() {
             <div className="overflow-hidden rounded-xl border border-border">
               <div className="hidden grid-cols-2 bg-surface font-mono text-xs tracking-[0.15em] uppercase sm:grid">
                 <span className="px-6 py-3 text-muted-foreground">Un chat de IA cualquiera</span>
-                <span className="border-l border-border px-6 py-3 text-brand-strong">Profe</span>
+                <span className="border-l border-border px-6 py-3 text-brand-strong">ProfIA</span>
               </div>
               <ul>
                 {VERSUS.map(([chat, profe]) => (
@@ -387,7 +389,7 @@ export default function HomePage() {
               <strong className="text-foreground">Y la última palabra siempre es tuya.</strong> Nada
               se guarda sin tu visto bueno, no necesita nombres ni datos de tus estudiantes, y cada
               pregunta o actividad se puede editar o volver a pedir. Cuando calificas lo que te
-              entrega, Profe lo tiene en cuenta para lo siguiente.
+              entrega, ProfIA lo tiene en cuenta para lo siguiente.
             </p>
           </div>
         </section>
@@ -436,7 +438,7 @@ export default function HomePage() {
             <div className="flex flex-col gap-4">
               <SectionLabel>Para colegios</SectionLabel>
               <h2 id="schools-title" className="font-display text-3xl font-semibold sm:text-4xl">
-                Lleva Profe a todo tu equipo docente
+                Lleva ProfIA a todo tu equipo docente
               </h2>
               <p className="text-muted-foreground">
                 Rectoría y coordinación reciben material con la misma presentación, alineado con los
@@ -519,7 +521,7 @@ export default function HomePage() {
             </h2>
             <p className="max-w-xl text-lg text-muted-foreground">
               Crea tu cuenta, agrega tu curso y pide tu primer taller. En pocos minutos sabrás si
-              Profe te ahorra el domingo. Es gratis.
+              ProfIA te ahorra el domingo. Es gratis.
             </p>
             <Link href="/register" className={buttonVariants({ size: "xl" })}>
               Crear mi cuenta gratis
@@ -532,7 +534,7 @@ export default function HomePage() {
       <footer className="border-t border-border bg-surface">
         <div className="mx-auto w-full max-w-6xl px-4 py-8 text-center text-sm text-muted-foreground sm:px-6">
           <p>
-            &copy; {new Date().getFullYear()} Profe &middot; Todos los derechos reservados &middot;
+            &copy; {new Date().getFullYear()} ProfIA &middot; Todos los derechos reservados &middot;
             by{" "}
             <a
               href="https://nubitech.vercel.app/"

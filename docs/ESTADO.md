@@ -22,6 +22,16 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **Nuevo nombre: ProfIA** (2026-11-21), decisión del usuario. Se cambió "Profe" por "ProfIA" en toda la
+  interfaz, la página pública, los correos, la app instalable (manifiesto y título), los pies de los Word
+  y PDF, el AI Engine (título de la API) y la documentación. El logo escribe "Prof" + "IA" en el color de
+  la marca (`components/brand/profia-logo.tsx`, `ProfiaLogo` / `ProfiaMark`). Paquetes: `profia` (raíz),
+  `@profia/web` y `profia-ai-engine`; claves del navegador `profia:*` y cachés `profia-*` del service
+  worker (sin usuarios en producción, nada que migrar).
+  - **No se cambió** (infraestructura con datos): las bases `profe` / `profe_test`, el usuario `profe` de
+    PostgreSQL, el contenedor `profe-postgres-1` y el CI; ni los prompts del AI Engine (cambiar uno exige
+    versión nueva; el modelo no muestra ese nombre al docente). Las capturas viejas siguen diciendo Profe.
+
 - **Login más minimalista** (2026-11-21), pedido del usuario con su CRM (NubiA) como referencia.
   `app/(auth)/layout.tsx`: formulario sin tarjeta sobre fondo liso (`bg-brand-softer`), logo arriba a la
   izquierda, botón de color sólido (no el degradado) y, en el computador, un panel oscuro con una frase y
@@ -34,7 +44,7 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
   usuario eligió el camino completo por correo con Nodemailer.
   - "¿Olvidaste tu contraseña?" en el login (lleva el correo escrito) → `/forgot-password` → correo con
     enlace de un solo uso (1 hora, solo el SHA-256 en `password_reset_tokens`, pedir otro anula los
-    anteriores) → `/reset-password/[token]` → entra a Profe. Misma respuesta exista o no la cuenta; el
+    anteriores) → `/reset-password/[token]` → entra a ProfIA. Misma respuesta exista o no la cuenta; el
     correo sale con `after()`; límite 5 por IP y 3 por correo cada 15 min. Cambiarla cierra todas las
     sesiones (`modules/auth/password-reset.ts`).
   - `lib/email` (ADR-0021): SMTP con `SMTP_URL`; sin él, fuera de producción, los correos quedan en
@@ -69,7 +79,7 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
   espacios con el rol; solo lectura, `getAccount` en `modules/auth`), tamaño de la letra (Normal / Más
   grande, `useLargeText` en `components/app-shell/text-size.tsx`), modo de pantalla Claro / Oscuro / Como
   el dispositivo **solo visual** (aún no cambia nada) y "Ver tutorial". La tarjeta de abajo del menú
-  quedó con "Instalar Profe" y "Cerrar sesión". El botón "Regenerar" de cada pregunta o actividad ahora
+  quedó con "Instalar ProfIA" y "Cerrar sesión". El botón "Regenerar" de cada pregunta o actividad ahora
   dice **"Mejorar"** (lo eligió el usuario; la palabra propuesta antes no había quedado escrita).
   - Pruebas: unitarias 104; e2e de `ux`, `resources`, `spec-0027.movil` y `usabilidad-bloques.movil`
     (16 en verde, con axe en Ajustes). Captura: `docs/design/capturas/ajustes/escritorio.png`.
@@ -112,7 +122,7 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 - **Prueba de usabilidad y de funcionamiento**, 2026-11-20
   ([informe](usabilidad/2026-11-20-recorrido-docente.md)). Pedido del usuario: que sea tan fácil como
   pedirle algo a ChatGPT, pero sin escribir instrucciones.
-  - Recorrido de una profesora nueva en celular y computador (`npm run ux:recorrido -w @profe/web`):
+  - Recorrido de una profesora nueva en celular y computador (`npm run ux:recorrido -w @profia/web`):
     bajó de 34/29 a 27/24 clics para el trabajo de una semana.
   - Cambios:
     - "¿Qué más necesitas para «tema»?" al final de cada recurso: quiz, taller o plan del mismo tema
@@ -169,14 +179,14 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 - **SPEC-0021** — Mejora continua de la IA con lo que hace el docente
   ([spec](specs/SPEC-0021-mejora-continua-con-el-docente.md), ADR-0016), implementada el 2026-11-20 con
   las recomendaciones de producto (el usuario aprobó "hazlo todo con tus recomendaciones").
-  - A: Profe propone preferencias a partir de ediciones, 👎 con comentario, regeneraciones aceptadas y
+  - A: ProfIA propone preferencias a partir de ediciones, 👎 con comentario, regeneraciones aceptadas y
     comentarios de 1–3 estrellas (60 días, ≥ 3 recursos, una por semana, 1 llamada al día). Tarjeta
-    "Profe aprendió algo de ti" en "Mis recursos" (hoja inferior en el celular); el docente edita, elige el
+    "ProfIA aprendió algo de ti" en "Mis recursos" (hoja inferior en el celular); el docente edita, elige el
     alcance y acepta o descarta.
   - B: validador de calidad `quality.v1` en el AI Engine (opción más larga, posición de la correcta
     reordenando, distractores repetidos, verbo y nivel, palabras por grado). No tumba la generación: lo
     que queda va a `generation_logs.qualityWarnings`.
-  - C: `npm run benchmark:cases -w @profe/web` (casos anonimizados en `apps/ai-engine/benchmarks/real/`,
+  - C: `npm run benchmark:cases -w @profia/web` (casos anonimizados en `apps/ai-engine/benchmarks/real/`,
     fuera de git) y `benchmark-resources --real`; `metrics:resources` con señales implícitas.
   - Revisión (reviewer): Aprobado; se corrigió que un 👎 reciente en un recurso viejo no contaba.
   - Pruebas: AI Engine 146; web 298 unitarias e integración; build; e2e spec-0021 (2) en verde. Las e2e que
@@ -196,18 +206,18 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 - **Modelo de autorización del acudiente para el PIAR**, 2026-11-20
   ([docs/legal/autorizacion-acudiente-piar.md](legal/autorizacion-acudiente-piar.md)). Pensado para el
-  **docente independiente**: él es el responsable de los datos y Profe su encargado; no necesita al colegio.
+  **docente independiente**: él es el responsable de los datos y ProfIA su encargado; no necesita al colegio.
   Trae el texto para firmar (Ley 1581, datos sensibles facultativos, IA sin datos personales, servidores en
   EE. UU., borrado y derechos) y una nota para cuando el que contrata es el colegio.
   - En la app, la casilla de "Nuevo PIAR" del docente independiente dice "autorización firmada del acudiente"
     (ya no "y del colegio"); en un espacio de colegio sigue igual. RN-04 de SPEC-0017 actualizada.
-  - Falta (de Profe, no del docente): publicar la política de privacidad y los términos con la sección del
+  - Falta (de ProfIA, no del docente): publicar la política de privacidad y los términos con la sección del
     PIAR, llenar en el modelo la razón social, el enlace y el correo de soporte, y ofrecerlo para descargar
     desde la pantalla del PIAR. Es un modelo: conviene que lo revise un abogado.
 
 - **PIAR (SPEC-0017) listo para usar en local**, 2026-11-20. En el computador del usuario salía "El PIAR no
   está disponible todavía" porque su `apps/web/.env` no tenía `PIAR_ENCRYPTION_KEY` (el `.env` no va en git).
-  - Nuevo comando `npm run piar:key -w @profe/web` (`apps/web/scripts/piar-key.mjs`): crea la clave y la
+  - Nuevo comando `npm run piar:key -w @profia/web` (`apps/web/scripts/piar-key.mjs`): crea la clave y la
     escribe en `apps/web/.env` si falta; nunca reemplaza una existente (si se pierde, los PIAR guardados no se
     leen) y avisa si la que hay no es válida. Luego hay que reiniciar `npm run dev`.
   - Producción (Vercel): clave aparte en las variables de entorno (`docs/deploy/README.md`).
@@ -241,8 +251,8 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 ## Pendiente conocido
 
 - **Pruebas e2e de descargas en la nube:** el archivo llega con nombre `download` en vez del nombre real
-  (CA-0013-38, CA-0013-14, CA-0013-15/16, CA-0011-17, CA-0017-05). **No es un error de Profe:** el 2026-11-20 se
-  probó con un servidor mínimo (sin Profe ni service worker) y el Chromium preinstalado de este contenedor da
+  (CA-0013-38, CA-0013-14, CA-0013-15/16, CA-0011-17, CA-0017-05). **No es un error de ProfIA:** el 2026-11-20 se
+  probó con un servidor mínimo (sin ProfIA ni service worker) y el Chromium preinstalado de este contenedor da
   `download` incluso con `Content-Disposition` correcto, y no dispara la descarga de un enlace `blob:` con
   `download`. En una máquina normal deberían pasar; si fallan allí, revisar entonces.
 - SPEC-0012: recorrido guiado con el usuario.

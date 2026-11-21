@@ -12,7 +12,7 @@ export type FormatView = {
   updatedAt: Date;
 };
 
-/** Lo que propone Profe al subir un archivo; el docente lo revisa antes de guardar (RN-01). */
+/** Lo que propone ProfIA al subir un archivo; el docente lo revisa antes de guardar (RN-01). */
 export type FormatProposal = {
   name: string;
   structure: FormatStructure;

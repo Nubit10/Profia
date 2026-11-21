@@ -65,7 +65,7 @@ export function AccountCard(props: {
       <dl className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
         <Field label="Nombre" value={props.name} />
         <Field label="Correo" value={props.email} />
-        {props.since && <Field label="Usas Profe desde" value={props.since} />}
+        {props.since && <Field label="Usas ProfIA desde" value={props.since} />}
       </dl>
       <div className="flex flex-col gap-2">
         <p className="text-sm font-semibold text-muted-foreground">
@@ -185,7 +185,7 @@ export function DisplaySettings() {
       </Section>
       <Section
         title="Modo de pantalla"
-        description="El modo oscuro llegará pronto; por ahora Profe se ve en modo claro."
+        description="El modo oscuro llegará pronto; por ahora ProfIA se ve en modo claro."
         icon={HiOutlineSun}
       >
         <Choice<Theme>
@@ -209,7 +209,7 @@ export function HelpCard() {
   return (
     <Section
       title="Ayuda"
-      description="Vuelve a ver cómo funciona Profe."
+      description="Vuelve a ver cómo funciona ProfIA."
       icon={HiOutlineQuestionMarkCircle}
     >
       <Button

@@ -46,7 +46,7 @@ export function LoginForm({ action, callbackUrl, defaultEmail = "" }: Props) {
 
   return (
     <>
-      <AuthHeading title="Entra a Profe">Con tu correo y tu contraseña.</AuthHeading>
+      <AuthHeading title="Entra a ProfIA">Con tu correo y tu contraseña.</AuthHeading>
       <form onSubmit={onSubmit} noValidate>
         <FieldGroup>
           <Field data-invalid={!!errors.email}>

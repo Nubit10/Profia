@@ -2,7 +2,7 @@ import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
 import { choose, signUpIndependentTeacher, openEditor } from "./helpers";
 
-// SPEC-0013 RN-11: Profe en el celular (proyecto "movil": iPhone 13, 390 × 844, táctil).
+// SPEC-0013 RN-11: ProfIA en el celular (proyecto "movil": iPhone 13, 390 × 844, táctil).
 
 /** Espera a que terminen las animaciones de entrada antes de medir. */
 async function settled(locator: import("@playwright/test").Locator) {
@@ -250,13 +250,13 @@ test("CA-0013-27: con mala señal, al tocar un enlace se ve enseguida la pantall
   await expect(page).toHaveURL(/\/resources$/, { timeout: 15_000 });
 });
 
-test("CA-0013-29: en iPhone 'Instalar Profe' explica cómo agregarla a la pantalla de inicio", async ({
+test("CA-0013-29: en iPhone 'Instalar ProfIA' explica cómo agregarla a la pantalla de inicio", async ({
   page,
 }) => {
   await signUpIndependentTeacher(page);
   await page.getByRole("button", { name: "Abrir menú" }).click();
-  await page.getByRole("button", { name: "Instalar Profe" }).click();
-  const help = page.getByRole("dialog", { name: "Instala Profe en tu iPhone" });
+  await page.getByRole("button", { name: "Instalar ProfIA" }).click();
+  const help = page.getByRole("dialog", { name: "Instala ProfIA en tu iPhone" });
   await expect(help).toContainText("Agregar a pantalla de inicio");
   await help.getByRole("button", { name: "Entendido" }).click();
   await expect(help).toHaveCount(0);

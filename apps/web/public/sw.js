@@ -1,13 +1,13 @@
 /*
- * Service worker de Profe (SPEC-0013, ADR-0012). Sin librerías.
+ * Service worker de ProfIA (SPEC-0013, ADR-0012). Sin librerías.
  * - Nunca guarda páginas del área de trabajo ni respuestas de acciones: van a la red.
  * - Guarda solo los archivos estáticos con huella de Next (inmutables), los íconos y la página
  *   «Sin conexión». Sin red, una navegación muestra esa página en vez del error del navegador.
  * - Cada caché lleva la versión en el nombre; al activarse una versión nueva se borran las viejas.
  */
 const VERSION = "v2";
-const SHELL_CACHE = `profe-shell-${VERSION}`;
-const STATIC_CACHE = `profe-static-${VERSION}`;
+const SHELL_CACHE = `profia-shell-${VERSION}`;
+const STATIC_CACHE = `profia-static-${VERSION}`;
 const OFFLINE_URL = "/offline";
 const SHELL = [
   OFFLINE_URL,
@@ -41,7 +41,7 @@ self.addEventListener("activate", (event) => {
       .then((keys) =>
         Promise.all(
           keys
-            .filter((key) => key.startsWith("profe-") && !key.startsWith("profe-offline-"))
+            .filter((key) => key.startsWith("profe-") && !key.startsWith("profia-offline-"))
             .filter((key) => !OWN.includes(key))
             .map((key) => caches.delete(key)),
         ),
@@ -103,12 +103,12 @@ self.addEventListener("push", (event) => {
   }
   event.waitUntil(
     self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((windows) => {
-      // Profe está abierto y a la vista: el docente ya ve el aviso dentro de la app (como Claude).
+      // ProfIA está abierto y a la vista: el docente ya ve el aviso dentro de la app (como Claude).
       if (windows.some((w) => w.visibilityState === "visible")) return undefined;
       return self.registration.showNotification(
-        typeof data.title === "string" && data.title ? data.title : "Profe",
+        typeof data.title === "string" && data.title ? data.title : "ProfIA",
         {
-          body: typeof data.body === "string" ? data.body : "Tienes una novedad en Profe.",
+          body: typeof data.body === "string" ? data.body : "Tienes una novedad en ProfIA.",
           tag: typeof data.tag === "string" ? data.tag : undefined,
           icon: "/icons/icon-192.png",
           badge: "/icons/icon-192.png",

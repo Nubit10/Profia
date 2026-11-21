@@ -13,7 +13,7 @@
 
 Cuando la planeación con DUA (SPEC-0016) no basta para un estudiante, el Decreto 1421 de 2017 pide
 un **PIAR**: el plan con los apoyos y ajustes razonables que ese estudiante necesita, por área y
-por periodo. Profe ayuda al docente a escribirlo, a proponer los ajustes con IA y a descargarlo en
+por periodo. ProfIA ayuda al docente a escribirlo, a proponer los ajustes con IA y a descargarlo en
 Word o PDF para firmarlo.
 
 El PIAR trae **datos personales de un menor de edad**, y algunos son sensibles (Ley 1581 de 2012,
@@ -61,7 +61,7 @@ datos son privados.
   por periodo y recomendaciones para la familia. Nada más.
 - **RN-03 — Cifrado.** Todo el contenido del PIAR se guarda cifrado (AES-256-GCM, ADR-0015). En
   claro quedan solo: el curso, el año, las fechas y el vencimiento. Sin la clave
-  `PIAR_ENCRYPTION_KEY`, Profe no ofrece el PIAR y lo explica.
+  `PIAR_ENCRYPTION_KEY`, ProfIA no ofrece el PIAR y lo explica.
 - **RN-04 — Autorización.** En el espacio de un colegio, para crear un PIAR el docente confirma que
   tiene la autorización del acudiente y del colegio (Ley 1581 de 2012) y se guarda la fecha. El
   docente independiente no la confirma (decisión del producto, 2026-11-20): ve un aviso para contarle

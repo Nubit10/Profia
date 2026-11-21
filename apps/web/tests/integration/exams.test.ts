@@ -176,7 +176,7 @@ const bodyOf = (fetcher: ReturnType<typeof engine>, i = 0) =>
   JSON.parse(String((fetcher.mock.calls[i] as unknown as [URL, RequestInit])[1].body));
 
 /** Docente con un curso de 6°, una unidad con 3 temas y otro curso aparte. */
-async function teacherWithUnit(name = "Profe") {
+async function teacherWithUnit(name = "ProfIA") {
   const user = await createUser(name);
   const { institutionId } = await createIndependentSpace(user);
   const ctx = await ctxFor(user, institutionId);
@@ -347,7 +347,7 @@ describe("exámenes con IA (SPEC-0011)", () => {
     expect(body.topics.map((t: { key: string }) => t.key)).toEqual(["T1", "T2", "T3"]);
     const raw = JSON.stringify(body);
     expect(raw).not.toContain("ana@colegio.edu.co");
-    expect(raw).not.toContain("Profe");
+    expect(raw).not.toContain("ProfIA");
     for (const t of topics) expect(raw).not.toContain(t.id);
     expect(Object.keys(body).sort()).toEqual(
       [

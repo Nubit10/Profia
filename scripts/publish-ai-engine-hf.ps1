@@ -41,7 +41,7 @@ Get-ChildItem $work -Recurse -Force -Directory -Filter "__pycache__" | Remove-It
 # Hugging Face lee la configuración del Space de este README.
 $readme = @"
 ---
-title: Profe AI Engine
+title: ProfIA AI Engine
 colorFrom: indigo
 colorTo: blue
 sdk: docker
@@ -49,7 +49,7 @@ app_port: 8100
 pinned: false
 ---
 
-AI Engine de Profe (servicio interno). Todas las rutas, salvo /health, exigen el token de servicio.
+AI Engine de ProfIA (servicio interno). Todas las rutas, salvo /health, exigen el token de servicio.
 "@
 # UTF-8 sin BOM: con BOM, Hugging Face no reconoce el encabezado YAML.
 [IO.File]::WriteAllText((Join-Path $work "README.md"), $readme, (New-Object Text.UTF8Encoding $false))

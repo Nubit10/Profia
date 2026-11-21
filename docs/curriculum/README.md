@@ -1,6 +1,6 @@
 # Catálogo curricular
 
-Fuentes oficiales del MEN cargadas en Profe (ADR-0005, SPEC-0004).
+Fuentes oficiales del MEN cargadas en ProfIA (ADR-0005, SPEC-0004).
 
 | Fuente                     | Ítems | Estado de revisión            |
 | -------------------------- | ----- | ----------------------------- |

@@ -6,7 +6,7 @@ darán instrucciones, pero todo debe ser fácil e intuitivo".
 ## Cómo se hizo
 
 - **Recorrido de una profesora nueva** (`apps/web/scripts/recorrido-docente.mjs`,
-  `npm run ux:recorrido -w @profe/web`): sin ayuda y con lo que tiene a la vista, hace el trabajo de
+  `npm run ux:recorrido -w @profia/web`): sin ayuda y con lo que tiene a la vista, hace el trabajo de
   una semana. En celular (360 px, táctil) y en computador (1366 px). Por pantalla mide clics, campos
   escritos, palabras técnicas, controles de menos de 44 px, botones principales y desbordes, y guarda
   una captura.
@@ -66,7 +66,7 @@ Sin desbordes a 360 px ni palabras técnicas en ninguna pantalla.
 
 ## Después de los bloques 1–8 (2026-11-21)
 
-Mismo recorrido (`npm run ux:recorrido`), ajustado a los flujos nuevos: los temas los propone Profe
+Mismo recorrido (`npm run ux:recorrido`), ajustado a los flujos nuevos: los temas los propone ProfIA
 (SPEC-0032), el recurso abre en la hoja y se edita desde "Editar pregunta 1" (SPEC-0029), "Mis
 recursos" está en la barra de abajo del celular (SPEC-0033). Celular / computador:
 
@@ -82,7 +82,7 @@ recursos" está en la barra de abajo del celular (SPEC-0033). Celular / computad
 | 8. Encontrar mis recursos | 3 / 1 clics           | **2 / 1 clics**                                               |
 | **Total**                 | **27 / 24 clics**     | **28 / 26 clics, 6 campos (antes 7)**                         |
 
-- El paso 2 suma un clic porque ya no se escribe el tema: se aceptan los que propone Profe, y queda
+- El paso 2 suma un clic porque ya no se escribe el tema: se aceptan los que propone ProfIA, y queda
   planeado todo el primer periodo (antes, un solo tema).
 - El examen suma un clic porque el curso ahora tiene varios temas y hay que marcar uno.
 - No miden lo que más ahorra: "Usar también en…" (un taller para 3 grupos ya no son 3 generaciones),

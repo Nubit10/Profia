@@ -251,7 +251,7 @@ export function ProposalPanel({
           className="size-8 animate-spin rounded-full border-4 border-brand-soft border-t-brand"
           aria-hidden
         />
-        <p className="font-medium">Profe está proponiendo temas a partir de los DBA…</p>
+        <p className="font-medium">ProfIA está proponiendo temas a partir de los DBA…</p>
         <p className="text-sm text-muted-foreground">
           {target.scope === "YEAR"
             ? "Para el año completo arma un periodo a la vez; puede tardar unos segundos."

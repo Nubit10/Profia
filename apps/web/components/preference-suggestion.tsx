@@ -18,7 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import type { ActionResult } from "@/lib/action-result";
 import type { PendingSuggestion } from "@/modules/resources/client";
 
-const TITLE = "Profe aprendió algo de ti";
+const TITLE = "ProfIA aprendió algo de ti";
 
 type Props = {
   suggestion: PendingSuggestion;
@@ -79,7 +79,7 @@ function SuggestionForm({
         {suggestion.reason}
       </p>
       <Field data-invalid={!!error}>
-        <FieldLabel htmlFor={`${idPrefix}-text`}>Profe lo tendrá en cuenta así</FieldLabel>
+        <FieldLabel htmlFor={`${idPrefix}-text`}>ProfIA lo tendrá en cuenta así</FieldLabel>
         <Textarea
           id={`${idPrefix}-text`}
           value={text}
@@ -129,7 +129,7 @@ function SuggestionForm({
 }
 
 /**
- * SPEC-0021 Parte A: una preferencia que Profe propone a partir de lo que hace el docente. En
+ * SPEC-0021 Parte A: una preferencia que ProfIA propone a partir de lo que hace el docente. En
  * escritorio es una tarjeta; en el celular, una franja que abre una hoja inferior (Atrás la
  * cierra). Nada cambia hasta que el docente elige (teacher-in-control).
  */

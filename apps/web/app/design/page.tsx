@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { HiOutlineFolderOpen } from "react-icons/hi2";
 import { AiAvatar } from "@/components/brand/ai-avatar";
-import { ProfeLogo } from "@/components/brand/profe-logo";
+import { ProfiaLogo } from "@/components/brand/profia-logo";
 import { EmptyState } from "@/components/empty-state";
 import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
@@ -40,12 +40,12 @@ export default function DesignPage() {
     <main className="mx-auto flex w-full max-w-5xl flex-col gap-12 px-6 py-12">
       <PageHeader
         eyebrow="SPEC-0012"
-        title="Sistema de diseño de Profe"
+        title="Sistema de diseño de ProfIA"
         description="Tokens y componentes. Detalle y reglas en docs/design/sistema-de-diseno.md."
       />
       <section className="flex flex-col gap-4">
         <h2 className="text-lg font-extrabold">Marca</h2>
-        <ProfeLogo />
+        <ProfiaLogo />
         <div className="h-16 rounded-2xl bg-brand-gradient" />
         <p className="text-4xl font-extrabold">
           <span className="text-brand-gradient">Titular con degradado</span> y texto normal

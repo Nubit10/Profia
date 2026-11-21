@@ -213,7 +213,7 @@ function DbaPicker({
   references: CurriculumReference[];
   value: CurriculumLinkInput[];
   onChange: (links: CurriculumLinkInput[]) => void;
-  /** SPEC-0013 RN-04: DBA sugeridos por Profe; van primero y con la marca "Sugerido". */
+  /** SPEC-0013 RN-04: DBA sugeridos por ProfIA; van primero y con la marca "Sugerido". */
   suggested?: string[];
 }) {
   const [filter, setFilter] = useState("");
@@ -345,7 +345,7 @@ export function ObjectiveForm({
   const suggestedRef = useRef<string[]>([]);
   const dismissed = useRef(new Set<string>());
 
-  // RN-04: al escribir un objetivo nuevo, Profe marca hasta 3 DBA del curso. Quedan a la vista con
+  // RN-04: al escribir un objetivo nuevo, ProfIA marca hasta 3 DBA del curso. Quedan a la vista con
   // "Sugerido" y el docente los quita si no aplican; uno quitado no vuelve a marcarse solo.
   useEffect(() => {
     if (initial || !suggestDba || references.length === 0) return;
@@ -433,7 +433,7 @@ export function ObjectiveForm({
             {searching
               ? "Buscando DBA relacionados…"
               : markedSuggestions > 0
-                ? `Profe marcó ${markedSuggestions} ${markedSuggestions === 1 ? "DBA sugerido" : "DBA sugeridos"}. Revísalos antes de crear el objetivo.`
+                ? `ProfIA marcó ${markedSuggestions} ${markedSuggestions === 1 ? "DBA sugerido" : "DBA sugeridos"}. Revísalos antes de crear el objetivo.`
                 : ""}
           </p>
           <FieldError errors={[errors.links as { message?: string } | undefined]} />

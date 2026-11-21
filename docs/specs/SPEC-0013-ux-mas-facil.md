@@ -1,4 +1,4 @@
-# SPEC-0013 — Profe más fácil: menos pasos, hecho para el celular e instalable
+# SPEC-0013 — ProfIA más fácil: menos pasos, hecho para el celular e instalable
 
 | Campo                    | Valor                                                                                                                                                                                                                                              |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -11,19 +11,19 @@
 
 ## 1. Objetivo
 
-SPEC-0012 le dio a Profe una cara nueva y un asistente para crear. Al recorrer la app real todavía
+SPEC-0012 le dio a ProfIA una cara nueva y un asistente para crear. Al recorrer la app real todavía
 quedan pasos que sobran: el docente se registra y tiene que volver a escribir su correo y su
 contraseña, para su primer taller pasa por tres diálogos de planeación, guarda cada cambio con tres
 clics y descarga la hoja y la clave en dos viajes al menú. Esta spec quita esos pasos para que un
 docente sin experiencia técnica vaya de "crear cuenta" a "taller descargado" sin ayuda y con el
 menor número de clics posible.
 
-Además, Profe tiene que funcionar **perfecto en el celular** y **poder instalarse** en la pantalla
+Además, ProfIA tiene que funcionar **perfecto en el celular** y **poder instalarse** en la pantalla
 de inicio como una app, igual que Terram (otro producto del mismo equipo): una sola barra de
 acciones abajo, formularios que suben desde abajo, el botón Atrás del teléfono cierra lo que se
-abrió, botones del tamaño del dedo y un ícono propio que abre Profe a pantalla completa.
+abrió, botones del tamaño del dedo y un ícono propio que abre ProfIA a pantalla completa.
 
-Dos cosas le dan mucho valor al sistema: **Profe avisa con una notificación del navegador** cuando un
+Dos cosas le dan mucho valor al sistema: **ProfIA avisa con una notificación del navegador** cuando un
 recurso termina, como lo hace Claude cuando una respuesta está lista y el usuario está en otra
 pestaña o con la app cerrada; y **sin conexión el docente tiene todos sus recursos generados listos
 para descargar** en Word y PDF (en el salón sin wifi, en el bus, en la sede rural).
@@ -50,7 +50,7 @@ táctil). Capturas en `docs/design/capturas/spec-0013/` (01–08 escritorio, 09�
 | F-13 | Móvil       | Los formularios son ventanas centradas (113 px arriba y abajo libres), no hojas que suben desde abajo. "Objetivo de aprendizaje" mide 598 px con scroll interno: "Crear objetivo" queda debajo de los 12 DBA, fuera del alcance del pulgar.                                       | `09-movil-dialogo-curso.png`, `10-movil-dialogo-objetivo.png`       |
 | F-14 | Móvil       | **Entre 5 y 24 controles por pantalla miden menos de 44×44 px** (el mínimo para el dedo): iconos de planeación de 28×28, "Cerrar" de 28×28, pestañas y botones de 36 px.                                                                                                          | recorrido en celular (medido en cada pantalla)                      |
 | F-15 | Móvil       | En el curso el título se parte en 3 líneas ("Matemáticas / · 6° · / 601") por el botón "Crear con IA" al lado, y las pestañas se cortan ("DBA y Es") sin señal de que hay más.                                                                                                    | `11-movil-curso.png`                                                |
-| F-16 | Instalable  | Profe **no se puede instalar**: no hay manifiesto (`/manifest.webmanifest` responde 404), ni íconos de app, ni service worker. En el celular siempre es una pestaña del navegador. Terram sí se instala (`app/manifest.ts`, `public/sw.js`).                                      | `curl /manifest.webmanifest` → 404                                  |
+| F-16 | Instalable  | ProfIA **no se puede instalar**: no hay manifiesto (`/manifest.webmanifest` responde 404), ni íconos de app, ni service worker. En el celular siempre es una pestaña del navegador. Terram sí se instala (`app/manifest.ts`, `public/sw.js`).                                     | `curl /manifest.webmanifest` → 404                                  |
 | F-17 | Móvil       | No hay pantallas de carga (`loading.tsx`): con mala señal, al tocar un enlace la pantalla anterior se queda quieta y el docente vuelve a tocar.                                                                                                                                   | `find app -name loading.tsx` sin resultados                         |
 | F-11 | Transversal | El docente reportó una "página de error" al tener talleres o quices. Causa: la fecha de la lista de recursos se formateaba distinto en el servidor y en el navegador (error de hidratación). **Ya corregido** (`lib/dates.ts`) con una guardia en los E2E; aquí queda como regla. | commit "Corrige la página de error…"                                |
 
@@ -76,12 +76,12 @@ táctil). Capturas en `docs/design/capturas/spec-0013/` (01–08 escritorio, 09�
   áreas seguras del teléfono (`env(safe-area-inset-*)`); encabezado del curso y pestañas que caben
   en 390 px; pantallas de carga en las rutas que consultan datos.
 - **App instalable** (F-16): manifiesto, íconos (192, 512 y "maskable", ícono de Apple), color de
-  la barra del sistema, service worker mínimo, página "Sin conexión" y la opción "Instalar Profe"
+  la barra del sistema, service worker mínimo, página "Sin conexión" y la opción "Instalar ProfIA"
   en el menú (en iPhone, con la explicación de "Compartir → Agregar a pantalla de inicio").
 - **Notificaciones del navegador** (F-07, decisión 3): "Tu quiz está listo" o "No pudimos crear tu
-  taller" llega al celular o al computador aunque Profe esté en otra pestaña o cerrado, con Web
+  taller" llega al celular o al computador aunque ProfIA esté en otra pestaña o cerrado, con Web
   Push estándar como Terram. El permiso se pide en el momento justo, no al entrar.
-- **Recursos sin conexión** (decisión 9): Profe guarda en el dispositivo los Word y PDF de todos los
+- **Recursos sin conexión** (decisión 9): ProfIA guarda en el dispositivo los Word y PDF de todos los
   recursos generados del docente y los mantiene al día; sin señal, una pantalla "Sin conexión"
   los lista por curso y los descarga.
 - **Regla de hidratación** (F-11) como criterio permanente.
@@ -118,7 +118,7 @@ táctil). Capturas en `docs/design/capturas/spec-0013/` (01–08 escritorio, 09�
 - **RN-03 — Nada se omite en silencio.** Elegir curso o tema solo vale cuando hay exactamente uno;
   el paso se muestra resuelto ("Para: Matemáticas · 6° · 601 · La recta numérica — Cambiar") y no se
   salta sin dejar rastro.
-- **RN-04 — Los DBA sugeridos los confirma el docente.** Al escribir un objetivo, Profe marca hasta
+- **RN-04 — Los DBA sugeridos los confirma el docente.** Al escribir un objetivo, ProfIA marca hasta
   3 DBA del curso usando la búsqueda curricular que ya existe (SPEC-0005). Quedan marcados como
   "Sugerido" y el docente puede quitarlos. Si la búsqueda falla, el diálogo funciona como hoy.
   Nunca se guarda un objetivo con DBA que el docente no vio.
@@ -133,8 +133,8 @@ táctil). Capturas en `docs/design/capturas/spec-0013/` (01–08 escritorio, 09�
   descarga lo dice y ofrece "Marcar como listo y descargar" o "Descargar con marca de borrador".
   Marcar como listo sigue siendo una acción explícita del docente (teacher-in-control).
 - **RN-08 — Avisos de generación propios.** El aviso de "listo" o "falló" solo le llega al docente
-  que pidió el recurso. Dentro de Profe se obtiene consultando el estado en el servidor. Fuera de
-  Profe llega como notificación del navegador (RN-15).
+  que pidió el recurso. Dentro de ProfIA se obtiene consultando el estado en el servidor. Fuera de
+  ProfIA llega como notificación del navegador (RN-15).
 - **RN-09 — Sin errores de hidratación.** Ningún texto que dependa de la zona horaria, el idioma o la
   hora actual se formatea distinto en servidor y navegador. Las fechas visibles usan `lib/dates.ts`.
 - **RN-10 — Lo que ya cumple SPEC-0012 se mantiene.** Un botón primario por pantalla, glosario sin
@@ -151,18 +151,18 @@ táctil). Capturas en `docs/design/capturas/spec-0013/` (01–08 escritorio, 09�
   - El contenido respeta `env(safe-area-inset-*)`; las rejillas declaran `grid-cols-1` de base y
     las filas de pestañas o chips se desplazan con flechas o arrastre y muestran que hay más.
   - Cada ruta que carga datos tiene `loading.tsx` con un esqueleto.
-- **RN-12 — Profe se instala como app (patrón de CliqCut-Web y Terram, ADR-0012).**
-  - `app/manifest.ts` declara nombre "Profe", `display: standalone`, `scope: /`,
+- **RN-12 — ProfIA se instala como app (patrón de CliqCut-Web y Terram, ADR-0012).**
+  - `app/manifest.ts` declara nombre "ProfIA", `display: standalone`, `scope: /`,
     `start_url: /dashboard` (como CliqCut abre el panel de quien trabaja; sin sesión, `proxy.ts`
     lleva al login y vuelve), `lang: es-CO`, colores desde los tokens de marca e íconos 192 y 512
-    "any maskable". El layout raíz declara `appleWebApp` (`capable`, título "Profe"), el ícono de
+    "any maskable". El layout raíz declara `appleWebApp` (`capable`, título "ProfIA"), el ícono de
     Apple y `themeColor` en el viewport.
-  - El ícono es el logo actual de Profe (el birrete) sobre un cuadro con el degradado de marca, en
+  - El ícono es el logo actual de ProfIA (el birrete) sobre un cuadro con el degradado de marca, en
     PNG de 512 px con el logo dentro de la zona segura de "maskable" (como el `logo-tile.png` de
     CliqCut), y una versión de 192 px.
-  - La opción "Instalar Profe" del menú usa el aviso del navegador donde existe (Chrome, Edge,
+  - La opción "Instalar ProfIA" del menú usa el aviso del navegador donde existe (Chrome, Edge,
     Android) y en iPhone o iPad explica "Compartir → Agregar a pantalla de inicio". No aparece si
-    Profe ya está instalado (`display-mode: standalone`) ni en navegadores que no pueden instalarla.
+    ProfIA ya está instalado (`display-mode: standalone`) ni en navegadores que no pueden instalarla.
   - Abierta como app, ninguna pantalla depende de los botones del navegador: siempre hay una forma
     visible de volver.
 - **RN-13 — Qué guarda el service worker.** Las páginas del área de trabajo y las acciones siempre
@@ -175,7 +175,7 @@ táctil). Capturas en `docs/design/capturas/spec-0013/` (01–08 escritorio, 09�
     generación, la **última versión guardada**: hoja del estudiante y clave (guía del docente en
     talleres; también la hoja de respuestas en exámenes), en **PDF y Word**, versión A. Las
     versiones B–D quedan guardadas cuando el docente las descarga alguna vez con señal.
-  - Cómo se mantiene al día: con Profe abierto y con señal, una sincronización en segundo plano
+  - Cómo se mantiene al día: con ProfIA abierto y con señal, una sincronización en segundo plano
     compara la lista del servidor (recurso, versión, documentos) con lo guardado y baja lo que falta
     o cambió, de a un archivo, sin bloquear la pantalla; borra lo archivado o eliminado. No baja
     nada con el "ahorro de datos" del navegador activo (`saveData`) salvo que el docente lo pida.
@@ -188,24 +188,24 @@ táctil). Capturas en `docs/design/capturas/spec-0013/` (01–08 escritorio, 09�
     actualización, y descarga cada documento desde el dispositivo. Avisa que lo mostrado puede no
     ser la última versión si no se ha sincronizado desde hace más de 24 h.
   - **Se activa por dispositivo.** En la app instalada viene encendido (el docente puede apagarlo);
-    en el navegador Profe pregunta una vez "¿Guardar tus recursos en este dispositivo para usarlos
+    en el navegador ProfIA pregunta una vez "¿Guardar tus recursos en este dispositivo para usarlos
     sin conexión?" (los computadores del colegio suelen ser compartidos).
   - Cerrar sesión borra del dispositivo todo lo guardado de esa cuenta. Si el docente pierde acceso
     a un espacio, la siguiente sincronización borra lo de ese espacio.
 - **RN-15 — Notificaciones del navegador, como Claude.**
   - Cuándo: un recurso (taller, quiz o examen) termina de generarse o falla. Solo le llegan al
     docente que lo pidió, en sus dispositivos con el permiso dado.
-  - Si Profe está abierto y a la vista, basta el aviso dentro de la app (no se duplica). Si está en
+  - Si ProfIA está abierto y a la vista, basta el aviso dentro de la app (no se duplica). Si está en
     otra pestaña, minimizado o cerrado, llega la notificación del sistema. Tocarla abre el recurso.
   - Contenido corto: "Tu quiz «La recta numérica» está listo para revisar" o "No pudimos crear tu
     taller «…». Toca para reintentar". Nada más del recurso ni de nadie.
   - El permiso se pide en contexto, no al entrar: la primera vez que el docente toca "Generar", una
     tarjeta pregunta "¿Te avisamos cuando esté listo?" con "Avisarme" (abre el permiso del navegador)
     y "Ahora no" (no vuelve a preguntar en 7 días). Si el permiso está bloqueado, explica cómo
-    activarlo. En iPhone solo funciona con Profe instalado (iOS 16.4+), y la tarjeta lo explica.
+    activarlo. En iPhone solo funciona con ProfIA instalado (iOS 16.4+), y la tarjeta lo explica.
   - En "Ajustes → Notificaciones" el docente ve si este dispositivo tiene avisos y los apaga o
     enciende. Un dispositivo compartido avisa solo a la última cuenta que entró en él.
-  - Sin las claves del canal configuradas, Profe no ofrece las notificaciones y todo lo demás
+  - Sin las claves del canal configuradas, ProfIA no ofrece las notificaciones y todo lo demás
     funciona igual.
 
 ## 6. Entradas
@@ -240,28 +240,28 @@ url }] }]`, filtrada por `ctx.institutionId` y el docente.
 
 ## 8. Errores y casos límite
 
-| Caso                                                             | Comportamiento esperado                                                                                                                                                                 |
-| ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| El registro funciona pero iniciar sesión falla                   | Login de hoy con el correo ya escrito y el aviso "Tu cuenta quedó creada; ingresa."                                                                                                     |
-| La búsqueda de DBA no responde                                   | El diálogo de objetivo funciona como hoy, sin sugeridos y sin error visible                                                                                                             |
-| El docente quita todos los DBA sugeridos                         | Se guarda igual que hoy (el objetivo puede no tener DBA)                                                                                                                                |
-| Falla un documento dentro del paquete                            | No se entrega un zip incompleto: mensaje "No pudimos preparar la descarga" y se puede reintentar                                                                                        |
-| El docente cierra la pestaña mientras el recurso se genera       | Al volver a cualquier página ve el aviso del resultado una sola vez                                                                                                                     |
-| Dos pestañas abiertas                                            | El aviso puede salir en ambas; no se duplica la acción                                                                                                                                  |
-| "Listo" sin cambios                                              | No crea versión                                                                                                                                                                         |
-| Recurso archivado                                                | Sin diálogo de descarga (igual que hoy)                                                                                                                                                 |
-| Navegador que no permite instalar (p. ej. Firefox de escritorio) | No aparece "Instalar Profe"; Profe funciona igual en la pestaña                                                                                                                         |
-| Profe instalado en iPhone y el docente descarga un Word o PDF    | Se abre la vista previa del sistema con "Compartir" para guardarlo o abrirlo en Word; el docente vuelve a Profe sin perder la página (validación manual en un iPhone real, decisión 10) |
-| Se publica una versión nueva de Profe                            | El service worker nuevo toma el control en la siguiente navegación; nunca sirve archivos de una versión vieja con HTML nuevo                                                            |
-| El docente cierra sesión                                         | Se borran del dispositivo los documentos guardados y la suscripción a notificaciones de esa cuenta, y vuelve al login                                                                   |
-| La sesión vence mientras el docente está sin señal               | Los documentos guardados siguen disponibles en "Sin conexión" hasta que vuelva la señal; al volver se pide iniciar sesión y, si no lo hace otra cuenta, se conservan                    |
-| Otra cuenta inicia sesión en el mismo dispositivo                | Se borran los documentos guardados de la cuenta anterior antes de sincronizar los de la nueva                                                                                           |
-| El dispositivo se queda sin espacio                              | Se avisa con el espacio usado; se guardan primero los recursos más recientes y el resto se marca "No guardado"                                                                          |
-| El docente edita un recurso                                      | La siguiente sincronización reemplaza sus archivos por los de la versión nueva                                                                                                          |
-| El docente pierde acceso a un espacio o se archiva un recurso    | La siguiente sincronización borra esos documentos del dispositivo                                                                                                                       |
-| El permiso de notificaciones está bloqueado                      | La tarjeta explica cómo activarlo en el navegador; el aviso dentro de Profe sigue funcionando                                                                                           |
-| La suscripción venció (el servicio responde 404/410)             | Se borra del servidor; el docente puede volver a activar los avisos                                                                                                                     |
-| Un recurso termina en otro espacio del docente                   | La notificación abre el recurso; si el espacio activo es otro, Profe pide cambiar de espacio con un botón                                                                               |
+| Caso                                                             | Comportamiento esperado                                                                                                                                                                  |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| El registro funciona pero iniciar sesión falla                   | Login de hoy con el correo ya escrito y el aviso "Tu cuenta quedó creada; ingresa."                                                                                                      |
+| La búsqueda de DBA no responde                                   | El diálogo de objetivo funciona como hoy, sin sugeridos y sin error visible                                                                                                              |
+| El docente quita todos los DBA sugeridos                         | Se guarda igual que hoy (el objetivo puede no tener DBA)                                                                                                                                 |
+| Falla un documento dentro del paquete                            | No se entrega un zip incompleto: mensaje "No pudimos preparar la descarga" y se puede reintentar                                                                                         |
+| El docente cierra la pestaña mientras el recurso se genera       | Al volver a cualquier página ve el aviso del resultado una sola vez                                                                                                                      |
+| Dos pestañas abiertas                                            | El aviso puede salir en ambas; no se duplica la acción                                                                                                                                   |
+| "Listo" sin cambios                                              | No crea versión                                                                                                                                                                          |
+| Recurso archivado                                                | Sin diálogo de descarga (igual que hoy)                                                                                                                                                  |
+| Navegador que no permite instalar (p. ej. Firefox de escritorio) | No aparece "Instalar ProfIA"; ProfIA funciona igual en la pestaña                                                                                                                        |
+| ProfIA instalado en iPhone y el docente descarga un Word o PDF   | Se abre la vista previa del sistema con "Compartir" para guardarlo o abrirlo en Word; el docente vuelve a ProfIA sin perder la página (validación manual en un iPhone real, decisión 10) |
+| Se publica una versión nueva de ProfIA                           | El service worker nuevo toma el control en la siguiente navegación; nunca sirve archivos de una versión vieja con HTML nuevo                                                             |
+| El docente cierra sesión                                         | Se borran del dispositivo los documentos guardados y la suscripción a notificaciones de esa cuenta, y vuelve al login                                                                    |
+| La sesión vence mientras el docente está sin señal               | Los documentos guardados siguen disponibles en "Sin conexión" hasta que vuelva la señal; al volver se pide iniciar sesión y, si no lo hace otra cuenta, se conservan                     |
+| Otra cuenta inicia sesión en el mismo dispositivo                | Se borran los documentos guardados de la cuenta anterior antes de sincronizar los de la nueva                                                                                            |
+| El dispositivo se queda sin espacio                              | Se avisa con el espacio usado; se guardan primero los recursos más recientes y el resto se marca "No guardado"                                                                           |
+| El docente edita un recurso                                      | La siguiente sincronización reemplaza sus archivos por los de la versión nueva                                                                                                           |
+| El docente pierde acceso a un espacio o se archiva un recurso    | La siguiente sincronización borra esos documentos del dispositivo                                                                                                                        |
+| El permiso de notificaciones está bloqueado                      | La tarjeta explica cómo activarlo en el navegador; el aviso dentro de ProfIA sigue funcionando                                                                                           |
+| La suscripción venció (el servicio responde 404/410)             | Se borra del servidor; el docente puede volver a activar los avisos                                                                                                                      |
+| Un recurso termina en otro espacio del docente                   | La notificación abre el recurso; si el espacio activo es otro, ProfIA pide cambiar de espacio con un botón                                                                               |
 
 ## 9. Seguridad y privacidad
 
@@ -398,19 +398,19 @@ Los clics se cuentan como en CA-0012-07: solo clics del usuario, sin contar escr
 
 **App instalable**
 
-- **CA-0013-28:** Dado Profe en producción, cuando Chrome revisa si se puede instalar
+- **CA-0013-28:** Dado ProfIA en producción, cuando Chrome revisa si se puede instalar
   (`Page.getInstallabilityErrors` por CDP), entonces no hay errores; `/manifest.webmanifest` trae
   nombre, `display: standalone`, `start_url`, colores e íconos 192, 512 y "maskable", y cada ícono
   responde 200 con su tamaño real (F-16).
 - **CA-0013-29:** Dado Chrome con el aviso de instalación disponible, cuando el docente abre el
-  menú, entonces ve "Instalar Profe" y al tocarlo se abre el aviso del navegador. Con un agente de
+  menú, entonces ve "Instalar ProfIA" y al tocarlo se abre el aviso del navegador. Con un agente de
   iPhone ve la explicación de "Agregar a pantalla de inicio". Con `display-mode: standalone` la
   opción no aparece.
-- **CA-0013-30:** Dado Profe abierto con el service worker activo, cuando se corta la red y el
+- **CA-0013-30:** Dado ProfIA abierto con el service worker activo, cuando se corta la red y el
   docente navega a cualquier página, entonces ve la pantalla "Sin conexión" (no el error del
   navegador); y la caché no contiene ninguna página de `/courses`, `/resources` ni `/dashboard`
   (RN-13).
-- **CA-0013-31:** Dado Profe abierto como app (`display-mode: standalone`), cuando el docente
+- **CA-0013-31:** Dado ProfIA abierto como app (`display-mode: standalone`), cuando el docente
   recorre Inicio → curso → recurso → Inicio, entonces lo logra sin los botones del navegador y el
   contenido no queda debajo de la barra de estado ni de la barra de gestos (áreas seguras).
 
@@ -418,27 +418,27 @@ Los clics se cuentan como en CA-0012-07: solo clics del usuario, sin contar escr
 
 - **CA-0013-32:** Dado un docente que toca "Generar" por primera vez, cuando aparece la tarjeta
   "¿Te avisamos cuando esté listo?" y toca "Avisarme", entonces se abre el permiso del navegador y,
-  al aceptarlo, queda una suscripción de su dispositivo en el servidor. Profe nunca pide el permiso
+  al aceptarlo, queda una suscripción de su dispositivo en el servidor. ProfIA nunca pide el permiso
   al cargar una página.
-- **CA-0013-33:** Dado un docente con avisos activos y Profe en otra pestaña o cerrado, cuando su
+- **CA-0013-33:** Dado un docente con avisos activos y ProfIA en otra pestaña o cerrado, cuando su
   quiz termina de generarse, entonces recibe una notificación "Tu quiz «La recta numérica» está
   listo para revisar" (probado con un servicio push de prueba que recibe lo enviado), y tocarla abre
   el recurso. Si falla, la notificación dice que no se pudo crear.
-- **CA-0013-34:** Dado Profe abierto y a la vista, cuando el recurso termina, entonces el docente ve
+- **CA-0013-34:** Dado ProfIA abierto y a la vista, cuando el recurso termina, entonces el docente ve
   solo el aviso dentro de la app, no una notificación del sistema repetida.
 - **CA-0013-35:** Dado un recurso de otro docente del mismo colegio, cuando termina, entonces a
   este docente no le llega ninguna notificación (test de acceso cruzado).
 - **CA-0013-36:** Dada una suscripción que el servicio push responde con 410, cuando se intenta
-  enviar, entonces se borra del servidor y no se reintenta. Sin las claves VAPID configuradas, Profe
+  enviar, entonces se borra del servidor y no se reintenta. Sin las claves VAPID configuradas, ProfIA
   no muestra la tarjeta ni la opción en Ajustes, y generar funciona igual.
 
 **Recursos sin conexión**
 
 - **CA-0013-37:** Dado un docente con 3 recursos (un taller, un quiz y un examen) y el guardado sin
-  conexión activo, cuando abre Profe con señal, entonces en menos de 60 s cada recurso muestra
+  conexión activo, cuando abre ProfIA con señal, entonces en menos de 60 s cada recurso muestra
   "Disponible sin conexión" y el dispositivo tiene sus documentos de la última versión: hoja y
   clave (y hoja de respuestas del examen) en PDF y Word.
-- **CA-0013-38:** Dado ese docente sin red, cuando abre Profe (pestaña o app instalada), entonces
+- **CA-0013-38:** Dado ese docente sin red, cuando abre ProfIA (pestaña o app instalada), entonces
   ve "Sin conexión" con los 3 recursos agrupados por curso, y al tocar "Clave en Word" del quiz
   recibe el archivo con el mismo nombre que en línea (SPEC-0009), sin ninguna petición a la red.
 - **CA-0013-39:** Dado un recurso editado (versión 3), cuando vuelve la señal, entonces la
@@ -447,8 +447,8 @@ Los clics se cuentan como en CA-0012-07: solo clics del usuario, sin contar escr
 - **CA-0013-40:** Dado un docente que cierra sesión, cuando otra cuenta entra en el mismo
   dispositivo, entonces no puede ver ni descargar ningún documento de la primera cuenta, ni con
   señal ni sin ella.
-- **CA-0013-41:** Dado Profe en el navegador (no instalado), cuando el docente entra por primera vez
-  con recursos, entonces Profe pregunta una vez si guarda sus recursos en este dispositivo y no
+- **CA-0013-41:** Dado ProfIA en el navegador (no instalado), cuando el docente entra por primera vez
+  con recursos, entonces ProfIA pregunta una vez si guarda sus recursos en este dispositivo y no
   guarda nada hasta que acepta. En la app instalada viene encendido y se puede apagar.
 - **CA-0013-42:** Dada la lista para sincronizar, cuando la pide un docente, entonces solo trae sus
   recursos del espacio activo (test de acceso cruzado), y las descargas para guardar no suman
@@ -471,7 +471,7 @@ Los clics se cuentan como en CA-0012-07: solo clics del usuario, sin contar escr
 - [x] T13 — ADR-0012 "App instalable": caché, alcance, actualización al desplegar, sin datos del docente — architect
 - [x] T14 — Piezas de celular en `components/ui`: hoja inferior/ventana según tamaño, `useBackToClose`, barra inferior, cajón y desplazador de pestañas (patrón de Terram) — frontend
 - [x] T15 — Pasar los formularios y menús a esas piezas; controles de 44 px; encabezado del curso y pestañas; `loading.tsx` con esqueletos (RN-11, CA-22 a 27) — frontend
-- [x] T16 — Manifiesto, íconos desde el logo, `themeColor`, `public/sw.js`, página "Sin conexión" y "Instalar Profe" (RN-12/13, CA-28 a 31) — frontend + devops
+- [x] T16 — Manifiesto, íconos desde el logo, `themeColor`, `public/sw.js`, página "Sin conexión" y "Instalar ProfIA" (RN-12/13, CA-28 a 31) — frontend + devops
 - [x] T17 — Proyecto de Playwright "iPhone 13" que corre los E2E de esta spec en el celular, con la revisión de `data-floating` y de controles de 44 px — qa
 - [x] T18 — Notificaciones: `modules/notifications` (tabla `PushSubscription`, registrar y quitar dispositivo, envío con `web-push` al terminar o fallar una generación desde el trabajo en segundo plano), tarjeta de permiso y Ajustes → Notificaciones (RN-15, CA-32 a 36) — backend + frontend + database
 - [x] T19 — Recursos sin conexión: lista para sincronizar, sincronización en el navegador (Cache Storage + IndexedDB), pantalla "Sin conexión", estados "Disponible sin conexión", borrado al cerrar sesión (RN-13/14, CA-37 a 42) — documents + frontend + privacy
@@ -488,8 +488,8 @@ CliqCut-Web (`Nubit10/CliqCut-Web`: `public/manifest*.webmanifest`, `public/sw.j
    como hoy.
 2. **Versiones al editar:** "Listo" guarda; los cambios del mismo docente en el mismo recurso en
    menos de 60 s se agrupan en una versión (RN-05).
-3. **Avisos de generación:** dentro de Profe (aviso y contador en el menú, RN-08) **y como
-   notificación del navegador, como lo hace Claude** (RN-15): llega aunque Profe esté en otra
+3. **Avisos de generación:** dentro de ProfIA (aviso y contador en el menú, RN-08) **y como
+   notificación del navegador, como lo hace Claude** (RN-15): llega aunque ProfIA esté en otra
    pestaña o cerrado; el permiso se pide al primer "Generar". Web Push estándar como Terram.
 4. **"Primeros pasos":** cuatro pasos, y el cuarto es la primera descarga (RN-02).
 5. **DBA sugeridos:** hasta 3 marcados por defecto, que el docente confirma (RN-04).
@@ -497,19 +497,19 @@ CliqCut-Web (`Nubit10/CliqCut-Web`: `public/manifest*.webmanifest`, `public/sw.j
    fricciones de §2 ya tienen evidencia medida. Si el recorrido cambia algo, va en una spec nueva.
 7. **Al abrir la app instalada:** `start_url: /dashboard`, el Inicio del área de trabajo (CliqCut
    abre el panel de quien trabaja: `/owner/dashboard`).
-8. **Ícono:** el logo actual de Profe sobre un cuadro con el degradado de marca, 512 px y "any
+8. **Ícono:** el logo actual de ProfIA sobre un cuadro con el degradado de marca, 512 px y "any
    maskable", el mismo para Apple (CliqCut usa su `logo-tile.png` de 512 px así) (RN-12).
 9. **Sin conexión:** **todos los recursos generados quedan disponibles para descargar sin
    conexión**, en PDF y Word, de su última versión (RN-14). Se activa por dispositivo (encendido en
    la app instalada) y se borra al cerrar sesión. Crear y editar siguen necesitando red.
-10. **iPhone:** en iPhone o iPad, "Instalar Profe" muestra el texto de CliqCut adaptado: "Abre Profe
+10. **iPhone:** en iPhone o iPad, "Instalar ProfIA" muestra el texto de CliqCut adaptado: "Abre ProfIA
     en Safari, toca Compartir y elige Agregar a pantalla de inicio. Luego entra desde ese ícono".
     Las pruebas automáticas corren en Android/Chrome y en un iPhone emulado; queda una **validación
     manual en un iPhone real** (descargas dentro de la app instalada) antes de marcar la spec como
     Implementada.
 
 Nota: CliqCut bloquea la invitación del navegador a instalar en sus páginas públicas porque quien las
-visita es el cliente final (`SuppressInstallPrompt`). En Profe quien visita la landing es un docente
+visita es el cliente final (`SuppressInstallPrompt`). En ProfIA quien visita la landing es un docente
 que puede querer instalarla, así que no se bloquea en ninguna página.
 
 ## 13. Notas de implementación
@@ -534,14 +534,14 @@ que puede querer instalarla, así que no se bloquea en ninguna página.
   últimas opciones quedaban fuera de alcance (corregido en `components/ui/dialog.tsx`).
 - **Parte 3 (T16), app instalable:** `app/manifest.ts`, íconos en `public/icons/` (los genera
   `node scripts/generate-app-icons.mjs` desde el logo), `public/sw.js` y la página `/offline`. El
-  service worker se registra solo en producción. "Instalar Profe" vive en el pie del menú. Los
+  service worker se registra solo en producción. "Instalar ProfIA" vive en el pie del menú. Los
   colores del manifiesto y del `themeColor` salen de `lib/brand-colors.ts` (el navegador no lee
   variables CSS); una prueba unitaria verifica que coincidan con los tokens. Con
   `viewport-fit=cover`, el encabezado y el cajón del celular respetan las áreas seguras.
 - **Parte 4 (T18), notificaciones del navegador:** módulo `notifications` (tabla
   `push_subscriptions` con CHECK de HTTPS y largos), envío con `web-push` desde el final de la
   generación (`GenerationDeps.notify`, nunca rompe la generación) y `public/sw.js` que no muestra la
-  notificación si hay una ventana de Profe a la vista. La tarjeta "¿Te avisamos…?" aparece en la
+  notificación si hay una ventana de ProfIA a la vista. La tarjeta "¿Te avisamos…?" aparece en la
   página del recurso mientras se genera (justo después de "Generar"); Ajustes → Notificaciones
   (`/notifications`) activa o desactiva este dispositivo, y cerrar sesión lo desactiva. Las claves
   VAPID de las pruebas E2E se generan en cada corrida. Chromium sin pantalla no muestra

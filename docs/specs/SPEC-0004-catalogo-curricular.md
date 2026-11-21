@@ -37,7 +37,7 @@ Que el docente vea, desde cada curso, los **referentes oficiales del MEN** para 
 | ------------------------- | -------------------------------------------------------------------- | -------------------------- |
 | Docente (dueño del curso) | Ver los referentes de sus cursos; vincular sus asignaturas a un área | Editar el catálogo oficial |
 | `ADMIN`                   | Vincular las asignaturas del espacio a un área                       | Editar el catálogo oficial |
-| Equipo de Profe (repo)    | Agregar o actualizar fuentes con un PR y el comando de importación   | —                          |
+| Equipo de ProfIA (repo)   | Agregar o actualizar fuentes con un PR y el comando de importación   | —                          |
 
 ## 4. Reglas de negocio
 

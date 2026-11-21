@@ -18,7 +18,7 @@ type View = PushState | "loading" | "active" | "off";
 const MESSAGES: Partial<Record<View, string>> = {
   unsupported: "Este navegador no permite avisos. Prueba con Chrome, Edge, Firefox o Safari.",
   "ios-install":
-    "En iPhone los avisos llegan a Profe instalada: en Safari toca Compartir → «Agregar a pantalla de inicio», entra desde ese ícono y vuelve aquí.",
+    "En iPhone los avisos llegan a ProfIA instalada: en Safari toca Compartir → «Agregar a pantalla de inicio», entra desde ese ícono y vuelve aquí.",
   denied:
     "Los avisos están bloqueados en este navegador. Actívalos en la configuración del sitio (el ícono junto a la dirección) y recarga la página.",
 };

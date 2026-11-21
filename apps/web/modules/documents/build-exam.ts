@@ -28,7 +28,7 @@ const sectionPoints = (s: ExamSection) =>
   Math.round(s.questions.reduce((sum, q) => sum + q.points, 0) * 10) / 10;
 
 const footer = (ctx: ExportContext, variant: Variant) =>
-  `Profe · Versión ${ctx.version} del examen${variant !== "A" ? ` · Versión ${variant}` : ""} · ${ctx.date}`;
+  `ProfIA · Versión ${ctx.version} del examen${variant !== "A" ? ` · Versión ${variant}` : ""} · ${ctx.date}`;
 
 const seedOf = (ctx: ExportContext, variant: Variant) =>
   `${ctx.resourceId}:${ctx.version}:${variant}`;
@@ -220,7 +220,7 @@ export function buildExam(
     blocks.push({
       kind: "paragraph",
       tone: "muted",
-      text: `Nota mínima aprobatoria: ${grade.format(scale.passingGrade)} con ${number.format(passingPointsFor(total, scale))} de ${formatPoints(total)}. Ajústala en Profe si tu colegio usa otra.`,
+      text: `Nota mínima aprobatoria: ${grade.format(scale.passingGrade)} con ${number.format(passingPointsFor(total, scale))} de ${formatPoints(total)}. Ajústala en ProfIA si tu colegio usa otra.`,
     });
     blocks.push({
       kind: "table",

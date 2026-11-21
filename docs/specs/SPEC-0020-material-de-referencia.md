@@ -12,20 +12,20 @@
 ## 1. Objetivo
 
 Hoy, cuando la asignatura no tiene DBA en el catálogo (por ejemplo Educación Religiosa o Filosofía),
-Profe avisa: "el recurso se generará con el tema y los objetivos, sin citas a referentes oficiales".
+ProfIA avisa: "el recurso se generará con el tema y los objetivos, sin citas a referentes oficiales".
 El docente quiere darle a la IA su propio material para que el taller, el quiz o el examen se apoyen en
 él: un PDF o Word, un texto pegado, el libro que usa o una página web.
 
 **Respuesta corta: sí se puede.** Lo que la IA puede usar de verdad es el **texto** que le llega. Por eso:
 
-| Fuente              | Qué hace Profe                                                                     | Fiabilidad |
+| Fuente              | Qué hace ProfIA                                                                    | Fiabilidad |
 | ------------------- | ---------------------------------------------------------------------------------- | ---------- |
 | PDF o Word          | Extrae el texto en el servidor (sin guardar el archivo) y lo usa como base         | Alta       |
 | Texto pegado        | Lo usa tal cual                                                                    | Alta       |
 | Página web (enlace) | El servidor descarga la página, saca el texto y se lo muestra al docente           | Media      |
 | Nombre de un libro  | Solo como referencia en el documento ("Basado en: …"); la IA **no** tiene el libro | Baja       |
 
-Con el nombre de un libro la IA podría inventar contenido que no está en él, así que Profe lo dice
+Con el nombre de un libro la IA podría inventar contenido que no está en él, así que ProfIA lo dice
 claramente y sugiere pegar o subir las páginas que va a usar.
 
 ## 2. Alcance

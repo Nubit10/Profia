@@ -184,6 +184,6 @@ Valores por defecto según el grado (p. ej. Transición–3°: dificultad básic
 - La evaluación general vive en columnas de `Resource` (`rating`, `ratingComment`): cada recurso tiene un solo docente dueño.
 - Al AI Engine viajan solo los DBA vinculados a los objetivos elegidos (si no hay, los del grado): menos tokens y preguntas más enfocadas.
 - El filtro de texto libre quita correos y teléfonos de 10 dígitos; con un umbral menor borraba cantidades de los talleres de matemáticas.
-- Métricas por versión de prompt: `npm run metrics:resources -w @profe/web`.
+- Métricas por versión de prompt: `npm run metrics:resources -w @profia/web`.
 
 **Pendiente (fuera de esta spec):** la vista de solo lectura para el administrador de la institución (§3) requiere ver cursos de otros docentes, que hoy responden 404 (CA-0004-07); se aborda con la coordinación institucional (Fase 11). Exportar a DOCX/PDF es la Fase 7.

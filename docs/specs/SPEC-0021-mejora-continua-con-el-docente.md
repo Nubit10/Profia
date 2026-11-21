@@ -11,11 +11,11 @@
 
 ## 1. Objetivo
 
-Hoy Profe guarda las estrellas, los 👍/👎, las ediciones y las regeneraciones del docente, pero lo único que
+Hoy ProfIA guarda las estrellas, los 👍/👎, las ediciones y las regeneraciones del docente, pero lo único que
 cambia la siguiente generación son las preferencias que el docente escribe a mano (SPEC-0008 RN-07). Esta spec
 cierra el ciclo de tres formas:
 
-1. **Profe propone preferencias** a partir de lo que el docente hace, y el docente las acepta o las descarta.
+1. **ProfIA propone preferencias** a partir de lo que el docente hace, y el docente las acepta o las descarta.
 2. **Un validador de calidad de preguntas**, determinista y sin gastar cupo de IA, detecta los defectos
    típicos de una prueba (la correcta siempre es la más larga, siempre en la misma posición…).
 3. **Los casos reales mal calificados se vuelven pruebas** del benchmark, y las métricas usan señales
@@ -54,12 +54,12 @@ cierra el ciclo de tres formas:
 
 ## 3. Actores y permisos
 
-| Actor                     | Puede                                                                               | No puede                                                   |
-| ------------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| Docente                   | Ver las preferencias propuestas con su porqué, editarlas, aceptarlas o descartarlas | Ver propuestas o señales de otro docente                   |
-| Administrador del colegio | —                                                                                   | Ver las señales, propuestas o preferencias de sus docentes |
-| Equipo de Profe (scripts) | Correr métricas agregadas y extraer casos anonimizados para el benchmark            | Ver quién es el docente o el colegio de un caso; usar PIAR |
-| AI Engine                 | Resumir señales en preferencias y validar la calidad de las preguntas               | Guardar nada; recibir datos personales                     |
+| Actor                      | Puede                                                                               | No puede                                                   |
+| -------------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Docente                    | Ver las preferencias propuestas con su porqué, editarlas, aceptarlas o descartarlas | Ver propuestas o señales de otro docente                   |
+| Administrador del colegio  | —                                                                                   | Ver las señales, propuestas o preferencias de sus docentes |
+| Equipo de ProfIA (scripts) | Correr métricas agregadas y extraer casos anonimizados para el benchmark            | Ver quién es el docente o el colegio de un caso; usar PIAR |
+| AI Engine                  | Resumir señales en preferencias y validar la calidad de las preguntas               | Guardar nada; recibir datos personales                     |
 
 ## 4. Reglas de negocio
 
@@ -136,7 +136,7 @@ sección del examen. Los umbrales viven en una sola constante versionada (`QUALI
 
 ### Parte C — Casos reales y métricas
 
-- **RN-13 — Casos reales.** El comando `npm run benchmark:cases -w @profe/web` extrae los recursos con 👎 y
+- **RN-13 — Casos reales.** El comando `npm run benchmark:cases -w @profia/web` extrae los recursos con 👎 y
   comentario o con 1 a 2 estrellas en un JSONL con:
   - el contexto del blueprint (asignatura, grado, tema, objetivos, códigos de DBA, ajustes);
   - el ítem o recurso señalado y el comentario.
@@ -185,7 +185,7 @@ sección del examen. Los umbrales viven en una sola constante versionada (`QUALI
   - `id`, `institutionId`, `membershipId`, `courseId?`, `text`, `reason`, `conflictsWith?`;
   - `status` (`PENDING` · `ACCEPTED` · `DECLINED`), `createdAt`, `decidedAt`, `generationId`;
   - FK compuestas `(id, institutionId)` (ADR-0004).
-- Una tarjeta "Profe aprendió algo de ti" en "Mis recursos":
+- Una tarjeta "ProfIA aprendió algo de ti" en "Mis recursos":
   - en escritorio, una tarjeta; en el celular, una hoja inferior;
   - lleva el porqué, el texto editable, el alcance y los botones "Usar de ahora en adelante" y "No, gracias";
   - si se acepta, aparece en la lista de preferencias que ya existe.
@@ -278,7 +278,7 @@ sección del examen. Los umbrales viven en una sola constante versionada (`QUALI
 - Auditoría: aceptar y descartar propuestas quedan en la auditoría con el id, sin el texto.
 - Logs: sin textos de ítems ni comentarios; solo conteos.
 - Hay que decir en la política de privacidad y los términos que las calificaciones y ediciones se usan para
-  mejorar Profe (pregunta 5).
+  mejorar ProfIA (pregunta 5).
 
 ## 10. Tareas
 
@@ -288,7 +288,7 @@ sección del examen. Los umbrales viven en una sola constante versionada (`QUALI
 - [x] T3 — Validador de calidad (RN-07 a RN-12), reordenamiento determinista y pruebas — ai-engine
 - [x] T4 — Endpoint y prompt `preference_suggestions.v1`, validación y pruebas — ai-engine
 - [x] T5 — Señales, barrido, límites, aceptar y descartar (`modules/resources`) — backend
-- [x] T6 — Tarjeta y hoja inferior "Profe aprendió algo de ti" — frontend
+- [x] T6 — Tarjeta y hoja inferior "ProfIA aprendió algo de ti" — frontend
 - [x] T7 — `benchmark:cases`, `--real` y métricas implícitas — backend, ai-engine
 - [x] T8 — Revisión de privacidad (señales, anonimización, textos legales) — privacy
 - [x] T9 — Pruebas por CA (unitarias, integración con acceso cruzado, E2E en el celular) — qa
@@ -306,7 +306,7 @@ El usuario aprobó la spec con las recomendaciones de producto:
 4. **Casos reales:** el archivo extraído queda fuera de git (`benchmarks/real/`). Lo revisa el product owner
    antes de pasarlo al benchmark versionado. Sin juez automático con IA por ahora.
 5. **Términos:** correr `benchmark:cases` contra la base de producción exige antes publicar la política de
-   privacidad y los términos que digan que las calificaciones y ediciones se usan para mejorar Profe. Las
+   privacidad y los términos que digan que las calificaciones y ediciones se usan para mejorar ProfIA. Las
    partes A y B y las métricas agregadas no dependen de eso: usan los datos del mismo docente para él o solo
    conteos.
 
@@ -333,7 +333,7 @@ El usuario aprobó la spec con las recomendaciones de producto:
   - `modules/resources/suggestions.ts`: señales, barrido con límites, aceptar y descartar. Se revisa
     después de responder al marcar listo y al abrir "Mis recursos"; fuera de una petición se omite.
   - `components/preference-suggestion.tsx`: tarjeta en escritorio; franja y hoja inferior en el celular.
-  - `modules/resources/benchmark-cases.ts` y `npm run benchmark:cases -w @profe/web`, con una sal local
+  - `modules/resources/benchmark-cases.ts` y `npm run benchmark:cases -w @profia/web`, con una sal local
     en `apps/ai-engine/benchmarks/real/.salt`.
   - `metrics:resources` suma `editedShare`, `itemsDeleted`, `itemsAdded`, `exportedUnedited`,
     `readyUnedited`, `averageQualityWarnings` y la aceptación de propuestas.

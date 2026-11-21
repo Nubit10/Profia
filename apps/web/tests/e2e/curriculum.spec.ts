@@ -70,7 +70,7 @@ test("CA-0004-07: el curso de otro docente responde 404", async ({ page, browser
 
   const other = await browser.newContext({ extraHTTPHeaders: { "x-forwarded-for": "10.200.1.9" } });
   const otherPage = await other.newPage();
-  await signUpIndependentTeacher(otherPage, "Otro Profe");
+  await signUpIndependentTeacher(otherPage, "Otro ProfIA");
   const response = await otherPage.goto(url);
   expect(response?.status()).toBe(404);
 });

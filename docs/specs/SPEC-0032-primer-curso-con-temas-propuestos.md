@@ -11,7 +11,7 @@
 
 ## 1. Objetivo
 
-Que el docente nuevo no tenga que escribir su primer tema: Profe le propone los del primer periodo
+Que el docente nuevo no tenga que escribir su primer tema: ProfIA le propone los del primer periodo
 según los DBA (la propuesta de SPEC-0014 ya existe). Bloque 6 de
 [usabilidad/proximos-pasos.md](../usabilidad/proximos-pasos.md).
 

@@ -27,7 +27,7 @@ const engine = (suggestions: { statement: string; dbaCodes: string[] }[], status
   vi.fn(async () => Response.json({ suggestions, meta: META }, { status }));
 
 async function teacherWithTopic() {
-  const user = await createUser("Profe");
+  const user = await createUser("ProfIA");
   const { institutionId } = await createIndependentSpace(user);
   const ctx = await ctxFor(user, institutionId);
   const math = (await listSubjects(ctx)).find((s) => s.name === "Matemáticas")!;

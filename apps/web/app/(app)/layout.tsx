@@ -104,7 +104,7 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
       }
       generation={{
         initial: generating,
-        storageKey: `profe:watch:${ctx.membershipId}`,
+        storageKey: `profia:watch:${ctx.membershipId}`,
         action: watchGenerationsAction,
       }}
     >

@@ -8,7 +8,7 @@
 
 ## Contexto
 
-El PIAR (SPEC-0017) es el primer dato de Profe sobre un estudiante concreto, menor de edad, con
+El PIAR (SPEC-0017) es el primer dato de ProfIA sobre un estudiante concreto, menor de edad, con
 información sensible: barreras para aprender y apoyos (Ley 1581 de 2012, arts. 5 y 7). Hasta ahora
 la base solo tenía datos de docentes y de su material. El despliegue del MVP usa una base
 administrada (ADR-0011), y un respaldo o un acceso de lectura a la base no debe exponer esos datos.
@@ -44,7 +44,7 @@ administrada (ADR-0011), y un respaldo o un acceso de lectura a la base no debe 
 - Perder la clave hace ilegibles los PIAR. La guía de despliegue explica generarla una vez y
   respaldarla aparte de la base.
 - Las pruebas generan una clave por corrida, como las claves VAPID (ADR-0012).
-- Si otros datos de estudiantes llegan a Profe, usan este mismo mecanismo (`lib/crypto`).
+- Si otros datos de estudiantes llegan a ProfIA, usan este mismo mecanismo (`lib/crypto`).
 
 ## Alternativas descartadas
 

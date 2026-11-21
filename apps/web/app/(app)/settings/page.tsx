@@ -22,7 +22,10 @@ export default async function SettingsPage() {
 
   return (
     <div className="flex max-w-3xl flex-col gap-6">
-      <PageHeader title="Ajustes" description="Tu cuenta y cómo se ve Profe en este dispositivo." />
+      <PageHeader
+        title="Ajustes"
+        description="Tu cuenta y cómo se ve ProfIA en este dispositivo."
+      />
       <AccountCard
         name={account?.name ?? ctx.userName}
         email={account?.email ?? ctx.userEmail}

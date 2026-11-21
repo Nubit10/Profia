@@ -48,7 +48,7 @@ código** (recta numérica, gráfica de barras, tabla, fracción, rectángulo) y
 
 | Actor     | Puede                                                                      | No puede                                                        |
 | --------- | -------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| Docente   | Pedir el estilo Saber, editar situación y enunciado, quitar una figura     | Dibujar figuras a mano en Profe (fuera de alcance)              |
+| Docente   | Pedir el estilo Saber, editar situación y enunciado, quitar una figura     | Dibujar figuras a mano en ProfIA (fuera de alcance)             |
 | AI Engine | Escribir la situación, elegir la competencia y describir la figura (datos) | Entregar figuras como imagen ni competencias fuera del catálogo |
 
 ## 4. Reglas de negocio

@@ -20,7 +20,7 @@ export function ServiceWorker() {
       return;
     }
     navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(() => {
-      // Sin service worker Profe funciona igual; solo no se instala ni muestra «Sin conexión».
+      // Sin service worker ProfIA funciona igual; solo no se instala ni muestra «Sin conexión».
     });
   }, []);
   return null;

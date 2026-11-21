@@ -18,11 +18,11 @@ async function serviceWorkerReady(page: Page) {
 /** Lo guardado en el dispositivo: recurso → versión (IndexedDB) y cachés de la biblioteca. */
 async function savedOnDevice(page: Page) {
   return page.evaluate(async () => {
-    const caches_ = (await caches.keys()).filter((k) => k.startsWith("profe-offline-"));
+    const caches_ = (await caches.keys()).filter((k) => k.startsWith("profia-offline-"));
     const dbs = (await indexedDB.databases()).map((d) => d.name);
-    if (!dbs.includes("profe-offline")) return { caches: caches_, entries: {} };
+    if (!dbs.includes("profia-offline")) return { caches: caches_, entries: {} };
     const entries = await new Promise<Record<string, number>>((resolve, reject) => {
-      const open = indexedDB.open("profe-offline", 1);
+      const open = indexedDB.open("profia-offline", 1);
       open.onsuccess = () => {
         const db = open.result;
         if (!db.objectStoreNames.contains("entries")) return resolve({});

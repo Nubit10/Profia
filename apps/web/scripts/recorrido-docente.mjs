@@ -1,9 +1,9 @@
-// Prueba de usabilidad (2026-11-20): una profesora nueva hace su trabajo de la semana en Profe, sin
+// Prueba de usabilidad (2026-11-20): una profesora nueva hace su trabajo de la semana en ProfIA, sin
 // ayuda: cuenta, primer taller, descarga, quiz y plan del mismo tema, corregir una pregunta, examen y
 // encontrar lo que hizo. Mide clics, campos escritos, palabras técnicas, controles pequeños y
 // desbordes, y guarda una captura y el texto de cada pantalla. Informe: docs/usabilidad/.
 // Uso (con la web y el AI Engine de prueba corriendo, p. ej. como en playwright.config.ts):
-//   LANG=C.UTF-8 npm run ux:recorrido -w @profe/web -- <baseURL> <carpeta> <movil|escritorio>
+//   LANG=C.UTF-8 npm run ux:recorrido -w @profia/web -- <baseURL> <carpeta> <movil|escritorio>
 import { mkdirSync, writeFileSync } from "node:fs";
 import { chromium, devices } from "@playwright/test";
 
@@ -140,7 +140,7 @@ async function waitGenerated(what) {
 }
 
 try {
-  // 1. Llega a Profe y crea su cuenta.
+  // 1. Llega a ProfIA y crea su cuenta.
   begin("1. Crear cuenta y empezar");
   await page.goto(`${baseURL}/`);
   await audit("landing");
@@ -153,7 +153,7 @@ try {
   await type(page.getByLabel("Confirmar contraseña"), "contraseña-segura-123", "Confirmar");
   await tap(page.getByRole("button", { name: "Crear cuenta" }), "Crear cuenta");
   await page.waitForURL(/onboarding/);
-  await audit("como-vas-a-usar-profe");
+  await audit("como-vas-a-usar-profia");
   await tap(page.getByRole("button", { name: "Empezar por mi cuenta" }), "Empezar por mi cuenta");
   await page.waitForURL(/dashboard/);
   await audit("inicio-nuevo");
@@ -176,7 +176,7 @@ try {
   await tap(page.getByRole("button", { name: "Crear curso" }), "Crear curso");
   await page.getByRole("dialog").waitFor({ state: "detached" });
   await audit("inicio-con-curso");
-  // Bloque 6 (SPEC-0032): con DBA, Profe propone los temas del primer periodo y ella los acepta.
+  // Bloque 6 (SPEC-0032): con DBA, ProfIA propone los temas del primer periodo y ella los acepta.
   const next = page
     .getByRole("link", { name: /Ver los temas propuestos|Escribir mi primer tema|primer tema/ })
     .first();

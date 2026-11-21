@@ -51,7 +51,7 @@ const NO_OFFLINE: OfflineActions = {
 };
 
 /** Borradores del asistente de creación: se borran al cerrar sesión (SPEC-0012 §9). */
-export const DRAFT_STORAGE_PREFIX = "profe:create:";
+export const DRAFT_STORAGE_PREFIX = "profia:create:";
 
 type Props = {
   identity: Identity;

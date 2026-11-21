@@ -11,7 +11,7 @@
 
 ## 1. Objetivo
 
-Hoy Profe funciona, pero se ve plano y gris, y al docente le cuesta saber qué hacer después. Para hacer un taller tiene que entrar a un curso, buscar la pestaña correcta y llenar un formulario largo. Esta spec cambia la apariencia de toda la plataforma (más moderna, cálida y con identidad propia) y reorganiza los flujos para que un docente sin experiencia técnica cree su primer recurso sin ayuda y en pocos pasos.
+Hoy ProfIA funciona, pero se ve plano y gris, y al docente le cuesta saber qué hacer después. Para hacer un taller tiene que entrar a un curso, buscar la pestaña correcta y llenar un formulario largo. Esta spec cambia la apariencia de toda la plataforma (más moderna, cálida y con identidad propia) y reorganiza los flujos para que un docente sin experiencia técnica cree su primer recurso sin ayuda y en pocos pasos.
 
 Tomamos como referencia el estilo de Tututor.AI: degradados cálidos en titulares y botones principales, fondos claros con tintes suaves, tarjetas redondeadas, chips con iconos y navegación clara. **Nos inspiramos en ese estilo, pero no copiamos su marca, sus textos ni sus cifras.**
 
@@ -19,7 +19,7 @@ Tomamos como referencia el estilo de Tututor.AI: degradados cálidos en titulare
 
 **Incluye:**
 
-- **Sistema de diseño de Profe:**
+- **Sistema de diseño de ProfIA:**
   - Paleta de marca con degradado principal (cálido → violeta), colores de estado, tipografía de titulares y de texto, radios, sombras y espaciado como tokens en `globals.css`.
   - Variantes de botón, tarjeta, chip y badge sobre shadcn/ui.
   - Una página interna `/design` (solo en desarrollo) que muestra los componentes.
@@ -59,12 +59,12 @@ Tomamos como referencia el estilo de Tututor.AI: degradados cálidos en titulare
 - **Estados transversales:** vacío, cargando (esqueletos, no spinners sueltos), error y éxito, con el mismo patrón en toda la app.
 - **Accesibilidad y responsive:** WCAG 2.1 AA, uso completo con teclado y pantallas desde 360 px de ancho.
 
-### 2.1 Menú lateral (patrón CliqCut/Duali adaptado a Profe)
+### 2.1 Menú lateral (patrón CliqCut/Duali adaptado a ProfIA)
 
 **En escritorio (desde `lg`):** un menú lateral fijo de 256 px, fondo blanco y borde derecho suave. El contenido va a la derecha, sobre un fondo neutro con un tinte muy leve y un ancho máximo de `max-w-7xl`. De arriba hacia abajo:
 
 1. **Tarjeta de identidad** (redondeada, con borde y sombra suave). Responde "¿dónde estoy y quién soy?" sin abrir nada.
-   - **Arriba:** el logo de la institución si lo tiene (ADR-0010), o el de Profe, junto al nombre del espacio en hasta 2 líneas.
+   - **Arriba:** el logo de la institución si lo tiene (ADR-0010), o el de ProfIA, junto al nombre del espacio en hasta 2 líneas.
    - Si el docente tiene más de un espacio, tocar esta parte abre el cambio de espacio. Reemplaza el selector suelto de hoy.
    - **Bajo un divisor:** el nombre del docente con una pastilla de rol (Docente, Administrador o Independiente) y una **línea de estado** con icono, por ejemplo "7 de 10 recursos con IA hoy".
    - La línea cambia de color cuando el cupo está por acabarse (ámbar con 2 o menos) o se acabó (naranja, con la hora a la que se renueva). Así el docente sabe del cupo antes de intentar generar.
@@ -133,7 +133,7 @@ Los permisos no cambian. El rediseño no puede saltarse `requireUser()` ni `requ
   - Mientras no los haya, la sección de confianza muestra hechos verificables: "Alineado con los DBA y Estándares del MEN", "Tú revisas todo antes de usarlo", "Descarga en Word y PDF".
 - **RN-06 — Lo que no existe no se ofrece como disponible.** Una herramienta aún no implementada aparece con la etiqueta "Próximamente" y sin enlace activo.
 - **RN-07 — Lenguaje de docente.** Los textos visibles usan el glosario de `docs/design/sistema-de-diseno.md`. Términos técnicos prohibidos en la UI: blueprint, tenant, prompt, token, schema, RAG.
-- **RN-08 — La marca es de Profe.** Nombre, logo, colores y textos son propios. No se usan nombres, logos, textos ni imágenes de Tututor.AI ni de otra marca.
+- **RN-08 — La marca es de ProfIA.** Nombre, logo, colores y textos son propios. No se usan nombres, logos, textos ni imágenes de Tututor.AI ni de otra marca.
 - **RN-09 — Los colores salen de los tokens.** Los colores se definen como tokens en `globals.css`. Los componentes no usan colores sueltos (hex u oklch) fuera de los tokens.
 - **RN-10 — Contraste.**
   - El texto sobre degradados y fondos tintados cumple contraste AA: 4,5:1 para texto normal y 3:1 para texto grande.
@@ -169,7 +169,7 @@ No hay entradas nuevas de dominio. El asistente de recursos usa los mismos schem
 | Usuario con "reducir movimiento" activo en su sistema  | Las animaciones y transiciones se desactivan                                                                     |
 | Administrador sin rol docente                          | Su Inicio muestra el siguiente paso de administración (agregar sede o invitar profesores), no "Mis cursos"       |
 | Administrador sin rol docente en el menú               | No ve "Crear", "Mis cursos" ni "Mis recursos", ni la línea de cupo. Ve PRINCIPAL (Inicio) y COLEGIO              |
-| Espacio sin logo                                       | La tarjeta de identidad muestra el logo de Profe                                                                 |
+| Espacio sin logo                                       | La tarjeta de identidad muestra el logo de ProfIA                                                                |
 | Nombre de espacio de más de 2 líneas                   | Se corta en 2 líneas con puntos suspensivos y el nombre completo queda en `title`                                |
 | Falla el cálculo del cupo                              | El menú se muestra sin la línea de cupo. Un error ahí no puede tumbar el área de trabajo                         |
 | Cajón abierto y el usuario abre un modal desde el menú | Al cerrar el modal, el scroll sigue bloqueado mientras el cajón esté abierto                                     |
@@ -251,7 +251,7 @@ No hay entradas nuevas de dominio. El asistente de recursos usa los mismos schem
 ## 11. Decisiones (resueltas por el usuario el 2026-10-10, con las recomendaciones de product)
 
 1. **Colores de marca:** paleta propia cálida naranja → magenta → violeta, distinta a la de Tututor.AI.
-2. **Logo:** logotipo tipográfico provisional "Profe" con icono hasta que exista un logo definitivo.
+2. **Logo:** logotipo tipográfico provisional "ProfIA" con icono hasta que exista un logo definitivo.
 3. **Navegación:** menú lateral con el patrón de CliqCut y Duali (§2.1); "Mis cursos" y "Mis recursos" son páginas propias.
 4. **Términos:** "Referentes" pasa a llamarse **"DBA y Estándares"**.
 5. **Modo oscuro:** fuera de esta spec.
@@ -276,7 +276,7 @@ No hay entradas nuevas de dominio. El asistente de recursos usa los mismos schem
   - `createCourseAction` ahora devuelve el id del curso.
 - **Migración** `20261010200000_user_tutorial`: `users.tutorialDismissedAt` (aditiva).
 - **Tutorial:** la primera vez es una tarjeta en el Inicio que no bloquea la pantalla. "Ver tutorial" lo abre en un diálogo.
-- **Borrador del asistente:** `sessionStorage` con la clave `profe:create:<tipo>:<tema>`. Se borra al generar y al cerrar sesión.
+- **Borrador del asistente:** `sessionStorage` con la clave `profia:create:<tipo>:<tema>`. Se borra al generar y al cerrar sesión.
 - **Tests:**
   - `tests/unit/app-shell.test.ts`: CA-20, CA-21 y CA-22.
   - `tests/unit/design-system.test.ts`: CA-17 y RN-10.

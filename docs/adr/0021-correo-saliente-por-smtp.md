@@ -8,16 +8,16 @@
 
 ## Contexto
 
-Hasta ahora Profe no enviaba correos (las invitaciones se comparten por WhatsApp). Recuperar la
+Hasta ahora ProfIA no enviaba correos (las invitaciones se comparten por WhatsApp). Recuperar la
 contraseña (SPEC-0035) necesita un correo que solo le llegue al dueño de la cuenta. El MVP se despliega
 sin costo (ADR-0011) y todavía no se sabe qué proveedor de correo se usará.
 
 ## Decisión
 
-Profe envía correo por **SMTP con Nodemailer**, detrás de un puerto propio en `lib/email`
+ProfIA envía correo por **SMTP con Nodemailer**, detrás de un puerto propio en `lib/email`
 (`getMailer().send({ to, subject, text, html })`).
 
-- `SMTP_URL` (`smtp://` o `smtps://usuario:clave@servidor:puerto`) y `MAIL_FROM` (`Profe <no-responder@…>`)
+- `SMTP_URL` (`smtp://` o `smtps://usuario:clave@servidor:puerto`) y `MAIL_FROM` (`ProfIA <no-responder@…>`)
   eligen el servidor. Cualquier proveedor sirve (Gmail con contraseña de aplicación, Brevo, Resend,
   Amazon SES…) sin cambiar código.
 - Sin `SMTP_URL`, fuera de producción (o con `MAIL_OUTBOX_DIR`), los correos se guardan como archivos

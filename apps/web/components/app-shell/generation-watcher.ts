@@ -16,7 +16,7 @@ import {
 
 const POLL_MS = 5_000;
 /** Prefijo de las claves de este aviso en el navegador; se borran al cerrar sesión. */
-export const WATCH_STORAGE_PREFIX = "profe:watch:";
+export const WATCH_STORAGE_PREFIX = "profia:watch:";
 const MAX_WATCHED = 20;
 
 export type WatchAction = (input: { ids: string[] }) => Promise<ActionResult<GenerationWatch>>;

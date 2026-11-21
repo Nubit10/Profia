@@ -217,7 +217,7 @@ export function PiarEditor({ piar, actions }: { piar: PiarDetail; actions: Actio
               onChange={(e) => setStudent({ supportIssuer: e.target.value })}
             />
             <FieldDescription>
-              Profe no guarda diagnósticos: solo quién emitió el soporte.
+              ProfIA no guarda diagnósticos: solo quién emitió el soporte.
             </FieldDescription>
           </Field>
         )}
@@ -448,7 +448,7 @@ export function PiarEditor({ piar, actions }: { piar: PiarDetail; actions: Actio
           <DialogHeader>
             <DialogTitle>¿Borrar este PIAR?</DialogTitle>
             <DialogDescription>
-              Se borra de Profe para siempre. Si lo necesitas, descárgalo antes.
+              Se borra de ProfIA para siempre. Si lo necesitas, descárgalo antes.
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">

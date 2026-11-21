@@ -1,6 +1,6 @@
 # AI Engine (SPEC-0005, despliegue en docs/deploy/README.md). Imagen de CPU: FastEmbed/ONNX, sin PyTorch.
 # Se construye desde la RAÍZ del repositorio, porque el catálogo vive en apps/web/curriculum/men:
-#   docker build -f apps/ai-engine/Dockerfile -t profe-ai-engine .
+#   docker build -f apps/ai-engine/Dockerfile -t profia-ai-engine .
 FROM python:3.12-slim
 
 COPY --from=ghcr.io/astral-sh/uv:0.12 /uv /usr/local/bin/uv

@@ -14,7 +14,7 @@
 
 Que cada profesor organice su trabajo por **cursos**: "Matemáticas · 6° · 601". Un curso es el contexto sobre el que, en las fases siguientes, el profesor planifica, genera materiales y evalúa (milestone MVP).
 
-Profe **no es un sistema académico**: nadie asigna cursos. Cada profesor crea los suyos.
+ProfIA **no es un sistema académico**: nadie asigna cursos. Cada profesor crea los suyos.
 
 ## 2. Alcance
 

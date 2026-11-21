@@ -61,7 +61,7 @@ export function ResetPasswordForm({ action, token }: Props) {
   return (
     <>
       <AuthHeading title="Crea tu contraseña nueva">
-        Al guardarla entras a Profe y se cierra la sesión en los demás dispositivos.
+        Al guardarla entras a ProfIA y se cierra la sesión en los demás dispositivos.
       </AuthHeading>
       <form onSubmit={onSubmit} noValidate>
         <FieldGroup>

@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { HiCheck } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 
-// Profe no usa casillas de verificación sueltas: cada opción es un botón seleccionable que se toca
+// ProfIA no usa casillas de verificación sueltas: cada opción es un botón seleccionable que se toca
 // entero (44 px en el celular) y muestra su estado con color y un círculo con check. Para lectores
 // de pantalla siguen siendo casillas (`role="checkbox"` + `aria-checked`).
 

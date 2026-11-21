@@ -48,22 +48,22 @@ describe("ADR-0021 — correo saliente", () => {
   });
 
   it("RN-06: el enlace usa APP_URL, luego el dominio de Vercel", () => {
-    expect(publicAppUrl(parseEnv({ ...base, APP_URL: "https://profe.co/" }))).toBe(
-      "https://profe.co",
+    expect(publicAppUrl(parseEnv({ ...base, APP_URL: "https://profia.co/" }))).toBe(
+      "https://profia.co",
     );
     expect(
-      publicAppUrl(parseEnv({ ...base, VERCEL_PROJECT_PRODUCTION_URL: "profe.vercel.app" })),
-    ).toBe("https://profe.vercel.app");
+      publicAppUrl(parseEnv({ ...base, VERCEL_PROJECT_PRODUCTION_URL: "profia.vercel.app" })),
+    ).toBe("https://profia.vercel.app");
   });
 
   it("el correo escapa el nombre en el HTML", () => {
     expect(escapeHtml(`<b>"x"&'y'</b>`)).toBe("&lt;b&gt;&quot;x&quot;&amp;&#39;y&#39;&lt;/b&gt;");
     const message = resetEmail({
       name: "<script>Ana",
-      link: "https://profe.co/reset-password/abc",
+      link: "https://profia.co/reset-password/abc",
     });
     expect(message.html).not.toContain("<script>");
-    expect(message.text).toContain("https://profe.co/reset-password/abc");
+    expect(message.text).toContain("https://profia.co/reset-password/abc");
     expect(message.text).toContain("vence en 1 hora");
   });
 });

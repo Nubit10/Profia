@@ -9,11 +9,11 @@ import { choose, signUpIndependentTeacher } from "./helpers";
 /** Recursos guardados en el dispositivo (entradas de IndexedDB y cachés de la biblioteca). */
 async function savedCount(page: Page) {
   return page.evaluate(async () => {
-    const caches_ = (await caches.keys()).filter((k) => k.startsWith("profe-offline-"));
+    const caches_ = (await caches.keys()).filter((k) => k.startsWith("profia-offline-"));
     const dbs = (await indexedDB.databases()).map((d) => d.name);
-    if (!dbs.includes("profe-offline")) return caches_.length;
+    if (!dbs.includes("profia-offline")) return caches_.length;
     const entries = await new Promise<number>((resolve, reject) => {
-      const open = indexedDB.open("profe-offline", 1);
+      const open = indexedDB.open("profia-offline", 1);
       open.onsuccess = () => {
         const db = open.result;
         if (!db.objectStoreNames.contains("entries")) return resolve(0);

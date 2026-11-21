@@ -1,5 +1,5 @@
-// SPEC-0013 RN-12: íconos de la app instalable a partir del logo de Profe (el birrete sobre el
-// degradado de marca, como `ProfeMark`). Se dibujan en Chromium para que el resultado sea igual en
+// SPEC-0013 RN-12: íconos de la app instalable a partir del logo de ProfIA (el birrete sobre el
+// degradado de marca, como `ProfiaMark`). Se dibujan en Chromium para que el resultado sea igual en
 // cualquier equipo: `node scripts/generate-app-icons.mjs` (desde apps/web).
 import { renderToStaticMarkup } from "react-dom/server";
 import { createElement } from "react";

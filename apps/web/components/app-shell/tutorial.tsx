@@ -31,7 +31,7 @@ const STEPS: Step[] = [
   {
     icon: HiOutlineCalendarDays,
     title: "2. Planea tus temas",
-    text: "Organiza el año en periodos, unidades y temas. Profe te sugiere objetivos alineados con los DBA.",
+    text: "Organiza el año en periodos, unidades y temas. ProfIA te sugiere objetivos alineados con los DBA.",
   },
   {
     icon: AiIcon,
@@ -104,7 +104,7 @@ export function TutorialCard({ onDismiss }: { onDismiss: () => void }) {
         <HiXMark className="size-5" aria-hidden />
       </button>
       <h2 id="tutorial-title" className="mb-4 pr-10 text-lg font-extrabold">
-        Te damos la bienvenida a Profe
+        Te damos la bienvenida a ProfIA
       </h2>
       <StepsCarousel onFinish={onDismiss} />
     </section>
@@ -123,7 +123,7 @@ export function TutorialDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Así funciona Profe</DialogTitle>
+          <DialogTitle>Así funciona ProfIA</DialogTitle>
           <DialogDescription>Cuatro pasos, en el orden en que trabajas.</DialogDescription>
         </DialogHeader>
         {open && <StepsCarousel onFinish={() => onOpenChange(false)} />}

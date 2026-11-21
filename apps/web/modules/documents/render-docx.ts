@@ -280,7 +280,7 @@ export async function renderDocx(doc: DocModel): Promise<Buffer> {
   for (const b of doc.blocks) children.push(...blocks(b));
 
   const document = new Document({
-    creator: "Profe",
+    creator: "ProfIA",
     title: `${doc.title} — ${doc.subtitle}`,
     styles: { default: { document: { run: { font: FONT, size: 22 } } } },
     numbering: {

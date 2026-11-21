@@ -845,7 +845,7 @@ wheels = [
 ]
 
 [[package]]
-name = "profe-ai-engine"
+name = "profia-ai-engine"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

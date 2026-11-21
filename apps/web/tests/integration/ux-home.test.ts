@@ -17,7 +17,7 @@ import { createUser, ctxFor, resetDatabase } from "../support/factories";
 // SPEC-0012: Inicio con siguiente paso (RN-02), cupo del menú (RN-12), "Mis recursos" (RN-13) y
 // tema rápido del asistente. Todo calculado en el servidor y filtrado por espacio y docente.
 
-async function teacher(name = "Profe") {
+async function teacher(name = "ProfIA") {
   const user = await createUser(name);
   const { institutionId } = await createIndependentSpace(user);
   return ctxFor(user, institutionId);

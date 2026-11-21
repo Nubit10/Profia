@@ -12,7 +12,7 @@ import {
   openEditor,
 } from "./helpers";
 
-// SPEC-0013: Profe más fácil, hecho para el celular e instalable.
+// SPEC-0013: ProfIA más fácil, hecho para el celular e instalable.
 
 let pool: Pool | null = null;
 const db = () => (pool ??= new Pool({ connectionString: process.env.TEST_DATABASE_URL }));
@@ -124,13 +124,15 @@ test("CA-0013-02/03/04: Primeros pasos guía de la cuenta nueva a la primera des
   await expect(steps.getByRole("list", { name: "Pasos" }).locator(":scope > li")).toHaveCount(4);
   await expect(steps).toContainText("0 de 4 listos");
   await expect(page.getByTestId("next-step")).toHaveCount(0);
-  await expect(page.getByRole("region", { name: "Te damos la bienvenida a Profe" })).toHaveCount(0);
+  await expect(page.getByRole("region", { name: "Te damos la bienvenida a ProfIA" })).toHaveCount(
+    0,
+  );
   await expect(page.locator("main .bg-brand-gradient:is(a, button):visible")).toHaveCount(1);
 
   await createCourseFromFirstSteps(page);
   await expect(steps).toContainText("1 de 4 listos");
 
-  // SPEC-0032 (antes CA-0013-04): con DBA, Profe propone los temas del primer periodo y el docente
+  // SPEC-0032 (antes CA-0013-04): con DBA, ProfIA propone los temas del primer periodo y el docente
   // solo los acepta; luego el primer taller sale en 2 clics.
   await steps.getByRole("link", { name: "Ver los temas propuestos" }).click();
   const add = page.getByRole("button", { name: /Agregar a la planeación/ });
@@ -212,7 +214,7 @@ async function openObjectiveDialog(page: Page) {
   await page.getByRole("button", { name: "Agregar objetivo" }).click();
 }
 
-test("CA-0013-05: al escribir el objetivo, Profe marca DBA sugeridos y se crea en 1 clic", async ({
+test("CA-0013-05: al escribir el objetivo, ProfIA marca DBA sugeridos y se crea en 1 clic", async ({
   page,
 }) => {
   test.setTimeout(120_000);
@@ -230,7 +232,7 @@ test("CA-0013-05: al escribir el objetivo, Profe marca DBA sugeridos y se crea e
   expect(count).toBeGreaterThan(0);
   expect(count).toBeLessThanOrEqual(3);
   await expect(suggested.first().getByRole("checkbox").first()).toBeChecked();
-  await expect(page.getByText(/Profe marcó \d DBA sugeridos?/)).toBeVisible();
+  await expect(page.getByText(/ProfIA marcó \d DBA sugeridos?/)).toBeVisible();
 
   // El docente quita uno: no vuelve a marcarse solo al seguir escribiendo.
   await suggested.first().getByRole("checkbox").first().click();

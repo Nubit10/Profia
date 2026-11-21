@@ -14,7 +14,7 @@ export default async function NotificationsPage() {
       <PageHeader
         eyebrow="Ajustes"
         title="Notificaciones"
-        description="Te avisamos cuando un taller, quiz o examen termina de prepararse, aunque Profe esté cerrado."
+        description="Te avisamos cuando un taller, quiz o examen termina de prepararse, aunque ProfIA esté cerrado."
       />
       <NotificationSettings
         publicKey={notifications.vapidPublicKey()}

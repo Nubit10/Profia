@@ -97,7 +97,7 @@ export function ReferencesView({ courseId, references, emptyForGrade, searchActi
         <CardHeader>
           <CardTitle>Sin DBA ni Estándares para este grado</CardTitle>
           <CardDescription>
-            El MEN no publica DBA de esta área para este grado, o aún no están en Profe. Por ahora
+            El MEN no publica DBA de esta área para este grado, o aún no están en ProfIA. Por ahora
             el catálogo incluye Matemáticas, Lenguaje y Transición.
           </CardDescription>
         </CardHeader>

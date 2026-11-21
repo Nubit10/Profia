@@ -2,7 +2,7 @@
 
 Pedido del usuario (2026-11-20): dejar documentado como **lo próximo a hacer** lo que se recomendó
 después de la [prueba de usabilidad](2026-11-20-recorrido-docente.md). La idea que lo guía: los
-docentes usan ChatGPT o Claude dando instrucciones. Aquí no las van a escribir, así que **Profe
+docentes usan ChatGPT o Claude dando instrucciones. Aquí no las van a escribir, así que **ProfIA
 propone y el docente aprueba o ajusta con un toque**. Escribir y elegir debe ser lo mínimo.
 
 ## Cómo trabajarlo
@@ -12,7 +12,7 @@ propone y el docente aprueba o ajusta con un toque**. Escribir y elegir debe ser
 - La 1 y la 2 se pueden juntar en una sola spec si el usuario lo prefiere: son las que se le
   recomendaron como más cercanas a "como ChatGPT, pero sin escribir".
 - Al cerrar cada una:
-  - volver a correr el recorrido (`LANG=C.UTF-8 npm run ux:recorrido -w @profe/web -- <url> <carpeta>
+  - volver a correr el recorrido (`LANG=C.UTF-8 npm run ux:recorrido -w @profia/web -- <url> <carpeta>
 movil|escritorio`) y anotar los clics en el informe;
   - marcar el punto como hecho aquí y en `docs/ESTADO.md`.
 

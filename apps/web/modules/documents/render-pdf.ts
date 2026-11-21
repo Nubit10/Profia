@@ -233,7 +233,7 @@ export function toPdfDefinition(doc: DocModel): TDocumentDefinitions {
   return {
     pageSize: "LETTER",
     pageMargins: [MARGIN_PT, MARGIN_PT, MARGIN_PT, MARGIN_PT],
-    info: { title: `${doc.title} — ${doc.subtitle}`, creator: "Profe" },
+    info: { title: `${doc.title} — ${doc.subtitle}`, creator: "ProfIA" },
     defaultStyle: { font: "Roboto", fontSize: 11, lineHeight: 1.2 },
     styles: {
       title: { fontSize: 16, bold: true, margin: [0, 4, 0, 2] },

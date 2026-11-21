@@ -15,7 +15,7 @@ El plan maestro (sección 5) describe dos árboles: `educational-ai-platform/` (
 **Un solo repositorio, organizado como monorepo con npm workspaces:**
 
 ```
-Profe/
+ProfIA/
 ├── apps/
 │   ├── web/              ← producto Next.js (= educational-ai-platform del plan)
 │   │   ├── app/ components/ modules/ lib/ prisma/ tests/

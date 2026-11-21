@@ -35,14 +35,14 @@ function stepView(key: FirstStepKey, steps: FirstSteps): StepView {
         icon: HiOutlineBookOpen,
       };
     case "TOPIC":
-      // Bloque 6 de usabilidad: con DBA, Profe propone los temas del primer periodo y el docente
+      // Bloque 6 de usabilidad: con DBA, ProfIA propone los temas del primer periodo y el docente
       // solo los revisa. Sin DBA, se escribe el tema como antes.
       if (steps.canProposeTopics && steps.courseId) {
         return {
           title: "Revisa los temas que te propongo",
           text: steps.courseTitle
-            ? `Profe propone los temas del primer periodo de ${steps.courseTitle} según los DBA. Tú los revisas y aceptas.`
-            : "Profe propone los temas del primer periodo según los DBA. Tú los revisas y aceptas.",
+            ? `ProfIA propone los temas del primer periodo de ${steps.courseTitle} según los DBA. Tú los revisas y aceptas.`
+            : "ProfIA propone los temas del primer periodo según los DBA. Tú los revisas y aceptas.",
           cta: "Ver los temas propuestos",
           href: `/courses/${steps.courseId}?tab=planeacion&proponer=1`,
           icon: AiIcon,

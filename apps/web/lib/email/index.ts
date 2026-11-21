@@ -17,7 +17,7 @@ export type Mailer = {
   send(message: MailMessage): Promise<void>;
 };
 
-const DEFAULT_FROM = "Profe <no-responder@profe.app>";
+const DEFAULT_FROM = "ProfIA <no-responder@profia.app>";
 export const DEFAULT_OUTBOX_DIR = ".mail-outbox";
 
 export function createMailer(env: Env = getEnv()): Mailer | null {

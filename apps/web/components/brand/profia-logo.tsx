@@ -1,8 +1,8 @@
 import { HiOutlineAcademicCap } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 
-/** Logotipo provisional de Profe (decisión 2 de SPEC-0012): icono con el degradado + nombre. */
-export function ProfeMark({ size = 36, className }: { size?: number; className?: string }) {
+/** Logotipo provisional de ProfIA (decisión 2 de SPEC-0012): icono con el degradado + nombre. */
+export function ProfiaMark({ size = 36, className }: { size?: number; className?: string }) {
   return (
     <span
       aria-hidden
@@ -17,11 +17,13 @@ export function ProfeMark({ size = 36, className }: { size?: number; className?:
   );
 }
 
-export function ProfeLogo({ className, size = 36 }: { className?: string; size?: number }) {
+export function ProfiaLogo({ className, size = 36 }: { className?: string; size?: number }) {
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <ProfeMark size={size} />
-      <span className="text-xl font-extrabold tracking-tight text-foreground">Profe</span>
+      <ProfiaMark size={size} />
+      <span className="text-xl font-extrabold tracking-tight text-foreground">
+        Prof<span className="text-brand">IA</span>
+      </span>
     </span>
   );
 }

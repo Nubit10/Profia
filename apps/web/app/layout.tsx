@@ -25,11 +25,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: { default: "Profe", template: "%s · Profe" },
+  title: { default: "ProfIA", template: "%s · ProfIA" },
   description: "Plataforma de gestión y producción pedagógica asistida por IA.",
-  applicationName: "Profe",
+  applicationName: "ProfIA",
   // SPEC-0013 RN-12: instalable también en iPhone (Compartir → Agregar a pantalla de inicio).
-  appleWebApp: { capable: true, title: "Profe", statusBarStyle: "default" },
+  appleWebApp: { capable: true, title: "ProfIA", statusBarStyle: "default" },
   icons: {
     icon: [{ url: "/icons/icon-192.png", type: "image/png", sizes: "192x192" }],
     apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
@@ -45,7 +45,7 @@ export const viewport: Viewport = {
 };
 
 /** Letra más grande (preferencia del dispositivo), antes de pintar para que no salte. */
-const TEXT_SIZE_SCRIPT = `try{if(localStorage.getItem("profe:letra")==="grande")document.documentElement.dataset.letra="grande"}catch(e){}`;
+const TEXT_SIZE_SCRIPT = `try{if(localStorage.getItem("profia:letra")==="grande")document.documentElement.dataset.letra="grande"}catch(e){}`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

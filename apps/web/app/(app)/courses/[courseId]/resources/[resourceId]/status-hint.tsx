@@ -3,7 +3,7 @@
 import { useSyncExternalStore } from "react";
 import { HiOutlineInformationCircle, HiOutlineXMark } from "react-icons/hi2";
 
-const KEY = "profe:estado-explicado";
+const KEY = "profia:estado-explicado";
 const listeners = new Set<() => void>();
 const subscribe = (l: () => void) => {
   listeners.add(l);

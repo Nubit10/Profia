@@ -223,7 +223,7 @@ def create_app(
     provider.embed(["calentamiento"], "query")
     provider.embed_sparse(["calentamiento"], "query")
 
-    app = FastAPI(title="Profe AI Engine", version="0.1.0")
+    app = FastAPI(title="ProfIA AI Engine", version="0.1.0")
     app.state.settings, app.state.provider, app.state.client = settings, provider, client
 
     def require_token(authorization: Annotated[str | None, Header()] = None) -> None:

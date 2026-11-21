@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-// El avatar de la IA de Profe: un foco de líneas con tres destellos, sin fondo (elegido por el
+// El avatar de la IA de ProfIA: un foco de líneas con tres destellos, sin fondo (elegido por el
 // usuario el 2026-11-21; antes era un cerebro, que a 14–18 px no se leía). Marca todo lo que hace la
 // IA (crear, proponer, sugerir). Vidrio y base de la marca, destellos azul violeta; blanco sobre los
 // botones con degradado o de color. Solo tokens de color (CA-0012-17) y sin ids en el SVG.

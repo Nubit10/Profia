@@ -2,13 +2,13 @@ import type { MetadataRoute } from "next";
 import { BACKGROUND_COLOR, BRAND_COLOR } from "@/lib/brand-colors";
 
 /**
- * SPEC-0013 RN-12 y ADR-0012: Profe se instala como app. Abre en el Inicio del área de trabajo
+ * SPEC-0013 RN-12 y ADR-0012: ProfIA se instala como app. Abre en el Inicio del área de trabajo
  * (como CliqCut abre el panel de quien trabaja); sin sesión, `proxy.ts` lleva al login y vuelve.
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Profe",
-    short_name: "Profe",
+    name: "ProfIA",
+    short_name: "ProfIA",
     description: "Talleres, quices y exámenes con IA, alineados a los DBA. Tú revisas y decides.",
     id: "/dashboard",
     start_url: "/dashboard",

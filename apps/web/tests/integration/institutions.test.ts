@@ -26,7 +26,7 @@ async function schoolWithTeacher() {
   const admin = await createUser("Rectora");
   const { institutionId } = await registerSchool(admin, validSchool);
   const adminCtx = await ctxFor(admin, institutionId);
-  const teacher = await createUser("Profe");
+  const teacher = await createUser("ProfIA");
   const { token } = await createInvitation(adminCtx, { email: teacher.email, roles: ["TEACHER"] });
   await acceptInvitation(teacher, token);
   return {

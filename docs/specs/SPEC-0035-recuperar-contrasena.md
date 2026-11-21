@@ -24,7 +24,7 @@ equivocarse).
 **Incluye:**
 
 - "¿Olvidaste tu contraseña?" en el inicio de sesión → `/forgot-password` (correo) → correo con un enlace
-  de un solo uso → `/reset-password/<token>` (contraseña nueva) → entra a Profe.
+  de un solo uso → `/reset-password/<token>` (contraseña nueva) → entra a ProfIA.
 - Botón para mostrar u ocultar la contraseña en el inicio de sesión, el registro y la contraseña nueva.
 - Envío de correo por SMTP (`lib/email`, ADR-0021), configurable con `SMTP_URL` y `MAIL_FROM`.
 
@@ -53,7 +53,7 @@ equivocarse).
 - **RN-04:** La contraseña nueva cumple las reglas del registro (8 a 128 caracteres) y se confirma.
 - **RN-05:** Al cambiarla, en una transacción: se guarda el hash nuevo (argon2id), el token queda usado,
   se anulan los demás tokens del usuario y **se cierran todas sus sesiones abiertas** (`user_sessions`).
-  Después Profe inicia sesión con la contraseña nueva y lleva al Inicio; si no puede, lleva al login con
+  Después ProfIA inicia sesión con la contraseña nueva y lleva al Inicio; si no puede, lleva al login con
   el correo escrito.
 - **RN-06:** El enlace se arma con la URL pública del sitio (`APP_URL`, o la de producción de Vercel),
   **nunca** con el encabezado `Host` de la petición.
@@ -94,7 +94,7 @@ equivocarse).
 - **CA-0035-03:** Dado un correo sin cuenta, cuando pide el enlace, entonces ve el mismo mensaje y no se
   crea token ni se envía correo.
 - **CA-0035-04:** Dado un enlace vigente, cuando escribe y confirma una contraseña nueva, entonces entra a
-  Profe, la contraseña anterior deja de servir y la nueva sirve.
+  ProfIA, la contraseña anterior deja de servir y la nueva sirve.
 - **CA-0035-05:** Dado un enlace ya usado, vencido o anulado por uno más nuevo, cuando lo abre o lo envía,
   entonces ve que no sirve y el enlace para pedir otro; la contraseña no cambia.
 - **CA-0035-06:** Dado un docente con sesiones abiertas, cuando cambia la contraseña con el enlace,

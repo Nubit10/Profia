@@ -1,7 +1,7 @@
 [project]
-name = "profe-ai-engine"
+name = "profia-ai-engine"
 version = "0.1.0"
-description = "AI Engine de Profe: retrieval curricular (SPEC-0005)"
+description = "AI Engine de ProfIA: retrieval curricular (SPEC-0005)"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.142.2",

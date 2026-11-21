@@ -1,11 +1,11 @@
-# Modelo de autorización del acudiente para el PIAR en Profe
+# Modelo de autorización del acudiente para el PIAR en ProfIA
 
-Modelo para que **el docente que usa Profe por su cuenta** (docente independiente, sin contrato del colegio
-con Profe) informe al padre, madre o acudiente y, si quiere, le pida la autorización para registrar los datos
-del estudiante en su PIAR. **Profe no se la exige al docente independiente** (SPEC-0017, RN-04): al crear un
+Modelo para que **el docente que usa ProfIA por su cuenta** (docente independiente, sin contrato del colegio
+con ProfIA) informe al padre, madre o acudiente y, si quiere, le pida la autorización para registrar los datos
+del estudiante en su PIAR. **ProfIA no se la exige al docente independiente** (SPEC-0017, RN-04): al crear un
 PIAR solo le muestra un aviso para contarle al acudiente. Es un respaldo recomendado, porque la Ley 1581 pide
-autorización para datos sensibles de menores. Al final hay una nota para cuando el que contrata Profe es el
-colegio; en ese caso Profe sí pide confirmar la autorización.
+autorización para datos sensibles de menores. Al final hay una nota para cuando el que contrata ProfIA es el
+colegio; en ese caso ProfIA sí pide confirmar la autorización.
 
 > **Es un modelo, no asesoría jurídica.** Conviene que lo revise un abogado antes de usarlo con clientes
 > reales. Lo que va entre `[corchetes]` lo llena quien corresponda.
@@ -18,24 +18,24 @@ Decreto 1421 de 2017 (PIAR y educación inclusiva).
 
 ## Quién es quién
 
-- **El docente es el responsable** de los datos del PIAR: él decide registrarlos en Profe y es el único que
+- **El docente es el responsable** de los datos del PIAR: él decide registrarlos en ProfIA y es el único que
   los ve. Por eso pide la autorización, la guarda y atiende las peticiones del acudiente.
-- **El operador de Profe es el encargado:** guarda los datos cifrados por cuenta del docente, no los lee ni
+- **El operador de ProfIA es el encargado:** guarda los datos cifrados por cuenta del docente, no los lee ni
   los usa para nada más, y le ayuda a atender peticiones por su canal de soporte. Esto debe quedar en los
-  términos y la política de privacidad de Profe (ver la lista final).
+  términos y la política de privacidad de ProfIA (ver la lista final).
 
 ## Cómo usarlo
 
 1. El docente llena sus datos una vez (nombre, correo o teléfono de contacto).
-2. Si decide usarlo, se lo entrega al acudiente **antes** de crear el PIAR en Profe, en papel o por un medio que deje
+2. Si decide usarlo, se lo entrega al acudiente **antes** de crear el PIAR en ProfIA, en papel o por un medio que deje
    constancia: foto del papel firmado, formulario digital o un correo/WhatsApp del acudiente que diga
    "autorizo" junto con este texto.
-3. Si la consigue, el docente la guarda (en su archivo o en su correo), **no en Profe**.
+3. Si la consigue, el docente la guarda (en su archivo o en su correo), **no en ProfIA**.
 4. Si el acudiente no autoriza, el docente hace el PIAR por otros medios (papel, los formatos del colegio).
    **El PIAR es un derecho del estudiante y no depende de esta autorización.**
 5. Si el estudiante tiene edad y madurez para entenderlo, se le explica y se tiene en cuenta su opinión.
 6. Si el docente trabaja en un colegio, es buena práctica avisarle a la coordinación que lleva el PIAR en
-   Profe. El documento oficial del colegio sigue siendo el que el colegio defina; Profe le ayuda a hacerlo
+   ProfIA. El documento oficial del colegio sigue siendo el que el colegio defina; ProfIA le ayuda a hacerlo
    (Word o PDF con firmas).
 
 ---
@@ -71,17 +71,17 @@ estudiante a recibir su PIAR ni los ajustes que necesita: en ese caso el PIAR se
 **3. Quién los trata.**
 
 - **Responsable:** el (la) docente [NOMBRE DEL DOCENTE], contacto: [CORREO O TELÉFONO].
-- **Encargado:** **Profe**, la plataforma de apoyo pedagógico en la que el (la) docente registra el PIAR,
-  operada por [NOMBRE / RAZÓN SOCIAL DEL OPERADOR DE PROFE], que guarda los datos por cuenta del (de la)
+- **Encargado:** **ProfIA**, la plataforma de apoyo pedagógico en la que el (la) docente registra el PIAR,
+  operada por [NOMBRE / RAZÓN SOCIAL DEL OPERADOR DE PROFIA], que guarda los datos por cuenta del (de la)
   docente y solo para prestarle el servicio. Su política de privacidad está en [ENLACE].
 
 **4. Cómo se protegen.**
 
 - El contenido del PIAR se guarda **cifrado** y **solo lo ve el (la) docente que lo creó**: ni otros
-  docentes, ni el colegio, ni el personal de Profe pueden leerlo dentro de la plataforma.
+  docentes, ni el colegio, ni el personal de ProfIA pueden leerlo dentro de la plataforma.
 - Los servidores donde se guarda están en **Estados Unidos** (proveedores de alojamiento contratados por el
-  operador de Profe). Esto es una transmisión internacional de datos a encargados, que autorizo.
-- Profe puede usar inteligencia artificial para **sugerir** ajustes. A ese servicio **solo se envían** la
+  operador de ProfIA). Esto es una transmisión internacional de datos a encargados, que autorizo.
+- ProfIA puede usar inteligencia artificial para **sugerir** ajustes. A ese servicio **solo se envían** la
   asignatura, el grado, el periodo, los temas y la descripción de las barreras, **sin el nombre del
   estudiante, sin su edad, sin correos ni teléfonos y sin la valoración**. El (la) docente revisa y decide
   cada ajuste; la IA no toma decisiones sobre el estudiante.
@@ -89,7 +89,7 @@ estudiante a recibir su PIAR ni los ajustes que necesita: en ese caso el PIAR se
   solo dentro del proceso educativo: la familia y, si hace falta, los docentes, directivos u orientación del
   colegio que acompañan al estudiante.
 
-**5. Por cuánto tiempo.** En Profe el PIAR se borra automáticamente el 31 de diciembre del año siguiente al
+**5. Por cuánto tiempo.** En ProfIA el PIAR se borra automáticamente el 31 de diciembre del año siguiente al
 año lectivo en que se creó, o antes si el (la) docente lo borra o yo lo pido.
 
 **6. Mis derechos y los del estudiante** (Ley 1581 de 2012, art. 8). Puedo:
@@ -101,8 +101,8 @@ año lectivo en que se creó, o antes si el (la) docente lo borra o yo lo pido.
 - presentar quejas ante la Superintendencia de Industria y Comercio, después de consultar o reclamar ante el
   (la) docente.
 
-Para ejercerlos escribo al (a la) docente en **[CORREO O TELÉFONO]** o al soporte de Profe en
-**[CORREO DE SOPORTE DE PROFE]**. Las consultas se responden en máximo 10 días hábiles y los reclamos en
+Para ejercerlos escribo al (a la) docente en **[CORREO O TELÉFONO]** o al soporte de ProfIA en
+**[CORREO DE SOPORTE DE PROFIA]**. Las consultas se responden en máximo 10 días hábiles y los reclamos en
 máximo 15 días hábiles.
 
 **7. Opinión del estudiante.** ☐ Se le explicó al estudiante, según su edad y madurez, y se tuvo en cuenta
@@ -111,10 +111,10 @@ su opinión. ☐ No aplica por su edad.
 ### Decisión
 
 ☐ **AUTORIZO** al (a la) docente [NOMBRE DEL DOCENTE] para tratar los datos del estudiante descritos arriba,
-incluidos los sensibles, para elaborar y hacer seguimiento a su PIAR en la plataforma Profe, en las
+incluidos los sensibles, para elaborar y hacer seguimiento a su PIAR en la plataforma ProfIA, en las
 condiciones de este documento.
 
-☐ **NO AUTORIZO** el uso de la plataforma Profe. Entiendo que el PIAR se elaborará por otros medios.
+☐ **NO AUTORIZO** el uso de la plataforma ProfIA. Entiendo que el PIAR se elaborará por otros medios.
 
 Ciudad y fecha: ______________________
 
@@ -127,9 +127,9 @@ Ciudad y fecha: ______________________
 
 ---
 
-## Si el que contrata Profe es el colegio
+## Si el que contrata ProfIA es el colegio
 
-Cuando el colegio use Profe como institución, el responsable es el colegio y no el docente. Se usa el mismo
+Cuando el colegio use ProfIA como institución, el responsable es el colegio y no el docente. Se usa el mismo
 texto cambiando:
 
 - "el (la) docente [NOMBRE]" por "[NOMBRE DE LA INSTITUCIÓN], NIT [NIT]" en el encabezado, en el punto 3 y en
@@ -139,21 +139,21 @@ texto cambiando:
 - las firmas: "Recibido por la institución" (nombre y cargo) en vez de "Docente".
 
 En ese caso la autorización la guarda el colegio, y el colegio necesita su política de tratamiento de datos y
-un contrato de transmisión con el operador de Profe.
+un contrato de transmisión con el operador de ProfIA.
 
 ---
 
-## Lo que le toca a Profe (para que el docente independiente pueda usar el PIAR)
+## Lo que le toca a ProfIA (para que el docente independiente pueda usar el PIAR)
 
-El docente no tiene que escribir una política de datos propia si Profe se la deja resuelta:
+El docente no tiene que escribir una política de datos propia si ProfIA se la deja resuelta:
 
-- [ ] **Política de privacidad de Profe** publicada, con una sección del PIAR: qué datos, cifrado, solo el
+- [ ] **Política de privacidad de ProfIA** publicada, con una sección del PIAR: qué datos, cifrado, solo el
       docente los ve, IA sin datos personales, servidores en EE. UU., borrado automático y canal de soporte
       para peticiones de acudientes.
-- [ ] **Términos de uso** que digan que Profe es encargado del docente para los datos de sus estudiantes,
+- [ ] **Términos de uso** que digan que ProfIA es encargado del docente para los datos de sus estudiantes,
       que no los usa para nada más, y que el docente se compromete a tener la autorización del acudiente.
 - [ ] Llenar en este modelo la razón social del operador, el enlace a la política y el correo de soporte, y
       ofrecerlo para descargar desde la pantalla del PIAR.
-- [ ] Un procedimiento para cuando un acudiente escriba a soporte: Profe no puede leer el PIAR (está
+- [ ] Un procedimiento para cuando un acudiente escriba a soporte: ProfIA no puede leer el PIAR (está
       cifrado y solo lo ve el docente), así que reenvía la petición al docente y, si pide borrar, el docente
-      lo borra o Profe borra el registro completo.
+      lo borra o ProfIA borra el registro completo.

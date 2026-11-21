@@ -55,7 +55,7 @@ function usePolling(adjustmentId: string | null, check: AdjustActions["adjustmen
 }
 
 /**
- * SPEC-0027: ajustes rápidos con botones. Profe rehace el recurso entero con una indicación fija y
+ * SPEC-0027: ajustes rápidos con botones. ProfIA rehace el recurso entero con una indicación fija y
  * el docente se queda con la versión nueva o vuelve a la anterior con un toque.
  */
 export function AdjustBar({
@@ -186,7 +186,7 @@ export function AdjustBar({
         <p className="text-xs text-muted-foreground">
           {generating
             ? `Ajustando «${label(adjustment.code)}»… Puedes seguir leyendo o descargar.`
-            : `Profe rehace todo el recurso. Cada ajuste usa ${cost} de tus recursos con IA.`}
+            : `ProfIA rehace todo el recurso. Cada ajuste usa ${cost} de tus recursos con IA.`}
         </p>
       </div>
       <ScrollableRow label="Ajustes rápidos" role="group" rowClassName="gap-2 pb-1">

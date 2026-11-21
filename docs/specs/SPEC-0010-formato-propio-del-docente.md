@@ -11,13 +11,13 @@
 
 ## 1. Objetivo
 
-Muchos docentes y colegios ya tienen **su formato de guía o taller**: un encabezado con sus campos (institución, área, grado, docente, fecha, nombre del estudiante, número de guía…) y unas secciones en un orden fijo (por ejemplo: saberes previos, conceptualización, actividades, evaluación, autoevaluación). Esta spec permite que el docente **suba ese formato una vez**, que Profe lo entienda y que **los talleres se generen y se descarguen con esa misma estructura**.
+Muchos docentes y colegios ya tienen **su formato de guía o taller**: un encabezado con sus campos (institución, área, grado, docente, fecha, nombre del estudiante, número de guía…) y unas secciones en un orden fijo (por ejemplo: saberes previos, conceptualización, actividades, evaluación, autoevaluación). Esta spec permite que el docente **suba ese formato una vez**, que ProfIA lo entienda y que **los talleres se generen y se descarguen con esa misma estructura**.
 
 ## 2. Alcance
 
 **Incluye:**
 
-- **Subir un formato** de taller en Word (DOCX). Profe extrae su estructura:
+- **Subir un formato** de taller en Word (DOCX). ProfIA extrae su estructura:
   - **Encabezado:** los campos en su orden y con sus etiquetas ("ÁREA:", "DOCENTE:", "NOMBRE DEL ESTUDIANTE:", "FECHA:"…), y para cada uno de dónde sale el dato: institución, sede, docente, asignatura, grado, grupo, periodo, tema, año, fecha, o **en blanco** para que lo llene el estudiante.
   - **Secciones:** sus títulos en orden y de qué tipo es cada una:
     - **Actividades:** la IA genera actividades ahí.

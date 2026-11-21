@@ -123,7 +123,7 @@ async function expectNoHorizontalScroll(page: Page, path: string) {
   expect(overflow, `${path} con scroll horizontal`).toBeLessThanOrEqual(0);
 }
 
-test("CA-0012-01/02: la landing presenta Profe sin prueba social inventada", async ({ page }) => {
+test("CA-0012-01/02: la landing presenta ProfIA sin prueba social inventada", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("navigation", { name: "Secciones" })).toBeAttached();
   await expect(page.getByRole("heading", { level: 1 })).toContainText("IA para docentes");
@@ -138,7 +138,7 @@ test("CA-0012-01/02: la landing presenta Profe sin prueba social inventada", asy
   for (const section of [
     "Todo lo que preparas para tus clases, en un solo lugar",
     "Del DBA a tu material, en cinco pasos",
-    "Lleva Profe a todo tu equipo docente",
+    "Lleva ProfIA a todo tu equipo docente",
     "Preguntas frecuentes",
   ]) {
     await expect(page.getByRole("heading", { name: section })).toBeVisible();
@@ -184,7 +184,7 @@ test("CA-0012-03/04/05/07/26: el Inicio guía al docente y crea su primer taller
   // El tutorial vive en Ajustes (la tarjeta del menú solo tiene instalar y cerrar sesión).
   await page.getByRole("link", { name: "Ajustes", exact: true }).click();
   await page.getByRole("button", { name: "Ver tutorial" }).click();
-  await expect(page.getByRole("dialog", { name: "Así funciona Profe" })).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Así funciona ProfIA" })).toBeVisible();
   await page.keyboard.press("Escape");
   await page.goto("/dashboard");
 

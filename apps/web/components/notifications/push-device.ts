@@ -13,13 +13,13 @@ export type PushActions = {
 /** Estado de los avisos en este navegador. */
 export type PushState =
   | "unsupported" // el navegador no tiene avisos
-  | "ios-install" // iPhone o iPad sin Profe instalada: los avisos solo llegan a la app instalada
+  | "ios-install" // iPhone o iPad sin ProfIA instalada: los avisos solo llegan a la app instalada
   | "denied" // el docente los bloqueó en el navegador
   | "default" // todavía no se ha preguntado
   | "granted"; // permiso dado (puede o no tener este dispositivo registrado)
 
-const INSTALLATION_KEY = "profe:installation";
-const SNOOZE_KEY = "profe:avisos-ahora-no";
+const INSTALLATION_KEY = "profia:installation";
+const SNOOZE_KEY = "profia:avisos-ahora-no";
 const SNOOZE_MS = 7 * 24 * 3600 * 1000;
 
 /** Id aleatorio de esta instalación del navegador (no identifica a nadie). */

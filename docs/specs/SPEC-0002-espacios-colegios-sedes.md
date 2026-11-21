@@ -11,14 +11,14 @@
 
 ## 1. Objetivo
 
-Que **cualquier profesor** pueda usar Profe por su cuenta sin trámites, y que **un colegio** pueda registrarse, organizarse en sedes e invitar a sus profesores. En ambos casos, los datos de un espacio son invisibles para los demás.
+Que **cualquier profesor** pueda usar ProfIA por su cuenta sin trámites, y que **un colegio** pueda registrarse, organizarse en sedes e invitar a sus profesores. En ambos casos, los datos de un espacio son invisibles para los demás.
 
 ## 2. Alcance
 
 **Incluye:**
 
 - **Onboarding** tras el primer inicio de sesión, con dos caminos:
-  - **"Uso Profe por mi cuenta"**: se crea al instante un espacio **independiente** ("Espacio de {nombre}"). No pide datos de institución.
+  - **"Uso ProfIA por mi cuenta"**: se crea al instante un espacio **independiente** ("Espacio de {nombre}"). No pide datos de institución.
   - **"Registrar mi colegio"**: formulario con los datos institucionales (sección 5). Se crea el colegio con una sede "Sede principal". Quien lo registra queda como **administrador** y puede marcar "también doy clases".
 - **Sedes** (solo colegios): crear, renombrar, archivar y desarchivar.
 - **Invitar profesores** (solo colegios): el administrador genera un enlace de un solo uso para un correo y lo comparte (WhatsApp, correo propio, etc.).
@@ -136,7 +136,7 @@ Que **cualquier profesor** pueda usar Profe por su cuenta sin trámites, y que *
 
 ## 11. Decisiones del product owner (2026-10-01)
 
-- Cualquier profesor puede usar Profe solo; los colegios se registran con datos institucionales, sedes e invitaciones.
+- Cualquier profesor puede usar ProfIA solo; los colegios se registran con datos institucionales, sedes e invitaciones.
 - Los datos institucionales no se piden al profesor independiente.
 - Sedes desde esta spec.
 

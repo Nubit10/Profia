@@ -3,15 +3,15 @@
 import type { OfflineEntry } from "@/modules/documents/client";
 
 // SPEC-0013 RN-14 y ADR-0012: biblioteca sin conexión del dispositivo. Los archivos van en Cache
-// Storage (una caché por cuenta: `profe-offline-<usuario>`) y su índice en IndexedDB. Nada de esto
+// Storage (una caché por cuenta: `profia-offline-<usuario>`) y su índice en IndexedDB. Nada de esto
 // sale del dispositivo; se borra al cerrar sesión o cuando entra otra cuenta.
 
-const DB_NAME = "profe-offline";
+const DB_NAME = "profia-offline";
 const STORE = "entries";
-const CACHE_PREFIX = "profe-offline-";
-const OWNER_KEY = "profe:offline:owner";
-const ENABLED_KEY = "profe:offline:enabled";
-const SYNC_KEY = "profe:offline:synced-at";
+const CACHE_PREFIX = "profia-offline-";
+const OWNER_KEY = "profia:offline:owner";
+const ENABLED_KEY = "profia:offline:enabled";
+const SYNC_KEY = "profia:offline:synced-at";
 
 export type SavedFile = {
   doc: string;
@@ -140,7 +140,7 @@ export function setOfflinePreference(value: "on" | "off") {
   } catch {
     // Sin almacenamiento se volverá a preguntar.
   }
-  window.dispatchEvent(new Event("profe:offline-preference"));
+  window.dispatchEvent(new Event("profia:offline-preference"));
 }
 
 export function markSynced() {

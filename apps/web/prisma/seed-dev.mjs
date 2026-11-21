@@ -18,7 +18,7 @@ if (!process.env.DATABASE_URL) {
 
 const DEV_USER = {
   name: "Docente de Prueba",
-  email: "docente@profe.test",
+  email: "docente@profia.test",
   password: "Profe2026!",
 };
 

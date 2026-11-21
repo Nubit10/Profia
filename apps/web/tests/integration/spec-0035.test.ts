@@ -13,7 +13,7 @@ import { attemptLogin, createSession, isSessionActive, registerUser } from "@/mo
 import { resetDatabase } from "../support/factories";
 
 const teacher = { name: "Ana Pérez", email: "ana@colegio.edu.co", password: "contraseña-vieja" };
-const APP = "https://profe.example";
+const APP = "https://profia.example";
 
 function fakeMailer() {
   const sent: MailMessage[] = [];

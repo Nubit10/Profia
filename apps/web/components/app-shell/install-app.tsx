@@ -11,9 +11,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-// SPEC-0013 RN-12: "Instalar Profe". Usa el aviso del navegador donde existe (Chrome, Edge, Android)
+// SPEC-0013 RN-12: "Instalar ProfIA". Usa el aviso del navegador donde existe (Chrome, Edge, Android)
 // y en iPhone o iPad explica cómo agregarla a la pantalla de inicio (texto de CliqCut adaptado).
-// No aparece con Profe ya instalada ni en navegadores que no pueden instalarla.
+// No aparece con ProfIA ya instalada ni en navegadores que no pueden instalarla.
 
 type InstallPrompt = Event & { prompt: () => Promise<void>; userChoice: Promise<unknown> };
 
@@ -78,18 +78,18 @@ export function InstallApp({ className, onDone }: { className: string; onDone?: 
     <>
       <button type="button" onClick={() => void install()} className={className}>
         <HiOutlineArrowDownOnSquare className="size-[18px] text-brand" aria-hidden />
-        Instalar Profe
+        Instalar ProfIA
       </button>
       <Dialog open={help} onOpenChange={setHelp}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Instala Profe en tu iPhone</DialogTitle>
+            <DialogTitle>Instala ProfIA en tu iPhone</DialogTitle>
             <DialogDescription>
               Queda como una app, con su ícono, a pantalla completa.
             </DialogDescription>
           </DialogHeader>
           <ol className="flex list-decimal flex-col gap-2 pl-5 text-sm">
-            <li>Abre Profe en Safari.</li>
+            <li>Abre ProfIA en Safari.</li>
             <li>
               Toca <span className="font-semibold">Compartir</span> (el cuadro con la flecha hacia
               arriba).

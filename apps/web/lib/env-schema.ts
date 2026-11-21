@@ -19,11 +19,11 @@ const envSchema = z.object({
     emptyToUndefined,
     z.string().min(24, "debe tener al menos 24 caracteres").optional(),
   ),
-  // Notificaciones del navegador (SPEC-0013 RN-15, ADR-0012). Opcionales: sin ellas Profe no las
+  // Notificaciones del navegador (SPEC-0013 RN-15, ADR-0012). Opcionales: sin ellas ProfIA no las
   // ofrece. Se generan una vez con `npx web-push generate-vapid-keys` y no se cambian.
   NEXT_PUBLIC_VAPID_PUBLIC_KEY: z.preprocess(emptyToUndefined, z.string().min(40).optional()),
   VAPID_PRIVATE_KEY: z.preprocess(emptyToUndefined, z.string().min(20).optional()),
-  // PIAR (SPEC-0017, ADR-0015): 32 bytes en base64. Opcional: sin ella Profe no ofrece el PIAR.
+  // PIAR (SPEC-0017, ADR-0015): 32 bytes en base64. Opcional: sin ella ProfIA no ofrece el PIAR.
   // Genérala UNA vez con `openssl rand -base64 32` y respáldala aparte de la base.
   PIAR_ENCRYPTION_KEY: z.preprocess(
     emptyToUndefined,
@@ -41,7 +41,7 @@ const envSchema = z.object({
       .regex(/^smtps?:\/\//, "debe empezar por smtp:// o smtps://")
       .optional(),
   ),
-  /** Remitente: `Profe <no-responder@tu-dominio>`. */
+  /** Remitente: `ProfIA <no-responder@tu-dominio>`. */
   MAIL_FROM: z.preprocess(emptyToUndefined, z.string().min(3).optional()),
   /** Carpeta donde se guardan los correos sin servidor SMTP (desarrollo y pruebas). */
   MAIL_OUTBOX_DIR: z.preprocess(emptyToUndefined, z.string().optional()),

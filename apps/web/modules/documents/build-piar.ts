@@ -99,6 +99,6 @@ export function buildPiar(piar: PiarDetail, ctx: PiarExportContext): DocModel {
     ],
     studentFields: [],
     blocks,
-    footer: `${PIAR_CONFIDENTIAL_FOOTER} · Profe · ${ctx.date}`,
+    footer: `${PIAR_CONFIDENTIAL_FOOTER} · ProfIA · ${ctx.date}`,
   };
 }

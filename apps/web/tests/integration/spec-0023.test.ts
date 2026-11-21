@@ -116,7 +116,7 @@ function engine() {
 }
 
 async function teacher() {
-  const user = await createUser("Profe");
+  const user = await createUser("ProfIA");
   const { institutionId } = await createIndependentSpace(user);
   return ctxFor(user, institutionId);
 }
