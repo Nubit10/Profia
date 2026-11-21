@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import { AppToaster } from "@/components/app-toaster";
 import { ServiceWorker } from "@/components/service-worker";
 import { BRAND_COLOR } from "@/lib/brand-colors";
@@ -12,13 +13,24 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 // Titulares de la página pública y del acceso (font-display); el área de trabajo no la usa.
-// Fraunces es una fuente variable: se carga así (sin pesos fijos). Con pesos fijos Google a veces
-// responde con direcciones `fonts.gstatic.com/l/font?…` que Turbopack no resuelve en `next dev`
-// («next/font/google queries have exactly one entry»). La variable trae todos los pesos (400–900).
-const fraunces = Fraunces({
+// Fraunces va dentro del proyecto (app/fonts/fraunces, licencia OFL), no desde Google Fonts: con
+// Turbopack en `next dev`, según la respuesta de Google fallaba con «next/font/google queries have
+// exactly one entry». Es la variable de peso (100–900), en normal e itálica, solo latín (cubre el español).
+const fraunces = localFont({
   variable: "--font-display",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
+  display: "swap",
+  src: [
+    {
+      path: "./fonts/fraunces/fraunces-latin-wght-normal.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+    {
+      path: "./fonts/fraunces/fraunces-latin-wght-italic.woff2",
+      weight: "100 900",
+      style: "italic",
+    },
+  ],
 });
 
 const geistMono = Geist_Mono({

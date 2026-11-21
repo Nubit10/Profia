@@ -7,6 +7,13 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **Fuente de títulos dentro del proyecto** (2026-11-21). En el computador del usuario `next dev`
+  (Turbopack) fallaba con «next/font/google queries have exactly one entry» al cargar Fraunces desde
+  Google Fonts (depende de la respuesta de Google; aquí no se reproducía). Fraunces ahora es
+  `next/font/local` con los woff2 variables (peso 100–900, normal e itálica, latín) en
+  `apps/web/app/fonts/fraunces/` (licencia OFL incluida). Ya no depende de Google; Plus Jakarta Sans y
+  Geist Mono siguen por `next/font/google`. Los títulos en peso normal se ven delgados.
+
 - **SPEC-0036 — DBA y Estándares de Ciencias Naturales y Ciencias Sociales** (2026-11-21), aprobada con
   las recomendaciones (Inglés queda para después). Catálogo: DBA Naturales V.1 (54), DBA Sociales V.1 (82),
   Estándares Naturales (342 acciones) y Sociales (250 acciones), verificados contra los PDF oficiales
