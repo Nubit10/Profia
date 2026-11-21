@@ -19,6 +19,11 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **Avatar de la IA: foco con destellos** (2026-11-21). El usuario eligió la propuesta B entre cinco
+  focos (el cerebro no se leía a 14–18 px). Un solo componente, `components/brand/ai-avatar.tsx`
+  (vidrio y base de la marca, tres destellos azul violeta; blanco con `tone="light"`), cambia todas
+  las pantallas. Captura: `docs/design/capturas/foco/curso.png`; `ux.spec.ts` en verde.
+
 - **Ajustes (2), "Crear con IA" y WhatsApp en el computador** (2026-11-21), pedido del usuario.
   - Ajustes → "Usar sin conexión": activar, ver cuántos van guardados y dejar de guardar
     (`OfflineSettings` en `components/offline/offline-panel.tsx`; solo docentes).
