@@ -186,7 +186,7 @@ def _workshop(data: dict) -> dict:
 
 def _item(data: dict) -> dict:
     current = data["actual"]
-    note = data["indicacionDelDocente"]
+    note = data.get("indicacionDelDocente") or (data.get("ajuste") or {}).get("codigo")
     if data["tipo"] == "pregunta":
         kind = current["type"] if current["type"] in data["tiposPermitidos"] else None
         item = _question(
@@ -294,7 +294,8 @@ def _exam_item(data: dict) -> dict:
         _codes(data.get("dba", []), 0),
         data["puntos"],
     )
-    item["stem"] = f"Versión revisada ({data['indicacionDelDocente']}): {current['stem']}"
+    note = data.get("indicacionDelDocente") or (data.get("ajuste") or {}).get("codigo")
+    item["stem"] = f"Versión revisada ({note}): {current['stem']}"
     return {"item": item}
 
 

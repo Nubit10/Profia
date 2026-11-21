@@ -111,6 +111,8 @@ type Props = {
   includeArchived: boolean;
   copyTargets: { id: string; groupName: string; academicYear: string }[];
   actions: PlanningActions;
+  /** Bloque 6 de usabilidad: abrir la propuesta del primer periodo al llegar. */
+  autoPropose?: boolean;
 };
 
 const DIALOG_TITLES: Record<NonNullable<DialogState>["type"], [string, string]> = {
@@ -294,8 +296,32 @@ function topicDbaCodes(topic: PlanningTopic): string[] {
   return [...codes];
 }
 
-export function PlanningView({ planning, includeArchived, copyTargets, actions }: Props) {
-  const [dialog, setDialog] = useState<DialogState>(null);
+export function PlanningView({
+  planning,
+  includeArchived,
+  copyTargets,
+  actions,
+  autoPropose = false,
+}: Props) {
+  // Bloque 6 de usabilidad: desde "Primeros pasos" llega con la propuesta del periodo 1 abierta
+  // (solo si la IA puede proponer y el curso todavía no tiene unidades).
+  const [dialog, setDialog] = useState<DialogState>(() =>
+    autoPropose &&
+    planning.hasArea &&
+    planning.coverage.total > 0 &&
+    planning.units.length === 0 &&
+    planning.periods[0]
+      ? {
+          type: "proposal",
+          target: {
+            scope: "PERIOD",
+            courseId: planning.course.id,
+            periodNumber: planning.periods[0].number,
+          },
+          label: planning.periods[0].name,
+        }
+      : null,
+  );
   const [copyTarget, setCopyTarget] = useState(copyTargets[0]?.id ?? "");
   const { run, isPending } = useRun();
   const router = useRouter();
@@ -954,6 +980,8 @@ export function PlanningView({ planning, includeArchived, copyTargets, actions }
                 target={dialog.target}
                 actions={actions.proposal}
                 onDone={close}
+                // Desde "Primeros pasos": al aceptar, al Inicio, donde sigue "Crear mi primer taller".
+                onSaved={autoPropose ? () => router.push("/dashboard") : undefined}
               />
             )}
             {dialog?.type === "suggest" && (

@@ -2,6 +2,7 @@ import "server-only";
 
 // API pública (servidor) del módulo planning (SPEC-0006).
 export {
+  canProposeTopics,
   getCoursePlanning,
   getTopicGenerationContext,
   getTopicPeriodName,
@@ -22,6 +23,7 @@ export {
   updateUnit,
 } from "./structure";
 export { copyPlanning } from "./copy";
+export { matchTopicsInCourse, type TopicMatch } from "./match";
 export {
   acceptObjectivesBatch,
   acceptPlanningProposal,

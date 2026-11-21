@@ -49,20 +49,16 @@ const dateFormat = new Intl.DateTimeFormat("es-CO", {
   timeZone: "America/Bogota",
 });
 
-/** Arma el documento de una versión del recurso (RN-01) y registra la descarga (CA-0009-07). */
-export async function exportResource(
+type ExportableResource = Awaited<ReturnType<typeof getResourceForExport>>;
+
+/** Modelo intermedio del documento (ADR-0009), el mismo para el PDF, el Word y la vista previa. */
+async function modelFor(
   ctx: TenantContext,
-  resourceId: string,
-  request: ExportRequest,
-): Promise<ExportedFile> {
-  requireRole(ctx, "TEACHER");
-  const resource = await getResourceForExport(ctx, resourceId, request.version);
-  if (request.doc === "answers") {
-    // RN-15: la hoja de respuestas solo existe en exámenes con selección múltiple o V/F.
-    if (resource.data.type !== "EXAM" || !hasAnswerSheet(resource.data.content)) throw notFound();
-  }
-  // SPEC-0024 RN-05: el plan de aula es un solo documento del docente; no tiene clave.
-  if (resource.data.type === "LESSON_PLAN" && request.doc !== "student") throw notFound();
+  resource: ExportableResource,
+  doc: DocKind,
+  requestedVariant: Variant,
+  opts: { logo?: boolean; showAnswers?: boolean } = {},
+) {
   const isExam = resource.data.type === "EXAM";
   const [course, topicPeriod] = await Promise.all([
     getMyCourse(ctx, resource.courseId),
@@ -75,10 +71,11 @@ export async function exportResource(
     : resource.context.topic.title;
   const gradeGroup = [GRADE_LABELS[course.grade], course.groupName].filter(Boolean).join(" ");
   const school = ctx.institutionType === "SCHOOL";
-  const logo = await getLogo(ctx);
+  const logo = opts.logo === false ? null : await getLogo(ctx);
   const date = dateFormat.format(new Date());
 
   const exportCtx: ExportContext = {
+    showAnswers: opts.showAnswers ?? false,
     resourceId: resource.id,
     version: resource.version,
     draft: resource.status === "DRAFT",
@@ -136,17 +133,17 @@ export async function exportResource(
 
   // La hoja de respuestas es la misma para todas las versiones (RN-15).
   const variant =
-    resource.type === "WORKSHOP" || resource.type === "LESSON_PLAN" || request.doc === "answers"
+    resource.type === "WORKSHOP" || resource.type === "LESSON_PLAN" || doc === "answers"
       ? "A"
-      : request.variant;
+      : requestedVariant;
   const model: DocModel =
     resource.data.type === "QUIZ"
-      ? buildQuiz(resource.data.content, exportCtx, request.doc, variant)
+      ? buildQuiz(resource.data.content, exportCtx, doc, variant)
       : resource.data.type === "EXAM"
         ? buildExam(
             resource.data.content,
             exportCtx,
-            request.doc,
+            doc,
             variant,
             resource.gradingScale ?? DEFAULT_GRADING_SCALE,
           )
@@ -157,7 +154,59 @@ export async function exportResource(
               resource.context.objectives.map((o) => o.statement),
               resource.gradingBands ?? DEFAULT_GRADING_BANDS,
             )
-          : buildWorkshop(resource.data.content, exportCtx, request.doc, resource.format);
+          : buildWorkshop(resource.data.content, exportCtx, doc, resource.format);
+
+  return { model, isExam, gradeGroup, variant };
+}
+
+/**
+ * SPEC-0027 (y bloque 3 de usabilidad): el documento tal como se imprime, para verlo en la
+ * página. `content` permite ver una propuesta sin guardarla. Sin logo (la imagen no viaja al
+ * navegador) y sin auditoría: no es una descarga.
+ */
+export async function previewResource(
+  ctx: TenantContext,
+  resourceId: string,
+  opts: { content?: unknown; doc?: DocKind; showAnswers?: boolean } = {},
+): Promise<DocModel> {
+  requireRole(ctx, "TEACHER");
+  const resource = await getResourceForExport(ctx, resourceId);
+  const withContent =
+    opts.content === undefined
+      ? resource
+      : ({
+          ...resource,
+          data: { type: resource.type, content: opts.content },
+        } as ExportableResource);
+  // La hoja que se imprime para el grupo (en el plan de aula, el único documento).
+  const doc = opts.doc ?? "student";
+  const { model } = await modelFor(ctx, withContent, doc, "A", {
+    logo: false,
+    showAnswers: opts.showAnswers ?? false,
+  });
+  return { ...model, logo: null };
+}
+
+/** Arma el documento de una versión del recurso (RN-01) y registra la descarga (CA-0009-07). */
+export async function exportResource(
+  ctx: TenantContext,
+  resourceId: string,
+  request: ExportRequest,
+): Promise<ExportedFile> {
+  requireRole(ctx, "TEACHER");
+  const resource = await getResourceForExport(ctx, resourceId, request.version);
+  if (request.doc === "answers") {
+    // RN-15: la hoja de respuestas solo existe en exámenes con selección múltiple o V/F.
+    if (resource.data.type !== "EXAM" || !hasAnswerSheet(resource.data.content)) throw notFound();
+  }
+  // SPEC-0024 RN-05: el plan de aula es un solo documento del docente; no tiene clave.
+  if (resource.data.type === "LESSON_PLAN" && request.doc !== "student") throw notFound();
+  const { model, isExam, gradeGroup, variant } = await modelFor(
+    ctx,
+    resource,
+    request.doc,
+    request.variant,
+  );
 
   const body = request.format === "pdf" ? await renderPdf(model) : await renderDocx(model);
 

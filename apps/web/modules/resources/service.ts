@@ -7,6 +7,7 @@ import { getLimiter } from "@/lib/rate-limit";
 import { redactContactData } from "@/lib/text";
 import { recordAudit } from "@/modules/audit";
 import { getMyCourse } from "@/modules/courses";
+import { GRADE_LABELS } from "@/modules/courses/client";
 import { getGradingBands } from "@/modules/institutions";
 import { notifyGenerationFinished, type GenerationFinished } from "@/modules/notifications";
 import {
@@ -27,6 +28,8 @@ import {
   type EngineResourceMeta,
 } from "@/modules/generation";
 import {
+  listCopyTargets,
+  matchTopicsInCourse,
   getTopicGenerationContext,
   getTopicsGenerationContext,
   type TopicsGenerationContext,
@@ -49,6 +52,14 @@ import {
   topicKey,
   workshopFromEngine,
 } from "./content";
+import {
+  adjustedBlueprint,
+  adjustmentCurrent,
+  availableAdjustments,
+  itemAdjustmentLabel,
+  type ItemAdjustment,
+  type ResourceAdjustment,
+} from "./adjustments";
 import { generationQueue } from "./queue";
 import { schedulePreferenceCheck, type SuggestionDeps } from "./suggestions";
 import {
@@ -72,6 +83,7 @@ import {
   type ResourceType,
 } from "./schemas";
 import type {
+  AdjustmentView,
   ExamFormContext,
   FailureReason,
   RegenerateResult,
@@ -153,7 +165,7 @@ function preferencesForPrompt(prefs: TeacherPreferenceView[], excluded: string[]
 export const quotaCost = (type: ResourceType) => (type === "EXAM" ? EXAM_QUOTA_COST : 1);
 
 export async function quotaFor(client: DbClient, ctx: TenantContext) {
-  const [rows, inFlight] = await Promise.all([
+  const [resourceRows, inFlight, adjustmentRows, adjustingNow] = await Promise.all([
     client.resource.findMany({
       where: {
         institutionId: ctx.institutionId,
@@ -172,7 +184,28 @@ export async function quotaFor(client: DbClient, ctx: TenantContext) {
         status: "GENERATING",
       },
     }),
+    // SPEC-0027 RN-02: un ajuste del recurso completo cuesta como generarlo; si falla, no cuenta.
+    client.resourceAdjustment.findMany({
+      where: {
+        institutionId: ctx.institutionId,
+        membershipId: ctx.membershipId,
+        failureReason: null,
+        createdAt: { gt: new Date(Date.now() - DAY) },
+      },
+      select: { createdAt: true, resource: { select: { type: true } } },
+    }),
+    client.resourceAdjustment.count({
+      where: {
+        institutionId: ctx.institutionId,
+        membershipId: ctx.membershipId,
+        status: "GENERATING",
+      },
+    }),
   ]);
+  const rows = [
+    ...resourceRows,
+    ...adjustmentRows.map((a) => ({ createdAt: a.createdAt, type: a.resource.type })),
+  ].sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
   const used = rows.reduce((sum, r) => sum + quotaCost(r.type), 0);
   /** Cuándo vuelve a haber cupo para `cost` recursos (null si ya lo hay). */
   const freesAtFor = (cost: number) => {
@@ -184,7 +217,36 @@ export async function quotaFor(client: DbClient, ctx: TenantContext) {
     }
     return null;
   };
-  return { used, inFlight, freesAt: freesAtFor(1), freesAtFor };
+  return { used, inFlight: inFlight + adjustingNow, freesAt: freesAtFor(1), freesAtFor };
+}
+
+/**
+ * RN-06 (SPEC-0008) y SPEC-0027 RN-02: cupo diario y generaciones en curso. Serializa las
+ * solicitudes del mismo docente para que el cupo no se pase en paralelo. Va dentro de una
+ * transacción.
+ */
+async function assertQuota(tx: Prisma.TransactionClient, ctx: TenantContext, cost: number) {
+  await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${ctx.membershipId}))`;
+  const quota = await quotaFor(tx, ctx);
+  if (quota.inFlight >= MAX_IN_FLIGHT) {
+    throw rateLimited(
+      `Ya tienes ${MAX_IN_FLIGHT} recursos generándose. Espera a que terminen para pedir otro.`,
+    );
+  }
+  if (quota.used + cost > DAILY_LIMIT) {
+    const at = quota.freesAtFor(cost)?.toLocaleTimeString("es-CO", {
+      hour: "numeric",
+      minute: "2-digit",
+      timeZone: "America/Bogota",
+    });
+    const left = Math.max(0, DAILY_LIMIT - quota.used);
+    // CA-0011-11: el examen cuesta 2; con 1 disponible se avisa sin llamar a la IA.
+    throw rateLimited(
+      left > 0
+        ? `Un examen usa ${cost} de tus recursos con IA y te ${left === 1 ? "queda 1" : `quedan ${left}`}.${at ? ` Podrás generarlo desde las ${at}.` : ""}`
+        : `Llegaste al límite de ${DAILY_LIMIT} recursos con IA en 24 horas.${at ? ` Podrás generar otro desde las ${at}.` : ""}`,
+    );
+  }
 }
 
 /** Datos para el formulario del blueprint (SPEC-0008 §5). */
@@ -446,7 +508,7 @@ function engineContext(
   difficulty: Blueprint["difficulty"],
   notes: string | null,
   preferences: string[],
-): EngineResourceContext {
+): Omit<EngineResourceContext, "adjust"> {
   return {
     subject: snapshot.subject,
     grade: snapshot.grade,
@@ -472,7 +534,13 @@ type Job = {
   preferences: string[];
   format: FormatSnapshot | null;
   title: string;
+  /** SPEC-0027: la generación es un ajuste del recurso; el resultado queda como propuesta. */
+  adjust?: { id: string; code: ResourceAdjustment; current: unknown };
 };
+
+/** SPEC-0027: lo que viaja al AI Engine cuando la generación es un ajuste. */
+const adjustBody = (job: Job) =>
+  job.adjust ? { adjust: { code: job.adjust.code, current: job.adjust.current } } : {};
 
 async function logGeneration(
   client: DbClient,
@@ -508,6 +576,14 @@ async function logGeneration(
 }
 
 async function fail(job: Job, reason: FailureReason, generationId: string | null) {
+  if (job.adjust) {
+    // SPEC-0027 RN-06/RN-08: el recurso queda como estaba y el intento no cuenta en el cupo.
+    await db.resourceAdjustment.updateMany({
+      where: { id: job.adjust.id, status: "GENERATING" },
+      data: { status: "FAILED", failureReason: reason, generationId },
+    });
+    return;
+  }
   await db.resource.updateMany({
     where: { id: job.resourceId, status: "GENERATING" },
     data: { status: "FAILED", failureReason: reason, generationId },
@@ -521,6 +597,10 @@ async function saveGenerated(
   data: ResourceContent,
   generationId: string,
 ) {
+  if (job.adjust) {
+    await saveProposal(tx, job, job.adjust.id, data, generationId);
+    return;
+  }
   const { count } = await tx.resource.updateMany({
     where: { id: job.resourceId, status: "GENERATING" },
     data: {
@@ -545,6 +625,34 @@ async function saveGenerated(
   });
 }
 
+/**
+ * SPEC-0027 RN-03: el ajuste queda como propuesta; la versión del recurso no cambia hasta que el
+ * docente la acepte. Si el recurso se archivó mientras tanto, la propuesta se descarta.
+ */
+async function saveProposal(
+  tx: Prisma.TransactionClient,
+  job: Job,
+  adjustmentId: string,
+  data: ResourceContent,
+  generationId: string,
+) {
+  const resource = await tx.resource.findFirst({
+    where: { id: job.resourceId, institutionId: job.institutionId },
+    select: { status: true },
+  });
+  const archived = !resource || resource.status === "ARCHIVED";
+  await tx.resourceAdjustment.updateMany({
+    where: { id: adjustmentId, status: "GENERATING" },
+    data: archived
+      ? { status: "DISCARDED", generationId, decidedAt: new Date() }
+      : {
+          status: "PROPOSED",
+          generationId,
+          proposal: data.content as Prisma.InputJsonValue,
+        },
+  });
+}
+
 /** SPEC-0011: el examen se genera por secciones; cada llamada queda en `generation_logs`. */
 async function runExamGeneration(
   job: Job & { blueprint: Extract<Blueprint, { type: "EXAM" }> },
@@ -563,6 +671,7 @@ async function runExamGeneration(
       })),
       cognitiveDistribution: blueprint.cognitiveDistribution,
       ...(blueprint.saber && { saber: true }),
+      ...adjustBody(job),
     },
     fetcher,
   );
@@ -620,6 +729,7 @@ async function runLessonPlanGeneration(
       ...engineContext(snapshot, blueprint.difficulty, blueprint.notes, job.preferences),
       sessions: blueprint.sessions,
       minutesPerSession: blueprint.minutesPerSession,
+      ...adjustBody(job),
     },
     fetcher,
   );
@@ -678,6 +788,7 @@ export async function runGeneration(job: Job, fetcher: typeof fetch = fetch): Pr
                 questionTypes: blueprint.questionTypes,
                 cognitiveDistribution: blueprint.cognitiveDistribution,
                 ...(blueprint.saber && { saber: true }),
+                ...adjustBody(job),
               },
               fetcher,
             )
@@ -699,6 +810,7 @@ export async function runGeneration(job: Job, fetcher: typeof fetch = fetch): Pr
                 }),
                 cognitiveDistribution: blueprint.cognitiveDistribution,
                 ...(blueprint.udl && { udl: true }),
+                ...adjustBody(job),
               },
               fetcher,
             );
@@ -742,10 +854,18 @@ async function announce(job: Job, notify: (event: GenerationFinished) => Promise
       select: { status: true, failureReason: true, title: true, courseId: true, type: true },
     });
     if (!resource) return;
+    // SPEC-0027: en un ajuste, lo que cuenta es cómo terminó la propuesta.
+    const state = job.adjust
+      ? await db.resourceAdjustment.findUnique({
+          where: { id: job.adjust.id },
+          select: { status: true, failureReason: true },
+        })
+      : resource;
+    if (!state) return;
     const outcome =
-      resource.status === "DRAFT"
+      state.status === "DRAFT" || state.status === "PROPOSED"
         ? "READY"
-        : resource.status === "FAILED" && resource.failureReason !== "interrupted"
+        : state.status === "FAILED" && state.failureReason !== "interrupted"
           ? "FAILED"
           : null;
     if (!outcome) return;
@@ -781,28 +901,7 @@ async function enqueue(
   const cost = quotaCost(blueprint.type);
 
   const resource = await db.$transaction(async (tx) => {
-    // Serializa las solicitudes del mismo docente para que el cupo no se pase en paralelo.
-    await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${ctx.membershipId}))`;
-    const quota = await quotaFor(tx, ctx);
-    if (quota.inFlight >= MAX_IN_FLIGHT) {
-      throw rateLimited(
-        `Ya tienes ${MAX_IN_FLIGHT} recursos generándose. Espera a que terminen para pedir otro.`,
-      );
-    }
-    if (quota.used + cost > DAILY_LIMIT) {
-      const at = quota.freesAtFor(cost)?.toLocaleTimeString("es-CO", {
-        hour: "numeric",
-        minute: "2-digit",
-        timeZone: "America/Bogota",
-      });
-      const left = Math.max(0, DAILY_LIMIT - quota.used);
-      // CA-0011-11: el examen cuesta 2; con 1 disponible se avisa sin llamar a la IA.
-      throw rateLimited(
-        left > 0
-          ? `Un examen usa ${cost} de tus recursos con IA y te ${left === 1 ? "queda 1" : `quedan ${left}`}.${at ? ` Podrás generarlo desde las ${at}.` : ""}`
-          : `Llegaste al límite de ${DAILY_LIMIT} recursos con IA en 24 horas.${at ? ` Podrás generar otro desde las ${at}.` : ""}`,
-      );
-    }
+    await assertQuota(tx, ctx, cost);
     const data = {
       status: "GENERATING" as const,
       failureReason: null,
@@ -905,6 +1004,19 @@ export async function recoverStale(ctx: TenantContext) {
       OR: [
         { type: { not: "EXAM" }, updatedAt: { lt: new Date(now - STALE_MS) } },
         { type: "EXAM", updatedAt: { lt: new Date(now - EXAM_STALE_MS) } },
+      ],
+    },
+    data: { status: "FAILED", failureReason: "interrupted" },
+  });
+  // SPEC-0027 RN-08: un ajuste que no terminó queda interrumpido y no cuenta en el cupo.
+  await db.resourceAdjustment.updateMany({
+    where: {
+      institutionId: ctx.institutionId,
+      membershipId: ctx.membershipId,
+      status: "GENERATING",
+      OR: [
+        { resource: { type: { not: "EXAM" } }, createdAt: { lt: new Date(now - STALE_MS) } },
+        { resource: { type: "EXAM" }, createdAt: { lt: new Date(now - EXAM_STALE_MS) } },
       ],
     },
     data: { status: "FAILED", failureReason: "interrupted" },
@@ -1028,7 +1140,191 @@ export async function getResource(ctx: TenantContext, resourceId: string): Promi
     gradingScale: resource.type === "EXAM" ? scaleOf(resource.gradingScale) : null,
     // SPEC-0024 RN-04: la escala del espacio, leída al verlo (no se copia en el plan).
     gradingBands: resource.type === "LESSON_PLAN" ? await getGradingBands(ctx) : null,
+    adjustment: await pendingAdjustment(ctx, resource.id, resource.type),
   };
+}
+
+/** SPEC-0027: el último ajuste sin decidir del recurso, para mostrarlo en la página. */
+async function pendingAdjustment(
+  ctx: TenantContext,
+  resourceId: string,
+  type: ResourceType,
+): Promise<AdjustmentView | null> {
+  const row = await db.resourceAdjustment.findFirst({
+    where: { resourceId, institutionId: ctx.institutionId, membershipId: ctx.membershipId },
+    orderBy: { createdAt: "desc" },
+  });
+  if (!row || (row.status !== "GENERATING" && row.status !== "PROPOSED" && row.status !== "FAILED"))
+    return null;
+  return {
+    id: row.id,
+    code: row.code as ResourceAdjustment,
+    status: row.status,
+    failureReason: row.failureReason as FailureReason | null,
+    fromVersion: row.fromVersion,
+    proposal: row.proposal ? ({ type, content: row.proposal } as ResourceContent) : null,
+  };
+}
+
+/** SPEC-0027: estado del ajuste para el sondeo de la página (ADR-0008 §3). */
+export async function getAdjustmentStatus(ctx: TenantContext, adjustmentId: string) {
+  requireRole(ctx, "TEACHER");
+  await recoverStale(ctx);
+  const row = await db.resourceAdjustment.findFirst({
+    where: { id: adjustmentId, institutionId: ctx.institutionId, membershipId: ctx.membershipId },
+    select: { status: true },
+  });
+  if (!row) throw notFound();
+  return { status: row.status };
+}
+
+/** Tiempo mínimo entre dos pedidos de ajuste del mismo docente (doble toque, CA-0027-12). */
+const ADJUSTMENTS_PER_MINUTE = 5;
+
+/**
+ * SPEC-0027: rehace el recurso completo con un ajuste fijo, en segundo plano. Cuesta como generarlo
+ * (RN-02) y el resultado queda como propuesta (RN-03). Un ajuste a la vez por recurso (RN-04).
+ */
+export async function requestAdjustment(
+  ctx: TenantContext,
+  resourceId: string,
+  code: ResourceAdjustment,
+  deps: GenerationDeps = {},
+): Promise<{ id: string }> {
+  requireRole(ctx, "TEACHER");
+  const resource = await ownResource(ctx, resourceId);
+  if (resource.status !== "DRAFT" && resource.status !== "READY") {
+    throw invalid("Este recurso no se puede ajustar ahora");
+  }
+  const data = await currentContent(resource.id, resource.currentVersion, resource.type);
+  if (!data) throw invalid("Este recurso todavía no tiene contenido");
+  if (!availableAdjustments(data).includes(code)) {
+    throw invalid("Ese ajuste no está disponible para este recurso", "adjustment");
+  }
+  const limit = await getLimiter("ai-adjustment", ADJUSTMENTS_PER_MINUTE, 60_000).consume(
+    ctx.membershipId,
+  );
+  if (!limit.allowed) throw rateLimited();
+  await recoverStale(ctx);
+
+  const blueprint = adjustedBlueprint(resource.blueprint as Blueprint, data, code);
+  const snapshot = resource.context as unknown as Snapshot;
+  const preferences = preferencesForPrompt(
+    await applicablePreferences(ctx, resource.courseId),
+    (resource.blueprint as Blueprint).excludedPreferenceIds ?? [],
+  );
+
+  const adjustment = await db.$transaction(async (tx) => {
+    await assertQuota(tx, ctx, quotaCost(resource.type));
+    // RN-04: bloquea el recurso; un solo ajuste en curso y la propuesta sin decidir se descarta.
+    await tx.$queryRaw`SELECT id FROM resources WHERE id = ${resource.id} FOR UPDATE`;
+    const running = await tx.resourceAdjustment.count({
+      where: { resourceId: resource.id, status: "GENERATING" },
+    });
+    if (running) throw conflict("Ya estamos ajustando este recurso. Espera a que termine.");
+    await tx.resourceAdjustment.updateMany({
+      where: { resourceId: resource.id, status: { in: ["PROPOSED", "FAILED"] } },
+      data: { status: "DISCARDED", decidedAt: new Date() },
+    });
+    const created = await tx.resourceAdjustment.create({
+      data: {
+        institutionId: ctx.institutionId,
+        resourceId: resource.id,
+        membershipId: ctx.membershipId,
+        code,
+        fromVersion: resource.currentVersion,
+      },
+      select: { id: true },
+    });
+    await recordAudit(tx, {
+      action: "resource.adjustment_requested",
+      institutionId: ctx.institutionId,
+      actorUserId: ctx.userId,
+      entityType: "resource",
+      entityId: resource.id,
+      metadata: { adjustmentId: created.id, code },
+    });
+    return created;
+  });
+
+  const job: Job = {
+    resourceId: resource.id,
+    institutionId: ctx.institutionId,
+    membershipId: ctx.membershipId,
+    userId: ctx.userId,
+    blueprint,
+    snapshot,
+    preferences,
+    format: (resource.formatSnapshot as unknown as FormatSnapshot | null) ?? null,
+    title: data.content.title,
+    adjust: { id: adjustment.id, code, current: adjustmentCurrent(data) },
+  };
+  (deps.schedule ?? runAfterResponse)(async () => {
+    await runGeneration(job, deps.fetcher);
+    await announce(job, deps.notify ?? notifyGenerationFinished);
+  });
+  return adjustment;
+}
+
+/**
+ * SPEC-0027 RN-03: "Quedarme con esta" crea la versión siguiente con origen IA; "Volver a la
+ * anterior" descarta la propuesta sin crear versión. Un ajuste fallido solo se cierra.
+ */
+export async function decideAdjustment(
+  ctx: TenantContext,
+  adjustmentId: string,
+  accept: boolean,
+): Promise<{ version: number }> {
+  requireRole(ctx, "TEACHER");
+  const adjustment = await db.resourceAdjustment.findFirst({
+    where: { id: adjustmentId, institutionId: ctx.institutionId, membershipId: ctx.membershipId },
+  });
+  if (!adjustment) throw notFound();
+  if (adjustment.status !== "PROPOSED" && !(adjustment.status === "FAILED" && !accept)) {
+    throw invalid("Este ajuste ya fue decidido");
+  }
+  const resource = await ownResource(ctx, adjustment.resourceId);
+
+  return db.$transaction(async (tx) => {
+    const { count } = await tx.resourceAdjustment.updateMany({
+      where: { id: adjustment.id, status: adjustment.status },
+      data: { status: accept ? "ACCEPTED" : "DISCARDED", decidedAt: new Date() },
+    });
+    if (count === 0) throw invalid("Este ajuste ya fue decidido");
+    if (accept) {
+      if (resource.status !== "DRAFT" && resource.status !== "READY") {
+        throw invalid("Este recurso no se puede cambiar ahora");
+      }
+      const data = { type: resource.type, content: adjustment.proposal } as ResourceContent;
+      const fresh = await tx.resource.findUniqueOrThrow({
+        where: { id: resource.id },
+        select: { id: true, currentVersion: true, context: true },
+      });
+      const number = await saveVersion(tx, ctx, fresh, data, "AI");
+      // RN-07: es contenido nuevo sin revisar: vuelve a borrador.
+      if (resource.status === "READY") {
+        await tx.resource.update({ where: { id: resource.id }, data: { status: "DRAFT" } });
+      }
+      await recordAudit(tx, {
+        action: "resource.adjustment_decided",
+        institutionId: ctx.institutionId,
+        actorUserId: ctx.userId,
+        entityType: "resource",
+        entityId: resource.id,
+        metadata: { adjustmentId: adjustment.id, accept, version: number },
+      });
+      return { version: number };
+    }
+    await recordAudit(tx, {
+      action: "resource.adjustment_decided",
+      institutionId: ctx.institutionId,
+      actorUserId: ctx.userId,
+      entityType: "resource",
+      entityId: resource.id,
+      metadata: { adjustmentId: adjustment.id, accept },
+    });
+    return { version: resource.currentVersion };
+  });
 }
 
 /** RN-14: la escala guardada o la predeterminada (3,0 como nota mínima, lineal). */
@@ -1102,6 +1398,7 @@ async function saveVersion(
   ctx: TenantContext,
   resource: { id: string; currentVersion: number; context: Prisma.JsonValue },
   data: ResourceContent,
+  source: "TEACHER" | "AI" = "TEACHER",
 ) {
   const allowed = new Set((resource.context as unknown as Snapshot).dba.map((d) => d.code));
   const clean = sanitizeContent(data, allowed);
@@ -1120,7 +1417,7 @@ async function saveVersion(
       institutionId: ctx.institutionId,
       resourceId: resource.id,
       number,
-      source: "TEACHER",
+      source,
       content: clean.content as Prisma.InputJsonValue,
     },
   });
@@ -1306,13 +1603,123 @@ export async function duplicateResource(ctx: TenantContext, resourceId: string) 
   });
 }
 
+// --- Usar en mis otros grupos (SPEC-0028) ------------------------------------------------------
+
+/** SPEC-0028: los otros cursos del docente de la misma asignatura y grado (no archivados). */
+export async function listResourceCopyTargets(ctx: TenantContext, resourceId: string) {
+  requireRole(ctx, "TEACHER");
+  const resource = await ownResource(ctx, resourceId);
+  const targets = await listCopyTargets(ctx, resource.courseId);
+  const courses = await db.course.findMany({
+    where: { id: { in: targets.map((t) => t.id) }, institutionId: ctx.institutionId },
+    select: { id: true, grade: true, groupName: true, academicYear: true },
+  });
+  return targets.map((t) => {
+    const c = courses.find((x) => x.id === t.id)!;
+    return { id: t.id, label: `${GRADE_LABELS[c.grade]} ${c.groupName} · ${c.academicYear}` };
+  });
+}
+
+/**
+ * SPEC-0028: copia independiente del recurso (versión actual) a otros cursos propios de la misma
+ * asignatura y grado, en el tema equivalente (o uno nuevo). Sin IA y sin cupo (RN-01). Todo o nada.
+ */
+export async function copyResourceToCourses(
+  ctx: TenantContext,
+  resourceId: string,
+  courseIds: string[],
+) {
+  requireRole(ctx, "TEACHER");
+  const resource = await ownResource(ctx, resourceId);
+  const data = await currentContent(resource.id, resource.currentVersion, resource.type);
+  if (!data || (resource.status !== "DRAFT" && resource.status !== "READY")) {
+    throw invalid("Este recurso todavía no tiene contenido");
+  }
+  const sourceTopics = (
+    await db.resourceTopic.findMany({
+      where: { resourceId: resource.id, institutionId: ctx.institutionId },
+      orderBy: { position: "asc" },
+      select: { topicId: true },
+    })
+  ).map((t) => t.topicId);
+  if (!sourceTopics.includes(resource.topicId)) sourceTopics.unshift(resource.topicId);
+  const unique = [...new Set(courseIds)];
+
+  return db.$transaction(async (tx) => {
+    const copies: { courseId: string; resourceId: string; createdTopic: boolean }[] = [];
+    for (const courseId of unique) {
+      const matches = await matchTopicsInCourse(tx, ctx, sourceTopics, courseId);
+      // Los ids de los temas viajan dentro del blueprint, el contexto y el contenido del examen:
+      // se cambian por los del destino (los ids son únicos, no chocan con otro texto).
+      const remap = <T>(value: T): T => {
+        let json = JSON.stringify(value);
+        for (const [from, to] of matches) json = json.split(from).join(to.topicId);
+        return JSON.parse(json) as T;
+      };
+      const blueprint = remap(resource.blueprint as Blueprint);
+      blueprint.objectiveIds = [];
+      if (blueprint.type === "EXAM" && blueprint.scope.kind === "UNIT") {
+        blueprint.scope = { kind: "TOPICS" };
+      }
+      const context = remap(resource.context as unknown as Snapshot);
+      context.objectives = [];
+      const copy = await tx.resource.create({
+        data: {
+          institutionId: ctx.institutionId,
+          membershipId: ctx.membershipId,
+          courseId,
+          topicId: matches.get(resource.topicId)!.topicId,
+          type: resource.type,
+          status: "DRAFT",
+          title: data.content.title,
+          blueprint: blueprint as Prisma.InputJsonValue,
+          context: context as unknown as Prisma.InputJsonValue,
+          formatSnapshot: resource.formatSnapshot ?? Prisma.DbNull,
+          gradingScale: resource.gradingScale ?? Prisma.DbNull,
+          currentVersion: 1,
+          versions: {
+            create: {
+              number: 1,
+              source: "TEACHER",
+              content: remap(data.content) as Prisma.InputJsonValue,
+            },
+          },
+        },
+        select: { id: true },
+      });
+      await tx.resourceTopic.createMany({
+        data: sourceTopics.map((topicId, position) => ({
+          resourceId: copy.id,
+          topicId: matches.get(topicId)!.topicId,
+          position,
+          institutionId: ctx.institutionId,
+        })),
+      });
+      await recordAudit(tx, {
+        action: "resource.copied_to_course",
+        institutionId: ctx.institutionId,
+        actorUserId: ctx.userId,
+        entityType: "resource",
+        entityId: copy.id,
+        metadata: { from: resource.id, courseId },
+      });
+      copies.push({
+        courseId,
+        resourceId: copy.id,
+        createdTopic: [...matches.values()].some((m) => m.created),
+      });
+    }
+    return copies;
+  });
+}
+
 // --- Regenerar una pregunta o actividad (CA-0008-07) -----------------------------------------
 
 export async function regenerateItem(
   ctx: TenantContext,
   resourceId: string,
   itemKey: string,
-  instruction: string,
+  request: string | { adjustment: ItemAdjustment },
   fetcher: typeof fetch = fetch,
 ): Promise<RegenerateResult> {
   requireRole(ctx, "TEACHER");
@@ -1331,7 +1738,14 @@ export async function regenerateItem(
     await applicablePreferences(ctx, resource.courseId),
     blueprint.excludedPreferenceIds ?? [],
   );
-  const cleanInstruction = redactContactData(instruction);
+  // SPEC-0027: con una ficha viaja solo el código; queda registrada con su nombre.
+  const adjust = typeof request === "string" ? undefined : request.adjustment;
+  const cleanInstruction = adjust
+    ? itemAdjustmentLabel(adjust, found.kind === "WORKSHOP_ACTIVITY" ? "activity" : "question")
+    : redactContactData(request as string);
+  const engineInstruction = adjust
+    ? { instruction: null, adjust }
+    : { instruction: cleanInstruction };
   const allowed = new Set(snapshot.dba.map((d) => d.code));
   let result: Awaited<ReturnType<typeof requestItem>> | Awaited<ReturnType<typeof requestExamItem>>;
   let proposal: ReturnType<typeof toQuestion | typeof toActivity | typeof toExamQuestion> | null =
@@ -1345,7 +1759,7 @@ export async function regenerateItem(
         ...engineExamContext(snapshot, blueprint.difficulty, blueprint.notes, preferences),
         current: engineExamQuestion(found.item, topicIds),
         points: found.item.points,
-        instruction: cleanInstruction,
+        ...engineInstruction,
         otherItems: found.others.slice(0, 40),
       },
       fetcher,
@@ -1367,7 +1781,7 @@ export async function regenerateItem(
         ...engineContext(snapshot, blueprint.difficulty, blueprint.notes, preferences),
         kind: found.kind,
         current: engineItem(found),
-        instruction: cleanInstruction,
+        ...engineInstruction,
         durationMinutes: blueprint.durationMinutes,
         questionTypes: blueprint.type === "QUIZ" ? blueprint.questionTypes : [],
         moment: found.kind === "WORKSHOP_ACTIVITY" ? found.moment : null,

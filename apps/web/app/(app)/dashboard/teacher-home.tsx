@@ -22,7 +22,13 @@ import type { ActionResult } from "@/lib/action-result";
 import { subjectTint } from "@/lib/subject-tint";
 import { cn } from "@/lib/utils";
 import type { CourseInput } from "@/modules/courses/client";
-import { RESOURCE_TYPE_LABELS, type NextStep, type TeacherHome } from "@/modules/resources/client";
+import {
+  RESOURCE_TYPE_LABELS,
+  type NextStep,
+  type QuickResourceRequest,
+  type TeacherHome,
+} from "@/modules/resources/client";
+import { QuickCreateList } from "@/components/quick-create";
 import type { Option } from "../courses/course-form";
 import { CourseDialog } from "../courses/courses-view";
 import { FirstStepsCard } from "./first-steps";
@@ -35,6 +41,8 @@ type Props = {
   subjects: Option[];
   campuses: Option[];
   createCourse: (input: CourseInput) => Promise<ActionResult<{ id: string }>>;
+  /** Bloque 4 de usabilidad: crear con un toque lo que sigue de cada curso. */
+  quickCreate: (input: QuickResourceRequest) => Promise<ActionResult<{ id: string }>>;
   dismissTutorial: () => Promise<ActionResult>;
 };
 
@@ -128,6 +136,45 @@ export function TeacherHomeView(props: Props) {
         <h1 className="text-2xl font-extrabold sm:text-3xl">Hola, {props.userName}</h1>
         <p className="text-muted-foreground">¿Qué vas a preparar hoy?</p>
       </header>
+
+      {/* Bloque 4 de usabilidad: lo que sigue en cada curso, listo para crear con un toque. */}
+      {!firstSteps && home.upNext.length > 0 && (
+        <section
+          aria-labelledby="week-title"
+          className="flex flex-col gap-4 rounded-3xl border border-brand-border bg-brand-softer p-5 sm:p-6"
+          data-testid="up-next"
+        >
+          <div className="flex items-start gap-3">
+            <AiAvatar size={28} className="mt-0.5 shrink-0" />
+            <div className="flex flex-col gap-0.5">
+              <h2 id="week-title" className="text-lg font-extrabold">
+                Para esta semana
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                El siguiente tema de tu planeación que todavía no tiene material. Un toque y la IA
+                lo prepara.
+              </p>
+            </div>
+          </div>
+          <ul className="flex flex-col gap-4">
+            {home.upNext.map((next) => (
+              <li key={next.courseId} className="flex flex-col gap-2">
+                <p className="font-semibold">
+                  Lo que sigue en {next.courseTitle}:{" "}
+                  <span className="text-brand-strong">{next.topicTitle}</span>
+                </p>
+                <QuickCreateList
+                  courseId={next.courseId}
+                  topic={{ id: next.topicId, title: next.topicTitle }}
+                  types={["WORKSHOP", "QUIZ", "LESSON_PLAN"]}
+                  quickCreate={props.quickCreate}
+                  className="lg:grid-cols-3"
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {firstSteps ? (

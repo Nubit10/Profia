@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { hasRecordedAction } from "@/modules/audit";
 import { listMyCourses } from "@/modules/courses";
 import { courseTitle } from "@/modules/courses/client";
-import { listTopicOutline } from "@/modules/planning";
+import { canProposeTopics, listTopicOutline } from "@/modules/planning";
 import { requireRole, type TenantContext } from "@/modules/tenancy";
 import type { ResourceType } from "./schemas";
 import { DAILY_LIMIT, quotaFor, recoverStale, summary } from "./service";
@@ -90,6 +90,9 @@ export async function listMyResources(
  * Inicio del docente (RN-02). El siguiente paso se evalúa en este orden:
  * sin cursos → crear curso; sin temas → planear; sin recursos → primer taller; si no, el último.
  */
+/** "Para esta semana": cursos que se muestran en el Inicio. */
+const UP_NEXT_COURSES = 3;
+
 export async function getTeacherHome(ctx: TenantContext): Promise<TeacherHome> {
   requireRole(ctx, "TEACHER");
   await recoverStale(ctx);
@@ -119,6 +122,41 @@ export async function getTeacherHome(ctx: TenantContext): Promise<TeacherHome> {
     topicCount.set(course.id, topics.length);
     if (!firstTopic && topics[0]) {
       firstTopic = { courseId: course.id, topicId: topics[0].id, topicTitle: topics[0].title };
+    }
+  }
+
+  // Para esta semana: el primer tema sin recursos de cada curso, en el orden de la planeación.
+  const allTopicIds = courses.flatMap(
+    (c) =>
+      outline.find((o) => o.courseId === c.id)?.units.flatMap((u) => u.topics.map((t) => t.id)) ??
+      [],
+  );
+  const covered = new Set(
+    (
+      await db.resourceTopic.findMany({
+        where: {
+          institutionId: ctx.institutionId,
+          topicId: { in: allTopicIds },
+          resource: { status: { not: "ARCHIVED" }, membershipId: ctx.membershipId },
+        },
+        select: { topicId: true },
+      })
+    ).map((r) => r.topicId),
+  );
+  const upNext: TeacherHome["upNext"] = [];
+  for (const course of courses) {
+    if (upNext.length >= UP_NEXT_COURSES) break;
+    const topics = (outline.find((o) => o.courseId === course.id)?.units ?? []).flatMap(
+      (u) => u.topics,
+    );
+    const next = topics.find((t) => !covered.has(t.id));
+    if (next) {
+      upNext.push({
+        courseId: course.id,
+        courseTitle: courseTitle(course),
+        topicId: next.id,
+        topicTitle: next.title,
+      });
     }
   }
 
@@ -165,11 +203,14 @@ export async function getTeacherHome(ctx: TenantContext): Promise<TeacherHome> {
         topicId: firstTopic?.topicId ?? null,
         topicTitle: firstTopic?.topicTitle ?? null,
         resource: recent[0] ?? null,
+        // También después del paso: el paso hecho conserva su nombre ("Revisa los temas…").
+        canProposeTopics: firstCourse ? await canProposeTopics(ctx, firstCourse.id) : false,
       }
     : null;
 
   return {
     nextStep,
+    upNext,
     firstSteps,
     courses: courses
       .filter((c) => active.has(c.id))

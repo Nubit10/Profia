@@ -12,6 +12,7 @@ from typing import Annotated, Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from ..providers.llm import LLM, Message
+from .adjust import ItemAdjustCode, ResourceAdjust, apply_adjust
 from .mathcheck import (
     MATH_CHECK_VERSION,
     AnswerCheck,
@@ -133,9 +134,13 @@ class ExamRequest(BaseModel):
     cognitiveDistribution: dict[Level, int]  # noqa: N815
     # SPEC-0023: preguntas de selección múltiple tipo Saber (Matemáticas y Lenguaje).
     saber: bool = False
+    # SPEC-0027: ajuste rápido (código fijo + versión actual del examen).
+    adjust: ResourceAdjust | None = None
 
     @model_validator(mode="after")
     def _valid(self):
+        if self.adjust and self.adjust.code in ("SHORTER", "ADD_ITEMS"):
+            raise ValueError("En el examen ese ajuste cambiaría los puntos")
         _check_distribution(self.cognitiveDistribution)
         if self.saber and saber_area(self.subject) is None:
             raise ValueError("El estilo Saber solo aplica a Matemáticas y Lenguaje")
@@ -219,7 +224,8 @@ class ExamItemRequest(BaseModel):
     preferences: list[Text] = Field(default_factory=list, max_length=5)
     current: ExamQuestion
     points: float = Field(gt=0, le=100)
-    instruction: str = Field(min_length=3, max_length=300)
+    instruction: str | None = Field(default=None, min_length=3, max_length=300)
+    adjust: ItemAdjustCode | None = None
     otherItems: list[Annotated[str, Field(max_length=1000)]] = Field(  # noqa: N815
         default_factory=list, max_length=40
     )
@@ -228,6 +234,8 @@ class ExamItemRequest(BaseModel):
     def _valid(self):
         if self.current.topic not in {t.key for t in self.topics}:
             raise ValueError("El tema de la pregunta actual no está en `topics`")
+        if not self.instruction and not self.adjust:
+            raise ValueError("Falta la indicación o el ajuste")
         return self
 
 
@@ -348,7 +356,16 @@ def build_section_messages(
     if saber_section(request, plan):
         data |= saber_data(request.subject)
         system = f"{system}\n{SABER_PROMPT}"
-    return _messages(system, instruction, data)
+    return apply_adjust(_messages(system, instruction, data), section_adjust(request, index))
+
+
+def section_adjust(request: ExamRequest, index: int) -> ResourceAdjust | None:
+    """SPEC-0027: cada sección recibe solo su parte de la versión actual."""
+    if not request.adjust:
+        return None
+    sections = (request.adjust.current or {}).get("sections")
+    current = sections[index] if isinstance(sections, list) and index < len(sections) else None
+    return ResourceAdjust(code=request.adjust.code, current=current)
 
 
 def saber_section(request: ExamRequest, plan: SectionPlan) -> bool:
@@ -379,6 +396,10 @@ def build_exam_item_messages(request: ExamItemRequest) -> list[Message]:
     if saber_item(request):
         data |= saber_data(request.subject)
         system = f"{system}\n{SABER_PROMPT}"
+    if request.adjust:
+        return apply_adjust(
+            _messages(system, "Reescribe la pregunta del examen.", data), request.adjust
+        )
     return _messages(
         system,
         "Reescribe la pregunta del examen siguiendo la indicación del docente.",

@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import { expect, test } from "./fixtures";
-import { choose, confirmAndGenerate, signUpIndependentTeacher } from "./helpers";
+import { choose, confirmAndGenerate, signUpIndependentTeacher, openEditor } from "./helpers";
 
 // SPEC-0022: las marcas de verificación de Matemáticas en el editor. El quiz se genera con el
 // AI Engine de prueba y las marcas se siembran en la versión 1 (el cálculo lo cubren las pruebas
@@ -51,6 +51,7 @@ test("CA-0022-10: el editor muestra las marcas y la quita al editar la pregunta"
   await page.getByRole("link", { name: /^Quiz/ }).click();
   await page.getByLabel("Número de preguntas").fill("4");
   await confirmAndGenerate(page, "quiz");
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   const questions = page.getByRole("list", { name: "Preguntas" }).locator(":scope > li");
   await expect(questions).toHaveCount(4, { timeout: 30_000 });
 
@@ -71,6 +72,7 @@ test("CA-0022-10: el editor muestra las marcas y la quita al editar la pregunta"
     [resourceId, JSON.stringify(content)],
   );
   await page.reload();
+  await openEditor(page); // SPEC-0029: al recargar vuelve a la hoja
 
   await expect(questions.nth(0).getByTestId("answer-check")).toContainText(
     "Respuesta verificada · El cálculo da 2.",
@@ -87,6 +89,7 @@ test("CA-0022-10: el editor muestra las marcas y la quita al editar la pregunta"
   await expect(page.getByText(/Versión 2/).first()).toBeVisible();
   await expect(questions.nth(1).getByTestId("answer-check")).toHaveCount(0);
   await page.reload();
+  await openEditor(page);
   await expect(questions.nth(1).getByTestId("answer-check")).toHaveCount(0);
   await expect(questions.nth(0).getByTestId("answer-check")).toBeVisible();
 });

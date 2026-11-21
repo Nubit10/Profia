@@ -32,7 +32,14 @@ Solo se implementa lo que está **Aprobada**. Solo el usuario (product owner) ap
 | [SPEC-0022](SPEC-0022-verificar-respuestas-de-matematicas.md) | Verificar las respuestas de Matemáticas                                         | 6 · Generation              | Implementada |
 | [SPEC-0023](SPEC-0023-preguntas-tipo-saber-con-figuras.md)    | Preguntas tipo Saber (ICFES) con situación, figura y competencia                | 6 · Generation              | Implementada |
 | [SPEC-0024](SPEC-0024-plan-de-aula-y-escala-de-valoracion.md) | Plan de aula (secuencia didáctica) y rúbrica en la escala del colegio           | 6 · Generation              | Implementada |
-| [SPEC-0027](SPEC-0027-ajustes-rapidos-con-botones.md)         | Ajustes rápidos con botones («Más fácil», «Más corto»…) sin escribir            | 6 · Generation              | Borrador     |
+| [SPEC-0027](SPEC-0027-ajustes-rapidos-con-botones.md)         | Ajustes rápidos con botones («Más fácil», «Más corto»…) sin escribir            | 6 · Generation              | Implementada |
+| [SPEC-0028](SPEC-0028-usar-en-mis-otros-grupos.md)            | Usar el mismo recurso en mis otros grupos, sin gastar cupo                      | 6 · Generation              | Implementada |
+| [SPEC-0029](SPEC-0029-ver-el-recurso-como-la-hoja.md)         | Ver el recurso como la hoja que se imprime                                      | Transversal                 | Implementada |
+| [SPEC-0030](SPEC-0030-para-esta-semana.md)                    | "Para esta semana" en el Inicio                                                 | Transversal                 | Implementada |
+| [SPEC-0031](SPEC-0031-compartir-e-imprimir.md)                | Compartir por WhatsApp e imprimir directo                                       | Transversal                 | Implementada |
+| [SPEC-0032](SPEC-0032-primer-curso-con-temas-propuestos.md)   | Primer curso sin escribir temas                                                 | Transversal                 | Implementada |
+| [SPEC-0033](SPEC-0033-barra-de-navegacion-abajo.md)           | Barra de navegación abajo en el celular                                         | Transversal                 | Implementada |
+| [SPEC-0034](SPEC-0034-detalles-de-usabilidad.md)              | Detalles: avisos abajo, letra más grande y "Borrador / Listo"                   | Transversal                 | Implementada |
 
 ## Mapa del roadmap → specs previstas
 

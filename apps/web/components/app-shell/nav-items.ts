@@ -76,3 +76,12 @@ export function getNavSections({ isTeacher, isSchoolAdmin }: NavAccess): NavSect
 export function isActive(item: NavItem, pathname: string) {
   return pathname === item.href || (item.matches?.test(pathname) ?? false);
 }
+
+/**
+ * Bloque 7 de usabilidad: barra inferior del celular para el docente. "Crear" va en el centro y no
+ * es un enlace (abre el menú de crear).
+ */
+export const TAB_BAR = {
+  left: [ITEMS.home, ITEMS.courses],
+  right: [ITEMS.resources],
+} as const;

@@ -76,7 +76,7 @@ function studentQuestion(q: ExamQuestion, n: number, ctx: ExportContext, variant
   const blocks: DocBlock[] = [];
   if (q.type === "MATCHING") {
     const column = matchingColumn(q, ctx, variant);
-    blocks.push({ kind: "question", number: n, stem, options: [], answerLines: 0 });
+    blocks.push({ kind: "question", number: n, itemId: q.id, stem, options: [], answerLines: 0 });
     const rows = Math.max(q.pairs.length, column.length);
     blocks.push({
       kind: "table",
@@ -92,16 +92,18 @@ function studentQuestion(q: ExamQuestion, n: number, ctx: ExportContext, variant
     });
     return blocks;
   }
+  const correct = (text: string) => (ctx.showAnswers && text === q.answer ? { correct: true } : {});
   blocks.push({
     kind: "question",
     number: n,
+    itemId: q.id,
     ...saberParts(q),
     stem,
     options:
       q.type === "MULTIPLE_CHOICE"
-        ? q.options.map((text, i) => ({ label: `${LETTERS[i]})`, text }))
+        ? q.options.map((text, i) => ({ label: `${LETTERS[i]})`, text, ...correct(text) }))
         : q.type === "TRUE_FALSE"
-          ? q.options.map((text) => ({ label: "○", text }))
+          ? q.options.map((text) => ({ label: "○", text, ...correct(text) }))
           : [],
     inline: q.type === "TRUE_FALSE",
     answerLines: q.type === "SHORT_ANSWER" ? 3 : q.type === "OPEN" ? 8 : 0,

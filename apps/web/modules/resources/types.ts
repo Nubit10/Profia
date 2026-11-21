@@ -2,6 +2,7 @@
 import type { Grade } from "@/modules/courses/client";
 import type { FormatScope, FormatSnapshot } from "@/modules/formats/client";
 import type { GradingBands } from "@/modules/institutions/client";
+import type { ResourceAdjustment } from "./adjustments";
 import type {
   Blueprint,
   ExamContent,
@@ -66,6 +67,19 @@ export type ResourceDetail = ResourceSummary & {
   gradingScale: GradingScale | null;
   /** Plan de aula: escala de valoración del espacio para la rúbrica (SPEC-0024 RN-04). */
   gradingBands: GradingBands | null;
+  /** SPEC-0027: el último ajuste rápido sin decidir (generándose, propuesto o fallido). */
+  adjustment: AdjustmentView | null;
+};
+
+/** SPEC-0027: ajuste rápido del recurso completo, tal como lo ve el docente. */
+export type AdjustmentView = {
+  id: string;
+  code: ResourceAdjustment;
+  status: "GENERATING" | "PROPOSED" | "FAILED";
+  failureReason: FailureReason | null;
+  /** Versión sobre la que se hizo; si el docente editó después, se le avisa (RN-05). */
+  fromVersion: number;
+  proposal: ResourceContent | null;
 };
 
 export type TeacherPreferenceView = {
@@ -169,10 +183,17 @@ export type FirstSteps = {
   topicId: string | null;
   topicTitle: string | null;
   resource: ResourceListItem | null;
+  /** Bloque 6 de usabilidad: el curso tiene DBA, así que Profe le propone los temas. */
+  canProposeTopics: boolean;
 };
 
 export type TeacherHome = {
   nextStep: NextStep;
+  /**
+   * Bloque 4 de usabilidad ("Para esta semana"): por curso, el primer tema de la planeación, en
+   * orden, que todavía no tiene recursos. Máximo 3 cursos.
+   */
+  upNext: { courseId: string; courseTitle: string; topicId: string; topicTitle: string }[];
   firstSteps: FirstSteps | null;
   courses: {
     id: string;

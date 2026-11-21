@@ -1,30 +1,13 @@
-# Estado del trabajo (2026-11-20)
+# Estado del trabajo (2026-11-21)
 
 Bitácora para retomar el trabajo después de borrar la conversación. **Se actualiza al cerrar cada tarea**
 (qué se hizo, qué quedó a medias y con qué seguir). Lo más reciente va arriba de cada sección.
 
 ## En curso
 
-- **SPEC-0027** — Ajustes rápidos con botones ([spec](specs/SPEC-0027-ajustes-rapidos-con-botones.md)),
-  bloque 1 de los próximos pasos de usabilidad. Estado: **Borrador** (2026-11-21), esperando que el
-  usuario responda 3 preguntas (¿juntar con el bloque 2?, ¿cuesta cupo?, ¿se esconde o se quita el
-  texto libre de "Regenerar"?) y la apruebe. Siguiente: ADR-0020 → `/implement SPEC-0027`.
-  SPEC-0025 y SPEC-0026 quedan reservadas para resultados y validación.
-
-- **Siguiente (pedido del usuario el 2026-11-20): mejoras de usabilidad**, en el orden de
-  [usabilidad/proximos-pasos.md](usabilidad/proximos-pasos.md). Una spec por bloque, esperando la
-  aprobación del usuario entre cada una:
-  1. ajustes rápidos con botones (Más fácil, Más corto…);
-  2. usar el mismo recurso en mis otros grupos (sin gastar cupo);
-  3. ver el recurso como el documento que se imprime;
-  4. "Para esta semana" en el Inicio;
-  5. compartir por WhatsApp e imprimir;
-  6. primer curso con temas propuestos;
-  7. barra de navegación abajo en el celular;
-  8. detalles;
-  9. validación con docentes reales.
-- **Después:** SPEC-0025 (resultados → dificultades → refuerzo) y SPEC-0026 (validación con docentes),
-  una por una. Si el usuario quiere: `/review SPEC-0024`.
+- **Siguiente:** probar "Compartir" en un iPhone y un Android reales;
+  después SPEC-0025 (resultados → dificultades → refuerzo) y SPEC-0026 (validación con docentes, el
+  bloque 9). Si el usuario quiere: `/review` de SPEC-0027 a SPEC-0034.
 
 - **SPEC-0020** — Material de referencia del docente ([spec](specs/SPEC-0020-material-de-referencia.md)).
   Estado: **Borrador**, esperando que el usuario responda las 3 preguntas abiertas y la apruebe.
@@ -35,6 +18,40 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
   - Siguiente paso: aprobación → ADR → `/implement SPEC-0020`.
 
 ## Hecho
+
+- **Mejoras de usabilidad, bloques 1–8** (2026-11-21), de
+  [usabilidad/proximos-pasos.md](usabilidad/proximos-pasos.md). El usuario aprobó: el ajuste gasta
+  cupo; en lo demás, lo recomendado; "lo más importante son todas las mejoras implementadas".
+  - **SPEC-0027** (ADR-0020): botones "Más fácil · Más difícil · Más corto · Vida diaria · Agregar 2"
+    debajo del recurso. Rehace el recurso entero en segundo plano como **propuesta**
+    (`resource_adjustments`, migración `20261121120000_resource_adjustments`); se ve como la hoja y
+    el docente elige "Quedarme con esta" (versión nueva, origen IA) o "Volver a la anterior". Cuesta
+    como generar (1; examen 2, sin "Más corto" ni "Agregar"). Anexo `adjust.v1` en el AI Engine (campo
+    `adjust` aditivo en quiz, taller, examen, plan e ítems). En cada ítem, fichas "Más fácil · Otra
+    pregunta · Mejor redactada"; el texto libre queda en "Otra indicación…".
+  - **SPEC-0028**: "Usar también en…" (menú del recurso) copia a los otros grupos de la misma
+    asignatura y grado, en el tema del mismo título o uno nuevo; sin IA ni cupo
+    (`copyResourceToCourses`, `matchTopicsInCourse`).
+  - **SPEC-0029**: el recurso abre en **Hoja** (mismo modelo del PDF, `previewResource` +
+    `components/documents/doc-preview.tsx`), con "Marcar las respuestas" y "Editar" en cada pregunta o
+    actividad; selector Hoja | Editar. Las e2e que editan llaman `openEditor(page)`.
+  - **SPEC-0030**: "Para esta semana" en el Inicio (primer tema sin recursos de cada curso, crear con
+    un toque; `QuickCreateList` compartido con "¿Qué más necesitas?").
+  - **SPEC-0031**: "Imprimir" (PDF en línea) en escritorio y "Compartir" (Web Share con el PDF) en el
+    celular.
+  - **SPEC-0032**: con DBA, "Primeros pasos" propone los temas del periodo 1
+    (`?tab=planeacion&proponer=1`).
+  - **SPEC-0033**: barra inferior en el celular (Inicio · Mis cursos · Crear · Mis recursos).
+  - **SPEC-0034**: avisos abajo en el celular, "Letra más grande" en el menú y explicación de
+    "Borrador / Listo" la primera vez.
+  - Pruebas: AI Engine 196 (pytest) y ruff limpio; web 338 unitarias e integración (nuevas:
+    `spec-0027`, `spec-0028`, `usabilidad-bloques`, `unit/adjustments`); e2e 100 de 100 en la última
+    corrida completa (+3 de `usabilidad-bloques.movil` y la de SPEC-0032 en el celular, en verde por
+    separado). `spec-0014.spec.ts` "parte 4" falló una vez por el selector del curso y pasó 3 de 3 al
+    repetirla (intermitente, no de esta tarea).
+  - Recorrido: 28 / 26 clics (celular / computador), 6 campos; detalle en
+    [usabilidad/2026-11-20-recorrido-docente.md](usabilidad/2026-11-20-recorrido-docente.md).
+  - Pendiente: probar "Compartir" en teléfonos reales; revisión formal (`/review`).
 
 - **Prueba de usabilidad y de funcionamiento**, 2026-11-20
   ([informe](usabilidad/2026-11-20-recorrido-docente.md)). Pedido del usuario: que sea tan fácil como

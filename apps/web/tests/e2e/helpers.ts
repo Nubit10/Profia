@@ -112,3 +112,15 @@ export async function choose(page: Page, label: string, option: string) {
   await expect(page.getByRole("listbox")).toHaveCount(0);
   await expect(field).toContainText(option);
 }
+
+/**
+ * SPEC-0029: el recurso abre en la hoja como se imprime; las pruebas que editan pasan a "Editar".
+ * Espera a que el recurso termine de generarse.
+ */
+export async function openEditor(page: Page) {
+  const toggle = page
+    .getByRole("group", { name: "Cómo ver el recurso" })
+    .getByRole("button", { name: "Editar", exact: true });
+  await toggle.click({ timeout: 60_000 });
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
+}

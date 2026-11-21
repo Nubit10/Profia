@@ -6,6 +6,7 @@ import { DbaCatalogProvider } from "@/components/curriculum/dba-chip";
 import { NotifyCard } from "@/components/notifications/notify-card";
 import { DomainError } from "@/lib/errors";
 import { getCourseReferences } from "@/modules/curriculum";
+import * as documents from "@/modules/documents";
 import * as notifications from "@/modules/notifications";
 import * as resources from "@/modules/resources";
 import { requireTenant } from "@/modules/tenancy";
@@ -24,6 +25,23 @@ export default async function ResourcePage({
     throw error;
   });
   if (resource.courseId !== courseId) notFound();
+  // SPEC-0027: la propuesta de un ajuste se ve como la hoja que se imprime.
+  const proposal = resource.adjustment?.status === "PROPOSED" ? resource.adjustment.proposal : null;
+  const adjustmentPreview = proposal
+    ? await documents
+        .previewResource(ctx, resource.id, { content: proposal.content })
+        .catch(() => null)
+    : null;
+  // SPEC-0029: la hoja tal como se imprime, con y sin las respuestas marcadas.
+  const sheet =
+    resource.data && (resource.status === "DRAFT" || resource.status === "READY")
+      ? await Promise.all([
+          documents.previewResource(ctx, resource.id, { showAnswers: true }),
+          documents.previewResource(ctx, resource.id),
+        ])
+          .then(([withAnswers, student]) => ({ withAnswers, student }))
+          .catch(() => null)
+      : null;
   // SPEC-0014 CA-0014-12: la ficha de cada DBA del recurso sale del catálogo vigente del curso.
   const dbaRefs = await getCourseReferences(ctx, courseId)
     .then((r) => r.references.filter((ref) => ref.type === "DBA"))
@@ -55,7 +73,14 @@ export default async function ResourcePage({
       <DbaCatalogProvider references={dbaRefs}>
         <ResourceView
           resource={resource}
+          adjustmentPreview={adjustmentPreview}
+          sheet={sheet}
           actions={{
+            requestAdjustment: resources.requestAdjustmentAction,
+            decideAdjustment: resources.decideAdjustmentAction,
+            adjustmentStatus: resources.adjustmentStatusAction,
+            copyTargets: resources.resourceCopyTargetsAction,
+            copyToCourses: resources.copyResourceToCoursesAction,
             status: resources.resourceStatusAction,
             retry: resources.retryResourceAction,
             save: resources.saveResourceContentAction,

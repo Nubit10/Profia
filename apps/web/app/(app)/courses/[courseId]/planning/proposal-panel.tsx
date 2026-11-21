@@ -1,5 +1,6 @@
 "use client";
 
+import { navigatingFromLayer } from "@/lib/use-back-to-close";
 import { DbaChip } from "@/components/curriculum/dba-chip";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
@@ -153,10 +154,13 @@ export function ProposalPanel({
   target,
   actions,
   onDone,
+  onSaved,
 }: {
   target: ProposalScope;
   actions: ProposalActions;
   onDone: () => void;
+  /** Bloque 6 de usabilidad: desde "Primeros pasos", al guardar se vuelve al Inicio. */
+  onSaved?: () => void;
 }) {
   const router = useRouter();
   const [size, setSize] = useState<ProposalSize>("DEFAULT");
@@ -294,8 +298,11 @@ export function ProposalPanel({
         title: added === 1 ? "Se agregó 1 tema" : `Se agregaron ${added} temas`,
         description: "Ya están en tu planeación.",
       });
+      // Si después se navega, la capa no debe deshacer la navegación con "Atrás" al cerrarse.
+      if (onSaved) navigatingFromLayer();
       onDone();
-      router.refresh();
+      if (onSaved) onSaved();
+      else router.refresh();
     });
 
   return (

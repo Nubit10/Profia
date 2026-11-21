@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import type { Locator, Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
-import { choose, signUpIndependentTeacher } from "./helpers";
+import { choose, signUpIndependentTeacher, openEditor } from "./helpers";
 
 // SPEC-0014 parte 1: la IA propone la planeación a partir de los DBA (AI Engine con el LLM de
 // prueba, que además devuelve un código de DBA inventado en cada periodo).
@@ -266,6 +266,7 @@ test("CA-0014-10/12: 'Crear quiz' en un tema genera en 1 clic y llega al recurso
 
   await page.getByRole("button", { name: `Crear quiz de «${topic}»` }).click();
   await expect(page).toHaveURL(/\/resources\//);
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   await expect(page.getByRole("list", { name: "Preguntas" })).toBeVisible({ timeout: 30_000 });
   // 6° usa 8 preguntas por defecto (SPEC-0008).
   await expect(page.getByRole("list", { name: "Preguntas" }).locator(":scope > li")).toHaveCount(8);
@@ -411,6 +412,7 @@ test("CA-0014-17/18: 'Mis recursos' muestra los recientes y cada curso por perio
   const [first] = await unit.getByRole("heading", { level: 3 }).allTextContents();
   await page.getByRole("button", { name: `Crear quiz de «${first}»` }).click();
   await expect(page).toHaveURL(/\/resources\//);
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   await expect(page.getByRole("list", { name: "Preguntas" })).toBeVisible({ timeout: 30_000 });
 
   await page.goto("/resources");

@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
-import { choose, signUpIndependentTeacher } from "./helpers";
+import { choose, signUpIndependentTeacher, openEditor } from "./helpers";
 
 // SPEC-0024 CA-0024-07: "Plan de aula" en el asistente Crear → curso → tema → ajustes → editor
 // (AI Engine de prueba). A 360 px no hay desbordes ni violaciones de axe.
@@ -56,6 +56,7 @@ test("CA-0024-07: crear un plan de aula desde el asistente y abrirlo en el edito
   await page.getByLabel("Minutos por sesión").fill("55");
   await page.getByRole("button", { name: "Generar plan de aula" }).click();
 
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   const sessions = page.getByTestId("lesson-session");
   await expect(sessions).toHaveCount(3, { timeout: 60_000 });
   await expect(page.getByTestId("rubric-row").first()).toBeVisible();

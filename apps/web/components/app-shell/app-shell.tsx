@@ -36,7 +36,8 @@ import {
   type QuotaView,
   type SpaceOption,
 } from "./identity-card";
-import { getNavSections, isActive, type NavAccess } from "./nav-items";
+import { TAB_BAR, getNavSections, isActive, type NavAccess, type NavItem } from "./nav-items";
+import { TextSizeToggle } from "./text-size";
 import { TutorialDialog } from "./tutorial";
 import { useShellStore } from "./use-shell-store";
 
@@ -231,6 +232,7 @@ export function AppShell(props: Props) {
             className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-semibold text-sidebar-foreground transition hover:bg-brand-softer hover:text-brand-strong"
             onDone={closeSidebar}
           />
+          <TextSizeToggle className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-semibold text-sidebar-foreground transition hover:bg-brand-softer hover:text-brand-strong" />
           <div className="mx-4 h-px bg-border" />
           <button
             type="button"
@@ -318,18 +320,26 @@ export function AppShell(props: Props) {
         </main>
       </div>
 
-      {/* Celular: "Crear" siempre a mano, flotando abajo a la derecha. SPEC-0013 RN-11: nada más
-          flota abajo, así que no aparece donde la página ya tiene su barra inferior (el recurso). */}
+      {/* Bloque 7 de usabilidad: en el celular, barra inferior con Inicio · Mis cursos · Crear ·
+          Mis recursos (reemplaza el botón flotante "Crear"). SPEC-0013 RN-11: no aparece donde la
+          página ya tiene su barra inferior (el recurso) ni dentro del asistente de crear. */}
       {access.isTeacher &&
         !sidebarOpen &&
         !OWN_BOTTOM_BAR.test(pathname) &&
         !CREATING.test(pathname) && (
-          <div
-            data-floating="create"
-            className="fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-30 lg:hidden"
+          <nav
+            aria-label="Navegación principal"
+            data-floating="tab-bar"
+            className="fixed inset-x-0 bottom-0 z-30 flex items-end justify-around border-t border-border bg-card/95 px-2 pt-1 pb-[calc(0.25rem+env(safe-area-inset-bottom))] shadow-lift backdrop-blur lg:hidden"
           >
-            <CreateMenu floating courseId={/^\/courses\/([^/]+)/.exec(pathname)?.[1] ?? null} />
-          </div>
+            {TAB_BAR.left.map((item) => (
+              <TabLink key={item.href} item={item} active={isActive(item, pathname)} />
+            ))}
+            <CreateMenu tab courseId={/^\/courses\/([^/]+)/.exec(pathname)?.[1] ?? null} />
+            {TAB_BAR.right.map((item) => (
+              <TabLink key={item.href} item={item} active={isActive(item, pathname)} />
+            ))}
+          </nav>
         )}
 
       <Dialog open={confirmLogout} onOpenChange={setConfirmLogout}>
@@ -351,5 +361,22 @@ export function AppShell(props: Props) {
 
       <TutorialDialog open={tutorialOpen} onOpenChange={setTutorialOpen} />
     </div>
+  );
+}
+
+function TabLink({ item, active }: { item: NavItem; active: boolean }) {
+  const Icon = item.icon;
+  return (
+    <Link
+      href={item.href}
+      aria-current={active ? "page" : undefined}
+      className={cn(
+        "flex min-h-14 min-w-16 flex-col items-center justify-center gap-0.5 rounded-2xl text-[11px] font-semibold",
+        active ? "text-brand-strong" : "text-muted-foreground hover:text-foreground",
+      )}
+    >
+      <Icon className="size-6" aria-hidden />
+      {item.label}
+    </Link>
   );
 }

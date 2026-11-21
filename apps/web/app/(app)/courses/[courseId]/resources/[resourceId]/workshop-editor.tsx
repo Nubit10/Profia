@@ -366,7 +366,11 @@ export function WorkshopEditor({
             {moment.activities.map((a) => {
               const label = `Actividad ${numbers.get(a.id)}`;
               return (
-                <li key={a.id} className="flex flex-col gap-3 rounded-lg border p-4">
+                <li
+                  key={a.id}
+                  data-item={a.id}
+                  className="flex flex-col gap-3 rounded-lg border p-4"
+                >
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-sm text-muted-foreground">{label}</span>
                     <Button

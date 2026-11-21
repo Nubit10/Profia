@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   HiOutlineArchiveBox,
   HiOutlineBars3BottomLeft,
@@ -11,6 +11,7 @@ import {
   HiOutlineDocumentDuplicate,
   HiOutlineEllipsisHorizontal,
   HiOutlineExclamationTriangle,
+  HiOutlineUserGroup,
 } from "react-icons/hi2";
 import { sileo } from "sileo";
 import { AiAvatar } from "@/components/brand/ai-avatar";
@@ -25,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { ActionResult } from "@/lib/action-result";
+import type { DocModel } from "@/modules/documents/client";
 import { hasAnswerSheet } from "@/modules/documents/client";
 import {
   RESOURCE_TYPE_LABELS,
@@ -38,7 +40,12 @@ import {
   type WorkshopContent,
 } from "@/modules/resources/client";
 import { useRun } from "../../planning/use-run";
+import { DocPreview } from "@/components/documents/doc-preview";
+import { AdjustBar, type AdjustActions } from "./adjust-bar";
+import { UseInGroups, type UseInGroupsActions } from "./use-in-groups";
 import { Downloads } from "./downloads";
+import { SharePrint } from "./share-print";
+import { StatusHint } from "./status-hint";
 import { ExamEditor } from "./exam-editor";
 import { GradingScalePanel } from "./grading-scale";
 import { LessonPlanEditor } from "./lesson-plan-editor";
@@ -54,28 +61,30 @@ const FAILURE_MESSAGES = {
   interrupted: "La creación se interrumpió antes de terminar. Intenta de nuevo.",
 } as const;
 
-export type ResourceActions = FeedbackActions & {
-  status: (input: { resourceId: string }) => Promise<ActionResult<{ status: ResourceStatus }>>;
-  retry: (input: { resourceId: string }) => Promise<ActionResult<{ id: string }>>;
-  save: (input: {
-    resourceId: string;
-    version: number;
-    content: unknown;
-  }) => Promise<ActionResult<{ version: number }>>;
-  setStatus: (input: {
-    resourceId: string;
-    status: "READY" | "DRAFT" | "ARCHIVED" | "RESTORE";
-  }) => Promise<ActionResult>;
-  duplicate: (input: { resourceId: string }) => Promise<ActionResult<{ id: string }>>;
-  /** Crear otro recurso del mismo tema con un toque (SPEC-0014 RN-07). */
-  quickCreate: (input: QuickResourceRequest) => Promise<ActionResult<{ id: string }>>;
-  /** SPEC-0011 RN-14: escala de notas de la clave del examen. */
-  gradingScale: (input: {
-    resourceId: string;
-    passingGrade: number;
-    passingPoints: number | null;
-  }) => Promise<ActionResult>;
-};
+export type ResourceActions = FeedbackActions &
+  AdjustActions &
+  UseInGroupsActions & {
+    status: (input: { resourceId: string }) => Promise<ActionResult<{ status: ResourceStatus }>>;
+    retry: (input: { resourceId: string }) => Promise<ActionResult<{ id: string }>>;
+    save: (input: {
+      resourceId: string;
+      version: number;
+      content: unknown;
+    }) => Promise<ActionResult<{ version: number }>>;
+    setStatus: (input: {
+      resourceId: string;
+      status: "READY" | "DRAFT" | "ARCHIVED" | "RESTORE";
+    }) => Promise<ActionResult>;
+    duplicate: (input: { resourceId: string }) => Promise<ActionResult<{ id: string }>>;
+    /** Crear otro recurso del mismo tema con un toque (SPEC-0014 RN-07). */
+    quickCreate: (input: QuickResourceRequest) => Promise<ActionResult<{ id: string }>>;
+    /** SPEC-0011 RN-14: escala de notas de la clave del examen. */
+    gradingScale: (input: {
+      resourceId: string;
+      passingGrade: number;
+      passingPoints: number | null;
+    }) => Promise<ActionResult>;
+  };
 
 /** ADR-0008 §3: mientras se genera, la página consulta el estado cada pocos segundos. */
 function useGenerationPolling(
@@ -94,7 +103,16 @@ function useGenerationPolling(
   }, [active, check, resourceId, router]);
 }
 
-function Editor({ resource, actions }: { resource: ResourceDetail; actions: ResourceActions }) {
+function Editor({
+  resource,
+  actions,
+  toolbar = null,
+}: {
+  resource: ResourceDetail;
+  actions: ResourceActions;
+  /** SPEC-0029: el selector Hoja | Editar, en la fila de "Vista compacta". */
+  toolbar?: React.ReactNode;
+}) {
   const router = useRouter();
   const initial = resource.data!;
   const [content, setContent] = useState(initial.content);
@@ -146,7 +164,8 @@ function Editor({ resource, actions }: { resource: ResourceDetail; actions: Reso
   return (
     <div className="flex flex-col gap-6" data-compact={compact || undefined}>
       {/* SPEC-0013 CA-0013-17: vista compacta, solo enunciados y títulos, para recorrer rápido. */}
-      <div className="flex justify-end">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        {toolbar ?? <span />}
         <Button
           type="button"
           variant="outline"
@@ -275,9 +294,15 @@ function GenerationProgress({ type }: { type: ResourceDetail["type"] }) {
 export function ResourceView({
   resource,
   actions,
+  adjustmentPreview = null,
+  sheet = null,
 }: {
   resource: ResourceDetail;
   actions: ResourceActions;
+  /** SPEC-0027: la propuesta de un ajuste, dibujada como el documento que se imprime. */
+  adjustmentPreview?: DocModel | null;
+  /** SPEC-0029: la hoja como se imprime, con y sin las respuestas marcadas. */
+  sheet?: { withAnswers: DocModel; student: DocModel } | null;
 }) {
   const router = useRouter();
   const { run, isPending } = useRun();
@@ -289,6 +314,53 @@ export function ResourceView({
   };
   useGenerationPolling(resource.id, resource.status === "GENERATING", actions.status);
   const hasContent = !!resource.data;
+  const [groupsOpen, setGroupsOpen] = useState(false);
+  // SPEC-0029: lo primero es la hoja como se imprime; "Editar" abre el editor en esa parte.
+  const [view, setView] = useState<"sheet" | "edit">(sheet ? "sheet" : "edit");
+  const [answers, setAnswers] = useState(true);
+  const focusItem = useRef<string | null>(null);
+  useEffect(() => {
+    const id = focusItem.current;
+    if (view !== "edit" || !id) return;
+    focusItem.current = null;
+    const item = document.querySelector<HTMLElement>(`[data-item="${CSS.escape(id)}"]`);
+    if (!item) return;
+    item.scrollIntoView({ block: "start" });
+    const edit = [...item.querySelectorAll("button")].find(
+      (b) => b.textContent?.trim() === "Editar",
+    );
+    edit?.click();
+  }, [view]);
+  const hasAnswers = resource.type === "QUIZ" || resource.type === "EXAM";
+  // SPEC-0029: Hoja | Editar. En "Editar" va en la misma fila que "Vista compacta".
+  const viewSwitch = (
+    <div
+      role="group"
+      aria-label="Cómo ver el recurso"
+      className="inline-flex rounded-full border border-border bg-card p-1"
+    >
+      {(
+        [
+          ["sheet", "Hoja"],
+          ["edit", "Editar"],
+        ] as const
+      ).map(([value, text]) => (
+        <button
+          key={value}
+          type="button"
+          aria-pressed={view === value}
+          onClick={() => setView(value)}
+          className={
+            view === value
+              ? "min-h-11 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground"
+              : "min-h-11 rounded-full px-5 text-sm font-medium text-muted-foreground hover:text-foreground"
+          }
+        >
+          {text}
+        </button>
+      ))}
+    </div>
+  );
   const label = RESOURCE_TYPE_LABELS[resource.type].toLowerCase();
 
   const duplicate = async () => {
@@ -384,6 +456,21 @@ export function ResourceView({
                 return true;
               }}
             />
+            {/* Bloque 5 de usabilidad: imprimir (escritorio) y compartir por WhatsApp (celular). */}
+            <SharePrint
+              variant="print"
+              courseId={resource.courseId}
+              resourceId={resource.id}
+              version={resource.version}
+              title={resource.title}
+            />
+            <SharePrint
+              variant="share"
+              courseId={resource.courseId}
+              resourceId={resource.id}
+              version={resource.version}
+              title={resource.title}
+            />
             <DropdownMenu>
               <DropdownMenuTrigger
                 aria-label="Más acciones"
@@ -392,6 +479,11 @@ export function ResourceView({
                 <HiOutlineEllipsisHorizontal className="size-5" aria-hidden />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
+                {/* SPEC-0028: el mismo recurso en los otros grupos, sin gastar cupo. */}
+                <DropdownMenuItem disabled={isPending} onClick={() => setGroupsOpen(true)}>
+                  <HiOutlineUserGroup aria-hidden />
+                  Usar también en…
+                </DropdownMenuItem>
                 <DropdownMenuItem disabled={isPending} onClick={duplicate}>
                   <HiOutlineDocumentDuplicate aria-hidden />
                   Duplicar
@@ -413,6 +505,15 @@ export function ResourceView({
           </div>
         )}
       </div>
+
+      {hasContent && (
+        <UseInGroups
+          resourceId={resource.id}
+          open={groupsOpen}
+          onOpenChange={setGroupsOpen}
+          actions={actions}
+        />
+      )}
 
       {resource.status === "GENERATING" && <GenerationProgress type={resource.type} />}
 
@@ -491,8 +592,50 @@ export function ResourceView({
               asignatura no tiene DBA en el catálogo.
             </p>
           )}
-          {/* La clave fuerza a reiniciar el borrador local cuando llega una versión nueva. */}
-          <Editor key={resource.version} resource={resource} actions={actions} />
+          {/* SPEC-0027: mientras hay una propuesta sin decidir, se ve la propuesta. */}
+          {resource.adjustment?.status !== "PROPOSED" && (
+            <>
+              {sheet && view === "sheet" && (
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  {viewSwitch}
+                  {hasAnswers && (
+                    <label className="flex min-h-11 cursor-pointer items-center gap-2 text-sm">
+                      <input
+                        type="checkbox"
+                        className="size-5 accent-primary"
+                        checked={answers}
+                        onChange={(e) => setAnswers(e.target.checked)}
+                      />
+                      Marcar las respuestas
+                    </label>
+                  )}
+                </div>
+              )}
+              {sheet && view === "sheet" ? (
+                <DocPreview
+                  model={answers && hasAnswers ? sheet.withAnswers : sheet.student}
+                  onEdit={(itemId) => {
+                    focusItem.current = itemId;
+                    setView("edit");
+                  }}
+                />
+              ) : (
+                // La clave fuerza a reiniciar el borrador local cuando llega una versión nueva.
+                <Editor
+                  key={resource.version}
+                  resource={resource}
+                  actions={actions}
+                  toolbar={sheet && resource.canEdit ? viewSwitch : null}
+                />
+              )}
+            </>
+          )}
+          {/* Bloque 8 de usabilidad: qué es "Borrador" y "Listo", la primera vez. */}
+          <StatusHint />
+          {/* SPEC-0027: debajo del recurso, como "pídeselo de otra forma". */}
+          {resource.canEdit && (
+            <AdjustBar resource={resource} preview={adjustmentPreview} actions={actions} />
+          )}
           {resource.data?.type === "EXAM" && resource.gradingScale && (
             <GradingScalePanel
               resourceId={resource.id}

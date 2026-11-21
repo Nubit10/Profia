@@ -930,14 +930,21 @@ export const itemFeedbackSchema = z.object({
   comment: z.string().trim().max(500).nullable(),
 });
 
-export const regenerateSchema = z.object({
-  itemKey: z.string().min(1).max(40),
-  instruction: z
-    .string()
-    .trim()
-    .min(3, "Escribe qué quieres cambiar")
-    .max(300, "Máximo 300 caracteres"),
-});
+/** SPEC-0027: una ficha (código fijo) o, escondida detrás de "Otra indicación…", texto libre. */
+export const regenerateSchema = z.union([
+  z.object({
+    itemKey: z.string().min(1).max(40),
+    instruction: z
+      .string()
+      .trim()
+      .min(3, "Escribe qué quieres cambiar")
+      .max(300, "Máximo 300 caracteres"),
+  }),
+  z.object({
+    itemKey: z.string().min(1).max(40),
+    adjustment: z.enum(["EASIER", "ANOTHER", "CLEARER"]),
+  }),
+]);
 
 /** SPEC-0014 RN-07: recurso con un toque desde la planeación (valores recomendados del grado). */
 export const quickResourceSchema = z.discriminatedUnion("type", [

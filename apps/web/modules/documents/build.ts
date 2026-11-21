@@ -27,6 +27,11 @@ export type ExportContext = {
   logo?: DocLogo | null;
   /** Nombre de la institución para la línea superior. */
   institution?: string;
+  /**
+   * Solo la vista en pantalla: la hoja del estudiante con la respuesta correcta marcada. Los
+   * documentos que se descargan nunca la llevan (RN-02 de SPEC-0009).
+   */
+  showAnswers?: boolean;
   /** Valor de cada origen de campo, para el encabezado de un formato propio (SPEC-0010). */
   values?: Partial<Record<FieldSource, string>>;
 };
@@ -112,10 +117,13 @@ export function buildQuiz(
     blocks.push({
       kind: "question",
       number: i + 1,
+      itemId: q.id,
       ...saberParts(q),
       stem: q.stem,
-      // RN-02: en la hoja del estudiante no se marca la correcta.
-      options: optionsOf(q).map(({ label, text }) => ({ label, text })),
+      // RN-02: en la hoja del estudiante no se marca la correcta (salvo en la vista en pantalla).
+      options: optionsOf(q).map(({ label, text, correct }) =>
+        ctx.showAnswers ? { label, text, correct } : { label, text },
+      ),
       inline: q.type === "TRUE_FALSE",
       answerLines: q.type === "SHORT_ANSWER" ? 3 : 0,
     }),
@@ -169,6 +177,7 @@ function activityBlock(a: Activity, n: number, ctx: ExportContext, teacher: bool
     : [];
   return {
     kind: "activity",
+    itemId: a.id,
     title: `Actividad ${n}. ${a.title} (${a.durationMinutes} min)`,
     instructions: a.instructions,
     extras: udlLines(a, teacher),

@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
-import { choose, signUpIndependentTeacher } from "./helpers";
+import { choose, signUpIndependentTeacher, openEditor } from "./helpers";
 
 // Prueba de usabilidad con docentes (2026-11-20): lo que encontró el recorrido de una profesora nueva
 // en el celular, para que no vuelva. AI Engine de prueba.
@@ -39,6 +39,7 @@ test("usabilidad: crear sin estorbos y lo siguiente del mismo tema con un toque"
   // "Crear quiz" desde el taller: un toque y abre el quiz del mismo tema.
   await next.getByRole("button", { name: "Crear quiz" }).click();
   await expect(page.getByRole("heading", { name: "Quiz: Fracciones" })).toBeVisible();
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   const first = page.getByRole("list", { name: "Preguntas" }).locator(":scope > li").first();
   await first.getByRole("button", { name: "Editar" }).click({ timeout: 30_000 });
   // Marcar la opción correcta tiene un área cómoda para el dedo (44 px).

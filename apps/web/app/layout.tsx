@@ -44,12 +44,20 @@ export const viewport: Viewport = {
   themeColor: BRAND_COLOR,
 };
 
+/** Letra más grande (preferencia del dispositivo), antes de pintar para que no salte. */
+const TEXT_SIZE_SCRIPT = `try{if(localStorage.getItem("profe:letra")==="grande")document.documentElement.dataset.letra="grande"}catch(e){}`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="es"
       className={`${jakarta.variable} ${fraunces.variable} ${geistMono.variable} h-full antialiased`}
+      // Bloque 8 de usabilidad: "Letra más grande" se aplica antes de pintar (ver TEXT_SIZE_SCRIPT).
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: TEXT_SIZE_SCRIPT }} />
+      </head>
       <body className="flex min-h-full flex-col bg-background">
         {children}
         <AppToaster />

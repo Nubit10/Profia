@@ -12,6 +12,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from ..config import ENGINE_DIR
 from ..providers.llm import DATA_END, DATA_START, LLM, Message
+from .adjust import ItemAdjustCode, ResourceAdjust, apply_adjust
 from .mathcheck import (
     MATH_CHECK_VERSION,
     AnswerCheck,
@@ -123,6 +124,8 @@ class ResourceContext(BaseModel):
     notes: str | None = Field(default=None, max_length=500)
     # RN-07: indicaciones de mejora que el docente guardó como preferencia.
     preferences: list[Text] = Field(default_factory=list, max_length=5)
+    # SPEC-0027: ajuste rápido del recurso completo (código fijo + versión actual).
+    adjust: ResourceAdjust | None = None
 
 
 def _check_distribution(distribution: dict[str, int]) -> None:
@@ -340,7 +343,9 @@ class ItemRequest(ResourceContext):
 
     kind: Literal["QUIZ_QUESTION", "WORKSHOP_ACTIVITY"]
     current: QuizQuestion | Activity
-    instruction: str = Field(min_length=3, max_length=300)
+    # SPEC-0027: con `adjust` (código fijo) la indicación escrita no hace falta.
+    instruction: str | None = Field(default=None, min_length=3, max_length=300)
+    adjust: ItemAdjustCode | None = None  # type: ignore[assignment]
     durationMinutes: int = Field(ge=15, le=180)  # noqa: N815
     # Quiz: tipos permitidos. Taller: momento al que pertenece la actividad.
     questionTypes: list[QuestionType] = Field(default_factory=list, max_length=3)  # noqa: N815
@@ -357,6 +362,8 @@ class ItemRequest(ResourceContext):
             raise ValueError("`current` no corresponde a `kind`")
         if is_question and not self.questionTypes:
             raise ValueError("Faltan los tipos de pregunta permitidos")
+        if not self.instruction and not self.adjust:
+            raise ValueError("Falta la indicación o el ajuste")
         return self
 
 
@@ -437,7 +444,10 @@ def build_quiz_messages(request: QuizRequest) -> list[Message]:
     if request.saber:
         data |= saber_data(request.subject)
         system = f"{system}\n{SABER_PROMPT}"
-    return _messages(system, f"Elabora un quiz de exactamente {request.itemCount} preguntas.", data)
+    return apply_adjust(
+        _messages(system, f"Elabora un quiz de exactamente {request.itemCount} preguntas.", data),
+        request.adjust,
+    )
 
 
 def build_workshop_messages(request: WorkshopRequest) -> list[Message]:
@@ -462,11 +472,14 @@ def build_workshop_messages(request: WorkshopRequest) -> list[Message]:
     if request.udl:
         data["enfoqueDUA"] = True
         system = f"{system}\n{UDL_PROMPT}"
-    return _messages(
-        system,
-        f"Elabora un taller con exactamente {request.itemCount} actividades en total"
-        + (", con enfoque DUA." if request.udl else "."),
-        data,
+    return apply_adjust(
+        _messages(
+            system,
+            f"Elabora un taller con exactamente {request.itemCount} actividades en total"
+            + (", con enfoque DUA." if request.udl else "."),
+            data,
+        ),
+        request.adjust,
     )
 
 
@@ -492,6 +505,8 @@ def build_item_messages(request: ItemRequest) -> list[Message]:
     if wants_saber(request):
         data |= saber_data(request.subject)
         system = f"{system}\n{SABER_PROMPT}"
+    if request.adjust:
+        return apply_adjust(_messages(system, f"Reescribe {noun}.", data), request.adjust)
     return _messages(system, f"Reescribe {noun} siguiendo la indicación del docente.", data)
 
 

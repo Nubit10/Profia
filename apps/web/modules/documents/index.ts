@@ -6,6 +6,7 @@ export {
   exportBundle,
   exportPiar,
   exportResource,
+  previewResource,
   type BundleRequest,
   type ExportRequest,
   type ExportedFile,

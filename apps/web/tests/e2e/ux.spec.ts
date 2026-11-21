@@ -2,7 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { Pool } from "pg";
 import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
-import { choose, logout, signUpIndependentTeacher, signUpSchoolAdmin } from "./helpers";
+import { choose, logout, signUpIndependentTeacher, signUpSchoolAdmin, openEditor } from "./helpers";
 
 // SPEC-0012: rediseño visual y de UX. Recorridos del docente, accesibilidad y reglas de diseño.
 
@@ -213,6 +213,7 @@ test("CA-0012-03/04/05/07/26: el Inicio guía al docente y crea su primer taller
   await click(page.getByRole("button", { name: "Generar taller" }));
   await expect(page).toHaveURL(/\/resources\/[a-z0-9]+$/);
   expect(clicks).toBeLessThanOrEqual(4);
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   await expect(page.getByRole("heading", { name: "1. Inicio" })).toBeVisible({ timeout: 30_000 });
   await checkScreen(page, "recurso");
 

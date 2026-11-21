@@ -173,7 +173,16 @@ export type EngineResourceContext = {
   difficulty: "BASIC" | "INTERMEDIATE" | "ADVANCED";
   notes: string | null;
   preferences: string[];
+  /** SPEC-0027: ajuste rápido del recurso completo (código fijo + versión actual). */
+  adjust?: EngineAdjust;
 };
+
+/** SPEC-0027: códigos fijos; el texto que lee la IA vive en el anexo `adjust.v1`. */
+export type EngineAdjust = {
+  code: "EASIER" | "HARDER" | "SHORTER" | "EVERYDAY_EXAMPLES" | "ADD_ITEMS";
+  current: unknown;
+};
+export type EngineItemAdjust = "EASIER" | "ANOTHER" | "CLEARER";
 
 type Distribution = Partial<Record<z.infer<typeof level>, number>>;
 
@@ -197,10 +206,12 @@ export type EngineWorkshopRequest = EngineResourceContext & {
   udl?: boolean;
 };
 
-export type EngineItemRequest = EngineResourceContext & {
+export type EngineItemRequest = Omit<EngineResourceContext, "adjust"> & {
   kind: "QUIZ_QUESTION" | "WORKSHOP_ACTIVITY";
   current: EngineQuestion | EngineActivity;
-  instruction: string;
+  /** SPEC-0027: con `adjust` la indicación escrita va en null. */
+  instruction: string | null;
+  adjust?: EngineItemAdjust;
   durationMinutes: number;
   questionTypes: z.infer<typeof questionType>[];
   moment: string | null;
@@ -382,12 +393,15 @@ export type EngineExamRequest = EngineExamContext & {
   cognitiveDistribution: Distribution;
   /** SPEC-0023: secciones de selección múltiple tipo Saber. */
   saber?: boolean;
+  /** SPEC-0027: solo Más fácil, Más difícil y Vida diaria (los puntos no cambian). */
+  adjust?: EngineAdjust;
 };
 
 export type EngineExamItemRequest = EngineExamContext & {
   current: EngineExamQuestion;
   points: number;
-  instruction: string;
+  instruction: string | null;
+  adjust?: EngineItemAdjust;
   otherItems: string[];
 };
 

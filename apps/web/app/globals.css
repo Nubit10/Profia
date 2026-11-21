@@ -190,6 +190,10 @@
   html {
     @apply font-sans;
   }
+  /* Bloque 8 de usabilidad: letra más grande para quien la necesite (todo va en rem). */
+  html[data-letra="grande"] {
+    font-size: 112.5%;
+  }
   h1,
   h2,
   h3 {

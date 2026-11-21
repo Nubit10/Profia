@@ -68,28 +68,50 @@ type Props = {
   className?: string;
   /** Botón flotante redondo en el celular (SPEC-0012 §2.1). */
   floating?: boolean;
+  /** Bloque 7 de usabilidad: botón central de la barra inferior del celular. */
+  tab?: boolean;
   /** Dentro de un curso, el asistente abre con ese curso ya elegido. */
   courseId?: string | null;
 };
 
 /** Botón "Crear": la acción primaria del área de trabajo (SPEC-0012 §2.1). */
-export function CreateMenu({ onNavigate, className, floating = false, courseId }: Props) {
+export function CreateMenu({
+  onNavigate,
+  className,
+  floating = false,
+  tab = false,
+  courseId,
+}: Props) {
   const router = useRouter();
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        className={cn(
-          buttonVariants({ variant: "brand", size: floating ? "xl" : "lg" }),
-          floating ? "rounded-full px-5" : "w-full",
-          className,
-        )}
-      >
-        <HiPlus className="size-5" aria-hidden />
-        Crear
-      </DropdownMenuTrigger>
+      {tab ? (
+        <DropdownMenuTrigger
+          className={cn(
+            "flex min-h-14 min-w-16 flex-col items-center justify-center gap-0.5 rounded-2xl text-[11px] font-semibold text-brand-strong focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
+            className,
+          )}
+        >
+          <span className="flex size-9 items-center justify-center rounded-full bg-brand-gradient text-white shadow-lift">
+            <HiPlus className="size-5" aria-hidden />
+          </span>
+          Crear
+        </DropdownMenuTrigger>
+      ) : (
+        <DropdownMenuTrigger
+          className={cn(
+            buttonVariants({ variant: "brand", size: floating ? "xl" : "lg" }),
+            floating ? "rounded-full px-5" : "w-full",
+            className,
+          )}
+        >
+          <HiPlus className="size-5" aria-hidden />
+          Crear
+        </DropdownMenuTrigger>
+      )}
       <DropdownMenuContent
-        align={floating ? "end" : "start"}
-        side={floating ? "top" : "bottom"}
+        align={floating ? "end" : tab ? "center" : "start"}
+        side={floating || tab ? "top" : "bottom"}
         className="w-64"
       >
         <DropdownMenuGroup>

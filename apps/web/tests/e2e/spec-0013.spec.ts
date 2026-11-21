@@ -3,7 +3,14 @@ import { readFileSync } from "node:fs";
 import JSZip from "jszip";
 import { Pool } from "pg";
 import { expect, newDeviceContext, test } from "./fixtures";
-import { PASSWORD, choose, download, signUpIndependentTeacher, uniqueEmail } from "./helpers";
+import {
+  PASSWORD,
+  choose,
+  download,
+  signUpIndependentTeacher,
+  uniqueEmail,
+  openEditor,
+} from "./helpers";
 
 // SPEC-0013: Profe más fácil, hecho para el celular e instalable.
 
@@ -123,14 +130,21 @@ test("CA-0013-02/03/04: Primeros pasos guía de la cuenta nueva a la primera des
   await createCourseFromFirstSteps(page);
   await expect(steps).toContainText("1 de 4 listos");
 
-  // CA-0013-04: el primer tema se escribe dentro del asistente; 3 clics hasta generar.
+  // SPEC-0032 (antes CA-0013-04): con DBA, Profe propone los temas del primer periodo y el docente
+  // solo los acepta; luego el primer taller sale en 2 clics.
+  await steps.getByRole("link", { name: "Ver los temas propuestos" }).click();
+  const add = page.getByRole("button", { name: /Agregar a la planeación/ });
+  await expect(add).toBeVisible({ timeout: 60_000 });
+  await add.click();
+  // Al aceptar vuelve al Inicio, donde sigue "Crear mi primer taller".
+  await expect(page).toHaveURL(/\/dashboard$/);
+  await expect(steps).toContainText("2 de 4 listos");
   const counter = clickCounter();
-  await counter.click(steps.getByRole("link", { name: "Escribir mi primer tema" }));
-  await page.getByLabel(/tema vas a trabajar/).fill("La recta numérica");
-  await counter.click(page.getByRole("button", { name: "Usar este tema" }));
+  await counter.click(steps.getByRole("link", { name: "Crear mi primer taller" }));
   await counter.click(page.getByRole("button", { name: "Generar taller" }));
   await expect(page).toHaveURL(/\/resources\/[a-z0-9]+$/);
   expect(counter.count).toBeLessThanOrEqual(3);
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   await expect(page.getByRole("heading", { name: "1. Inicio" })).toBeVisible({ timeout: 30_000 });
 
   await page.getByRole("link", { name: "Inicio" }).click();
@@ -340,6 +354,7 @@ async function generatedQuiz(page: Page) {
   await page.getByLabel(/tema vas a trabajar/).fill("La recta numérica");
   await page.getByRole("button", { name: "Usar este tema" }).click();
   await page.getByRole("button", { name: "Generar quiz" }).click();
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   const questions = page.getByRole("list", { name: "Preguntas" }).locator(":scope > li");
   await expect(questions.first()).toBeVisible({ timeout: 30_000 });
   return { user, questions };
@@ -357,7 +372,10 @@ test("CA-0013-13: 'Listo' guarda el cambio de una pregunta en 2 clics", async ({
   // No queda nada por guardar.
   await expect(page.getByRole("button", { name: "Guardar cambios" })).toHaveCount(0);
   await page.reload();
-  await expect(questions.nth(0)).toContainText("¿Qué número está más a la izquierda?");
+  // SPEC-0029: al volver, el recurso abre en la hoja, ya con el cambio.
+  await expect(page.getByTestId("doc-preview")).toContainText(
+    "¿Qué número está más a la izquierda?",
+  );
 });
 
 test("CA-0013-14: hoja y clave en PDF con 2 versiones bajan en un .zip en 3 clics", async ({

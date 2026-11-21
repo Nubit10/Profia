@@ -13,16 +13,22 @@ import {
   regenerateSchema,
   resourceRatingSchema,
 } from "./schemas";
+import { decideAdjustmentSchema, requestAdjustmentSchema } from "./adjustments";
 import {
   addPreference,
   createResource,
+  copyResourceToCourses,
+  decideAdjustment,
   decideRegeneration,
   deletePreference,
   duplicateResource,
+  getAdjustmentStatus,
   getResourceStatus,
+  listResourceCopyTargets,
   rateItem,
   rateResource,
   regenerateItem,
+  requestAdjustment,
   retryResource,
   saveResourceContent,
   setGradingScale,
@@ -114,10 +120,43 @@ export async function regenerateItemAction(
 ): Promise<ActionResult<RegenerateResult>> {
   return runAction(
     "regenerate_item",
-    regenerateSchema.extend({ resourceId: id }),
+    z.intersection(regenerateSchema, z.object({ resourceId: id })),
     input,
-    async ({ resourceId, itemKey, instruction }) =>
-      regenerateItem(await requireTenant(), resourceId, itemKey, instruction),
+    async (data) =>
+      regenerateItem(
+        await requireTenant(),
+        data.resourceId,
+        data.itemKey,
+        "adjustment" in data ? { adjustment: data.adjustment } : data.instruction,
+      ),
+  );
+}
+
+/** SPEC-0027: ajuste rápido del recurso completo con un botón. */
+export async function requestAdjustmentAction(
+  input: unknown,
+): Promise<ActionResult<{ id: string }>> {
+  return runAction("request_adjustment", requestAdjustmentSchema, input, async (data) =>
+    requestAdjustment(await requireTenant(), data.resourceId, data.adjustment),
+  );
+}
+
+export async function decideAdjustmentAction(
+  input: unknown,
+): Promise<ActionResult<{ version: number }>> {
+  return runAction("decide_adjustment", decideAdjustmentSchema, input, async (data) =>
+    decideAdjustment(await requireTenant(), data.adjustmentId, data.accept),
+  );
+}
+
+export async function adjustmentStatusAction(
+  input: unknown,
+): Promise<ActionResult<{ status: string }>> {
+  return runAction(
+    "adjustment_status",
+    z.object({ adjustmentId: id }),
+    input,
+    async ({ adjustmentId }) => getAdjustmentStatus(await requireTenant(), adjustmentId),
   );
 }
 
@@ -217,5 +256,30 @@ export async function declinePreferenceSuggestionAction(input: unknown): Promise
     z.object({ suggestionId: id }),
     input,
     async ({ suggestionId }) => declinePreferenceSuggestion(await requireTenant(), suggestionId),
+  );
+}
+
+/** SPEC-0028: cursos donde se puede usar el recurso (misma asignatura y grado). */
+export async function resourceCopyTargetsAction(
+  input: unknown,
+): Promise<ActionResult<{ id: string; label: string }[]>> {
+  return runAction(
+    "resource_copy_targets",
+    z.object({ resourceId: id }),
+    input,
+    async ({ resourceId }) => listResourceCopyTargets(await requireTenant(), resourceId),
+  );
+}
+
+/** SPEC-0028: usar el recurso en otros grupos, sin gastar cupo. */
+export async function copyResourceToCoursesAction(
+  input: unknown,
+): Promise<ActionResult<{ courseId: string; resourceId: string; createdTopic: boolean }[]>> {
+  return runAction(
+    "copy_resource_to_courses",
+    z.object({ resourceId: id, courseIds: z.array(id).min(1).max(12) }),
+    input,
+    async ({ resourceId, courseIds }) =>
+      copyResourceToCourses(await requireTenant(), resourceId, courseIds),
   );
 }

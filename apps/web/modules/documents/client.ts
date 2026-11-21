@@ -2,3 +2,4 @@
 export { VARIANTS, type Variant } from "./shuffle";
 export { hasAnswerSheet } from "./build-exam";
 export type { OfflineEntry, OfflineFile } from "./offline";
+export type { DocBlock, DocFigure, DocModel, DocOption } from "./model";

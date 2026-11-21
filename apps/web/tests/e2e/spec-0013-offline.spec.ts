@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
-import { choose, logout, signUpIndependentTeacher } from "./helpers";
+import { choose, logout, signUpIndependentTeacher, openEditor } from "./helpers";
 
 // SPEC-0013 RN-14: todos los recursos generados, disponibles sin conexión en este dispositivo.
 
@@ -114,6 +114,7 @@ test("CA-0013-37/38/39/41: se guardan al aceptar, se descargan sin red y se mant
 
   // CA-0013-39: editar guarda la versión 2 y se actualiza; archivar lo quita del dispositivo.
   await page.goto(quizUrl);
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   const first = page.getByRole("list", { name: "Preguntas" }).locator(":scope > li").first();
   await first.getByRole("button", { name: "Editar" }).click();
   await first.getByLabel("Enunciado").fill("¿Qué número está más a la izquierda?");

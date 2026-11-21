@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { dismissTutorialAction, hasDismissedTutorial } from "@/modules/auth";
 import { createCourseAction, listSubjects } from "@/modules/courses";
 import { listCampuses } from "@/modules/institutions";
-import { getTeacherHome } from "@/modules/resources";
+import { getTeacherHome, quickCreateResourceAction } from "@/modules/resources";
 import { isSchoolAdmin, requireTenant } from "@/modules/tenancy";
 import { AdminHome } from "./admin-home";
 import { TeacherHomeView } from "./teacher-home";
@@ -34,6 +34,7 @@ export default async function DashboardPage() {
       subjects={subjects.map(({ id, name }) => ({ id, name }))}
       campuses={campuses.map(({ id, name }) => ({ id, name }))}
       createCourse={createCourseAction}
+      quickCreate={quickCreateResourceAction}
       dismissTutorial={dismissTutorialAction}
     />
   );

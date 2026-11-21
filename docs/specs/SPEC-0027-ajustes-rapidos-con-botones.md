@@ -1,13 +1,13 @@
 # SPEC-0027 — Ajustes rápidos con botones: «Más fácil», «Más corto»… sin escribir instrucciones
 
-| Campo                    | Valor                                                                                          |
-| ------------------------ | ---------------------------------------------------------------------------------------------- |
-| Estado                   | Borrador                                                                                       |
-| Fase del roadmap         | 6 · Generation (revisión docente) · Transversal de usabilidad                                  |
-| Módulo(s) responsable(s) | `modules/resources` · `modules/generation` · `ai-engine/app/generation` · `ai-engine/prompts`  |
-| Agentes                  | product, architect, ai-engine, backend, frontend, qa, reviewer                                 |
-| ADR relacionados         | ADR-0008 (segundo plano) · **ADR-0020 propuesto: ajustes del recurso completo como propuesta** |
-| Autor / Fecha            | product / 2026-11-20                                                                           |
+| Campo                    | Valor                                                                                         |
+| ------------------------ | --------------------------------------------------------------------------------------------- |
+| Estado                   | Implementada                                                                                  |
+| Fase del roadmap         | 6 · Generation (revisión docente) · Transversal de usabilidad                                 |
+| Módulo(s) responsable(s) | `modules/resources` · `modules/generation` · `ai-engine/app/generation` · `ai-engine/prompts` |
+| Agentes                  | product, architect, ai-engine, backend, frontend, qa, reviewer                                |
+| ADR relacionados         | ADR-0008 (segundo plano) · ADR-0020 (ajustes como propuesta, anexo `adjust.v1`)               |
+| Autor / Fecha            | product / 2026-11-20 (aprobada el 2026-11-21: cupo sí; lo demás, lo recomendado)              |
 
 ## 1. Objetivo
 
@@ -82,8 +82,8 @@ versión ajustada y el docente se queda con ella o vuelve a la anterior con un t
   reemplaza también esas ediciones (se pueden recuperar en el historial de versiones).
 - **RN-06 — Validación.** La propuesta pasa por lo mismo que una generación: schema, validador
   pedagógico, reparación, `quality.v1` y, en Matemáticas, `math_check.v1`. Queda en
-  `generation_logs` con modelo, versión de prompt y el código del ajuste. Se conserva la estructura:
-  mismas claves de ítems cuando el ítem sigue existiendo (para no perder evaluaciones 👍/👎).
+  `generation_logs` con modelo y versión de prompt (`+adjust.v1`); el código queda en el ajuste. Las evaluaciones 👍/👎 de los ítems quedan con la
+  versión anterior.
 - **RN-07 — Estado.** Se puede ajustar un recurso en "Borrador". En "Listo" los botones aparecen, y al
   aceptar la propuesta el recurso vuelve a "Borrador" (es contenido nuevo sin revisar).
 - **RN-08 — Interrupciones.** Un ajuste que lleva más del tiempo de ADR-0008 §5 se marca como
@@ -163,24 +163,22 @@ versión ajustada y el docente se queda con ella o vuelve a la anterior con un t
 
 ## 10. Tareas
 
-- [ ] T1 — ADR-0020: ajustes del recurso completo como propuesta, cupo y contrato aditivo — architect
-- [ ] T2 — Anexo `adjust.v1` y campo `adjust` en las rutas de taller, quiz, examen y plan; validadores;
+- [x] T1 — ADR-0020: ajustes del recurso completo como propuesta, cupo y contrato aditivo — architect
+- [x] T2 — Anexo `adjust.v1` y campo `adjust` en las rutas de taller, quiz, examen y plan; validadores;
       pytest — ai-engine
-- [ ] T3 — Migración `resource_adjustments` (FK compuestas) y cupo que la cuenta — database
-- [ ] T4 — `requestAdjustment`, `decideAdjustment`, ejecución en segundo plano, estado, interrupción;
+- [x] T3 — Migración `resource_adjustments` (FK compuestas) y cupo que la cuenta — database
+- [x] T4 — `requestAdjustment`, `decideAdjustment`, ejecución en segundo plano, estado, interrupción;
       `regenerateItem` con códigos — backend
-- [ ] T5 — Fila "Ajustar", aviso de decisión, fichas por ítem — frontend
-- [ ] T6 — Sugerencias de preferencias con los ajustes (RN-09) — backend
-- [ ] T7 — Tests unitarios, integración (incl. acceso cruzado) y e2e 360 px + axe; recorrido
+- [x] T5 — Fila "Ajustar", aviso de decisión, fichas por ítem — frontend
+- [x] T6 — Sugerencias de preferencias con los ajustes (RN-09) — backend
+- [x] T7 — Tests unitarios, integración (incl. acceso cruzado) y e2e 360 px + axe; recorrido
       `ux:recorrido` con los clics en el informe — qa
-- [ ] T8 — Revisión contra la spec — reviewer
+- [x] T8 — Revisión contra la spec — reviewer
 
-## 11. Preguntas abiertas
+## 11. Decisiones (antes preguntas abiertas)
 
-1. **¿Juntar con el bloque 2** ("Usar el mismo recurso en mis otros grupos", sin gastar cupo) en esta
-   misma spec, o va aparte como la siguiente? Recomendación: aparte, para entregar esto antes.
-2. **Cupo:** ¿el ajuste del recurso completo gasta cupo como una generación (lo propuesto), o se dan
-   algunos ajustes gratis por recurso (p. ej., 2)? Con el plan gratuito de Groq el cupo existe para
-   controlar el gasto, así que la recomendación es cobrarlo.
-3. **Texto libre:** ¿se quita del todo la caja de "Regenerar" en los ítems, o queda escondida detrás de
-   "Otra indicación…" para quien quiera escribir? Recomendación: dejarla escondida.
+Respondidas por el usuario el 2026-11-21:
+
+1. El bloque 2 ("Usar el mismo recurso en mis otros grupos") va en su propia spec.
+2. El ajuste del recurso completo **gasta cupo** como una generación (1; el examen, 2).
+3. El texto libre de "Regenerar" queda escondido detrás de "Otra indicación…".

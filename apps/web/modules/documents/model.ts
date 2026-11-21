@@ -14,6 +14,8 @@ export type DocBlock =
   | {
       kind: "question";
       number: number;
+      /** Ítem del recurso, para "Editar" desde la vista de la hoja (bloque 3 de usabilidad). */
+      itemId?: string;
       /** SPEC-0023: situación de una pregunta tipo Saber, antes del enunciado. */
       context?: string;
       /** SPEC-0023: figura entre la situación y el enunciado. */
@@ -27,6 +29,7 @@ export type DocBlock =
     }
   | {
       kind: "activity";
+      itemId?: string;
       title: string;
       instructions: string;
       /** SPEC-0016: opciones DUA para el estudiante, en texto normal, antes de las líneas. */

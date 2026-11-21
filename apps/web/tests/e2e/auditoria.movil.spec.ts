@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
-import { choose, signUpIndependentTeacher, signUpSchoolAdmin } from "./helpers";
+import { choose, signUpIndependentTeacher, signUpSchoolAdmin, openEditor } from "./helpers";
 
 // Auditoría móvil: cada pantalla de Profe, a 360 px (el teléfono más angosto que soportamos), sin
 // scroll horizontal ni nada que se salga del borde. Con AUDIT_SHOTS=<carpeta> deja una captura de
@@ -149,6 +149,7 @@ test("móvil: el docente, pantalla por pantalla, a 360 px", async ({ page }) => 
   await expect(page.getByRole("button", { name: "Generar taller" })).toBeVisible();
   await check(page, "crear-ajustes-taller");
   await page.getByRole("button", { name: "Generar taller" }).click();
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   await expect(page.getByRole("list", { name: /Actividades|Momentos/ }).first()).toBeVisible({
     timeout: 30_000,
   });
@@ -158,6 +159,7 @@ test("móvil: el docente, pantalla por pantalla, a 360 px", async ({ page }) => 
   await page.goto(courseUrl);
   const firstTopic = (await unit.getByRole("heading", { level: 3 }).first().textContent())!;
   await page.getByRole("button", { name: `Crear quiz de «${firstTopic}»` }).click();
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   await expect(page.getByRole("list", { name: "Preguntas" })).toBeVisible({ timeout: 30_000 });
   await check(page, "recurso-quiz");
   await page.getByRole("button", { name: "Descargar", exact: true }).click();

@@ -1,5 +1,11 @@
 import { expect, test } from "./fixtures";
-import { choose, confirmAndGenerate, download, signUpIndependentTeacher } from "./helpers";
+import {
+  choose,
+  confirmAndGenerate,
+  download,
+  signUpIndependentTeacher,
+  openEditor,
+} from "./helpers";
 import type { Page } from "@playwright/test";
 
 /** Curso de Matemáticas 6° con una unidad, un tema y un objetivo vinculado al DBA 1. */
@@ -52,6 +58,7 @@ test("CA-0008-01/06/07/08/09: generar un quiz, editarlo, regenerar una pregunta 
   await page.getByLabel("Número de preguntas").fill("4");
   await confirmAndGenerate(page, "quiz");
 
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   const questions = page.getByRole("list", { name: "Preguntas" }).locator(":scope > li");
   await expect(questions).toHaveCount(4, { timeout: 30_000 });
   await expect(page.getByText("Borrador", { exact: true })).toBeVisible();
@@ -70,6 +77,8 @@ test("CA-0008-01/06/07/08/09: generar un quiz, editarlo, regenerar una pregunta 
 
   // CA-0008-07: regenerar con una indicación llega como propuesta.
   await questions.nth(1).getByRole("button", { name: "Regenerar" }).click();
+  // SPEC-0027: el texto libre queda detrás de "Otra indicación…".
+  await questions.nth(1).getByRole("button", { name: "Otra indicación…" }).click();
   await questions.nth(1).getByLabel("Qué cambiar en Pregunta 2").fill("Hazla más difícil");
   await questions.nth(1).getByRole("button", { name: "Proponer" }).click();
   await expect(questions.nth(1).getByText("Propuesta de la IA")).toBeVisible();
@@ -135,6 +144,7 @@ test("CA-0008-02/14: el taller usa la estructura que elige el docente", async ({
   await expect(page.getByLabel("Número de actividades")).toHaveValue("4");
   await confirmAndGenerate(page, "taller");
 
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   for (const [i, moment] of [
     "Planteamiento del problema",
     "Investigación",

@@ -63,3 +63,30 @@ Sin desbordes a 360 px ni palabras técnicas en ninguna pantalla.
 - AI Engine: 189 pruebas en verde.
 - Web: 313 unitarias e integración en verde.
 - e2e: 96 en verde (incluye la nueva `usabilidad.movil.spec.ts`, que fija los hallazgos 1–4 y 6).
+
+## Después de los bloques 1–8 (2026-11-21)
+
+Mismo recorrido (`npm run ux:recorrido`), ajustado a los flujos nuevos: los temas los propone Profe
+(SPEC-0032), el recurso abre en la hoja y se edita desde "Editar pregunta 1" (SPEC-0029), "Mis
+recursos" está en la barra de abajo del celular (SPEC-0033). Celular / computador:
+
+| Tarea                     | 2026-11-20 (después)  | 2026-11-21                                                    |
+| ------------------------- | --------------------- | ------------------------------------------------------------- |
+| 1. Crear cuenta y empezar | 3 / 3 clics, 4 campos | igual                                                         |
+| 2. Primer taller          | 9 / 9 clics, 2 campos | 10 / 10 clics, **1 campo**, y el periodo 1 planeado (4 temas) |
+| 3. Descargar              | 2 / 2 clics           | igual                                                         |
+| 4. Quiz del mismo tema    | 1 / 1 clic            | igual                                                         |
+| 5. Corregir una pregunta  | 2 / 2 clics, 1 campo  | igual (desde la hoja)                                         |
+| 6. Plan de aula del tema  | 1 / 1 clic            | igual                                                         |
+| 7. Examen                 | 6 / 5 clics           | 7 / 6 clics                                                   |
+| 8. Encontrar mis recursos | 3 / 1 clics           | **2 / 1 clics**                                               |
+| **Total**                 | **27 / 24 clics**     | **28 / 26 clics, 6 campos (antes 7)**                         |
+
+- El paso 2 suma un clic porque ya no se escribe el tema: se aceptan los que propone Profe, y queda
+  planeado todo el primer periodo (antes, un solo tema).
+- El examen suma un clic porque el curso ahora tiene varios temas y hay que marcar uno.
+- No miden lo que más ahorra: "Usar también en…" (un taller para 3 grupos ya no son 3 generaciones),
+  los ajustes con un toque (antes había que escribir la indicación) y "Para esta semana".
+- Durante el recorrido apareció un error real, ya corregido: en el celular, al aceptar los temas la
+  hoja se cerraba con "Atrás" y deshacía el salto al Inicio (`navigatingFromLayer`; prueba
+  `CA-0032-02` en `usabilidad-bloques.movil.spec.ts`).

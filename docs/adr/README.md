@@ -23,3 +23,4 @@ Una decisión por archivo: `NNNN-titulo-en-kebab-case.md`, a partir de [_templat
 | [0017](0017-verificacion-de-calculos-en-el-ai-engine.md)     | Verificación de cálculos en el AI Engine (evaluador propio, `math_check.v1`)                         | Aceptado  |
 | [0018](0018-figuras-dibujadas-por-codigo.md)                 | Figuras dibujadas por código (SVG propio, PNG con resvg para Word)                                   | Aceptado  |
 | [0019](0019-plan-de-aula-y-escala-de-valoracion.md)          | Plan de aula como tipo de recurso y escala de valoración del espacio                                 | Aceptado  |
+| [0020](0020-ajustes-rapidos-como-propuesta.md)               | Ajustes rápidos del recurso como propuesta (anexo `adjust.v1`)                                       | Aceptado  |

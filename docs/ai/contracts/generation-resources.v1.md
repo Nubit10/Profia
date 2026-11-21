@@ -146,6 +146,21 @@ pregunta de selección múltiple trae `context` (situación), `competency` (del 
 (`NUMBER_LINE`, `BAR_CHART`, `TABLE`, `FRACTION` o `RECTANGLE`) que el producto dibuja. Sin `saber`
 esos campos llegan en `null`.
 
+## Ajustes rápidos (SPEC-0027, ADR-0020)
+
+Campo opcional y aditivo; sin él nada cambia.
+
+- Quiz, taller (y examen y plan de aula en sus contratos): `adjust: { "code": …, "current": … }`.
+  - `code`: `EASIER`, `HARDER`, `SHORTER`, `EVERYDAY_EXAMPLES` o `ADD_ITEMS` (el examen solo admite
+    los tres primeros sin `SHORTER`: `EASIER`, `HARDER`, `EVERYDAY_EXAMPLES`; `422` si no).
+  - `current`: el contenido que el docente tiene hoy, sin identificadores (máx. 40 000 caracteres en
+    JSON). En el examen, cada sección recibe solo `current.sections[i]`.
+  - La cantidad y la dificultad van en `itemCount`, `sessions` y `difficulty` como siempre.
+- `/v1/generation/item` y `/v1/generation/exam/item`: `adjust` es `EASIER`, `ANOTHER` o `CLEARER`
+  y `instruction` puede ir en `null` (una de las dos es obligatoria).
+- El significado de cada código está en `prompts/adjust.v1.md`; `meta.promptVersion` termina en
+  `+adjust.v1`. Nunca viaja texto del docente en un ajuste.
+
 ## Errores (los tres endpoints)
 
 | Código | Cuándo                                    | Qué hace la web                                                |

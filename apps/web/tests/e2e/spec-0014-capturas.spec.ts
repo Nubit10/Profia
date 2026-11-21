@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
-import { choose, signUpIndependentTeacher } from "./helpers";
+import { choose, signUpIndependentTeacher, openEditor } from "./helpers";
 
 // SPEC-0014 T11: capturas "después" del recorrido de §2, con la IA de prueba y en 1366 × 860, más
 // dos en el celular. Solo corre cuando se piden (CAPTURAS=1); las pruebas de cada CA están en
@@ -75,6 +75,7 @@ test("capturas después de SPEC-0014", async ({ page }) => {
   // F-05: quiz con un toque desde el tema; F-04: recursos agrupados.
   const [first] = await unit.getByRole("heading", { level: 3 }).allTextContents();
   await page.getByRole("button", { name: `Crear quiz de «${first}»` }).click();
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   await expect(page.getByRole("list", { name: "Preguntas" })).toBeVisible({ timeout: 30_000 });
   await page.goto(courseUrl);
   await unit.getByRole("button", { name: /^Opciones de unidad/ }).click();

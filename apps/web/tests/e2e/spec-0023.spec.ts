@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
-import { choose, confirmAndGenerate, signUpIndependentTeacher } from "./helpers";
+import { choose, confirmAndGenerate, signUpIndependentTeacher, openEditor } from "./helpers";
 
 // SPEC-0023: el interruptor "Estilo Saber (ICFES)" y la pregunta con situación, competencia y
 // figura en el editor (AI Engine de prueba).
@@ -46,6 +46,7 @@ test("CA-0023-07/08: estilo Saber en Matemáticas: interruptor, situación, comp
   await page.getByRole("checkbox", { name: "Respuesta corta" }).click();
   await confirmAndGenerate(page, "quiz");
 
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   const questions = page.getByRole("list", { name: "Preguntas" }).locator(":scope > li");
   await expect(questions).toHaveCount(4, { timeout: 30_000 });
   const first = questions.first();

@@ -14,7 +14,10 @@ const querySchema = z.object({
   version: z.coerce.number().int().min(1).optional(),
   variant: z.enum(VARIANTS).default("A"),
   /** SPEC-0013 RN-14: el dispositivo guarda el archivo para usarlo sin conexión. */
-  purpose: z.enum(["offline"]).optional(),
+  /** `share`: se prepara el PDF para compartir antes del toque; no es una descarga todavía. */
+  purpose: z.enum(["offline", "share"]).optional(),
+  /** Bloque 5 de usabilidad: "Imprimir" abre el PDF en el navegador en lugar de descargarlo. */
+  inline: z.literal("1").optional(),
 });
 
 /** ADR-0012: la sincronización baja como máximo 30 archivos por minuto por docente. */
@@ -29,8 +32,8 @@ export async function GET(
   if (!query.success) return new Response("Parámetros inválidos", { status: 400 });
 
   const tenant = await requireTenant();
-  const { purpose, ...wanted } = query.data;
-  const offline = purpose === "offline";
+  const { purpose, inline, ...wanted } = query.data;
+  const offline = purpose === "offline" || purpose === "share";
   if (
     offline &&
     !(await getLimiter("offline-sync", OFFLINE_PER_MINUTE, 60_000).consume(tenant.userId)).allowed
@@ -41,7 +44,9 @@ export async function GET(
     });
   }
   try {
-    return fileResponse(await exportResource(tenant, resourceId, { ...wanted, offline }));
+    return fileResponse(await exportResource(tenant, resourceId, { ...wanted, offline }), {
+      inline: inline === "1" && wanted.format === "pdf",
+    });
   } catch (error) {
     return errorResponse(error, resourceId);
   }

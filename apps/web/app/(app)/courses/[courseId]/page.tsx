@@ -61,7 +61,7 @@ export default async function CoursePage({
   searchParams,
 }: PageProps<"/courses/[courseId]">) {
   const { courseId } = await params;
-  const { tab, archivados } = await searchParams;
+  const { tab, archivados, proponer } = await searchParams;
   const active: Tab = TABS.find((t) => t.id === tab)?.id ?? "planeacion";
   const includeArchived = archivados === "1";
   const { data, copyTargets, resources, plan } = await load(courseId, includeArchived);
@@ -161,6 +161,7 @@ export default async function CoursePage({
           planning={data}
           includeArchived={includeArchived}
           copyTargets={copyTargets}
+          autoPropose={proponer === "1"}
           actions={{
             setPeriods: planning.setCoursePeriodsAction,
             createUnit: planning.createUnitAction,

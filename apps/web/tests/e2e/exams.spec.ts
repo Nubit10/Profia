@@ -2,7 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { Pool } from "pg";
 import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
-import { choose, download, signUpIndependentTeacher } from "./helpers";
+import { choose, download, signUpIndependentTeacher, openEditor } from "./helpers";
 
 // SPEC-0011: exámenes con IA, de la planeación a la descarga, con el AI Engine de prueba.
 
@@ -112,6 +112,7 @@ test("CA-0011-17: de la planeación al examen generado, con temas de dos periodo
   await expect(
     page.getByRole("heading", { name: /^Examen: La recta numérica y 2 temas más$/ }),
   ).toBeVisible({ timeout: 60_000 });
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   await expect(page.getByRole("region", { name: "Sección 1" })).toBeVisible({ timeout: 60_000 });
   await expect(page.getByText("Puntaje total:")).toBeVisible();
 

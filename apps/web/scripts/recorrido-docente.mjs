@@ -176,11 +176,24 @@ try {
   await tap(page.getByRole("button", { name: "Crear curso" }), "Crear curso");
   await page.getByRole("dialog").waitFor({ state: "detached" });
   await audit("inicio-con-curso");
-  const next = page.getByRole("link", { name: /Escribir mi primer tema|primer tema/ }).first();
+  // Bloque 6 (SPEC-0032): con DBA, Profe propone los temas del primer periodo y ella los acepta.
+  const next = page
+    .getByRole("link", { name: /Ver los temas propuestos|Escribir mi primer tema|primer tema/ })
+    .first();
+  const proposed = /propuestos/.test(await next.innerText());
   await tap(next, await next.innerText());
-  await audit("asistente-tema");
-  await type(page.getByLabel(/tema vas a trabajar/), "Fracciones", "Tema");
-  await tap(page.getByRole("button", { name: "Usar este tema" }), "Usar este tema");
+  if (proposed) {
+    const add = page.getByRole("button", { name: /Agregar a la planeación/ });
+    await add.waitFor({ timeout: 60_000 });
+    await audit("temas-propuestos");
+    await tap(add, "Agregar a la planeación");
+    await page.waitForURL(/dashboard/, { waitUntil: "commit" });
+    await tap(page.getByRole("link", { name: "Crear mi primer taller" }), "Crear mi primer taller");
+  } else {
+    await audit("asistente-tema");
+    await type(page.getByLabel(/tema vas a trabajar/), "Fracciones", "Tema");
+    await tap(page.getByRole("button", { name: "Usar este tema" }), "Usar este tema");
+  }
   await page.getByRole("button", { name: "Generar taller" }).waitFor();
   await audit("ajustes-taller");
   await tap(page.getByRole("button", { name: "Generar taller" }), "Generar taller");
@@ -217,8 +230,9 @@ try {
 
   // 5. Corregir una pregunta a mano.
   begin("5. Editar una pregunta");
+  // SPEC-0029: el recurso abre en la hoja; "Editar" junto a la pregunta la abre en el editor.
+  await tap(page.getByRole("button", { name: "Editar pregunta 1" }), "Editar pregunta 1");
   const q = page.getByRole("list", { name: "Preguntas" }).locator(":scope > li").first();
-  await tap(q.getByRole("button", { name: "Editar" }), "Editar");
   await audit("editando-pregunta");
   const stem = q.getByRole("textbox").first();
   await type(stem, "¿Cuál fracción es equivalente a 1/2?", "Enunciado");
@@ -241,11 +255,14 @@ try {
 
   // 7. Examen del periodo.
   begin("7. Examen del periodo");
+  // Bloque 7 (SPEC-0033): en el celular, "Crear" está en la barra de abajo.
   await openCreate();
   await tap(page.getByRole("menuitem", { name: /^Examen/ }), "Examen");
   await audit("examen-temas");
-  const topicBox = page.getByRole("checkbox", { name: /Fracciones/ });
-  if (!(await topicBox.isChecked())) await tap(topicBox, "Marca el tema Fracciones");
+  // Con los temas propuestos el nombre cambia: marca el de "Fracciones" o, si no, el primero.
+  const named = page.getByRole("checkbox", { name: /Fracciones/ });
+  const topicBox = (await named.count()) ? named.first() : page.getByRole("checkbox").first();
+  if (!(await topicBox.isChecked())) await tap(topicBox, "Marca el primer tema");
   const cont = page.getByRole("button", { name: /Continuar|Siguiente/ }).first();
   if (await cont.count()) await tap(cont, await cont.innerText());
   await audit("examen-ajustes");
@@ -260,12 +277,21 @@ try {
 
   // 8. Encontrar lo que hizo.
   begin("8. Encontrar mis recursos");
-  await tap(page.getByRole("link", { name: "Mis recursos" }).first(), "Mis recursos").catch(
-    async () => {
-      await tap(page.getByRole("button", { name: /menú|Abrir menú/i }).first(), "Menú");
-      await tap(page.getByRole("link", { name: "Mis recursos" }).first(), "Mis recursos");
-    },
-  );
+  // Bloque 7 (SPEC-0033): en el celular, la barra de abajo; en el recurso (que tiene su propia
+  // barra) o si no se ve, el menú. En escritorio, el menú lateral.
+  const tabs = page.getByRole("navigation", { name: "Navegación principal" });
+  const sidebar = page.locator("aside").getByRole("link", { name: "Mis recursos" });
+  if (await tabs.isVisible()) {
+    await tap(tabs.getByRole("link", { name: "Mis recursos" }), "Mis recursos (barra)");
+  } else if (await sidebar.isVisible()) {
+    await tap(sidebar, "Mis recursos");
+  } else {
+    await tap(page.getByRole("button", { name: "Abrir menú" }), "Menú");
+    await tap(
+      page.getByRole("dialog", { name: "Menú" }).getByRole("link", { name: "Mis recursos" }),
+      "Mis recursos",
+    );
+  }
   await audit("mis-recursos");
   end();
 } catch (error) {

@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
-import { choose, signUpIndependentTeacher } from "./helpers";
+import { choose, signUpIndependentTeacher, openEditor } from "./helpers";
 
 // SPEC-0013 RN-11: Profe en el celular (proyecto "movil": iPhone 13, 390 × 844, táctil).
 
@@ -29,6 +29,7 @@ async function quizOnPhone(page: Page) {
   await page.getByLabel(/tema vas a trabajar/).fill("La recta numérica");
   await page.getByRole("button", { name: "Usar este tema" }).click();
   await page.getByRole("button", { name: "Generar quiz" }).click();
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   const questions = page.getByRole("list", { name: "Preguntas" }).locator(":scope > li");
   await expect(questions.first()).toBeVisible({ timeout: 30_000 });
   return questions;
@@ -204,6 +205,7 @@ test("CA-0013-17/18/26: recurso con barra fija abajo, vista compacta y nada flot
   test.setTimeout(120_000);
   const questions = await quizOnPhone(page);
   await page.reload();
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   const viewport = page.viewportSize()!;
 
   // CA-0013-18: "Descargar" en la barra fija de abajo y la primera pregunta sin hacer scroll.
@@ -217,10 +219,12 @@ test("CA-0013-17/18/26: recurso con barra fija abajo, vista compacta y nada flot
   // CA-0013-26: ningún elemento flotante tapa a otro.
   expect(await floatingOverlaps(page)).toEqual([]);
 
-  // CA-0013-17: la vista compacta mide la mitad o menos y conserva la numeración.
-  const full = await page.evaluate(() => document.documentElement.scrollHeight);
+  // CA-0013-17: la vista compacta mide la mitad o menos y conserva la numeración. Se mide la lista
+  // de preguntas: debajo del recurso hay secciones que no cambian con la vista (SPEC-0027, -0034).
+  const list = page.getByRole("list", { name: "Preguntas" });
+  const full = (await list.boundingBox())!.height;
   await page.getByRole("button", { name: "Vista compacta" }).click();
-  const compact = await page.evaluate(() => document.documentElement.scrollHeight);
+  const compact = (await list.boundingBox())!.height;
   expect(compact).toBeLessThanOrEqual(full / 2);
   await expect(questions.first().getByRole("heading", { name: "Pregunta 1" })).toBeVisible();
   await expect(questions.nth(1).getByRole("heading", { name: "Pregunta 2" })).toBeVisible();
@@ -286,6 +290,7 @@ test("CA-0013-31: abierta como app, se recorre Inicio → curso → recurso → 
     .getByRole("link", { name: /La recta numérica/ })
     .first()
     .click();
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   await expect(page.getByRole("list", { name: "Preguntas" })).toBeVisible();
   // De vuelta, con el enlace visible "Recursos del curso" y el menú.
   await page.getByRole("link", { name: "Recursos del curso" }).click();

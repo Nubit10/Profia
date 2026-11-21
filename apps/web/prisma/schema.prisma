@@ -132,6 +132,7 @@ model Institution {
   resourceVersions      ResourceVersion[]
   itemFeedback          ResourceItemFeedback[]
   itemRegenerations     ItemRegeneration[]
+  resourceAdjustments   ResourceAdjustment[]
   teacherPreferences    TeacherPreference[]
   preferenceSuggestions PreferenceSuggestion[]
   documentFormats       DocumentFormat[]
@@ -176,6 +177,7 @@ model Membership {
   preferenceSuggestions PreferenceSuggestion[]
   formats               DocumentFormat[]
   piars                 Piar[]
+  resourceAdjustments   ResourceAdjustment[]
 
   @@unique([institutionId, userId])
   @@unique([id, institutionId])
@@ -618,6 +620,7 @@ model Resource {
   versions       ResourceVersion[]
   itemFeedback   ResourceItemFeedback[]
   regenerations  ItemRegeneration[]
+  adjustments    ResourceAdjustment[]
 
   @@unique([id, institutionId])
   @@index([institutionId, courseId, createdAt])
@@ -690,6 +693,43 @@ model ItemRegeneration {
 
   @@index([resourceId, createdAt])
   @@map("item_regenerations")
+}
+
+/// Ajuste rápido del recurso completo con un botón (SPEC-0027, ADR-0020). Se genera en segundo
+/// plano y queda como propuesta: la versión del recurso solo cambia si el docente la acepta.
+/// Cuenta en el cupo diario salvo que falle (`failureReason` no nulo).
+model ResourceAdjustment {
+  id            String                   @id @default(cuid())
+  institutionId String
+  institution   Institution              @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  resourceId    String
+  resource      Resource                 @relation(fields: [resourceId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  membershipId  String
+  membership    Membership               @relation(fields: [membershipId, institutionId], references: [id, institutionId], onDelete: Cascade)
+  /// EASIER · HARDER · SHORTER · EVERYDAY_EXAMPLES · ADD_ITEMS
+  code          String
+  /// Versión del recurso sobre la que se hizo.
+  fromVersion   Int
+  status        ResourceAdjustmentStatus @default(GENERATING)
+  /// unavailable · invalid · interrupted
+  failureReason String?
+  /// Contenido propuesto (mismo esquema que una versión).
+  proposal      Json?
+  generationId  String?
+  createdAt     DateTime                 @default(now())
+  decidedAt     DateTime?
+
+  @@index([resourceId, createdAt])
+  @@index([membershipId, createdAt])
+  @@map("resource_adjustments")
+}
+
+enum ResourceAdjustmentStatus {
+  GENERATING
+  PROPOSED
+  ACCEPTED
+  DISCARDED
+  FAILED
 }
 
 /// Indicación de mejora que el docente guarda para sus siguientes generaciones (RN-07).

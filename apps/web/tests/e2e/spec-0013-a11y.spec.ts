@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
-import { choose, signUpIndependentTeacher } from "./helpers";
+import { choose, signUpIndependentTeacher, openEditor } from "./helpers";
 
 // SPEC-0013 CA-0013-20: las pantallas que cambiaron cumplen WCAG 2.1 AA, la regla de un botón
 // principal y el glosario sin jerga (SPEC-0012), y a 360 px no se desbordan. De paso deja las
@@ -79,6 +79,7 @@ test("CA-0013-20: pantallas nuevas accesibles, con un botón principal y sin des
 
   // Recurso y diálogo de descarga.
   await page.getByRole("button", { name: "Generar quiz" }).click();
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   await expect(page.getByRole("list", { name: "Preguntas" })).toBeVisible({ timeout: 30_000 });
   const resourceUrl = page.url();
   await checkScreen(page, "recurso");
@@ -124,6 +125,7 @@ test("CA-0013-20: pantallas nuevas accesibles, con un botón principal y sin des
     await noHorizontalScroll(page, name);
   }
   await page.goto(resourceUrl);
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   await expect(page.getByRole("list", { name: "Preguntas" })).toBeVisible();
   await shot(page, "despues-06-recurso-movil");
   await page.getByRole("button", { name: "Descargar", exact: true }).click();

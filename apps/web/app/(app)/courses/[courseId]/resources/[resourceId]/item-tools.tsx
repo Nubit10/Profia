@@ -16,8 +16,11 @@ import { SelectableOption } from "@/components/forms/selectable";
 import { Textarea } from "@/components/ui/textarea";
 import type { ActionResult } from "@/lib/action-result";
 import {
+  ITEM_ADJUSTMENTS,
+  itemAdjustmentLabel,
   PREFERENCE_SCOPES,
   PREFERENCE_SCOPE_LABELS,
+  type ItemAdjustment,
   type PreferenceScope,
   type RegenerateResult,
 } from "@/modules/resources/client";
@@ -39,11 +42,12 @@ export type FeedbackActions = {
     text: string;
     scope: PreferenceScope;
   }) => Promise<ActionResult<{ id: string }>>;
-  regenerate: (input: {
-    resourceId: string;
-    itemKey: string;
-    instruction: string;
-  }) => Promise<ActionResult<RegenerateResult>>;
+  /** SPEC-0027: una ficha (código fijo) o una indicación escrita. */
+  regenerate: (
+    input: { resourceId: string; itemKey: string } & (
+      { instruction: string } | { adjustment: ItemAdjustment }
+    ),
+  ) => Promise<ActionResult<RegenerateResult>>;
   decide: (input: {
     regenerationId: string;
     accept: boolean;
@@ -231,7 +235,27 @@ export function RegenerateItem<T>({
   const { run, isPending } = useAction();
   const [open, setOpen] = useState(false);
   const [instruction, setInstruction] = useState("");
+  const [writing, setWriting] = useState(false);
   const [proposal, setProposal] = useState<{ id: string; item: T } | null>(null);
+  const kind = label.startsWith("Actividad") ? "activity" : "question";
+
+  const propose = (change: { instruction: string } | { adjustment: ItemAdjustment }) =>
+    run(
+      () => actions.regenerate({ resourceId, itemKey, ...change }),
+      (result: RegenerateResult) => {
+        if (result.status === "ok") {
+          setProposal({ id: result.proposal.regenerationId, item: result.proposal.item as T });
+        } else {
+          sileo.error({
+            title:
+              result.status === "invalid"
+                ? "No pudimos generar una propuesta válida"
+                : "La IA no está disponible en este momento",
+            description: "Intenta de nuevo en un momento.",
+          });
+        }
+      },
+    );
 
   if (!open) {
     return (
@@ -292,44 +316,61 @@ export function RegenerateItem<T>({
         </>
       ) : (
         <>
-          <Textarea
-            aria-label={`Qué cambiar en ${label}`}
-            rows={2}
-            maxLength={300}
-            placeholder="Ej.: hazla más difícil; usa un ejemplo de la vida diaria."
-            value={instruction}
-            onChange={(e) => setInstruction(e.target.value)}
-          />
-          <div className="flex gap-2">
-            <Button
-              type="button"
-              size="sm"
-              disabled={isPending || instruction.trim().length < 3}
-              onClick={() =>
-                run(
-                  () => actions.regenerate({ resourceId, itemKey, instruction }),
-                  (result: RegenerateResult) => {
-                    if (result.status === "ok") {
-                      setProposal({
-                        id: result.proposal.regenerationId,
-                        item: result.proposal.item as T,
-                      });
-                    } else {
-                      sileo.error({
-                        title:
-                          result.status === "invalid"
-                            ? "No pudimos generar una propuesta válida"
-                            : "La IA no está disponible en este momento",
-                        description: "Intenta de nuevo en un momento.",
-                      });
-                    }
-                  },
-                )
-              }
-            >
-              <HiOutlineArrowPath aria-hidden />
-              {isPending ? "Generando…" : "Proponer"}
-            </Button>
+          <p className="text-sm font-medium">¿Cómo la cambio?</p>
+          {/* SPEC-0027: fichas en vez de escribir; el texto libre queda escondido. */}
+          <div className="flex flex-wrap gap-2" role="group" aria-label={`Cambiar ${label}`}>
+            {ITEM_ADJUSTMENTS.map((code) => (
+              <Button
+                key={code}
+                type="button"
+                variant="outline"
+                className="min-h-11 rounded-full"
+                disabled={isPending}
+                onClick={() => propose({ adjustment: code })}
+              >
+                {itemAdjustmentLabel(code, kind)}
+              </Button>
+            ))}
+            {!writing && (
+              <Button
+                type="button"
+                variant="ghost"
+                className="min-h-11"
+                disabled={isPending}
+                onClick={() => setWriting(true)}
+              >
+                Otra indicación…
+              </Button>
+            )}
+          </div>
+          {writing && (
+            <>
+              <Textarea
+                aria-label={`Qué cambiar en ${label}`}
+                rows={2}
+                maxLength={300}
+                placeholder="Ej.: usa un ejemplo con dinero."
+                value={instruction}
+                onChange={(e) => setInstruction(e.target.value)}
+              />
+              <Button
+                type="button"
+                size="sm"
+                className="self-start"
+                disabled={isPending || instruction.trim().length < 3}
+                onClick={() => propose({ instruction })}
+              >
+                <HiOutlineArrowPath aria-hidden />
+                Proponer
+              </Button>
+            </>
+          )}
+          <div className="flex items-center gap-2">
+            {isPending && (
+              <span className="text-sm text-muted-foreground" role="status">
+                Generando…
+              </span>
+            )}
             <Button type="button" size="sm" variant="ghost" onClick={() => setOpen(false)}>
               Cancelar
             </Button>

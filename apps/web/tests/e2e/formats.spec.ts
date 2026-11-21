@@ -1,6 +1,13 @@
 import { guiaSanJose } from "../support/docx-formats";
 import { expect, test } from "./fixtures";
-import { PNG_1X1, choose, confirmAndGenerate, download, signUpIndependentTeacher } from "./helpers";
+import {
+  PNG_1X1,
+  choose,
+  confirmAndGenerate,
+  download,
+  signUpIndependentTeacher,
+  openEditor,
+} from "./helpers";
 
 test("CA-0010-01/03/04/08/10: subir el formato, revisarlo y generar un taller con él", async ({
   page,
@@ -72,6 +79,7 @@ test("CA-0010-01/03/04/08/10: subir el formato, revisarlo y generar un taller co
   ).toHaveAttribute("aria-checked", "true");
   await confirmAndGenerate(page, "taller");
 
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   // Las secciones de actividades del formato y su sección de texto.
   await expect(page.getByRole("heading", { name: "1. SABERES PREVIOS" })).toBeVisible({
     timeout: 30_000,

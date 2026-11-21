@@ -16,9 +16,15 @@ propone y el docente aprueba o ajusta con un toque**. Escribir y elegir debe ser
 movil|escritorio`) y anotar los clics en el informe;
   - marcar el punto como hecho aquí y en `docs/ESTADO.md`.
 
+## Estado (2026-11-21)
+
+Los bloques 1 a 8 están implementados (SPEC-0027 a SPEC-0034; el usuario aprobó seguir con lo
+recomendado: "lo más importante son todas las mejoras de usabilidad implementadas"). Queda el 9
+(validación con docentes reales, SPEC-0026), que necesita personas.
+
 ## Orden recomendado
 
-### 1. Ajustes rápidos con botones (en vez de instrucciones escritas) — prioridad alta
+### 1. Ajustes rápidos con botones (en vez de instrucciones escritas) — ✔ hecho (SPEC-0027)
 
 - **Problema:** para cambiar un recurso hay que escribir qué cambiar ("Regenerar" de un ítem pide texto
   libre). En ChatGPT bastaría con "hazlo más fácil".
@@ -42,7 +48,7 @@ movil|escritorio`) y anotar los clics en el informe;
   - las indicaciones son fijas, del producto, no texto del docente: van como anexo de prompt
     versionado en `apps/ai-engine/prompts/`.
 
-### 2. Usar el mismo recurso en mis otros grupos — prioridad alta
+### 2. Usar el mismo recurso en mis otros grupos — ✔ hecho (SPEC-0028)
 
 - **Problema:** es muy común dictar la misma materia en 601, 602 y 603. Hoy hay que crear el taller
   tres veces (y gastar tres del cupo).
@@ -55,7 +61,7 @@ movil|escritorio`) y anotar los clics en el informe;
   - la copia de planeación de SPEC-0006 sirve de referencia para emparejar temas por título.
 - **Cuidado:** tenancy (mismo espacio y mismo docente) y un test de acceso cruzado.
 
-### 3. Ver el recurso como el documento que va a imprimir — prioridad alta
+### 3. Ver el recurso como el documento que va a imprimir — ✔ hecho (SPEC-0029)
 
 - **Problema:** al abrir un taller lo primero es un formulario ("Título", "Propósito", "Materiales" en
   cajas). El docente espera ver la hoja como saldrá en papel.
@@ -69,7 +75,7 @@ movil|escritorio`) y anotar los clics en el informe;
   - el modelo intermedio de `modules/documents/model.ts` puede alimentar la vista previa para que sea
     igual al PDF.
 
-### 4. "Para esta semana" en el Inicio — prioridad alta
+### 4. "Para esta semana" en el Inicio — ✔ hecho (SPEC-0030)
 
 - **Problema:** "Crear rápido" todavía obliga a elegir qué y para qué tema.
 - **Propuesta:** el Inicio dice _"Lo que sigue en 6°01: Fracciones equivalentes"_ con [Taller] [Quiz]
@@ -79,7 +85,7 @@ movil|escritorio`) y anotar los clics en el informe;
   - `modules/resources/overview.ts` (`getTeacherHome`, `NextStep`);
   - `app/(app)/dashboard/teacher-home.tsx`.
 
-### 5. Compartir por WhatsApp e imprimir directo — prioridad media
+### 5. Compartir por WhatsApp e imprimir directo — ✔ hecho (SPEC-0031; falta probar en teléfonos reales)
 
 - **Propuesta:**
   - en el celular, "Compartir" con la Web Share API (archivo PDF), que abre WhatsApp u otra app;
@@ -89,7 +95,7 @@ movil|escritorio`) y anotar los clics en el informe;
   - `app/(app)/courses/[courseId]/resources/[resourceId]/downloads.tsx`;
   - la ruta `export` ya entrega el archivo.
 
-### 6. Primer curso sin escribir temas — prioridad media
+### 6. Primer curso sin escribir temas — ✔ hecho (SPEC-0032)
 
 - **Propuesta:** al crear el primer curso, ofrecer _"¿Te propongo los temas del primer periodo según los
   DBA?"_ (la propuesta de SPEC-0014 ya existe). En "Primeros pasos", el paso 2 pasa a ser "Revisa los
@@ -99,7 +105,7 @@ movil|escritorio`) y anotar los clics en el informe;
   - `modules/generation/planning.ts`.
 - **Cuidado:** asignaturas sin DBA siguen con "Escribe tu tema".
 
-### 7. Barra de navegación abajo en el celular — prioridad media
+### 7. Barra de navegación abajo en el celular — ✔ hecho (SPEC-0033)
 
 - **Problema:** llegar a "Mis recursos" en el celular toma 3 toques (menú de tres rayas).
 - **Propuesta:**
@@ -110,7 +116,7 @@ movil|escritorio`) y anotar los clics en el informe;
 - **Cuidado:** que no tape nada; ya hay pruebas de elementos flotantes (`data-floating`) en
   `spec-0013.movil.spec.ts`.
 
-### 8. Detalles — prioridad baja
+### 8. Detalles — ✔ hecho (SPEC-0034)
 
 - Avisos emergentes abajo en el celular (`components/app-toaster.tsx`): hoy tapan el título un
   momento.

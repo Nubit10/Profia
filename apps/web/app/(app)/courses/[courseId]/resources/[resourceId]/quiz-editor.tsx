@@ -295,7 +295,7 @@ export function QuizEditor({
         {questions.map((q, i) => {
           const label = `Pregunta ${i + 1}`;
           return (
-            <li key={q.id} className="flex flex-col gap-3 rounded-lg border p-4">
+            <li key={q.id} data-item={q.id} className="flex flex-col gap-3 rounded-lg border p-4">
               <div className="flex items-center justify-between gap-2">
                 <h3 className="text-sm font-medium">{label}</h3>
                 <div className="flex items-center gap-1" data-detail>

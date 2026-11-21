@@ -11,6 +11,7 @@ from typing import Annotated
 from pydantic import BaseModel, Field
 
 from ..providers.llm import LLM, Message
+from .adjust import apply_adjust
 from .pipeline import StructuredResult, looks_spanish, norm, run_structured
 from .resources import (
     BACKGROUND_MAX_WAIT_S,
@@ -76,11 +77,14 @@ def build_lesson_plan_messages(request: LessonPlanRequest) -> list[Message]:
         "cantidadSesiones": request.sessions,
         "minutosPorSesion": request.minutesPerSession,
     }
-    return _messages(
-        LESSON_PLAN_PROMPT,
-        f"Elabora un plan de aula de exactamente {request.sessions} sesiones de "
-        f"{request.minutesPerSession} minutos.",
-        data,
+    return apply_adjust(
+        _messages(
+            LESSON_PLAN_PROMPT,
+            f"Elabora un plan de aula de exactamente {request.sessions} sesiones de "
+            f"{request.minutesPerSession} minutos.",
+            data,
+        ),
+        request.adjust,
     )
 
 

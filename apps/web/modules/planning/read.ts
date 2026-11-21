@@ -331,3 +331,12 @@ export async function getUnitCourseId(ctx: TenantContext, unitId: string) {
   const unit = await db.$transaction((tx) => ownedUnit(tx, ctx, unitId));
   return unit.courseId;
 }
+
+/**
+ * Bloque 6 de usabilidad: ¿la IA puede proponer los temas de este curso? Solo si su asignatura y
+ * grado tienen DBA en el catálogo (SPEC-0014 CA-0014-07).
+ */
+export async function canProposeTopics(ctx: TenantContext, courseId: string): Promise<boolean> {
+  const refs = await getCourseReferences(ctx, courseId).catch(() => null);
+  return !!refs && refs.emptyReason !== "NO_AREA" && refs.references.some((r) => r.type === "DBA");
+}

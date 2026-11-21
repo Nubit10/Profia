@@ -1,4 +1,5 @@
 import "server-only";
+import { adjustmentLabel, type ResourceAdjustment } from "./adjustments";
 import { after } from "next/server";
 import { db } from "@/lib/db";
 import { conflict, invalid, notFound } from "@/lib/errors";
@@ -85,7 +86,7 @@ async function collectSignals(ctx: TenantContext, since: Date): Promise<Signal[]
   });
   if (!resources.length) return [];
   const ids = resources.map((r) => r.id);
-  const [feedback, regenerations] = await Promise.all([
+  const [feedback, regenerations, adjustments] = await Promise.all([
     db.resourceItemFeedback.findMany({
       where: {
         institutionId: ctx.institutionId,
@@ -104,6 +105,16 @@ async function collectSignals(ctx: TenantContext, since: Date): Promise<Signal[]
         decidedAt: { gte: since },
       },
       select: { resourceId: true, itemKey: true, instruction: true },
+    }),
+    // SPEC-0027 RN-09: los ajustes rápidos que el docente aceptó también dicen qué prefiere.
+    db.resourceAdjustment.findMany({
+      where: {
+        institutionId: ctx.institutionId,
+        resourceId: { in: ids },
+        status: "ACCEPTED",
+        decidedAt: { gte: since },
+      },
+      select: { resourceId: true, code: true },
     }),
   ]);
 
@@ -133,6 +144,14 @@ async function collectSignals(ctx: TenantContext, since: Date): Promise<Signal[]
       ...base(byId.get(g.resourceId)!),
       kind: "REGENERATION",
       comment: clean(g.instruction),
+    });
+  }
+  for (const a of adjustments) {
+    const resource = byId.get(a.resourceId)!;
+    comments.push({
+      ...base(resource),
+      kind: "REGENERATION",
+      comment: `Pidió el recurso completo «${adjustmentLabel(a.code as ResourceAdjustment, resource.type)}» y se quedó con esa versión`,
     });
   }
   for (const r of resources) {

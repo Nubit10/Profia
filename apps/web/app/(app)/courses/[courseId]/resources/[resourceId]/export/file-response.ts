@@ -12,12 +12,13 @@ const STATUS: Record<string, number> = {
 };
 
 /** RFC 6266/5987: nombre con tildes y "°" para navegadores modernos, y uno ASCII de respaldo. */
-export function fileResponse(file: ExportedFile) {
+/** `inline`: el PDF se abre en el navegador para imprimirlo (bloque 5 de usabilidad). */
+export function fileResponse(file: ExportedFile, opts: { inline?: boolean } = {}) {
   const ascii = file.filename.normalize("NFD").replace(/[^\x20-\x7e]/g, "");
   return new Response(new Uint8Array(file.body), {
     headers: {
       "content-type": file.contentType,
-      "content-disposition": `attachment; filename="${ascii.replace(/"/g, "")}"; filename*=UTF-8''${encodeURIComponent(file.filename)}`,
+      "content-disposition": `${opts.inline ? "inline" : "attachment"}; filename="${ascii.replace(/"/g, "")}"; filename*=UTF-8''${encodeURIComponent(file.filename)}`,
       "cache-control": "private, no-store",
       "x-content-type-options": "nosniff",
     },

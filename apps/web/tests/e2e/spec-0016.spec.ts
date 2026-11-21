@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
-import { choose, signUpIndependentTeacher } from "./helpers";
+import { choose, signUpIndependentTeacher, openEditor } from "./helpers";
 
 // SPEC-0016: talleres con enfoque DUA a elección del docente (AI Engine con el LLM de prueba).
 
@@ -53,6 +53,7 @@ test("CA-0016-01/06/08: el docente elige DUA, el taller trae sus opciones y la g
   await shot(page, "01-ajustes-con-dua-movil");
 
   await page.getByRole("button", { name: "Generar taller" }).click();
+  await openEditor(page); // SPEC-0029: el recurso abre en la hoja
   await expect(page.getByTestId("udl-activity").first()).toBeVisible({ timeout: 30_000 });
   await expect(page.getByText("Con DUA", { exact: true })).toBeVisible();
   const first = page.getByTestId("udl-activity").first();
