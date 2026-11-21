@@ -159,7 +159,8 @@ test("CA-0014-07: una asignatura sin DBA en el catálogo no ofrece la propuesta 
   page,
 }) => {
   await signUpIndependentTeacher(page);
-  await openNewCourse(page, "Ciencias Naturales y Educación Ambiental");
+  // Inglés: tiene área curricular pero aún no tiene DBA en el catálogo (SPEC-0036 lo dejó para después).
+  await openNewCourse(page, "Inglés");
   await expect(page.getByRole("button", { name: /Proponer .* con IA/ })).toHaveCount(0);
   await expect(page.getByText(/no tiene DBA en el catálogo/)).toBeVisible();
 });
