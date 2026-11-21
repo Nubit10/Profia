@@ -52,3 +52,14 @@ Revisa en cada uno: que el texto sea idéntico, que no falten ni sobren evidenci
 ## Cómo reportar el resultado
 
 Responde con: (1) la tabla de la sección 1 con Sí/No, (2) cualquier diferencia de la muestra (código y qué cambia) y (3) nombre de quien revisó. Con eso, Claude actualiza los archivos (`review.status: "APPROVED"`, `reviewedBy`, `reviewedAt`) y reimporta. La aplicación deja de mostrar el aviso «pendiente de revisión docente».
+
+## Ciencias Naturales y Ciencias Sociales (SPEC-0036)
+
+Mismo método: abre el PDF oficial en la página que muestra cada ítem y compara.
+
+- **DBA (Naturales y Sociales):** revisa una muestra de 3 DBA por grado. Fíjate sobre todo en los DBA que
+  siguen en la otra columna o en la página siguiente (que ninguna evidencia quede en el DBA vecino).
+- **Estándares:** cada ítem es una acción de pensamiento. Revisa en cada grupo de grados que las acciones
+  estén bajo la columna correcta (componente) y que el estándar general que las acompaña corresponda.
+- Correcciones y textos ya comparados contra la imagen: `apps/web/curriculum/tools/fixes/dba-ciencias-*.json`
+  y `ebc-ciencias-*.json`.

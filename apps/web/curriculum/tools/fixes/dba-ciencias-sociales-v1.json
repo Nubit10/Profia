@@ -1,0 +1,37 @@
+{
+  "_doc": "Correcciones de DBA Ciencias Sociales V.1 (SPEC-0036). replaceText: espacios que el PDF trae mal (letras separadas o palabras pegadas); el texto queda igual al que se ve en la página.",
+  "replaceText": [
+    {
+      "code": "MEN-DBA-CSO-V1-G6-05",
+      "find": "C o m p a r a l a e s t r u c t u r a s o c i a l , p o l í t i c a",
+      "replace": "Compara la estructura social, política",
+      "reason": "El PDF separa las letras de la primera línea (pág. 27)."
+    },
+    {
+      "code": "MEN-DBA-CSO-V1-G8-08",
+      "find": "Comprendelaimportanciadelasasociaciones,",
+      "replace": "Comprende la importancia de las asociaciones,",
+      "reason": "El PDF no trae espacios en la primera línea del enunciado (pág. 41)."
+    },
+    {
+      "code": "MEN-DBA-CSO-V1-G5-01",
+      "find": "E xplica",
+      "replace": "Explica",
+      "reason": "La «E» inicial viene separada en el PDF (pág. 22)."
+    }
+  ],
+  "verifiedVisually": [
+    {
+      "code": "MEN-DBA-CSO-V1-G2-03",
+      "reason": "El recorte de la columna desordena las líneas del enunciado; comparado contra la imagen de la pág. 12."
+    },
+    {
+      "code": "MEN-DBA-CSO-V1-G11-01",
+      "reason": "«-ONU-» termina la línea con guion en el original (pág. 49); el recorte pierde ese guion."
+    },
+    {
+      "code": "MEN-DBA-CSO-V1-G11-04",
+      "reason": "«(Capitalista-Comunista)» lleva guion en el original (pág. 50); el recorte lo une al partir la línea."
+    }
+  ]
+}

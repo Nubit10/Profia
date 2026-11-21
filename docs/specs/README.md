@@ -41,7 +41,7 @@ Solo se implementa lo que está **Aprobada**. Solo el usuario (product owner) ap
 | [SPEC-0033](SPEC-0033-barra-de-navegacion-abajo.md)           | Barra de navegación abajo en el celular                                         | Transversal                 | Implementada |
 | [SPEC-0034](SPEC-0034-detalles-de-usabilidad.md)              | Detalles: avisos abajo, letra más grande y "Borrador / Listo"                   | Transversal                 | Implementada |
 | [SPEC-0035](SPEC-0035-recuperar-contrasena.md)                | Recuperar la contraseña por correo y ver la contraseña al escribirla            | 2 · Identity                | Implementada |
-| [SPEC-0036](SPEC-0036-dba-y-estandares-de-ciencias.md)        | DBA y Estándares de Ciencias Naturales y Ciencias Sociales                      | 3 · Curriculum              | Borrador     |
+| [SPEC-0036](SPEC-0036-dba-y-estandares-de-ciencias.md)        | DBA y Estándares de Ciencias Naturales y Ciencias Sociales                      | 3 · Curriculum              | Implementada |
 
 ## Mapa del roadmap → specs previstas
 

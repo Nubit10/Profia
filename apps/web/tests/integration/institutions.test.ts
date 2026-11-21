@@ -79,12 +79,12 @@ describe("onboarding", () => {
     expect((await ctxFor(user, institutionId)).roles.sort()).toEqual(["ADMIN", "TEACHER"]);
   });
 
-  it("CA-0003-01: todo espacio nuevo trae las 12 asignaturas de la Ley 115", async () => {
+  it("CA-0003-01: todo espacio nuevo trae las 12 asignaturas de la Ley 115 y las 5 de 10°-11° (SPEC-0036)", async () => {
     const user = await createUser();
     const independent = await createIndependentSpace(user);
     const school = await registerSchool(user, validSchool);
     for (const { institutionId } of [independent, school]) {
-      expect(await db.subject.count({ where: { institutionId, isPreloaded: true } })).toBe(12);
+      expect(await db.subject.count({ where: { institutionId, isPreloaded: true } })).toBe(17);
     }
   });
 });

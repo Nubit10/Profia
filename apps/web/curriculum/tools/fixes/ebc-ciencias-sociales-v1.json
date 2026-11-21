@@ -1,0 +1,13 @@
+{
+  "_doc": "Estándares Básicos de Competencias en Ciencias Sociales (MEN 2006, págs. 122-131), SPEC-0036.",
+  "verifiedVisually": [
+    {
+      "code": "MEN-EBC-CSO-V1-G6A7-34",
+      "reason": "«Europa-América-África»: el guion cae al final de la línea en la pág. 127 y el texto plano del PDF lo pierde."
+    },
+    {
+      "code": "MEN-EBC-CSO-V1-G10A11-01",
+      "reason": "El segundo estándar general de 10°-11° empieza en la pág. 130 y sigue en la 131 («…diferentes teorías y modelos económicos…»)."
+    }
+  ]
+}

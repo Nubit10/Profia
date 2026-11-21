@@ -5,28 +5,25 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## En curso
 
-- **SPEC-0036** — DBA y Estándares de Ciencias Naturales y Ciencias Sociales
-  ([spec](specs/SPEC-0036-dba-y-estandares-de-ciencias.md)). Estado: **Borrador**, esperando que el
-  usuario responda 4 preguntas (cómo guardar los Estándares, asignaturas de 10°–11°, si entra Inglés,
-  quién revisa la muestra) y la apruebe. Mismo proceso de SPEC-0004; sin ADR nuevo salvo que la
-  pregunta 1 lo exija. Para el piloto: docentes de Matemáticas, Lenguaje y Transición.
-
-- **Siguiente (para entregar a los primeros docentes):** configurar el correo de producción
-  (`SMTP_URL`, `MAIL_FROM`, `APP_URL`; ver `deploy/README.md`) y probar que no cae en spam; decidir las
-  recomendaciones del [informe de la contraseña](usabilidad/2026-11-21-recuperar-contrasena.md); política
-  de privacidad y términos; desplegar y verificar. Luego probar "Compartir" en un iPhone y un Android reales;
-  después SPEC-0025 (resultados → dificultades → refuerzo) y SPEC-0026 (validación con docentes, el
-  bloque 9). Si el usuario quiere: `/review` de SPEC-0027 a SPEC-0034.
-
-- **SPEC-0020** — Material de referencia del docente ([spec](specs/SPEC-0020-material-de-referencia.md)).
-  Estado: **Borrador**, esperando que el usuario responda las 3 preguntas abiertas y la apruebe.
-  - Pedido: cuando la asignatura no tiene DBA, que el docente pueda subir un PDF, pegar contenido, dar el
-    nombre de un libro o una página web para que el taller/quiz/examen se haga con eso.
-  - Propuesta: primero PDF, Word y texto pegado; enlaces después; el libro solo como referencia (la IA
-    no lo tiene). Necesita un ADR antes de implementar (texto de terceros a la IA, lectura segura de enlaces).
-  - Siguiente paso: aprobación → ADR → `/implement SPEC-0020`.
-
 ## Hecho
+
+- **SPEC-0036 — DBA y Estándares de Ciencias Naturales y Ciencias Sociales** (2026-11-21), aprobada con
+  las recomendaciones (Inglés queda para después). Catálogo: DBA Naturales V.1 (54), DBA Sociales V.1 (82),
+  Estándares Naturales (342 acciones) y Sociales (250 acciones), verificados contra los PDF oficiales
+  (todas las evidencias y viñetas cuadran; 3 correcciones de espacios y 7 textos comparados contra la
+  imagen, en `curriculum/tools/fixes/`). Herramientas nuevas: `extract_dba_columns.py`, `extract_ebc.py`,
+  `verify_columns.py`. Biología, Física, Química, Historia y Geografía precargadas y vinculadas. La tarjeta
+  de un Estándar titula su lista «Estándar del grupo de grados». AI Engine: índice de 951 ítems y 14
+  casos nuevos en el benchmark de búsqueda.
+  - Pruebas: integración `spec-0036.test.ts` y CA-0036-06/10 en `spec-0014`/`documents`; e2e
+    `spec-0036.spec.ts` (Sociales 8° y DBA sugerido por Lucía en Naturales 7°); AI Engine 196.
+  - Pendiente: correr el benchmark de búsqueda (CA-0036-07) donde esté el modelo de embeddings; revisión
+    docente de una muestra (`docs/curriculum/revision-dba.md`); en producción, `curriculum:import` contra
+    Supabase y volver a publicar el Space.
+  - Hallazgo: con `pdftotext` 24.02, `curriculum:verify` falla en Matemáticas, Lenguaje y Transición igual
+    que antes de este cambio (la versión de pdftotext parte distinto el texto). No afecta a las nuevas.
+  - Entorno: se creó el entorno de nube «ProfIA» con acceso a colombiaaprende.edu.co y mineducacion.gov.co
+    para descargar los PDF.
 
 - **Ayuda por WhatsApp** (2026-11-21), pedido del usuario al estilo de CliqCut. Número de soporte
   320 568 5222 en un solo lugar (`lib/support.ts`; `NEXT_PUBLIC_SUPPORT_WHATSAPP` lo cambia sin tocar

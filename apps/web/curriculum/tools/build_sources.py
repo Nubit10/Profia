@@ -1,7 +1,8 @@
 """Produce los archivos del catálogo (curriculum/men/*.json) a partir de los borradores extraídos,
 las correcciones documentadas y los metadatos de cada fuente (ADR-0005).
 
-Uso (desde apps/web): python curriculum/tools/build_sources.py
+Uso (desde apps/web): python curriculum/tools/build_sources.py [fuente ...]
+Sin argumentos construye todas; con nombres (p. ej. dba-ciencias-naturales-v1), solo esas.
 
 Las correcciones con needsReview quedan listadas en `review.pendingFixes` para la revisión humana.
 El campo `review.status` empieza en PENDING; una persona del equipo lo cambia a APPROVED tras
@@ -54,14 +55,21 @@ def apply_fixes(items, fixes):
 
 def main():
     registry = load("tools/sources.json")
+    only = set(sys.argv[1:])
+    unknown = only - set(registry)
+    if unknown:
+        sys.exit(f"Fuentes desconocidas: {', '.join(sorted(unknown))}")
     os.makedirs(os.path.join(BASE, "men"), exist_ok=True)
     for slug, entry in registry.items():
+        if only and slug not in only:
+            continue
         items = load(entry["draft"])
         fixes = load(entry["fixes"]) if entry.get("fixes") else {}
         pending = apply_fixes(items, fixes)
         for item in items:
             item.setdefault("component", None)
-            if len(item["evidences"]) < 2:
+            # Un DBA trae varias evidencias; un estándar trae el estándar general al que apunta.
+            if item["type"] == "DBA" and len(item["evidences"]) < 2:
                 sys.exit(f"{item['code']}: quedó con {len(item['evidences'])} evidencias")
         document = {
             "source": entry["source"],

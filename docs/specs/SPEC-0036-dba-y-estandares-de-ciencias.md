@@ -2,7 +2,7 @@
 
 | Campo                    | Valor                                                                                   |
 | ------------------------ | --------------------------------------------------------------------------------------- |
-| Estado                   | **Borrador**                                                                            |
+| Estado                   | **Implementada** (2026-11-21) — revisión docente del contenido pendiente                |
 | Fase del roadmap         | 3 · Curriculum                                                                          |
 | Módulo(s) responsable(s) | `modules/curriculum` (catálogo e importación), `apps/ai-engine` (índice y búsqueda)     |
 | Agentes                  | product, curriculum, rag, ai-engine, qa, reviewer                                       |
@@ -135,7 +135,7 @@ Competencias** de esas dos áreas, con el mismo proceso y las mismas garantías 
   entonces ve los DBA de Ciencias Sociales de 8° y los Estándares del rango 8–9, con su cita.
 - **CA-0036-05:** Dado un curso de Ciencias Naturales de 7° con temas, cuando el docente escribe un
   objetivo, entonces Lucía marca DBA sugeridos de Ciencias Naturales de 7° (CA-0013-05 con la nueva área).
-- **CA-0036-06:** Dado un curso de Ciencias Sociales de 5° sin temas, cuando el docente pide la propuesta
+- **CA-0036-06:** Dado un curso de Ciencias Sociales de 6° sin temas, cuando el docente pide la propuesta
   del periodo, entonces Lucía propone unidades y temas, cada uno con un DBA de Ciencias Sociales de 5°
   (SPEC-0014 con la nueva área; contrato y reparto sin cambios).
 - **CA-0036-07:** Dado el AI Engine reindexado, cuando se corre el benchmark de búsqueda curricular,
@@ -158,19 +158,19 @@ Competencias** de esas dos áreas, con el mismo proceso y las mismas garantías 
 
 ## 10. Tareas
 
-- [ ] T1 — Ubicar y descargar los cuatro PDF oficiales, registrar URL, página de origen y `sha256` en
+- [x] T1 — Ubicar y descargar los cuatro PDF oficiales, registrar URL, página de origen y `sha256` en
       `sources.json` — `curriculum`
-- [ ] T2 — Transcribir los DBA de Ciencias Naturales y de Ciencias Sociales (extractor y corrección
+- [x] T2 — Transcribir los DBA de Ciencias Naturales y de Ciencias Sociales (extractor y corrección
       manual) hasta que pase `curriculum:verify` — `curriculum`
-- [ ] T3 — Transcribir los Estándares de las dos áreas con la estructura que se decida en la pregunta 1 —
+- [x] T3 — Transcribir los Estándares de las dos áreas con la estructura que se decida en la pregunta 1 —
       `curriculum`
-- [ ] T4 — Importar y probar: integración (idempotencia, referentes por grado, texto literal) y e2e
+- [x] T4 — Importar y probar: integración (idempotencia, referentes por grado, texto literal) y e2e
       (referentes y DBA sugeridos en un curso de Ciencias) — `qa`
-- [ ] T5 — Reindexar el AI Engine, casos nuevos en el benchmark y benchmark de propuestas de planeación
+- [x] T5 — Reindexar el AI Engine, casos nuevos en el benchmark y benchmark de propuestas de planeación
       con las dos áreas — `rag` / `ai-engine`
 - [ ] T6 — Revisar la muestra contra los PDF y documentar en `docs/curriculum/revision-dba.md` —
       revisor docente del equipo
-- [ ] T7 — Guía de despliegue: importar en Supabase y republicar el Space — `devops`
+- [x] T7 — Guía de despliegue: importar en Supabase y republicar el Space — `devops`
 - [ ] T8 — Revisión contra la spec y la Definition of Done — `reviewer`
 
 ## 11. Decisión de arquitectura
@@ -203,3 +203,52 @@ formato actual no puede representar, eso sí cambia ADR-0005 y se propone un ADR
 4. **¿Quién revisa la muestra?** Antes, la revisión docente de Matemáticas y Lenguaje quedó pendiente
    (SPEC-0004). Para Ciencias conviene un docente de cada área. ¿Hay alguien en el equipo o en el piloto
    que pueda hacerlo?
+
+## 13. Decisiones del product owner (2026-11-21)
+
+«Hazlo con tus recomendaciones; deja Inglés para después»:
+
+1. Estándares: **un ítem por acción de pensamiento** (opción a). Componente = su columna; en la lista va
+   el estándar general al que apunta (la pantalla la titula «Estándar del grupo de grados»).
+2. **Biología, Física, Química, Historia y Geografía** quedan precargadas y vinculadas a su área.
+3. **Inglés** se deja para una spec siguiente.
+4. Revisión de la muestra: un docente de cada área (pendiente; las fuentes entran `PENDING`).
+
+## 14. Implementación (2026-11-21)
+
+| Fuente (clave)                                         | Ítems | Verificación contra el PDF           |
+| ------------------------------------------------------ | ----- | ------------------------------------ |
+| DBA Ciencias Naturales V.1, 2016 (`MEN-DBA-CNA-V1`)    | 54    | 184 de 184 evidencias; texto literal |
+| DBA Ciencias Sociales V.1, 2016 (`MEN-DBA-CSO-V1`)     | 82    | 328 de 328 evidencias; texto literal |
+| Estándares Ciencias Naturales, 2006 (`MEN-EBC-CNA-V1`) | 342   | 342 de 342 viñetas; texto literal    |
+| Estándares Ciencias Sociales, 2006 (`MEN-EBC-CSO-V1`)  | 250   | 250 de 250 viñetas; texto literal    |
+
+- Herramientas nuevas en `apps/web/curriculum/tools/`: `extract_dba_columns.py` (DBA a dos columnas,
+  leídos palabra por palabra con su posición), `extract_ebc.py` (Estándares) y `verify_columns.py`
+  (verificación por otro camino: recorta cada columna). `curriculum:verify` las usa según `layout` en
+  `sources.json`; `build_sources.py` acepta los nombres de las fuentes a construir.
+- Correcciones documentadas en `tools/fixes/`: 3 textos con espacios mal puestos en el propio PDF
+  («C o m p a r a…», «Comprendelaimportancia…», «E xplica») y 7 textos que el verificador no puede
+  comparar por cómo recorta (encabezados intercalados, guiones de fin de línea), **comparados contra la
+  imagen de la página**.
+- En 8°-9° y 10°-11° de Ciencias Naturales hay más estándares generales que subcolumnas: esas acciones
+  llevan todos los estándares del grupo.
+- La planeación, las propuestas de Lucía y los objetivos usan solo DBA; los Estándares se ven en «DBA y
+  Estándares» del curso y alimentan la búsqueda del AI Engine (índice: 951 ítems).
+
+| Criterio   | Estado    | Evidencia                                                                                      |
+| ---------- | --------- | ---------------------------------------------------------------------------------------------- |
+| CA-0036-01 | Cumplido  | `npm run curriculum:verify`: las 4 fuentes nuevas OK                                           |
+| CA-0036-02 | Cumplido  | `tests/integration/spec-0036.test.ts`; `curriculum:import` dos veces en dev y test             |
+| CA-0036-03 | Cumplido  | Integración: Naturales 6° con 5 DBA y 78 acciones de 6°-7°, con cita                           |
+| CA-0036-04 | Cumplido  | Integración y e2e `spec-0036.spec.ts` (Sociales 8°: 8 DBA y 50 acciones)                       |
+| CA-0036-05 | Cumplido  | e2e: en Naturales 7°, Lucía sugiere el DBA 1 (energía mecánica)                                |
+| CA-0036-06 | Cumplido  | Integración en `spec-0014.test.ts`: al motor solo van DBA de Sociales 6°                       |
+| CA-0036-07 | Pendiente | 14 casos nuevos en el benchmark; correrlo necesita el modelo de embeddings, que no estaba aquí |
+| CA-0036-08 | Cumplido  | Integración: texto guardado idéntico al archivo                                                |
+| CA-0036-09 | Cumplido  | Integración y e2e: fuentes `PENDING` y aviso de revisión docente                               |
+| CA-0036-10 | Cumplido  | Integración en `documents.test.ts`: el taller lleva «DBA 4: …» en la guía del docente          |
+
+**Hallazgo aparte:** con `pdftotext` 24.02 (el de este entorno) la verificación de las fuentes de
+SPEC-0004 (Matemáticas, Lenguaje, Transición) falla igual que antes de este cambio: la versión de
+`pdftotext` parte el texto distinto de la que se usó al crearlas. Las fuentes nuevas no dependen de eso.

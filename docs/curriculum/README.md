@@ -2,11 +2,18 @@
 
 Fuentes oficiales del MEN cargadas en ProfIA (ADR-0005, SPEC-0004).
 
-| Fuente                     | Ítems | Estado de revisión            |
-| -------------------------- | ----- | ----------------------------- |
-| DBA Matemáticas V.2 (2016) | 119   | Pendiente de revisión docente |
-| DBA Lenguaje V.2 (2016)    | 88    | Pendiente de revisión docente |
-| DBA Transición V.1 (2016)  | 16    | Pendiente de revisión docente |
+| Fuente                                                          | Ítems        | Estado de revisión            |
+| --------------------------------------------------------------- | ------------ | ----------------------------- |
+| DBA Matemáticas V.2 (2016)                                      | 119          | Pendiente de revisión docente |
+| DBA Lenguaje V.2 (2016)                                         | 88           | Pendiente de revisión docente |
+| DBA Transición V.1 (2016)                                       | 16           | Pendiente de revisión docente |
+| DBA Ciencias Naturales V.1 (2016)                               | 54           | Pendiente de revisión docente |
+| DBA Ciencias Sociales V.1 (2016)                                | 82           | Pendiente de revisión docente |
+| Estándares Básicos de Competencias en Ciencias Naturales (2006) | 342 acciones | Pendiente de revisión docente |
+| Estándares Básicos de Competencias en Ciencias Sociales (2006)  | 250 acciones | Pendiente de revisión docente |
+
+Los Estándares (SPEC-0036) se guardan como una acción de pensamiento por ítem: el componente es su
+columna y la lista que lo acompaña es el estándar general del grupo de grados al que apunta.
 
 - Archivos de datos: `apps/web/curriculum/men/*.json` (fuente de verdad, versionados en git).
 - Herramientas: `apps/web/curriculum/tools/` (extracción desde el PDF, correcciones documentadas, verificación).
@@ -15,7 +22,9 @@ Fuentes oficiales del MEN cargadas en ProfIA (ADR-0005, SPEC-0004).
 ## Flujo para agregar o actualizar una fuente
 
 1. Descargar el PDF oficial en `apps/web/curriculum/sources/` (ignorado por git) y extraer el texto: `pdftotext -enc UTF-8 <pdf> <archivo>.raw.txt`.
-2. Extraer el borrador (`tools/extract_dba.py` o un extractor nuevo si la estructura cambia).
+2. Extraer el borrador (`tools/extract_dba.py`; para PDF a dos columnas, `tools/extract_dba_columns.py`;
+   para Estándares, `tools/extract_ebc.py`). Las fuentes con `"layout": "columns"` o `"ebc"` en
+   `sources.json` se verifican con `tools/verify_columns.py` y no necesitan el `.raw.txt`.
 3. Registrar la fuente en `tools/sources.json` y las correcciones con su motivo en `tools/fixes/`.
 4. `python curriculum/tools/build_sources.py` y `npm run curriculum:verify`: debe salir todo OK.
 5. Revisión docente de una muestra, y luego `review.status: "APPROVED"`.

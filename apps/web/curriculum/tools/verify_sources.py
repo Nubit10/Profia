@@ -12,10 +12,14 @@ Comprobaciones:
 Sale con código 1 si alguna comprobación falla.
 """
 
+import hashlib
 import json
 import os
 import re
 import sys
+
+sys.path.insert(0, os.path.dirname(__file__))
+import verify_columns  # noqa: E402
 
 BASE = os.path.join(os.path.dirname(__file__), "..")
 BULLETS = {
@@ -40,6 +44,19 @@ def main():
     failed = False
     for slug, entry in registry.items():
         doc = json.load(open(os.path.join(BASE, "men", f"{slug}.json"), encoding="utf8"))
+        if entry.get("layout") in ("columns", "ebc"):
+            # PDF a dos columnas (SPEC-0036): se verifica recortando cada columna.
+            fixes = json.load(open(os.path.join(BASE, entry["fixes"]), encoding="utf8")) if entry.get("fixes") else {}
+            pdf = os.path.join(BASE, entry["pdf"])
+            if hashlib.sha256(open(pdf, "rb").read()).hexdigest() != entry["source"]["sha256"]:
+                print(f"ERR {slug}: el PDF no es el registrado (sha256 distinto)")
+                failed = True
+                continue
+            check = verify_columns.verify_ebc if entry["layout"] == "ebc" else verify_columns.verify
+            ok = check(pdf, doc["items"], fixes)
+            failed |= not ok
+            print(f"{'OK ' if ok else 'ERR'} {slug}: {len(doc['items'])} ítems")
+            continue
         raw_text = open(os.path.join(BASE, RAW[slug]), encoding="utf8").read()
         raw = norm(raw_text.replace("\f", " "))
         raw_no_bullets = re.sub(r"\s*\b[m•]\s*(?=[A-ZÁÉÍÓÚ¿])", " ", raw)

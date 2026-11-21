@@ -377,12 +377,32 @@ describe("proponer la planeación con IA (SPEC-0014)", () => {
     });
     expect(logs.map((l) => l.status).sort()).toEqual(["INVALID", "UNAVAILABLE"]);
 
-    const pe = await mathCourse(ctx, "Ciencias Naturales y Educación Ambiental");
+    // Inglés: con área curricular pero sin DBA en el catálogo.
+    const pe = await mathCourse(ctx, "Inglés");
     const fetcher = engine();
     await expect(
       proposePlanning(ctx, { ...input, courseId: pe.id }, fetcher),
     ).rejects.toMatchObject({ code: "INVALID" });
     expect(fetcher).not.toHaveBeenCalled();
+  });
+
+  it("CA-0036-06: en Ciencias Sociales, Lucía propone el periodo con los DBA de Sociales del grado", async () => {
+    const ctx = await teacher();
+    const course = await mathCourse(ctx, "Ciencias Sociales");
+    const fetcher = engine();
+    const proposal = await proposePlanning(
+      ctx,
+      { scope: "PERIOD", courseId: course.id, periodNumber: 1, size: "DEFAULT" },
+      fetcher,
+    );
+    if (proposal.status !== "ok") throw new Error(proposal.status);
+    // Al motor solo van DBA de Ciencias Sociales de 6° (nunca Estándares ni otra área).
+    const sent = bodyOf(fetcher).periods.flatMap((p) => p.dbaCodes);
+    expect(sent.length).toBeGreaterThan(0);
+    expect(sent.every((code) => code.startsWith("MEN-DBA-CSO-V1-G6-"))).toBe(true);
+    const topics = proposal.periods[0]!.units.flatMap((u) => u.topics);
+    expect(topics.length).toBeGreaterThan(0);
+    expect(topics.every((t) => t.dba.length > 0)).toBe(true);
   });
 
   it("CA-0014-20: otro docente del colegio recibe 'no encontrado' al proponer o aceptar", async () => {

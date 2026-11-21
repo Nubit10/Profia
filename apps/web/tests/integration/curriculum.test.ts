@@ -200,7 +200,8 @@ describe("referentes por curso", () => {
   });
 
   it("muestra un aviso cuando el área no tiene DBA en ese grado", async () => {
-    const { ctx, course } = await teacherWithCourse("Ciencias Sociales", "G6");
+    // Inglés tiene área curricular pero aún no tiene DBA en el catálogo (SPEC-0036 dejó Inglés para después).
+    const { ctx, course } = await teacherWithCourse("Inglés", "G6");
     expect((await getCourseReferences(ctx, course.id)).emptyReason).toBe("NO_ITEMS_FOR_GRADE");
   });
 

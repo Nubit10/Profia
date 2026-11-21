@@ -52,5 +52,84 @@
       "sha256": "869680c63b6e2c65f3971496a9a19c85b24072079d0a89afbfa762adf1e3704d",
       "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Los DBA de Transición no se dividen por áreas: aplican a cualquier curso de Transición. Los ejemplos se consultan en el documento original."
     }
+  },
+  "dba-ciencias-naturales-v1": {
+    "draft": "draft/cna.json",
+    "fixes": "tools/fixes/dba-ciencias-naturales-v1.json",
+    "pdf": "sources/dba_c.naturales-min.pdf",
+    "layout": "columns",
+    "source": {
+      "key": "MEN-DBA-CNA-V1",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Derechos Básicos de Aprendizaje: Ciencias Naturales",
+      "documentType": "DBA",
+      "area": "CIENCIAS_NATURALES",
+      "version": "V.1",
+      "year": 2016,
+      "isbn": "978-958-691-923-4",
+      "url": "https://www.colombiaaprende.edu.co/sites/default/files/files_public/2026-05/dba_c.naturales-min.pdf",
+      "landingUrl": "https://colombiaaprende.edu.co/recurso-coleccion/derechos-basicos-de-aprendizaje-dba-ciencias-naturales",
+      "sha256": "3156475f8a0cc988080dc71c49b722f9f125726591adafd66f45a78d5e8a3f4d",
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Los ejemplos, tablas y figuras se consultan en el documento original, en la página indicada."
+    }
+  },
+  "dba-ciencias-sociales-v1": {
+    "draft": "draft/cso.json",
+    "fixes": "tools/fixes/dba-ciencias-sociales-v1.json",
+    "pdf": "sources/dba_c.sociales-v2_0.pdf",
+    "layout": "columns",
+    "source": {
+      "key": "MEN-DBA-CSO-V1",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Derechos Básicos de Aprendizaje: Ciencias Sociales",
+      "documentType": "DBA",
+      "area": "CIENCIAS_SOCIALES",
+      "version": "V.1",
+      "year": 2016,
+      "url": "https://www.colombiaaprende.edu.co/sites/default/files/files_public/2026-05/dba_c.sociales-v2_0.pdf",
+      "landingUrl": "https://colombiaaprende.edu.co/recurso-coleccion/derechos-basicos-de-aprendizaje-dba-ciencias-sociales",
+      "sha256": "f816ba011a0c6041fbe9e72644832fbaa217340748dcdcd29aad3e7a3188870e",
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Los ejemplos, tablas y figuras se consultan en el documento original, en la página indicada."
+    }
+  },
+  "ebc-ciencias-naturales-v1": {
+    "draft": "draft/ebc-cna.json",
+    "fixes": "tools/fixes/ebc-ciencias-naturales-v1.json",
+    "pdf": "sources/estandares-basicos-competencias.pdf",
+    "layout": "ebc",
+    "source": {
+      "key": "MEN-EBC-CNA-V1",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Estándares Básicos de Competencias en Ciencias Naturales",
+      "documentType": "STANDARD",
+      "area": "CIENCIAS_NATURALES",
+      "version": "V.1",
+      "year": 2006,
+      "isbn": "958-691-290-6",
+      "url": "https://www.mineducacion.gov.co/1621/articles-340021_recurso_1.pdf",
+      "landingUrl": "https://www.mineducacion.gov.co/portal/men/Publicaciones/Guias/340021:Estandares-Basicos-de-Competencias-en-Lenguaje-Matematicas-Ciencias-y-Ciudadanas",
+      "sha256": "163b9f20b568e1cf3ba1178da6dba07a8ec09cd08043175e4308affdc40e8703",
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es una acción de pensamiento y producción; la lista que lo acompaña es el estándar general del grupo de grados al que apunta."
+    }
+  },
+  "ebc-ciencias-sociales-v1": {
+    "draft": "draft/ebc-cso.json",
+    "fixes": "tools/fixes/ebc-ciencias-sociales-v1.json",
+    "pdf": "sources/estandares-basicos-competencias.pdf",
+    "layout": "ebc",
+    "source": {
+      "key": "MEN-EBC-CSO-V1",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Estándares Básicos de Competencias en Ciencias Sociales",
+      "documentType": "STANDARD",
+      "area": "CIENCIAS_SOCIALES",
+      "version": "V.1",
+      "year": 2006,
+      "isbn": "958-691-290-6",
+      "url": "https://www.mineducacion.gov.co/1621/articles-340021_recurso_1.pdf",
+      "landingUrl": "https://www.mineducacion.gov.co/portal/men/Publicaciones/Guias/340021:Estandares-Basicos-de-Competencias-en-Lenguaje-Matematicas-Ciencias-y-Ciudadanas",
+      "sha256": "163b9f20b568e1cf3ba1178da6dba07a8ec09cd08043175e4308affdc40e8703",
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es una acción de pensamiento y producción; la lista que lo acompaña es el estándar general del grupo de grados al que apunta."
+    }
   }
 }

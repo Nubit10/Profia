@@ -34,3 +34,17 @@
 {"query": "hacer un video o un corto con guion", "area": "LENGUAJE", "grade": "G10", "expected": ["MEN-DBA-LEN-V2-G10-02"]}
 {"query": "lavarse las manos y cuidar la salud", "area": "TRANSICION", "grade": "TRANSICION", "expected": ["MEN-DBA-TRA-V1-02"]}
 {"query": "juegos de rimas y sonidos de las palabras", "area": "TRANSICION", "grade": "TRANSICION", "expected": ["MEN-DBA-TRA-V1-08"]}
+{"query": "diferencias entre seres vivos y objetos inertes, qué necesitan para vivir", "area": "CIENCIAS_NATURALES", "grade": "G1", "expected": ["MEN-DBA-CNA-V1-G1-03"]}
+{"query": "materiales opacos, transparentes y translúcidos y cómo pasa la luz", "area": "CIENCIAS_NATURALES", "grade": "G3", "expected": ["MEN-DBA-CNA-V1-G3-01"]}
+{"query": "por qué la Luna cambia de forma durante el mes", "area": "CIENCIAS_NATURALES", "grade": "G4", "expected": ["MEN-DBA-CNA-V1-G4-04"]}
+{"query": "materiales conductores y aislantes en un circuito eléctrico", "area": "CIENCIAS_NATURALES", "grade": "G5", "expected": ["MEN-DBA-CNA-V1-G5-02"]}
+{"query": "funciones de la célula: membrana, energía y división celular", "area": "CIENCIAS_NATURALES", "grade": "G6", "expected": ["MEN-DBA-CNA-V1-G6-04"]}
+{"query": "reactivos y productos en una reacción química, conservación de la masa", "area": "CIENCIAS_NATURALES", "grade": "G8", "expected": ["MEN-DBA-CNA-V1-G8-02"]}
+{"query": "el ADN, los genes y cómo se expresan en el fenotipo", "area": "CIENCIAS_NATURALES", "grade": "G9", "expected": ["MEN-DBA-CNA-V1-G9-05"]}
+{"query": "ayer, hoy y mañana: ordenar eventos de mi vida en el tiempo", "area": "CIENCIAS_SOCIALES", "grade": "G1", "expected": ["MEN-DBA-CSO-V1-G1-03"]}
+{"query": "la importancia del mar para la economía de los pueblos de la costa", "area": "CIENCIAS_SOCIALES", "grade": "G3", "expected": ["MEN-DBA-CSO-V1-G3-01"]}
+{"query": "culturas indígenas que habitaban Colombia cuando llegaron los españoles", "area": "CIENCIAS_SOCIALES", "grade": "G4", "expected": ["MEN-DBA-CSO-V1-G4-04"]}
+{"query": "ventajas de la posición geográfica de Colombia para su economía", "area": "CIENCIAS_SOCIALES", "grade": "G5", "expected": ["MEN-DBA-CSO-V1-G5-02"]}
+{"query": "primeras ciudades de la antigüedad, agricultura y comercio", "area": "CIENCIAS_SOCIALES", "grade": "G6", "expected": ["MEN-DBA-CSO-V1-G6-04"]}
+{"query": "migraciones entre países y sus efectos", "area": "CIENCIAS_SOCIALES", "grade": "G8", "expected": ["MEN-DBA-CSO-V1-G8-02"]}
+{"query": "la Guerra Fría y sus consecuencias en América Latina", "area": "CIENCIAS_SOCIALES", "grade": "G11", "expected": ["MEN-DBA-CSO-V1-G11-04"]}

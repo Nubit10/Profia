@@ -1,0 +1,13 @@
+{
+  "_doc": "Correcciones de DBA Ciencias Naturales V.1 (SPEC-0036).",
+  "verifiedVisually": [
+    {
+      "code": "MEN-DBA-CNA-V1-G4-05",
+      "reason": "La evidencia 3 sigue en la página siguiente; el recorte intercala el encabezado «Derechos Básicos de…». Comparada contra la imagen de las págs. 16-17."
+    },
+    {
+      "code": "MEN-DBA-CNA-V1-G8-03",
+      "reason": "«(Boyle-Mariotte,…» lleva guion en el original (pág. 28); el recorte lo une al partir la línea."
+    }
+  ]
+}

@@ -16,4 +16,10 @@ export const PRELOADED_SUBJECTS: readonly { name: string; area: CurriculumAreaId
   { name: "Tecnología e Informática", area: null },
   { name: "Filosofía", area: null },
   { name: "Ciencias Económicas y Políticas", area: null },
+  // SPEC-0036: como se llaman en muchos colegios en 10° y 11°; ven los DBA y Estándares de su área.
+  { name: "Biología", area: "CIENCIAS_NATURALES" },
+  { name: "Física", area: "CIENCIAS_NATURALES" },
+  { name: "Química", area: "CIENCIAS_NATURALES" },
+  { name: "Historia", area: "CIENCIAS_SOCIALES" },
+  { name: "Geografía", area: "CIENCIAS_SOCIALES" },
 ];

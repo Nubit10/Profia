@@ -211,7 +211,12 @@ export function ReferencesView({ courseId, references, emptyForGrade, searchActi
                 </CardHeader>
                 <CardContent className="flex flex-col gap-3">
                   <div>
-                    <p className="mb-1 text-sm font-medium">Evidencias de aprendizaje</p>
+                    <p className="mb-1 text-sm font-medium">
+                      {/* SPEC-0036: un estándar trae el estándar general del grupo de grados. */}
+                      {ref.type === "DBA"
+                        ? "Evidencias de aprendizaje"
+                        : "Estándar del grupo de grados"}
+                    </p>
                     <ul className="ml-5 list-disc space-y-1 text-sm">
                       {ref.evidences.map((e) => (
                         <li key={e}>{e}</li>

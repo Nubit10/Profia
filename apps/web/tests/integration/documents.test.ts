@@ -7,7 +7,7 @@ import { createCourse, listSubjects } from "@/modules/courses";
 import { importCurriculumJson } from "@/modules/curriculum";
 import { exportResource, listOfflineLibrary, recordOfflineSync } from "@/modules/documents";
 import { createIndependentSpace } from "@/modules/institutions";
-import { createTopic, createUnit, getCoursePlanning } from "@/modules/planning";
+import { createObjective, createTopic, createUnit, getCoursePlanning } from "@/modules/planning";
 import {
   createResource,
   getResource,
@@ -109,6 +109,91 @@ beforeEach(async () => {
 afterAll(() => db.$disconnect());
 
 describe("exportar a Word y PDF (SPEC-0009)", () => {
+  it("CA-0036-10: el taller de Ciencias Naturales lleva su DBA en la guía del docente", async () => {
+    const user = await createUser("Docente de ciencias");
+    const { institutionId } = await createIndependentSpace(user);
+    const ctx = await ctxFor(user, institutionId);
+    const science = (await listSubjects(ctx)).find(
+      (s) => s.name === "Ciencias Naturales y Educación Ambiental",
+    )!;
+    const course = await createCourse(ctx, {
+      subjectId: science.id,
+      grade: "G6",
+      groupName: "601",
+      academicYear: "2026",
+    });
+    await getCoursePlanning(ctx, course.id);
+    const unit = await createUnit(ctx, {
+      courseId: course.id,
+      periodNumber: 1,
+      title: "La célula",
+      description: null,
+    });
+    const topic = await createTopic(ctx, {
+      unitId: unit.id,
+      title: "Funciones de la célula",
+      description: null,
+      plannedSessions: null,
+    });
+    const code = "MEN-DBA-CNA-V1-G6-04";
+    const objective = await createObjective(ctx, {
+      topicId: topic.id,
+      statement: "Explica el transporte de membrana.",
+      links: [{ code, evidenceIndexes: [] }],
+    });
+    const activity = (i: number) => ({
+      title: `Actividad ${i}`,
+      instructions: "Observa una célula de cebolla y describe lo que ves.",
+      durationMinutes: 15,
+      expectedOutcome: "Dibujo de la célula con sus partes.",
+      cognitiveLevel: "APPLY" as const,
+      dbaCodes: [code],
+    });
+    const body = {
+      workshop: {
+        title: "Taller de la célula",
+        purpose: "Reconocer las funciones de la célula.",
+        studentInstructions: "Trabaja en parejas.",
+        materials: ["Cuaderno"],
+        moments: [
+          { name: "Inicio", activities: [activity(1)] },
+          { name: "Desarrollo", activities: [activity(2), activity(3)] },
+          { name: "Cierre", activities: [activity(4)] },
+        ],
+        teacherGuidance: ["Revisa que nombren la membrana."],
+      },
+      meta: { ...quizBody.meta, promptVersion: "workshop.v1" },
+    };
+    const tasks: Promise<void>[] = [];
+    const { id } = await createResource(
+      ctx,
+      {
+        type: "WORKSHOP",
+        topicId: topic.id,
+        objectiveIds: [objective.id],
+        durationMinutes: 60,
+        difficulty: "INTERMEDIATE",
+        itemCount: 4,
+        structure: "START_DEVELOPMENT_CLOSE",
+        cognitiveDistribution: { APPLY: 100 },
+        notes: null,
+        excludedPreferenceIds: [],
+      },
+      {
+        fetcher: vi.fn(async () => Response.json(body)) as unknown as typeof fetch,
+        schedule: (task) => {
+          tasks.push(task());
+        },
+      },
+    );
+    await Promise.all(tasks);
+    const file = await exportResource(ctx, id, { doc: "key", format: "docx", variant: "A" });
+    const xml = await docxText(file.body);
+    expect(xml).toContain("Ciencias Naturales y Educación Ambiental");
+    expect(xml).toContain("Referentes curriculares (MEN)");
+    expect(xml).toContain("DBA 4: Comprende algunas de las funciones básicas de la célula");
+  });
+
   it("CA-0009-01/05/07: hoja del estudiante con encabezado, marca de borrador y auditoría", async () => {
     const { ctx, resourceId } = await teacherWithQuiz();
     const file = await exportResource(ctx, resourceId, {
