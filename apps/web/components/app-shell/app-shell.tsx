@@ -3,11 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, useTransition, type ReactNode } from "react";
-import {
-  HiOutlineArrowRightOnRectangle,
-  HiOutlineBars3,
-  HiOutlineQuestionMarkCircle,
-} from "react-icons/hi2";
+import { HiOutlineArrowRightOnRectangle, HiOutlineBars3 } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -37,7 +33,6 @@ import {
   type SpaceOption,
 } from "./identity-card";
 import { TAB_BAR, getNavSections, isActive, type NavAccess, type NavItem } from "./nav-items";
-import { TextSizeToggle } from "./text-size";
 import { TutorialDialog } from "./tutorial";
 import { useShellStore } from "./use-shell-store";
 
@@ -217,23 +212,11 @@ export function AppShell(props: Props) {
 
       <div className="px-3 pb-3">
         <div className="overflow-hidden rounded-xl border border-border bg-card shadow-soft">
-          <button
-            type="button"
-            onClick={() => {
-              closeSidebar();
-              setTutorialOpen(true);
-            }}
-            className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-semibold text-sidebar-foreground transition hover:bg-brand-softer hover:text-brand-strong"
-          >
-            <HiOutlineQuestionMarkCircle className="size-[18px] text-brand" aria-hidden />
-            Ver tutorial
-          </button>
+          {/* En esta tarjeta solo quedan instalar y salir; lo demás vive en Ajustes. */}
           <InstallApp
             className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-semibold text-sidebar-foreground transition hover:bg-brand-softer hover:text-brand-strong"
             onDone={closeSidebar}
           />
-          <TextSizeToggle className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-semibold text-sidebar-foreground transition hover:bg-brand-softer hover:text-brand-strong" />
-          <div className="mx-4 h-px bg-border" />
           <button
             type="button"
             onClick={() => setConfirmLogout(true)}

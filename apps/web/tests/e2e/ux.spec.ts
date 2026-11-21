@@ -181,9 +181,12 @@ test("CA-0012-03/04/05/07/26: el Inicio guía al docente y crea su primer taller
   await page.reload();
   await expect(page.getByRole("heading", { name: /^Hola,/ })).toBeVisible();
   await expect(welcome).toHaveCount(0);
+  // El tutorial vive en Ajustes (la tarjeta del menú solo tiene instalar y cerrar sesión).
+  await page.getByRole("link", { name: "Ajustes", exact: true }).click();
   await page.getByRole("button", { name: "Ver tutorial" }).click();
   await expect(page.getByRole("dialog", { name: "Así funciona Profe" })).toBeVisible();
   await page.keyboard.press("Escape");
+  await page.goto("/dashboard");
 
   // CA-0012-03: sin cursos, el siguiente paso es crear el primero.
   const next = page.getByTestId("next-step");

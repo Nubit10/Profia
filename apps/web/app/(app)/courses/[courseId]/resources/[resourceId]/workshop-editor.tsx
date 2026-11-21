@@ -435,7 +435,7 @@ export function WorkshopEditor({
                         label={label}
                         disabledReason={
                           dirty || !savedKeys.has(a.id)
-                            ? "Guarda tus cambios antes de regenerar"
+                            ? "Guarda tus cambios antes de mejorarla con IA"
                             : null
                         }
                         renderProposal={(item) => <ActivityView a={item} dba={dba} />}

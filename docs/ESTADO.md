@@ -19,6 +19,17 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **Ajustes** (2026-11-21), pedido del usuario. Página nueva `/settings` ("Configuración → Ajustes" en el
+  menú; quien no da clases la ve en "Cuenta"): Mi cuenta (nombre, correo y fecha con que se registró, y sus
+  espacios con el rol; solo lectura, `getAccount` en `modules/auth`), tamaño de la letra (Normal / Más
+  grande, `useLargeText` en `components/app-shell/text-size.tsx`), modo de pantalla Claro / Oscuro / Como
+  el dispositivo **solo visual** (aún no cambia nada) y "Ver tutorial". La tarjeta de abajo del menú
+  quedó con "Instalar Profe" y "Cerrar sesión". El botón "Regenerar" de cada pregunta o actividad ahora
+  dice **"Mejorar"** (lo eligió el usuario; la palabra propuesta antes no había quedado escrita).
+  - Pruebas: unitarias 104; e2e de `ux`, `resources`, `spec-0027.movil` y `usabilidad-bloques.movil`
+    (16 en verde, con axe en Ajustes). Captura: `docs/design/capturas/ajustes/escritorio.png`.
+  - Pendiente: la funcionalidad del modo oscuro (tokens oscuros en `globals.css` y guardar la elección).
+
 - **Mejoras de usabilidad, bloques 1–8** (2026-11-21), de
   [usabilidad/proximos-pasos.md](usabilidad/proximos-pasos.md). El usuario aprobó: el ajuste gasta
   cupo; en lo demás, lo recomendado; "lo más importante son todas las mejoras implementadas".

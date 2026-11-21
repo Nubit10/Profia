@@ -3,6 +3,7 @@ import {
   HiOutlineBellAlert,
   HiOutlineBookOpen,
   HiOutlineBuildingLibrary,
+  HiOutlineCog6Tooth,
   HiOutlineDocumentText,
   HiOutlineHome,
   HiOutlineLockClosed,
@@ -50,6 +51,8 @@ const ITEMS = {
   gradingScale: { href: "/grading-scale", label: "Escala de valoración", icon: HiOutlineScale },
   school: { href: "/school", label: "Datos y sedes", icon: HiOutlineBuildingLibrary },
   members: { href: "/school/members", label: "Profesores", icon: HiOutlineUserGroup },
+  // Mi cuenta, tamaño de la letra y modo de pantalla.
+  settings: { href: "/settings", label: "Ajustes", icon: HiOutlineCog6Tooth },
 } satisfies Record<string, NavItem>;
 
 export function getNavSections({ isTeacher, isSchoolAdmin }: NavAccess): NavSection[] {
@@ -59,7 +62,10 @@ export function getNavSections({ isTeacher, isSchoolAdmin }: NavAccess): NavSect
   if (isTeacher) {
     sections.push(
       { title: "Mi trabajo", items: [ITEMS.resources, ITEMS.piar, ITEMS.formats] },
-      { title: "Ajustes", items: [ITEMS.subjects, ITEMS.gradingScale, ITEMS.notifications] },
+      {
+        title: "Configuración",
+        items: [ITEMS.settings, ITEMS.subjects, ITEMS.gradingScale, ITEMS.notifications],
+      },
     );
   }
   if (isSchoolAdmin) {
@@ -69,6 +75,8 @@ export function getNavSections({ isTeacher, isSchoolAdmin }: NavAccess): NavSect
       : [ITEMS.school, ITEMS.members, ITEMS.formats, ITEMS.subjects, ITEMS.gradingScale];
     sections.push({ title: "Colegio", items });
   }
+  // Quien no da clases también tiene sus ajustes (cuenta y pantalla).
+  if (!isTeacher) sections.push({ title: "Cuenta", items: [ITEMS.settings] });
   return sections.filter((s) => s.items.length > 0);
 }
 

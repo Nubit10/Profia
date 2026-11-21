@@ -60,7 +60,7 @@ test("CA-0027-01/02/11/12: «Más fácil» con un toque, propuesta como la hoja 
 
   // Fichas por ítem: ya no hay que escribir para regenerar una pregunta.
   const first = page.getByRole("list", { name: "Preguntas" }).locator(":scope > li").first();
-  await first.getByRole("button", { name: "Regenerar" }).click();
+  await first.getByRole("button", { name: "Mejorar", exact: true }).click();
   await expect(first.getByRole("button", { name: "Otra pregunta" })).toBeVisible();
   await expect(first.getByRole("textbox", { name: /Qué cambiar/ })).toHaveCount(0);
   await first.getByRole("button", { name: "Otra pregunta" }).click();

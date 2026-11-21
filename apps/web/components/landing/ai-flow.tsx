@@ -190,7 +190,7 @@ function Station({ s, i, step }: { s: Scenario; i: number; step: number }) {
       <p className="font-display text-lg leading-tight text-chalk">{s.result.title}</p>
       <p className="mt-1 text-sm text-chalk/70">{s.result.detail}</p>
       <div className="mt-3 flex flex-wrap gap-1.5 text-xs">
-        {["Editar", "Regenerar una", "Aprobar"].map((a, k) => (
+        {["Editar", "Mejorar una", "Aprobar"].map((a, k) => (
           <span
             key={a}
             className={cn(

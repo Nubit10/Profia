@@ -76,7 +76,7 @@ test("CA-0008-01/06/07/08/09: generar un quiz, editarlo, regenerar una pregunta 
   await expect(questions.nth(0)).toContainText("¿Qué número está más a la izquierda en la recta?");
 
   // CA-0008-07: regenerar con una indicación llega como propuesta.
-  await questions.nth(1).getByRole("button", { name: "Regenerar" }).click();
+  await questions.nth(1).getByRole("button", { name: "Mejorar", exact: true }).click();
   // SPEC-0027: el texto libre queda detrás de "Otra indicación…".
   await questions.nth(1).getByRole("button", { name: "Otra indicación…" }).click();
   await questions.nth(1).getByLabel("Qué cambiar en Pregunta 2").fill("Hazla más difícil");

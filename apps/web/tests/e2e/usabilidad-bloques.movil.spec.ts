@@ -94,14 +94,18 @@ test("bloques 7 y 8: barra abajo con Inicio · Mis cursos · Crear · Mis recurs
   await page.keyboard.press("Escape");
   await axe(page, "Mis recursos con la barra");
 
-  // Letra más grande: se guarda en el dispositivo y se aplica antes de pintar.
+  // Letra más grande (en Ajustes): se guarda en el dispositivo y se aplica antes de pintar.
   const base = await page.evaluate(() => getComputedStyle(document.documentElement).fontSize);
   await page.getByRole("button", { name: "Abrir menú" }).click();
-  await page.getByRole("button", { name: /Letra más grande/ }).click();
-  await expect(page.getByRole("button", { name: /Letra más grande/ })).toHaveAttribute(
-    "aria-pressed",
+  await page.getByRole("link", { name: "Ajustes", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Ajustes", level: 1 })).toBeVisible();
+  const size = page.getByRole("radiogroup", { name: "Tamaño de la letra" });
+  await size.getByRole("radio", { name: /Más grande/ }).click();
+  await expect(size.getByRole("radio", { name: /Más grande/ })).toHaveAttribute(
+    "aria-checked",
     "true",
   );
+  await axe(page, "Ajustes");
   await page.reload();
   const large = await page.evaluate(() => getComputedStyle(document.documentElement).fontSize);
   expect(parseFloat(large)).toBeGreaterThan(parseFloat(base));

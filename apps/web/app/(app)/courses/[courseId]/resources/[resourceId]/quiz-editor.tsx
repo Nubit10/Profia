@@ -375,7 +375,7 @@ export function QuizEditor({
                     itemKey={q.id}
                     label={label}
                     disabledReason={
-                      dirty || !savedKeys.has(q.id) ? "Guarda tus cambios antes de regenerar" : null
+                      dirty || !savedKeys.has(q.id) ? "Guarda tus cambios antes de mejorarla con IA" : null
                     }
                     renderProposal={(item) => <QuestionView q={item} dba={dba} />}
                     actions={actions}

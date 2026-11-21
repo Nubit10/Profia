@@ -92,6 +92,16 @@ export async function revokeSession(sessionId: string): Promise<void> {
   });
 }
 
+/** Ajustes → Mi cuenta: lo que el docente escribió al registrarse y desde cuándo usa Profe. */
+export async function getAccount(
+  userId: string,
+): Promise<{ name: string; email: string; createdAt: Date } | null> {
+  return db.user.findUnique({
+    where: { id: userId },
+    select: { name: true, email: true, createdAt: true },
+  });
+}
+
 export async function findPublicUser(userId: string): Promise<PublicUser | null> {
   return db.user.findUnique({
     where: { id: userId },

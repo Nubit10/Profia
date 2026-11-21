@@ -732,7 +732,7 @@ export function ExamEditor({
                           label={label}
                           disabledReason={
                             dirty || !savedKeys.has(q.id)
-                              ? "Guarda tus cambios antes de regenerar"
+                              ? "Guarda tus cambios antes de mejorarla con IA"
                               : null
                           }
                           renderProposal={(item) => (

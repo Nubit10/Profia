@@ -7,4 +7,5 @@ export { getCurrentUser, requireUser } from "./session";
 export { dismissTutorialAction, loginAction, logoutAction, registerAction } from "./actions";
 export { dismissTutorial, hasDismissedTutorial } from "./tutorial";
 export type { ActionResult } from "./types";
+export { getAccount } from "./service";
 export type { PublicUser } from "./service";

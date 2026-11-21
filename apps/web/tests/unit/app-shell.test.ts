@@ -8,11 +8,11 @@ const titles = (access: Parameters<typeof getNavSections>[0]) =>
   getNavSections(access).map((s) => [s.title, s.items.map((i) => i.label)]);
 
 describe("menú lateral por rol (CA-0012-20)", () => {
-  it("CA-0012-20: el docente ve Principal, Mi trabajo y Ajustes", () => {
+  it("CA-0012-20: el docente ve Principal, Mi trabajo y Configuración (con Ajustes)", () => {
     expect(titles({ isTeacher: true, isSchoolAdmin: false })).toEqual([
       ["Principal", ["Inicio", "Mis cursos"]],
       ["Mi trabajo", ["Mis recursos", "PIAR", "Formatos"]],
-      ["Ajustes", ["Asignaturas", "Escala de valoración", "Notificaciones"]],
+      ["Configuración", ["Ajustes", "Asignaturas", "Escala de valoración", "Notificaciones"]],
     ]);
   });
 
@@ -20,18 +20,19 @@ describe("menú lateral por rol (CA-0012-20)", () => {
     expect(titles({ isTeacher: true, isSchoolAdmin: true })).toEqual([
       ["Principal", ["Inicio", "Mis cursos"]],
       ["Mi trabajo", ["Mis recursos", "PIAR", "Formatos"]],
-      ["Ajustes", ["Asignaturas", "Escala de valoración", "Notificaciones"]],
+      ["Configuración", ["Ajustes", "Asignaturas", "Escala de valoración", "Notificaciones"]],
       ["Colegio", ["Datos y sedes", "Profesores"]],
     ]);
   });
 
-  it("CA-0012-20: el administrador sin rol docente ve solo Inicio y Colegio (con formato y asignaturas)", () => {
+  it("CA-0012-20: el administrador sin rol docente ve Inicio, Colegio (con formato y asignaturas) y sus Ajustes", () => {
     expect(titles({ isTeacher: false, isSchoolAdmin: true })).toEqual([
       ["Principal", ["Inicio"]],
       [
         "Colegio",
         ["Datos y sedes", "Profesores", "Formatos", "Asignaturas", "Escala de valoración"],
       ],
+      ["Cuenta", ["Ajustes"]],
     ]);
   });
 });

@@ -268,7 +268,7 @@ export function RegenerateItem<T>({
         onClick={() => setOpen(true)}
       >
         <HiOutlineArrowPath aria-hidden />
-        Regenerar
+        Mejorar
       </Button>
     );
   }
