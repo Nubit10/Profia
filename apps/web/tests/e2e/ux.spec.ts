@@ -321,7 +321,7 @@ test("CA-0012-11: el recurso en generación explica qué pasa y el fallido ofrec
   const generating = await insertResources(user.email, 1, "GENERATING");
   await page.goto(`/courses/${generating.courseId}/resources/${generating.ids[0]}`);
   await expect(
-    page.getByRole("status").filter({ hasText: "Estamos creando tu quiz" }),
+    page.getByRole("status").filter({ hasText: "Lucía está creando tu quiz" }),
   ).toBeVisible();
 
   const failed = await insertResources(user.email, 1, "FAILED");

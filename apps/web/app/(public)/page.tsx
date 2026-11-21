@@ -29,13 +29,13 @@ const PAINS = [
   },
   {
     pain: "Lo que encuentras en internet no es de tu grado o no tiene nada que ver con los DBA.",
-    answer: "ProfIA parte del DBA oficial de tu curso. Cada actividad sabe a qué apunta.",
+    answer: "Lucía parte del DBA oficial de tu curso. Cada actividad sabe a qué apunta.",
     tone: "bg-tint-2",
     tilt: "rotate-1",
   },
   {
     pain: "Coordinación pide la planeación del periodo con objetivos y DBA, y es un trabajo de días.",
-    answer: "La IA te propone unidades, temas y objetivos del periodo amarrados a sus DBA.",
+    answer: "La IA te propone unidades, temas y objetivos del periodo conectados con sus DBA.",
     tone: "bg-tint-5",
     tilt: "rotate-[0.6deg]",
   },
@@ -245,14 +245,17 @@ export default function HomePage() {
         <section className="border-b border-border bg-ruled">
           <div className="mx-auto grid w-full max-w-6xl items-center gap-16 px-4 pt-14 pb-20 sm:px-6 sm:pl-16 lg:grid-cols-[1.1fr_1fr] lg:pt-20 lg:pb-24">
             <div className="flex flex-col gap-7">
-              <SectionLabel>Para docentes de Colombia · alineado con el MEN</SectionLabel>
+              <SectionLabel>
+                Para docentes de Colombia · Con los DBA del Ministerio de Educación
+              </SectionLabel>
               <h1 className="font-display text-[2.6rem] leading-[1.05] font-semibold sm:text-6xl">
-                IA para docentes: del DBA a la clase del lunes,{" "}
-                <em className="mark-highlight">sin gastarse el domingo.</em>
+                Prepara tus clases en minutos,{" "}
+                <em className="mark-highlight">alineadas con los DBA y el DUA.</em>
               </h1>
               <p className="max-w-xl text-lg text-muted-foreground">
-                Le dices a ProfIA qué vas a enseñar y a qué curso. Busca los DBA oficiales de ese
-                grado y te entrega el taller, el quiz, el examen o la planeación del periodo,{" "}
+                Le cuentas a Lucía, la IA de ProfIA, qué vas a enseñar y en qué curso. Ella busca
+                los DBA de ese grado y te entrega el taller, el quiz, el examen o la planeación del
+                periodo,{" "}
                 <strong className="font-semibold text-foreground">
                   listos para revisar y descargar en Word
                 </strong>{" "}
@@ -271,7 +274,8 @@ export default function HomePage() {
                 </a>
               </div>
               <p className="font-mono text-xs text-muted-foreground">
-                Sin tarjeta · funciona en el celular · tú apruebas todo
+                Gratis y sin tarjeta de crédito · Funciona en el celular · Tú revisas todo antes de
+                usarlo
               </p>
             </div>
             <PlanningSheet />
@@ -324,9 +328,7 @@ export default function HomePage() {
           <div className="mx-auto w-full max-w-6xl rounded-2xl border-[10px] border-b-[18px] border-tint-3-fg/80 bg-board px-5 py-12 shadow-lift sm:px-10 lg:py-16">
             <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-end">
               <div className="flex flex-col gap-3">
-                <SectionLabel className="text-highlight">
-                  Cómo funciona la IA de ProfIA
-                </SectionLabel>
+                <SectionLabel className="text-highlight">Así trabaja Lucía</SectionLabel>
                 <h2
                   id="how-title"
                   className="font-display text-3xl font-semibold text-chalk sm:text-4xl"
@@ -335,8 +337,8 @@ export default function HomePage() {
                 </h2>
               </div>
               <p className="text-chalk/75">
-                No es un chat que escribe lo primero que se le ocurre. Cada pedido pasa por las
-                mismas cinco estaciones, y en dos de ellas mandas tú: al pedir y al decidir.
+                No es un chat que responde lo primero que se le ocurre. Cada pedido sigue los mismos
+                cinco pasos, y tú decides en dos: cuando pides y cuando apruebas.
               </p>
             </div>
             <div className="mt-10">
@@ -351,7 +353,7 @@ export default function HomePage() {
             <div className="flex max-w-2xl flex-col gap-3">
               <SectionLabel>¿Y por qué no un chat de IA?</SectionLabel>
               <h2 id="versus-title" className="font-display text-3xl font-semibold sm:text-4xl">
-                Un chat te da texto. ProfIA te da la clase lista
+                Un chat te da texto. Lucía te da la clase lista
               </h2>
               <p className="text-lg text-muted-foreground">
                 Si ya has probado pedirle un taller a un chat, sabes que el trabajo empieza después:
@@ -520,8 +522,8 @@ export default function HomePage() {
               Prueba con el tema que vas a dar <span className="mark-highlight">esta semana.</span>
             </h2>
             <p className="max-w-xl text-lg text-muted-foreground">
-              Crea tu cuenta, agrega tu curso y pide tu primer taller. En pocos minutos sabrás si
-              ProfIA te ahorra el domingo. Es gratis.
+              Crea tu cuenta, agrega tu curso y pide tu primer taller. En pocos minutos verás cuánto
+              tiempo te ahorra. Es gratis.
             </p>
             <Link href="/register" className={buttonVariants({ size: "xl" })}>
               Crear mi cuenta gratis

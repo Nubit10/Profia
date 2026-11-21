@@ -214,7 +214,7 @@ async function openObjectiveDialog(page: Page) {
   await page.getByRole("button", { name: "Agregar objetivo" }).click();
 }
 
-test("CA-0013-05: al escribir el objetivo, ProfIA marca DBA sugeridos y se crea en 1 clic", async ({
+test("CA-0013-05: al escribir el objetivo, Lucía marca DBA sugeridos y se crea en 1 clic", async ({
   page,
 }) => {
   test.setTimeout(120_000);
@@ -232,7 +232,7 @@ test("CA-0013-05: al escribir el objetivo, ProfIA marca DBA sugeridos y se crea 
   expect(count).toBeGreaterThan(0);
   expect(count).toBeLessThanOrEqual(3);
   await expect(suggested.first().getByRole("checkbox").first()).toBeChecked();
-  await expect(page.getByText(/ProfIA marcó \d DBA sugeridos?/)).toBeVisible();
+  await expect(page.getByText(/Lucía marcó \d DBA sugeridos?/)).toBeVisible();
 
   // El docente quita uno: no vuelve a marcarse solo al seguir escribiendo.
   await suggested.first().getByRole("checkbox").first().click();

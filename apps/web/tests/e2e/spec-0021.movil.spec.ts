@@ -83,7 +83,7 @@ test("CA-0021-09: en el celular la propuesta abre en una hoja inferior que Atrá
   // La tarjeta de escritorio no se ve; en su lugar, la franja que abre la hoja.
   await expect(page.getByTestId("preference-suggestion")).toBeHidden();
   const strip = page.getByTestId("preference-suggestion-open");
-  await expect(strip).toContainText("ProfIA aprendió algo de ti");
+  await expect(strip).toContainText("Lucía aprendió algo de ti");
   await noViolations(page, "mis recursos con propuesta");
 
   await strip.click();
@@ -103,7 +103,7 @@ test("CA-0021-09: en el celular la propuesta abre en una hoja inferior que Atrá
   // Editar el texto, elegir todos los cursos y aceptar.
   await strip.click();
   const edited = `${TEXT} Sin relatos largos.`;
-  await sheet.getByLabel("ProfIA lo tendrá en cuenta así").fill(edited);
+  await sheet.getByLabel("Lucía lo tendrá en cuenta así").fill(edited);
   await sheet.getByRole("checkbox", { name: "En todos mis cursos" }).click();
   await sheet.getByRole("button", { name: "Usar de ahora en adelante" }).click();
   await expect(sheet).toBeHidden();

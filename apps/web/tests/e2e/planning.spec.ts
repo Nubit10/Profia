@@ -46,7 +46,7 @@ test("CA-0006-01/03/04/05: planear unidad → tema → objetivo vinculado a un D
     .fill("Ubica números enteros en la recta numérica.");
   const dbas = page.getByRole("list", { name: "DBA del curso" });
   // SPEC-0013 RN-04: ProfIA marca DBA sugeridos; se deja solo el DBA 1 con su primera evidencia.
-  await expect(page.getByText(/ProfIA marcó \d DBA sugeridos?/)).toBeVisible();
+  await expect(page.getByText(/Lucía marcó \d DBA sugeridos?/)).toBeVisible();
   const dba1 = dbas.getByRole("checkbox", { name: /DBA 1\./ });
   if (!(await dba1.isChecked())) await dba1.click();
   for (const other of await dbas.locator(":scope > li").all()) {

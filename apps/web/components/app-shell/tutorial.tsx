@@ -31,12 +31,12 @@ const STEPS: Step[] = [
   {
     icon: HiOutlineCalendarDays,
     title: "2. Planea tus temas",
-    text: "Organiza el año en periodos, unidades y temas. ProfIA te sugiere objetivos alineados con los DBA.",
+    text: "Organiza el año en periodos, unidades y temas. Lucía te sugiere objetivos alineados con los DBA.",
   },
   {
     icon: AiIcon,
     title: "3. Crea con IA y revisa",
-    text: "Con el botón Crear haces un taller o un quiz en minutos. La IA propone; tú revisas, editas y decides.",
+    text: "Con el botón Crear haces un taller o un quiz en minutos. Lucía, la IA de ProfIA, propone; tú revisas, editas y decides.",
   },
   {
     icon: HiOutlineArrowDownTray,

@@ -113,9 +113,9 @@ const SCENARIOS: Scenario[] = [
 
 const STATIONS = [
   { n: "01", title: "Tú pides", sub: "Qué, para quién y de qué tema" },
-  { n: "02", title: "Busca el DBA", sub: "En los documentos del MEN" },
-  { n: "03", title: "La IA escribe", sub: "Con tu grado y tu formato" },
-  { n: "04", title: "Se revisa sola", sub: "Y corrige lo que falle" },
+  { n: "02", title: "Lucía busca el DBA", sub: "En los documentos del MEN" },
+  { n: "03", title: "Lucía escribe", sub: "Con tu grado y tu formato" },
+  { n: "04", title: "Lucía revisa", sub: "Y corrige lo que falle" },
   { n: "05", title: "Tú decides", sub: "Editas, apruebas y descargas" },
 ];
 

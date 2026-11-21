@@ -18,7 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import type { ActionResult } from "@/lib/action-result";
 import type { PendingSuggestion } from "@/modules/resources/client";
 
-const TITLE = "ProfIA aprendió algo de ti";
+const TITLE = "Lucía aprendió algo de ti";
 
 type Props = {
   suggestion: PendingSuggestion;
@@ -79,7 +79,7 @@ function SuggestionForm({
         {suggestion.reason}
       </p>
       <Field data-invalid={!!error}>
-        <FieldLabel htmlFor={`${idPrefix}-text`}>ProfIA lo tendrá en cuenta así</FieldLabel>
+        <FieldLabel htmlFor={`${idPrefix}-text`}>Lucía lo tendrá en cuenta así</FieldLabel>
         <Textarea
           id={`${idPrefix}-text`}
           value={text}

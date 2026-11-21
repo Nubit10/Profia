@@ -132,7 +132,7 @@ const end = () => {
 async function waitGenerated(what) {
   const start = Date.now();
   await page
-    .getByText(/Estamos creando/)
+    .getByText(/Lucía está creando/)
     .first()
     .waitFor({ state: "detached", timeout: 120_000 })
     .catch(() => undefined);

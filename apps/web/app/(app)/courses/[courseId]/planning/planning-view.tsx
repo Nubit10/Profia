@@ -126,7 +126,7 @@ const DIALOG_TITLES: Record<NonNullable<DialogState>["type"], [string, string]> 
   ],
   proposalPick: [
     "Proponer temas con IA",
-    "ProfIA arma unidades y temas a partir de los DBA del grado. Tú revisas antes de agregar.",
+    "Lucía arma unidades y temas a partir de los DBA del grado. Tú revisas antes de agregar.",
   ],
   objectivesBatch: [
     "Objetivos propuestos",

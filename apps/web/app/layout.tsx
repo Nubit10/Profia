@@ -26,7 +26,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: { default: "ProfIA", template: "%s · ProfIA" },
-  description: "Plataforma de gestión y producción pedagógica asistida por IA.",
+  description:
+    "Lucía, la IA de ProfIA, prepara talleres, quices, exámenes y planeaciones alineados con los DBA y el DUA.",
   applicationName: "ProfIA",
   // SPEC-0013 RN-12: instalable también en iPhone (Compartir → Agregar a pantalla de inicio).
   appleWebApp: { capable: true, title: "ProfIA", statusBarStyle: "default" },

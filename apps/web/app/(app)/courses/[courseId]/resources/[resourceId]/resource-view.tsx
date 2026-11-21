@@ -272,7 +272,7 @@ function GenerationProgress({ type }: { type: ResourceDetail["type"] }) {
       <div className="flex items-start gap-4">
         <AiAvatar size={48} className="motion-safe:animate-pulse" />
         <div className="flex flex-col gap-1">
-          <p className="text-lg font-extrabold">Estamos creando tu {label}</p>
+          <p className="text-lg font-extrabold">Lucía está creando tu {label}</p>
           <p className="text-muted-foreground" aria-live="polite">
             {steps[index]}
           </p>

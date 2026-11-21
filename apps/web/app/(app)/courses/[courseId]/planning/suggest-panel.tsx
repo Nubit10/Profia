@@ -243,7 +243,7 @@ export function SuggestPanel({ topicId, actions }: { topicId: string; actions: S
     return (
       <p className="flex items-center gap-2 py-6 text-sm text-muted-foreground" role="status">
         <AiAvatar size={20} className="motion-safe:animate-pulse" />
-        Generando sugerencias a partir de los DBA del curso… puede tardar hasta un minuto.
+        Lucía está buscando sugerencias en los DBA del curso… puede tardar hasta un minuto.
       </p>
     );
   }
@@ -265,8 +265,7 @@ export function SuggestPanel({ topicId, actions }: { topicId: string; actions: S
         ))}
       </ol>
       <p className="text-xs text-muted-foreground">
-        Sugerencias generadas con IA. Revísalas antes de aceptarlas; tu calificación ayuda a
-        mejorarlas.
+        Sugerencias de Lucía. Revísalas antes de aceptarlas; tu calificación ayuda a mejorarlas.
       </p>
       <Button variant="ghost" size="sm" className="w-fit" onClick={retry}>
         <AiAvatar size={18} />

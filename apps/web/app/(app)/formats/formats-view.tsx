@@ -278,8 +278,8 @@ export function FormatsView({ formats, logo, logoVersion, scopes, canManageLogo,
           </Button>
         </div>
         <p className="text-sm text-muted-foreground">
-          Sube tu guía o taller en Word: ProfIA detecta el encabezado y las secciones, tú los
-          revisas y tus talleres se generan y descargan con esa estructura. El archivo no se guarda.
+          Sube tu guía o taller en Word: Lucía detecta el encabezado y las secciones, tú los revisas
+          y tus talleres se generan y descargan con esa estructura. El archivo no se guarda.
         </p>
         {own.length > 0 ? (
           list(own, "Mis formatos")

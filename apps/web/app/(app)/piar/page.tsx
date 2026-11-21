@@ -63,7 +63,7 @@ export default async function PiarListPage() {
         <EmptyState
           icon={HiOutlineUser}
           title="Aún no tienes PIAR"
-          description="Crea uno para un estudiante que necesita ajustes razonables. ProfIA te ayuda a proponerlos con IA."
+          description="Crea uno para un estudiante que necesita ajustes razonables. Lucía, la IA de ProfIA, te ayuda a proponerlos."
         />
       ) : (
         <ul

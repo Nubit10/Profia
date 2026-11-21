@@ -433,7 +433,7 @@ export function ObjectiveForm({
             {searching
               ? "Buscando DBA relacionados…"
               : markedSuggestions > 0
-                ? `ProfIA marcó ${markedSuggestions} ${markedSuggestions === 1 ? "DBA sugerido" : "DBA sugeridos"}. Revísalos antes de crear el objetivo.`
+                ? `Lucía marcó ${markedSuggestions} ${markedSuggestions === 1 ? "DBA sugerido" : "DBA sugeridos"}. Revísalos antes de crear el objetivo.`
                 : ""}
           </p>
           <FieldError errors={[errors.links as { message?: string } | undefined]} />

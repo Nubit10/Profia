@@ -22,6 +22,17 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **Lucía, la IA de ProfIA, y frases más claras en la página pública** (2026-11-21), aprobado por el usuario.
+  - Página pública: título "Prepara tus clases en minutos, alineadas con los DBA y el DUA."; "Le cuentas a
+    Lucía, la IA de ProfIA, qué vas a enseñar…"; "Gratis y sin tarjeta de crédito · Funciona en el celular ·
+    Tú revisas todo antes de usarlo"; "Así trabaja Lucía" con pasos "Lucía busca el DBA / escribe / revisa";
+    "cinco pasos" en vez de "estaciones"; "conectados con sus DBA"; cierre "verás cuánto tiempo te ahorra".
+    Descripción del sitio con DBA y DUA.
+  - En la app, Lucía es el sujeto de lo que hace la IA: creando el recurso, proponiendo temas, redactando
+    objetivos, sugerencias, DBA marcados, ajustes, formatos, "Lucía aprendió algo de ti", tutorial y PIAR.
+    La plataforma sigue siendo ProfIA. Regla en `docs/design/sistema-de-diseno.md` → Marca.
+  - Pruebas e2e y el recorrido de usabilidad actualizados a los textos nuevos.
+
 - **Nuevo nombre: ProfIA** (2026-11-21), decisión del usuario. Se cambió "Profe" por "ProfIA" en toda la
   interfaz, la página pública, los correos, la app instalable (manifiesto y título), los pies de los Word
   y PDF, el AI Engine (título de la API) y la documentación. El logo escribe "Prof" + "IA" en el color de

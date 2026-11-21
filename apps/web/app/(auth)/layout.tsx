@@ -22,12 +22,12 @@ export default function AuthLayout({ children }: LayoutProps<"/">) {
         className="relative hidden overflow-hidden bg-foreground px-12 py-16 text-background lg:flex lg:flex-col xl:px-16"
       >
         <p className="max-w-lg font-display text-4xl leading-tight font-normal">
-          Mientras tomas el tinto, ProfIA ya armó <em className="text-ring">el taller del lunes</em>{" "}
+          Mientras tomas el tinto, Lucía ya armó <em className="text-ring">el taller del lunes</em>{" "}
           y su quiz.
         </p>
         <div className="relative mt-auto mb-24 ml-auto w-full max-w-sm">
           <div className="-rotate-2 rounded-xl bg-background px-4 py-3 text-foreground shadow-lift">
-            <p className="text-xs text-muted-foreground">ProfIA · hace 2 min</p>
+            <p className="text-xs text-muted-foreground">Lucía · hace 2 min</p>
             <p className="text-sm">
               <strong>Taller listo:</strong> Fracciones · 6°
             </p>

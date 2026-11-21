@@ -41,8 +41,8 @@ function stepView(key: FirstStepKey, steps: FirstSteps): StepView {
         return {
           title: "Revisa los temas que te propongo",
           text: steps.courseTitle
-            ? `ProfIA propone los temas del primer periodo de ${steps.courseTitle} según los DBA. Tú los revisas y aceptas.`
-            : "ProfIA propone los temas del primer periodo según los DBA. Tú los revisas y aceptas.",
+            ? `Lucía propone los temas del primer periodo de ${steps.courseTitle} según los DBA. Tú los revisas y aceptas.`
+            : "Lucía propone los temas del primer periodo según los DBA. Tú los revisas y aceptas.",
           cta: "Ver los temas propuestos",
           href: `/courses/${steps.courseId}?tab=planeacion&proponer=1`,
           icon: AiIcon,

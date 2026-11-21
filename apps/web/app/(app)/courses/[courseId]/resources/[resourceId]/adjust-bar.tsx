@@ -186,7 +186,7 @@ export function AdjustBar({
         <p className="text-xs text-muted-foreground">
           {generating
             ? `Ajustando «${label(adjustment.code)}»… Puedes seguir leyendo o descargar.`
-            : `ProfIA rehace todo el recurso. Cada ajuste usa ${cost} de tus recursos con IA.`}
+            : `Lucía rehace todo el recurso. Cada ajuste usa ${cost} de tus recursos con IA.`}
         </p>
       </div>
       <ScrollableRow label="Ajustes rápidos" role="group" rowClassName="gap-2 pb-1">

@@ -82,7 +82,7 @@ export function ObjectivesBatchPanel({
           className="size-8 animate-spin rounded-full border-4 border-brand-soft border-t-brand"
           aria-hidden
         />
-        <p className="font-medium">ProfIA está redactando objetivos para cada tema…</p>
+        <p className="font-medium">Lucía está redactando objetivos para cada tema…</p>
         <p className="text-sm text-muted-foreground">
           Usa los DBA de cada tema. Tarda unos segundos.
         </p>

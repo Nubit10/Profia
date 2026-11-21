@@ -47,7 +47,7 @@ test("CA-0021-04: en escritorio la tarjeta deja descartar la propuesta y no vuel
   await page.goto("/resources");
   const card = page.getByTestId("preference-suggestion");
   await expect(card).toBeVisible();
-  await expect(card.getByLabel("ProfIA lo tendrá en cuenta así")).toHaveValue(
+  await expect(card.getByLabel("Lucía lo tendrá en cuenta así")).toHaveValue(
     "Usa ejemplos del contexto colombiano en cada pregunta.",
   );
   // Sin curso sugerido no se pregunta el alcance: aplica a todos.

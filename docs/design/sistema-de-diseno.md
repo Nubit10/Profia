@@ -12,7 +12,13 @@ Origen: [SPEC-0012](../specs/SPEC-0012-rediseno-visual-y-ux.md). Catálogo vivo 
 
 ## Marca
 
-- **Logotipo provisional:** un icono de birrete sobre el degradado, junto a "ProfIA" en negrita (`components/brand/profia-logo.tsx`).
+- **Logotipo provisional:** un icono de birrete sobre el degradado, junto a "Prof" + "IA" (la "IA" en el color de la marca) en negrita (`components/brand/profia-logo.tsx`).
+- **Lucía, la IA de ProfIA** (decisión del usuario, 2026-11-21): **ProfIA** es la plataforma; **Lucía** es quien
+  hace el trabajo de IA dentro de ella. Su ícono es el foco con destellos (`components/brand/ai-avatar.tsx`;
+  Lucía viene de _luz_). Regla: si la frase dice lo que hace la IA, el sujeto es Lucía (_"Lucía está creando
+  tu quiz"_, _"Lucía marcó 2 DBA sugeridos"_, _"Lucía aprendió algo de ti"_); si habla de la plataforma, es
+  ProfIA (_"Instalar ProfIA"_, _"Entra a ProfIA"_, avisos y datos). Se presenta una vez como _"Lucía, la IA
+  de ProfIA"_ donde el docente aún no la conoce (página pública, tutorial, PIAR). Femenino siempre.
 - **Degradado:** naranja `#cf3d0c` → magenta `#be185d` → violeta `#7c3aed`. Los tres tienen contraste AA (≥ 4,5:1) con texto blanco y sobre el fondo claro, así que se puede usar en botones y en titulares (RN-10).
 - **Tipografía:** Plus Jakarta Sans (`next/font`). Títulos en `font-extrabold`, texto en peso normal.
 

@@ -92,7 +92,7 @@ function nextStepView(step: NextStep) {
     case "PLAN":
       return {
         title: "Planea los temas de tu curso",
-        text: `Agrega los temas que vas a enseñar en ${step.courseTitle}. Con ellos ProfIA prepara tu material.`,
+        text: `Agrega los temas que vas a enseñar en ${step.courseTitle}. Con ellos Lucía prepara tu material.`,
         cta: "Planear ahora",
         href: `/courses/${step.courseId}?tab=planeacion`,
       };
