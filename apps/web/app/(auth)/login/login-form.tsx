@@ -3,12 +3,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { sileo } from "sileo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/forms/password-input";
 import { loginSchema, type ActionResult, type LoginInput } from "@/modules/auth/client";
 
 type Props = {
@@ -17,6 +18,11 @@ type Props = {
   defaultEmail?: string;
 };
 
+function forgotHref(email: string) {
+  const value = email.trim();
+  return value ? `/forgot-password?${new URLSearchParams({ email: value })}` : "/forgot-password";
+}
+
 export function LoginForm({ action, callbackUrl, defaultEmail = "" }: Props) {
   const router = useRouter();
   const form = useForm<LoginInput>({
@@ -24,6 +30,7 @@ export function LoginForm({ action, callbackUrl, defaultEmail = "" }: Props) {
     defaultValues: { email: defaultEmail, password: "" },
   });
   const { errors, isSubmitting } = form.formState;
+  const email = useWatch({ control: form.control, name: "email" }) ?? "";
 
   const onSubmit = form.handleSubmit(async (values) => {
     const result = await action(values);
@@ -40,7 +47,9 @@ export function LoginForm({ action, callbackUrl, defaultEmail = "" }: Props) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="font-display text-2xl font-semibold">Iniciar sesión</CardTitle>
+        <CardTitle role="heading" aria-level={1} className="font-display text-2xl font-semibold">
+          Iniciar sesión
+        </CardTitle>
         <CardDescription>Ingresa con tu correo y contraseña.</CardDescription>
       </CardHeader>
       <CardContent>
@@ -59,14 +68,20 @@ export function LoginForm({ action, callbackUrl, defaultEmail = "" }: Props) {
             </Field>
             <Field data-invalid={!!errors.password}>
               <FieldLabel htmlFor="password">Contraseña</FieldLabel>
-              <Input
+              <PasswordInput
                 id="password"
-                type="password"
                 autoComplete="current-password"
                 aria-invalid={!!errors.password}
                 {...form.register("password")}
               />
               <FieldError errors={[errors.password]} />
+              {/* SPEC-0035 CA-0035-01: lleva el correo ya escrito. */}
+              <Link
+                href={forgotHref(email)}
+                className="-my-1 self-end py-2 text-sm font-semibold text-brand-strong underline"
+              >
+                ¿Olvidaste tu contraseña?
+              </Link>
             </Field>
             <FieldError errors={[errors.root]} />
             <Button type="submit" variant="brand" size="lg" disabled={isSubmitting}>

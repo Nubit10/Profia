@@ -4,7 +4,15 @@ import "server-only";
 // o desde "@/modules/auth/client" (código seguro para el navegador). RN-06.
 export { auth, handlers } from "./config";
 export { getCurrentUser, requireUser } from "./session";
-export { dismissTutorialAction, loginAction, logoutAction, registerAction } from "./actions";
+export {
+  dismissTutorialAction,
+  loginAction,
+  logoutAction,
+  registerAction,
+  requestPasswordResetAction,
+  resetPasswordAction,
+} from "./actions";
+export { checkResetToken } from "./password-reset";
 export { dismissTutorial, hasDismissedTutorial } from "./tutorial";
 export type { ActionResult } from "./types";
 export { getAccount } from "./service";

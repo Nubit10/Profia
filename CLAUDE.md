@@ -32,7 +32,8 @@ Plataforma de gestión y producción pedagógica asistida por IA para docentes e
 - Prueba de usabilidad del 2026-11-20: informe en [docs/usabilidad/2026-11-20-recorrido-docente.md](docs/usabilidad/2026-11-20-recorrido-docente.md); recorrido reproducible con `npm run ux:recorrido -w @profe/web`.
 - Mejoras de usabilidad (bloques 1–8 de [docs/usabilidad/proximos-pasos.md](docs/usabilidad/proximos-pasos.md)) implementadas el 2026-11-21: SPEC-0027 ajustes rápidos con botones como propuesta (ADR-0020, anexo `adjust.v1`, tabla `resource_adjustments`, cuesta cupo), SPEC-0028 "Usar también en…" mis otros grupos sin cupo, SPEC-0029 el recurso abre como la hoja que se imprime (`previewResource` + `DocPreview`; en e2e, `openEditor(page)` para editar), SPEC-0030 "Para esta semana" en el Inicio, SPEC-0031 compartir e imprimir, SPEC-0032 primer curso con temas propuestos, SPEC-0033 barra de navegación abajo en el celular, SPEC-0034 detalles (avisos abajo, letra más grande, Borrador/Listo).
 - Ajustes (`/settings`): mi cuenta, tamaño de la letra, modo de pantalla (solo visual por ahora), usar sin conexión y tutorial; la tarjeta del menú solo tiene instalar y cerrar sesión. "Regenerar" de un ítem ahora es "Mejorar". En el computador, el recurso tiene "Enviar por WhatsApp" (SPEC-0031 RN-04).
-- **Siguiente:** volver a correr el recorrido de usabilidad, probar "Compartir" en teléfonos reales; después SPEC-0025 resultados → dificultades → refuerzo y SPEC-0026 validación con docentes (bloque 9).
+- SPEC-0035 implementada (ADR-0021): recuperar la contraseña con un enlace de un solo uso por correo (`modules/auth/password-reset.ts`, tabla `password_reset_tokens`, cierra las sesiones) y botón para ver la contraseña (`components/forms/password-input.tsx`). Correo por SMTP con Nodemailer en `lib/email` (`SMTP_URL`, `MAIL_FROM`, `APP_URL`); sin SMTP, fuera de producción, los correos quedan en `apps/web/.mail-outbox/`. Informe de usabilidad en `docs/usabilidad/2026-11-21-recuperar-contrasena.md`.
+- **Siguiente:** configurar el SMTP de producción; volver a correr el recorrido de usabilidad, probar "Compartir" en teléfonos reales; después SPEC-0025 resultados → dificultades → refuerzo y SPEC-0026 validación con docentes (bloque 9).
 - Índice de specs y su estado: [docs/specs/README.md](docs/specs/README.md)
 - Decisiones de arquitectura: [docs/adr/README.md](docs/adr/README.md)
 
@@ -51,7 +52,7 @@ app/         rutas: (public) landing · (auth) login/register · (app) área aut
 components/  UI compartida; components/ui = shadcn/ui (generado, no editar a mano sin motivo)
 modules/     auth · audit · tenancy · institutions · courses · curriculum · planning · generation · resources · formats · documents · notifications · piar. API pública: index.ts (servidor) y client.ts
              (navegador). Mapa de dependencias: docs/architecture/modules.md
-lib/         db (Prisma), env, errors, actions (runAction), permissions, text, observability, rate-limit
+lib/         db (Prisma), env, errors, actions (runAction), permissions, text, observability, rate-limit, email (SMTP, ADR-0021)
 prisma/      schema y migraciones
 tests/       unit/ · integration/ (base profe_test) · e2e/ (Playwright) · support/
 proxy.ts     chequeo optimista de cookie para rutas autenticadas (la verificación real es requireUser)

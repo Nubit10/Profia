@@ -139,6 +139,22 @@ git push -u origin main
    | `VAPID_PRIVATE_KEY`            | La _Private Key_ del par (secreta: solo aquí, nunca en el repositorio) |
    | `VAPID_SUBJECT`                | `mailto:` con un correo de soporte, o la URL `https://` de Profe       |
 
+   **Correo** para recuperar la contraseña (SPEC-0035, ADR-0021). Sin `SMTP_URL` el enlace **no sale** y los
+   docentes que olviden la contraseña quedan por fuera: configúralo antes de dar acceso. Sirve cualquier
+   servidor SMTP. El más fácil sin dominio propio es Gmail con una _contraseña de aplicación_
+   (https://myaccount.google.com/apppasswords, requiere la verificación en dos pasos; hasta ~500 correos al
+   día). Con dominio propio, Brevo o Resend llegan mejor a la bandeja de entrada.
+
+   | Variable    | Valor                                                                                                                                |
+   | ----------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+   | `SMTP_URL`  | Gmail: `smtps://tu-correo%40gmail.com:<contraseña de aplicación sin espacios>@smtp.gmail.com:465` (la `@` del usuario va como `%40`) |
+   | `MAIL_FROM` | `Profe <tu-correo@gmail.com>` (con Gmail, el mismo correo de `SMTP_URL`)                                                             |
+   | `APP_URL`   | La URL pública de Profe, p. ej. `https://<proyecto>.vercel.app` (sin `/` al final). Arma los enlaces.                                |
+
+   Prueba: en el login, "¿Olvidaste tu contraseña?" con tu correo; debe llegar en menos de un minuto (mira
+   también en spam). Si no llega, en Vercel → _Logs_ busca `auth.password_reset.mail_failed` o
+   `mail.not_configured`.
+
    Opcional, para el **PIAR** (SPEC-0017, ADR-0015). Sin ella Profe no ofrece el PIAR. Cifra los datos
    de los estudiantes: genérala **una sola vez** con `openssl rand -base64 32` y guárdala también en un
    lugar seguro aparte de la base (un gestor de contraseñas). Si se pierde, los PIAR guardados no se
@@ -169,7 +185,7 @@ Además te avisa por correo si algo se cae. Si el Space se duerme de todas forma
 
 Con una cuenta de prueba en la URL de Vercel:
 
-1. Crear una cuenta como docente independiente y entrar.
+1. Crear una cuenta como docente independiente y entrar. Cerrar sesión y probar "¿Olvidaste tu contraseña?": debe llegar el correo y el enlace debe dejar entrar con la contraseña nueva.
 2. Crear un curso (por ejemplo Matemáticas 6°) y ver que **el catálogo de DBA aparece**. Si no aparece, falta el paso 2.5.
 3. En la planeación, crear un periodo, una unidad y un tema. Probar **"Sugerir objetivos con IA"**: confirma que la web llega al motor y que Groq responde.
 4. Crear un **quiz** y un **taller**. Deben pasar de "Generando" a listo en 1–2 minutos.

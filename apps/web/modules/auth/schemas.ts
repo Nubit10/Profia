@@ -21,6 +21,22 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Ingresa tu contraseña").max(PASSWORD_MAX),
 });
 
+/** SPEC-0035: pedir el enlace para crear una contraseña nueva. */
+export const forgotPasswordSchema = z.object({ email });
+
+const newPassword = z
+  .string()
+  .min(PASSWORD_MIN, `La contraseña debe tener al menos ${PASSWORD_MIN} caracteres`)
+  .max(PASSWORD_MAX, `La contraseña no puede superar ${PASSWORD_MAX} caracteres`);
+
+/** SPEC-0035 RN-04: la contraseña nueva cumple las reglas del registro y se confirma. */
+export const resetPasswordSchema = z
+  .object({ token: z.string().min(1).max(200), password: newPassword, confirmPassword: z.string() })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Las contraseñas no coinciden",
+  });
+
 export const registerSchema = z
   .object({
     name: z
@@ -29,10 +45,7 @@ export const registerSchema = z
       .min(2, "El nombre debe tener al menos 2 caracteres")
       .max(100, "El nombre es demasiado largo"),
     email,
-    password: z
-      .string()
-      .min(PASSWORD_MIN, `La contraseña debe tener al menos ${PASSWORD_MIN} caracteres`)
-      .max(PASSWORD_MAX, `La contraseña no puede superar ${PASSWORD_MAX} caracteres`),
+    password: newPassword,
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -42,3 +55,5 @@ export const registerSchema = z
 
 export type LoginInput = z.input<typeof loginSchema>;
 export type RegisterInput = z.input<typeof registerSchema>;
+export type ForgotPasswordInput = z.input<typeof forgotPasswordSchema>;
+export type ResetPasswordInput = z.input<typeof resetPasswordSchema>;

@@ -29,7 +29,7 @@ await page.getByRole("button", { name: "Crear cuenta" }).click();
 await page.waitForURL(/\/login/);
 await shot(page, "03-login");
 await page.getByLabel("Correo").fill(email);
-await page.getByLabel("Contraseña").fill(password);
+await page.getByLabel("Contraseña", { exact: true }).fill(password);
 await page.getByRole("button", { name: "Ingresar" }).click();
 await page.waitForURL(/\/onboarding/, { timeout: 30_000 });
 await shot(page, "04-onboarding");

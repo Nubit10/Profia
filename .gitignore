@@ -14,3 +14,4 @@ __pycache__/
 
 # SPEC-0021 RN-13: casos reales extraídos, sin revisar (nunca a git)
 apps/ai-engine/benchmarks/real/
+.mail-outbox/

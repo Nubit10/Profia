@@ -34,7 +34,7 @@ export async function register(page: Page, user: { name: string; email: string }
 
 export async function login(page: Page, email: string, password = PASSWORD) {
   await page.getByLabel("Correo").fill(email);
-  await page.getByLabel("Contraseña").fill(password);
+  await page.getByLabel("Contraseña", { exact: true }).fill(password);
   await page.getByRole("button", { name: "Ingresar" }).click();
 }
 

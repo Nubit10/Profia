@@ -3,6 +3,7 @@ import { randomBytes } from "node:crypto";
 import { existsSync } from "node:fs";
 import { defineConfig, devices } from "@playwright/test";
 import webpush from "web-push";
+import { MAIL_OUTBOX_DIR } from "./tests/e2e/mail";
 
 if (existsSync(".env")) process.loadEnvFile(".env");
 
@@ -70,6 +71,9 @@ export default defineConfig({
         VAPID_SUBJECT: "mailto:pruebas@profe.test",
         // SPEC-0017 (ADR-0015): clave de cifrado del PIAR de un solo uso.
         PIAR_ENCRYPTION_KEY: randomBytes(32).toString("base64"),
+        MAIL_OUTBOX_DIR,
+        APP_URL: baseURL,
+        SMTP_URL: "",
       },
     },
   ],

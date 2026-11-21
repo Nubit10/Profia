@@ -32,6 +32,23 @@ const envSchema = z.object({
       .refine((v) => Buffer.from(v, "base64").length === 32, "debe ser 32 bytes en base64")
       .optional(),
   ),
+  // Correo saliente (SPEC-0035, ADR-0021). Opcional: sin SMTP_URL, fuera de producción los correos se
+  // guardan como archivos en MAIL_OUTBOX_DIR; en producción no se envían (queda un error en los logs).
+  SMTP_URL: z.preprocess(
+    emptyToUndefined,
+    z
+      .string()
+      .regex(/^smtps?:\/\//, "debe empezar por smtp:// o smtps://")
+      .optional(),
+  ),
+  /** Remitente: `Profe <no-responder@tu-dominio>`. */
+  MAIL_FROM: z.preprocess(emptyToUndefined, z.string().min(3).optional()),
+  /** Carpeta donde se guardan los correos sin servidor SMTP (desarrollo y pruebas). */
+  MAIL_OUTBOX_DIR: z.preprocess(emptyToUndefined, z.string().optional()),
+  /** URL pública del sitio para los enlaces de los correos (RN-06): nunca el Host de la petición. */
+  APP_URL: z.preprocess(emptyToUndefined, z.url("debe ser una URL").optional()),
+  /** La pone Vercel (dominio de producción, sin https://). Respaldo de APP_URL. */
+  VERCEL_PROJECT_PRODUCTION_URL: z.preprocess(emptyToUndefined, z.string().optional()),
   /** Contacto para el servicio push: `mailto:` o una URL del sitio. */
   VAPID_SUBJECT: z.preprocess(
     emptyToUndefined,

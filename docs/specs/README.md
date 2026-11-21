@@ -40,6 +40,7 @@ Solo se implementa lo que está **Aprobada**. Solo el usuario (product owner) ap
 | [SPEC-0032](SPEC-0032-primer-curso-con-temas-propuestos.md)   | Primer curso sin escribir temas                                                 | Transversal                 | Implementada |
 | [SPEC-0033](SPEC-0033-barra-de-navegacion-abajo.md)           | Barra de navegación abajo en el celular                                         | Transversal                 | Implementada |
 | [SPEC-0034](SPEC-0034-detalles-de-usabilidad.md)              | Detalles: avisos abajo, letra más grande y "Borrador / Listo"                   | Transversal                 | Implementada |
+| [SPEC-0035](SPEC-0035-recuperar-contrasena.md)                | Recuperar la contraseña por correo y ver la contraseña al escribirla            | 2 · Identity                | Implementada |
 
 ## Mapa del roadmap → specs previstas
 

@@ -30,6 +30,7 @@ model User {
   memberships         Membership[]
   independentSpace    Institution?       @relation("IndependentSpace")
   pushSubscriptions   PushSubscription[]
+  passwordResetTokens PasswordResetToken[]
 
   @@map("users")
 }
@@ -63,6 +64,21 @@ model UserSession {
 
   @@index([userId])
   @@map("user_sessions")
+}
+
+/// SPEC-0035 RN-02: enlace de un solo uso para crear una contraseña nueva. Solo se guarda el SHA-256
+/// del token; vence en 1 hora y pedir otro anula los anteriores.
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@map("password_reset_tokens")
 }
 
 // ---------------------------------------------------------------------------

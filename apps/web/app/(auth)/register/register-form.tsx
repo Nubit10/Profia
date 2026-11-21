@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/forms/password-input";
 import {
   DEFAULT_AFTER_LOGIN,
   PASSWORD_MIN,
@@ -71,7 +72,9 @@ export function RegisterForm({ action, callbackUrl, defaultEmail = "" }: Props) 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="font-display text-2xl font-semibold">Crear cuenta</CardTitle>
+        <CardTitle role="heading" aria-level={1} className="font-display text-2xl font-semibold">
+          Crear cuenta
+        </CardTitle>
         <CardDescription>Regístrate como docente para empezar.</CardDescription>
       </CardHeader>
       <CardContent>
@@ -80,13 +83,22 @@ export function RegisterForm({ action, callbackUrl, defaultEmail = "" }: Props) 
             {FIELDS.map((field) => (
               <Field key={field.name} data-invalid={!!errors[field.name]}>
                 <FieldLabel htmlFor={field.name}>{field.label}</FieldLabel>
-                <Input
-                  id={field.name}
-                  type={field.type}
-                  autoComplete={field.auto}
-                  aria-invalid={!!errors[field.name]}
-                  {...form.register(field.name)}
-                />
+                {field.type === "password" ? (
+                  <PasswordInput
+                    id={field.name}
+                    autoComplete={field.auto}
+                    aria-invalid={!!errors[field.name]}
+                    {...form.register(field.name)}
+                  />
+                ) : (
+                  <Input
+                    id={field.name}
+                    type={field.type}
+                    autoComplete={field.auto}
+                    aria-invalid={!!errors[field.name]}
+                    {...form.register(field.name)}
+                  />
+                )}
                 {field.name === "password" && !errors.password && (
                   <FieldDescription>Mínimo {PASSWORD_MIN} caracteres.</FieldDescription>
                 )}

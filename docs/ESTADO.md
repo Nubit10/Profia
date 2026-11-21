@@ -5,7 +5,10 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## En curso
 
-- **Siguiente:** probar "Compartir" en un iPhone y un Android reales;
+- **Siguiente (para entregar a los primeros docentes):** configurar el correo de producción
+  (`SMTP_URL`, `MAIL_FROM`, `APP_URL`; ver `deploy/README.md`) y probar que no cae en spam; decidir las
+  recomendaciones del [informe de la contraseña](usabilidad/2026-11-21-recuperar-contrasena.md); política
+  de privacidad y términos; desplegar y verificar. Luego probar "Compartir" en un iPhone y un Android reales;
   después SPEC-0025 (resultados → dificultades → refuerzo) y SPEC-0026 (validación con docentes, el
   bloque 9). Si el usuario quiere: `/review` de SPEC-0027 a SPEC-0034.
 
@@ -18,6 +21,25 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
   - Siguiente paso: aprobación → ADR → `/implement SPEC-0020`.
 
 ## Hecho
+
+- **SPEC-0035 — Recuperar la contraseña por correo y ver la contraseña** (2026-11-21, ADR-0021). El
+  usuario eligió el camino completo por correo con Nodemailer.
+  - "¿Olvidaste tu contraseña?" en el login (lleva el correo escrito) → `/forgot-password` → correo con
+    enlace de un solo uso (1 hora, solo el SHA-256 en `password_reset_tokens`, pedir otro anula los
+    anteriores) → `/reset-password/[token]` → entra a Profe. Misma respuesta exista o no la cuenta; el
+    correo sale con `after()`; límite 5 por IP y 3 por correo cada 15 min. Cambiarla cierra todas las
+    sesiones (`modules/auth/password-reset.ts`).
+  - `lib/email` (ADR-0021): SMTP con `SMTP_URL`; sin él, fuera de producción, los correos quedan en
+    `apps/web/.mail-outbox/` (fuera de git). Enlaces con `APP_URL` o `VERCEL_PROJECT_PRODUCTION_URL`.
+  - `components/forms/password-input.tsx`: ojo para mostrar u ocultar en login, registro y contraseña
+    nueva. Los títulos de las pantallas de ingreso ahora son encabezados (`aria-level=1`). Las pruebas
+    usan `getByLabel("Contraseña", { exact: true })` (el botón también dice "contraseña").
+  - Pruebas: unitarias `email.test.ts`, integración `spec-0035.test.ts` (12), e2e `spec-0035.spec.ts` y
+    `spec-0035.movil.spec.ts` + `auth.spec.ts` en verde (12 de 12, con axe y 390 px).
+  - Usabilidad: [informe](usabilidad/2026-11-21-recuperar-contrasena.md), 4 toques y 3 campos del login a
+    estar adentro; capturas en `design/capturas/spec-0035/`. Recomendaciones pendientes de decisión:
+    quitar "Confirmar contraseña", enlace en el error de login, remitente visible.
+  - Pendiente: SMTP de producción (sin él el enlace no sale) y prueba de spam con Gmail y Outlook.
 
 - **Avatar de la IA: foco con destellos** (2026-11-21). El usuario eligió la propuesta B entre cinco
   focos (el cerebro no se leía a 14–18 px). Un solo componente, `components/brand/ai-avatar.tsx`

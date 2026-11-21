@@ -5,6 +5,8 @@ import { logger, redact } from "@/lib/observability/logger";
 export type AuditAction =
   | "auth.login"
   | "auth.logout"
+  | "auth.password_reset.requested"
+  | "auth.password_reset.completed"
   | "institution.created"
   | "institution.updated"
   | "institution.grading_bands_updated"
