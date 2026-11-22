@@ -10,6 +10,11 @@ export const CURRICULUM_AREAS = [
   { id: "TRANSICION", name: "Transición (todas las dimensiones)" },
   // SPEC-0038: Ética y Valores, Cátedra de la Paz (migración `curriculum_area_ciudadanas`).
   { id: "CIUDADANAS", name: "Competencias Ciudadanas" },
+  // SPEC-0038 etapa 2 (ADR-0022): orientaciones pedagógicas del MEN (migración `curriculum_orientations`).
+  { id: "TECNOLOGIA", name: "Tecnología e Informática" },
+  { id: "EDUCACION_FISICA", name: "Educación Física" },
+  { id: "ARTISTICA", name: "Educación Artística" },
+  { id: "FILOSOFIA", name: "Filosofía" },
 ] as const;
 
 export type CurriculumAreaId = (typeof CURRICULUM_AREAS)[number]["id"];

@@ -44,7 +44,7 @@ def main():
     failed = False
     for slug, entry in registry.items():
         doc = json.load(open(os.path.join(BASE, "men", f"{slug}.json"), encoding="utf8"))
-        if entry.get("layout") in ("columns", "ebc", "esquema"):
+        if entry.get("layout") in ("columns", "ebc", "esquema", "orientacion"):
             # PDF a dos columnas (SPEC-0036): se verifica recortando cada columna.
             fixes = json.load(open(os.path.join(BASE, entry["fixes"]), encoding="utf8")) if entry.get("fixes") else {}
             pdf = os.path.join(BASE, entry["pdf"])
@@ -53,6 +53,10 @@ def main():
                 failed = True
                 continue
             check = {
+                # Orientaciones en tablas (SPEC-0038 etapa 2): con el número de desempeños esperado.
+                "orientacion": lambda pdf, items, fx: verify_columns.verify_orientacion(
+                    pdf, items, fx, entry.get("expected")
+                ),
                 "ebc": verify_columns.verify_ebc,
                 "esquema": verify_columns.verify_esquema,  # DBA de Inglés 6°-11° (SPEC-0038)
                 "columns": verify_columns.verify,

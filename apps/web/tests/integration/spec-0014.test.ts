@@ -377,8 +377,8 @@ describe("proponer la planeación con IA (SPEC-0014)", () => {
     });
     expect(logs.map((l) => l.status).sort()).toEqual(["INVALID", "UNAVAILABLE"]);
 
-    // Ética: con área curricular (Competencias Ciudadanas, SPEC-0038) pero sin DBA en el catálogo.
-    const pe = await mathCourse(ctx, "Ética y Valores Humanos");
+    // Educación Religiosa: sin área ni referentes del MEN (Ética ya propone con Estándares, SPEC-0039).
+    const pe = await mathCourse(ctx, "Educación Religiosa");
     const fetcher = engine();
     await expect(
       proposePlanning(ctx, { ...input, courseId: pe.id }, fetcher),

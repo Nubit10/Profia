@@ -25,6 +25,7 @@ from .mathcheck import (
 from .objectives import DbaRef
 from .pipeline import StructuredResult, looks_spanish, norm, run_structured
 from .quality import balance_positions, check_questions
+from .references import ref_entry
 from .resources import (
     BACKGROUND_MAX_WAIT_S,
     DIFFICULTY_LABELS,
@@ -317,10 +318,7 @@ def _exam_context(request: ExamRequest | ExamItemRequest) -> dict:
             for t in request.topics
         ],
         "objetivos": request.objectives,
-        "dba": [
-            {"codigo": d.code, "enunciado": d.statement, "evidencias": d.evidences}
-            for d in request.dba
-        ],
+        "dba": [ref_entry(d) for d in request.dba],
         "dificultad": DIFFICULTY_LABELS[request.difficulty],
         "notasDelDocente": request.notes,
         "preferenciasDelDocente": request.preferences,

@@ -24,7 +24,7 @@ const text = z.string().trim().min(3);
 const itemSchema = z
   .object({
     code: z.string().regex(/^[A-Z0-9-]+$/, "código con mayúsculas, números y guiones"),
-    type: z.enum(["DBA", "STANDARD"]),
+    type: z.enum(["DBA", "STANDARD", "ORIENTATION"]),
     area: z.enum(CURRICULUM_AREA_IDS),
     grade: z.enum(GRADE_VALUES).optional(),
     gradeFrom: z.enum(GRADE_VALUES).optional(),
@@ -37,7 +37,7 @@ const itemSchema = z
     page: z.number().int().positive(),
   })
   .refine((i) => (i.type === "DBA" ? !!i.grade : !!i.gradeFrom && !!i.gradeTo), {
-    message: "Un DBA lleva `grade`; un estándar lleva `gradeFrom` y `gradeTo`",
+    message: "Un DBA lleva `grade`; un estándar u orientación lleva `gradeFrom` y `gradeTo`",
   });
 
 export const curriculumFileSchema = z
@@ -46,7 +46,7 @@ export const curriculumFileSchema = z
       key: z.string().regex(/^[A-Z0-9-]+-V\d+$/, "la clave termina en la versión, p. ej. -V2"),
       issuer: text,
       title: text,
-      documentType: z.enum(["DBA", "STANDARD"]),
+      documentType: z.enum(["DBA", "STANDARD", "ORIENTATION"]),
       area: z.enum(CURRICULUM_AREA_IDS),
       version: z.string().trim().min(1),
       year: z.number().int().min(1990).max(2100),

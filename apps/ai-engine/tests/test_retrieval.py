@@ -6,7 +6,7 @@ def test_ca_0005_01_indexa_un_punto_por_item_con_metadatos(indexed, catalog, set
     client, _, count = indexed
     items, version = catalog
     # Matemáticas, Lenguaje, Transición, Ciencias Naturales y Sociales (DBA y Estándares, SPEC-0036)
-    assert count == len(items) == 1720
+    assert count == len(items) == 2099
     points, _ = client.scroll(settings.collection, limit=3000, with_payload=True)
     codes = {p.payload["code"] for p in points}
     assert codes == {i.code for i in items}

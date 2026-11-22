@@ -1,0 +1,2125 @@
+{
+  "source": {
+    "key": "MEN-ORI-EFI-V1",
+    "issuer": "Ministerio de Educación Nacional (MEN)",
+    "title": "Orientaciones pedagógicas para la Educación Física, Recreación y Deporte (Documento 15)",
+    "documentType": "ORIENTATION",
+    "area": "EDUCACION_FISICA",
+    "version": "V.1",
+    "year": 2010,
+    "isbn": "978-958-691-393-5",
+    "url": "https://www.mineducacion.gov.co/1780/articles-340033_archivo_pdf_Orientaciones_EduFisica_Rec_Deporte.pdf",
+    "landingUrl": "https://www.mineducacion.gov.co/1621/article-241887.html",
+    "sha256": "7be8aea3af3ebc22a6bdf8561e56108e239190c78ae209d9d1bc521a9a9d78ea",
+    "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es un desempeño de las orientaciones del área para su grupo de grados; el MEN no publica DBA ni Estándares para esta área. Lo acompaña el indicador de su competencia (motriz, expresiva corporal o axiológica corporal) para el grupo de grados. Se usa la edición de 2010: las Orientaciones curriculares de 2022 no permiten reproducir su texto sin permiso escrito del MEN."
+  },
+  "review": {
+    "status": "PENDING",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "method": "Extracción automática del PDF oficial + correcciones documentadas; pendiente revisión humana de una muestra.",
+    "pendingFixes": []
+  },
+  "items": [
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-01",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 1,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Exploro posibilidades de movimiento en mi cuerpo a nivel global y segmentario.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-02",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 2,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Ubico mi cuerpo en el espacio y en relación con objetos.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-03",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 3,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Exploro posibilidades de movimiento siguiendo ritmos de percusión y musicales diversos.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-04",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 4,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Identifico variaciones en mi respiración en diferentes actividades físicas.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-05",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 5,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Realizo distintas posturas en estado de quietud y en movimiento.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-06",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 6,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Exploro formas básicas de movimiento y combinaciones con elementos y sin ellos.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-07",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 7,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Exploro formas básicas de movimiento aplicados a formas y modalidades gimnásticas.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-08",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 8,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Exploro técnicas corporales de tensión, relajación y control del cuerpo.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-09",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 9,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Exploro la práctica de diferentes juegos deportivos individuales y grupales.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-10",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 10,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Exploro diversidad de actividades físicas que estén de acuerdo con mis posibilidades.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-11",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 11,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Exploro pruebas de medición de mis capacidades físicas y llevo registro de ellas.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-12",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 12,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Exploro mis capacidades físicas en diversidad de juegos y actividades.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-13",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 13,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Atiendo las indicaciones para realizar el calentamiento al iniciar y recuperación al finalizar la actividad física.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-14",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 14,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Sigo orientaciones sobre hidratación, nutrición e higiene para el adecuado desarrollo de la actividad física.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-15",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 15,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Exploro cambios fisiológicos que se presentan entreactividad física-pausa-actividad física.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-16",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 16,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Resuelvo las diversas situaciones que el juego me presenta.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-17",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 17,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Juego siguiendo las orientaciones que se me dan.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-18",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 18,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Participo en los juegos individuales y colectivos propuestos en la clase.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-19",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 19,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Juego de acuerdo con mis preferencias en el contexto escolar.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-20",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 20,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Exploro el juego como un momento especial en la escuela.",
+      "evidences": [
+        "Explora formas básicas del movimiento y sus combinaciones en diferentes situaciones y contextos"
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-21",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 21,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Exploro manifestaciones expresivas para comunicar mis emociones (tristeza, alegría, ira, entre otras) en situaciones de juego y actividad física.",
+      "evidences": [
+        "Exploro e identifico emociones a través del movimiento corporal."
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-22",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 22,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Exploro prácticas de tradición de danza y lúdicas de la familia.",
+      "evidences": [
+        "Exploro e identifico emociones a través del movimiento corporal."
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-23",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 23,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Exploro movimientos con diferentes ritmos musicales.",
+      "evidences": [
+        "Exploro e identifico emociones a través del movimiento corporal."
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-24",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 24,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Exploro gestos, representaciones y bailes.",
+      "evidences": [
+        "Exploro e identifico emociones a través del movimiento corporal."
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-25",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 25,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Expreso entusiasmo en las actividades propuestas en la clase.",
+      "evidences": [
+        "Exploro e identifico emociones a través del movimiento corporal."
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-26",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 26,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Aplico las recomendaciones sobre higiene corporal antes, durante y después de la actividad física.",
+      "evidences": [
+        "Identifico las normas y principios establecidos para la realización de las prácticas propias de la actividad física."
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-27",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 27,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Atiendo las orientaciones sobre mi tiempo para jugar y realizar actividad física.",
+      "evidences": [
+        "Identifico las normas y principios establecidos para la realización de las prácticas propias de la actividad física."
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-28",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 28,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Exploro juegos y actividad física de acuerdo con mi edad y mis posibilidades.",
+      "evidences": [
+        "Identifico las normas y principios establecidos para la realización de las prácticas propias de la actividad física."
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-29",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 29,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Identifico mis capacidades cuando me esfuerzo en la actividad física.",
+      "evidences": [
+        "Identifico las normas y principios establecidos para la realización de las prácticas propias de la actividad física."
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G1A3-30",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 30,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Atiendo las indicaciones del profesor sobre la forma correcta de realizar los ejercicios.",
+      "evidences": [
+        "Identifico las normas y principios establecidos para la realización de las prácticas propias de la actividad física."
+      ],
+      "page": 60
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-01",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 1,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Controlo de forma global y segmentaria la realización de movimientos técnicos.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-02",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 2,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Ajusto los movimientos de mi cuerpo en la manipulación de objetos.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-03",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 3,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Controlo formas y duración de movimientos en rutinas rítmicas sencillas.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-04",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 4,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Relaciono variaciones en mi respiración en la actividad física y relajación.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-05",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 5,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Realizo posturas corporales propias de las técnicas de movimiento.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-06",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 6,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Aplico formas básicas de movimiento en la realización de diferentes prácticas deportivas.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-07",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 7,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Cuido mi postura en la realización de diferentes prácticas y modalidades gimnásticas.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-08",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 8,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Aplico técnicas de tensión, relajación y control del cuerpo.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-09",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 9,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Aplico reglas sencillas en diferentes prácticas deportivas individuales y de grupo.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-10",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 10,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Propongo la realización de juegos y actividades física que practico en mi comunidad.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-11",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 11,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Identifico pruebas que me indiquen el estado de mis capacidades físicas y registro los resultados.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-12",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 12,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Identifico mis capacidades físicas en la realización de ejercicios físicos y juegos.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-13",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 13,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Identifico movimientos y actividades de calentamiento y recuperación en la actividad física.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-14",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 14,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Identifico hábitos de comportamiento saludable para el adecuado desarrollo de la actividad física.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-15",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 15,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Identifico los cambios fisiológicos que se presentan entre actividad física-pausa-actividad física.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-16",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 16,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Analizo diversas situaciones de juego y doy respuesta a ellas.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-17",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 17,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Acepto y pongo en práctica las reglas de juego.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-18",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 18,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Reconozco a mis compañeros como co-constructores del juego.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-19",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 19,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Propongo momentos de juego en el espacio escolar.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-20",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 20,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Tomo el tiempo de juego como momento independiente de tareas escolares.",
+      "evidences": [
+        "Reconozco los fundamentos básicos de las técnicas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-21",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 21,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Identifico técnicas de expresión corporal que llevan a la regulación emocional en situaciones de juego y actividad física.",
+      "evidences": [
+        "Identifico diferentes técnicas expresivas para la manifestación emocional."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-22",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 22,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Reconozco y ejecuto danzas y prácticas lúdicas de tradición regional con lenguaje verbal y no verbal.",
+      "evidences": [
+        "Identifico diferentes técnicas expresivas para la manifestación emocional."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-23",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 23,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Reconozco movimientos que se ajusten al ritmo musical.",
+      "evidences": [
+        "Identifico diferentes técnicas expresivas para la manifestación emocional."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-24",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 24,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Realizo secuencias de movimientos con música, aplicando los tres ejes del cuerpo: adelanteatrás, arribaabajo, izquierda-derecha, de forma individual y grupal.",
+      "evidences": [
+        "Identifico diferentes técnicas expresivas para la manifestación emocional."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-25",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 25,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Identifico cómo las emociones afectan mi cuerpo cuando estoy alegre, triste, deprimido, decaído u ofuscado.",
+      "evidences": [
+        "Identifico diferentes técnicas expresivas para la manifestación emocional."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-26",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 26,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Reflexiono sobre la importancia de la actividad física para mi salud.",
+      "evidences": [
+        "Reflexiono acerca del valor de la actividad física para la formación personal."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-27",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 27,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Decido mi tiempo de juego y actividad física.",
+      "evidences": [
+        "Reflexiono acerca del valor de la actividad física para la formación personal."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-28",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 28,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Valoro mi capacidad para realizar actividad física adecuada con mis condiciones personales.",
+      "evidences": [
+        "Reflexiono acerca del valor de la actividad física para la formación personal."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-29",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 29,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Realizo actividad física actuando con respeto a mi cuerpo.",
+      "evidences": [
+        "Reflexiono acerca del valor de la actividad física para la formación personal."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G4A5-30",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 30,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Identifico el valor de la condición física y su importancia para mi salud.",
+      "evidences": [
+        "Reflexiono acerca del valor de la actividad física para la formación personal."
+      ],
+      "page": 61
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-01",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 1,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Relaciono las variaciones del crecimiento de mi cuerpo con la realización de movimientos.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-02",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 2,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Controlo el movimiento en diversos espacios, al desplazarme y manipular objetos.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-03",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 3,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Realizo secuencias de movimiento con duración y cadencia preestablecidas.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-04",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 4,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Comprendo los efectos fisiológicos de la respiración en el desarrollo de la actividad física.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-05",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 5,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Perfecciono posturas corporales propias de las técnicas de movimiento.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-06",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 6,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Combino diferentes movimientos técnicos en la realización de prácticas deportivas.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-07",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 7,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Reconozco mis fortalezas y limitaciones en la exploración de modalidades gimnásticas.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-08",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 8,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Combino técnicas de tensión-relajación y control corporal.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-09",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 9,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Identifico tácticas a partir de la práctica deportiva y sus reglas.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-10",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 10,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Practico elementos de actividades físicas alternativas o contemporáneas.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-11",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 11,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Comprendo los conceptos de las pruebas que miden mi capacidad física y hago aplicación de ellas.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-12",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 12,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Comprendo los conceptos de las capacidades físicas, al participar en actividades propias de cada una de ellas.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-13",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 13,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Reconozco procedimientos para realizar el calentamiento y recuperación en la actividad física.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-14",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 14,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Relaciono la práctica de la actividad física y los hábitos saludables.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-15",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 15,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Comprendo y practico la relación entre actividad física y recuperación en la realización de los ejercicios físicos.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-16",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 16,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Interpreto situaciones de juego y propongo diversas soluciones.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-17",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 17,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Comprendo la importancia de las reglas para el desarrollo del juego.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-18",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 18,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Contribuyo a la conformación equitativa de los grupos de juego.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-19",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 19,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Organizo juegos para desarrollar en la clase.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-20",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 20,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Soy tolerante ante las diferentes circunstancias que me presenta el juego para contribuir a su desarrollo.",
+      "evidences": [
+        "Combino las técnicas y tácticas de movimiento en diversas situaciones y contextos."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-21",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 21,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Comprendo diferentes técnicas de expresión corporal para la manifestación de mis emociones en situaciones de juego y actividad física.",
+      "evidences": [
+        "Comprendo diferentes técnicas de expresión corporal para la manifestación de emociones."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-22",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 22,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Comparo y ejecuto danzas y prácticas lúdicas de tradición regional.",
+      "evidences": [
+        "Comprendo diferentes técnicas de expresión corporal para la manifestación de emociones."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-23",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 23,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Ajusto mis movimientos al movimiento de mis compañeros y al ritmo de la música.",
+      "evidences": [
+        "Comprendo diferentes técnicas de expresión corporal para la manifestación de emociones."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-24",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 24,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Participo en bailes folclóricos y modernos, siguiendo pasos o coreografías.",
+      "evidences": [
+        "Comprendo diferentes técnicas de expresión corporal para la manifestación de emociones."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-25",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 25,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Relaciono mis emociones con estados fisiológicos de mi cuerpo (sudoración, agitación, alteraciones de la frecuencia cardiaca y respiratoria).",
+      "evidences": [
+        "Comprendo diferentes técnicas de expresión corporal para la manifestación de emociones."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-26",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 26,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Comprendo que la práctica física se refleja en mi calidad de vida.",
+      "evidences": [
+        "Comprendo el valor que tiene la actividad física para la formación personal."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-27",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 27,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Comprendo la importancia de mi tiempo para la actividad física y el juego.",
+      "evidences": [
+        "Comprendo el valor que tiene la actividad física para la formación personal."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-28",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 28,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Identifico mis fortalezas y debilidades en la actividad física, para lograr mis metas y conservar la salud.",
+      "evidences": [
+        "Comprendo el valor que tiene la actividad física para la formación personal."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-29",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 29,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Aplico las variables: tipo de ejercicio, duración, intensidad frecuencia, indicaciones y contraindicaciones en la práctica del ejercicio físico.",
+      "evidences": [
+        "Comprendo el valor que tiene la actividad física para la formación personal."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G6A7-30",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 30,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Procuro cuidar mi postura en la práctica de la actividad física y la vida cotidiana.",
+      "evidences": [
+        "Comprendo el valor que tiene la actividad física para la formación personal."
+      ],
+      "page": 62
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-01",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 1,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Reconozco que el movimiento incide en mi desarrollo corporal.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-02",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 2,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Selecciono movimientos de desplazamiento y manipulación.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-03",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 3,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Combino movimientos con uso de elementos, al oír una melodía musical.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-04",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 4,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Controlo la respiración y la relajación en situaciones de actividad física.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-05",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 5,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Cuido mi postura corporal desde principios anatómicos en la realización de movimientos.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-06",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 6,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Domino la ejecución de formas técnicas de movimiento de diferentes prácticas motrices y deportivas.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-07",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 7,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Selecciono modalidades gimnásticas para la realización de esquemas de movimiento.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-08",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 8,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Selecciono técnicas de tensión y relajación de control corporal.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-09",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 9,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Comprendo las exigencias técnicas y tácticas en la práctica de deportes individuales y de conjunto.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-10",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 10,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Ejercito técnicas de actividades físicas alternativas, en buenas condiciones de seguridad.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-11",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 11,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Relaciono los resultados de pruebas físicas de años anteriores, con el fin de mejorarlas.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-12",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 12,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Identifico métodos para el desarrollo de cada una de mis capacidades físicas y los aplico.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-13",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 13,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Comprendo las razones biológicas del calentamiento y recuperación y las aplico.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-14",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 14,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Comprendo la importancia de la actividad física para una vida saludable.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-15",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 15,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Aplico procedimientos de actividad física y pausas de descanso para controlar la fatiga en la realización de actividades físicas.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-16",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 16,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Decido las acciones más efectivas para resolver las diversas situaciones del juego.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-17",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 17,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Apropio las reglas de juego y las modifico, si es necesario.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-18",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 18,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Establezco relaciones de empatía con los compañeros para preservar el momento de juego.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-19",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 19,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Selecciono actividades para mi tiempo de ocio.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-20",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 20,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Comprendo las características del juego y las pongo en práctica para su realización.",
+      "evidences": [
+        "Selecciono técnicas de movimiento para perfeccionar mi ejecución."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-21",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 21,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Selecciono técnicas de expresión corporal para la manifestación y el control de mis emociones, en situaciones de juego y actividad física.",
+      "evidences": [
+        "Selecciono las técnicas de expresión corporal para la manifestación de emociones y pensamientos en diferentes contextos."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-22",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 22,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Participo en la ejecución y organización de muestras de danzas regionales colombianas.",
+      "evidences": [
+        "Selecciono las técnicas de expresión corporal para la manifestación de emociones y pensamientos en diferentes contextos."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-23",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 23,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Propongo secuencias de movimiento con mis compañeros, que se ajusten a la música.",
+      "evidences": [
+        "Selecciono las técnicas de expresión corporal para la manifestación de emociones y pensamientos en diferentes contextos."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-24",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 24,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Realizo danzas teniendo en cuenta el uso de coreografías y planimetrías.",
+      "evidences": [
+        "Selecciono las técnicas de expresión corporal para la manifestación de emociones y pensamientos en diferentes contextos."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-25",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 25,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Logro manejar los estados de ansiedad, usando técnicas de respiración y relajación.",
+      "evidences": [
+        "Selecciono las técnicas de expresión corporal para la manifestación de emociones y pensamientos en diferentes contextos."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-26",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 26,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Selecciono actividades físicas para la conservación de mi salud.",
+      "evidences": [
+        "Tomo decisiones sobre los aspectos fundamentales de la actividad física para la formación personal."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-27",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 27,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Reconozco el valor que tiene el juego y la actividad física como parte de mi formación.",
+      "evidences": [
+        "Tomo decisiones sobre los aspectos fundamentales de la actividad física para la formación personal."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-28",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 28,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Reconozco mis potencialidades para realizar actividad física orientada hacia mi salud.",
+      "evidences": [
+        "Tomo decisiones sobre los aspectos fundamentales de la actividad física para la formación personal."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-29",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 29,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Reconozco el estado de mi condición física, interpretando los resultados de pruebas específicas para ello.",
+      "evidences": [
+        "Tomo decisiones sobre los aspectos fundamentales de la actividad física para la formación personal."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G8A9-30",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 30,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Me preocupo por la formación de hábitos de postura e higiene corporal.",
+      "evidences": [
+        "Tomo decisiones sobre los aspectos fundamentales de la actividad física para la formación personal."
+      ],
+      "page": 63
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-01",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 1,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Selecciono técnicas de movimiento para mi proyecto de actividad física.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-02",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 2,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Ejecuto con calidad secuencias de movimiento con elementos y obstáculos.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-03",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 3,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Diseño y realizo esquemas de movimiento atendiendo a la precisión de un apoyo rítmico musical y de tiempo de ejecución.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-04",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 4,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Utilizo técnicas respiratorias y de relajación en la actividad física.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-05",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 5,
+      "component": "Competencia motriz · Desarrollo motor",
+      "statement": "Aplico técnicas de movimiento para mejorar mi postura corporal.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-06",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 6,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Perfecciono la calidad de ejecución de formas técnicas en diferentes prácticas deportivas y motrices.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-07",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 7,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Presento composiciones gimnásticas, aplicando técnicas de sus diferentes modalidades.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-08",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 8,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Aplico a mi vida cotidiana prácticas corporales alternativas.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-09",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 9,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Domino técnicas y tácticas de prácticas deportivas.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-10",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 10,
+      "component": "Competencia motriz · Técnicas del cuerpo",
+      "statement": "Realizo actividades físicas alternativas siguiendo parámetros técnicos, físicos, de seguridad y ecológicos.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-11",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 11,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Planifico el mejoramiento de mi condición física a partir de la actualización de mi ficha de evaluación.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-12",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 12,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Elaboro mi plan de condición física teniendo en cuenta fundamentos fisiológicos, técnicos y metodológicos.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-13",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 13,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Decido sobre los procedimientos y actividades de calentamiento y recuperación y los aplico.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-14",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 14,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Aplico en mi vida cotidiana prácticas de actividad física y hábitos saludables.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-15",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 15,
+      "component": "Competencia motriz · Condición física",
+      "statement": "Aplico mis conocimientos sobre la relación actividad físicapausa-actividad física, en mi plan de condición física.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-16",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 16,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Elaboro estrategias para hacer más eficiente el juego.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-17",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 17,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Participo en la organización de los juegos de la institución, estableciendo acuerdos para su desarrollo.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-18",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 18,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Conformo equipos de juego para participar en diversos eventos y contextos.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-19",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 19,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Valoro el tiempo de ocio para mi formación y tomo el juego como una alternativa importante.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-20",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 20,
+      "component": "Competencia motriz · Lúdica motriz",
+      "statement": "Asumo con autonomía y compromiso propio, o con los compañeros, las decisiones sobre el momento de juego.",
+      "evidences": [
+        "Aplico a mi proyecto de actividad física fundamentos técnicos y tácticos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-21",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 21,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Oriento el uso de técnicas de expresión corporal para el control emocional de mis compañeros, en situaciones de juego y actividad física.",
+      "evidences": [
+        "Elaboro diferentes estructuras de movimiento a partir del uso de expresión corporal para la manifestación de emociones y pensamientos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-22",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 22,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Realizo montajes de danzas y prácticas lúdicas de la diversidad colombiana.",
+      "evidences": [
+        "Elaboro diferentes estructuras de movimiento a partir del uso de expresión corporal para la manifestación de emociones y pensamientos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-23",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 23,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Realizo coreografías individuales y colectivas con el uso de diferentes ritmos musicales.",
+      "evidences": [
+        "Elaboro diferentes estructuras de movimiento a partir del uso de expresión corporal para la manifestación de emociones y pensamientos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-24",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 24,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Elaboro un montaje que combine danza-representación, determinando coreografía y planimetría.",
+      "evidences": [
+        "Elaboro diferentes estructuras de movimiento a partir del uso de expresión corporal para la manifestación de emociones y pensamientos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-25",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 25,
+      "component": "Competencia expresiva corporal · Lenguajes corporales",
+      "statement": "Uso técnicas de expresión corporal y relajación para controlar y expresar mis emociones.",
+      "evidences": [
+        "Elaboro diferentes estructuras de movimiento a partir del uso de expresión corporal para la manifestación de emociones y pensamientos."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-26",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 26,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Organizo mi plan de actividad física, de acuerdo con mis intereses y concepción sobre salud y calidad de vida.",
+      "evidences": [
+        "Aplico con autonomía los fundamentos de la actividad física que favorecen el cuidado de sí mismo."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-27",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 27,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Concientizo a mis compañeros del buen uso del tiempo libre y el juego.",
+      "evidences": [
+        "Aplico con autonomía los fundamentos de la actividad física que favorecen el cuidado de sí mismo."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-28",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 28,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Defino con precisión y autonomía mi proyecto personal de actividad física, salud y calidad de vida",
+      "evidences": [
+        "Aplico con autonomía los fundamentos de la actividad física que favorecen el cuidado de sí mismo."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-29",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 29,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Comprendo la relación entre salud y actividad física y desde ella realizo mi práctica.",
+      "evidences": [
+        "Aplico con autonomía los fundamentos de la actividad física que favorecen el cuidado de sí mismo."
+      ],
+      "page": 64
+    },
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-30",
+      "type": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 30,
+      "component": "Competencia axiológica corporal · Cuidado de sí mismo",
+      "statement": "Cultivo hábitos de higiene postural, recogiendo y trasladando objeto.",
+      "evidences": [
+        "Aplico con autonomía los fundamentos de la actividad física que favorecen el cuidado de sí mismo."
+      ],
+      "page": 64
+    }
+  ]
+}

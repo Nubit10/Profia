@@ -54,6 +54,7 @@ from ..generation.preferences import (
     suggest_preferences,
 )
 from ..generation.quality import QUALITY_RULES_VERSION
+from ..generation.references import with_references_version
 from ..generation.resources import (
     ItemOut,
     ItemRequest,
@@ -87,7 +88,7 @@ class CurriculumQuery(BaseModel):
     grade: Grade | None = None
     limit: int = Field(default=8, ge=1, le=20)
     # Opcional (SPEC-0037, aditivo): solo esos tipos; sin él, DBA y Estándares.
-    types: list[Literal["DBA", "STANDARD"]] | None = None
+    types: list[Literal["DBA", "STANDARD", "ORIENTATION"]] | None = None
 
 
 class CurriculumHit(BaseModel):
@@ -302,7 +303,7 @@ def create_app(
             meta=PlanningMeta(
                 provider=result.provider,
                 model=result.model,
-                promptVersion=PLANNING_PROMPT_VERSION,
+                promptVersion=with_references_version(PLANNING_PROMPT_VERSION, body.dba),
                 attempts=result.attempts,
                 latencyMs=result.latency_ms,
                 tokens=result.tokens,
@@ -342,7 +343,7 @@ def create_app(
             meta=GenerationMeta(
                 provider=result.provider,
                 model=result.model,
-                promptVersion=PROMPT_VERSION,
+                promptVersion=with_references_version(PROMPT_VERSION, body.dba),
                 attempts=result.attempts,
                 latencyMs=result.latency_ms,
             ),
@@ -392,7 +393,9 @@ def create_app(
     def quiz(body: QuizRequest) -> QuizResponse:
         value, meta = run_resource(
             "quiz",
-            with_adjust_version(quiz_prompt_version(body), body.adjust),
+            with_references_version(
+                with_adjust_version(quiz_prompt_version(body), body.adjust), body.dba
+            ),
             lambda: generate_quiz(llm, body),
         )
         return QuizResponse(quiz=value, meta=meta)
@@ -405,7 +408,9 @@ def create_app(
     def workshop(body: WorkshopRequest) -> WorkshopResponse:
         value, meta = run_resource(
             "workshop",
-            with_adjust_version(workshop_prompt_version(body), body.adjust),
+            with_references_version(
+                with_adjust_version(workshop_prompt_version(body), body.adjust), body.dba
+            ),
             lambda: generate_workshop(llm, body),
         )
         return WorkshopResponse(workshop=value, meta=meta)
@@ -416,7 +421,9 @@ def create_app(
     def item(body: ItemRequest) -> ItemResponse:
         value, meta = run_resource(
             "item",
-            with_adjust_version(item_prompt_version(body), body.adjust),
+            with_references_version(
+                with_adjust_version(item_prompt_version(body), body.adjust), body.dba
+            ),
             lambda: regenerate_item(llm, body),
         )
         return ItemResponse(item=value.item, meta=meta)
@@ -445,7 +452,12 @@ def create_app(
 
         value, meta = run_resource(
             "exam",
-            with_adjust_version(exam_prompt_version(body.subject, saber=body.saber), body.adjust),
+            with_references_version(
+                with_adjust_version(
+                    exam_prompt_version(body.subject, saber=body.saber), body.adjust
+                ),
+                body.dba,
+            ),
             run,
         )  # type: ignore[arg-type]
         return ExamResponse(exam=value, meta=ExamMeta(**meta.model_dump(), calls=calls))
@@ -458,13 +470,16 @@ def create_app(
     def exam_item(body: ExamItemRequest) -> ExamItemResponse:
         value, meta = run_resource(
             "exam_item",
-            with_adjust_version(
-                exam_prompt_version(
-                    body.subject,
-                    item=True,
-                    saber=body.current.type == "MULTIPLE_CHOICE" and bool(body.current.context),
+            with_references_version(
+                with_adjust_version(
+                    exam_prompt_version(
+                        body.subject,
+                        item=True,
+                        saber=body.current.type == "MULTIPLE_CHOICE" and bool(body.current.context),
+                    ),
+                    body.adjust,
                 ),
-                body.adjust,
+                body.dba,
             ),
             lambda: regenerate_exam_item(llm, body),
         )
@@ -509,7 +524,9 @@ def create_app(
     def lesson_plan(body: LessonPlanRequest) -> LessonPlanResponse:
         value, meta = run_resource(
             "lesson_plan",
-            with_adjust_version(LESSON_PLAN_PROMPT_VERSION, body.adjust),
+            with_references_version(
+                with_adjust_version(LESSON_PLAN_PROMPT_VERSION, body.adjust), body.dba
+            ),
             lambda: generate_lesson_plan(llm, body),
         )
         return LessonPlanResponse(plan=value, meta=meta)

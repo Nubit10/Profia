@@ -43,6 +43,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { ActionResult } from "@/lib/action-result";
 import type { CurriculumSearchResult } from "@/modules/curriculum/client";
+import { baseReferences, referenceLabel } from "@/lib/curriculum-references";
 import { cn } from "@/lib/utils";
 import type {
   CoursePeriodsInput,
@@ -88,7 +89,7 @@ export type PlanningActions = {
   quickCreate: A<QuickResourceRequest, { id: string }>;
   /** SPEC-0013 RN-04: búsqueda curricular para sugerir DBA al escribir un objetivo. */
   searchCurriculum: A<
-    { courseId: string; query: string; types?: ("DBA" | "STANDARD")[] },
+    { courseId: string; query: string; types?: ("DBA" | "STANDARD" | "ORIENTATION")[] },
     CurriculumSearchResult
   >;
   copy: A<
@@ -277,7 +278,7 @@ function ObjectiveItem({
           {objective.links.map((link) => (
             <li key={link.code}>
               <DbaChip dba={link}>
-                DBA {link.number}
+                {referenceLabel(link.code, link.number)}
                 {link.evidences.length > 0 && ` · ${link.evidences.length} evidencia(s)`}
                 {link.superseded && " · versión anterior"}
               </DbaChip>
@@ -441,7 +442,7 @@ export function PlanningView({
               <CardTitle>Empieza tu planeación</CardTitle>
               <CardDescription>
                 {canPropose
-                  ? "ProfIA puede proponerte las unidades y los temas de todo el año a partir de los DBA del grado. Tú revisas y decides qué agregar."
+                  ? "ProfIA puede proponerte las unidades y los temas de todo el año a partir de los DBA del grado (o, si el área no tiene DBA, de sus Estándares u Orientaciones del MEN). Tú revisas y decides qué agregar."
                   : "Crea unidades por periodo, agrega temas y redacta objetivos. Con esa estructura ProfIA podrá ayudarte a generar materiales."}
               </CardDescription>
             </CardHeader>
@@ -456,8 +457,8 @@ export function PlanningView({
                 </Button>
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  Esta asignatura no tiene DBA en el catálogo, así que Lucía no puede proponer
-                  temas. Agrégalos a mano.
+                  Esta asignatura no tiene DBA ni otros referentes del MEN en el catálogo, así que
+                  Lucía no puede proponer temas. Agrégalos a mano.
                 </p>
               )}
             </CardContent>
@@ -906,16 +907,23 @@ export function PlanningView({
             {dialog?.type === "objective" && (
               <ObjectiveForm
                 topicId={dialog.topicId}
-                references={planning.references.filter((r) => r.type === "DBA")}
+                // SPEC-0039: los referentes base del curso y, aparte y opcionales, los Estándares.
+                references={planning.references}
                 hasArea={planning.hasArea}
                 suggestDba={async (query) => {
+                  // Lucía sugiere solo entre los referentes base (DBA; sin DBA, Estándares u
+                  // Orientaciones), para que los demás no los desplacen (CA-0037-06).
+                  const types = [
+                    ...new Set(baseReferences(planning.references).map((r) => r.type)),
+                  ];
                   const result = await actions.searchCurriculum({
                     courseId: planning.course.id,
                     query,
-                    types: ["DBA"],
+                    types,
                   });
                   if (!result.ok || result.data?.status !== "ok") return null;
-                  return result.data.references.filter((r) => r.type === "DBA").map((r) => r.code);
+                  const base = new Set(types);
+                  return result.data.references.filter((r) => base.has(r.type)).map((r) => r.code);
                 }}
                 initial={
                   dialog.objective && {

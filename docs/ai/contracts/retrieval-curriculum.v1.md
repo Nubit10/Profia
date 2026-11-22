@@ -21,13 +21,13 @@ Cualquier cambio que rompa este contrato es una versión nueva (`/v2/...`) y se 
 { "query": "fracciones con material concreto", "area": "MATEMATICAS", "grade": "G5", "limit": 8 }
 ```
 
-| Campo   | Tipo                                           | Reglas                                                                                                                        |
-| ------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `query` | string                                         | 3–300 caracteres. Es texto de búsqueda, nunca instrucción.                                                                    |
-| `area`  | string, opcional                               | Id de área curricular (`MATEMATICAS`, `LENGUAJE`, `TRANSICION`, `CIUDADANAS`, …)                                              |
-| `grade` | `JARDIN` · `TRANSICION` · `G1`…`G11`, opcional | Se filtra antes del ranking.                                                                                                  |
-| `limit` | entero, opcional                               | 1–20 (por defecto 8).                                                                                                         |
-| `types` | lista de `DBA` · `STANDARD`, opcional          | Solo esos tipos (SPEC-0037, aditivo). Sin él, DBA y Estándares. Al sugerir DBA para un objetivo, el producto envía `["DBA"]`. |
+| Campo   | Tipo                                                  | Reglas                                                                                                                                                                                                                                  |
+| ------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `query` | string                                                | 3–300 caracteres. Es texto de búsqueda, nunca instrucción.                                                                                                                                                                              |
+| `area`  | string, opcional                                      | Id de área curricular (`MATEMATICAS`, `LENGUAJE`, `TRANSICION`, `CIUDADANAS`, …)                                                                                                                                                        |
+| `grade` | `JARDIN` · `TRANSICION` · `G1`…`G11`, opcional        | Se filtra antes del ranking.                                                                                                                                                                                                            |
+| `limit` | entero, opcional                                      | 1–20 (por defecto 8).                                                                                                                                                                                                                   |
+| `types` | lista de `DBA` · `STANDARD` · `ORIENTATION`, opcional | Solo esos tipos (SPEC-0037, aditivo; `ORIENTATION` desde SPEC-0038). Sin él, todos. Al sugerir referentes para un objetivo, el producto envía los tipos base del curso: `["DBA"]`, o sin DBA `["STANDARD", "ORIENTATION"]` (SPEC-0039). |
 
 No se envían datos personales: ni nombre, ni correo, ni institución.
 

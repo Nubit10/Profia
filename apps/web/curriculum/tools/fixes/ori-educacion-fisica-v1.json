@@ -1,0 +1,11 @@
+{
+  "_doc": "Correcciones de las Orientaciones de Educación Física (SPEC-0038 etapa 2). replaceText: guiones que la tabla parte en dos líneas seguidas; el texto queda como se ve en la página.",
+  "replaceText": [
+    {
+      "code": "MEN-ORI-EFI-V1-G10A11-24",
+      "find": "danzarepresenta- ción",
+      "replace": "danza-representación",
+      "reason": "«danza-» y «representa-» terminan dos líneas seguidas de la celda (pág. 64); el compuesto lleva guion y la segunda palabra no."
+    }
+  ]
+}

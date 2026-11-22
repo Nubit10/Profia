@@ -14,6 +14,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from ..config import ENGINE_DIR
 from ..providers.llm import DATA_END, DATA_START, LLM, Message
 from .pipeline import looks_spanish, norm, run_structured
+from .references import ReferenceKind, ref_entry, references_system
 
 PLANNING_PROMPT_VERSION = "planning.v1"
 SYSTEM_PROMPT = (ENGINE_DIR / "prompts" / f"{PLANNING_PROMPT_VERSION}.md").read_text(
@@ -30,6 +31,8 @@ class DbaRef(BaseModel):
     code: str = Field(max_length=60)
     statement: str = Field(max_length=1500)
     evidences: list[str] = Field(default_factory=list, max_length=12)
+    # SPEC-0039: Estándar u Orientación del MEN; sin `kind`, es un DBA (campo aditivo).
+    kind: ReferenceKind | None = None
 
 
 class ExistingUnit(BaseModel):
@@ -134,11 +137,7 @@ def build_messages(
         "asignatura": request.subject,
         "grado": request.grade,
         "periodo": {"numero": period.number, "nombre": period.name},
-        "dba": [
-            {"codigo": d.code, "enunciado": d.statement, "evidencias": d.evidences}
-            for d in request.dba
-            if d.code in allowed
-        ],
+        "dba": [ref_entry(d) for d in request.dba if d.code in allowed],
         "debeCubrir": period.mustCover,
         "existentes": [{"unidad": u.title, "temas": u.topics} for u in period.existing],
         "titulosUsados": taken,
@@ -168,7 +167,7 @@ def build_messages(
         f"{ask}\n{DATA_START}\n{json.dumps(data, ensure_ascii=False)}\n{DATA_END}\n"
         "Responde solo con el JSON pedido."
     )
-    return [Message("system", SYSTEM_PROMPT), Message("user", user)]
+    return [Message("system", references_system(SYSTEM_PROMPT, data)), Message("user", user)]
 
 
 def _existing_titles(request: PlanningRequest, period: PeriodTarget) -> tuple[set[str], set[str]]:

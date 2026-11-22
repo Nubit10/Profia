@@ -595,8 +595,8 @@ export function ResourceView({
         <>
           {resource.context.dba.length === 0 && (
             <p className="text-sm text-muted-foreground" role="note">
-              {resource.type === "LESSON_PLAN" ? "Este plan" : "Este recurso"} no cita DBA: la
-              asignatura no tiene DBA en el catálogo.
+              {resource.type === "LESSON_PLAN" ? "Este plan" : "Este recurso"} no cita referentes
+              del MEN: la asignatura no tiene DBA ni otros referentes en el catálogo.
             </p>
           )}
           {/* SPEC-0027: mientras hay una propuesta sin decidir, se ve la propuesta. */}

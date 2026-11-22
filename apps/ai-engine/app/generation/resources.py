@@ -25,6 +25,7 @@ from .mathcheck import (
 from .objectives import DbaRef, TopicRef
 from .pipeline import StructuredResult, looks_spanish, norm, run_structured
 from .quality import balance_positions, check_questions
+from .references import ref_entry, references_system
 from .saber import (
     SABER_PROMPT_VERSION,
     Figure,
@@ -412,10 +413,7 @@ def _context_data(request: ResourceContext) -> dict:
         "grado": request.grade,
         "tema": {"titulo": request.topic.title, "descripcion": request.topic.description},
         "objetivos": request.objectives,
-        "dba": [
-            {"codigo": d.code, "enunciado": d.statement, "evidencias": d.evidences}
-            for d in request.dba
-        ],
+        "dba": [ref_entry(d) for d in request.dba],
         "dificultad": DIFFICULTY_LABELS[request.difficulty],
         "notasDelDocente": request.notes,
         "preferenciasDelDocente": request.preferences,
@@ -428,7 +426,8 @@ def _messages(system: str, instruction: str, data: dict) -> list[Message]:
         f"{instruction}\n{DATA_START}\n{json.dumps(data, ensure_ascii=False)}\n{DATA_END}\n"
         "Responde solo con el JSON pedido."
     )
-    return [Message("system", system), Message("user", user)]
+    # SPEC-0039: con Estándares u Orientaciones en los datos, el anexo `referentes.v1`.
+    return [Message("system", references_system(system, data)), Message("user", user)]
 
 
 def build_quiz_messages(request: QuizRequest) -> list[Message]:

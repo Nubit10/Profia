@@ -63,7 +63,8 @@ export async function getCourseReferences(
       OR: [
         { type: "DBA", grade },
         {
-          type: "STANDARD",
+          // Estándares y Orientaciones (SPEC-0038) aplican a su grupo de grados.
+          type: { in: ["STANDARD", "ORIENTATION"] },
           gradeFrom: { in: gradesCovering(grade) },
           gradeTo: { notIn: gradesCovering(grade).filter((g) => g !== grade) },
         },

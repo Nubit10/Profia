@@ -279,8 +279,8 @@ describe("vínculo curricular", () => {
     expect(planning.areaHasItems).toBe(true);
     expect(planning.units[0]!.topics[0]!.objectives[1]!.links).toEqual([]);
 
-    // En una asignatura sin catálogo (Educación Artística) no hay aviso.
-    const art = await course(ctx, "Educación Artística", "G6", "601");
+    // En una asignatura sin catálogo (Educación Religiosa) no hay aviso.
+    const art = await course(ctx, "Educación Religiosa", "G6", "601");
     expect((await getCoursePlanning(ctx, art.id)).areaHasItems).toBe(false);
   });
 

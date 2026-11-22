@@ -144,9 +144,10 @@ describe("bloque 6: primer curso con temas propuestos", () => {
     expect(home.firstSteps).toMatchObject({ current: "TOPIC", canProposeTopics: true });
   });
 
-  it("sin DBA (Educación Física), sigue «Escribe tu tema»", async () => {
+  it("sin referentes del MEN (Educación Religiosa), sigue «Escribe tu tema»", async () => {
     const ctx = await teacher();
-    await course(ctx, "6F", "Educación Física, Recreación y Deportes");
+    // Educación Física ya tiene Orientaciones del MEN (SPEC-0038 etapa 2) y Lucía las propone.
+    await course(ctx, "6R", "Educación Religiosa");
     const home = await getTeacherHome(ctx);
     expect(home.firstSteps).toMatchObject({ current: "TOPIC", canProposeTopics: false });
   });

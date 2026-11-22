@@ -4,6 +4,7 @@ import type {
   QuizQuestion,
   WorkshopContent,
 } from "@/modules/resources/client";
+import { referenceLabel } from "@/lib/curriculum-references";
 import { LEVEL_LABELS, UDL_LABELS } from "@/modules/resources/client";
 import type { FieldSource, FormatSnapshot } from "@/modules/formats/client";
 import { drawFigure } from "@/lib/figures/svg";
@@ -144,7 +145,7 @@ const dbaLabel = (codes: string[], ctx: ExportContext) =>
   codes
     .map((c) => ctx.dba.find((d) => d.code === c))
     .filter(Boolean)
-    .map((d) => `DBA ${d!.number}`)
+    .map((d) => referenceLabel(d!.code, d!.number))
     .join(", ");
 
 const joined = (items: string[]) => items.join(" · ");
@@ -240,7 +241,10 @@ export function buildWorkshop(
     const refs = ctx.dba.filter((d) => cited.has(d.code));
     if (refs.length) {
       blocks.push({ kind: "heading", text: "Referentes curriculares (MEN)", level: 1 });
-      blocks.push({ kind: "list", items: refs.map((d) => `DBA ${d.number}: ${d.statement}`) });
+      blocks.push({
+        kind: "list",
+        items: refs.map((d) => `${referenceLabel(d.code, d.number)}: ${d.statement}`),
+      });
     }
   }
   return {
@@ -269,7 +273,10 @@ function teacherAppendix(content: WorkshopContent, ctx: ExportContext): DocBlock
   const refs = ctx.dba.filter((d) => cited.has(d.code));
   if (refs.length) {
     blocks.push({ kind: "heading", text: "Referentes curriculares (MEN)", level: 1 });
-    blocks.push({ kind: "list", items: refs.map((d) => `DBA ${d.number}: ${d.statement}`) });
+    blocks.push({
+      kind: "list",
+      items: refs.map((d) => `${referenceLabel(d.code, d.number)}: ${d.statement}`),
+    });
   }
   return blocks;
 }

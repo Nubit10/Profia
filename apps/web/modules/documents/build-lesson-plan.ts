@@ -1,3 +1,4 @@
+import { referenceLabel } from "@/lib/curriculum-references";
 import { PERFORMANCE_LABELS, bandRange, type GradingBands } from "@/modules/institutions/client";
 import { RUBRIC_COLUMNS, sessionMinutes, type LessonPlanContent } from "@/modules/resources/client";
 import type { ExportContext } from "./build";
@@ -27,7 +28,7 @@ export function buildLessonPlan(
     if (cited.length) {
       blocks.push({
         kind: "list",
-        items: cited.map((d) => `DBA ${d.number}: ${d.statement}`),
+        items: cited.map((d) => `${referenceLabel(d.code, d.number)}: ${d.statement}`),
       });
     }
     if (objectives.length) blocks.push({ kind: "list", items: objectives, ordered: true });
@@ -56,7 +57,7 @@ export function buildLessonPlan(
     const dba = s.dbaCodes
       .map((c) => dbaByCode.get(c))
       .filter((d) => d !== undefined)
-      .map((d) => `DBA ${d.number}`);
+      .map((d) => referenceLabel(d.code, d.number));
     const details = [
       s.resources.length ? `Recursos: ${s.resources.join(", ")}` : "",
       dba.length ? `Referentes: ${dba.join(", ")}` : "",

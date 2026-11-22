@@ -1,7 +1,7 @@
 // Tipos del módulo curriculum seguros para el navegador.
 export type CurriculumReference = {
   code: string;
-  type: "DBA" | "STANDARD";
+  type: "DBA" | "STANDARD" | "ORIENTATION";
   number: number;
   component: string | null;
   statement: string;

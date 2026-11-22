@@ -128,7 +128,7 @@ export default async function CreatePage({ searchParams }: PageProps<"/create">)
   const dbaRefs =
     course && (formContext || examContext)
       ? await getCourseReferences(ctx, course.id)
-          .then((r) => r.references.filter((ref) => ref.type === "DBA"))
+          .then((r) => r.references)
           .catch(() => [])
       : [];
 

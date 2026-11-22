@@ -44,7 +44,7 @@ export default async function ResourcePage({
       : null;
   // SPEC-0014 CA-0014-12: la ficha de cada DBA del recurso sale del catálogo vigente del curso.
   const dbaRefs = await getCourseReferences(ctx, courseId)
-    .then((r) => r.references.filter((ref) => ref.type === "DBA"))
+    .then((r) => r.references)
     .catch(() => []);
 
   return (

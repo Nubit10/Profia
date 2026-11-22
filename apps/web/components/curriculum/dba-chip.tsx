@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { evidencesTitle, referenceLabel } from "@/lib/curriculum-references";
 import { cn } from "@/lib/utils";
 
 // SPEC-0014 CA-0014-12 (F-03): cada etiqueta "DBA n" se abre en el sitio y muestra el número, el
@@ -79,13 +80,15 @@ export function DbaChip({
   /** Número de respaldo si el código no está en el catálogo. */
   number?: number;
   className?: string;
-  /** Texto del botón; por omisión "DBA n". */
+  /** Texto del botón; por omisión "DBA n", "Estándar n" u "Orientación n" según el código. */
   children?: ReactNode;
 }) {
   const catalog = useDbaCatalog();
   const info = dba ?? (code ? catalog?.get(code) : undefined);
   const [open, setOpen] = useState(false);
-  const label = children ?? `DBA ${info?.number ?? number ?? "?"}`;
+  const refCode = info?.code ?? code ?? "";
+  const name = referenceLabel(refCode, info?.number ?? number ?? "?");
+  const label = children ?? name;
 
   const pill =
     "inline-flex items-center gap-1 rounded-full border border-brand-border bg-brand-softer px-2 py-0.5 text-xs font-medium text-brand-strong";
@@ -108,7 +111,7 @@ export function DbaChip({
           className,
         )}
         aria-haspopup="dialog"
-        aria-label={`DBA ${info.number}: ver enunciado, evidencias y fuente`}
+        aria-label={`${name}: ver enunciado, evidencias y fuente`}
         onClick={(event) => {
           // La etiqueta puede estar dentro de una fila clicable o de un <label>.
           event.preventDefault();
@@ -125,7 +128,7 @@ export function DbaChip({
         <DialogContent className="sm:max-w-lg" data-testid="dba-sheet">
           <DialogHeader>
             <DialogTitle className="flex flex-wrap items-center gap-2 pr-8">
-              DBA {info.number}
+              {name}
               {info.component && (
                 <span className="text-xs font-normal text-muted-foreground">
                   · {info.component}
@@ -138,13 +141,13 @@ export function DbaChip({
           </DialogHeader>
           {info.superseded && (
             <p className="rounded-md bg-warning-soft p-2 text-xs text-warning">
-              Este DBA es de una versión anterior del MEN. El vínculo se conserva.
+              Este referente es de una versión anterior del MEN. El vínculo se conserva.
             </p>
           )}
           {info.evidences.length > 0 && (
             <section aria-labelledby={`dba-ev-${info.code}`} className="flex flex-col gap-1.5">
               <h3 id={`dba-ev-${info.code}`} className="text-sm font-medium">
-                Evidencias de aprendizaje
+                {evidencesTitle(info)}
               </h3>
               <ul className="ml-4 flex list-disc flex-col gap-1 text-sm">
                 {info.evidences.map((e) => (

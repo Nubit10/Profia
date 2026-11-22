@@ -1,8 +1,9 @@
 import "server-only";
+import { baseReferences } from "@/lib/curriculum-references";
 import { db } from "@/lib/db";
 import { invalid, notFound } from "@/lib/errors";
 import { GRADE_LABELS } from "@/modules/courses/client";
-import { getCourseReferences } from "@/modules/curriculum";
+import { getCourseReferences, type CurriculumReference } from "@/modules/curriculum";
 import type { TenantContext } from "@/modules/tenancy";
 import { ownedTopic, ownedUnit } from "./access";
 import { ensureDefaultPeriods, listCoursePeriods } from "./periods";
@@ -83,7 +84,7 @@ export async function getCoursePlanning(
   ]);
 
   const linked = new Set<string>();
-  const dbaCodes = new Set(refs.references.filter((r) => r.type === "DBA").map((r) => r.code));
+  const dbaCodes = new Set(baseReferences(refs.references).map((r) => r.code));
   const shaped = units.map((unit) => ({
     id: unit.id,
     periodNumber: unit.periodNumber,
@@ -96,7 +97,8 @@ export async function getCoursePlanning(
       description: topic.description,
       plannedSessions: topic.plannedSessions,
       archived: !!topic.archivedAt,
-      // SPEC-0014 RN-01: solo los que siguen siendo DBA del curso; también cuentan en la cobertura.
+      // SPEC-0014 RN-01: solo los que siguen siendo referentes base del curso (DBA; si no hay, Estándares
+      // u Orientaciones, SPEC-0039); también cuentan en la cobertura.
       dbaCodes: topic.dbaCodes.filter((code) => {
         if (!dbaCodes.has(code)) return false;
         if (!unit.archivedAt && !topic.archivedAt) linked.add(code);
@@ -129,7 +131,7 @@ export async function getCoursePlanning(
     })),
   }));
 
-  const dbaRefs = refs.references.filter((r) => r.type === "DBA");
+  const dbaRefs = baseReferences(refs.references);
   return {
     course: refs.course,
     areaName: refs.areaName,
@@ -209,14 +211,10 @@ export async function getTopicGenerationContext(ctx: TenantContext, topicId: str
       statement: o.statement,
       dbaCodes: o.links.map((l) => l.curriculumItem.code),
     })),
-    dba: refs.references
-      .filter((r) => r.type === "DBA")
-      .map((r) => ({
-        code: r.code,
-        number: r.number,
-        statement: r.statement,
-        evidences: r.evidences,
-      })),
+    dba: generationReferences(
+      refs.references,
+      details.objectives.flatMap((o) => o.links.map((l) => l.curriculumItem.code)),
+    ),
   };
 }
 
@@ -289,14 +287,10 @@ export async function getTopicsGenerationContext(ctx: TenantContext, topicIds: s
         })),
       };
     }),
-    dba: refs.references
-      .filter((r) => r.type === "DBA")
-      .map((r) => ({
-        code: r.code,
-        number: r.number,
-        statement: r.statement,
-        evidences: r.evidences,
-      })),
+    dba: generationReferences(
+      refs.references,
+      rows.flatMap((r) => r.objectives.flatMap((o) => o.links.map((l) => l.curriculumItem.code))),
+    ),
   };
 }
 export type TopicsGenerationContext = Awaited<ReturnType<typeof getTopicsGenerationContext>>;
@@ -334,9 +328,26 @@ export async function getUnitCourseId(ctx: TenantContext, unitId: string) {
 
 /**
  * Bloque 6 de usabilidad: ¿la IA puede proponer los temas de este curso? Solo si su asignatura y
- * grado tienen DBA en el catálogo (SPEC-0014 CA-0014-07).
+ * grado tienen DBA en el catálogo (SPEC-0014 CA-0014-07) o, sin DBA, Estándares u Orientaciones
+ * (SPEC-0039).
  */
 export async function canProposeTopics(ctx: TenantContext, courseId: string): Promise<boolean> {
   const refs = await getCourseReferences(ctx, courseId).catch(() => null);
-  return !!refs && refs.emptyReason !== "NO_AREA" && refs.references.some((r) => r.type === "DBA");
+  return !!refs && refs.emptyReason !== "NO_AREA" && baseReferences(refs.references).length > 0;
+}
+
+/**
+ * Referentes que Lucía recibe al generar para un tema (SPEC-0039): los base del curso (DBA; si no hay,
+ * Estándares u Orientaciones) y, además, los Estándares que el docente vinculó a sus objetivos.
+ */
+function generationReferences(references: CurriculumReference[], linkedCodes: string[]) {
+  const keep = new Set([...baseReferences(references).map((r) => r.code), ...linkedCodes]);
+  return references
+    .filter((r) => keep.has(r.code))
+    .map((r) => ({
+      code: r.code,
+      number: r.number,
+      statement: r.statement,
+      evidences: r.evidences,
+    }));
 }

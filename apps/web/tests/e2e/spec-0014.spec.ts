@@ -159,10 +159,11 @@ test("CA-0014-07: una asignatura sin DBA en el catálogo no ofrece la propuesta 
   page,
 }) => {
   await signUpIndependentTeacher(page);
-  // Ética: tiene área curricular (Competencias Ciudadanas, SPEC-0038) pero solo Estándares, sin DBA.
-  await openNewCourse(page, "Ética y Valores Humanos");
+  // Educación Religiosa: sin área curricular ni referentes del MEN (SPEC-0039: Ética ya propone
+  // con sus Estándares).
+  await openNewCourse(page, "Educación Religiosa");
   await expect(page.getByRole("button", { name: /Proponer .* con IA/ })).toHaveCount(0);
-  await expect(page.getByText(/no tiene DBA en el catálogo/)).toBeVisible();
+  await expect(page.getByText(/no tiene DBA ni otros referentes del MEN/)).toBeVisible();
 });
 
 test("CA-0014-22 (parte 1): la revisión de la propuesta es accesible y cabe en 360 px", async ({

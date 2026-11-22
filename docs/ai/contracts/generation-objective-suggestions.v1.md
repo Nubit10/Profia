@@ -58,3 +58,11 @@ Toda respuesta `200` ya pasó el schema y el validador pedagógico: cantidad ped
 | `503`  | Ningún proveedor de la cadena respondió (caído o en límite) | "La sugerencia con IA no está disponible"        |
 
 Timeout del cliente: 90 s (el modelo local en CPU puede tardar ~1 minuto; Groq, pocos segundos).
+
+## Referentes que no son DBA (SPEC-0039, aditivo)
+
+Cada elemento de `dba` puede traer `"kind": "STANDARD"` (Estándar Básico de Competencias) o
+`"kind": "ORIENTATION"` (desempeño de las orientaciones pedagógicas del MEN). Sin `kind` es un DBA y
+el pedido es idéntico al de antes. Si algún referente trae `kind`, el AI Engine agrega el anexo de
+prompt `referentes.v1` y la versión registrada termina en `+referentes.v1`. Sus códigos se usan
+igual que los de un DBA en `dbaCodes`.

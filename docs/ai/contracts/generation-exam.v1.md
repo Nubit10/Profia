@@ -178,3 +178,11 @@ Los mismos de [generation-resources.v1](generation-resources.v1.md#errores-los-t
 - `503`: ningún proveedor respondió.
 
 Timeout del cliente: 280 s para el examen (por debajo del límite de 300 s de Vercel, ADR-0011), porque son varias llamadas seguidas y cada una puede esperar el cupo por minuto de Groq; 90 s para regenerar una pregunta.
+
+## Referentes que no son DBA (SPEC-0039, aditivo)
+
+Cada elemento de `dba` puede traer `"kind": "STANDARD"` (Estándar Básico de Competencias) o
+`"kind": "ORIENTATION"` (desempeño de las orientaciones pedagógicas del MEN). Sin `kind` es un DBA y
+el pedido es idéntico al de antes. Si algún referente trae `kind`, el AI Engine agrega el anexo de
+prompt `referentes.v1` y la versión registrada termina en `+referentes.v1`. Sus códigos se usan
+igual que los de un DBA en `dbaCodes`.

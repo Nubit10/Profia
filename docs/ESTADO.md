@@ -7,6 +7,20 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **SPEC-0038 etapa 2 y SPEC-0039 — Orientaciones del MEN y usar Estándares al generar** (2026-11-22),
+  pedido del usuario (ADR-0022 aceptado). Catálogo: tipo `ORIENTATION` con Guía 30 de Tecnología (169),
+  Educación Física Doc. 15 (150), Artística Doc. 16 (45) y Filosofía Doc. 14 (15), verificados contra los
+  PDF; las Orientaciones curriculares de 2019/2022 no se cargan porque prohíben reproducir sin permiso
+  escrito del MEN; Ética no se carga (texto sin desempeños; usa Ciudadanas). Migración
+  `20261122120000_curriculum_orientations`. Lucía planea y genera con los referentes base del curso
+  (`lib/curriculum-references.ts`): Ética, Cátedra de la Paz, Tecnología, Educación Física, Artística,
+  Filosofía e Inglés 1°-5° ya tienen «Proponer con IA». El objetivo deja elegir Estándares aparte
+  (también en Matemáticas, Lenguaje, Ciencias) y viajan a Lucía con `kind`; anexo de prompt
+  `referentes.v1` solo cuando hay Estándares u Orientaciones. Índice: 2.099 ítems.
+  Pruebas: web 402, e2e 117 (1 omitida), AI Engine 201.
+  - Pendiente: medir `referentes.v1` en el benchmark con Groq real; revisión docente de las nuevas
+    fuentes; en producción `npx prisma migrate deploy`, `curriculum:import` y republicar el Space.
+
 - **SPEC-0038 etapa 1 — Competencias Ciudadanas y DBA de Inglés 6°-11°** (2026-11-22), pedido del usuario
   («que Lucía pueda hacer los recursos por sí misma»). Catálogo: Estándares Ciudadanos (156, área nueva
   `CIUDADANAS`, la ven Ética y la nueva precargada Cátedra de la Paz; migración

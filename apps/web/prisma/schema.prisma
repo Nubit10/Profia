@@ -316,6 +316,8 @@ model Course {
 enum CurriculumDocumentType {
   DBA
   STANDARD
+  /// Desempeños de las orientaciones pedagógicas del MEN en áreas sin DBA ni Estándares (ADR-0022).
+  ORIENTATION
 }
 
 enum CurriculumSourceStatus {

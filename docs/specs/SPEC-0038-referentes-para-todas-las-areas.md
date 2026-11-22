@@ -1,13 +1,13 @@
 # SPEC-0038 — Referentes oficiales para todas las áreas obligatorias
 
-| Campo                    | Valor                                                                                           |
-| ------------------------ | ----------------------------------------------------------------------------------------------- |
-| Estado                   | **Etapa 1 implementada** (2026-11-22) · Etapa 2 en **Borrador** (necesita ADR-0022, propuesto)  |
-| Fase del roadmap         | 3 · Curriculum                                                                                  |
-| Módulo(s) responsable(s) | `modules/curriculum`, `modules/courses`, `apps/ai-engine` (índice)                              |
-| Agentes                  | curriculum, database, rag, qa                                                                   |
-| ADR relacionados         | ADR-0005 (catálogo versionado), ADR-0022 (propuesto: orientaciones pedagógicas como referentes) |
-| Autor / Fecha            | Claude, a pedido del product owner / 2026-11-22                                                 |
+| Campo                    | Valor                                                                                          |
+| ------------------------ | ---------------------------------------------------------------------------------------------- |
+| Estado                   | **Implementada** (etapa 1 y etapa 2, 2026-11-22) — revisión docente del contenido pendiente    |
+| Fase del roadmap         | 3 · Curriculum                                                                                 |
+| Módulo(s) responsable(s) | `modules/curriculum`, `modules/courses`, `apps/ai-engine` (índice)                             |
+| Agentes                  | curriculum, database, rag, qa                                                                  |
+| ADR relacionados         | ADR-0005 (catálogo versionado), ADR-0022 (aceptado: orientaciones pedagógicas como referentes) |
+| Autor / Fecha            | Claude, a pedido del product owner / 2026-11-22                                                |
 
 Pedido del product owner (2026-11-21): que Lucía pueda hacer los recursos «por sí misma», no solo con lo
 que suba el docente. Se aprobó el orden propuesto: Competencias Ciudadanas, DBA de Inglés 6°-11° y
@@ -36,20 +36,21 @@ lo vea con su cita.
 - Formato: una fuente puede marcarse `dbaWithoutEvidences` (versión corta). Solo en ella un DBA puede ir
   sin evidencias.
 
-### Etapa 2 (Borrador, después de aceptar ADR-0022)
+### Etapa 2 (implementada con ADR-0022)
 
 Áreas obligatorias sin DBA ni Estándares, con sus documentos oficiales del MEN:
 
-| Asignatura               | Documento                                                                               |
-| ------------------------ | --------------------------------------------------------------------------------------- |
-| Tecnología e Informática | Orientaciones generales para la educación en tecnología (Guía 30)                       |
-| Educación Artística      | Orientaciones pedagógicas para la Educación Artística (Documento 16)                    |
-| Educación Física         | Orientaciones pedagógicas para la Educación Física, Recreación y Deporte (Documento 15) |
-| Filosofía (10°-11°)      | Orientaciones pedagógicas para la Filosofía en la Educación Media (Documento 14)        |
-| Ética y Valores Humanos  | Lineamientos curriculares de Educación Ética y Valores Humanos (complementa Ciudadanas) |
+| Asignatura               | Documento                                                                                                                |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| Tecnología e Informática | Orientaciones generales para la educación en tecnología (Guía 30)                                                        |
+| Educación Artística      | Orientaciones pedagógicas para la Educación Artística (Documento 16)                                                     |
+| Educación Física         | Orientaciones pedagógicas para la Educación Física, Recreación y Deporte (Documento 15)                                  |
+| Filosofía (10°-11°)      | Orientaciones pedagógicas para la Filosofía en la Educación Media (Documento 14)                                         |
+| Ética y Valores Humanos  | No se carga: los Lineamientos de 1998 son texto continuo, sin desempeños enumerados; Ética usa los Estándares Ciudadanos |
 
-Antes de cargar cada uno: confirmar que es el PDF oficial del MEN, revisar los términos de uso (ProfIA es
-un producto comercial) y extraerlo con el mismo proceso de verificación.
+Antes de cargar cada uno se confirmó que es el PDF oficial del MEN y se revisaron los términos de uso.
+Las _Orientaciones curriculares_ de 2019 (Artística) y 2022 (Educación Física) no permiten reproducir su
+texto sin permiso escrito del MEN, así que se usan las ediciones de 2010 (ADR-0022).
 
 **No incluye (ni en la etapa 2):**
 
@@ -86,6 +87,10 @@ un producto comercial) y extraerlo con el mismo proceso de verificación.
 - **CA-0038-05:** El texto guardado es idéntico al del archivo y las fuentes quedan pendientes de revisión.
 - **CA-0038-06:** En Inglés de 9°, Lucía propone el periodo solo con los DBA de Inglés de 9°.
 - **CA-0038-07:** Un DBA sin evidencias solo se acepta en una fuente marcada como versión corta.
+- **CA-0038-08:** Importar dos veces las orientaciones no crea ni duplica nada (169 + 150 + 45 + 15).
+- **CA-0038-09:** Tecnología 6° ve 31 orientaciones con su competencia y cita; Educación Física 10°, 30;
+  Artística 4°, 9; Filosofía 11°, 15; Filosofía 9°, ninguna.
+- **CA-0038-10:** El texto de las orientaciones guardado es idéntico al del archivo.
 
 ## 5. Implementación (2026-11-22)
 
@@ -100,7 +105,22 @@ un producto comercial) y extraerlo con el mismo proceso de verificación.
   la Paz precargada en los espacios existentes). Sin cambios en `schema.prisma`.
 - AI Engine: sin cambios de código; índice de 1.720 ítems.
 - Pruebas: `tests/integration/spec-0038.test.ts`, CA-0038-06 en `spec-0014.test.ts`, e2e
-  `spec-0038.spec.ts`. CA-0014-07 ahora usa Ética (tiene área pero no DBA).
+  `spec-0038.spec.ts`. CA-0014-07 ahora usa Educación Religiosa (sin área ni referentes).
+
+### Etapa 2 (2026-11-22)
+
+| Fuente (clave)                                             | Ítems | Verificación contra el PDF                              |
+| ---------------------------------------------------------- | ----- | ------------------------------------------------------- |
+| Guía 30, Tecnología, 2008 (`MEN-ORI-TEC-V1`)               | 169   | 169 de 169 viñetas, literal                             |
+| Documento 15, Educación Física, 2010 (`MEN-ORI-EFI-V1`)    | 150   | 5 tablas de 30 celdas, literal (1 guion corregido)      |
+| Documento 16, Educación Artística, 2010 (`MEN-ORI-ART-V1`) | 45    | 45 de 45 siglas «C. B.», literal (erratas del original) |
+| Documento 14, Filosofía, 2010 (`MEN-ORI-FIL-V1`)           | 15    | 3 tablas de 5 desempeños, literal                       |
+
+- Herramientas: `extract_orientaciones.py` (Tecnología con `pdftotext`; tablas giradas con `pdfplumber` y
+  `pypdf`) y `verify_columns.verify_orientacion` (lee el PDF con `pdftotext -raw`, otro camino).
+- Base de datos: migración `20261122120000_curriculum_orientations` (tipo `ORIENTATION`, áreas
+  `TECNOLOGIA`, `EDUCACION_FISICA`, `ARTISTICA`, `FILOSOFIA` y vínculo de las precargadas).
+- AI Engine: `types` admite `ORIENTATION`; índice de 2.099 ítems. Uso al planear y generar: SPEC-0039.
 
 ## 6. Seguridad y privacidad
 
@@ -109,5 +129,5 @@ El catálogo es público y global; no hay datos de docentes ni estudiantes.
 ## 7. Preguntas abiertas
 
 1. **Revisión docente:** pedir a un docente de Inglés y uno de Ética que comparen una muestra con el PDF.
-2. **Etapa 2:** aceptar ADR-0022 para cargar las orientaciones de Tecnología, Artística, Educación Física,
-   Filosofía y Ética.
+   También uno de Tecnología, Educación Física, Artística y Filosofía para las orientaciones.
+2. **Versiones nuevas:** pedir al MEN permiso para usar las Orientaciones curriculares de 2019 y 2022.

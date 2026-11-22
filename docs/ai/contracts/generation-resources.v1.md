@@ -171,3 +171,11 @@ Campo opcional y aditivo; sin él nada cambia.
 | `503`  | Ningún proveedor de la cadena respondió   | `FAILED` con motivo `unavailable` ("La IA no está disponible") |
 
 Tiempos: con el plan gratuito de Groq el AI Engine espera hasta 60 s a que se libere el cupo por minuto antes de pasar al siguiente modelo (los recursos corren en segundo plano). Timeout del cliente: 240 s para quiz y taller, 90 s para regenerar un ítem.
+
+## Referentes que no son DBA (SPEC-0039, aditivo)
+
+Cada elemento de `dba` puede traer `"kind": "STANDARD"` (Estándar Básico de Competencias) o
+`"kind": "ORIENTATION"` (desempeño de las orientaciones pedagógicas del MEN). Sin `kind` es un DBA y
+el pedido es idéntico al de antes. Si algún referente trae `kind`, el AI Engine agrega el anexo de
+prompt `referentes.v1` y la versión registrada termina en `+referentes.v1`. Sus códigos se usan
+igual que los de un DBA en `dbaCodes`.

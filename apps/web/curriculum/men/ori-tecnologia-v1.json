@@ -1,0 +1,2391 @@
+{
+  "source": {
+    "key": "MEN-ORI-TEC-V1",
+    "issuer": "Ministerio de Educación Nacional (MEN)",
+    "title": "Orientaciones generales para la educación en tecnología (Guía 30)",
+    "documentType": "ORIENTATION",
+    "area": "TECNOLOGIA",
+    "version": "V.1",
+    "year": 2008,
+    "isbn": "978-958-691-296-9",
+    "url": "https://www.mineducacion.gov.co/1780/articles-340033_archivo_pdf_Orientaciones_grales_educacion_tecnologia.pdf",
+    "landingUrl": "https://www.mineducacion.gov.co/portal/men/Publicaciones/Guias/160915:Guia-No-30-Ser-competente-en-tecnologia-una-necesidad-para-el-desarrollo",
+    "sha256": "c9775d4b738ca3ef6eef2a76e2fb2e4c726519a303976549c11cc5060fb0a951",
+    "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es un desempeño de las orientaciones del área para su grupo de grados; el MEN no publica DBA ni Estándares para esta área. Lo acompaña la competencia de su componente (Naturaleza y evolución de la tecnología; Apropiación y uso; Solución de problemas; Tecnología y sociedad)."
+  },
+  "review": {
+    "status": "PENDING",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "method": "Extracción automática del PDF oficial + correcciones documentadas; pendiente revisión humana de una muestra.",
+    "pendingFixes": []
+  },
+  "items": [
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-01",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 1,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Identifico y describo artefactos que se utilizan hoy y que no se empleaban en épocas pasadas.",
+      "evidences": [
+        "Reconozco y describo la importancia de algunos artefactos en el desarrollo de actividades cotidianas en mi entorno y en el de mis antepasados."
+      ],
+      "page": 16
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-02",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 2,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Identifico herramientas que, como extensión de partes de mi cuerpo, me ayudan a realizar tareas de transformación de materiales.",
+      "evidences": [
+        "Reconozco y describo la importancia de algunos artefactos en el desarrollo de actividades cotidianas en mi entorno y en el de mis antepasados."
+      ],
+      "page": 16
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-03",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 3,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Establezco semejanzas y diferencias entre artefactos y elementos naturales.",
+      "evidences": [
+        "Reconozco y describo la importancia de algunos artefactos en el desarrollo de actividades cotidianas en mi entorno y en el de mis antepasados."
+      ],
+      "page": 16
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-04",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 4,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Indico la importancia de algunos artefactos para la realización de diversas actividades humanas (por ejemplo, la red para la pesca y la rueda para el transporte).",
+      "evidences": [
+        "Reconozco y describo la importancia de algunos artefactos en el desarrollo de actividades cotidianas en mi entorno y en el de mis antepasados."
+      ],
+      "page": 16
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-05",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 5,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Observo, comparo y analizo los elementos de un artefacto para utilizarlo adecuadamente.",
+      "evidences": [
+        "Reconozco productos tecnológicos de mi entorno cotidiano y los utilizo en forma segura y apropiada."
+      ],
+      "page": 16
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-06",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 6,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Identifico y utilizo artefactos que facilitan mis actividades y satisfacen mis necesidades cotidianas (deportes, entretenimiento, salud, estudio, alimentación, comunicación, desplazamiento, entre otros).",
+      "evidences": [
+        "Reconozco productos tecnológicos de mi entorno cotidiano y los utilizo en forma segura y apropiada."
+      ],
+      "page": 16
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-07",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 7,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Clasifico y describo artefactos de mi entorno según sus características físicas, uso y procedencia.",
+      "evidences": [
+        "Reconozco productos tecnológicos de mi entorno cotidiano y los utilizo en forma segura y apropiada."
+      ],
+      "page": 16
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-08",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 8,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Establezco relaciones entre la materia prima y el procedimiento de fabricación de algunos productos de mi entorno.",
+      "evidences": [
+        "Reconozco productos tecnológicos de mi entorno cotidiano y los utilizo en forma segura y apropiada."
+      ],
+      "page": 16
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-09",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 9,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Identifico y utilizo algunos símbolos y señales cotidianos, particularmente los relacionados con la seguridad (tránsito, basuras, advertencias).",
+      "evidences": [
+        "Reconozco productos tecnológicos de mi entorno cotidiano y los utilizo en forma segura y apropiada."
+      ],
+      "page": 16
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-10",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 10,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Identifico la computadora como artefacto tecnológico para la información y la comunicación, y la utilizo en diferentes actividades.",
+      "evidences": [
+        "Reconozco productos tecnológicos de mi entorno cotidiano y los utilizo en forma segura y apropiada."
+      ],
+      "page": 16
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-11",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 11,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Comparo mi esquema de vacunación con el esquema establecido y explico su importancia.",
+      "evidences": [
+        "Reconozco productos tecnológicos de mi entorno cotidiano y los utilizo en forma segura y apropiada."
+      ],
+      "page": 16
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-12",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 12,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Identifico diferentes recursos naturales de mi entorno y los utilizo racionalmente.",
+      "evidences": [
+        "Reconozco productos tecnológicos de mi entorno cotidiano y los utilizo en forma segura y apropiada."
+      ],
+      "page": 16
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-13",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 13,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Manejo en forma segura instrumentos, herramientas y materiales de uso cotidiano, con algún propósito (recortar, pegar, construir, pintar, ensamblar).",
+      "evidences": [
+        "Reconozco productos tecnológicos de mi entorno cotidiano y los utilizo en forma segura y apropiada."
+      ],
+      "page": 16
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-14",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 14,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Selecciono entre los diversos artefactos disponibles aquellos que son más adecuados para realizar tareas cotidianas en el hogar y la escuela, teniendo en cuenta sus restricciones y condiciones de utilización.",
+      "evidences": [
+        "Reconozco y menciono productos tecnológicos que contribuyen a la solución de problemas de la vida cotidiana."
+      ],
+      "page": 17
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-15",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 15,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Detecto fallas simples en el funcionamiento de algunos artefactos sencillos, actúo de manera segura frente a ellos e informo a los adultos mis observaciones.",
+      "evidences": [
+        "Reconozco y menciono productos tecnológicos que contribuyen a la solución de problemas de la vida cotidiana."
+      ],
+      "page": 17
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-16",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 16,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Indago cómo están construidos y cómo funcionan algunos artefactos de uso cotidiano.",
+      "evidences": [
+        "Reconozco y menciono productos tecnológicos que contribuyen a la solución de problemas de la vida cotidiana."
+      ],
+      "page": 17
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-17",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 17,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Utilizo diferentes expresiones para describir la forma y el funcionamiento de algunos artefactos.",
+      "evidences": [
+        "Reconozco y menciono productos tecnológicos que contribuyen a la solución de problemas de la vida cotidiana."
+      ],
+      "page": 17
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-18",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 18,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Ensamblo y desarmo artefactos y dispositivos sencillos siguiendo instrucciones gráficas.",
+      "evidences": [
+        "Reconozco y menciono productos tecnológicos que contribuyen a la solución de problemas de la vida cotidiana."
+      ],
+      "page": 17
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-19",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 19,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Comparo longitudes, magnitudes y cantidades en el armado y desarmado de artefactos y dispositivos sencillos.",
+      "evidences": [
+        "Reconozco y menciono productos tecnológicos que contribuyen a la solución de problemas de la vida cotidiana."
+      ],
+      "page": 17
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-20",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 20,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Reflexiono sobre mi propia actividad y sobre los resultados de mi trabajo mediante descripciones, comparaciones, dibujos, mediciones y explicaciones.",
+      "evidences": [
+        "Reconozco y menciono productos tecnológicos que contribuyen a la solución de problemas de la vida cotidiana."
+      ],
+      "page": 17
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-21",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 21,
+      "component": "Tecnología y sociedad",
+      "statement": "Manifiesto interés por temas relacionados con la tecnología a través de preguntas e intercambio de ideas.",
+      "evidences": [
+        "Exploro mi entorno cotidiano y diferencio elementos naturales de artefactos elaborados con la intención de mejorar las condiciones de vida."
+      ],
+      "page": 17
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-22",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 22,
+      "component": "Tecnología y sociedad",
+      "statement": "Indago sobre el uso de algunos materiales a través de la historia y sus efectos en los estilos de vida.",
+      "evidences": [
+        "Exploro mi entorno cotidiano y diferencio elementos naturales de artefactos elaborados con la intención de mejorar las condiciones de vida."
+      ],
+      "page": 17
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-23",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 23,
+      "component": "Tecnología y sociedad",
+      "statement": "Identifico algunas consecuencias ambientales y en mi salud derivadas del uso de algunos artefactos y productos tecnológicos.",
+      "evidences": [
+        "Exploro mi entorno cotidiano y diferencio elementos naturales de artefactos elaborados con la intención de mejorar las condiciones de vida."
+      ],
+      "page": 17
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-24",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 24,
+      "component": "Tecnología y sociedad",
+      "statement": "Relato cómo mis acciones sobre el medio ambiente afectan a otros y las de los demás me afectan.",
+      "evidences": [
+        "Exploro mi entorno cotidiano y diferencio elementos naturales de artefactos elaborados con la intención de mejorar las condiciones de vida."
+      ],
+      "page": 17
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-25",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 25,
+      "component": "Tecnología y sociedad",
+      "statement": "Identifico materiales caseros y partes de artefactos en desuso para construir objetos que me ayudan a satisfacer mis necesidades y a contribuir con la preservación del medio ambiente.",
+      "evidences": [
+        "Exploro mi entorno cotidiano y diferencio elementos naturales de artefactos elaborados con la intención de mejorar las condiciones de vida."
+      ],
+      "page": 17
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G1A3-26",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 26,
+      "component": "Tecnología y sociedad",
+      "statement": "Participo en equipos de trabajo para desarrollar y probar proyectos que involucran algunos componentes tecnológicos.",
+      "evidences": [
+        "Exploro mi entorno cotidiano y diferencio elementos naturales de artefactos elaborados con la intención de mejorar las condiciones de vida."
+      ],
+      "page": 17
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-01",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 1,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Analizo artefactos que responden a necesidades particulares en contextos sociales, económicos y culturales.",
+      "evidences": [
+        "Reconozco artefactos creados por el hombre para satisfacer sus necesidades, los relaciono con los procesos de producción y con los recursos naturales involucrados."
+      ],
+      "page": 18
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-02",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 2,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Diferencio productos tecnológicos de productos naturales, teniendo en cuenta los recursos y los procesos involucrados.",
+      "evidences": [
+        "Reconozco artefactos creados por el hombre para satisfacer sus necesidades, los relaciono con los procesos de producción y con los recursos naturales involucrados."
+      ],
+      "page": 18
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-03",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 3,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Menciono invenciones e innovaciones que han contribuido al desarrollo del país.",
+      "evidences": [
+        "Reconozco artefactos creados por el hombre para satisfacer sus necesidades, los relaciono con los procesos de producción y con los recursos naturales involucrados."
+      ],
+      "page": 18
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-04",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 4,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Explico la diferencia entre un artefacto y un proceso mediante ejemplos.",
+      "evidences": [
+        "Reconozco artefactos creados por el hombre para satisfacer sus necesidades, los relaciono con los procesos de producción y con los recursos naturales involucrados."
+      ],
+      "page": 18
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-05",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 5,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Identifico fuentes y tipos de energía y explico cómo se transforman.",
+      "evidences": [
+        "Reconozco artefactos creados por el hombre para satisfacer sus necesidades, los relaciono con los procesos de producción y con los recursos naturales involucrados."
+      ],
+      "page": 18
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-06",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 6,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Identifico y doy ejemplos de artefactos que involucran en su funcionamiento tecnologías de la información.",
+      "evidences": [
+        "Reconozco artefactos creados por el hombre para satisfacer sus necesidades, los relaciono con los procesos de producción y con los recursos naturales involucrados."
+      ],
+      "page": 18
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-07",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 7,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Sigo las instrucciones de los manuales de utilización de productos tecnológicos.",
+      "evidences": [
+        "Reconozco características del funcionamiento de algunos productos tecnológicos de mi entorno y los utilizo en forma segura."
+      ],
+      "page": 18
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-08",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 8,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Describo y clasifico artefactos existentes en mi entorno con base en características tales como materiales, forma, estructura, función y fuentes de energía utilizadas, entre otras.",
+      "evidences": [
+        "Reconozco características del funcionamiento de algunos productos tecnológicos de mi entorno y los utilizo en forma segura."
+      ],
+      "page": 18
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-09",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 9,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Utilizo tecnologías de la información y la comunicación disponibles en mi entorno para el desarrollo de diversas actividades (comunicación, entretenimiento, aprendizaje, búsqueda y validación de información, investigación, etc.).",
+      "evidences": [
+        "Reconozco características del funcionamiento de algunos productos tecnológicos de mi entorno y los utilizo en forma segura."
+      ],
+      "page": 18
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-10",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 10,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Selecciono productos que respondan a mis necesidades utilizando criterios apropiados (fecha de vencimiento, condiciones de manipulación y de almacenamiento, componentes, efectos sobre la salud y el medio ambiente).",
+      "evidences": [
+        "Reconozco características del funcionamiento de algunos productos tecnológicos de mi entorno y los utilizo en forma segura."
+      ],
+      "page": 18
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-11",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 11,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Empleo con seguridad artefactos y procesos para mantener y conservar algunos productos.",
+      "evidences": [
+        "Reconozco características del funcionamiento de algunos productos tecnológicos de mi entorno y los utilizo en forma segura."
+      ],
+      "page": 18
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-12",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 12,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Describo productos tecnológicos mediante el uso de diferentes formas de representación tales como esquemas, dibujos y diagramas, entre otros.",
+      "evidences": [
+        "Reconozco características del funcionamiento de algunos productos tecnológicos de mi entorno y los utilizo en forma segura."
+      ],
+      "page": 18
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-13",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 13,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Utilizo herramientas manuales para realizar de manera segura procesos de medición, trazado, corte, doblado y unión de materiales para construir modelos y maquetas.",
+      "evidences": [
+        "Reconozco características del funcionamiento de algunos productos tecnológicos de mi entorno y los utilizo en forma segura."
+      ],
+      "page": 18
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-14",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 14,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Identifico y describo características, dificultades, deficiencias o riesgos asociados con el empleo de artefactos y procesos destinados a la solución de problemas.",
+      "evidences": [
+        "Identifico y comparo ventajas y desventajas en la utilización de artefactos y procesos tecnológicos en la solución de problemas de la vida cotidiana."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-15",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 15,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Identifico y comparo ventajas y desventajas de distintas soluciones tecnológicas sobre un mismo problema.",
+      "evidences": [
+        "Identifico y comparo ventajas y desventajas en la utilización de artefactos y procesos tecnológicos en la solución de problemas de la vida cotidiana."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-16",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 16,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Identifico fallas sencillas en un artefacto o proceso y actúo en forma segura frente a ellas.",
+      "evidences": [
+        "Identifico y comparo ventajas y desventajas en la utilización de artefactos y procesos tecnológicos en la solución de problemas de la vida cotidiana."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-17",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 17,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Frente a un problema, propongo varias soluciones posibles indicando cómo llegué a ellas y cuáles son las ventajas y desventajas de cada una.",
+      "evidences": [
+        "Identifico y comparo ventajas y desventajas en la utilización de artefactos y procesos tecnológicos en la solución de problemas de la vida cotidiana."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-18",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 18,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Establezco relaciones de proporción entre las dimensiones de los artefactos y de los usuarios.",
+      "evidences": [
+        "Identifico y comparo ventajas y desventajas en la utilización de artefactos y procesos tecnológicos en la solución de problemas de la vida cotidiana."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-19",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 19,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Diseño y construyo soluciones tecnológicas utilizando maquetas o modelos.",
+      "evidences": [
+        "Identifico y comparo ventajas y desventajas en la utilización de artefactos y procesos tecnológicos en la solución de problemas de la vida cotidiana."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-20",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 20,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Participo con mis compañeros en la definición de roles y responsabilidades en el desarrollo de proyectos en tecnología.",
+      "evidences": [
+        "Identifico y comparo ventajas y desventajas en la utilización de artefactos y procesos tecnológicos en la solución de problemas de la vida cotidiana."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-21",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 21,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Frente a nuevos problemas, formulo analogías o adaptaciones de soluciones ya existentes.",
+      "evidences": [
+        "Identifico y comparo ventajas y desventajas en la utilización de artefactos y procesos tecnológicos en la solución de problemas de la vida cotidiana."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-22",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 22,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Describo con esquemas, dibujos y textos, instrucciones de ensamble de artefactos.",
+      "evidences": [
+        "Identifico y comparo ventajas y desventajas en la utilización de artefactos y procesos tecnológicos en la solución de problemas de la vida cotidiana."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-23",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 23,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Diseño, construyo, adapto y reparo artefactos sencillos, reutilizando materiales caseros para satisfacer intereses personales.",
+      "evidences": [
+        "Identifico y comparo ventajas y desventajas en la utilización de artefactos y procesos tecnológicos en la solución de problemas de la vida cotidiana."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-24",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 24,
+      "component": "Tecnología y sociedad",
+      "statement": "Identifico algunos bienes y servicios que ofrece mi comunidad y velo por su cuidado y buen uso valorando sus beneficios sociales.",
+      "evidences": [
+        "Identifico y menciono situaciones en las que se evidencian los efectos sociales y ambientales, producto de la utilización de procesos y artefactos de la tecnología."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-25",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 25,
+      "component": "Tecnología y sociedad",
+      "statement": "Indico la importancia de acatar las normas para la prevención de enfermedades y accidentes y promuevo su cumplimiento.",
+      "evidences": [
+        "Identifico y menciono situaciones en las que se evidencian los efectos sociales y ambientales, producto de la utilización de procesos y artefactos de la tecnología."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-26",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 26,
+      "component": "Tecnología y sociedad",
+      "statement": "Utilizo diferentes fuentes de información y medios de comunicación para sustentar mis ideas.",
+      "evidences": [
+        "Identifico y menciono situaciones en las que se evidencian los efectos sociales y ambientales, producto de la utilización de procesos y artefactos de la tecnología."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-27",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 27,
+      "component": "Tecnología y sociedad",
+      "statement": "Asocio costumbres culturales con características del entorno y con el uso de diversos artefactos.",
+      "evidences": [
+        "Identifico y menciono situaciones en las que se evidencian los efectos sociales y ambientales, producto de la utilización de procesos y artefactos de la tecnología."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-28",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 28,
+      "component": "Tecnología y sociedad",
+      "statement": "Identifico instituciones y autoridades a las que puedo acudir para solicitar la protección de los bienes y servicios de mi comunidad.",
+      "evidences": [
+        "Identifico y menciono situaciones en las que se evidencian los efectos sociales y ambientales, producto de la utilización de procesos y artefactos de la tecnología."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-29",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 29,
+      "component": "Tecnología y sociedad",
+      "statement": "Participo en discusiones que involucran predicciones sobre los posibles efectos relacionados con el uso o no de artefactos, procesos y productos tecnológicos en mi entorno y argumento mis planteamientos (energía, agricultura, antibióticos, etc.).",
+      "evidences": [
+        "Identifico y menciono situaciones en las que se evidencian los efectos sociales y ambientales, producto de la utilización de procesos y artefactos de la tecnología."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-30",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 30,
+      "component": "Tecnología y sociedad",
+      "statement": "Me involucro en proyectos tecnológicos relacionados con el buen uso de los recursos naturales y la adecuada disposición de los residuos del entorno en el que vivo.",
+      "evidences": [
+        "Identifico y menciono situaciones en las que se evidencian los efectos sociales y ambientales, producto de la utilización de procesos y artefactos de la tecnología."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G4A5-31",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 31,
+      "component": "Tecnología y sociedad",
+      "statement": "Diferencio los intereses del que fabrica, vende o compra un producto, bien o servicio y me intereso por obtener garantía de calidad.",
+      "evidences": [
+        "Identifico y menciono situaciones en las que se evidencian los efectos sociales y ambientales, producto de la utilización de procesos y artefactos de la tecnología."
+      ],
+      "page": 19
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-01",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 1,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Analizo y expongo razones por las cuales la evolución de técnicas, procesos, herramientas y materiales, han contribuido a mejorar la fabricación de artefactos y sistemas tecnológicos a lo largo de la historia.",
+      "evidences": [
+        "Reconozco principios y conceptos propios de la tecnología, así como momentos de la historia que le han permitido al hombre transformar el entorno para resolver problemas y satisfacer necesidades."
+      ],
+      "page": 20
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-02",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 2,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Identifico y explico técnicas y conceptos de otras disciplinas que se han empleado para la generación y evolución de sistemas tecnológicos (alimentación, servicios públicos, salud, transporte).",
+      "evidences": [
+        "Reconozco principios y conceptos propios de la tecnología, así como momentos de la historia que le han permitido al hombre transformar el entorno para resolver problemas y satisfacer necesidades."
+      ],
+      "page": 20
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-03",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 3,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Reconozco en algunos artefactos, conceptos y principios científicos y técnicos que permitieron su creación.",
+      "evidences": [
+        "Reconozco principios y conceptos propios de la tecnología, así como momentos de la historia que le han permitido al hombre transformar el entorno para resolver problemas y satisfacer necesidades."
+      ],
+      "page": 20
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-04",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 4,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Ilustro con ejemplos la relación que existe entre diferentes factores en los desarrollos tecnológicos (peso, costo, resistencia, material, etc.).",
+      "evidences": [
+        "Reconozco principios y conceptos propios de la tecnología, así como momentos de la historia que le han permitido al hombre transformar el entorno para resolver problemas y satisfacer necesidades."
+      ],
+      "page": 20
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-05",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 5,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Identifico innovaciones e inventos trascendentales para la sociedad; los ubico y explico en su contexto histórico.",
+      "evidences": [
+        "Reconozco principios y conceptos propios de la tecnología, así como momentos de la historia que le han permitido al hombre transformar el entorno para resolver problemas y satisfacer necesidades."
+      ],
+      "page": 20
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-06",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 6,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Explico con ejemplos el concepto de sistema e indico sus componentes y relaciones de causa efecto.",
+      "evidences": [
+        "Reconozco principios y conceptos propios de la tecnología, así como momentos de la historia que le han permitido al hombre transformar el entorno para resolver problemas y satisfacer necesidades."
+      ],
+      "page": 20
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-07",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 7,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Describo el rol de la realimentación en el funcionamiento automático de algunos sistemas.",
+      "evidences": [
+        "Reconozco principios y conceptos propios de la tecnología, así como momentos de la historia que le han permitido al hombre transformar el entorno para resolver problemas y satisfacer necesidades."
+      ],
+      "page": 20
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-08",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 8,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Doy ejemplos de transformación y utilización de fuentes de energía en determinados momentos históricos.",
+      "evidences": [
+        "Reconozco principios y conceptos propios de la tecnología, así como momentos de la historia que le han permitido al hombre transformar el entorno para resolver problemas y satisfacer necesidades."
+      ],
+      "page": 20
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-09",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 9,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Analizo y aplico las normas de seguridad que se deben tener en cuenta para el uso de algunos artefactos, productos y sistemas tecnológicos.",
+      "evidences": [
+        "Relaciono el funcionamiento de algunos artefactos, productos, procesos y sistemas tecnológicos con su utilización segura."
+      ],
+      "page": 20
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-10",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 10,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Analizo el impacto de artefactos, procesos y sistemas tecnológicos en la solución de problemas y satisfacción de necesidades.",
+      "evidences": [
+        "Relaciono el funcionamiento de algunos artefactos, productos, procesos y sistemas tecnológicos con su utilización segura."
+      ],
+      "page": 20
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-11",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 11,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Utilizo las tecnologías de la información y la comunicación, para apoyar mis procesos de aprendizaje y actividades personales (recolectar, seleccionar, organizar y procesar información).",
+      "evidences": [
+        "Relaciono el funcionamiento de algunos artefactos, productos, procesos y sistemas tecnológicos con su utilización segura."
+      ],
+      "page": 20
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-12",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 12,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Ejemplifico cómo en el uso de artefactos, procesos o sistemas tecnológicos, existen principios de funcionamiento que los sustentan.",
+      "evidences": [
+        "Relaciono el funcionamiento de algunos artefactos, productos, procesos y sistemas tecnológicos con su utilización segura."
+      ],
+      "page": 20
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-13",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 13,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Utilizo herramientas y equipos de manera segura para construir modelos, maquetas y prototipos.",
+      "evidences": [
+        "Relaciono el funcionamiento de algunos artefactos, productos, procesos y sistemas tecnológicos con su utilización segura."
+      ],
+      "page": 20
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-14",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 14,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Utilizo apropiadamente instrumentos para medir diferentes magnitudes físicas.",
+      "evidences": [
+        "Relaciono el funcionamiento de algunos artefactos, productos, procesos y sistemas tecnológicos con su utilización segura."
+      ],
+      "page": 20
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-15",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 15,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Identifico y formulo problemas propios del entorno que son susceptibles de ser resueltos a través de soluciones tecnológicas.",
+      "evidences": [
+        "Propongo estrategias para soluciones tecnológicas a problemas, en diferentes contextos."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-16",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 16,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Frente a una necesidad o problema, selecciono una alternativa tecnológica apropiada. Al hacerlo utilizo criterios adecuados como eficiencia, seguridad, consumo y costo.",
+      "evidences": [
+        "Propongo estrategias para soluciones tecnológicas a problemas, en diferentes contextos."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-17",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 17,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Detecto fallas en artefactos, procesos y sistemas tecnológicos, siguiendo procedimientos de prueba y descarte, y propongo estrategias de solución.",
+      "evidences": [
+        "Propongo estrategias para soluciones tecnológicas a problemas, en diferentes contextos."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-18",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 18,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Identifico la influencia de factores ambientales, sociales, culturales y económicos en la solución de problemas.",
+      "evidences": [
+        "Propongo estrategias para soluciones tecnológicas a problemas, en diferentes contextos."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-19",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 19,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Adelanto procesos sencillos de innovación en mi entorno como solución a deficiencias detectadas en productos, procesos y sistemas tecnológicos.",
+      "evidences": [
+        "Propongo estrategias para soluciones tecnológicas a problemas, en diferentes contextos."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-20",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 20,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Reconozco y utilizo algunas formas de organización del trabajo para solucionar problemas con la ayuda de la tecnología.",
+      "evidences": [
+        "Propongo estrategias para soluciones tecnológicas a problemas, en diferentes contextos."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-21",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 21,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Adapto soluciones tecnológicas a nuevos contextos y problemas.",
+      "evidences": [
+        "Propongo estrategias para soluciones tecnológicas a problemas, en diferentes contextos."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-22",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 22,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Interpreto gráficos, bocetos y planos en diferentes actividades.",
+      "evidences": [
+        "Propongo estrategias para soluciones tecnológicas a problemas, en diferentes contextos."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-23",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 23,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Realizo representaciones gráficas tridimensionales de mis ideas y diseños.",
+      "evidences": [
+        "Propongo estrategias para soluciones tecnológicas a problemas, en diferentes contextos."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-24",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 24,
+      "component": "Tecnología y sociedad",
+      "statement": "Me intereso por las tradiciones y valores de mi comunidad y participo en la gestión de iniciativas en favor del medio ambiente, la salud y la cultura ( como jornadas de recolección de materiales reciclables, vacunación, bazares, festivales, etc.).",
+      "evidences": [
+        "Relaciono la transformación de los recursos naturales con el desarrollo tecnológico y su impacto en el bienestar de la sociedad."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-25",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 25,
+      "component": "Tecnología y sociedad",
+      "statement": "Indago sobre las posibles acciones que puedo realizar para preservar el ambiente, de acuerdo con normas y regulaciones.",
+      "evidences": [
+        "Relaciono la transformación de los recursos naturales con el desarrollo tecnológico y su impacto en el bienestar de la sociedad."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-26",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 26,
+      "component": "Tecnología y sociedad",
+      "statement": "Analizo las ventajas y desventajas de diversos procesos de transformación de los recursos naturales en productos y sistemas tecnológicos (por ejemplo, un basurero o una represa).",
+      "evidences": [
+        "Relaciono la transformación de los recursos naturales con el desarrollo tecnológico y su impacto en el bienestar de la sociedad."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-27",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 27,
+      "component": "Tecnología y sociedad",
+      "statement": "Identifico diversos recursos energéticos y evalúo su impacto sobre el medio ambiente, así como las posibilidades de desarrollo para las comunidades.",
+      "evidences": [
+        "Relaciono la transformación de los recursos naturales con el desarrollo tecnológico y su impacto en el bienestar de la sociedad."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-28",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 28,
+      "component": "Tecnología y sociedad",
+      "statement": "Evalúo los costos y beneficios antes de adquirir y utilizar artefactos y productos tecnológicos.",
+      "evidences": [
+        "Relaciono la transformación de los recursos naturales con el desarrollo tecnológico y su impacto en el bienestar de la sociedad."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-29",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 29,
+      "component": "Tecnología y sociedad",
+      "statement": "Participo en discusiones sobre el uso racional de algunos artefactos tecnológicos.",
+      "evidences": [
+        "Relaciono la transformación de los recursos naturales con el desarrollo tecnológico y su impacto en el bienestar de la sociedad."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-30",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 30,
+      "component": "Tecnología y sociedad",
+      "statement": "Reconozco y divulgo los derechos de las comunidades para acceder a bienes y servicios ( como por ejemplo, los recursos energéticos e hídricos).",
+      "evidences": [
+        "Relaciono la transformación de los recursos naturales con el desarrollo tecnológico y su impacto en el bienestar de la sociedad."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G6A7-31",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 31,
+      "component": "Tecnología y sociedad",
+      "statement": "Asumo y promuevo comportamientos legales relacionados con el uso de los recursos tecnológicos.",
+      "evidences": [
+        "Relaciono la transformación de los recursos naturales con el desarrollo tecnológico y su impacto en el bienestar de la sociedad."
+      ],
+      "page": 21
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-01",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 1,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Identifico principios científicos aplicados al funcionamiento de algunos artefactos, productos, servicios, procesos y sistemas tecnológicos.",
+      "evidences": [
+        "Relaciono los conocimientos científicos y tecnológicos que se han empleado en diversas culturas y regiones del mundo a través de la historia para resolver problemas y transformar el entorno."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-02",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 2,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Identifico y analizo interacciones entre diferentes sistemas tecnológicos ( como la alimentación y la salud, el transporte y la comunicación).",
+      "evidences": [
+        "Relaciono los conocimientos científicos y tecnológicos que se han empleado en diversas culturas y regiones del mundo a través de la historia para resolver problemas y transformar el entorno."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-03",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 3,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Explico algunos factores que influyen en la evolución de la tecnología y establezco relaciones con algunos eventos históricos.",
+      "evidences": [
+        "Relaciono los conocimientos científicos y tecnológicos que se han empleado en diversas culturas y regiones del mundo a través de la historia para resolver problemas y transformar el entorno."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-04",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 4,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Comparo tecnologías empleadas en el pasado con las del presente y explico sus cambios y posibles tendencias.",
+      "evidences": [
+        "Relaciono los conocimientos científicos y tecnológicos que se han empleado en diversas culturas y regiones del mundo a través de la historia para resolver problemas y transformar el entorno."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-05",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 5,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Identifico y analizo inventos e innovaciones que han marcado hitos en el desarrollo tecnológico.",
+      "evidences": [
+        "Relaciono los conocimientos científicos y tecnológicos que se han empleado en diversas culturas y regiones del mundo a través de la historia para resolver problemas y transformar el entorno."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-06",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 6,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Describo casos en los que la evolución de las ciencias ha permitido optimizar algunas de las soluciones tecnológicas existentes.",
+      "evidences": [
+        "Relaciono los conocimientos científicos y tecnológicos que se han empleado en diversas culturas y regiones del mundo a través de la historia para resolver problemas y transformar el entorno."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-07",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 7,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Explico, con ejemplos, conceptos propios del conocimiento tecnológico tales como tecnología, procesos, productos, sistemas, servicios, artefactos, herramientas, materiales, técnica, fabricación y producción.",
+      "evidences": [
+        "Relaciono los conocimientos científicos y tecnológicos que se han empleado en diversas culturas y regiones del mundo a través de la historia para resolver problemas y transformar el entorno."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-08",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 8,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Identifico artefactos que contienen sistemas de control con realimentación.",
+      "evidences": [
+        "Relaciono los conocimientos científicos y tecnológicos que se han empleado en diversas culturas y regiones del mundo a través de la historia para resolver problemas y transformar el entorno."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-09",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 9,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Ilustro con ejemplos el significado e importancia de la calidad en la producción de artefactos tecnológicos.",
+      "evidences": [
+        "Relaciono los conocimientos científicos y tecnológicos que se han empleado en diversas culturas y regiones del mundo a través de la historia para resolver problemas y transformar el entorno."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-10",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 10,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Identifico artefactos basados en tecnología digital y describo el sistema binario utilizado en dicha tecnología.",
+      "evidences": [
+        "Relaciono los conocimientos científicos y tecnológicos que se han empleado en diversas culturas y regiones del mundo a través de la historia para resolver problemas y transformar el entorno."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-11",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 11,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Utilizo responsable y eficientemente fuentes de energía y recursos naturales.",
+      "evidences": [
+        "Tengo en cuenta normas de mantenimiento y utilización de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno para su uso eficiente y seguro."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-12",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 12,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Sustento con argumentos (evidencias, razonamiento lógico, experimentación) la selección y utilización de un producto natural o tecnológico para resolver una necesidad o problema.",
+      "evidences": [
+        "Tengo en cuenta normas de mantenimiento y utilización de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno para su uso eficiente y seguro."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-13",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 13,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Utilizo eficientemente la tecnología en el aprendizaje de otras disciplinas (artes, educación física, matemáticas, ciencias).",
+      "evidences": [
+        "Tengo en cuenta normas de mantenimiento y utilización de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno para su uso eficiente y seguro."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-14",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 14,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Utilizo responsable y autónomamente las Tecnologías de la Información y la Comunicación (TIC) para aprender, investigar y comunicarme con otros en el mundo.",
+      "evidences": [
+        "Tengo en cuenta normas de mantenimiento y utilización de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno para su uso eficiente y seguro."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-15",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 15,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Hago un mantenimiento adecuado de mis artefactos tecnológicos.",
+      "evidences": [
+        "Tengo en cuenta normas de mantenimiento y utilización de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno para su uso eficiente y seguro."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-16",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 16,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Utilizo elementos de protección y normas de seguridad para la realización de actividades y manipulación de herramientas y equipos.",
+      "evidences": [
+        "Tengo en cuenta normas de mantenimiento y utilización de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno para su uso eficiente y seguro."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-17",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 17,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Interpreto el contenido de una factura de servicios públicos.",
+      "evidences": [
+        "Tengo en cuenta normas de mantenimiento y utilización de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno para su uso eficiente y seguro."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-18",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 18,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Ensamblo sistemas siguiendo instrucciones y esquemas.",
+      "evidences": [
+        "Tengo en cuenta normas de mantenimiento y utilización de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno para su uso eficiente y seguro."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-19",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 19,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Utilizo instrumentos tecnológicos para realizar mediciones e identifico algunas fuentes de error en dichas mediciones.",
+      "evidences": [
+        "Tengo en cuenta normas de mantenimiento y utilización de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno para su uso eficiente y seguro."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-20",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 20,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Represento en gráficas bidemensionales, objetos de tres dimensiones a través de proyecciones y diseños a mano alzada o con la ayuda de herramientas informáticas.",
+      "evidences": [
+        "Tengo en cuenta normas de mantenimiento y utilización de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno para su uso eficiente y seguro."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-21",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 21,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Utilizo correctamente elementos de protección cuando involucro artefactos y procesos tecnológicos en las diferentes actividades que realizo (por ejemplo, en deporte uso cascos, rodilleras, guantes, etc.).",
+      "evidences": [
+        "Tengo en cuenta normas de mantenimiento y utilización de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno para su uso eficiente y seguro."
+      ],
+      "page": 22
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-22",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 22,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Identifico y formulo problemas propios del entorno, susceptibles de ser resueltos con soluciones basadas en la tecnología.",
+      "evidences": [
+        "Resuelvo problemas utilizando conocimientos tecnológicos y teniendo en cuenta algunas restricciones y condiciones."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-23",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 23,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Comparo distintas soluciones tecnológicas frente a un mismo problema según sus características, funcionamiento, costos y eficiencia.",
+      "evidences": [
+        "Resuelvo problemas utilizando conocimientos tecnológicos y teniendo en cuenta algunas restricciones y condiciones."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-24",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 24,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Detecto fallas en sistemas tecnológicos sencillos (mediante un proceso de prueba y descarte) y propongo soluciones.",
+      "evidences": [
+        "Resuelvo problemas utilizando conocimientos tecnológicos y teniendo en cuenta algunas restricciones y condiciones."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-25",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 25,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Reconozco que no hay soluciones perfectas, y que pueden existir varias soluciones a un mismo problema según los criterios utilizados y su ponderación.",
+      "evidences": [
+        "Resuelvo problemas utilizando conocimientos tecnológicos y teniendo en cuenta algunas restricciones y condiciones."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-26",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 26,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Considero aspectos relacionados con la seguridad, ergonomía, impacto en el medio ambiente y en la sociedad, en la solución de problemas.",
+      "evidences": [
+        "Resuelvo problemas utilizando conocimientos tecnológicos y teniendo en cuenta algunas restricciones y condiciones."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-27",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 27,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Propongo mejoras en las soluciones tecnológicas y justifico los cambios propuestos con base en la experimentación, las evidencias y el razonamiento lógico.",
+      "evidences": [
+        "Resuelvo problemas utilizando conocimientos tecnológicos y teniendo en cuenta algunas restricciones y condiciones."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-28",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 28,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Propongo soluciones tecnológicas en condiciones de incertidumbre, donde parte de la información debe ser obtenida y parcialmente inferida.",
+      "evidences": [
+        "Resuelvo problemas utilizando conocimientos tecnológicos y teniendo en cuenta algunas restricciones y condiciones."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-29",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 29,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Diseño, construyo y pruebo prototipos de artefactos y procesos como respuesta a una necesidad o problema, teniendo en cuenta las restricciones y especificaciones planteadas.",
+      "evidences": [
+        "Resuelvo problemas utilizando conocimientos tecnológicos y teniendo en cuenta algunas restricciones y condiciones."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-30",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 30,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Explico las características de los distintos procesos de transformación de los materiales y de obtención de las materias primas.",
+      "evidences": [
+        "Resuelvo problemas utilizando conocimientos tecnológicos y teniendo en cuenta algunas restricciones y condiciones."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-31",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 31,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Interpreto y represento ideas sobre diseños, innovaciones o protocolos de experimentos mediante el uso de registros, textos, diagramas, figuras, planos, maquetas, modelos y prototipos.",
+      "evidences": [
+        "Resuelvo problemas utilizando conocimientos tecnológicos y teniendo en cuenta algunas restricciones y condiciones."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-32",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 32,
+      "component": "Tecnología y sociedad",
+      "statement": "Analizo el costo ambiental de la sobreexplotación de los recursos naturales (agotamiento de las fuentes de agua potable y problema de las basuras).",
+      "evidences": [
+        "Reconozco las causas y los efectos sociales, económicos y culturales de los desarrollos tecnológicos y actúo en consecuencia, de manera ética y responsable."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-33",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 33,
+      "component": "Tecnología y sociedad",
+      "statement": "Analizo diversos puntos de vista e intereses relacionados con la percepción de los problemas y las soluciones tecnológicas, y los tomo en cuenta en mis argumentaciones.",
+      "evidences": [
+        "Reconozco las causas y los efectos sociales, económicos y culturales de los desarrollos tecnológicos y actúo en consecuencia, de manera ética y responsable."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-34",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 34,
+      "component": "Tecnología y sociedad",
+      "statement": "Analizo y explico la influencia de las tecnologías de la información y la comunicación en los cambios culturales, individuales y sociales, así como los intereses de grupos sociales en la producción e innovación tecnológica.",
+      "evidences": [
+        "Reconozco las causas y los efectos sociales, económicos y culturales de los desarrollos tecnológicos y actúo en consecuencia, de manera ética y responsable."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-35",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 35,
+      "component": "Tecnología y sociedad",
+      "statement": "Mantengo una actitud analítica y crítica con relación al uso de productos contaminantes (pilas, plástico, etc.) y su disposición final.",
+      "evidences": [
+        "Reconozco las causas y los efectos sociales, económicos y culturales de los desarrollos tecnológicos y actúo en consecuencia, de manera ética y responsable."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-36",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 36,
+      "component": "Tecnología y sociedad",
+      "statement": "Explico con ejemplos, el impacto que producen en el medio ambiente algunos tipos y fuentes de energía y propongo alternativas.",
+      "evidences": [
+        "Reconozco las causas y los efectos sociales, económicos y culturales de los desarrollos tecnológicos y actúo en consecuencia, de manera ética y responsable."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-37",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 37,
+      "component": "Tecnología y sociedad",
+      "statement": "Analizo la importancia y el papel que juegan las patentes y los derechos de autor en el desarrollo tecnológico.",
+      "evidences": [
+        "Reconozco las causas y los efectos sociales, económicos y culturales de los desarrollos tecnológicos y actúo en consecuencia, de manera ética y responsable."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-38",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 38,
+      "component": "Tecnología y sociedad",
+      "statement": "Ejerzo mi papel de ciudadano responsable con el uso adecuado de los sistemas tecnológicos (transporte, ahorro de energía, etc.).",
+      "evidences": [
+        "Reconozco las causas y los efectos sociales, económicos y culturales de los desarrollos tecnológicos y actúo en consecuencia, de manera ética y responsable."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-39",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 39,
+      "component": "Tecnología y sociedad",
+      "statement": "Utilizo responsablemente productos tecnológicos, valorando su pertinencia, calidad y efectos potenciales sobre mi salud y el medio ambiente.",
+      "evidences": [
+        "Reconozco las causas y los efectos sociales, económicos y culturales de los desarrollos tecnológicos y actúo en consecuencia, de manera ética y responsable."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G8A9-40",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 40,
+      "component": "Tecnología y sociedad",
+      "statement": "Explico el ciclo de vida de algunos productos tecnológicos y evalúo las consecuencias de su prolongación.",
+      "evidences": [
+        "Reconozco las causas y los efectos sociales, económicos y culturales de los desarrollos tecnológicos y actúo en consecuencia, de manera ética y responsable."
+      ],
+      "page": 23
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-01",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 1,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Explico cómo la tecnología ha evolucionado en sus diferentes manifestaciones y la manera cómo éstas han influido en los cambios estructurales de la sociedad y la cultura a lo largo de la historia.",
+      "evidences": [
+        "Analizo y valoro críticamente los componentes y evolución de los sistemas tecnológicos y las estrategias para su desarrollo."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-02",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 2,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Describo cómo los procesos de innovación, investigación, desarrollo y experimentación guiados por objetivos, producen avances tecnológicos.",
+      "evidences": [
+        "Analizo y valoro críticamente los componentes y evolución de los sistemas tecnológicos y las estrategias para su desarrollo."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-03",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 3,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Identifico y analizo ejemplos exitosos y no exitosos de la transferencia tecnológica en la solución de problemas y necesidades.",
+      "evidences": [
+        "Analizo y valoro críticamente los componentes y evolución de los sistemas tecnológicos y las estrategias para su desarrollo."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-04",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 4,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Relaciono el desarrollo tecnológico con los avances en la ciencia, la técnica, las matemáticas y otras disciplinas.",
+      "evidences": [
+        "Analizo y valoro críticamente los componentes y evolución de los sistemas tecnológicos y las estrategias para su desarrollo."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-05",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 5,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Analizo los sistemas de control basados en la realimentación de artefactos y procesos, y explico su funcionamiento y efecto.",
+      "evidences": [
+        "Analizo y valoro críticamente los componentes y evolución de los sistemas tecnológicos y las estrategias para su desarrollo."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-06",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 6,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Argumento con ejemplos la importancia de la medición en la vida cotidiana y el papel que juega la metrología en los procesos tecnológicos.",
+      "evidences": [
+        "Analizo y valoro críticamente los componentes y evolución de los sistemas tecnológicos y las estrategias para su desarrollo."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-07",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 7,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Explico con ejemplos la importancia de la calidad en la producción de artefactos tecnológicos.",
+      "evidences": [
+        "Analizo y valoro críticamente los componentes y evolución de los sistemas tecnológicos y las estrategias para su desarrollo."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-08",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 8,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Explico los propósitos de la ciencia y de la tecnología y su mutua interdependencia.",
+      "evidences": [
+        "Analizo y valoro críticamente los componentes y evolución de los sistemas tecnológicos y las estrategias para su desarrollo."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-09",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 9,
+      "component": "Naturaleza y evolución de la tecnología",
+      "statement": "Indago sobre la prospectiva e incidencia de algunos desarrollos tecnológicos.",
+      "evidences": [
+        "Analizo y valoro críticamente los componentes y evolución de los sistemas tecnológicos y las estrategias para su desarrollo."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-10",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 10,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Diseño y aplico planes sistemáticos de mantenimiento de artefactos tecnológicos utilizados en la vida cotidiana.",
+      "evidences": [
+        "Tengo en cuenta principios de funcionamiento y criterios de selección, para la utilización eficiente y segura de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-11",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 11,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Investigo y documento algunos procesos de producción y manufactura de productos.",
+      "evidences": [
+        "Tengo en cuenta principios de funcionamiento y criterios de selección, para la utilización eficiente y segura de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-12",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 12,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Utilizo adecuadamente herramientas informáticas de uso común para la búsqueda y procesamiento de la información y la comunicación de ideas.",
+      "evidences": [
+        "Tengo en cuenta principios de funcionamiento y criterios de selección, para la utilización eficiente y segura de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-13",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 13,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Actúo teniendo en cuenta normas de seguridad industrial y utilizo elementos de protección en ambientes de trabajo y de producción.",
+      "evidences": [
+        "Tengo en cuenta principios de funcionamiento y criterios de selección, para la utilización eficiente y segura de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-14",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 14,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Utilizo e interpreto manuales, instrucciones, diagramas y esquemas, para el montaje de algunos artefactos, dispositivos y sistemas tecnológicos.",
+      "evidences": [
+        "Tengo en cuenta principios de funcionamiento y criterios de selección, para la utilización eficiente y segura de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-15",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 15,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Utilizo herramientas y equipos en la construcción de modelos, maquetas o prototipos, aplicando normas de seguridad.",
+      "evidences": [
+        "Tengo en cuenta principios de funcionamiento y criterios de selección, para la utilización eficiente y segura de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-16",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 16,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Trabajo en equipo en la realización de proyectos tecnológicos y, cuando lo hago, involucro herramientas tecnológicas de comunicación.",
+      "evidences": [
+        "Tengo en cuenta principios de funcionamiento y criterios de selección, para la utilización eficiente y segura de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-17",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 17,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Selecciono y utilizo (según los requerimientos) instrumentos tecnológicos para medir, interpreto y analizo los resultados y estimo el error en estas medidas.",
+      "evidences": [
+        "Tengo en cuenta principios de funcionamiento y criterios de selección, para la utilización eficiente y segura de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-18",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 18,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Integro componentes y pongo en marcha sistemas informáticos personales utilizando manuales e instrucciones.",
+      "evidences": [
+        "Tengo en cuenta principios de funcionamiento y criterios de selección, para la utilización eficiente y segura de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-19",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 19,
+      "component": "Apropiación y uso de la tecnología",
+      "statement": "Selecciono fuentes y tipos de energía teniendo en cuenta, entre otros, los aspectos ambientales.",
+      "evidences": [
+        "Tengo en cuenta principios de funcionamiento y criterios de selección, para la utilización eficiente y segura de artefactos, productos, servicios, procesos y sistemas tecnológicos de mi entorno."
+      ],
+      "page": 24
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-20",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 20,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Evalúo y selecciono con argumentos, mis propuestas y decisiones en torno a un diseño.",
+      "evidences": [
+        "Resuelvo problemas tecnológicos y evalúo las soluciones teniendo en cuenta las condiciones, restricciones y especificaciones del problema planteado."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-21",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 21,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Identifico cuál es el problema o necesidad que originó el desarrollo de una tecnología, artefacto o sistema tecnológico.",
+      "evidences": [
+        "Resuelvo problemas tecnológicos y evalúo las soluciones teniendo en cuenta las condiciones, restricciones y especificaciones del problema planteado."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-22",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 22,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Identifico las condiciones, especificaciones y restricciones de diseño, utilizadas en una solución tecnológica y puedo verificar su cumplimiento.",
+      "evidences": [
+        "Resuelvo problemas tecnológicos y evalúo las soluciones teniendo en cuenta las condiciones, restricciones y especificaciones del problema planteado."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-23",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 23,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Detecto, describo y formulo hipótesis sobre fallas en sistemas tecnológicos sencillos (siguiendo un proceso de prueba y descarte) y propongo estrategias para repararlas.",
+      "evidences": [
+        "Resuelvo problemas tecnológicos y evalúo las soluciones teniendo en cuenta las condiciones, restricciones y especificaciones del problema planteado."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-24",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 24,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Propongo, analizo y comparo diferentes soluciones a un mismo problema, explicando su origen, ventajas y dificultades.",
+      "evidences": [
+        "Resuelvo problemas tecnológicos y evalúo las soluciones teniendo en cuenta las condiciones, restricciones y especificaciones del problema planteado."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-25",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 25,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Tengo en cuenta aspectos relacionados con la antropometría, la ergonomía, la seguridad, el medio ambiente y el contexto cultural y socio-económico al momento de solucionar problemas con tecnología.",
+      "evidences": [
+        "Resuelvo problemas tecnológicos y evalúo las soluciones teniendo en cuenta las condiciones, restricciones y especificaciones del problema planteado."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-26",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 26,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Optimizo soluciones tecnológicas a través de estrategias de innovación, investigación, desarrollo y experimentación, y argumento los criterios y la ponderación de los factores utilizados.",
+      "evidences": [
+        "Resuelvo problemas tecnológicos y evalúo las soluciones teniendo en cuenta las condiciones, restricciones y especificaciones del problema planteado."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-27",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 27,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Propongo soluciones tecnológicas en condiciones de incertidumbre.",
+      "evidences": [
+        "Resuelvo problemas tecnológicos y evalúo las soluciones teniendo en cuenta las condiciones, restricciones y especificaciones del problema planteado."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-28",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 28,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Diseño, construyo y pruebo prototipos de artefactos y procesos (como respuesta a necesidades o problemas), teniendo en cuenta las restricciones y especificaciones planteadas.",
+      "evidences": [
+        "Resuelvo problemas tecnológicos y evalúo las soluciones teniendo en cuenta las condiciones, restricciones y especificaciones del problema planteado."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-29",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 29,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Propongo y evalúo el uso de tecnología para mejorar la productividad en la pequeña empresa.",
+      "evidences": [
+        "Resuelvo problemas tecnológicos y evalúo las soluciones teniendo en cuenta las condiciones, restricciones y especificaciones del problema planteado."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-30",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 30,
+      "component": "Solución de problemas con tecnología",
+      "statement": "Interpreto y represento ideas sobre diseños, innovaciones o protocolos de experimentos mediante el uso de registros, textos, diagramas, figuras, planos constructivos, maquetas, modelos y prototipos, empleando para ello (cuando sea posible) herramientas informáticas.",
+      "evidences": [
+        "Resuelvo problemas tecnológicos y evalúo las soluciones teniendo en cuenta las condiciones, restricciones y especificaciones del problema planteado."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-31",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 31,
+      "component": "Tecnología y sociedad",
+      "statement": "Discuto sobre el impacto de los desarrollos tecnológicos, incluida la biotecnología en la medicina, la agricultura y la industria.",
+      "evidences": [
+        "Reconozco las implicaciones éticas, sociales y ambientales de las manifestaciones tecnológicas del mundo en que vivo, y actúo responsablemente."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-32",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 32,
+      "component": "Tecnología y sociedad",
+      "statement": "Analizo y describo factores culturales y tecnológicos que inciden en la sexualidad, el control de la natalidad, la prevención de enfermedades transmitidas sexualmente y las terapias reproductivas.",
+      "evidences": [
+        "Reconozco las implicaciones éticas, sociales y ambientales de las manifestaciones tecnológicas del mundo en que vivo, y actúo responsablemente."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-33",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 33,
+      "component": "Tecnología y sociedad",
+      "statement": "Participo en discusiones relacionadas con las aplicaciones e innovaciones tecnológicas sobre la salud; tomo postura y argumento mis intervenciones.",
+      "evidences": [
+        "Reconozco las implicaciones éticas, sociales y ambientales de las manifestaciones tecnológicas del mundo en que vivo, y actúo responsablemente."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-34",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 34,
+      "component": "Tecnología y sociedad",
+      "statement": "Evalúo los procesos productivos de diversos artefactos y sistemas tecnológicos, teniendo en cuenta sus efectos sobre el medio ambiente y las comunidades implicadas.",
+      "evidences": [
+        "Reconozco las implicaciones éticas, sociales y ambientales de las manifestaciones tecnológicas del mundo en que vivo, y actúo responsablemente."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-35",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 35,
+      "component": "Tecnología y sociedad",
+      "statement": "Analizo el potencial de los recursos naturales y de los nuevos materiales utilizados en la producción tecnológica en diferentes contextos.",
+      "evidences": [
+        "Reconozco las implicaciones éticas, sociales y ambientales de las manifestaciones tecnológicas del mundo en que vivo, y actúo responsablemente."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-36",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 36,
+      "component": "Tecnología y sociedad",
+      "statement": "Analizo proyectos tecnológicos en desarrollo y debato en mi comunidad, el impacto de su posible implementación.",
+      "evidences": [
+        "Reconozco las implicaciones éticas, sociales y ambientales de las manifestaciones tecnológicas del mundo en que vivo, y actúo responsablemente."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-37",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 37,
+      "component": "Tecnología y sociedad",
+      "statement": "Identifico e indago sobre los problemas que afectan directamente a mi comunidad, como consecuencia de la implementación o el retiro de bienes y servicios tecnológicos. Propongo acciones encaminadas a buscar soluciones sostenibles dentro un contexto participativo.",
+      "evidences": [
+        "Reconozco las implicaciones éticas, sociales y ambientales de las manifestaciones tecnológicas del mundo en que vivo, y actúo responsablemente."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-38",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 38,
+      "component": "Tecnología y sociedad",
+      "statement": "Tomo decisiones relacionadas con las implicaciones sociales y ambientales de la tecnología y comunico los criterios básicos que utilicé o las razones que me condujeron a tomarlas.",
+      "evidences": [
+        "Reconozco las implicaciones éticas, sociales y ambientales de las manifestaciones tecnológicas del mundo en que vivo, y actúo responsablemente."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-39",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 39,
+      "component": "Tecnología y sociedad",
+      "statement": "Diseño y desarrollo estrategias de trabajo en equipo que contribuyan a la protección de mis derechos y los de mi comunidad. (Campañas de promoción y divulgación de derechos humanos, de la juventud).",
+      "evidences": [
+        "Reconozco las implicaciones éticas, sociales y ambientales de las manifestaciones tecnológicas del mundo en que vivo, y actúo responsablemente."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-40",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 40,
+      "component": "Tecnología y sociedad",
+      "statement": "Evalúo las implicaciones para la sociedad de la protección a la propiedad intelectual en temas como desarrollo y utilización de la tecnología.",
+      "evidences": [
+        "Reconozco las implicaciones éticas, sociales y ambientales de las manifestaciones tecnológicas del mundo en que vivo, y actúo responsablemente."
+      ],
+      "page": 25
+    },
+    {
+      "code": "MEN-ORI-TEC-V1-G10A11-41",
+      "type": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 41,
+      "component": "Tecnología y sociedad",
+      "statement": "Identifico necesidades y potencialidades del país para lograr su desarrollo científico y tecnológico.",
+      "evidences": [
+        "Reconozco las implicaciones éticas, sociales y ambientales de las manifestaciones tecnológicas del mundo en que vivo, y actúo responsablemente."
+      ],
+      "page": 25
+    }
+  ]
+}

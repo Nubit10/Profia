@@ -679,8 +679,8 @@ export function ExamSettingsStep(props: Props) {
           role="note"
         >
           <HiOutlineExclamationTriangle className="mt-0.5 shrink-0 text-warning" aria-hidden />
-          Esta asignatura no tiene DBA en el catálogo: el examen se generará con los temas y los
-          objetivos, sin citas a referentes oficiales.
+          Esta asignatura no tiene DBA ni otros referentes del MEN en el catálogo: el examen se
+          generará con los temas y los objetivos, sin citas a referentes oficiales.
         </p>
       )}
 

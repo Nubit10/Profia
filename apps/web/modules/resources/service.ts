@@ -1,5 +1,6 @@
 import "server-only";
 import { after } from "next/server";
+import { engineReference } from "@/lib/curriculum-references";
 import { db, Prisma, type DbClient } from "@/lib/db";
 import { conflict, invalid, notFound, rateLimited } from "@/lib/errors";
 import { logger } from "@/lib/observability/logger";
@@ -435,7 +436,7 @@ function engineExamContext(
       description: t.description ? redactContactData(t.description) : null,
     })),
     objectives: snapshot.objectives.map((o) => o.statement),
-    dba: snapshot.dba.map(({ code, statement, evidences }) => ({ code, statement, evidences })),
+    dba: snapshot.dba.map(engineReference),
     difficulty,
     notes: notes ? redactContactData(notes) : null,
     preferences,
@@ -514,7 +515,7 @@ function engineContext(
     grade: snapshot.grade,
     topic: { title: snapshot.topic.title, description: snapshot.topic.description },
     objectives: snapshot.objectives.map((o) => o.statement),
-    dba: snapshot.dba.map(({ code, statement, evidences }) => ({ code, statement, evidences })),
+    dba: snapshot.dba.map(engineReference),
     difficulty,
     notes: notes ? redactContactData(notes) : null,
     preferences,

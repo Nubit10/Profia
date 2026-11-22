@@ -14,6 +14,7 @@ from ..providers.llm import DATA_END, DATA_START, LLM, Message
 from .pipeline import GenerationInvalidError as GenerationInvalidError
 from .pipeline import norm as _norm
 from .pipeline import run_structured
+from .references import ReferenceKind, ref_entry, references_system
 
 PROMPT_VERSION = "objective_suggestions.v1"
 SYSTEM_PROMPT = (ENGINE_DIR / "prompts" / f"{PROMPT_VERSION}.md").read_text(encoding="utf8")
@@ -46,6 +47,8 @@ class DbaRef(BaseModel):
     code: str = Field(max_length=60)
     statement: str = Field(max_length=1500)
     evidences: list[str] = Field(default_factory=list, max_length=12)
+    # SPEC-0039: Estándar u Orientación del MEN; sin `kind`, es un DBA (campo aditivo).
+    kind: ReferenceKind | None = None
 
 
 class TopicRef(BaseModel):
@@ -94,10 +97,7 @@ def build_messages(request: ObjectiveRequest) -> list[Message]:
         "grado": request.grade,
         "tema": {"titulo": request.topic.title, "descripcion": request.topic.description},
         "objetivosExistentes": request.existingObjectives,
-        "dba": [
-            {"codigo": d.code, "enunciado": d.statement, "evidencias": d.evidences}
-            for d in request.dba
-        ],
+        "dba": [ref_entry(d) for d in request.dba],
         "cantidad": request.count,
     }
     user = (
@@ -105,7 +105,7 @@ def build_messages(request: ObjectiveRequest) -> list[Message]:
         f"{DATA_START}\n{json.dumps(data, ensure_ascii=False)}\n{DATA_END}\n"
         "Responde solo con el JSON pedido."
     )
-    return [Message("system", SYSTEM_PROMPT), Message("user", user)]
+    return [Message("system", references_system(SYSTEM_PROMPT, data)), Message("user", user)]
 
 
 def validate(out: SuggestionsOut, request: ObjectiveRequest) -> list[str]:

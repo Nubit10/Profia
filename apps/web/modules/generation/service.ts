@@ -1,4 +1,5 @@
 import "server-only";
+import { engineReference } from "@/lib/curriculum-references";
 import { db } from "@/lib/db";
 import { invalid, notFound, rateLimited } from "@/lib/errors";
 import { getLimiter } from "@/lib/rate-limit";
@@ -36,7 +37,7 @@ export async function suggestObjectives(
       grade: context.grade,
       topic: context.topic,
       existingObjectives: context.existingObjectives,
-      dba: context.dba.map(({ code, statement, evidences }) => ({ code, statement, evidences })),
+      dba: context.dba.map(engineReference),
       count,
     },
     fetcher,

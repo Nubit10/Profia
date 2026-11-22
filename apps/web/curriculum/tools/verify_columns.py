@@ -209,3 +209,38 @@ def verify_esquema(pdf: str, items: list[dict], fixes: dict) -> bool:
             print(f"    numeración con saltos en {grade}")
         print(f"    pág. {index} ({grade}): viñetas {bullets} · DBA {len(by_page[index])}")
     return not failed
+
+
+def verify_orientacion(pdf: str, items: list[dict], fixes: dict, expected: int | None = None) -> bool:
+    """Orientaciones en tablas (SPEC-0038 etapa 2): el extractor lee las celdas con pdfplumber sobre
+    las páginas giradas; aquí se lee el orden del contenido del PDF (`pdftotext -raw`) y cada
+    desempeño y cada indicador tiene que aparecer letra por letra. Además, el número de desempeños
+    es el que trae el documento (`expected` en sources.json) y, en Artística, el de siglas «C. B.»."""
+    pages = sorted({i["page"] for i in items})
+    raw = "".join(
+        subprocess.run(
+            ["pdftotext", "-enc", "UTF-8", "-raw", "-f", str(p), "-l", str(p), pdf, "-"],
+            capture_output=True, text=True, check=True,
+        ).stdout
+        for p in pages
+    )
+    corpus = norm(raw)
+    replaced = {(r["code"], r["replace"]) for r in fixes.get("replaceText", [])}
+    failed = False
+    checked: set[str] = set()
+    for item in items:
+        for kind, text in [("desempeño", item["statement"])] + [("indicador", e) for e in item["evidences"]]:
+            if kind == "indicador" and text in checked:
+                continue
+            checked.add(text)
+            if norm(text) in corpus or any(c == item["code"] and f in text for c, f in replaced):
+                continue
+            failed = True
+            print(f"    NO LITERAL {item['code']} {kind}: {text[:90]}")
+    if expected is not None and len(items) != expected:
+        failed = True
+    cb = len(re.findall(r"C\s*\.\s*B\b", raw))
+    if items[0]["area"] == "ARTISTICA" and cb != len(items):
+        failed = True
+    print(f"    desempeños: {len(items)}" + (f" (esperados {expected})" if expected else "") + (f" · siglas C. B.: {cb}" if items[0]["area"] == "ARTISTICA" else ""))
+    return not failed

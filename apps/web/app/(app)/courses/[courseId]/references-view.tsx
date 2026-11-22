@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { evidencesTitle, referenceLabel } from "@/lib/curriculum-references";
 import { normalizeName } from "@/lib/text";
 import type { ActionResult } from "@/lib/action-result";
 import type { CurriculumReference, CurriculumSearchResult } from "@/modules/curriculum/client";
@@ -99,7 +100,8 @@ export function ReferencesView({ courseId, references, emptyForGrade, searchActi
           <CardDescription>
             El MEN no publica DBA ni Estándares de esta área para este grado, o aún no están en
             ProfIA. Hoy están Matemáticas, Lenguaje, Ciencias Naturales, Ciencias Sociales, Inglés,
-            Competencias Ciudadanas (Ética y Cátedra de la Paz) y Transición.
+            Competencias Ciudadanas (Ética y Cátedra de la Paz), Tecnología, Educación Física,
+            Educación Artística, Filosofía y Transición.
           </CardDescription>
         </CardHeader>
       </Card>
@@ -113,8 +115,8 @@ export function ReferencesView({ courseId, references, emptyForGrade, searchActi
           DBA y Estándares del MEN
         </h2>
         <p className="text-sm text-muted-foreground">
-          Derechos Básicos de Aprendizaje y Estándares, tal como aparecen en el documento oficial.
-          Los ejemplos y figuras están en el documento original.
+          Derechos Básicos de Aprendizaje, Estándares y Orientaciones del MEN, tal como aparecen en
+          el documento oficial. Los ejemplos y figuras están en el documento original.
         </p>
         {pendingReview && (
           <p className="text-xs text-muted-foreground">
@@ -196,9 +198,7 @@ export function ReferencesView({ courseId, references, emptyForGrade, searchActi
               <Card>
                 <CardHeader className="gap-2">
                   <div className="flex flex-wrap items-center gap-2">
-                    <Badge>
-                      {ref.type === "DBA" ? `DBA ${ref.number}` : `Estándar ${ref.number}`}
-                    </Badge>
+                    <Badge>{referenceLabel(ref.code, ref.number)}</Badge>
                     {ref.component && (
                       <Badge
                         variant="secondary"
@@ -214,15 +214,7 @@ export function ReferencesView({ courseId, references, emptyForGrade, searchActi
                   {/* Un estándar de Matemáticas no trae lista (SPEC-0037). */}
                   {ref.evidences.length > 0 && (
                     <div>
-                      <p className="mb-1 text-sm font-medium">
-                        {/* SPEC-0036/0037: un estándar trae el estándar de su grupo o columna; en
-                            Inglés, las competencias que desarrolla. */}
-                        {ref.type === "DBA"
-                          ? "Evidencias de aprendizaje"
-                          : ref.evidences.every((e) => e.startsWith("Competencia "))
-                            ? "Competencias que desarrolla"
-                            : "Estándar del grupo de grados"}
-                      </p>
+                      <p className="mb-1 text-sm font-medium">{evidencesTitle(ref)}</p>
                       <ul className="ml-5 list-disc space-y-1 text-sm">
                         {ref.evidences.map((e) => (
                           <li key={e}>{e}</li>

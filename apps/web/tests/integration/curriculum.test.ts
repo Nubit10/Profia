@@ -182,7 +182,12 @@ describe("referentes por curso", () => {
     expect(area("Inglés")).toBe("INGLES");
     expect(area("Ética y Valores Humanos")).toBe("CIUDADANAS");
     expect(area("Cátedra de la Paz")).toBe("CIUDADANAS");
-    expect(area("Filosofía")).toBeNull();
+    // SPEC-0038 etapa 2: orientaciones del MEN.
+    expect(area("Filosofía")).toBe("FILOSOFIA");
+    expect(area("Tecnología e Informática")).toBe("TECNOLOGIA");
+    expect(area("Educación Física, Recreación y Deportes")).toBe("EDUCACION_FISICA");
+    expect(area("Educación Artística")).toBe("ARTISTICA");
+    expect(area("Educación Religiosa")).toBeNull();
   });
 
   it("CA-0004-06: una asignatura propia vinculada a un área muestra sus referentes", async () => {

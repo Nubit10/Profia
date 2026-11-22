@@ -11,7 +11,7 @@ const searchSchema = z.object({
   query: z.string().trim().min(3, "Escribe al menos 3 caracteres").max(300),
   // SPEC-0037: al sugerir DBA para un objetivo se piden solo DBA (los Estándares no los desplazan).
   types: z
-    .array(z.enum(["DBA", "STANDARD"]))
+    .array(z.enum(["DBA", "STANDARD", "ORIENTATION"]))
     .max(2)
     .optional(),
 });

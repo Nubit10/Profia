@@ -21,6 +21,12 @@ import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/c
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import type { ActionResult } from "@/lib/action-result";
+import {
+  baseReferences,
+  baseReferencesNoun,
+  evidencesTitle,
+  referenceLabel,
+} from "@/lib/curriculum-references";
 import { normalizeName } from "@/lib/text";
 import type { CurriculumReference } from "@/modules/curriculum/client";
 import {
@@ -209,12 +215,15 @@ function DbaPicker({
   value,
   onChange,
   suggested = [],
+  noun = "DBA",
 }: {
   references: CurriculumReference[];
   value: CurriculumLinkInput[];
   onChange: (links: CurriculumLinkInput[]) => void;
   /** SPEC-0013 RN-04: DBA sugeridos por ProfIA; van primero y con la marca "Sugerido". */
   suggested?: string[];
+  /** Cómo se llaman los referentes de la lista: «DBA», «Estándares», «Orientaciones del MEN». */
+  noun?: string;
 }) {
   const [filter, setFilter] = useState("");
   const visible = useMemo(() => {
@@ -254,12 +263,12 @@ function DbaPicker({
         type="search"
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
-        placeholder="Filtrar DBA por palabra"
-        aria-label="Filtrar DBA"
+        placeholder={`Filtrar ${noun} por palabra`}
+        aria-label={`Filtrar ${noun}`}
       />
       <ul
-        className="max-h-72 divide-y overflow-y-auto rounded-lg border"
-        aria-label="DBA del curso"
+        className="max-h-52 divide-y overflow-y-auto rounded-lg border sm:max-h-72"
+        aria-label={`${noun} del curso`}
       >
         {visible.map((ref) => {
           const isOn = selected.has(ref.code);
@@ -276,13 +285,15 @@ function DbaPicker({
                 checked={isOn}
                 onCheckedChange={(c) => toggleDba(ref.code, c)}
               >
-                <span className="sr-only">DBA {ref.number}. </span>
+                <span className="sr-only">{referenceLabel(ref.code, ref.number)}. </span>
                 {ref.statement}
               </SelectableOption>
-              {isOn && (
+              {isOn && ref.evidences.length > 0 && (
                 <fieldset className="mt-2 ml-6 flex flex-col gap-1.5">
                   <legend className="mb-1 text-xs text-muted-foreground">
-                    Evidencias (opcional; sin marcar = el DBA completo)
+                    {ref.type === "DBA"
+                      ? "Evidencias (opcional; sin marcar = el DBA completo)"
+                      : `${evidencesTitle(ref)} (opcional)`}
                   </legend>
                   {ref.evidences.map((evidence, index) => {
                     const evId = `${id}-ev-${index}`;
@@ -304,7 +315,7 @@ function DbaPicker({
           );
         })}
         {visible.length === 0 && (
-          <li className="p-3 text-sm text-muted-foreground">Ningún DBA coincide.</li>
+          <li className="p-3 text-sm text-muted-foreground">Ninguno coincide.</li>
         )}
       </ul>
     </div>
@@ -349,6 +360,7 @@ export function ObjectiveForm({
   // "Sugerido" y el docente los quita si no aplican; uno quitado no vuelve a marcarse solo.
   useEffect(() => {
     if (initial || !suggestDba || references.length === 0) return;
+    const known = new Set(baseReferences(references).map((r) => r.code));
     const text = statement.trim();
     if (text.length < MIN_SUGGEST_LENGTH) return;
     let cancelled = false;
@@ -358,7 +370,6 @@ export function ObjectiveForm({
       if (cancelled) return;
       setSearching(false);
       if (!codes) return;
-      const known = new Set(references.map((r) => r.code));
       const next = codes.filter((c) => known.has(c)).slice(0, MAX_SUGGESTED_DBA);
       const previous = suggestedRef.current;
       const current = form.getValues("links") ?? [];
@@ -380,6 +391,14 @@ export function ObjectiveForm({
     };
   }, [statement, initial, suggestDba, references, form]);
 
+  // SPEC-0039: la lista principal son los referentes base (DBA; sin DBA, Estándares u
+  // Orientaciones); los Estándares de un área con DBA van aparte y son opcionales.
+  const base = useMemo(() => baseReferences(references), [references]);
+  const extra = useMemo(
+    () => references.filter((r) => !base.includes(r) && r.type !== "DBA"),
+    [references, base],
+  );
+  const noun = baseReferencesNoun(references);
   const markedSuggestions = suggested.filter((c) => links.some((l) => l.code === c)).length;
   const submit = form.handleSubmit(async (values) => {
     if (applyResult(form, await onSubmit(values))) onDone();
@@ -400,7 +419,8 @@ export function ObjectiveForm({
         </Field>
         <Field>
           <FieldLabel>
-            DBA vinculados {links.length > 0 && <Badge variant="secondary">{links.length}</Badge>}
+            {noun} vinculados{" "}
+            {links.length > 0 && <Badge variant="secondary">{links.length}</Badge>}
           </FieldLabel>
           {!hasArea ? (
             <FieldDescription>
@@ -408,32 +428,55 @@ export function ObjectiveForm({
             </FieldDescription>
           ) : references.length === 0 ? (
             <FieldDescription>
-              Esta área no tiene DBA para este grado en el catálogo.
+              Esta área no tiene DBA ni otros referentes para este grado en el catálogo.
             </FieldDescription>
           ) : (
             <Controller
               control={form.control}
               name="links"
               render={({ field }) => (
-                <DbaPicker
-                  references={references}
-                  value={field.value ?? []}
-                  suggested={suggested}
-                  onChange={(next) => {
-                    for (const code of suggested) {
-                      if (!next.some((l) => l.code === code)) dismissed.current.add(code);
-                    }
-                    field.onChange(next);
-                  }}
-                />
+                <div className="flex flex-col gap-3">
+                  <DbaPicker
+                    references={base}
+                    noun={noun}
+                    value={field.value ?? []}
+                    suggested={suggested}
+                    onChange={(next) => {
+                      for (const code of suggested) {
+                        if (!next.some((l) => l.code === code)) dismissed.current.add(code);
+                      }
+                      field.onChange(next);
+                    }}
+                  />
+                  {extra.length > 0 && (
+                    <details
+                      className="rounded-lg border p-2.5"
+                      open={extra.some((r) => (field.value ?? []).some((l) => l.code === r.code))}
+                    >
+                      <summary className="cursor-pointer text-sm font-medium">
+                        Estándares del grupo de grados (opcional)
+                      </summary>
+                      <p className="mt-1 mb-2 text-xs text-muted-foreground">
+                        Si los marcas, Lucía también los tiene en cuenta al crear recursos de este
+                        tema.
+                      </p>
+                      <DbaPicker
+                        references={extra}
+                        noun="Estándares"
+                        value={field.value ?? []}
+                        onChange={field.onChange}
+                      />
+                    </details>
+                  )}
+                </div>
               )}
             />
           )}
           <p aria-live="polite" className="text-sm text-muted-foreground">
             {searching
-              ? "Buscando DBA relacionados…"
+              ? `Buscando ${noun} relacionados…`
               : markedSuggestions > 0
-                ? `Lucía marcó ${markedSuggestions} ${markedSuggestions === 1 ? "DBA sugerido" : "DBA sugeridos"}. Revísalos antes de crear el objetivo.`
+                ? `Lucía marcó ${markedSuggestions} ${noun} ${markedSuggestions === 1 ? "sugerido" : "sugeridos"}. Revísalos antes de crear el objetivo.`
                 : ""}
           </p>
           <FieldError errors={[errors.links as { message?: string } | undefined]} />

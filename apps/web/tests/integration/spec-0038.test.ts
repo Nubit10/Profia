@@ -131,4 +131,64 @@ describe("SPEC-0038 — Competencias Ciudadanas y DBA de Inglés", () => {
     expect(result.success).toBe(false);
     expect(result.error?.issues[0]?.message).toBe("Un DBA lleva al menos una evidencia");
   });
+
+  describe("etapa 2: orientaciones pedagógicas del MEN (ADR-0022)", () => {
+    const ORI_FILES = [
+      "ori-tecnologia-v1.json",
+      "ori-educacion-fisica-v1.json",
+      "ori-artistica-v1.json",
+      "ori-filosofia-v1.json",
+    ];
+    const importOrientations = async () => {
+      for (const file of ORI_FILES) await importCurriculumJson(readFile(file), file);
+    };
+
+    it("CA-0038-08: importar dos veces las orientaciones no crea ni duplica nada", async () => {
+      for (const file of ORI_FILES) {
+        expect((await importCurriculumJson(readFile(file), file)).status).toBe("created");
+      }
+      for (const file of ORI_FILES) {
+        expect((await importCurriculumJson(readFile(file), file)).status).toBe("unchanged");
+      }
+      expect(await db.curriculumItem.count({ where: { type: "ORIENTATION" } })).toBe(
+        169 + 150 + 45 + 15,
+      );
+    });
+
+    it("CA-0038-09: cada asignatura ve las orientaciones de su grupo de grados, con su cita", async () => {
+      await importOrientations();
+      const tec = await referencesOf("Tecnología e Informática", "G6");
+      expect(tec).toHaveLength(31);
+      expect(tec.every((r) => r.type === "ORIENTATION")).toBe(true);
+      expect(tec[0]).toMatchObject({
+        component: "Naturaleza y evolución de la tecnología",
+        citation: { year: 2008, reviewed: false },
+      });
+      expect(tec[0]!.evidences).toHaveLength(1); // la competencia del componente
+      expect(await referencesOf("Educación Física, Recreación y Deportes", "G10")).toHaveLength(30);
+      expect(await referencesOf("Educación Artística", "G4")).toHaveLength(9);
+      expect(await referencesOf("Filosofía", "G11")).toHaveLength(15);
+      // Filosofía es de la media: en 9° no hay orientaciones.
+      expect(await referencesOf("Filosofía", "G9")).toHaveLength(0);
+    });
+
+    it("CA-0038-10: el texto guardado es idéntico al del archivo", async () => {
+      await importOrientations();
+      for (const file of ORI_FILES) {
+        const { items } = readFile(file);
+        const stored = await db.curriculumItem.findMany({
+          where: { code: { in: items.map((i: { code: string }) => i.code) } },
+          select: { code: true, statement: true, evidences: true, component: true },
+        });
+        const byCode = new Map(stored.map((s) => [s.code, s]));
+        for (const i of items) {
+          expect(byCode.get(i.code)).toMatchObject({
+            statement: i.statement,
+            evidences: i.evidences,
+            component: i.component ?? null,
+          });
+        }
+      }
+    });
+  });
 });

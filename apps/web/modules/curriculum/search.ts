@@ -38,7 +38,7 @@ export async function searchCourseCurriculum(
   courseId: string,
   query: string,
   fetcher: Fetcher = fetch,
-  types?: ("DBA" | "STANDARD")[],
+  types?: ("DBA" | "STANDARD" | "ORIENTATION")[],
 ): Promise<CurriculumSearchResult> {
   const course = await getMyCourse(ctx, courseId);
   // RN-07: 30 búsquedas por minuto por usuario.

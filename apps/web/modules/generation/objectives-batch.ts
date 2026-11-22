@@ -1,4 +1,5 @@
 import "server-only";
+import { baseReferences, engineReference } from "@/lib/curriculum-references";
 import { db } from "@/lib/db";
 import { invalid } from "@/lib/errors";
 import { redactContactData } from "@/lib/text";
@@ -50,9 +51,12 @@ export async function proposeObjectivesBatch(
   const courseId =
     input.scope === "UNIT" ? await getUnitCourseId(ctx, input.unitId) : input.courseId;
   const planning = await getCoursePlanning(ctx, courseId); // NOT_FOUND si es ajeno
-  const dba = planning.references.filter((r) => r.type === "DBA");
+  // SPEC-0039: los DBA del grado; si el área no tiene DBA, sus Estándares u Orientaciones.
+  const dba = baseReferences(planning.references);
   if (dba.length === 0) {
-    throw invalid("Esta asignatura no tiene DBA en el catálogo; redacta los objetivos a mano.");
+    throw invalid(
+      "Esta asignatura no tiene DBA, Estándares ni Orientaciones en el catálogo; redacta los objetivos a mano.",
+    );
   }
   const units = planning.units.filter(
     (u) =>
@@ -99,7 +103,7 @@ export async function proposeObjectivesBatch(
           description: topic.description ? redactContactData(topic.description) : null,
         },
         existingObjectives: topic.active.map((o) => redactContactData(o.statement)),
-        dba: refs.map(({ code, statement, evidences }) => ({ code, statement, evidences })),
+        dba: refs.map(engineReference),
         count,
       },
       fetcher,

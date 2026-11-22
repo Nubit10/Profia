@@ -1,5 +1,6 @@
 import "server-only";
 import { z } from "zod";
+import type { EngineReference } from "@/lib/curriculum-references";
 import { getEnv } from "@/lib/env";
 import { figureSchema } from "@/lib/figures/schema";
 import { logger } from "@/lib/observability/logger";
@@ -26,7 +27,7 @@ export type EngineObjectiveRequest = {
   grade: string;
   topic: { title: string; description: string | null };
   existingObjectives: string[];
-  dba: { code: string; statement: string; evidences: string[] }[];
+  dba: EngineReference[];
   count: number;
 };
 
@@ -169,7 +170,7 @@ export type EngineResourceContext = {
   grade: string;
   topic: { title: string; description: string | null };
   objectives: string[];
-  dba: { code: string; statement: string; evidences: string[] }[];
+  dba: EngineReference[];
   difficulty: "BASIC" | "INTERMEDIATE" | "ADVANCED";
   notes: string | null;
   preferences: string[];
@@ -376,7 +377,7 @@ export type EngineExamContext = {
   grade: string;
   topics: { key: string; title: string; description: string | null }[];
   objectives: string[];
-  dba: { code: string; statement: string; evidences: string[] }[];
+  dba: EngineReference[];
   difficulty: "BASIC" | "INTERMEDIATE" | "ADVANCED";
   notes: string | null;
   preferences: string[];
@@ -481,7 +482,7 @@ export type EnginePlanning = z.infer<typeof planningResponse>;
 export type EnginePlanningRequest = {
   subject: string;
   grade: string;
-  dba: { code: string; statement: string; evidences: string[] }[];
+  dba: EngineReference[];
   periods: {
     number: number;
     name: string;

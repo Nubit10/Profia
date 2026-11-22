@@ -1,4 +1,5 @@
 import "server-only";
+import { baseReferences, engineReference } from "@/lib/curriculum-references";
 import { db } from "@/lib/db";
 import { invalid, rateLimited } from "@/lib/errors";
 import { formatTime } from "@/lib/dates";
@@ -65,6 +66,9 @@ function coveredCodes(planning: CoursePlanning) {
   return new Set(planning.coverage.covered);
 }
 
+/** El contrato `generation-planning.v1` admite hasta 60 referentes por solicitud. */
+const MAX_PLANNING_REFERENCES = 60;
+
 /**
  * Pide una propuesta de unidades y temas para un periodo, el año o una unidad (SPEC-0014 F-01).
  * Nada se guarda en la planeación: la propuesta va a la pantalla de revisión (RN-02).
@@ -79,11 +83,14 @@ export async function proposePlanning(
     input.scope === "UNIT" ? await getUnitCourseId(ctx, input.unitId) : input.courseId;
   // NOT_FOUND si el curso no es del docente en el espacio activo.
   const planning = await getCoursePlanning(ctx, courseId);
-  const dba = planning.references
-    .filter((r) => r.type === "DBA")
-    .sort((a, b) => a.number - b.number);
+  // SPEC-0039: los DBA del grado; si el área no tiene DBA, sus Estándares u Orientaciones.
+  const dba = baseReferences(planning.references)
+    .sort((a, b) => a.number - b.number)
+    .slice(0, MAX_PLANNING_REFERENCES);
   if (dba.length === 0) {
-    throw invalid("Esta asignatura no tiene DBA en el catálogo; agrega los temas a mano.");
+    throw invalid(
+      "Esta asignatura no tiene DBA, Estándares ni Orientaciones en el catálogo; agrega los temas a mano.",
+    );
   }
   const unit =
     input.scope === "UNIT"
@@ -115,7 +122,7 @@ export async function proposePlanning(
   const body: EnginePlanningRequest = {
     subject: planning.course.subjectName,
     grade: GRADE_LABELS[planning.course.grade],
-    dba: dba.map(({ code, statement, evidences }) => ({ code, statement, evidences })),
+    dba: dba.map(engineReference),
     periods: targets.map((p) => {
       const share = input.scope === "UNIT" ? codes : (split.get(p.number) ?? []);
       return {

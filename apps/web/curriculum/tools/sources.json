@@ -248,5 +248,88 @@
       "dbaWithoutEvidences": true,
       "usageNote": "Texto oficial del MEN reproducido con cita de la fuente: los DBA de Inglés en su versión corta, como los presenta el Esquema Curricular Sugerido (págs. 33-38), con el nivel de inglés del grado (A1 a B1.3). Esta versión no trae evidencias de aprendizaje; las metas, funciones y objetivos por módulo se consultan en el documento original."
     }
+  },
+  "ori-tecnologia-v1": {
+    "draft": "draft/ori-tec.json",
+    "fixes": null,
+    "pdf": "sources/guia30-tecnologia.pdf",
+    "layout": "ebc",
+    "source": {
+      "key": "MEN-ORI-TEC-V1",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Orientaciones generales para la educación en tecnología (Guía 30)",
+      "documentType": "ORIENTATION",
+      "area": "TECNOLOGIA",
+      "version": "V.1",
+      "year": 2008,
+      "isbn": "978-958-691-296-9",
+      "url": "https://www.mineducacion.gov.co/1780/articles-340033_archivo_pdf_Orientaciones_grales_educacion_tecnologia.pdf",
+      "landingUrl": "https://www.mineducacion.gov.co/portal/men/Publicaciones/Guias/160915:Guia-No-30-Ser-competente-en-tecnologia-una-necesidad-para-el-desarrollo",
+      "sha256": "c9775d4b738ca3ef6eef2a76e2fb2e4c726519a303976549c11cc5060fb0a951",
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es un desempeño de las orientaciones del área para su grupo de grados; el MEN no publica DBA ni Estándares para esta área. Lo acompaña la competencia de su componente (Naturaleza y evolución de la tecnología; Apropiación y uso; Solución de problemas; Tecnología y sociedad)."
+    }
+  },
+  "ori-educacion-fisica-v1": {
+    "draft": "draft/ori-efi.json",
+    "fixes": "tools/fixes/ori-educacion-fisica-v1.json",
+    "pdf": "sources/orientaciones-educacion-fisica.pdf",
+    "layout": "orientacion",
+    "expected": 150,
+    "source": {
+      "key": "MEN-ORI-EFI-V1",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Orientaciones pedagógicas para la Educación Física, Recreación y Deporte (Documento 15)",
+      "documentType": "ORIENTATION",
+      "area": "EDUCACION_FISICA",
+      "version": "V.1",
+      "year": 2010,
+      "isbn": "978-958-691-393-5",
+      "url": "https://www.mineducacion.gov.co/1780/articles-340033_archivo_pdf_Orientaciones_EduFisica_Rec_Deporte.pdf",
+      "landingUrl": "https://www.mineducacion.gov.co/1621/article-241887.html",
+      "sha256": "7be8aea3af3ebc22a6bdf8561e56108e239190c78ae209d9d1bc521a9a9d78ea",
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es un desempeño de las orientaciones del área para su grupo de grados; el MEN no publica DBA ni Estándares para esta área. Lo acompaña el indicador de su competencia (motriz, expresiva corporal o axiológica corporal) para el grupo de grados. Se usa la edición de 2010: las Orientaciones curriculares de 2022 no permiten reproducir su texto sin permiso escrito del MEN."
+    }
+  },
+  "ori-artistica-v1": {
+    "draft": "draft/ori-art.json",
+    "fixes": null,
+    "pdf": "sources/orientaciones-educacion-artistica.pdf",
+    "layout": "orientacion",
+    "expected": 45,
+    "source": {
+      "key": "MEN-ORI-ART-V1",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Orientaciones pedagógicas para la Educación Artística en Básica y Media (Documento 16)",
+      "documentType": "ORIENTATION",
+      "area": "ARTISTICA",
+      "version": "V.1",
+      "year": 2010,
+      "isbn": "978-958-691-395-9",
+      "url": "https://www.mineducacion.gov.co/1780/articles-340033_archivo_pdf_Orientaciones_Edu_Artistica_Basica_Media.pdf",
+      "landingUrl": "https://www.mineducacion.gov.co/1621/article-241907.html",
+      "sha256": "aaeed46a7f8f6d59fe520c812c3b0baa57b1b90171748725bf94fb5d08f73f01",
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es un desempeño de las orientaciones del área para su grupo de grados; el MEN no publica DBA ni Estándares para esta área. Son las evidencias de desempeño del cuadro resumen (pág. 93 del PDF), por competencia (sensibilidad, apreciación estética, comunicación); la sigla «C. B.» indica las competencias básicas con que se relaciona. Se usa la edición de 2010: las Orientaciones curriculares de 2019 no permiten reproducir su texto sin permiso escrito del MEN."
+    }
+  },
+  "ori-filosofia-v1": {
+    "draft": "draft/ori-fil.json",
+    "fixes": null,
+    "pdf": "sources/orientaciones-filosofia.pdf",
+    "layout": "orientacion",
+    "expected": 15,
+    "source": {
+      "key": "MEN-ORI-FIL-V1",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Orientaciones pedagógicas para la Filosofía en la Educación Media (Documento 14)",
+      "documentType": "ORIENTATION",
+      "area": "FILOSOFIA",
+      "version": "V.1",
+      "year": 2010,
+      "isbn": "978-958-691-394-2",
+      "url": "https://www.mineducacion.gov.co/1780/articles-340033_archivo_pdf_Orientaciones_Pedagogicas_Filosofia_en_Educacion_Media.pdf",
+      "landingUrl": "https://www.mineducacion.gov.co/1621/article-241891.html",
+      "sha256": "564982b788e2aeb866f090cdf7e6c7a877847f5df05a9aa15596430276061f90",
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es un desempeño de las orientaciones del área para su grupo de grados; el MEN no publica DBA ni Estándares para esta área. Son los desempeños de las competencias crítica, dialógica y creativa del esquema sugerido (págs. 119-121 del PDF), para 10° y 11°; las preguntas filosóficas del esquema son ejemplos y se consultan en el documento."
+    }
   }
 }

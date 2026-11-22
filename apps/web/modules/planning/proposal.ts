@@ -1,5 +1,6 @@
 import "server-only";
 import type { z } from "zod";
+import { baseReferences } from "@/lib/curriculum-references";
 import { db } from "@/lib/db";
 import { invalid, notFound } from "@/lib/errors";
 import { cleanText, normalizeName } from "@/lib/text";
@@ -31,7 +32,7 @@ export async function acceptPlanningProposal(
   requireRole(ctx, "TEACHER");
   // NOT_FOUND si el curso no es del docente en este espacio.
   const refs = await getCourseReferences(ctx, input.courseId);
-  const allowed = new Set(refs.references.filter((r) => r.type === "DBA").map((r) => r.code));
+  const allowed = new Set(baseReferences(refs.references).map((r) => r.code));
   const cleanCodes = (codes: string[]) => [...new Set(codes.filter((c) => allowed.has(c)))];
 
   return db.$transaction(async (tx) => {
@@ -173,7 +174,7 @@ export async function acceptObjectivesBatch(
 ): Promise<{ objectives: number }> {
   requireRole(ctx, "TEACHER");
   const refs = await getCourseReferences(ctx, input.courseId); // NOT_FOUND si es ajeno
-  const allowed = new Set(refs.references.filter((r) => r.type === "DBA").map((r) => r.code));
+  const allowed = new Set(baseReferences(refs.references).map((r) => r.code));
   const topicIds = [...new Set(input.objectives.map((o) => o.topicId))];
 
   return db.$transaction(async (tx) => {
