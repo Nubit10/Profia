@@ -377,8 +377,8 @@ describe("proponer la planeación con IA (SPEC-0014)", () => {
     });
     expect(logs.map((l) => l.status).sort()).toEqual(["INVALID", "UNAVAILABLE"]);
 
-    // Inglés: con área curricular pero sin DBA en el catálogo.
-    const pe = await mathCourse(ctx, "Inglés");
+    // Ética: con área curricular (Competencias Ciudadanas, SPEC-0038) pero sin DBA en el catálogo.
+    const pe = await mathCourse(ctx, "Ética y Valores Humanos");
     const fetcher = engine();
     await expect(
       proposePlanning(ctx, { ...input, courseId: pe.id }, fetcher),
@@ -402,6 +402,31 @@ describe("proponer la planeación con IA (SPEC-0014)", () => {
     expect(sent.every((code) => code.startsWith("MEN-DBA-CSO-V1-G6-"))).toBe(true);
     const topics = proposal.periods[0]!.units.flatMap((u) => u.topics);
     expect(topics.length).toBeGreaterThan(0);
+    expect(topics.every((t) => t.dba.length > 0)).toBe(true);
+  });
+
+  it("CA-0038-06: en Inglés de 9°, Lucía propone el periodo con los DBA de Inglés del grado", async () => {
+    const ctx = await teacher();
+    const subject = (await listSubjects(ctx)).find((s) => s.name === "Inglés")!;
+    const course = await createCourse(ctx, {
+      subjectId: subject.id,
+      grade: "G9",
+      groupName: "901",
+      academicYear: "2026",
+    });
+    await getCoursePlanning(ctx, course.id);
+    const fetcher = engine();
+    const proposal = await proposePlanning(
+      ctx,
+      { scope: "PERIOD", courseId: course.id, periodNumber: 1, size: "DEFAULT" },
+      fetcher,
+    );
+    if (proposal.status !== "ok") throw new Error(proposal.status);
+    // Solo DBA de Inglés de 9° (versión corta, sin evidencias), nunca los Estándares de la Guía 22.
+    const sent = bodyOf(fetcher).periods.flatMap((p) => p.dbaCodes);
+    expect(sent.length).toBeGreaterThan(0);
+    expect(sent.every((code) => code.startsWith("MEN-DBA-ING-ESQ-V1-G9-"))).toBe(true);
+    const topics = proposal.periods[0]!.units.flatMap((u) => u.topics);
     expect(topics.every((t) => t.dba.length > 0)).toBe(true);
   });
 

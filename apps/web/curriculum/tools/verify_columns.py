@@ -165,3 +165,47 @@ def verify_ebc(pdf: str, items: list[dict], fixes: dict) -> bool:
         failed = True
     print(f"    viñetas en el PDF: {bullets} · acciones en el catálogo: {len(items)}")
     return not failed
+
+
+def verify_esquema(pdf: str, items: list[dict], fixes: dict) -> bool:
+    """DBA de Inglés 6°-11° (SPEC-0038): recorta con pdftotext solo la franja «DERECHOS BÁSICOS
+    INGLÉS» de cada página (sin META, FUNCIONES ni OBJETIVOS) y comprueba que cada DBA aparece
+    letra por letra en ella y que el número de viñetas de la franja es el número de DBA del grado.
+    Los tramos con la fuente ilegible se aceptan solo con su corrección documentada (replaceText)."""
+    import extract_esquema_ingles as esquema
+    from extract_ebc import pages
+
+    replaced = {(r["code"], r["replace"]) for r in fixes.get("replaceText", [])}
+    by_page: dict[int, list[dict]] = {}
+    for item in items:
+        by_page.setdefault(item["page"], []).append(item)
+    failed = False
+    for index, _width, words in pages(pdf):
+        if index not in by_page:
+            continue
+        b = esquema.band(words)
+        if b is None:
+            print(f"    pág. {index}: no se encontró la franja de DBA")
+            failed = True
+            continue
+        crop = esquema.crop_text(pdf, index, b[2], b[3])
+        corpus = norm(crop)
+        for item in by_page[index]:
+            text = item["statement"]
+            for code, rep in replaced:
+                if code == item["code"]:
+                    text = text.replace(rep, "\0")
+            # Sin el tramo corregido, el resto del enunciado sigue siendo literal.
+            if not all(norm(part) in corpus for part in text.split("\0") if part.strip()):
+                failed = True
+                print(f"    NO LITERAL {item['code']}: {item['statement'][:90]}")
+        bullets = len(re.findall(r"•", crop))
+        if bullets != len(by_page[index]):
+            failed = True
+        grade = by_page[index][0]["grade"]
+        numbers = [i["number"] for i in by_page[index]]
+        if numbers != list(range(1, len(numbers) + 1)):
+            failed = True
+            print(f"    numeración con saltos en {grade}")
+        print(f"    pág. {index} ({grade}): viñetas {bullets} · DBA {len(by_page[index])}")
+    return not failed

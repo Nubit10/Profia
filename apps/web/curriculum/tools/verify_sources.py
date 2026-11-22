@@ -44,7 +44,7 @@ def main():
     failed = False
     for slug, entry in registry.items():
         doc = json.load(open(os.path.join(BASE, "men", f"{slug}.json"), encoding="utf8"))
-        if entry.get("layout") in ("columns", "ebc"):
+        if entry.get("layout") in ("columns", "ebc", "esquema"):
             # PDF a dos columnas (SPEC-0036): se verifica recortando cada columna.
             fixes = json.load(open(os.path.join(BASE, entry["fixes"]), encoding="utf8")) if entry.get("fixes") else {}
             pdf = os.path.join(BASE, entry["pdf"])
@@ -52,7 +52,11 @@ def main():
                 print(f"ERR {slug}: el PDF no es el registrado (sha256 distinto)")
                 failed = True
                 continue
-            check = verify_columns.verify_ebc if entry["layout"] == "ebc" else verify_columns.verify
+            check = {
+                "ebc": verify_columns.verify_ebc,
+                "esquema": verify_columns.verify_esquema,  # DBA de Inglés 6°-11° (SPEC-0038)
+                "columns": verify_columns.verify,
+            }[entry["layout"]]
             ok = check(pdf, doc["items"], fixes)
             failed |= not ok
             print(f"{'OK ' if ok else 'ERR'} {slug}: {len(doc['items'])} ítems")

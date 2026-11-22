@@ -1,0 +1,41 @@
+{
+  "_doc": "Correcciones de DBA Inglés 6°-11° del Esquema Curricular Sugerido (SPEC-0038). replaceText: tramos escritos con una fuente que pdftotext no descifra; el texto se transcribió de la imagen de la página (pdftoppm a 150 ppp) y coincide letra por letra con lo que se ve.",
+  "replaceText": [
+    {
+      "code": "MEN-DBA-ING-ESQ-V1-G7-05",
+      "find": "[ilegible]",
+      "replace": "Reconoce información específica relacionada",
+      "reason": "Fuente ilegible para pdftotext (pág. 34, tercera viñeta de la columna central)."
+    },
+    {
+      "code": "MEN-DBA-ING-ESQ-V1-G8-03",
+      "find": "[ilegible]",
+      "replace": "Reconoce información específica",
+      "reason": "Fuente ilegible para pdftotext (pág. 35, tercera viñeta de la primera columna)."
+    },
+    {
+      "code": "MEN-DBA-ING-ESQ-V1-G8-07",
+      "find": "[ilegible]",
+      "replace": "situación o tema específico de su entorno familiar",
+      "reason": "Fuente ilegible para pdftotext (pág. 35, primera viñeta de la tercera columna)."
+    },
+    {
+      "code": "MEN-DBA-ING-ESQ-V1-G9-07",
+      "find": "[ilegible]",
+      "replace": "Identifica el propósito, las partes y tipo de",
+      "reason": "Fuente ilegible para pdftotext (pág. 36, segunda viñeta de la tercera columna)."
+    },
+    {
+      "code": "MEN-DBA-ING-ESQ-V1-G10-01",
+      "find": "[ilegible]",
+      "replace": "específica en textos de opinión",
+      "reason": "Fuente ilegible para pdftotext (pág. 37, primera viñeta de la primera columna)."
+    },
+    {
+      "code": "MEN-DBA-ING-ESQ-V1-G11-01",
+      "find": "[ilegible]",
+      "replace": "Identifica la intención de textos",
+      "reason": "Fuente ilegible para pdftotext (pág. 38, primera viñeta de la primera columna)."
+    }
+  ]
+}

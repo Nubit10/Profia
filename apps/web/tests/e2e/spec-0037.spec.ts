@@ -27,8 +27,9 @@ test("CA-0037-04: Inglés de 7° muestra sus Estándares por habilidad con las c
 }) => {
   await signUpIndependentTeacher(page);
   const refs = await openReferences(page, "Inglés", "7°", "701");
-  await expect(refs).toHaveCount(36);
-  const first = refs.first();
+  // 7 DBA de Inglés de 7° (SPEC-0038) + 36 Estándares de 6°-7°.
+  await expect(refs).toHaveCount(43);
+  const first = refs.filter({ hasText: "Estándar 1" }).first();
   await expect(first).toContainText("Escucha");
   await expect(first).toContainText("Competencias que desarrolla");
   await expect(first).toContainText("Guía 22");

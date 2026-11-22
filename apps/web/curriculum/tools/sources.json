@@ -209,5 +209,44 @@
       "sha256": "175c2d501bc77b04c246f2ada277cc7e073dc61daed5d236fd92927085d22ee9",
       "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es un estándar; en Lenguaje lo acompaña el estándar de su columna, y en Inglés, las competencias que desarrolla."
     }
+  },
+  "ebc-ciudadanas-v1": {
+    "draft": "draft/ciu.json",
+    "fixes": null,
+    "pdf": "sources/estandares-basicos-competencias.pdf",
+    "layout": "ebc",
+    "source": {
+      "key": "MEN-EBC-CIU-V1",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Estándares Básicos de Competencias Ciudadanas",
+      "documentType": "STANDARD",
+      "area": "CIUDADANAS",
+      "version": "V.1",
+      "year": 2006,
+      "isbn": "958-691-290-6",
+      "url": "https://www.mineducacion.gov.co/1621/articles-340021_recurso_1.pdf",
+      "landingUrl": "https://www.mineducacion.gov.co/portal/men/Publicaciones/Guias/340021:Estandares-Basicos-de-Competencias-en-Lenguaje-Matematicas-Ciencias-y-Ciudadanas",
+      "sha256": "163b9f20b568e1cf3ba1178da6dba07a8ec09cd08043175e4308affdc40e8703",
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es un estándar específico, con el tipo de competencia entre paréntesis como en el original; lo acompaña el estándar general de su grupo (Convivencia y paz; Participación y responsabilidad democrática; Pluralidad, identidad y valoración de las diferencias)."
+    }
+  },
+  "dba-ingles-esquema-v1": {
+    "draft": "draft/ing.json",
+    "fixes": "tools/fixes/dba-ingles-esquema-v1.json",
+    "pdf": "sources/esquema-curricular-ingles-6-11.pdf",
+    "layout": "esquema",
+    "source": {
+      "key": "MEN-DBA-ING-ESQ-V1",
+      "issuer": "Ministerio de Educación Nacional (MEN)",
+      "title": "Derechos Básicos de Aprendizaje de Inglés, grados 6° a 11° (Esquema Curricular Sugerido)",
+      "documentType": "DBA",
+      "area": "INGLES",
+      "version": "V.1",
+      "year": 2016,
+      "url": "https://eco.colombiaaprende.edu.co/wp-content/uploads/2021/09/Esquema-Curricular-Espa_RevMEN.pdf",
+      "sha256": "9061d90e458e23ed2d4c76dd03e55da2519c33de0ef0b886fa81832d75cddcd4",
+      "dbaWithoutEvidences": true,
+      "usageNote": "Texto oficial del MEN reproducido con cita de la fuente: los DBA de Inglés en su versión corta, como los presenta el Esquema Curricular Sugerido (págs. 33-38), con el nivel de inglés del grado (A1 a B1.3). Esta versión no trae evidencias de aprendizaje; las metas, funciones y objetivos por módulo se consultan en el documento original."
+    }
   }
 }

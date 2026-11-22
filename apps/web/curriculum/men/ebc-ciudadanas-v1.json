@@ -1,0 +1,2209 @@
+{
+  "source": {
+    "key": "MEN-EBC-CIU-V1",
+    "issuer": "Ministerio de Educación Nacional (MEN)",
+    "title": "Estándares Básicos de Competencias Ciudadanas",
+    "documentType": "STANDARD",
+    "area": "CIUDADANAS",
+    "version": "V.1",
+    "year": 2006,
+    "isbn": "958-691-290-6",
+    "url": "https://www.mineducacion.gov.co/1621/articles-340021_recurso_1.pdf",
+    "landingUrl": "https://www.mineducacion.gov.co/portal/men/Publicaciones/Guias/340021:Estandares-Basicos-de-Competencias-en-Lenguaje-Matematicas-Ciencias-y-Ciudadanas",
+    "sha256": "163b9f20b568e1cf3ba1178da6dba07a8ec09cd08043175e4308affdc40e8703",
+    "usageNote": "Texto oficial del MEN reproducido con cita de la fuente. Cada ítem es un estándar específico, con el tipo de competencia entre paréntesis como en el original; lo acompaña el estándar general de su grupo (Convivencia y paz; Participación y responsabilidad democrática; Pluralidad, identidad y valoración de las diferencias)."
+  },
+  "review": {
+    "status": "PENDING",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "method": "Extracción automática del PDF oficial + correcciones documentadas; pendiente revisión humana de una muestra.",
+    "pendingFixes": []
+  },
+  "items": [
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-01",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 1,
+      "component": "Convivencia y paz",
+      "statement": "Comprendo que todos los niños y niñas tenemos derecho a recibir buen trato, cuidado y amor. (Conocimientos).",
+      "evidences": [
+        "Comprendo la importancia de valores básicos de la convivencia ciudadana como la solidaridad, el cuidado, el buen trato y el respeto por mí mismo y por los demás, y los practico en mi contexto cercano (hogar, salón de clase, recreo, etc.)."
+      ],
+      "page": 170
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-02",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 2,
+      "component": "Convivencia y paz",
+      "statement": "Reconozco las emociones básicas (alegría, tristeza, rabia, temor) en mí y en las otras personas. (Competencias emocionales).",
+      "evidences": [
+        "Comprendo la importancia de valores básicos de la convivencia ciudadana como la solidaridad, el cuidado, el buen trato y el respeto por mí mismo y por los demás, y los practico en mi contexto cercano (hogar, salón de clase, recreo, etc.)."
+      ],
+      "page": 170
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-03",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 3,
+      "component": "Convivencia y paz",
+      "statement": "Expreso mis sentimientos y emociones mediante distintas formas y lenguajes (gestos, palabras, pintura, teatro, juegos, etc.). (Competencias comunicativas y emocionales).",
+      "evidences": [
+        "Comprendo la importancia de valores básicos de la convivencia ciudadana como la solidaridad, el cuidado, el buen trato y el respeto por mí mismo y por los demás, y los practico en mi contexto cercano (hogar, salón de clase, recreo, etc.)."
+      ],
+      "page": 170
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-04",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 4,
+      "component": "Convivencia y paz",
+      "statement": "Reconozco que las acciones se relacionan con las emociones y que puedo aprender a manejar mis emociones para no hacer daño a otras personas. (Competencias emocionales).",
+      "evidences": [
+        "Comprendo la importancia de valores básicos de la convivencia ciudadana como la solidaridad, el cuidado, el buen trato y el respeto por mí mismo y por los demás, y los practico en mi contexto cercano (hogar, salón de clase, recreo, etc.)."
+      ],
+      "page": 170
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-05",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 5,
+      "component": "Convivencia y paz",
+      "statement": "Comprendo que mis acciones pueden afectar a la gente cercana y que las acciones de la gente cercana pueden afectarme a mí. (Competencias cognitivas).",
+      "evidences": [
+        "Comprendo la importancia de valores básicos de la convivencia ciudadana como la solidaridad, el cuidado, el buen trato y el respeto por mí mismo y por los demás, y los practico en mi contexto cercano (hogar, salón de clase, recreo, etc.)."
+      ],
+      "page": 170
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-06",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 6,
+      "component": "Convivencia y paz",
+      "statement": "Comprendo que nada justifica el maltrato de niñas y niños y que todo maltrato se puede evitar. (Conocimientos).",
+      "evidences": [
+        "Comprendo la importancia de valores básicos de la convivencia ciudadana como la solidaridad, el cuidado, el buen trato y el respeto por mí mismo y por los demás, y los practico en mi contexto cercano (hogar, salón de clase, recreo, etc.)."
+      ],
+      "page": 170
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-07",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 7,
+      "component": "Convivencia y paz",
+      "statement": "Identifico las situaciones de maltrato que se dan en mi entorno (conmigo y con otras personas) y sé a quiénes acudir para pedir ayuda y protección. (Competencias cognitivas y conocimientos).",
+      "evidences": [
+        "Comprendo la importancia de valores básicos de la convivencia ciudadana como la solidaridad, el cuidado, el buen trato y el respeto por mí mismo y por los demás, y los practico en mi contexto cercano (hogar, salón de clase, recreo, etc.)."
+      ],
+      "page": 170
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-08",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 8,
+      "component": "Convivencia y paz",
+      "statement": "Puedo diferenciar las expresiones verdaderas de cariño de aquellas que pueden maltratarme. (Pido a los adultos que me enseñen a diferenciar las muestras verdaderamente cariñosas de las de abuso sexual o físico y que podamos hablar de esto en la casa y en el salón.) (Conocimientos).",
+      "evidences": [
+        "Comprendo la importancia de valores básicos de la convivencia ciudadana como la solidaridad, el cuidado, el buen trato y el respeto por mí mismo y por los demás, y los practico en mi contexto cercano (hogar, salón de clase, recreo, etc.)."
+      ],
+      "page": 170
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-09",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 9,
+      "component": "Convivencia y paz",
+      "statement": "Hago cosas que ayuden a aliviar el malestar de personas cercanas; manifiesto satisfacción al preocuparme por sus necesidades. (Competencias integradoras).",
+      "evidences": [
+        "Comprendo la importancia de valores básicos de la convivencia ciudadana como la solidaridad, el cuidado, el buen trato y el respeto por mí mismo y por los demás, y los practico en mi contexto cercano (hogar, salón de clase, recreo, etc.)."
+      ],
+      "page": 170
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-10",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 10,
+      "component": "Convivencia y paz",
+      "statement": "Comprendo que las normas ayudan a promover el buen trato y evitar el maltrato en el juego y en la vida escolar. (Conocimientos).",
+      "evidences": [
+        "Comprendo la importancia de valores básicos de la convivencia ciudadana como la solidaridad, el cuidado, el buen trato y el respeto por mí mismo y por los demás, y los practico en mi contexto cercano (hogar, salón de clase, recreo, etc.)."
+      ],
+      "page": 170
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-11",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 11,
+      "component": "Convivencia y paz",
+      "statement": "Identifico cómo me siento yo o las personas cercanas cuando no recibimos buen trato y expreso empatía, es decir, sentimientos parecidos o compatibles con los de otros. (Estoy triste porque a Juan le pegaron.) (Competencias emocionales).",
+      "evidences": [
+        "Comprendo la importancia de valores básicos de la convivencia ciudadana como la solidaridad, el cuidado, el buen trato y el respeto por mí mismo y por los demás, y los practico en mi contexto cercano (hogar, salón de clase, recreo, etc.)."
+      ],
+      "page": 170
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-12",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 12,
+      "component": "Convivencia y paz",
+      "statement": "Conozco y respeto las reglas básicas del diálogo, como el uso de la palabra y el respeto por la palabra de la otra persona. (Clave: practico lo que he aprendido en otras áreas sobre la comunicación, los mensajes y la escucha activa). (Competencias comunicativas).",
+      "evidences": [
+        "Comprendo la importancia de valores básicos de la convivencia ciudadana como la solidaridad, el cuidado, el buen trato y el respeto por mí mismo y por los demás, y los practico en mi contexto cercano (hogar, salón de clase, recreo, etc.)."
+      ],
+      "page": 170
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-13",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 13,
+      "component": "Convivencia y paz",
+      "statement": "Conozco y uso estrategias sencillas de resolución pacífica de conflictos. (¿Cómo establecer un acuerdo creativo para usar nuestro único balón en los recreos... sin jugar siempre al mismo juego?). (Conocimientos y competencias integradoras).",
+      "evidences": [
+        "Comprendo la importancia de valores básicos de la convivencia ciudadana como la solidaridad, el cuidado, el buen trato y el respeto por mí mismo y por los demás, y los practico en mi contexto cercano (hogar, salón de clase, recreo, etc.)."
+      ],
+      "page": 170
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-14",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 14,
+      "component": "Convivencia y paz",
+      "statement": "Conozco las señales y las normas básicas de tránsito para desplazarme con seguridad. (Conocimientos).",
+      "evidences": [
+        "Comprendo la importancia de valores básicos de la convivencia ciudadana como la solidaridad, el cuidado, el buen trato y el respeto por mí mismo y por los demás, y los practico en mi contexto cercano (hogar, salón de clase, recreo, etc.)."
+      ],
+      "page": 170
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-15",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 15,
+      "component": "Convivencia y paz",
+      "statement": "Me preocupo porque los animales, las plantas y los recursos del medio ambiente reciban buen trato. (Competencias cognitivas y emocionales).",
+      "evidences": [
+        "Comprendo la importancia de valores básicos de la convivencia ciudadana como la solidaridad, el cuidado, el buen trato y el respeto por mí mismo y por los demás, y los practico en mi contexto cercano (hogar, salón de clase, recreo, etc.)."
+      ],
+      "page": 170
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-16",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 16,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Expreso mis ideas, sentimientos e intereses en el salón y escucho respetuosamente los de los demás miembros del grupo. (Competencias comunicativas y emocionales).",
+      "evidences": [
+        "Participo, en mi contexto cercano (con mi familia y compañeros), en la construcción de acuerdos básicos sobre normas para el logro de metas comunes y las cumplo."
+      ],
+      "page": 171
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-17",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 17,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Manifiesto mi punto de vista cuando se toman decisiones colectivas en la casa y en la vida escolar. (Competencias comunicativas).",
+      "evidences": [
+        "Participo, en mi contexto cercano (con mi familia y compañeros), en la construcción de acuerdos básicos sobre normas para el logro de metas comunes y las cumplo."
+      ],
+      "page": 171
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-18",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 18,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Reconozco que emociones como el temor o la rabia pueden afectar mi participación en clase. (Competencias emocionales).",
+      "evidences": [
+        "Participo, en mi contexto cercano (con mi familia y compañeros), en la construcción de acuerdos básicos sobre normas para el logro de metas comunes y las cumplo."
+      ],
+      "page": 171
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-19",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 19,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Manifiesto desagrado cuando a mí o a alguien del salón no nos escuchan o no nos toman en cuenta y lo expreso... sin agredir. (Competencias comunicativas y emocionales).",
+      "evidences": [
+        "Participo, en mi contexto cercano (con mi familia y compañeros), en la construcción de acuerdos básicos sobre normas para el logro de metas comunes y las cumplo."
+      ],
+      "page": 171
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-20",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 20,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Comprendo qué es una norma y qué es un acuerdo. (Conocimientos).",
+      "evidences": [
+        "Participo, en mi contexto cercano (con mi familia y compañeros), en la construcción de acuerdos básicos sobre normas para el logro de metas comunes y las cumplo."
+      ],
+      "page": 171
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-21",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 21,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Entiendo el sentido de las acciones reparadoras, es decir, de las acciones que buscan enmendar el daño causado cuando incumplo normas o acuerdos. (Competencias cognitivas).",
+      "evidences": [
+        "Participo, en mi contexto cercano (con mi familia y compañeros), en la construcción de acuerdos básicos sobre normas para el logro de metas comunes y las cumplo."
+      ],
+      "page": 171
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-22",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 22,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Colaboro activamente para el logro de metas comunes en mi salón y reconozco la importancia que tienen las normas para lograr esas metas. (Por ejemplo, en nuestro proyecto para la Feria de la Ciencia). (Competencias integradoras).",
+      "evidences": [
+        "Participo, en mi contexto cercano (con mi familia y compañeros), en la construcción de acuerdos básicos sobre normas para el logro de metas comunes y las cumplo."
+      ],
+      "page": 171
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-23",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 23,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Participo en los procesos de elección de representantes estudiantiles, conociendo bien cada propuesta antes de elegir. (Competencias integradoras).",
+      "evidences": [
+        "Participo, en mi contexto cercano (con mi familia y compañeros), en la construcción de acuerdos básicos sobre normas para el logro de metas comunes y las cumplo."
+      ],
+      "page": 171
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-24",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 24,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Identifico las diferencias y semejanzas de género, aspectos físicos, grupo étnico, origen social, costumbres, gustos, ideas y tantas otras que hay entre las demás personas y yo. (Competencias cognitivas y conocimientos).",
+      "evidences": [
+        "Identifico y respeto las diferencias y semejanzas entre los demás y yo, y rechazo situaciones de exclusión o discriminación en mi familia, con mis amigas y amigos y en mi salón."
+      ],
+      "page": 171
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-25",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 25,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Reconozco y acepto la existencia de grupos con diversas características de etnia, edad, género, oficio, lugar, situación socioeconómica, etc. (Competencias cognitivas y conocimientos).",
+      "evidences": [
+        "Identifico y respeto las diferencias y semejanzas entre los demás y yo, y rechazo situaciones de exclusión o discriminación en mi familia, con mis amigas y amigos y en mi salón."
+      ],
+      "page": 171
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-26",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 26,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Valoro las semejanzas y diferencias de gente cercana. (¿Qué tal si me detengo a escuchar sus historias de vida?). (Competencias emocionales y comunicativas).",
+      "evidences": [
+        "Identifico y respeto las diferencias y semejanzas entre los demás y yo, y rechazo situaciones de exclusión o discriminación en mi familia, con mis amigas y amigos y en mi salón."
+      ],
+      "page": 171
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-27",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 27,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Identifico las ocasiones en que mis amigos/as o yo hemos hecho sentir mal a alguien excluyéndolo, burlándonos o poniéndole apodos ofensivos. (Competencias cognitivas).",
+      "evidences": [
+        "Identifico y respeto las diferencias y semejanzas entre los demás y yo, y rechazo situaciones de exclusión o discriminación en mi familia, con mis amigas y amigos y en mi salón."
+      ],
+      "page": 171
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-28",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 28,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Manifiesto desagrado cuando me excluyen o excluyen a alguien por su género, etnia, condición social y características físicas, y lo digo respetuosamente. (Competencias emocionales y comunicativas).",
+      "evidences": [
+        "Identifico y respeto las diferencias y semejanzas entre los demás y yo, y rechazo situaciones de exclusión o discriminación en mi familia, con mis amigas y amigos y en mi salón."
+      ],
+      "page": 171
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G1A3-29",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G1",
+      "gradeTo": "G3",
+      "number": 29,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Comparo cómo me siento cuando me discriminan o me excluyen... y cómo, cuando me aceptan. Así puedo explicar por qué es importante aceptar a las personas. (Competencias cognitivas).",
+      "evidences": [
+        "Identifico y respeto las diferencias y semejanzas entre los demás y yo, y rechazo situaciones de exclusión o discriminación en mi familia, con mis amigas y amigos y en mi salón."
+      ],
+      "page": 171
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-01",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 1,
+      "component": "Convivencia y paz",
+      "statement": "Entiendo que los conflictos son parte de las relaciones, pero que tener conflictos no significa que dejemos de ser amigos o querernos. (Conocimientos).",
+      "evidences": [
+        "Asumo, de manera pacífica y constructiva, los conflictos cotidianos en mi vida escolar y familiar y contribuyo a la protección de los derechos de las niñas y los niños."
+      ],
+      "page": 172
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-02",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 2,
+      "component": "Convivencia y paz",
+      "statement": "Conozco la diferencia entre conflicto y agresión, y comprendo que la agresión (no los conflictos) es lo que puede hacerle daño a las relaciones. (Conocimientos).",
+      "evidences": [
+        "Asumo, de manera pacífica y constructiva, los conflictos cotidianos en mi vida escolar y familiar y contribuyo a la protección de los derechos de las niñas y los niños."
+      ],
+      "page": 172
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-03",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 3,
+      "component": "Convivencia y paz",
+      "statement": "Identifico los puntos de vista de la gente con la que tengo conflictos poniéndome en su lugar. (Competencias cognitivas).",
+      "evidences": [
+        "Asumo, de manera pacífica y constructiva, los conflictos cotidianos en mi vida escolar y familiar y contribuyo a la protección de los derechos de las niñas y los niños."
+      ],
+      "page": 172
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-04",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 4,
+      "component": "Convivencia y paz",
+      "statement": "Identifico las ocasiones en que actúo en contra de los derechos de otras personas y comprendo por qué esas acciones vulneran sus derechos. (Competencias cognitivas).",
+      "evidences": [
+        "Asumo, de manera pacífica y constructiva, los conflictos cotidianos en mi vida escolar y familiar y contribuyo a la protección de los derechos de las niñas y los niños."
+      ],
+      "page": 172
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-05",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 5,
+      "component": "Convivencia y paz",
+      "statement": "Expongo mis posiciones y escucho las posiciones ajenas, en situaciones de conflicto. (Competencias comunicativas).",
+      "evidences": [
+        "Asumo, de manera pacífica y constructiva, los conflictos cotidianos en mi vida escolar y familiar y contribuyo a la protección de los derechos de las niñas y los niños."
+      ],
+      "page": 172
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-06",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 6,
+      "component": "Convivencia y paz",
+      "statement": "Identifico múltiples opciones para manejar mis conflictos y veo las posibles consecuencias de cada opción. (Competencias cognitivas).",
+      "evidences": [
+        "Asumo, de manera pacífica y constructiva, los conflictos cotidianos en mi vida escolar y familiar y contribuyo a la protección de los derechos de las niñas y los niños."
+      ],
+      "page": 172
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-07",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 7,
+      "component": "Convivencia y paz",
+      "statement": "Utilizo mecanismos para manejar mi rabia. (Ideas para tranquilizarme: respirar profundo, alejarme de la situación, contar hasta diez o...). (Competencias emocionales).",
+      "evidences": [
+        "Asumo, de manera pacífica y constructiva, los conflictos cotidianos en mi vida escolar y familiar y contribuyo a la protección de los derechos de las niñas y los niños."
+      ],
+      "page": 172
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-08",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 8,
+      "component": "Convivencia y paz",
+      "statement": "Pido disculpas a quienes he hecho daño (así no haya tenido intención) y logro perdonar cuando me ofenden. (Competencias integradoras).",
+      "evidences": [
+        "Asumo, de manera pacífica y constructiva, los conflictos cotidianos en mi vida escolar y familiar y contribuyo a la protección de los derechos de las niñas y los niños."
+      ],
+      "page": 172
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-09",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 9,
+      "component": "Convivencia y paz",
+      "statement": "Puedo actuar en forma asertiva (es decir, sin agresión pero con claridad y eficacia) para frenar situaciones de abuso en mi vida escolar. (Por ejemplo, cuando se maltrata repetidamente a algún compañero indefenso). (Competencias integradoras).",
+      "evidences": [
+        "Asumo, de manera pacífica y constructiva, los conflictos cotidianos en mi vida escolar y familiar y contribuyo a la protección de los derechos de las niñas y los niños."
+      ],
+      "page": 172
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-10",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 10,
+      "component": "Convivencia y paz",
+      "statement": "Reconozco cómo se sienten otras personas cuando son agredidas o se vulneran sus derechos y contribuyo a aliviar su malestar. (Competencias emocionales e integradoras).",
+      "evidences": [
+        "Asumo, de manera pacífica y constructiva, los conflictos cotidianos en mi vida escolar y familiar y contribuyo a la protección de los derechos de las niñas y los niños."
+      ],
+      "page": 172
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-11",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 11,
+      "component": "Convivencia y paz",
+      "statement": "Conozco los derechos fundamentales de los niños y las niñas. (A tener nombre, nacionalidad, familia, cuidado, amor, salud, educación, recreación, alimentación y libre expresión…). (Conocimientos).",
+      "evidences": [
+        "Asumo, de manera pacífica y constructiva, los conflictos cotidianos en mi vida escolar y familiar y contribuyo a la protección de los derechos de las niñas y los niños."
+      ],
+      "page": 172
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-12",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 12,
+      "component": "Convivencia y paz",
+      "statement": "Identifico las instituciones y autoridades a las que puedo acudir para pedir la protección y defensa de los derechos de los niños y las niñas y busco apoyo, cuando es necesario. (Competencias cognitivas).",
+      "evidences": [
+        "Asumo, de manera pacífica y constructiva, los conflictos cotidianos en mi vida escolar y familiar y contribuyo a la protección de los derechos de las niñas y los niños."
+      ],
+      "page": 172
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-13",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 13,
+      "component": "Convivencia y paz",
+      "statement": "Reconozco el valor de las normas y los acuerdos para la convivencia en la familia, en el medio escolar y en otras situaciones. (Competencias integradoras).",
+      "evidences": [
+        "Asumo, de manera pacífica y constructiva, los conflictos cotidianos en mi vida escolar y familiar y contribuyo a la protección de los derechos de las niñas y los niños."
+      ],
+      "page": 172
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-14",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 14,
+      "component": "Convivencia y paz",
+      "statement": "Reconozco que tengo derecho a mi privacidad e intimidad; exijo el respeto a ello. (Competencias integradoras).",
+      "evidences": [
+        "Asumo, de manera pacífica y constructiva, los conflictos cotidianos en mi vida escolar y familiar y contribuyo a la protección de los derechos de las niñas y los niños."
+      ],
+      "page": 172
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-15",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 15,
+      "component": "Convivencia y paz",
+      "statement": "¡Me cuido a mí mismo! Comprendo que cuidarme y tener hábitos saludables favorece mi bienestar y mis relaciones. (Competencias integradoras).",
+      "evidences": [
+        "Asumo, de manera pacífica y constructiva, los conflictos cotidianos en mi vida escolar y familiar y contribuyo a la protección de los derechos de las niñas y los niños."
+      ],
+      "page": 172
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-16",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 16,
+      "component": "Convivencia y paz",
+      "statement": "Ayudo a cuidar las plantas, los animales y el medio ambiente en mi entorno cercano. (Competencias integradoras).",
+      "evidences": [
+        "Asumo, de manera pacífica y constructiva, los conflictos cotidianos en mi vida escolar y familiar y contribuyo a la protección de los derechos de las niñas y los niños."
+      ],
+      "page": 172
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-17",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 17,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Conozco y sé usar los mecanismos de participación estudiantil de mi medio escolar. (Conocimientos y competencias integradoras).",
+      "evidences": [
+        "Participo constructivamente en procesos democráticos en mi salón y en el medio escolar."
+      ],
+      "page": 173
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-18",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 18,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Conozco las funciones del gobierno escolar y el manual de convivencia. (Conocimientos).",
+      "evidences": [
+        "Participo constructivamente en procesos democráticos en mi salón y en el medio escolar."
+      ],
+      "page": 173
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-19",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 19,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Identifico y expreso, con mis propias palabras, las ideas y los deseos de quienes participamos en la toma de decisiones, en el salón y en el medio escolar. (Conocimientos y competencias comunicativas).",
+      "evidences": [
+        "Participo constructivamente en procesos democráticos en mi salón y en el medio escolar."
+      ],
+      "page": 173
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-20",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 20,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Expreso, en forma asertiva, mis puntos de vista e intereses en las discusiones grupales. (Competencias comunicativas).",
+      "evidences": [
+        "Participo constructivamente en procesos democráticos en mi salón y en el medio escolar."
+      ],
+      "page": 173
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-21",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 21,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Identifico y manejo mis emociones, como el temor a participar o la rabia, durante las discusiones grupales. (Busco fórmulas secretas para tranquilizarme). (Competencias emocionales).",
+      "evidences": [
+        "Participo constructivamente en procesos democráticos en mi salón y en el medio escolar."
+      ],
+      "page": 173
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-22",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 22,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Propongo distintas opciones cuando tomamos decisiones en el salón y en la vida escolar. (Competencias comunicativas).",
+      "evidences": [
+        "Participo constructivamente en procesos democráticos en mi salón y en el medio escolar."
+      ],
+      "page": 173
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-23",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 23,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Coopero y muestro solidaridad con mis compañeros y mis compañeras; trabajo constructivamente en equipo. (Competencias integradoras).",
+      "evidences": [
+        "Participo constructivamente en procesos democráticos en mi salón y en el medio escolar."
+      ],
+      "page": 173
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-24",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 24,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Participo con mis profesores, compañeros y compañeras en proyectos colectivos orientados al bien común y a la solidaridad. (Competencias integradoras).",
+      "evidences": [
+        "Participo constructivamente en procesos democráticos en mi salón y en el medio escolar."
+      ],
+      "page": 173
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-25",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 25,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Reconozco la importancia de la creación de obras de todo tipo, tales como las literarias y artísticas y, por ende, la importancia del respeto al derecho de autor. (Competencias cognitivas y conocimientos).",
+      "evidences": [
+        "Participo constructivamente en procesos democráticos en mi salón y en el medio escolar."
+      ],
+      "page": 173
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-26",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 26,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Reconozco que todos los niños y las niñas somos personas con el mismo valor y los mismos derechos. (Conocimientos).",
+      "evidences": [
+        "Reconozco y rechazo las situaciones de exclusión o discriminación en mi medio escolar."
+      ],
+      "page": 173
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-27",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 27,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Reconozco lo distintas que somos las personas y comprendo que esas diferencias son oportunidades para construir nuevos conocimientos y relaciones y hacer que la vida sea más interesante y divertida. (Competencias cognitivas y conocimientos).",
+      "evidences": [
+        "Reconozco y rechazo las situaciones de exclusión o discriminación en mi medio escolar."
+      ],
+      "page": 173
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-28",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 28,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Identifico mi origen cultural y reconozco y respeto las semejanzas y diferencias con el origen cultural de otra gente. (Al salón llegó una niña de otro lado: habla distinto y me enseña nuevas palabras). (Competencias cognitivas).",
+      "evidences": [
+        "Reconozco y rechazo las situaciones de exclusión o discriminación en mi medio escolar."
+      ],
+      "page": 173
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-29",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 29,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Identifico algunas formas de discriminación en mi escuela (por género, religión, etnia, edad, cultura, aspectos económicos o sociales, capacidades o limitaciones individuales) y colaboro con acciones, normas o acuerdos para evitarlas. (Competencias cognitivas e integradoras).",
+      "evidences": [
+        "Reconozco y rechazo las situaciones de exclusión o discriminación en mi medio escolar."
+      ],
+      "page": 173
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-30",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 30,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Identifico mis sentimientos cuando me excluyen o discriminan y entiendo lo que pueden sentir otras personas en esas mismas situaciones. (Competencias emocionales).",
+      "evidences": [
+        "Reconozco y rechazo las situaciones de exclusión o discriminación en mi medio escolar."
+      ],
+      "page": 173
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-31",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 31,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Expreso empatía (sentimientos parecidos o compatibles con los de otros) frente a personas excluidas o discriminadas. (Competencias emocionales).",
+      "evidences": [
+        "Reconozco y rechazo las situaciones de exclusión o discriminación en mi medio escolar."
+      ],
+      "page": 173
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G4A5-32",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G4",
+      "gradeTo": "G5",
+      "number": 32,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Identifico y reflexiono acerca de las consecuencias de la discriminación en las personas y en la convivencia escolar. (Competencias cognitivas).",
+      "evidences": [
+        "Reconozco y rechazo las situaciones de exclusión o discriminación en mi medio escolar."
+      ],
+      "page": 173
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-01",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 1,
+      "component": "Convivencia y paz",
+      "statement": "Conozco procesos y técnicas de mediación de conflictos. (Conocimientos).",
+      "evidences": [
+        "Contribuyo, de manera constructiva, a la convivencia en mi medio escolar y en mi comunidad (barrio o vereda)."
+      ],
+      "page": 174
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-02",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 2,
+      "component": "Convivencia y paz",
+      "statement": "Sirvo de mediador en conflictos entre compañeros y compañeras, cuando me autorizan, fomentando el diálogo y el entendimiento. (Competencias integradoras).",
+      "evidences": [
+        "Contribuyo, de manera constructiva, a la convivencia en mi medio escolar y en mi comunidad (barrio o vereda)."
+      ],
+      "page": 174
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-03",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 3,
+      "component": "Convivencia y paz",
+      "statement": "Apelo a la mediación escolar, si considero que necesito ayuda para resolver conflictos. (Competencias integradoras).",
+      "evidences": [
+        "Contribuyo, de manera constructiva, a la convivencia en mi medio escolar y en mi comunidad (barrio o vereda)."
+      ],
+      "page": 174
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-04",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 4,
+      "component": "Convivencia y paz",
+      "statement": "Reconozco el conflicto como una oportunidad para aprender y fortalecer nuestras relaciones. (Competencias cognitivas).",
+      "evidences": [
+        "Contribuyo, de manera constructiva, a la convivencia en mi medio escolar y en mi comunidad (barrio o vereda)."
+      ],
+      "page": 174
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-05",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 5,
+      "component": "Convivencia y paz",
+      "statement": "Identifico las necesidades y los puntos de vista de personas o grupos en una situación de conflicto, en la que no estoy involucrado. (En un problema, escucho a cada cual para entender sus opiniones.) (Competencias cognitivas).",
+      "evidences": [
+        "Contribuyo, de manera constructiva, a la convivencia en mi medio escolar y en mi comunidad (barrio o vereda)."
+      ],
+      "page": 174
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-06",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 6,
+      "component": "Convivencia y paz",
+      "statement": "Comprendo que las intenciones de la gente, muchas veces, son mejores de lo que yo inicialmente pensaba; también veo que hay situaciones en las que alguien puede hacerme daño sin intención. (Competencias cognitivas).",
+      "evidences": [
+        "Contribuyo, de manera constructiva, a la convivencia en mi medio escolar y en mi comunidad (barrio o vereda)."
+      ],
+      "page": 174
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-07",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 7,
+      "component": "Convivencia y paz",
+      "statement": "Comprendo que el engaño afecta la confianza entre las personas y reconozco la importancia de recuperar la confianza cuando se ha perdido. (Competencias integradoras).",
+      "evidences": [
+        "Contribuyo, de manera constructiva, a la convivencia en mi medio escolar y en mi comunidad (barrio o vereda)."
+      ],
+      "page": 174
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-08",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 8,
+      "component": "Convivencia y paz",
+      "statement": "Comprendo la importancia de brindar apoyo a la gente que está en una situación difícil. (Por ejemplo, por razones emocionales, económicas, de salud o sociales). (Competencias integradoras).",
+      "evidences": [
+        "Contribuyo, de manera constructiva, a la convivencia en mi medio escolar y en mi comunidad (barrio o vereda)."
+      ],
+      "page": 174
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-09",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 9,
+      "component": "Convivencia y paz",
+      "statement": "Comprendo que todas las familias tienen derecho al trabajo, la salud, la vivienda, la propiedad, la educación y la recreación. (Conocimientos).",
+      "evidences": [
+        "Contribuyo, de manera constructiva, a la convivencia en mi medio escolar y en mi comunidad (barrio o vereda)."
+      ],
+      "page": 174
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-10",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 10,
+      "component": "Convivencia y paz",
+      "statement": "Reflexiono sobre el uso del poder y la autoridad en mi entorno y expreso pacíficamente mi desacuerdo cuando considero que hay injusticias. (Competencias cognitivas y comunicativas).",
+      "evidences": [
+        "Contribuyo, de manera constructiva, a la convivencia en mi medio escolar y en mi comunidad (barrio o vereda)."
+      ],
+      "page": 174
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-11",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 11,
+      "component": "Convivencia y paz",
+      "statement": "Comprendo la importancia de los derechos sexuales y reproductivos y analizo sus implicaciones en mi vida. (Por ejemplo, el derecho a la planificación familiar). (Conocimientos y competencias integradoras).",
+      "evidences": [
+        "Contribuyo, de manera constructiva, a la convivencia en mi medio escolar y en mi comunidad (barrio o vereda)."
+      ],
+      "page": 174
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-12",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 12,
+      "component": "Convivencia y paz",
+      "statement": "Promuevo el respeto a la vida, frente a riesgos como ignorar señales de tránsito, portar armas, conducir a alta velocidad o habiendo consumido alcohol; sé qué medidas tomar para actuar con responsabilidad frente a un accidente. (Competencias integradoras).",
+      "evidences": [
+        "Contribuyo, de manera constructiva, a la convivencia en mi medio escolar y en mi comunidad (barrio o vereda)."
+      ],
+      "page": 174
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-13",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 13,
+      "component": "Convivencia y paz",
+      "statement": "Comprendo que el espacio público es patrimonio de todos y todas y, por eso, lo cuido y respeto. (Competencias integradoras).",
+      "evidences": [
+        "Contribuyo, de manera constructiva, a la convivencia en mi medio escolar y en mi comunidad (barrio o vereda)."
+      ],
+      "page": 174
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-14",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 14,
+      "component": "Convivencia y paz",
+      "statement": "Reconozco que los seres vivos y el medio ambiente son un recurso único e irrepetible que merece mi respeto y consideración. (Competencias integradoras).",
+      "evidences": [
+        "Contribuyo, de manera constructiva, a la convivencia en mi medio escolar y en mi comunidad (barrio o vereda)."
+      ],
+      "page": 174
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-15",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 15,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Conozco la Declaración Universal de los Derechos Humanos y su relación con los derechos fundamentales enunciados en la Constitución. (Conocimientos).",
+      "evidences": [
+        "Identifico y rechazo las situaciones en las que se vulneran los derechos fundamentales y utilizo formas y mecanismos de participación democrática en mi medio escolar."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-16",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 16,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Conozco los mecanismos constitucionales que protegen los derechos fundamentales (como la tutela) y comprendo cómo se aplican. (Conocimientos).",
+      "evidences": [
+        "Identifico y rechazo las situaciones en las que se vulneran los derechos fundamentales y utilizo formas y mecanismos de participación democrática en mi medio escolar."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-17",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 17,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Analizo el manual de convivencia y las normas de mi institución; las cumplo voluntariamente y participo de manera pacífica en su transformación cuando las considero injustas. (Competencias cognitivas e integradoras).",
+      "evidences": [
+        "Identifico y rechazo las situaciones en las que se vulneran los derechos fundamentales y utilizo formas y mecanismos de participación democrática en mi medio escolar."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-18",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 18,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Exijo el cumplimiento de las normas y los acuerdos por parte de las autoridades, de mis compañeros y de mí mismo(a). (Competencias integradoras).",
+      "evidences": [
+        "Identifico y rechazo las situaciones en las que se vulneran los derechos fundamentales y utilizo formas y mecanismos de participación democrática en mi medio escolar."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-19",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 19,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Manifiesto indignación (rechazo, dolor, rabia) cuando se vulneran las libertades de las personas y acudo a las autoridades apropiadas. (Competencias emocionales e integradoras).",
+      "evidences": [
+        "Identifico y rechazo las situaciones en las que se vulneran los derechos fundamentales y utilizo formas y mecanismos de participación democrática en mi medio escolar."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-20",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 20,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Analizo cómo mis pensamientos y emociones influyen en mi participación en las decisiones colectivas. (Competencias cognitivas y emocionales).",
+      "evidences": [
+        "Identifico y rechazo las situaciones en las que se vulneran los derechos fundamentales y utilizo formas y mecanismos de participación democrática en mi medio escolar."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-21",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 21,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Identifico decisiones colectivas en las que intereses de diferentes personas están en conflicto y propongo alternativas de solución que tengan en cuenta esos intereses. (Competencias cognitivas).",
+      "evidences": [
+        "Identifico y rechazo las situaciones en las que se vulneran los derechos fundamentales y utilizo formas y mecanismos de participación democrática en mi medio escolar."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-22",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 22,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Preveo las consecuencias que pueden tener, sobre mí y sobre los demás, las diversas alternativas de acción propuestas frente a una decisión colectiva. (Competencias cognitivas).",
+      "evidences": [
+        "Identifico y rechazo las situaciones en las que se vulneran los derechos fundamentales y utilizo formas y mecanismos de participación democrática en mi medio escolar."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-23",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 23,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Escucho y expreso, con mis palabras, las razones de mis compañeros(as) durante discusiones grupales, incluso cuando no estoy de acuerdo. (Competencias comunicativas).",
+      "evidences": [
+        "Identifico y rechazo las situaciones en las que se vulneran los derechos fundamentales y utilizo formas y mecanismos de participación democrática en mi medio escolar."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-24",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 24,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Uso mi libertad de expresión y respeto las opiniones ajenas. (Competencias comunicativas e integradoras).",
+      "evidences": [
+        "Identifico y rechazo las situaciones en las que se vulneran los derechos fundamentales y utilizo formas y mecanismos de participación democrática en mi medio escolar."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-25",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 25,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Comprendo que el disenso y la discusión constructiva contribuyen al progreso del grupo. (Competencias comunicativas).",
+      "evidences": [
+        "Identifico y rechazo las situaciones en las que se vulneran los derechos fundamentales y utilizo formas y mecanismos de participación democrática en mi medio escolar."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-26",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 26,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Comprendo la importancia de participar en el gobierno escolar y de hacer seguimiento a sus representantes. (Competencias integradoras).",
+      "evidences": [
+        "Identifico y rechazo las situaciones en las que se vulneran los derechos fundamentales y utilizo formas y mecanismos de participación democrática en mi medio escolar."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-27",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 27,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Comprendo que, según la Declaración Universal de los Derechos Humanos y la Constitución Nacional, las personas tenemos derecho a no ser discriminadas. (Conocimientos).",
+      "evidences": [
+        "Identifico y rechazo las diversas formas de discriminación en mi medio escolar y en mi comunidad, y analizo críticamente las razones que pueden favorecer estas discriminaciones."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-28",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 28,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Reconozco que los derechos se basan en la igualdad de los seres humanos, aunque cada uno sea, se exprese y viva de manera diferente. (Conocimientos).",
+      "evidences": [
+        "Identifico y rechazo las diversas formas de discriminación en mi medio escolar y en mi comunidad, y analizo críticamente las razones que pueden favorecer estas discriminaciones."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-29",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 29,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Reconozco que pertenezco a diversos grupos (familia, colegio, barrio, región, país, etc.) y entiendo que eso hace parte de mi identidad. (Competencias cognitivas).",
+      "evidences": [
+        "Identifico y rechazo las diversas formas de discriminación en mi medio escolar y en mi comunidad, y analizo críticamente las razones que pueden favorecer estas discriminaciones."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-30",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 30,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Respeto y defiendo las libertades de las personas: libertad de expresión, de conciencia, de pensamiento, de culto y de libre desarrollo de la personalidad. (Competencias integradoras).",
+      "evidences": [
+        "Identifico y rechazo las diversas formas de discriminación en mi medio escolar y en mi comunidad, y analizo críticamente las razones que pueden favorecer estas discriminaciones."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-31",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 31,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Comprendo que existen diversas formas de expresar las identidades (por ejemplo, la apariencia física, la expresión artística y verbal, y tantas otras...) y las respeto. (Competencias comunicativas).",
+      "evidences": [
+        "Identifico y rechazo las diversas formas de discriminación en mi medio escolar y en mi comunidad, y analizo críticamente las razones que pueden favorecer estas discriminaciones."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-32",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 32,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Comprendo que cuando las personas son discriminadas, su autoestima y sus relaciones con los demás se ven afectadas. (Competencias cognitivas).",
+      "evidences": [
+        "Identifico y rechazo las diversas formas de discriminación en mi medio escolar y en mi comunidad, y analizo críticamente las razones que pueden favorecer estas discriminaciones."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-33",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 33,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Identifico mis emociones ante personas o grupos que tienen intereses o gustos distintos a los míos y pienso cómo eso influye en mi trato hacia ellos. (Competencias emocionales y cognitivas).",
+      "evidences": [
+        "Identifico y rechazo las diversas formas de discriminación en mi medio escolar y en mi comunidad, y analizo críticamente las razones que pueden favorecer estas discriminaciones."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-34",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 34,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Analizo de manera crítica mis pensamientos y acciones cuando estoy en una situación de discriminación y establezco si estoy apoyando o impidiendo dicha situación con mis acciones u omisiones. (Competencias cognitivas).",
+      "evidences": [
+        "Identifico y rechazo las diversas formas de discriminación en mi medio escolar y en mi comunidad, y analizo críticamente las razones que pueden favorecer estas discriminaciones."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-35",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 35,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Actúo con independencia frente a situaciones en las que favorecer a personas excluidas puede afectar mi imagen ante el grupo. (Competencias integradoras).",
+      "evidences": [
+        "Identifico y rechazo las diversas formas de discriminación en mi medio escolar y en mi comunidad, y analizo críticamente las razones que pueden favorecer estas discriminaciones."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G6A7-36",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G6",
+      "gradeTo": "G7",
+      "number": 36,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Reconozco que los niños, las niñas, los ancianos y las personas discapacitadas merecen cuidado especial, tanto en espacios públicos como privados. (Competencias integradoras).",
+      "evidences": [
+        "Identifico y rechazo las diversas formas de discriminación en mi medio escolar y en mi comunidad, y analizo críticamente las razones que pueden favorecer estas discriminaciones."
+      ],
+      "page": 175
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-01",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 1,
+      "component": "Convivencia y paz",
+      "statement": "Entiendo la importancia de mantener expresiones de afecto y cuidado mutuo con mis familiares, amigos, amigas y pareja, a pesar de las diferencias, disgustos o conflictos. (Competencias integradoras).",
+      "evidences": [
+        "Construyo relaciones pacíficas que contribuyen a la convivencia cotidiana en mi comunidad y municipio."
+      ],
+      "page": 176
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-02",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 2,
+      "component": "Convivencia y paz",
+      "statement": "Comprendo que los conflictos ocurren en las relaciones, incluyendo las de pareja, y que se pueden manejar de manera constructiva si nos escuchamos y comprendemos los puntos de vista del otro. (Competencias cognitivas y comunicativas).",
+      "evidences": [
+        "Construyo relaciones pacíficas que contribuyen a la convivencia cotidiana en mi comunidad y municipio."
+      ],
+      "page": 176
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-03",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 3,
+      "component": "Convivencia y paz",
+      "statement": "Identifico y supero emociones, como el resentimiento y el odio, para poder perdonar y reconciliarme con quienes he tenido conflictos. (Competencias emocionales).",
+      "evidences": [
+        "Construyo relaciones pacíficas que contribuyen a la convivencia cotidiana en mi comunidad y municipio."
+      ],
+      "page": 176
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-04",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 4,
+      "component": "Convivencia y paz",
+      "statement": "Utilizo mecanismos constructivos para encauzar mi rabia y enfrentar mis conflictos. (Ideas: detenerme y pensar; desahogarme haciendo ejercicio o hablar con alguien). (Competencias emocionales).",
+      "evidences": [
+        "Construyo relaciones pacíficas que contribuyen a la convivencia cotidiana en mi comunidad y municipio."
+      ],
+      "page": 176
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-05",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 5,
+      "component": "Convivencia y paz",
+      "statement": "Preveo las consecuencias, a corto y largo plazo, de mis acciones y evito aquellas que pueden causarme sufrimiento o hacérselo a otras personas, cercanas o lejanas. (Competencias cognitivas).",
+      "evidences": [
+        "Construyo relaciones pacíficas que contribuyen a la convivencia cotidiana en mi comunidad y municipio."
+      ],
+      "page": 176
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-06",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 6,
+      "component": "Convivencia y paz",
+      "statement": "Conozco y utilizo estrategias creativas para solucionar conflictos. (Por ejemplo, la lluvia de ideas). (Competencias cognitivas y conocimientos).",
+      "evidences": [
+        "Construyo relaciones pacíficas que contribuyen a la convivencia cotidiana en mi comunidad y municipio."
+      ],
+      "page": 176
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-07",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 7,
+      "component": "Convivencia y paz",
+      "statement": "Analizo críticamente los conflictos entre grupos, en mi barrio, vereda, municipio o país. (Competencias cognitivas).",
+      "evidences": [
+        "Construyo relaciones pacíficas que contribuyen a la convivencia cotidiana en mi comunidad y municipio."
+      ],
+      "page": 176
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-08",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 8,
+      "component": "Convivencia y paz",
+      "statement": "Analizo, de manera crítica, los discursos que legitiman la violencia. (Competencias cognitivas).",
+      "evidences": [
+        "Construyo relaciones pacíficas que contribuyen a la convivencia cotidiana en mi comunidad y municipio."
+      ],
+      "page": 176
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-09",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 9,
+      "component": "Convivencia y paz",
+      "statement": "Identifico dilemas de la vida, en los que distintos derechos o distintos valores entran en conflicto y analizo posibles opciones de solución, considerando los aspectos positivos y negativos de cada una. (Estoy en dilema entre la ley y la lealtad: mi amigo me confesó algo y yo no sé si contar o no). (Competencias cognitivas).",
+      "evidences": [
+        "Construyo relaciones pacíficas que contribuyen a la convivencia cotidiana en mi comunidad y municipio."
+      ],
+      "page": 176
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-10",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 10,
+      "component": "Convivencia y paz",
+      "statement": "Argumento y debato sobre dilemas de la vida cotidiana en los que distintos derechos o distintos valores entran en conflicto; reconozco los mejores argumentos, así no coincidan con los míos. (Competencias comunicativas).",
+      "evidences": [
+        "Construyo relaciones pacíficas que contribuyen a la convivencia cotidiana en mi comunidad y municipio."
+      ],
+      "page": 176
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-11",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 11,
+      "component": "Convivencia y paz",
+      "statement": "Construyo, celebro, mantengo y reparo acuerdos entre grupos. (Competencias integradoras).",
+      "evidences": [
+        "Construyo relaciones pacíficas que contribuyen a la convivencia cotidiana en mi comunidad y municipio."
+      ],
+      "page": 176
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-12",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 12,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Comprendo las características del Estado de Derecho y del Estado Social de Derecho y su importancia para garantizar los derechos ciudadanos. (Conocimientos).",
+      "evidences": [
+        "Participo o lidero iniciativas democráticas en mi medio escolar o en mi comunidad, con criterios de justicia, solidaridad y equidad, y en defensa de los derechos civiles y políticos."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-13",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 13,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Identifico y analizo las situaciones en las que se vulneran los derechos civiles y políticos (Al buen nombre, al debido proceso, a elegir, a ser elegido, a pedir asilo, etc.). (Competencias cognitivas y conocimientos).",
+      "evidences": [
+        "Participo o lidero iniciativas democráticas en mi medio escolar o en mi comunidad, con criterios de justicia, solidaridad y equidad, y en defensa de los derechos civiles y políticos."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-14",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 14,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Conozco, analizo y uso los mecanismos de participación ciudadana. (Competencias cognitivas y conocimientos).",
+      "evidences": [
+        "Participo o lidero iniciativas democráticas en mi medio escolar o en mi comunidad, con criterios de justicia, solidaridad y equidad, y en defensa de los derechos civiles y políticos."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-15",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 15,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Identifico los sentimientos, necesidades y puntos de vista de aquellos a los que se les han violado derechos civiles y políticos y propongo acciones no violentas para impedirlo. (Competencias emocionales y cognitivas).",
+      "evidences": [
+        "Participo o lidero iniciativas democráticas en mi medio escolar o en mi comunidad, con criterios de justicia, solidaridad y equidad, y en defensa de los derechos civiles y políticos."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-16",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 16,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Analizo críticamente mi participación en situaciones en las que se vulneran o respetan los derechos e identifico cómo dicha participación contribuye a mejorar o empeorar la situación. (Competencias cognitivas).",
+      "evidences": [
+        "Participo o lidero iniciativas democráticas en mi medio escolar o en mi comunidad, con criterios de justicia, solidaridad y equidad, y en defensa de los derechos civiles y políticos."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-17",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 17,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Cuestiono y analizo los argumentos de quienes limitan las libertades de las personas. (Competencias cognitivas).",
+      "evidences": [
+        "Participo o lidero iniciativas democráticas en mi medio escolar o en mi comunidad, con criterios de justicia, solidaridad y equidad, y en defensa de los derechos civiles y políticos."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-18",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 18,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Analizo críticamente la información de los medios de comunicación. (Competencias cognitivas).",
+      "evidences": [
+        "Participo o lidero iniciativas democráticas en mi medio escolar o en mi comunidad, con criterios de justicia, solidaridad y equidad, y en defensa de los derechos civiles y políticos."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-19",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 19,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Hago seguimiento a las acciones que desarrollan los representantes escolares y protesto pacíficamente cuando no cumplen sus funciones o abusan de su poder. (Competencias cognitivas e integradoras).",
+      "evidences": [
+        "Participo o lidero iniciativas democráticas en mi medio escolar o en mi comunidad, con criterios de justicia, solidaridad y equidad, y en defensa de los derechos civiles y políticos."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-20",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 20,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Comprendo que los mecanismos de participación permiten decisiones y, aunque no esté de acuerdo con ellas, sé que me rigen. (Competencias cognitivas).",
+      "evidences": [
+        "Participo o lidero iniciativas democráticas en mi medio escolar o en mi comunidad, con criterios de justicia, solidaridad y equidad, y en defensa de los derechos civiles y políticos."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-21",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 21,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Conozco y uso estrategias creativas para generar opciones frente a decisiones colectivas. (Competencias cognitivas y conocimientos).",
+      "evidences": [
+        "Participo o lidero iniciativas democráticas en mi medio escolar o en mi comunidad, con criterios de justicia, solidaridad y equidad, y en defensa de los derechos civiles y políticos."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-22",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 22,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Participo en la planeación y ejecución de acciones que contribuyen a aliviar la situación de personas en desventaja. (Competencias integradoras).",
+      "evidences": [
+        "Participo o lidero iniciativas democráticas en mi medio escolar o en mi comunidad, con criterios de justicia, solidaridad y equidad, y en defensa de los derechos civiles y políticos."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-23",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 23,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Comprendo el significado y la importancia de vivir en una nación multiétnica y pluricultural. (Conocimientos).",
+      "evidences": [
+        "Rechazo las situaciones de discriminación y exclusión social en el país; comprendo sus posibles causas y las consecuencias negativas para la sociedad."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-24",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 24,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Comprendo los conceptos de prejuicio y estereotipo y su relación con la exclusión, la discriminación y la intolerancia a la diferencia. (Conocimientos).",
+      "evidences": [
+        "Rechazo las situaciones de discriminación y exclusión social en el país; comprendo sus posibles causas y las consecuencias negativas para la sociedad."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-25",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 25,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Comprendo que la discriminación y la exclusión pueden tener consecuencias sociales negativas como la desintegración de las relaciones entre personas o grupos, la pobreza o la violencia. (Competencias cognitivas).",
+      "evidences": [
+        "Rechazo las situaciones de discriminación y exclusión social en el país; comprendo sus posibles causas y las consecuencias negativas para la sociedad."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-26",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 26,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Respeto propuestas éticas y políticas de diferentes culturas, grupos sociales y políticos, y comprendo que es legítimo disentir. (Competencias integradoras).",
+      "evidences": [
+        "Rechazo las situaciones de discriminación y exclusión social en el país; comprendo sus posibles causas y las consecuencias negativas para la sociedad."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-27",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 27,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Conozco y respeto los derechos de aquellos grupos a los que históricamente se les han vulnerado (mujeres, grupos étnicos minoritarios, homosexuales, etc.). (Competencias integradoras).",
+      "evidences": [
+        "Rechazo las situaciones de discriminación y exclusión social en el país; comprendo sus posibles causas y las consecuencias negativas para la sociedad."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-28",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 28,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Comprendo que la orientación sexual hace parte del libre desarrollo de la personalidad y rechazo cualquier discriminación al respecto. (Competencias integradoras).",
+      "evidences": [
+        "Rechazo las situaciones de discriminación y exclusión social en el país; comprendo sus posibles causas y las consecuencias negativas para la sociedad."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-29",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 29,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Analizo mis prácticas cotidianas e identifico cómo mis acciones u omisiones pueden contribuir a la discriminación. (Competencias cognitivas).",
+      "evidences": [
+        "Rechazo las situaciones de discriminación y exclusión social en el país; comprendo sus posibles causas y las consecuencias negativas para la sociedad."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-30",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 30,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Manifiesto indignación (rechazo, dolor, rabia) frente a cualquier discriminación o situación que vulnere los derechos; apoyo iniciativas para prevenir dichas situaciones. (Competencias emocionales e integradoras).",
+      "evidences": [
+        "Rechazo las situaciones de discriminación y exclusión social en el país; comprendo sus posibles causas y las consecuencias negativas para la sociedad."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-31",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 31,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Identifico dilemas relacionados con problemas de exclusión y analizo alternativas de solución, considerando los aspectos positivos y negativos de cada opción. (Dilema: ¿Debe el Estado privilegiar o no a grupos que históricamente han sido discriminados, como por ejemplo facilitar la entrada a la universidad de esos grupos por encima de otros?). (Competencias cognitivas).",
+      "evidences": [
+        "Rechazo las situaciones de discriminación y exclusión social en el país; comprendo sus posibles causas y las consecuencias negativas para la sociedad."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G8A9-32",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G8",
+      "gradeTo": "G9",
+      "number": 32,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Argumento y debato dilemas relacionados con exclusión y reconozco los mejores argumentos, así no coincidan con los míos. (Competencias comunicativas).",
+      "evidences": [
+        "Rechazo las situaciones de discriminación y exclusión social en el país; comprendo sus posibles causas y las consecuencias negativas para la sociedad."
+      ],
+      "page": 177
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-01",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 1,
+      "component": "Convivencia y paz",
+      "statement": "Contribuyo a que los conflictos entre personas y entre grupos se manejen de manera pacífica y constructiva mediante la aplicación de estrategias basadas en el diálogo y la negociación. (Competencias integradoras).",
+      "evidences": [
+        "Participo constructivamente en iniciativas o proyectos a favor de la no-violencia en el nivel local o global."
+      ],
+      "page": 178
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-02",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 2,
+      "component": "Convivencia y paz",
+      "statement": "Utilizo distintas formas de expresión para promover y defender los derechos humanos en mi contexto escolar y comunitario. (Competencias comunicativas).",
+      "evidences": [
+        "Participo constructivamente en iniciativas o proyectos a favor de la no-violencia en el nivel local o global."
+      ],
+      "page": 178
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-03",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 3,
+      "component": "Convivencia y paz",
+      "statement": "Analizo críticamente las decisiones, acciones u omisiones que se toman en el ámbito nacional o internacional y que pueden generar conflictos o afectar los derechos humanos. (Competencias cognitivas).",
+      "evidences": [
+        "Participo constructivamente en iniciativas o proyectos a favor de la no-violencia en el nivel local o global."
+      ],
+      "page": 178
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-04",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 4,
+      "component": "Convivencia y paz",
+      "statement": "Analizo críticamente la situación de los derechos humanos en Colombia y en el mundo y propongo alternativas para su promoción y defensa. (Competencias cognitivas e integradoras).",
+      "evidences": [
+        "Participo constructivamente en iniciativas o proyectos a favor de la no-violencia en el nivel local o global."
+      ],
+      "page": 178
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-05",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 5,
+      "component": "Convivencia y paz",
+      "statement": "Manifiesto indignación (dolor, rabia, rechazo) de manera pacífica ante el sufrimiento de grupos o naciones que están involucradas en confrontaciones violentas. (Competencias emocionales).",
+      "evidences": [
+        "Participo constructivamente en iniciativas o proyectos a favor de la no-violencia en el nivel local o global."
+      ],
+      "page": 178
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-06",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 6,
+      "component": "Convivencia y paz",
+      "statement": "Valoro positivamente las normas constitucionales que hacen posible la preservación de las diferencias culturales y políticas, y que regulan nuestra convivencia. (Competencias cognitivas y conocimientos).",
+      "evidences": [
+        "Participo constructivamente en iniciativas o proyectos a favor de la no-violencia en el nivel local o global."
+      ],
+      "page": 178
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-07",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 7,
+      "component": "Convivencia y paz",
+      "statement": "Comprendo que, para garantizar la convivencia, el Estado debe contar con el monopolio de la administración de justicia y del uso de la fuerza, y que la sociedad civil debe hacerle seguimiento crítico, para evitar abusos. (Conocimientos).",
+      "evidences": [
+        "Participo constructivamente en iniciativas o proyectos a favor de la no-violencia en el nivel local o global."
+      ],
+      "page": 178
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-08",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 8,
+      "component": "Convivencia y paz",
+      "statement": "Conozco las instancias y sé usar los mecanismos jurídicos ordinarios y alternativos para la resolución pacífica de conflictos: justicia ordinaria, jueces de paz, centros de conciliación, comisarías de familia; negociación, mediación, arbitramento. (Conocimientos).",
+      "evidences": [
+        "Participo constructivamente en iniciativas o proyectos a favor de la no-violencia en el nivel local o global."
+      ],
+      "page": 178
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-09",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 9,
+      "component": "Convivencia y paz",
+      "statement": "Identifico dilemas de la vida en las que entran en conflicto el bien general y el bien particular; analizo opciones de solución, considerando sus aspectos positivos y negativos. (Competencias cognitivas).",
+      "evidences": [
+        "Participo constructivamente en iniciativas o proyectos a favor de la no-violencia en el nivel local o global."
+      ],
+      "page": 178
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-10",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 10,
+      "component": "Convivencia y paz",
+      "statement": "Argumento y debato sobre dilemas de la vida en los que entran en conflicto el bien general y el bien particular, reconociendo los mejores argumentos, así sean distintos a los míos. (Competencias comunicativas).",
+      "evidences": [
+        "Participo constructivamente en iniciativas o proyectos a favor de la no-violencia en el nivel local o global."
+      ],
+      "page": 178
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-11",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 11,
+      "component": "Convivencia y paz",
+      "statement": "Conozco y respeto las normas de tránsito. (Conocimientos y competencias integradoras).",
+      "evidences": [
+        "Participo constructivamente en iniciativas o proyectos a favor de la no-violencia en el nivel local o global."
+      ],
+      "page": 178
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-12",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 12,
+      "component": "Convivencia y paz",
+      "statement": "Comprendo la importancia de la defensa del medio ambiente, tanto en el nivel local como global, y participo en iniciativas a su favor. (Conocimientos y competencias integradoras).",
+      "evidences": [
+        "Participo constructivamente en iniciativas o proyectos a favor de la no-violencia en el nivel local o global."
+      ],
+      "page": 178
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-13",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 13,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Comprendo que en un Estado de Derecho las personas podemos participar en la creación o transformación de las leyes y que éstas se aplican a todos y todas por igual. (Conocimientos).",
+      "evidences": [
+        "Conozco y sé usar los mecanismos constitucionales de participación que permiten expresar mis opiniones y participar en la toma de decisiones políticas tanto a nivel local como a nivel nacional."
+      ],
+      "page": 179
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-14",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 14,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Conozco los principios básicos del Derecho Internacional Humanitario (por ejemplo, la protección a la sociedad civil en un conflicto armado). (Conocimientos).",
+      "evidences": [
+        "Conozco y sé usar los mecanismos constitucionales de participación que permiten expresar mis opiniones y participar en la toma de decisiones políticas tanto a nivel local como a nivel nacional."
+      ],
+      "page": 179
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-15",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 15,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Analizo críticamente el sentido de las leyes y comprendo la importancia de cumplirlas, así no comparta alguna de ellas. (Competencias cognitivas e integradoras).",
+      "evidences": [
+        "Conozco y sé usar los mecanismos constitucionales de participación que permiten expresar mis opiniones y participar en la toma de decisiones políticas tanto a nivel local como a nivel nacional."
+      ],
+      "page": 179
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-16",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 16,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Analizo críticamente y debato con argumentos y evidencias sobre hechos ocurridos a nivel local, nacional y mundial, y comprendo las consecuencias que estos pueden tener sobre mi propia vida. (Competencias cognitivas y comunicativas).",
+      "evidences": [
+        "Conozco y sé usar los mecanismos constitucionales de participación que permiten expresar mis opiniones y participar en la toma de decisiones políticas tanto a nivel local como a nivel nacional."
+      ],
+      "page": 179
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-17",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 17,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Expreso empatía ante grupos o personas cuyos derechos han sido vulnerados (por ejemplo, en situaciones de desplazamiento) y propongo acciones solidarias para con ellos. (Competencias emocionales e integradoras).",
+      "evidences": [
+        "Conozco y sé usar los mecanismos constitucionales de participación que permiten expresar mis opiniones y participar en la toma de decisiones políticas tanto a nivel local como a nivel nacional."
+      ],
+      "page": 179
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-18",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 18,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Participo en manifestaciones pacíficas de rechazo o solidaridad ante situaciones de desventaja social, económica o de salud que vive la gente de mi región o mi país. (Competencias integradoras).",
+      "evidences": [
+        "Conozco y sé usar los mecanismos constitucionales de participación que permiten expresar mis opiniones y participar en la toma de decisiones políticas tanto a nivel local como a nivel nacional."
+      ],
+      "page": 179
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-19",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 19,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Participo en iniciativas políticas democráticas en mi medio escolar o localidad. (Competencias integradoras).",
+      "evidences": [
+        "Conozco y sé usar los mecanismos constitucionales de participación que permiten expresar mis opiniones y participar en la toma de decisiones políticas tanto a nivel local como a nivel nacional."
+      ],
+      "page": 179
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-20",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 20,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Comprendo qué es un bien público y participo en acciones que velan por su buen uso, tanto en la comunidad escolar, como en mi municipio. (Conocimientos y competencias integradoras).",
+      "evidences": [
+        "Conozco y sé usar los mecanismos constitucionales de participación que permiten expresar mis opiniones y participar en la toma de decisiones políticas tanto a nivel local como a nivel nacional."
+      ],
+      "page": 179
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-21",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 21,
+      "component": "Participación y responsabilidad democrática",
+      "statement": "Comprendo que cuando se actúa en forma corrupta y se usan los bienes públicos para beneficio personal, se afectan todos los miembros de la sociedad. (Conocimientos).",
+      "evidences": [
+        "Conozco y sé usar los mecanismos constitucionales de participación que permiten expresar mis opiniones y participar en la toma de decisiones políticas tanto a nivel local como a nivel nacional."
+      ],
+      "page": 179
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-22",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 22,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Construyo una posición crítica frente a las situaciones de discriminación y exclusión social que resultan de las relaciones desiguales entre personas, culturas y naciones. (Competencias cognitivas).",
+      "evidences": [
+        "Expreso rechazo ante toda forma de discriminación o exclusión social y hago uso de los mecanismos democráticos para la superación de la discriminación y el respeto a la diversidad."
+      ],
+      "page": 179
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-23",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 23,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Reconozco las situaciones de discriminación y exclusión más agudas que se presentan ahora, o se presentaron en el pasado, tanto en el orden nacional como en el internacional; las relaciono con las discriminaciones que observo en mi vida cotidiana. (Conocimientos y competencias cognitivas).",
+      "evidences": [
+        "Expreso rechazo ante toda forma de discriminación o exclusión social y hago uso de los mecanismos democráticos para la superación de la discriminación y el respeto a la diversidad."
+      ],
+      "page": 179
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-24",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 24,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Comprendo que el respeto por la diferencia no significa aceptar que otras personas o grupos vulneren derechos humanos o normas constitucionales. (Competencias cognitivas).",
+      "evidences": [
+        "Expreso rechazo ante toda forma de discriminación o exclusión social y hago uso de los mecanismos democráticos para la superación de la discriminación y el respeto a la diversidad."
+      ],
+      "page": 179
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-25",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 25,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Identifico prejuicios, estereotipos y emociones que me dificultan sentir empatía por algunas personas o grupos y exploro caminos para superarlos. (Competencias cognitivas y emocionales).",
+      "evidences": [
+        "Expreso rechazo ante toda forma de discriminación o exclusión social y hago uso de los mecanismos democráticos para la superación de la discriminación y el respeto a la diversidad."
+      ],
+      "page": 179
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-26",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 26,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Identifico y analizo dilemas de la vida en los que los valores de distintas culturas o grupos sociales entran en conflicto y exploro distintas opciones de solución, considerando sus aspectos positivos y negativos. (Competencias cognitivas y comunicativas).",
+      "evidences": [
+        "Expreso rechazo ante toda forma de discriminación o exclusión social y hago uso de los mecanismos democráticos para la superación de la discriminación y el respeto a la diversidad."
+      ],
+      "page": 179
+    },
+    {
+      "code": "MEN-EBC-CIU-V1-G10A11-27",
+      "type": "STANDARD",
+      "area": "CIUDADANAS",
+      "gradeFrom": "G10",
+      "gradeTo": "G11",
+      "number": 27,
+      "component": "Pluralidad, identidad y valoración de las diferencias",
+      "statement": "Argumento y debato dilemas de la vida en los que los valores de distintas culturas o grupos sociales entran en conflicto; reconozco los mejores argumentos, así no coincidan con los míos. (Competencias cognitivas y comunicativas).",
+      "evidences": [
+        "Expreso rechazo ante toda forma de discriminación o exclusión social y hago uso de los mecanismos democráticos para la superación de la discriminación y el respeto a la diversidad."
+      ],
+      "page": 179
+    }
+  ]
+}

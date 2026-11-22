@@ -25,3 +25,4 @@ Una decisión por archivo: `NNNN-titulo-en-kebab-case.md`, a partir de [_templat
 | [0019](0019-plan-de-aula-y-escala-de-valoracion.md)          | Plan de aula como tipo de recurso y escala de valoración del espacio                                 | Aceptado  |
 | [0020](0020-ajustes-rapidos-como-propuesta.md)               | Ajustes rápidos del recurso como propuesta (anexo `adjust.v1`)                                       | Aceptado  |
 | [0021](0021-correo-saliente-por-smtp.md)                     | Correo saliente por SMTP con Nodemailer (`lib/email`)                                                | Aceptado  |
+| [0022](0022-orientaciones-pedagogicas-como-referentes.md)    | Orientaciones pedagógicas del MEN como referentes del catálogo (tipo `ORIENTATION`)                  | Propuesto |

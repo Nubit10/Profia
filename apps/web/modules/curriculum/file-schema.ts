@@ -38,9 +38,6 @@ const itemSchema = z
   })
   .refine((i) => (i.type === "DBA" ? !!i.grade : !!i.gradeFrom && !!i.gradeTo), {
     message: "Un DBA lleva `grade`; un estándar lleva `gradeFrom` y `gradeTo`",
-  })
-  .refine((i) => i.type !== "DBA" || i.evidences.length > 0, {
-    message: "Un DBA lleva al menos una evidencia",
   });
 
 export const curriculumFileSchema = z
@@ -58,6 +55,8 @@ export const curriculumFileSchema = z
       landingUrl: z.url().optional(),
       sha256: z.string().regex(/^[a-f0-9]{64}$/),
       usageNote: text,
+      // SPEC-0038: el Esquema Curricular de Inglés trae la versión corta de los DBA, sin evidencias.
+      dbaWithoutEvidences: z.boolean().optional(),
     }),
     review: z.object({
       status: z.enum(["PENDING", "APPROVED"]),
@@ -77,6 +76,13 @@ export const curriculumFileSchema = z
         });
       }
       seen.add(item.code);
+      if (item.type === "DBA" && item.evidences.length === 0 && !file.source.dbaWithoutEvidences) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["items", index, "evidences"],
+          message: "Un DBA lleva al menos una evidencia",
+        });
+      }
       if (!item.code.startsWith(file.source.key)) {
         ctx.addIssue({
           code: "custom",

@@ -1,4 +1,4 @@
-# Estado del trabajo (2026-11-21)
+# Estado del trabajo (2026-11-22)
 
 Bitácora para retomar el trabajo después de borrar la conversación. **Se actualiza al cerrar cada tarea**
 (qué se hizo, qué quedó a medias y con qué seguir). Lo más reciente va arriba de cada sección.
@@ -7,13 +7,24 @@ Bitácora para retomar el trabajo después de borrar la conversación. **Se actu
 
 ## Hecho
 
+- **SPEC-0038 etapa 1 — Competencias Ciudadanas y DBA de Inglés 6°-11°** (2026-11-22), pedido del usuario
+  («que Lucía pueda hacer los recursos por sí misma»). Catálogo: Estándares Ciudadanos (156, área nueva
+  `CIUDADANAS`, la ven Ética y la nueva precargada Cátedra de la Paz; migración
+  `20261121200000_curriculum_area_ciudadanas`, también para los espacios existentes) y DBA de Inglés 6°-11°
+  del Esquema Curricular Sugerido (46, versión corta sin evidencias, nivel A1-B1.3; 6 tramos con fuente
+  ilegible transcritos de la imagen). Todo verificado contra los PDF. Índice del AI Engine: 1.720 ítems.
+  Pruebas: web unit+integration 387, e2e 116 (1 omitida), AI Engine 197.
+  - Pendiente: aceptar **ADR-0022** (propuesto) para la etapa 2: orientaciones de Tecnología (Guía 30),
+    Artística, Educación Física, Filosofía y lineamientos de Ética, revisando términos de uso de cada PDF;
+    revisión docente; en producción `npx prisma migrate deploy`, `curriculum:import` y republicar el Space.
+  - Después: matrices del ICFES, mallas y textos del MEN (licencias), SPEC-0020 (material del docente).
+
 - **SPEC-0037 — Estándares de Matemáticas, Lenguaje e Inglés** (2026-11-21), pedido del usuario. Catálogo:
   Matemáticas 172, Lenguaje 177, Inglés Guía 22 (1°-5° 91, 6°-11° 127), todos verificados contra los PDF
   oficiales. `extract_ebc.py` con perfil por área y `extract_guia22.py`. Un estándar puede ir sin lista; la
   tarjeta dice «Competencias que desarrolla» en Inglés. AI Engine: tipo en el índice y filtro `types`
   (contrato aditivo); las sugerencias de DBA piden solo DBA. Índice: 1.518 ítems.
-  - Pendiente: **DBA de Inglés 6°-11°** (el PDF oficial no está en los sitios del MEN; pedir al usuario el
-    PDF o el enlace oficial); usar los Estándares al planear y generar (spec siguiente, a decidir);
+  - Pendiente: ~~DBA de Inglés 6°-11°~~ (hecho en SPEC-0038); usar los Estándares al planear y generar (spec siguiente, a decidir);
     revisión docente; en producción `curriculum:import` y republicar el Space.
 
 - **Fuente de títulos dentro del proyecto** (2026-11-21). En el computador del usuario `next dev`

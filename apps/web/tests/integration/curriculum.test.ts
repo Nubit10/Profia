@@ -180,6 +180,8 @@ describe("referentes por curso", () => {
     expect(area("Ciencias Naturales y Educación Ambiental")).toBe("CIENCIAS_NATURALES");
     expect(area("Ciencias Sociales")).toBe("CIENCIAS_SOCIALES");
     expect(area("Inglés")).toBe("INGLES");
+    expect(area("Ética y Valores Humanos")).toBe("CIUDADANAS");
+    expect(area("Cátedra de la Paz")).toBe("CIUDADANAS");
     expect(area("Filosofía")).toBeNull();
   });
 

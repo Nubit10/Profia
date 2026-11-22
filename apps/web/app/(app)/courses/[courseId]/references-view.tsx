@@ -97,8 +97,9 @@ export function ReferencesView({ courseId, references, emptyForGrade, searchActi
         <CardHeader>
           <CardTitle>Sin DBA ni Estándares para este grado</CardTitle>
           <CardDescription>
-            El MEN no publica DBA de esta área para este grado, o aún no están en ProfIA. Por ahora
-            el catálogo incluye Matemáticas, Lenguaje y Transición.
+            El MEN no publica DBA ni Estándares de esta área para este grado, o aún no están en
+            ProfIA. Hoy están Matemáticas, Lenguaje, Ciencias Naturales, Ciencias Sociales, Inglés,
+            Competencias Ciudadanas (Ética y Cátedra de la Paz) y Transición.
           </CardDescription>
         </CardHeader>
       </Card>
@@ -112,8 +113,8 @@ export function ReferencesView({ courseId, references, emptyForGrade, searchActi
           DBA y Estándares del MEN
         </h2>
         <p className="text-sm text-muted-foreground">
-          Derechos Básicos de Aprendizaje con sus evidencias, tal como aparecen en el documento
-          oficial. Los ejemplos y figuras están en el documento original.
+          Derechos Básicos de Aprendizaje y Estándares, tal como aparecen en el documento oficial.
+          Los ejemplos y figuras están en el documento original.
         </p>
         {pendingReview && (
           <p className="text-xs text-muted-foreground">

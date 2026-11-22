@@ -69,6 +69,11 @@ def main():
         for item in items:
             item.setdefault("component", None)
             # Un DBA trae varias evidencias; un estándar trae el estándar general al que apunta.
+            # El Esquema Curricular de Inglés trae la versión corta, sin evidencias (SPEC-0038).
+            if entry["source"].get("dbaWithoutEvidences"):
+                if item["evidences"]:
+                    sys.exit(f"{item['code']}: la versión corta no trae evidencias")
+                continue
             if item["type"] == "DBA" and len(item["evidences"]) < 2:
                 sys.exit(f"{item['code']}: quedó con {len(item['evidences'])} evidencias")
         document = {

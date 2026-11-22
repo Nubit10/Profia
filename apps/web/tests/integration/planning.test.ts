@@ -279,9 +279,9 @@ describe("vínculo curricular", () => {
     expect(planning.areaHasItems).toBe(true);
     expect(planning.units[0]!.topics[0]!.objectives[1]!.links).toEqual([]);
 
-    // En un área sin DBA (Ética) no hay aviso.
-    const etica = await course(ctx, "Ética y Valores Humanos", "G6", "601");
-    expect((await getCoursePlanning(ctx, etica.id)).areaHasItems).toBe(false);
+    // En una asignatura sin catálogo (Educación Artística) no hay aviso.
+    const art = await course(ctx, "Educación Artística", "G6", "601");
+    expect((await getCoursePlanning(ctx, art.id)).areaHasItems).toBe(false);
   });
 
   it("CA-0006-05: la cobertura muestra los DBA del grado vinculados y pendientes", async () => {

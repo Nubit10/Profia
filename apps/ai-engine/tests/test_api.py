@@ -2,7 +2,7 @@ def test_health_informa_proveedor_e_indice(api):
     body = api.get("/health").json()
     assert body["status"] == "ok"
     assert body["provider"] == "mock"
-    assert body["index"]["points"] == 1518
+    assert body["index"]["points"] == 1720
     assert body["index"]["catalogVersion"]
 
 

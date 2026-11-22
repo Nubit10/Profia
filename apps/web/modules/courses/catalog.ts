@@ -7,7 +7,7 @@ export const PRELOADED_SUBJECTS: readonly { name: string; area: CurriculumAreaId
   { name: "Ciencias Naturales y Educación Ambiental", area: "CIENCIAS_NATURALES" },
   { name: "Ciencias Sociales", area: "CIENCIAS_SOCIALES" },
   { name: "Educación Artística", area: null },
-  { name: "Ética y Valores Humanos", area: null },
+  { name: "Ética y Valores Humanos", area: "CIUDADANAS" },
   { name: "Educación Física, Recreación y Deportes", area: null },
   { name: "Educación Religiosa", area: null },
   { name: "Lengua Castellana", area: "LENGUAJE" },
@@ -22,4 +22,6 @@ export const PRELOADED_SUBJECTS: readonly { name: string; area: CurriculumAreaId
   { name: "Química", area: "CIENCIAS_NATURALES" },
   { name: "Historia", area: "CIENCIAS_SOCIALES" },
   { name: "Geografía", area: "CIENCIAS_SOCIALES" },
+  // SPEC-0038: obligatoria desde la Ley 1732 de 2014; ve los Estándares de Competencias Ciudadanas.
+  { name: "Cátedra de la Paz", area: "CIUDADANAS" },
 ];

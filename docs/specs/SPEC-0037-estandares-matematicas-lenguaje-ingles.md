@@ -79,6 +79,6 @@ El catálogo es público; el filtro de tipo no envía datos del docente.
 
 ## 7. Preguntas abiertas
 
-1. **DBA de Inglés 6°-11°:** ¿tiene el product owner el PDF oficial (o el enlace del MEN)? Con él se carga
-   con el mismo proceso.
+1. **DBA de Inglés 6°-11°:** resuelta en SPEC-0038 (Esquema Curricular Sugerido, PDF oficial del MEN en
+   eco.colombiaaprende.edu.co).
 2. **Usar los Estándares:** ¿cómo quiere el docente elegirlos y que Lucía los use? (propuesta en el chat).
